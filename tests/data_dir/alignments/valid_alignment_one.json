@@ -1,0 +1,35 @@
+{
+   "headers" : [
+      "var_1"
+   ],
+   "values" : [
+      {
+         "name" : "A",
+         "values" : [0.9]
+      },
+      {
+         "name" : "B",
+         "values" : [0.01]
+      },
+      {
+         "name" : "C",
+         "values" : [0.8]
+      },
+      {
+         "name" : "D",
+         "values" : [0.3]
+      },
+      {
+         "name" : "E",
+         "values" : [0.001]
+      },
+      {
+         "name" : "F",
+         "values" : [0.11]
+      },
+      {
+         "name" : "G",
+         "values" : [0.99]
+      }
+   ]
+}

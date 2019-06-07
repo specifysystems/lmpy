@@ -1,0 +1,9 @@
+{
+   "headers" : "Single string, should fail",
+   "values" : [
+      {
+         "name" : "some_taxon",
+         "values" : [1, 2, 3, 4]
+      }
+   ]
+}

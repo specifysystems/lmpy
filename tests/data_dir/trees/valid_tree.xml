@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nex:nexml
+    version="0.9"
+    xsi:schemaLocation="http://www.nexml.org/2009 ../xsd/nexml.xsd"
+    xmlns="http://www.nexml.org/2009"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    xmlns:nex="http://www.nexml.org/2009"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+>
+    <otus id="d0">
+        <otu id="d1" label="A" />
+        <otu id="d2" label="B" />
+        <otu id="d3" label="C" />
+        <otu id="d4" label="G" />
+        <otu id="d5" label="D" />
+        <otu id="d6" label="E" />
+        <otu id="d7" label="F" />
+    </otus>
+    <trees id="d8" otus="d0">
+        <tree id="d9" xsi:type="nex:FloatTree">
+            <node id="d10" />
+            <node id="d11" otu="d1" />
+            <node id="d12" />
+            <node id="d13" />
+            <node id="d14" otu="d2" />
+            <node id="d15" otu="d3" />
+            <node id="d16" />
+            <node id="d17" otu="d4" />
+            <node id="d18" />
+            <node id="d19" otu="d5" />
+            <node id="d20" />
+            <node id="d21" otu="d6" />
+            <node id="d22" otu="d7" />
+            <rootedge id="d23" target="d10" />
+            <edge id="d24" source="d10" target="d11" length="2.9999" />
+            <edge id="d25" source="d10" target="d12" length="0.1" />
+            <edge id="d26" source="d12" target="d13" length="0.1" />
+            <edge id="d27" source="d13" target="d14" length="0.1" />
+            <edge id="d28" source="d13" target="d15" length="0.1" />
+            <edge id="d29" source="d12" target="d16" length="0.1" />
+            <edge id="d30" source="d16" target="d17" length="0.2" />
+            <edge id="d31" source="d16" target="d18" length="0.1" />
+            <edge id="d32" source="d18" target="d19" length="0.1" />
+            <edge id="d33" source="d18" target="d20" length="0.1" />
+            <edge id="d34" source="d20" target="d21" length="0.1" />
+            <edge id="d35" source="d20" target="d22" length="0.1" />
+        </tree>
+    </trees>
+</nex:nexml>
