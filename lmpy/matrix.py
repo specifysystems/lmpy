@@ -60,6 +60,520 @@ class Matrix(object):
             self.set_headers(headers)
 
     # ...........................
+    def __abs__(self):
+        """Defines the __abs__ operator for the Matrix class.
+
+        Returns:
+            Matrix: A Matrix object with the same headers but the data values
+                are the absolute values
+        """
+        return Matrix(np.abs(self.data), headers=self.get_headers())
+
+    # ...........................
+    def __add__(self, other):
+        """Defines the __add__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers as this instance but
+                values that are equal to the values of this instance plus the
+                value(s) of the other object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data + data, headers=self.get_headers())
+
+    # ...........................
+    def __div__(self, other):
+        """Defines the __div__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object to be used as the divisor for
+                this Matrix.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the original values divided by the
+                provided divisor object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data / data, headers=self.get_headers())
+
+    # ...........................
+    def __eq__(self, other):
+        """Defines the __eq__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or Numpy array): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with data values indicating if the original
+                data values are equal to the provided values.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data == data, headers=self.get_headers())
+
+    # ...........................
+    def __floordiv__(self, other):
+        """Defines the __floordiv__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers and data values that
+                are the floor division values using the provided divisor.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data // data, headers=self.get_headers())
+
+    # ...........................
+    def __ge__(self, other):
+        """Defines the __ge__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers and data values
+                indicating if the original data is greater than or equal to the
+                provided comparison object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data >= data, headers=self.get_headers())
+
+    # ...........................
+    def __gt__(self, other):
+        """Defines the __gt__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers and data values
+                indicating if the original data is greater than the provided
+                comparison object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data > data, headers=self.get_headers())
+
+    # ...........................
+    def __iadd__(self, other):
+        """Defines the __iadd__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            self: This instance with added values
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        self.data += data
+        return self
+
+    # ...........................
+    def __idiv__(self, other):
+        """Defines the __idiv__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            self: This instance with divided values
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        self.data /= data
+        return self
+
+    # ...........................
+    def __ifloordiv__(self, other):
+        """Defines the __ifloordiv__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            self: This instance with divided values
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        self.data //= data
+        return self
+
+    # ...........................
+    def __imod__(self, other):
+        """Defines the __imod__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            self: This instance with modulus values
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        self.data %= data
+        return self
+
+    # ...........................
+    def __imul__(self, other):
+        """Defines the __imul__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            self: This instance with multiplieded values
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        self.data *= data
+        return self
+
+    # ...........................
+    def __isub__(self, other):
+        """Defines the __isub__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            self: This instance with subtracted values
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        self.data -= data
+        return self
+
+    # ...........................
+    def __itruediv__(self, other):
+        """Defines the __itruediv__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            self: This instance with divided values
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        self.data /= data
+        return self
+
+    # ...........................
+    def __le__(self, other):
+        """Defines the __le__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers and data values
+                indicating if the original data is less than or equal to the
+                provided comparison object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data <= data, headers=self.get_headers())
+
+    # ...........................
+    def __lt__(self, other):
+        """Defines the __lt__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers and data values
+                indicating if the original data is less than the provided
+                comparison object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data < data, headers=self.get_headers())
+
+    # ...........................
+    def __imod__(self, other):
+        """Defines the __imod__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix instance with the headers of this instance and
+                values equal to these values modulus the other object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data % data, headers=self.get_headers())
+
+    # ...........................
+    def __mul__(self, other):
+        """Defines the __mul__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers as this instance but
+                values that are equal to the values of this instance multiplied
+                by the value(s) of the other object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data * data, headers=self.get_headers())
+
+    # ...........................
+    def __ne__(self, other):
+        """Defines the __ne__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers and data values
+                indicating if the original data is not equal to the provided
+                comparison object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data != data, headers=self.get_headers())
+
+    # ...........................
+    def __neg__(self):
+        """Defines the __neg__ operator for the Matrix class.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers as this instance but
+                values that are the negative of the values of this instance.
+        """
+        return Matrix(-self.data, headers=self.get_headers())
+
+    # ...........................
+    def __pow__(self, other):
+        """Defines the __pow__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers as this instance and
+                data values equal to the data values of this instance raised to
+                the power(s) specified by the other object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data**data, headers=self.get_headers())
+
+    # ...........................
+    def __sub__(self, other):
+        """Defines the __sub__ operator for the Matrix class.
+
+        Args:
+            other (Matrix or numeric): An object that is comparable to this
+                instance.
+
+        Note:
+            * Retains the headers of this Matrix instance
+
+        Returns:
+            Matrix: A Matrix object with the same headers as this instance but
+                values that are equal to the values of this instance minus the
+                value(s) of the other object.
+        """
+        try:
+            # If the other object is a matrix, get the data attribute
+            data = other.data
+        except:
+            # If it is not a matrix, send the other object as is to the Numpy
+            #    version of the operator
+            data = other
+        return Matrix(self.data - data, headers=self.get_headers())
+
+    __truediv__ = self.__div__
+
+    # ...........................
     @classmethod
     def load(cls, flo):
         """Attempts to load a Matrix object from a file.
