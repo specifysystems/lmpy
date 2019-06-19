@@ -78,7 +78,7 @@ class Matrix(np.ndarray):
         #    obj is None
         #    We're in the middle of the Matrix.__new__ constructor, and
         #        self.headers will be set when we return to Matrix.__new__
-        if obj is None:
+        if obj is None:  # pragma: no cover
             return
 
         # 2. From casting - arr.view(Matrix):
@@ -382,8 +382,6 @@ class Matrix(np.ndarray):
                 different axes.
         """
         if axis is not None:
-            if self.headers is None:
-                self.headers = {}
             self.headers[str(axis)] = headers
         else:
             self.headers = {}
