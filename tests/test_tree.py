@@ -433,6 +433,42 @@ END;
                     'myatt') == check_pairs[node.label]
 
     # .....................................
+    def test_annotate_tree_dictionaries(self):
+        """Test annotating a tree with dictionaries.
+        """
+        my_tree = tree.TreeWrapper.get(data='(A,(B,C));', schema='newick')
+        att_pairs_1 = {
+            'A': {
+                'ann1': 'val1_1',
+                'ann2': 'val1_2',
+                'ann3': 'val1_3'
+            },
+            'B': {
+                'ann1': 'val2_1',
+                'ann2': 'val2_2',
+                'ann3': 'val2_3'
+            },
+            'C': {
+                'ann1': 'val3_1',
+                'ann2': 'val3_2',
+                'ann3': 'val3_3'
+            }
+        }
+
+        my_tree.annotate_tree(att_pairs_1)
+
+        # Check that original annotations are correct
+        for node in my_tree.nodes():
+            if node.label is not None:
+                assert node.label in att_pairs_1.keys()
+                assert node.annotations.get_value(
+                    'ann1') == att_pairs_1[node.label]['ann1']
+                assert node.annotations.get_value(
+                    'ann2') == att_pairs_1[node.label]['ann2']
+                assert node.annotations.get_value(
+                    'ann3') == att_pairs_1[node.label]['ann3']
+
+    # .....................................
     def test_annotate_tree_tips_with_bad_attribute(self):
         """Test annotate_tree_tips when trying to use a bad label attribute.
 
