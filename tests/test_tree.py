@@ -700,7 +700,7 @@ END;
             assert def_col_headers[i] == def_row_headers[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert default_order_matrix.data.sum() == distance_sum
+        assert default_order_matrix.sum() == distance_sum
 
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
@@ -717,7 +717,7 @@ END;
             assert ord_col_headers[i] == taxon_labels[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert ordered_matrix.data.sum() == distance_sum
+        assert ordered_matrix.sum() == distance_sum
 
     # .....................................
     def test_get_distance_matrix_dendropy_with_label(self):
@@ -763,7 +763,7 @@ END;
             assert def_col_headers[i] == def_row_headers[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert default_order_matrix.data.sum() == distance_sum
+        assert default_order_matrix.sum() == distance_sum
 
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
@@ -780,7 +780,7 @@ END;
             assert ord_col_headers[i] == taxon_labels[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert ordered_matrix.data.sum() == distance_sum
+        assert ordered_matrix.sum() == distance_sum
 
     # .....................................
     def test_get_distance_matrix_methods_with_attribute(self):
@@ -834,8 +834,8 @@ END;
             assert m1_row_headers[i] == m2_col_headers[i]
 
         # Check the sum of the distance matrix, should be = 6.0
-        assert m1_distance_matrix.data.sum() == distance_sum
-        assert m2_distance_matrix.data.sum() == distance_sum
+        assert m1_distance_matrix.sum() == distance_sum
+        assert m2_distance_matrix.sum() == distance_sum
 
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
@@ -859,8 +859,8 @@ END;
             assert m2_col_headers_ord[i] == taxon_labels[i]
 
         # Check the sum of the distance matrix, should be = 6.0
-        assert m1_distance_matrix_ord.data.sum() == distance_sum
-        assert m2_distance_matrix_ord.data.sum() == distance_sum
+        assert m1_distance_matrix_ord.sum() == distance_sum
+        assert m2_distance_matrix_ord.sum() == distance_sum
 
     # .....................................
     def test_get_distance_matrix_methods_with_label(self):
@@ -912,8 +912,8 @@ END;
             assert m1_row_headers[i] == m2_col_headers[i]
 
         # Check the sum of the distance matrix, should be = 6.0
-        assert m1_distance_matrix.data.sum() == distance_sum
-        assert m2_distance_matrix.data.sum() == distance_sum
+        assert m1_distance_matrix.sum() == distance_sum
+        assert m2_distance_matrix.sum() == distance_sum
 
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
@@ -937,8 +937,8 @@ END;
             assert m2_col_headers_ord[i] == taxon_labels[i]
 
         # Check the sum of the distance matrix, should be = 6.0
-        assert m1_distance_matrix_ord.data.sum() == distance_sum
-        assert m2_distance_matrix_ord.data.sum() == distance_sum
+        assert m1_distance_matrix_ord.sum() == distance_sum
+        assert m2_distance_matrix_ord.sum() == distance_sum
 
     # .....................................
     def test_get_distance_matrix_with_attribute(self):
@@ -984,7 +984,7 @@ END;
             assert def_col_headers[i] == def_row_headers[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert default_order_matrix.data.sum() == distance_sum
+        assert default_order_matrix.sum() == distance_sum
 
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
@@ -1001,7 +1001,7 @@ END;
             assert ord_col_headers[i] == taxon_labels[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert ordered_matrix.data.sum() == distance_sum
+        assert ordered_matrix.sum() == distance_sum
 
     # .....................................
     def test_get_distance_matrix_with_label(self):
@@ -1046,7 +1046,7 @@ END;
             assert def_col_headers[i] == def_row_headers[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert default_order_matrix.data.sum() == distance_sum
+        assert default_order_matrix.sum() == distance_sum
 
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
@@ -1063,7 +1063,7 @@ END;
             assert ord_col_headers[i] == taxon_labels[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert ordered_matrix.data.sum() == distance_sum
+        assert ordered_matrix.sum() == distance_sum
 
     # .....................................
     def test_get_labels(self):
@@ -1137,7 +1137,7 @@ END;
             assert col_headers_1[i] == row_headers_1[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert vcov_mtx1.data.sum() == var_cov_sum
+        assert vcov_mtx1.sum() == var_cov_sum
 
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
@@ -1153,7 +1153,7 @@ END;
             assert col_headers_2[i] == row_headers_2[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert vcov_mtx2.data.sum() == var_cov_sum
+        assert vcov_mtx2.sum() == var_cov_sum
 
     # .....................................
     def test_get_variance_covariance_matrix_with_label(self):
@@ -1199,7 +1199,7 @@ END;
             assert col_headers_1[i] == row_headers_1[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert vcov_mtx1.data.sum() == var_cov_sum
+        assert vcov_mtx1.sum() == var_cov_sum
 
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
@@ -1215,7 +1215,7 @@ END;
             assert col_headers_2[i] == row_headers_2[i]
 
         # Check the sum of the distance matrix, should be = ?
-        assert vcov_mtx2.data.sum() == var_cov_sum
+        assert vcov_mtx2.sum() == var_cov_sum
 
     # .....................................
     def test_get_variance_covariance_matrix_no_branch_lengths(self):

@@ -1,11 +1,14 @@
 """Module that contains a Matrix class that has header information.
 
+Note:
+    * Subclassing based on
+        https://docs.scipy.org/doc/numpy/user/basics.subclassing.html
+
 Todo:
-    * Use https://docs.scipy.org/doc/numpy/user/basics.subclassing.html when
-        changing this to subclass numpy.ndarray.
     * Handle multiple rows / columns / etc of headers like:
         (PAM x, y, site ids).
     * Load should handle compressed and not compressed.
+    * Watch NEP-0018 for Numpy function overrides (ex. concatenate)
 """
 from copy import deepcopy
 import io
@@ -16,35 +19,27 @@ import numpy as np
 
 
 HEADERS_KEY = 'headers'
-DATA_KEY = 'data'
+METADATA_KEY = 'metadata'
 VERSION_KEY = 'version'
-VERSION = '3.0.0'
+VERSION = '1.0.0'
 HEADERS_FILENAME = 'headers.json'
 DATA_FILENAME = 'data.npz'
 
 
 # .............................................................................
-class Matrix(object):
+class Matrix(np.ndarray):
     """Lifemapper wrapper for Numpy ndarrays that adds headers.
-
-    Attributes:
-        data (numpy.ndarray): The base, undecorated data for a Matrix.  It may
-            be None if the data has not been initialized.
-        headers (dict): A dictionary of headers for each axis of the Matrix.
-            Note that the keys must be integer strings.
     """
     # ...........................
-    def __init__(self, mtx, headers=None):
-        """Constructor.
+    def __new__(cls, input_array, headers=None, metadata=None):
+        """Create a new Matrix object from an existing ndarray
 
         Args:
-            mtx (numpy.ndarray): A matrix (like) object to use as the base data
-                for the Matrix.  This can be None if the data has not been
-                initialized.
+            input_array (numpy.ndarray): An existing ndarray
             headers (:obj:`dict` or :obj:`list` of :obj:`list` of :obj:`str`):
-                Headers for this matrixOptional headers for this matrix.  This
-                may be either a list of lists, where the index of a list in the
-                lists will be treated as the axis::
+                Optional headers for this matrix.  This may be either a list of
+                lists, where the index of a list in the lists will be treated
+                as the axis::
                     (ex. [['Row 1', 'Row 2', 'Row 3'],
                           ['Column 1', 'Column 2']])
                 Or this could be a dictionary where the key is used for the
@@ -53,558 +48,50 @@ class Matrix(object):
                         '1' : ['Column 1', 'Column 2'],
                         '0' : ['Row 1', 'Row 2', 'Row 3']
                     }
-        """
-        self.data = mtx
-        self.headers = {}
-        if headers is not None:
-            self.set_headers(headers)
-
-    # ...........................
-    def __abs__(self):
-        """Defines the __abs__ operator for the Matrix class.
-
-        Returns:
-            Matrix: A Matrix object with the same headers but the data values
-                are the absolute values
-        """
-        return Matrix(np.abs(self.data), headers=self.get_headers())
-
-    # ...........................
-    def __add__(self, other):
-        """Defines the __add__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
+            metadata (:obj:`dict`): Optional metadata about his matrix.
 
         Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers as this instance but
-                values that are equal to the values of this instance plus the
-                value(s) of the other object.
+            * Triggers a call to Matrix.__array_finalize__.
         """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data + data, headers=self.get_headers())
+        # input_array is already formed ndarray instance, cast to our type
+        obj = np.asarray(input_array).view(cls)
+
+        # Set the 'headers' attribute to the value passed
+        if headers is None:
+            headers = {}
+        if metadata is None:
+            metadata = {}
+        obj.headers = headers
+        obj.metadata = metadata
+        return obj
 
     # ...........................
-    def __div__(self, other):
-        """Defines the __div__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object to be used as the divisor for
-                this Matrix.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the original values divided by the
-                provided divisor object.
+    def __array_finalize__(self, obj):
         """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data / data, headers=self.get_headers())
 
-    # ...........................
-    def __eq__(self, other):
-        """Defines the __eq__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or Numpy array): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with data values indicating if the original
-                data values are equal to the provided values.
+        ``self`` is a new object resulting from ndarray.__new__(Matrix, ...),
+        therefore it only has the attributes that the ndarray.__new__
+        constructor gave it.
         """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data == data, headers=self.get_headers())
-
-    # ...........................
-    def __floordiv__(self, other):
-        """Defines the __floordiv__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers and data values that
-                are the floor division values using the provided divisor.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data // data, headers=self.get_headers())
-
-    # ...........................
-    def __ge__(self, other):
-        """Defines the __ge__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers and data values
-                indicating if the original data is greater than or equal to the
-                provided comparison object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data >= data, headers=self.get_headers())
-
-    # ...........................
-    def __gt__(self, other):
-        """Defines the __gt__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers and data values
-                indicating if the original data is greater than the provided
-                comparison object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data > data, headers=self.get_headers())
-
-    # ...........................
-    def __iadd__(self, other):
-        """Defines the __iadd__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            self: This instance with added values
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        self.data += data
-        return self
-
-    # ...........................
-    def __idiv__(self, other):
-        """Defines the __idiv__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            self: This instance with divided values
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        self.data /= data
-        return self
-
-    # ...........................
-    def __ifloordiv__(self, other):
-        """Defines the __ifloordiv__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            self: This instance with divided values
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        self.data //= data
-        return self
-
-    # ...........................
-    def __imod__(self, other):
-        """Defines the __imod__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            self: This instance with modulus values
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        self.data %= data
-        return self
-
-    # ...........................
-    def __imul__(self, other):
-        """Defines the __imul__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            self: This instance with multiplieded values
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        self.data *= data
-        return self
-
-    # ...........................
-    def __isub__(self, other):
-        """Defines the __isub__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            self: This instance with subtracted values
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        self.data -= data
-        return self
-
-    # ...........................
-    def __itruediv__(self, other):
-        """Defines the __itruediv__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            self: This instance with divided values
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        self.data /= data
-        return self
-
-    # ...........................
-    def __le__(self, other):
-        """Defines the __le__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers and data values
-                indicating if the original data is less than or equal to the
-                provided comparison object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data <= data, headers=self.get_headers())
-
-    # ...........................
-    def __lt__(self, other):
-        """Defines the __lt__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers and data values
-                indicating if the original data is less than the provided
-                comparison object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data < data, headers=self.get_headers())
-
-    # ...........................
-    def __imod__(self, other):
-        """Defines the __imod__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix instance with the headers of this instance and
-                values equal to these values modulus the other object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data % data, headers=self.get_headers())
-
-    # ...........................
-    def __mul__(self, other):
-        """Defines the __mul__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers as this instance but
-                values that are equal to the values of this instance multiplied
-                by the value(s) of the other object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data * data, headers=self.get_headers())
-
-    # ...........................
-    def __ne__(self, other):
-        """Defines the __ne__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers and data values
-                indicating if the original data is not equal to the provided
-                comparison object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data != data, headers=self.get_headers())
-
-    # ...........................
-    def __neg__(self):
-        """Defines the __neg__ operator for the Matrix class.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers as this instance but
-                values that are the negative of the values of this instance.
-        """
-        return Matrix(-self.data, headers=self.get_headers())
-
-    # ...........................
-    def __pow__(self, other):
-        """Defines the __pow__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers as this instance and
-                data values equal to the data values of this instance raised to
-                the power(s) specified by the other object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data**data, headers=self.get_headers())
-
-    # ...........................
-    def __sub__(self, other):
-        """Defines the __sub__ operator for the Matrix class.
-
-        Args:
-            other (Matrix or numeric): An object that is comparable to this
-                instance.
-
-        Note:
-            * Retains the headers of this Matrix instance
-
-        Returns:
-            Matrix: A Matrix object with the same headers as this instance but
-                values that are equal to the values of this instance minus the
-                value(s) of the other object.
-        """
-        try:
-            # If the other object is a matrix, get the data attribute
-            data = other.data
-        except:
-            # If it is not a matrix, send the other object as is to the Numpy
-            #    version of the operator
-            data = other
-        return Matrix(self.data - data, headers=self.get_headers())
-
-    __truediv__ = self.__div__
-
-    # ...........................
-    @classmethod
-    def load(cls, flo):
-        """Attempts to load a Matrix object from a file.
-
-        Args:
-            flo (file-like): A file-like object for the stored Matrix or Numpy
-                array.
-
-        Todo:
-            * Add support for loading a CSV file.
-
-        Returns:
-            Matrix: A newly loaded Matrix object.
-
-        Raises:
-            IOError: If there is a problem loading the Matrix data.
-        """
-        # Try loading the Matrix object
-        try:
-            return cls.load_new(flo)
-        except Exception as e1:
-            # Try loading a numpy array
-            try:
-                # Seek back to start of file
-                flo.seek(0)
-                data = np.load(flo)
-                return cls(data)
-            except Exception as e:
-                raise IOError('{} : {}'.format(
-                    'Cannot load matrix data from file-like object provided',
-                    str(e)))
+        # We could have got to the ndarray.__new__ call in 3 ways:
+        # 1. From an explicit constructor - Matrix():
+        #    obj is None
+        #    We're in the middle of the Matrix.__new__ constructor, and
+        #        self.headers will be set when we return to Matrix.__new__
+        if obj is None:
+            return
+
+        # 2. From casting - arr.view(Matrix):
+        #    obj is arr
+        #    type(obj) can be Matrix
+        # 3. From new-from-template - mtx[:3]
+        #    type(obj) is Matrix
+
+        # Note: It is is here, rather than the __new__ method, that we set the
+        #    default value for 'headers', because this method sees all creation
+        #    of default objects
+        self.headers = getattr(obj, 'headers', {})
+        self.metadata = getattr(obj, 'metadata', {})
 
     # ...........................
     @classmethod
@@ -661,14 +148,11 @@ class Matrix(object):
 
     # ...........................
     @classmethod
-    def load_new(cls, flo):
+    def load_flo(cls, flo):
         """Attempts to load a Matrix object from a file.
 
         Args:
             flo (file-like): A file-like object with matrix data.
-
-        Todo:
-            * Merge this into main load method.
 
         Returns:
             Matrix: The newly loaded Matrix object.
@@ -684,51 +168,6 @@ class Matrix(object):
             data_bytes.close()
 
         return cls(data, headers=my_obj[HEADERS_KEY])
-
-    # ...........................
-    @classmethod
-    def load_our_format_old(cls, flo):  # pragma: no cover
-        """Attempts to load a Matrix object from a file.
-
-        Note:
-            * This is obsolete and should only be used for legacy data
-
-        Args:
-            flo (file-like): A file-like object with matrix data.
-
-        Todo:
-            * Merge this into main load method.
-
-        Returns:
-            Matrix: The newly loaded Matrix object.
-        """
-        header_lines = []
-        data_lines = []
-        do_headers = True
-        data_stream = io.BytesIO()
-        for line in flo:
-            try:
-                str_line = line.decode('utf-8')
-                if do_headers:
-                    if str_line.startswith(DATA_KEY):
-                        do_headers = False
-                        break
-                    else:
-                        header_lines.append(str_line)
-            except Exception as e:
-                data_stream.write(line)
-                # data_lines.append(line)
-
-        my_obj = json.loads(''.join(header_lines))
-
-        headers = my_obj[HEADERS_KEY]
-        # Load returns a tuple if compressed
-        data_stream.seek(0)
-        tmp = np.load(data_stream)
-
-        # Get data from temp object, we will return data item for first key
-        data = tmp[list(tmp.keys())[0]]
-        return cls(data, headers=headers)
 
     # ...........................
     @classmethod
@@ -753,46 +192,29 @@ class Matrix(object):
         axis_headers = []
         first_mtx = None
         for mtx in mtx_list:
-            if not isinstance(mtx, Matrix):
-                mtx = Matrix(mtx)
-            if mtx.data is not None:
-                # Make sure we reshape if necessary if adding new axis
-                #    (stacking)
-                if mtx.data.ndim < axis + 1:  # Add 1 since zero-based
-                    new_shape = list(mtx.data.shape) + [1]
-                    mtx.data = mtx.data.reshape(new_shape)
-                    mtx.set_headers([''], axis=str(axis))
-
-                h = mtx.get_headers(axis=str(axis))
-                if h is None:
-                    h = ['']
-                axis_headers.extend(h)
-                mtx_objs.append(mtx.data)
+            # Make sure we reshape if necessary if adding new axis (stacking)
+            if mtx.ndim < axis + 1:  # Add 1 since zero-based
+                mtx = Matrix(
+                    np.expand_dims(mtx, mtx.ndim + 1), headers=mtx.headers,
+                    metadata=mtx.metadata)
+                mtx.set_headers([''], axis=str(axis))
+            # Cast mtx to Matrix in case it is not
+            mtx = mtx.view(Matrix)
+            h = mtx.get_headers(axis=str(axis))
+            if h is None:
+                h = ['']
+            axis_headers.extend(h)
+            mtx_objs.append(mtx)
             if first_mtx is None:
                 first_mtx = mtx
-
-        # Create a new data matrix
-        new_data = np.concatenate(mtx_objs, axis=axis)
-        # Use the first Matrix's headers as the base
-        new_headers = first_mtx.get_headers()
-        # Replace the axis of headers with the concatenated version
-        new_headers[str(axis)] = axis_headers
-        return cls(new_data, headers=new_headers)
-
-    # ...........................
-    def append(self, mtx, axis=0):
-        """Appends the provided Matrix object to this one.
-
-        Args:
-            mtx (Matrix): The Matrix object to append to this one.
-            axis (:obj:`int`, optional): The axis to append this matrix on.
-
-        Note:
-            * Only keeps the headers for the append axis, assumes the other
-              axes are the same.
-        """
-        self.data = np.append(self.data, mtx.data, axis=axis)
-        self.headers[str(axis)].append(mtx.get_headers(axis=axis))
+        # Create a new Matrix, use the first matrix for base headers and
+        #    metadata
+        new_mtx = cls(
+            np.concatenate(mtx_objs, axis=axis),
+            headers=first_mtx.get_headers(), metadata=first_mtx.get_metadata())
+        # Set the headers for the new axis
+        new_mtx.set_headers(axis_headers, axis=str(axis))
+        return new_mtx
 
     # ...........................
     def flatten_2D(self):
@@ -806,9 +228,9 @@ class Matrix(object):
             Matrix: A Matrix object flattened to only have two dimensions.
         """
         flat_mtx = self
-        while flat_mtx.data.ndim > 2:
+        while flat_mtx.ndim > 2:
             # More than two dimensions so we must flatten
-            old_shape = flat_mtx.data.shape
+            old_shape = flat_mtx.shape
             old_num_rows = old_shape[0]
             new_shape = tuple(
                 [old_shape[0]*old_shape[2],
@@ -831,7 +253,7 @@ class Matrix(object):
                 # Set data
                 start_row = i * old_num_rows
                 end_row = (i+1) * old_num_rows
-                new_mtx.data[start_row:end_row, :] = flat_mtx.data[:, :, i]
+                new_mtx[start_row:end_row, :] = flat_mtx[:, :, i]
 
                 # Set row headers
                 for rh in old_rh:
@@ -860,9 +282,6 @@ class Matrix(object):
     def get_column_headers(self):
         """Shortcut to get column headers.
 
-        Todo:
-            * Throw a different exception if no column header?
-
         Returns:
             A list of headers for each column.
         """
@@ -889,11 +308,17 @@ class Matrix(object):
                 return None
 
     # ...........................
+    def get_metadata(self):
+        """Retrieves matrix metadata.
+
+        Returns:
+            dict: A dictionary of metadata for the matrix.
+        """
+        return self.metadata
+
+    # ...........................
     def get_row_headers(self):
         """Shortcut to get row headers.
-
-        Todo:
-            * Throw a different exception if no row headers?
 
         Returns:
             A list of headers for the rows in the matrix.
@@ -912,10 +337,11 @@ class Matrix(object):
         """
         my_obj = {}
         my_obj[HEADERS_KEY] = self.headers
+        my_obj[METADATA_KEY] = self.metadata
         my_obj[VERSION_KEY] = VERSION
 
         np_bytes = io.BytesIO()
-        np.savez_compressed(np_bytes, self.data)
+        np.savez_compressed(np_bytes, self)
         np_bytes.seek(0)
         zip_np_str = np_bytes.getvalue()
         np_bytes.close()
@@ -954,9 +380,10 @@ class Matrix(object):
             * Resets headers dictionary when setting values for all headers.
             * Duck types to use list of lists or dictionary to set values for
                 different axes.
-
         """
         if axis is not None:
+            if self.headers is None:
+                self.headers = {}
             self.headers[str(axis)] = headers
         else:
             self.headers = {}
@@ -988,7 +415,7 @@ class Matrix(object):
             Matrix: A new Matrix that is a subset of the original specified by
                 the slicing parameters.
         """
-        new_data = np.copy(self.data)
+        new_data = np.copy(self)
         new_headers = deepcopy(self.headers)
         # For each arg in the list
         for i in range(len(args)):
@@ -1009,7 +436,7 @@ class Matrix(object):
             header (str): The name of a header to use for slicing
             axis (int): The axis to find this header.
 
-        Raises:
+         Raises:
             ValueError: If the header is not found for the specified axis.
 
         Todo:
@@ -1021,12 +448,11 @@ class Matrix(object):
             Matrix: A subset of the original Matrix specified by the header.
         """
         idx = self.headers[str(axis)].index(header)
-
-        new_data = np.copy(np.take(self.data, idx, axis=axis))
+        new_data = np.copy(np.take(self, idx, axis=axis))
 
         # Need to reshape the result.  Take the existing shape and change the
         #    query axis to 1
-        new_shape = list(self.data.shape)
+        new_shape = list(self.shape)
         new_shape[axis] = 1
         new_data = new_data.reshape(new_shape)
 
@@ -1036,7 +462,7 @@ class Matrix(object):
         new_headers[str(axis)] = [header]
 
         # Return a new Matrix
-        return Matrix(new_data, headers=new_headers)
+        return Matrix(new_data, headers=new_headers, metadata=self.metadata)
 
     # ...........................
     def write_csv(self, flo, *slice_args):
@@ -1059,7 +485,7 @@ class Matrix(object):
         else:
             mtx = self
 
-        if mtx.data.ndim > 2:
+        if mtx.ndim > 2:
             mtx = mtx.flatten_2D()
 
         # .....................
@@ -1085,7 +511,7 @@ class Matrix(object):
                 row_headers = mtx.headers['0']
             except:
                 # No row headers
-                row_headers = [[] for _ in range(mtx.data.shape[0])]
+                row_headers = [[] for _ in range(mtx.shape[0])]
 
             if isinstance(row_headers[0], list):
                 listify = already_lists
@@ -1109,12 +535,12 @@ class Matrix(object):
                                 len(mtx.headers['1']))])
                         yield header_row
             # For each row in the data set
-            for i in range(mtx.data.shape[0]):
+            for i in range(mtx.shape[0]):
                 # Add the row headers if exists
                 row = []
                 row.extend(listify(row_headers[i]))
                 # Get the data from the data array
-                row.extend(mtx.data[i].tolist())
+                row.extend(mtx[i].tolist())
                 yield row
 
         # .....................
@@ -1124,58 +550,7 @@ class Matrix(object):
 
 
 # .............................................................................
-class ArrayStream(list):
-    """Generator class for a numpy array for JSON serialization.
-
-    Attributes:
-        x (numpy.ndarray): A numpy array to be streamed to JSON serialization.
-        my_len (int): The size of the first dimension of the array.
-
-    Note:
-        * This is done to save memory rather than creating a list of the entire
-            array / matrix.  It is used by the JSON encoder to write the data
-            to file.
-    """
-    # ...........................
-    def __init__(self, x):
-        """Constructor.
-
-        Args:
-            x : The numpy array to stream.
-        """
-        self.x = x
-        self.my_len = self.x.shape[0]
-
-    # ...........................
-    def __iter__(self):
-        """Iterator for array.
-        """
-        return self.gen()
-
-    # ...........................
-    def __len__(self):
-        """Length function.
-        """
-        return self.my_len
-
-    # ...........................
-    def gen(self):
-        """Loops over array and create ArrayStreams for sub arrays.
-
-        Yields:
-            The next item in the stream.
-        """
-        n = 0
-
-        while n < self.my_len:
-            if isinstance(self.x[n], np.ndarray):
-                yield ArrayStream(self.x[n])
-            else:
-                yield self.x[n]
-            n += 1
-
-# .............................................................................
 # Set the module for Matrix to be lmpy
 Matrix.__module__ = 'lmpy'
 
-__all__ = ['ArrayStream', 'Matrix']
+__all__ = ['Matrix']

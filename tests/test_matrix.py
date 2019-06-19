@@ -11,6 +11,7 @@ import numpy as np
 import pytest
 
 from lmpy import matrix
+from zipfile import BadZipfile
 
 
 # .............................................................................
@@ -45,25 +46,25 @@ class Test_Matrix(object):
         mtx_bytesio.seek(0)
 
         # Attempt to load matrix
-        loaded_mtx = matrix.Matrix.load(mtx_bytesio)
+        loaded_mtx = matrix.Matrix.load_flo(mtx_bytesio)
         mtx_bytesio.close()
 
         # Verify data and headers are the same
-        assert np.allclose(loaded_mtx.data, orig_mtx.data)
+        assert np.allclose(loaded_mtx, orig_mtx)
         assert loaded_mtx.get_headers() == orig_mtx.get_headers()
 
         # Write to temp file
         with tempfile.TemporaryFile() as out_f:
-            np.save(out_f, orig_mtx.data)
+            orig_mtx.save(out_f)
             out_f.seek(0)
-            np_mtx = matrix.Matrix.load(out_f)
+            np_mtx = matrix.Matrix.load_flo(out_f)
 
         # Verify that the data is the same
-        assert np.allclose(np_mtx.data, orig_mtx.data)
+        assert np.allclose(np_mtx, orig_mtx)
 
         # Verify load fails with empty file
-        with pytest.raises(IOError):
-            mtx = matrix.Matrix.load(io.BytesIO())
+        with pytest.raises(BadZipfile):
+            mtx = matrix.Matrix.load_flo(io.BytesIO())
 
     # .....................................
     def test_load_csv(self):
@@ -83,7 +84,7 @@ class Test_Matrix(object):
         print(orig_mtx.get_headers())
 
         # Verify data and headers are the same
-        assert np.allclose(loaded_mtx.data, orig_mtx.data)
+        assert np.allclose(loaded_mtx, orig_mtx)
         assert loaded_mtx.get_headers() == orig_mtx.get_headers()
 
     # .....................................
@@ -119,26 +120,7 @@ class Test_Matrix(object):
         print(orig_mtx.get_headers())
 
         # Verify data and headers are the same
-        assert np.allclose(loaded_mtx.data, orig_mtx.data)
-        assert loaded_mtx.get_headers() == orig_mtx.get_headers()
-
-    # .....................................
-    def test_load_new(self):
-        """Test the load_new method.
-        """
-        orig_mtx = get_random_matrix(5, 5)
-
-        # Create a file like object and save original matrix
-        mtx_bytesio = io.BytesIO()
-        orig_mtx.save(mtx_bytesio)
-        mtx_bytesio.seek(0)
-
-        # Attempt to load matrix
-        loaded_mtx = matrix.Matrix.load_new(mtx_bytesio)
-        mtx_bytesio.close()
-
-        # Verify data and headers are the same
-        assert np.allclose(loaded_mtx.data, orig_mtx.data)
+        assert np.allclose(loaded_mtx, orig_mtx)
         assert loaded_mtx.get_headers() == orig_mtx.get_headers()
 
     # .....................................
@@ -154,34 +136,19 @@ class Test_Matrix(object):
         mtx5 = matrix.Matrix.concatenate([mtx4, mtx3], axis=0)
 
         # Check that shapes are what we expect
-        assert mtx4.data.shape == (mtx1.data.shape[0],
-                                   mtx1.data.shape[1] + mtx2.data.shape[1])
-        assert mtx5.data.shape == (mtx4.data.shape[0] + mtx3.data.shape[0],
-                                   mtx4.data.shape[1])
+        assert mtx4.shape == (mtx1.shape[0], mtx1.shape[1] + mtx2.shape[1])
+        assert mtx5.shape == (mtx4.shape[0] + mtx3.shape[0], mtx4.shape[1])
 
         # Concatenate numpy arrays
         mtx6 = matrix.Matrix.concatenate(
             [np.random.random((4, 2)), np.random.random((4, 6))], axis=1)
-        assert mtx6.data.shape == (4, 8)
+        assert mtx6.shape == (4, 8)
 
         # Concatenate a stack and a single
         mtx7 = get_random_matrix(4, 4, 3)
         mtx8 = get_random_matrix(4, 4)
         mtx9 = matrix.Matrix.concatenate([mtx7, mtx8], axis=2)
-        assert mtx9.data.shape == (4, 4, 4)
-
-    # .....................................
-    def test_append(self):
-        """Test append.
-        """
-        x1, y1 = (3, 4)
-        x2, y2 = (6, 4)
-        mtx1 = get_random_matrix(x1, y1)
-        mtx2 = get_random_matrix(x2, y2)
-        mtx1.append(mtx2, axis=0)
-
-        # Verify the new shape
-        assert mtx1.data.shape == (x1 + x2, y1)
+        assert mtx9.shape == (4, 4, 4)
 
     # .....................................
     def test_flatten_2D(self):
@@ -192,7 +159,7 @@ class Test_Matrix(object):
         flat_mtx = mtx.flatten_2D()
 
         # Test that there are two dimensions of headers and data
-        assert len(flat_mtx.data.shape) == 2
+        assert len(flat_mtx.shape) == 2
         assert len(flat_mtx.get_headers().keys()) == 2
 
         # Test that the length of the row headers is now 2 (accounting for
@@ -201,7 +168,7 @@ class Test_Matrix(object):
             assert len(h) == 2
 
         # Check that the data shape in the row dimension is z * old shape
-        assert flat_mtx.data.shape[0] == x * z
+        assert flat_mtx.shape[0] == x * z
 
     # .....................................
     def test_flatten_2D_higher_dim(self):
@@ -212,7 +179,7 @@ class Test_Matrix(object):
         flat_mtx = mtx.flatten_2D()
 
         # Test that there are two dimensions of headers and data
-        assert len(flat_mtx.data.shape) == 2
+        assert len(flat_mtx.shape) == 2
         assert len(flat_mtx.get_headers().keys()) == 2
 
         # Test that the length of the row headers is now 3 (accounting for
@@ -221,7 +188,7 @@ class Test_Matrix(object):
             assert len(h) == 3
 
         # Check that the data shape in the row dimension is c * a * d
-        assert flat_mtx.data.shape[0] == a * c * d
+        assert flat_mtx.shape[0] == a * c * d
 
     # .....................................
     def test_flatten_2D_missing_header(self):
@@ -232,7 +199,7 @@ class Test_Matrix(object):
         flat_mtx = mtx.flatten_2D()
 
         # Test that there are two dimensions of headers and data
-        assert len(flat_mtx.data.shape) == 2
+        assert len(flat_mtx.shape) == 2
         assert len(flat_mtx.get_headers().keys()) == 2
 
         # Test that the length of the row headers is now 2 (accounting for
@@ -241,7 +208,7 @@ class Test_Matrix(object):
             assert len(h) == 2
 
         # Check that the data shape in the row dimension is z * old shape
-        assert flat_mtx.data.shape[0] == x * z
+        assert flat_mtx.shape[0] == x * z
 
     # .....................................
     def test_get_column_headers(self):
@@ -250,7 +217,7 @@ class Test_Matrix(object):
         mtx = get_random_matrix(3, 8)
         col_headers = mtx.get_column_headers()
         assert isinstance(col_headers, list)
-        assert len(col_headers) == mtx.data.shape[1]
+        assert len(col_headers) == mtx.shape[1]
 
     # .....................................
     def test_get_headers(self):
@@ -259,8 +226,8 @@ class Test_Matrix(object):
         mtx = get_random_matrix(2, 2, 4)
         headers = mtx.get_headers()
         assert isinstance(headers, dict)
-        for i in range(len(mtx.data.shape)):
-            assert len(headers[str(i)]) == mtx.data.shape[i]
+        for i in range(len(mtx.shape)):
+            assert len(headers[str(i)]) == mtx.shape[i]
         assert mtx.get_headers(axis=9999) is None
 
     # .....................................
@@ -270,7 +237,7 @@ class Test_Matrix(object):
         mtx = get_random_matrix(3, 8)
         row_headers = mtx.get_row_headers()
         assert isinstance(row_headers, list)
-        assert len(row_headers) == mtx.data.shape[0]
+        assert len(row_headers) == mtx.shape[0]
 
     # .....................................
     def test_save(self):
@@ -287,10 +254,10 @@ class Test_Matrix(object):
 
             # Load the saved Matrix
             save_f.seek(0)
-            loaded_mtx = matrix.Matrix.load(save_f)
+            loaded_mtx = matrix.Matrix.load_flo(save_f)
 
         # Verify data and headers are the same
-        assert np.allclose(loaded_mtx.data, orig_mtx.data)
+        assert np.allclose(loaded_mtx, orig_mtx)
         assert loaded_mtx.get_headers() == orig_mtx.get_headers()
 
     # .....................................
@@ -379,12 +346,12 @@ class Test_Matrix(object):
         sliced_mtx = mtx.slice(*slice_params)
 
         # Test data matrix
-        test_data = mtx.data
+        test_data = mtx
 
         # For each dimension, check the size, and headers
         for i in range(n_dim):
             dim_size, dim_lower, dim_upper = dims[i]
-            assert sliced_mtx.data.shape[i] == dim_upper - dim_lower
+            assert sliced_mtx.shape[i] == dim_upper - dim_lower
 
             # Check headers
             orig_dim_headers = mtx.get_headers(axis=i)
@@ -396,7 +363,7 @@ class Test_Matrix(object):
             test_data = test_data.take(range(dim_lower, dim_upper), axis=i)
 
         # Check data
-        assert np.allclose(test_data, sliced_mtx.data)
+        assert np.allclose(test_data, sliced_mtx)
 
     # .....................................
     def test_slice_by_header(self):
@@ -410,10 +377,10 @@ class Test_Matrix(object):
         sliced_mtx = mtx.slice_by_header(slice_header, axis=2)
 
         # Check that the shape is correct, should be (3, 3, 1)
-        assert sliced_mtx.data.shape == (3, 3, 1)
+        assert sliced_mtx.shape == (3, 3, 1)
 
         # Check that data is the second layer
-        assert np.allclose(sliced_mtx.data[:, :, 0], mtx.data[:, :, 1])
+        assert np.allclose(sliced_mtx[:, :, 0], mtx[:, :, 1])
 
         # Check that the headers are what we expect
         assert mtx.get_row_headers() == sliced_mtx.get_row_headers()
@@ -459,7 +426,7 @@ class Test_Matrix(object):
         """Test write_csv no slicing and no row headers.
         """
         o_mtx = get_random_matrix(10, 10)
-        mtx = matrix.Matrix(o_mtx.data)
+        mtx = matrix.Matrix(o_mtx)
 
         with io.StringIO() as out_str:
             mtx.write_csv(out_str)
@@ -482,38 +449,3 @@ class Test_Matrix(object):
             # Test that csv can be read
             for line in out_str:
                 assert len(line.split(',')) > 1
-
-
-# .............................................................................
-class Test_ArrayStream(object):
-    """Test the ArrayStream class.
-    """
-    # .....................................
-    def test_gen_1d(self):
-        """Test the gen function with a 1d array.
-
-        Note:
-            * gen() is an iterator and can be tested as such.
-            * The ArrayStream object uses 'gen' when it is treated as an
-                iterator.
-        """
-        arr = np.array([1, 2, 3])
-        stream = matrix.ArrayStream(arr)
-        assert len(stream) == arr.shape[0]
-        for i in stream:
-            assert i is not None
-
-    # .....................................
-    def test_gen_2d(self):
-        """Test the gen function with a 2d array.
-
-        Note:
-            * gen() is an iterator and can be tested as such.
-            * The ArrayStream object uses 'gen' when it is treated as an
-                iterator.
-        """
-        arr = np.array([[1, 2, 3], [4, 5, 6]])
-        stream = matrix.ArrayStream(arr)
-        assert len(stream) == arr.shape[0]
-        for i in stream:
-            assert i is not None

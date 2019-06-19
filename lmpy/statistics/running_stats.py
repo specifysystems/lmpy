@@ -1,0 +1,102 @@
+"""Class for keeping track of running statistics to save memory
+"""
+# .............................................................................
+from copy import deepcopy
+import numpy as np
+
+from lmpy import Matrix
+
+
+# .............................................................................
+def compare_absolute_values(observed, test_data):
+    """Compares the absolute values of the observed and random data
+
+    Args:
+        observed (:obj:`Numpy array`): A numpy array of observed values
+        test_data (:obj:`Numpy array`): A numpy array of random values
+    """
+    return np.abs(test_data) > np.abs(observed)
+
+
+# .............................................................................
+def compare_signed_values(observed, test_data):
+    """Compares the signed values of the observed and random data
+
+    Args:
+        observed (:obj:`Numpy array`): A numpy array of observed values
+        test_data (:obj:`Numpy array`): A numpy array of random values
+    """
+    return test_data > observed
+
+
+# .............................................................................
+class RunningStats(object):
+    """Keep track of running statistics to reduce required memory
+    """
+    # .....................................
+    def __init__(self, observed=None, compare_fn=compare_absolute_values):
+        self.count = 0.0
+        self.compare_fn = compare_fn
+        if observed is not None:
+            self.observed = observed
+            try:
+                self.f_counts = np.zeros(self.observed.shape)
+            except:
+                self.f_counts = 0.0
+        else:
+            self.observed = None
+            self.f_counts = None
+        self.mean = 0.0
+        self.s_k = 0.0
+
+    # .....................................
+    def push(self, val):
+        """Add a test value to the running totals
+
+        Args:
+            val (Matrix, Numpy array, or numeric): A value to use for the
+                running statistics.
+        """
+        if not isinstance(val, list):
+            val = [val]
+        if self.count == 0 and isinstance(val[0], Matrix):
+            self.mean = Matrix(np.zeros(val[0].shape))
+            self.s_k = Matrix(np.zeros(val[0].shape))
+            self.f_counts = Matrix(self.f_counts)
+        for v in val:
+            self.count += 1.
+            mean_k_1 = deepcopy(self.mean)
+            self.mean = mean_k_1 + ((v - mean_k_1) / self.count)
+            self.s_k = self.s_k + (v - mean_k_1) * (v - self.mean)
+            mean_k_1 = None
+
+            if self.observed is not None:
+                self.f_counts += self.compare_fn(self.observed, v)
+
+    # .....................................
+    @property
+    def standard_deviation(self):
+        """Retrieve the standard deviation of the test values
+        """
+        return np.sqrt(self.variance)
+
+    # .....................................
+    @property
+    def variance(self):
+        """Retrieve the variance of the test values
+        """
+        if self.count > 1:
+            return self.s_k / (self.count - 1)
+        else:
+            return 0.0
+
+    # .....................................
+    @property
+    def p_values(self):
+        """Retrieve p-values from the test values greater than the f-statistic
+        """
+        if self.f_counts is not None:
+            return self.f_counts / float(self.count)
+        else:
+            raise Exception(
+                'P-values cannot be computed without observed values')
