@@ -1,4 +1,8 @@
 """Class for keeping track of running statistics to save memory
+
+Note:
+    * Mean and standard deviation computations based on
+        https://www.johndcook.com/blog/standard_deviation/
 """
 # .............................................................................
 from copy import deepcopy
