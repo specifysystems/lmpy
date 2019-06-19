@@ -156,7 +156,6 @@ class Test_RunningStats(object):
             rs.push(test_val)
             vals.append(test_val)
         v_stack = np.array([v for v in vals])
-        print v_stack
         assert np.all(np.isclose(rs.mean, np.mean(v_stack, axis=0)))
         assert np.all(
             np.isclose(

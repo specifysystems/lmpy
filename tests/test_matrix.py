@@ -10,7 +10,7 @@ import tempfile
 import numpy as np
 import pytest
 
-from lmpy import matrix
+from lmpy import Matrix
 from zipfile import BadZipfile
 
 
@@ -27,7 +27,7 @@ def get_random_matrix(*dim_size):
     for i in range(len(dim_size)):
         headers[str(i)] = [
             'header-{}-{}'.format(i, x) for x in range(dim_size[i])]
-    return matrix.Matrix(np.random.rand(*dim_size), headers=headers)
+    return Matrix(np.random.rand(*dim_size), headers=headers)
 
 
 # .............................................................................
@@ -46,7 +46,7 @@ class Test_Matrix(object):
         mtx_bytesio.seek(0)
 
         # Attempt to load matrix
-        loaded_mtx = matrix.Matrix.load_flo(mtx_bytesio)
+        loaded_mtx = Matrix.load_flo(mtx_bytesio)
         mtx_bytesio.close()
 
         # Verify data and headers are the same
@@ -57,14 +57,14 @@ class Test_Matrix(object):
         with tempfile.TemporaryFile() as out_f:
             orig_mtx.save(out_f)
             out_f.seek(0)
-            np_mtx = matrix.Matrix.load_flo(out_f)
+            np_mtx = Matrix.load_flo(out_f)
 
         # Verify that the data is the same
         assert np.allclose(np_mtx, orig_mtx)
 
         # Verify load fails with empty file
         with pytest.raises(BadZipfile):
-            mtx = matrix.Matrix.load_flo(io.BytesIO())
+            mtx = Matrix.load_flo(io.BytesIO())
 
     # .....................................
     def test_load_csv(self):
@@ -77,7 +77,7 @@ class Test_Matrix(object):
             out_str.seek(0)
 
             # Attempt to load matrix
-            loaded_mtx = matrix.Matrix.load_csv(
+            loaded_mtx = Matrix.load_csv(
                 out_str, num_header_rows=1, num_header_cols=1)
 
         print(loaded_mtx.get_headers())
@@ -113,7 +113,7 @@ class Test_Matrix(object):
             out_str.seek(0)
 
             # Attempt to load matrix
-            loaded_mtx = matrix.Matrix.load_csv(
+            loaded_mtx = Matrix.load_csv(
                 out_str, num_header_rows=2, num_header_cols=2)
 
         print(loaded_mtx.get_headers())
@@ -132,22 +132,22 @@ class Test_Matrix(object):
         mtx3 = get_random_matrix(6, 5)
 
         # Concatenate matrices
-        mtx4 = matrix.Matrix.concatenate([mtx1, mtx2], axis=1)
-        mtx5 = matrix.Matrix.concatenate([mtx4, mtx3], axis=0)
+        mtx4 = Matrix.concatenate([mtx1, mtx2], axis=1)
+        mtx5 = Matrix.concatenate([mtx4, mtx3], axis=0)
 
         # Check that shapes are what we expect
         assert mtx4.shape == (mtx1.shape[0], mtx1.shape[1] + mtx2.shape[1])
         assert mtx5.shape == (mtx4.shape[0] + mtx3.shape[0], mtx4.shape[1])
 
         # Concatenate numpy arrays
-        mtx6 = matrix.Matrix.concatenate(
+        mtx6 = Matrix.concatenate(
             [np.random.random((4, 2)), np.random.random((4, 6))], axis=1)
         assert mtx6.shape == (4, 8)
 
         # Concatenate a stack and a single
         mtx7 = get_random_matrix(4, 4, 3)
         mtx8 = get_random_matrix(4, 4)
-        mtx9 = matrix.Matrix.concatenate([mtx7, mtx8], axis=2)
+        mtx9 = Matrix.concatenate([mtx7, mtx8], axis=2)
         assert mtx9.shape == (4, 4, 4)
 
     # .....................................
@@ -195,7 +195,7 @@ class Test_Matrix(object):
         """Test flatten_2D method when headers are missing.
         """
         x, y, z = 5, 5, 3
-        mtx = matrix.Matrix(np.random.random((x, y, z)))
+        mtx = Matrix(np.random.random((x, y, z)))
         flat_mtx = mtx.flatten_2D()
 
         # Test that there are two dimensions of headers and data
@@ -254,7 +254,7 @@ class Test_Matrix(object):
 
             # Load the saved Matrix
             save_f.seek(0)
-            loaded_mtx = matrix.Matrix.load_flo(save_f)
+            loaded_mtx = Matrix.load_flo(save_f)
 
         # Verify data and headers are the same
         assert np.allclose(loaded_mtx, orig_mtx)
@@ -426,7 +426,7 @@ class Test_Matrix(object):
         """Test write_csv no slicing and no row headers.
         """
         o_mtx = get_random_matrix(10, 10)
-        mtx = matrix.Matrix(o_mtx)
+        mtx = Matrix(o_mtx)
 
         with io.StringIO() as out_str:
             mtx.write_csv(out_str)

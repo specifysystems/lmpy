@@ -52,3 +52,5 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
             'Reached maximum number of tries without finding suitable swap')
 
     return Matrix(swapped_mtx, headers=mtx_headers)
+
+__all__ = ['swap_randomize']
