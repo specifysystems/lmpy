@@ -463,6 +463,40 @@ class Matrix(np.ndarray):
         return Matrix(new_data, headers=new_headers, metadata=self.metadata)
 
     # ...........................
+    @property
+    def T(self):
+        if self.ndim < 2:
+            return self
+        else:
+            return self.transpose()
+
+    # ...........................
+    def transpose(self, *axes):
+        """Transposes the Matrix.
+
+        Args:
+            axes (None, tuple of ints, n ints): The order of the axes in the
+                transposition. see: ndarray.transpose
+
+        Returns:
+            Matrix: A transposed version of the original matrix
+        """
+        new_mtx = Matrix(self.view(np.ndarray).transpose(*axes))
+        if len(axes) == 0:
+            dim_order = range(len(self.shape) -1, -1, -1)
+        elif isinstance(axes[0], tuple):
+            dim_order = list(axes[0])
+        else:
+            dim_order = list(axes)
+        # Set headers
+        max_dim = len(self.shape)
+        for i in range(len(dim_order)):
+            old_dim = str(dim_order[i])
+            if old_dim in self.headers.keys():
+                new_mtx.set_headers(self.headers[old_dim], axis=str(i))
+        return new_mtx
+        
+    # ...........................
     def write_csv(self, flo, *slice_args):
         """Writes the Matrix object to a CSV file-like object.
 
