@@ -53,4 +53,45 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
 
     return Matrix(swapped_mtx, headers=mtx_headers)
 
-__all__ = ['swap_randomize']
+# .............................................................................
+def trial_swap(matrix, num_trials=None):
+    """Randomize a PAM matrix using the trial swap method
+
+    Args:
+        matrix (:obj: Matrix): A Lifemapper matrix object with binary elements
+        num_swaps (:obj: int): The number of swaps to perform
+
+    Todo:
+        Allow num_swaps to be specified as a percentage of the matrix fill
+    """
+    mtx_headers = matrix.get_headers()
+    swapped_mtx = matrix.copy().astype(int)
+    num_success = 0
+    row_len, col_len = matrix.shape
+    if num_trials is None:
+        num_trials = matrix.size
+    #print('num trials: {}'.format(num_trials))
+        
+    for _ in range(num_trials):
+        column1 = randrange(0, col_len)
+        column2 = randrange(0, col_len)
+        row1 = randrange(0, row_len)
+        while column2 == column1:
+            column2 = randrange(0, col_len)
+        first_corner = swapped_mtx[row1][column1]
+        if first_corner ^ swapped_mtx[row1][column2]:
+            row2 = randrange(0, row_len)
+            while row2 == row1:
+                row2 = randrange(0, row_len)
+            if ((first_corner ^ swapped_mtx[row2][column1]) and
+                    (not(first_corner) ^ swapped_mtx[row2][column2])):
+                swapped_mtx[row1][column2] = first_corner
+                swapped_mtx[row2][column1] = first_corner
+                swapped_mtx[row2][column2] = not(first_corner)
+                swapped_mtx[row1][column1] = not(first_corner)
+                num_success += 1
+    #print('num success: {}'.format(num_success))
+
+    return Matrix(swapped_mtx, headers=mtx_headers)
+
+__all__ = ['swap_randomize', 'trial_swap']

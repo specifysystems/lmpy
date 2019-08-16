@@ -4,6 +4,9 @@ This module contains functions used to randomize a PAM using CJ's algorithm.
 This algorithm can run in a parallel fashion and uses a fill-based approach so
 as to prevent a bias caused by starting with an initial condition of a
 populated matrix.
+
+Todo:
+    * Eliminate "could not fix"
 """
 import numpy as np
 import time
@@ -13,14 +16,34 @@ from lmpy.matrix import Matrix
 # Number of times to look for a match when fixing problems
 SEARCH_THRESHOLD = 100000
 
+# .............................................................................
+def fill_shuffle_reshape_heuristic(orig_pam):
+    """
+    """
+    fill = int(np.sum(orig_pam))
+    approx = np.zeros((orig_pam.shape), dtype=np.int)
+    approx[:fill] = 1
+    np.random.shuffle(approx)
+    return approx.reshape(orig_pam.shape)
 
 # .............................................................................
-def max_col_or_row(row_totals, col_totals):
+def total_fill_percentage_heuristic(orig_pam):
+    fill = np.sum(orig_pam)
+    fill_percentage = 1.0 * fill / orig_pam.size
+    approx = np.random.uniform(
+        low=0.0, high=1.0, size=orig_pam.shape) <= fill_percentage
+    return approx
+
+# .............................................................................
+def max_col_or_row_heuristic(orig_pam):
     """Weighting method using max weight between row and column
 
     This method returns a matrix of weights where the weight of each cell is
     the maximum between the proportions of the row and col
     """
+    row_totals = np.sum(orig_pam, axis=1)
+    col_totals = np.sum(orig_pam, axis=0)
+    
     row_weights = np.expand_dims(
         row_totals.astype(np.float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
@@ -29,11 +52,46 @@ def max_col_or_row(row_totals, col_totals):
     col_ones = np.ones(col_weights.shape)
     a = row_weights * col_ones
     b = row_ones * col_weights
-    return np.maximum.reduce([a, b])
+    weights = np.maximum.reduce([a, b])
+    return (np.random.uniform(
+        low=0.0, high=1.0, size=orig_pam.shape) <= weights).astype(np.int)
 
 
 # .............................................................................
-def grady_randomize(mtx, weights_fn=max_col_or_row):
+def min_col_or_row_heuristic(orig_pam):
+    """Weighting method using max weight between row and column
+
+    This method returns a matrix of weights where the weight of each cell is
+    the maximum between the proportions of the row and col
+    """
+    row_totals = np.sum(orig_pam, axis=1)
+    col_totals = np.sum(orig_pam, axis=0)
+    
+    row_weights = np.expand_dims(
+        row_totals.astype(np.float) / row_totals.shape[0], 1)
+    col_weights = np.expand_dims(
+        col_totals.astype(np.float) / col_totals.shape[0], 0)
+    row_ones = np.ones(row_weights.shape)
+    col_ones = np.ones(col_weights.shape)
+    a = row_weights * col_ones
+    b = row_ones * col_weights
+    weights = np.minimum.reduce([a, b])
+    return (np.random.uniform(
+        low=0.0, high=1.0, size=orig_pam.shape) <= weights).astype(np.int)
+
+# .............................................................................
+def all_zeros_heuristic(orig_pam):
+    return np.zeros(orig_pam.shape)
+
+def all_ones_heuristic(orig_pam):
+    return np.ones(orig_pam.shape)
+
+
+# .............................................................................
+#def grady_randomize(mtx, weights_fn=max_col_or_row):
+#def grady_randomize(mtx, weights_fn=min_col_or_row):
+#def grady_randomize(mtx, weights_fn=all_ones):
+def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic):
     """Main function for creating a random matrix
 
     Args:
@@ -56,15 +114,17 @@ def grady_randomize(mtx, weights_fn=max_col_or_row):
     num_rows, num_cols = mtx_data.shape
 
     # Step 1. Build weights matrix
-    weights = weights_fn(row_totals, col_totals)
+    #weights = weights_fn(row_totals, col_totals)
 
     row_totals = row_totals.reshape((num_rows, 1))
     col_totals = col_totals.reshape((1, num_cols))
 
     # Step 2. Get Initial random matrix
     # ...........................
-    rand_mtx_data = (np.random.uniform(
-        low=0.0, high=1.0, size=mtx_data.shape) <= weights).astype(np.int)
+    #rand_mtx_data = (np.random.uniform(
+    #    low=0.0, high=1.0, size=mtx_data.shape) <= weights).astype(np.int)
+    # Get approximation
+    rand_mtx_data = approximation_heuristic(mtx).astype(np.int)
 
     # Step 3: Fix broken marginals
     # ...........................
@@ -160,4 +220,8 @@ def grady_randomize(mtx, weights_fn=max_col_or_row):
 
     return Matrix(rand_mtx_data, headers=mtx_headers)
 
-__all__ = ['grady_randomize', 'max_col_or_row']
+__all__ = [
+    'all_ones_heuristic', 'all_zeros_heuristic',
+    'fill_shuffle_reshape_heuristic', 'grady_randomize',
+    'max_col_or_row_heuristic', 'min_col_or_row_heuristic',
+    'total_fill_percentage_heuristic']
