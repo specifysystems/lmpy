@@ -18,7 +18,10 @@ SEARCH_THRESHOLD = 100000
 
 # .............................................................................
 def fill_shuffle_reshape_heuristic(orig_pam):
-    """
+    """Create an approximation with the correct number of 1s randomly placed.
+
+    Creates an array with the total number of ones from the original PAM and
+    shuffles it then it reshapes it to match the shape of the original PAM.
     """
     fill = int(np.sum(orig_pam))
     approx = np.zeros((orig_pam.shape), dtype=np.int)
@@ -28,6 +31,11 @@ def fill_shuffle_reshape_heuristic(orig_pam):
 
 # .............................................................................
 def total_fill_percentage_heuristic(orig_pam):
+    """Create an approximation using the total fill percentage of the PAM.
+
+    Creates an approximation using the total matrix fill of the original PAM
+    as a weight threshold to compare with randomly generated numbers.
+    """
     fill = np.sum(orig_pam)
     fill_percentage = 1.0 * fill / orig_pam.size
     approx = np.random.uniform(
@@ -81,16 +89,17 @@ def min_col_or_row_heuristic(orig_pam):
 
 # .............................................................................
 def all_zeros_heuristic(orig_pam):
+    """Creates a two-dimensional approximation composed of all zeros.
+    """
     return np.zeros(orig_pam.shape)
 
 def all_ones_heuristic(orig_pam):
+    """Creates a two-dimensional approximation composed of all ones.
+    """
     return np.ones(orig_pam.shape)
 
 
 # .............................................................................
-#def grady_randomize(mtx, weights_fn=max_col_or_row):
-#def grady_randomize(mtx, weights_fn=min_col_or_row):
-#def grady_randomize(mtx, weights_fn=all_ones):
 def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic):
     """Main function for creating a random matrix
 
@@ -206,6 +215,7 @@ def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic
                 found = True
 
         if not found:  # pragma: no cover
+            #print(rand_mtx_data)
             raise Exception('Couldn\'t fix row, col ({}, {})'.format(r, c))
 
         r_sum = np.sum(rand_mtx_data[r, :])
