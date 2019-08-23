@@ -7,6 +7,7 @@ populated matrix.
 
 Todo:
     * Eliminate "could not fix"
+    * Use dtype uint8 or smaller if possible
 """
 import numpy as np
 import time
@@ -44,17 +45,18 @@ def max_col_or_row_heuristic(orig_pam):
     row_totals = np.sum(orig_pam, axis=1)
     col_totals = np.sum(orig_pam, axis=0)
     
+    row_weights = row_totals.astype(np.float) / row_totals.shape[0]
+    col_weights = col_totals.astype(np.float) / col_totals.shape[0]
+    
     row_weights = np.expand_dims(
         row_totals.astype(np.float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
         col_totals.astype(np.float) / col_totals.shape[0], 0)
-    row_ones = np.ones(row_weights.shape)
-    col_ones = np.ones(col_weights.shape)
-    a = row_weights * col_ones
-    b = row_ones * col_weights
-    weights = np.maximum.reduce([a, b])
+    #weights = np.maximum(row_weights, col_weights)
+    #return (np.random.uniform(low=0.0, high=1.0, size=orig_pam.shape) <= weights).astype(np.int8)
     return (np.random.uniform(
-        low=0.0, high=1.0, size=orig_pam.shape) <= weights).astype(np.int)
+        low=0.0, high=1.0, size=orig_pam.shape) <= np.maximum(
+            row_weights, col_weights)).astype(np.int8)
 
 
 # .............................................................................
@@ -71,13 +73,9 @@ def min_col_or_row_heuristic(orig_pam):
         row_totals.astype(np.float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
         col_totals.astype(np.float) / col_totals.shape[0], 0)
-    row_ones = np.ones(row_weights.shape)
-    col_ones = np.ones(col_weights.shape)
-    a = row_weights * col_ones
-    b = row_ones * col_weights
-    weights = np.minimum.reduce([a, b])
     return (np.random.uniform(
-        low=0.0, high=1.0, size=orig_pam.shape) <= weights).astype(np.int)
+        low=0.0, high=1.0, size=orig_pam.shape) <= np.minimum(
+            row_weights, col_weights)).astype(np.int8)
 
 # .............................................................................
 def all_zeros_heuristic(orig_pam):
@@ -91,6 +89,7 @@ def all_ones_heuristic(orig_pam):
 #def grady_randomize(mtx, weights_fn=max_col_or_row):
 #def grady_randomize(mtx, weights_fn=min_col_or_row):
 #def grady_randomize(mtx, weights_fn=all_ones):
+# TODO: Update to use new matrix objects
 def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic):
     """Main function for creating a random matrix
 
@@ -124,7 +123,7 @@ def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic
     #rand_mtx_data = (np.random.uniform(
     #    low=0.0, high=1.0, size=mtx_data.shape) <= weights).astype(np.int)
     # Get approximation
-    rand_mtx_data = approximation_heuristic(mtx).astype(np.int)
+    rand_mtx_data = approximation_heuristic(mtx).astype(np.uint8)
 
     # Step 3: Fix broken marginals
     # ...........................
