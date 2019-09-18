@@ -299,13 +299,16 @@ class Matrix(np.ndarray):
             If axis is None, a dictionary of all headers for the matrix.
             If axis is int, A list of headers for the specified axis.
         """
-        if axis is None:
-            return self.headers
-        else:
-            if str(axis) in self.headers.keys():
-                return self.headers[str(axis)]
+        try:
+            if axis is None:
+                return self.headers
             else:
-                return None
+                if str(axis) in self.headers.keys():
+                    return self.headers[str(axis)]
+                else:
+                    return None
+        except:
+            return {}
 
     # ...........................
     def get_metadata(self):
@@ -492,8 +495,12 @@ class Matrix(np.ndarray):
         max_dim = len(self.shape)
         for i in range(len(dim_order)):
             old_dim = str(dim_order[i])
-            if old_dim in self.headers.keys():
-                new_mtx.set_headers(self.headers[old_dim], axis=str(i))
+            try:
+                if old_dim in self.get_headers().keys():
+                    new_mtx.set_headers(self.get_headers(old_dim, axis=str(i)))
+            except Exception as e:
+                print(e)
+                print(dir(self))
         return new_mtx
         
     # ...........................

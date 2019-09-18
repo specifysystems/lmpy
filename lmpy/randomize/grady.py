@@ -25,7 +25,7 @@ def fill_shuffle_reshape_heuristic(orig_pam):
     shuffles it then it reshapes it to match the shape of the original PAM.
     """
     fill = int(np.sum(orig_pam))
-    approx = np.zeros((orig_pam.shape), dtype=np.int)
+    approx = np.zeros((orig_pam.shape), dtype=np.int8)
     approx[:fill] = 1
     np.random.shuffle(approx)
     return approx.reshape(orig_pam.shape)
@@ -39,8 +39,8 @@ def total_fill_percentage_heuristic(orig_pam):
     """
     fill = np.sum(orig_pam)
     fill_percentage = 1.0 * fill / orig_pam.size
-    approx = np.random.uniform(
-        low=0.0, high=1.0, size=orig_pam.shape) <= fill_percentage
+    approx = (np.random.uniform(
+        low=0.0, high=1.0, size=orig_pam.shape) <= fill_percentage).astype(np.int8)
     return approx
 
 # .............................................................................
@@ -74,8 +74,8 @@ def min_col_or_row_heuristic(orig_pam):
     This method returns a matrix of weights where the weight of each cell is
     the maximum between the proportions of the row and col
     """
-    row_totals = np.sum(orig_pam, axis=1)
-    col_totals = np.sum(orig_pam, axis=0)
+    row_totals = np.sum(orig_pam, axis=1, dtype=np.int)
+    col_totals = np.sum(orig_pam, axis=0, dtype=np.int)
     
     row_weights = np.expand_dims(
         row_totals.astype(np.float) / row_totals.shape[0], 1)
@@ -83,18 +83,18 @@ def min_col_or_row_heuristic(orig_pam):
         col_totals.astype(np.float) / col_totals.shape[0], 0)
     return (np.random.uniform(
         low=0.0, high=1.0, size=orig_pam.shape) <= np.minimum(
-            row_weights, col_weights)).astype(np.int8)
+            row_weights, col_weights, dtype=np.single)).astype(np.int8)
 
 # .............................................................................
 def all_zeros_heuristic(orig_pam):
     """Creates a two-dimensional approximation composed of all zeros.
     """
-    return np.zeros(orig_pam.shape)
+    return np.zeros(orig_pam.shape, dtype=np.int8)
 
 def all_ones_heuristic(orig_pam):
     """Creates a two-dimensional approximation composed of all ones.
     """
-    return np.ones(orig_pam.shape)
+    return np.ones(orig_pam.shape, dtype=np.int8)
 
 
 # .............................................................................
@@ -114,7 +114,8 @@ def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic
     # Step 0. Initialize
     # ..................
     mtx_data = mtx
-    mtx_headers = mtx.get_headers()
+    #mtx_headers = mtx.get_headers()
+    mtx_headers = {}
 
     # Get marginal totals
     row_totals = np.sum(mtx_data, axis=1)
@@ -132,7 +133,7 @@ def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic
     #rand_mtx_data = (np.random.uniform(
     #    low=0.0, high=1.0, size=mtx_data.shape) <= weights).astype(np.int)
     # Get approximation
-    rand_mtx_data = approximation_heuristic(mtx).astype(np.uint8)
+    rand_mtx_data = approximation_heuristic(mtx)
 
     # Step 3: Fix broken marginals
     # ...........................

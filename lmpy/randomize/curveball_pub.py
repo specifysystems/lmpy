@@ -7,7 +7,6 @@ import numpy as np
 
 from lmpy.matrix import Matrix
 
-
 def find_presences(input_matrix):
     num_rows, num_cols = input_matrix.shape
     hp = []

@@ -14,30 +14,39 @@ from lmpy.randomize.grady import (
 from lmpy.randomize.swap import swap_randomize, trial_swap
 
 DEADLINE_TIME = 600
-FILLS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+#FILLS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+FILLS = [0.9]
 ITERATIONS = 10
-SIZES = [(10, 10), (100, 100), (1000, 1000), (10000, 10000), (100000, 10000)]
+#SIZES = [(10, 10), (100, 100), (1000, 1000), (10000, 10000), (100000, 10000)]
+SIZES = [(100000, 10000)]
 
 METHODS = [
     ('grady_all_ones', lambda x: grady_randomize(
         x, approximation_heuristic=all_ones_heuristic)),
-    ('grady_all_zeros', lambda x: grady_randomize(
-        x, approximation_heuristic=all_zeros_heuristic)),
-    ('grady_fill_shuffle', lambda x: grady_randomize(
-        x, approximation_heuristic=fill_shuffle_reshape_heuristic)),
-    ('grady_max_col_row', lambda x: grady_randomize(
-        x, approximation_heuristic=max_col_or_row_heuristic)),
-    ('grady_min_col_row', lambda x: grady_randomize(
-        x, approximation_heuristic=min_col_or_row_heuristic)),
-    ('grady_total_fill', lambda x: grady_randomize(
-        x, approximation_heuristic=total_fill_percentage_heuristic)),
+    
+    # Still need
+    #('grady_all_zeros', lambda x: grady_randomize(
+    #    x, approximation_heuristic=all_zeros_heuristic)),
+    
+    #('grady_fill_shuffle', lambda x: grady_randomize(
+    #    x, approximation_heuristic=fill_shuffle_reshape_heuristic)),
+    #('grady_max_col_row', lambda x: grady_randomize(
+    #    x, approximation_heuristic=max_col_or_row_heuristic)),
+    #('grady_min_col_row', lambda x: grady_randomize(
+    #    x, approximation_heuristic=min_col_or_row_heuristic)),
+    #('grady_total_fill', lambda x: grady_randomize(
+    #    x, approximation_heuristic=total_fill_percentage_heuristic)),
 
     #('swap_5000', lambda x: swap_randomize(x, 5000)),
     #('swap_30000', lambda x: swap_randomize(x, 30000)),
     #('swap_50000', lambda x: swap_randomize(x, 50000)),
     #('swap_fill', lambda x: swap_randomize(x, int(x.sum()))),
     #('swap_fill_2', lambda x: swap_randomize(x, int(x.sum() / 2.0))),
-    ('swap_fill_4', lambda x: swap_randomize(x, int(x.sum() / 4.0))),
+    
+    
+    #('swap_fill_4', lambda x: swap_randomize(x, int(x.sum() / 4.0))),
+    
+    
     #('swap_size', lambda x: swap_randomize(x, int(x.size))),
     #('swap_size_2', lambda x: swap_randomize(x, int(x.size / 2.0))),
     #('swap_size_4', lambda x: swap_randomize(x, int(x.size / 4.0))),
@@ -51,9 +60,12 @@ METHODS = [
     #('trial_swap_size', lambda x: trial_swap(x, num_trials=int(x.size))),
     #('trial_swap_size_2', lambda x: trial_swap(x, num_trials=int(x.size / 2.0))),
     #('trial_swap_size_4', lambda x: trial_swap(x, num_trials=int(x.size / 4.0))),
-    ('trial_2size/fill', lambda x: trial_swap(x, num_trials=int(2 * x.size / (x.sum() / x.size)))),
+    
+    
+    #('trial_2size/fill', lambda x: trial_swap(x, num_trials=int(2 * x.size / (x.sum() / x.size)))),
 
-    ('curveball', lambda x: curve_ball(x, find_presences(x)))
+    # Need 90%
+    #('curveball', lambda x: curve_ball(x, find_presences(x)))
 ]
 
 # ............................................................................
@@ -68,6 +80,7 @@ if __name__ == '__main__':
                 times[f_name][fill] = []
         for fill in FILLS:
             print('  - fill {}'.format(fill))
+            #print(times)
             num_ones = int(fill * r * c)
             tmp = np.zeros((r * c), dtype=np.int)
             tmp[:num_ones] = 1
@@ -75,13 +88,17 @@ if __name__ == '__main__':
             pam = Matrix(tmp.reshape((r, c)))
             for func_name, func in METHODS:
                 for i in range(ITERATIONS):
-                    a_time = time.time()
-                    _ = func(deepcopy(pam))
-                    b_time = time.time()
-                    times[func_name][fill].append(b_time - a_time
+                    try:
+                        a_time = time.time()
+                        _ = func(deepcopy(pam))
+                        b_time = time.time()
+                    except Exception as e:
+                        pass
+                    #    print(e)
+                    times[func_name][fill].append(b_time - a_time)
         new_ms = []
         for f_name, fn in size_methods:
-            avg_times = [np.mean(times[f_name][fill]) for fill in FILLS]
+            avg_times = [round(np.mean(times[f_name][fill]), 7) for fill in FILLS]
             test_time = np.mean(avg_times)
             # Write out all results
             print('{}, avg: {}, times: {}'.format(f_name, test_time, avg_times))
