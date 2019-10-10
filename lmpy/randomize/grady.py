@@ -99,13 +99,14 @@ def all_ones_heuristic(orig_pam):
 
 # .............................................................................
 # TODO: Update to use new matrix objects
-def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic):
+def grady_randomize(mtx,
+                    approximation_heuristic=total_fill_percentage_heuristic):
     """Main function for creating a random matrix
 
     Args:
         mtx (Matrix): A Matrix object representation of a PAM
-        weights_fn (function): A function that takes row and column totals as
-            arguments and outputs a Matrix of weights.
+        approximation_heuristic (function): A function that generates an
+            approximation of a final randomized matrix.
 
     Returns:
         Matrix: A matrix of random presence absence values with the same
