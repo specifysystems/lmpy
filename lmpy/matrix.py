@@ -424,8 +424,9 @@ class Matrix(np.ndarray):
             new_data = new_data.take(args[i], axis=i)
             # Subset the headers
             tmp = []
-            for j in args[i]:
-                tmp.append(new_headers[str(i)][j])
+            if str(i) in new_headers.keys():
+                for j in args[i]:
+                    tmp.append(new_headers[str(i)][j])
             new_headers[str(i)] = tmp
         return Matrix(new_data, headers=new_headers)
 

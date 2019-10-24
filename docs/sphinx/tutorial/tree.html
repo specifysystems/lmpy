@@ -1,0 +1,274 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TreeWrapper Objects &#8212; Lifemapper lmpy 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="treewrapper-objects">
+<h1>TreeWrapper Objects<a class="headerlink" href="#treewrapper-objects" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>We have created a subclass of the <a class="reference external" href="https://dendropy.org">Dendropy</a> base Tree
+class that adds a few convenience functions that are useful to several
+Lifemapper analyses.  We found that the existing method for generating a
+distance matrix consumed far too much memory for very large trees that we often
+work with, therefore, we have provided an alternative method for generating
+those distance matrices that runs in slightly more time, but requires
+significantly less memory.  You can use all of the same functions available to
+the base Tree class as well as those described.</p>
+</div>
+<div class="section" id="creating-treewrapper-instances">
+<h2>Creating TreeWrapper Instances<a class="headerlink" href="#creating-treewrapper-instances" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="from-an-existing-dendropy-tree">
+<h3>From an existing Dendropy Tree<a class="headerlink" href="#from-an-existing-dendropy-tree" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.from_base_tree">TreeWrapper.from_base_tree</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">TreeWrapper</span><span class="o">.</span><span class="n">from_base_tree</span><span class="p">(</span><span class="n">dendropy_tree</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reading-a-file">
+<h3>Reading a file<a class="headerlink" href="#reading-a-file" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.from_filename">TreeWrapper.from_filename</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">TreeWrapper</span><span class="o">.</span><span class="n">from_filename</span><span class="p">(</span><span class="s1">&#39;my_tree_file.tre&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="annotations">
+<h2>Annotations<a class="headerlink" href="#annotations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="adding-node-labels">
+<h3>Adding node labels<a class="headerlink" href="#adding-node-labels" title="Permalink to this headline">¶</a></h3>
+<p>Adds labels to tree nodes the same way that R does</p>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.add_node_labels">TreeWrapper.add_node_labels</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span><span class="o">.</span><span class="n">add_node_labels</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="annotating-tips-and-nodes">
+<h3>Annotating tips and nodes<a class="headerlink" href="#annotating-tips-and-nodes" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.annotate_tree">TreeWrapper.annotate_tree</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ann_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span><span class="o">.</span><span class="n">annotate_tree</span><span class="p">(</span><span class="n">ann_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="annotating-tree-tips">
+<h3>Annotating tree tips<a class="headerlink" href="#annotating-tree-tips" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.annotate_tree_tips">TreeWrapper.annotate_tree_tips</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ann_pairs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Sp_1&#39;</span><span class="p">:</span> <span class="mi">1999</span><span class="p">,</span> <span class="s1">&#39;Sp_2&#39;</span><span class="p">:</span> <span class="mi">1973</span><span class="p">,</span> <span class="s1">&#39;Sp_3&#39;</span> <span class="p">:</span> <span class="mi">1934</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span><span class="o">.</span><span class="n">annotate_tree_tips</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">ann_pairs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="retrieving-annotations">
+<h3>Retrieving annotations<a class="headerlink" href="#retrieving-annotations" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.get_annotations">TreeWrapper.get_annotations</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">annotations</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_annotations</span><span class="p">(</span><span class="s1">&#39;my_attribute&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="retrieving-tip-labels">
+<h3>Retrieving tip labels<a class="headerlink" href="#retrieving-tip-labels" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.get_labels">TreeWrapper.get_labels</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">labels</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="getting-matrices">
+<h2>Getting matrices<a class="headerlink" href="#getting-matrices" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="get-distance-matrix">
+<h3>Get distance matrix<a class="headerlink" href="#get-distance-matrix" title="Permalink to this headline">¶</a></h3>
+<p>Get a matrix of phylogenetic distances from each tip to all other tips.  This
+version has a smaller memory footprint than the original Dendropy method at the
+trade-off of a slightly longer running time for large matrices.</p>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.get_distance_matrix">TreeWrapper.get_distance_matrix</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d_mtx</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_distance_matrix</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-distance-matrix-using-dendropy-method">
+<h3>Get distance matrix using Dendropy method<a class="headerlink" href="#get-distance-matrix-using-dendropy-method" title="Permalink to this headline">¶</a></h3>
+<p>Get a matrix of phylogenetic distances from each tip to all other tips.  This
+version uses the built-in function from Dendropy to generate the matrix and has
+a much larger memory footprint but runs slightly faster at large scales.</p>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.get_distance_matrix_dendropy">TreeWrapper.get_distance_matrix_dendropy</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d_mtx</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_distance_matrix_dendropy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-variance-covariance-matrix">
+<h3>Get variance covariance matrix<a class="headerlink" href="#get-variance-covariance-matrix" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.get_variance_covariance_matrix">TreeWrapper.get_variance_covariance_matrix</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">var_cov_mtx</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_variance_covariance_matrix</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="inspecting-the-tree">
+<h2>Inspecting the tree<a class="headerlink" href="#inspecting-the-tree" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="checking-for-branch-lengths">
+<h3>Checking for branch lengths<a class="headerlink" href="#checking-for-branch-lengths" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.has_branch_lengths">TreeWrapper.has_branch_lengths</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">bool</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">has_branch_lengths</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="checking-for-polytomies">
+<h3>Checking for polytomies<a class="headerlink" href="#checking-for-polytomies" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.has_polytomies">TreeWrapper.has_polytomies</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">bool</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">has_polytomies</span><span class="p">())</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="checking-if-a-tree-is-binary">
+<h3>Checking if a tree is binary<a class="headerlink" href="#checking-if-a-tree-is-binary" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.is_binary">TreeWrapper.is_binary</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">bool</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">is_binary</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="checking-if-a-tree-is-ultrametric">
+<h3>Checking if a tree is ultrametric<a class="headerlink" href="#checking-if-a-tree-is-ultrametric" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.is_ultrametric">TreeWrapper.is_ultrametric</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">bool</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">is_ultrametric</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="pruning-tree-tips-without-an-attribute">
+<h2>Pruning tree tips without an attribute<a class="headerlink" href="#pruning-tree-tips-without-an-attribute" title="Permalink to this headline">¶</a></h2>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.tree.TreeWrapper.prune_tips_without_attribute">TreeWrapper.prune_tips_without_attribute</a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span><span class="o">.</span><span class="n">prune_tips_without_attribute</span><span class="p">(</span><span class="n">search_attribute</span><span class="o">=</span><span class="s1">&#39;my_att&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">TreeWrapper Objects</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#creating-treewrapper-instances">Creating TreeWrapper Instances</a><ul>
+<li><a class="reference internal" href="#from-an-existing-dendropy-tree">From an existing Dendropy Tree</a></li>
+<li><a class="reference internal" href="#reading-a-file">Reading a file</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#annotations">Annotations</a><ul>
+<li><a class="reference internal" href="#adding-node-labels">Adding node labels</a></li>
+<li><a class="reference internal" href="#annotating-tips-and-nodes">Annotating tips and nodes</a></li>
+<li><a class="reference internal" href="#annotating-tree-tips">Annotating tree tips</a></li>
+<li><a class="reference internal" href="#retrieving-annotations">Retrieving annotations</a></li>
+<li><a class="reference internal" href="#retrieving-tip-labels">Retrieving tip labels</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-matrices">Getting matrices</a><ul>
+<li><a class="reference internal" href="#get-distance-matrix">Get distance matrix</a></li>
+<li><a class="reference internal" href="#get-distance-matrix-using-dendropy-method">Get distance matrix using Dendropy method</a></li>
+<li><a class="reference internal" href="#get-variance-covariance-matrix">Get variance covariance matrix</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#inspecting-the-tree">Inspecting the tree</a><ul>
+<li><a class="reference internal" href="#checking-for-branch-lengths">Checking for branch lengths</a></li>
+<li><a class="reference internal" href="#checking-for-polytomies">Checking for polytomies</a></li>
+<li><a class="reference internal" href="#checking-if-a-tree-is-binary">Checking if a tree is binary</a></li>
+<li><a class="reference internal" href="#checking-if-a-tree-is-ultrametric">Checking if a tree is ultrametric</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pruning-tree-tips-without-an-attribute">Pruning tree tips without an attribute</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial/tree.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Lifemapper Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,288 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>lmpy.randomize.curveball &#8212; Lifemapper lmpy 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../lmpy.html" accesskey="U">lmpy</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for lmpy.randomize.curveball</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing Curveball swap method</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randrange</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
+
+<span class="n">MAX_TRIES_WITHOUT_SWAP</span> <span class="o">=</span> <span class="mi">1000000</span>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="curveball_randomize"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.curveball.curveball_randomize">[docs]</a><span class="k">def</span> <span class="nf">curveball_randomize</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">num_swaps</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="n">MAX_TRIES_WITHOUT_SWAP</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Randomize a PAM matrix using the Gotelli swap method with curveball</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix (:obj: Matrix): A Lifemapper matrix object with binary elements</span>
+<span class="sd">        num_swaps (:obj: int): The number of swaps to perform</span>
+<span class="sd">        max_tries (:obj: int): The maximum number of attempts to swap before</span>
+<span class="sd">            failing</span>
+
+<span class="sd">    Todo:</span>
+<span class="sd">        Allow num_swaps to be specified as a percentage of the matrix fill</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mtx_headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>
+    <span class="n">swapped_mtx</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">num_tries</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">row_len</span><span class="p">,</span> <span class="n">col_len</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1">#  num_tries is a safety to kill the loop if nothing is ever found</span>
+    <span class="k">while</span> <span class="n">counter</span> <span class="o">&lt;</span> <span class="n">num_swaps</span> <span class="ow">and</span> <span class="n">num_tries</span> <span class="o">&lt;</span> <span class="n">max_tries</span><span class="p">:</span>
+        <span class="n">num_tries</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1">#row1, row2 = np.random.choice(row_len, 2, replace=False)</span>
+        <span class="n">row1</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="n">row2</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">row1</span> <span class="o">==</span> <span class="n">row2</span><span class="p">:</span>
+            <span class="n">row2</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="c1"># Curveball approach for determining possible columns</span>
+        <span class="c1">#    Find columns where present in one row and absent in the other</span>
+        <span class="n">row_1_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">row_2_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># If there are two choices</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_1_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_2_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Pick two columns from the list of options and swap</span>
+            <span class="n">col1</span> <span class="o">=</span> <span class="n">row_1_cols</span><span class="p">[</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_1_cols</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+            <span class="n">col2</span> <span class="o">=</span> <span class="n">row_2_cols</span><span class="p">[</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_2_cols</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+            <span class="c1">#col1 = randrange(0, cols.shape[0])</span>
+            <span class="c1">#col2 = randrange(0, cols.shape[0])</span>
+            <span class="c1">#while col1 == col2:</span>
+            <span class="c1">#    col2 = randrange(0, cols.shape[0])</span>
+            <span class="c1">#col1, col2 = np.random.choice(cols, 2, replace=False)</span>
+            <span class="c1"># Swap them.  We know row 1 col 1 is 1 and row 2 col 2 is 1, so set</span>
+            <span class="c1">#    those to zero and r1, c2 and r2, c1 to 1</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">col1</span><span class="p">]</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">col1</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">v</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">col2</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">col1</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">col2</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">v</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">num_tries</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">num_tries</span> <span class="o">&gt;=</span> <span class="n">max_tries</span><span class="p">:</span>  <span class="c1"># pragma: nocover</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s1">&#39;Reached maximum number of tries without finding suitable swap&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx_headers</span><span class="p">)</span></div>
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="curveball_two"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.curveball.curveball_two">[docs]</a><span class="k">def</span> <span class="nf">curveball_two</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">num_swaps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="n">MAX_TRIES_WITHOUT_SWAP</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Randomize a PAM matrix using the Gotelli swap method with curveball</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix (:obj: Matrix): A Lifemapper matrix object with binary elements</span>
+<span class="sd">        num_swaps (:obj: int): The number of swaps to perform</span>
+<span class="sd">        max_tries (:obj: int): The maximum number of attempts to swap before</span>
+<span class="sd">            failing</span>
+
+<span class="sd">    Todo:</span>
+<span class="sd">        Allow num_swaps to be specified as a percentage of the matrix fill</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mtx_headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>
+    
+    <span class="c1">#swapped_mtx = matrix.copy().astype(int)</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">num_tries</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">row_len</span><span class="p">,</span> <span class="n">col_len</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">num_swaps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">num_swaps</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">size</span>
+    
+    <span class="c1"># Build list of lists</span>
+    <span class="n">decks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row_len</span><span class="p">):</span>
+        <span class="c1"># TODO: Make this isclose probably</span>
+        <span class="n">decks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+    
+
+    <span class="c1">#  num_tries is a safety to kill the loop if nothing is ever found</span>
+    <span class="k">while</span> <span class="n">counter</span> <span class="o">&lt;</span> <span class="n">num_swaps</span> <span class="ow">and</span> <span class="n">num_tries</span> <span class="o">&lt;</span> <span class="n">max_tries</span><span class="p">:</span>
+        <span class="n">num_tries</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1">#row1, row2 = np.random.choice(row_len, 2, replace=False)</span>
+        <span class="n">row1</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="n">row2</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">row1</span> <span class="o">==</span> <span class="n">row2</span><span class="p">:</span>
+            <span class="n">row2</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="c1"># Curveball approach for determining possible columns</span>
+        <span class="c1">#    Find columns where present in one row and absent in the other</span>
+        <span class="n">row_1_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">decks</span><span class="p">[</span><span class="n">row1</span><span class="p">]</span> <span class="k">if</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">decks</span><span class="p">[</span><span class="n">row2</span><span class="p">]]</span>
+        <span class="n">row_2_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">decks</span><span class="p">[</span><span class="n">row2</span><span class="p">]</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">decks</span><span class="p">[</span><span class="n">row1</span><span class="p">]]</span>
+        
+        <span class="c1"># If there are two choices</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_1_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_2_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Pick two columns from the list of options and swap</span>
+            <span class="n">card_1</span> <span class="o">=</span> <span class="n">row_1_cols</span><span class="p">[</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_1_cols</span><span class="p">))]</span>
+            <span class="n">card_2</span> <span class="o">=</span> <span class="n">row_2_cols</span><span class="p">[</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_2_cols</span><span class="p">))]</span>
+            <span class="n">decks</span><span class="p">[</span><span class="n">row1</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">decks</span><span class="p">[</span><span class="n">row1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">card_1</span><span class="p">))</span>
+            <span class="n">decks</span><span class="p">[</span><span class="n">row2</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">decks</span><span class="p">[</span><span class="n">row2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">card_2</span><span class="p">))</span>
+            <span class="n">decks</span><span class="p">[</span><span class="n">row1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card_2</span><span class="p">)</span>
+            <span class="n">decks</span><span class="p">[</span><span class="n">row2</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card_1</span><span class="p">)</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">num_tries</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">num_tries</span> <span class="o">&gt;=</span> <span class="n">max_tries</span><span class="p">:</span>  <span class="c1"># pragma: nocover</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s1">&#39;Reached maximum number of tries without finding suitable swap&#39;</span><span class="p">)</span>
+    <span class="c1"># Rebuild matrix</span>
+    <span class="n">swapped_mtx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">row_len</span><span class="p">,</span> <span class="n">col_len</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row_len</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">decks</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx_headers</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="curveball_three"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.curveball.curveball_three">[docs]</a><span class="k">def</span> <span class="nf">curveball_three</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">num_swaps</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="n">MAX_TRIES_WITHOUT_SWAP</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Randomize a PAM matrix using the Gotelli swap method with curveball</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix (:obj: Matrix): A Lifemapper matrix object with binary elements</span>
+<span class="sd">        num_swaps (:obj: int): The number of swaps to perform</span>
+<span class="sd">        max_tries (:obj: int): The maximum number of attempts to swap before</span>
+<span class="sd">            failing</span>
+
+<span class="sd">    Todo:</span>
+<span class="sd">        Allow num_swaps to be specified as a percentage of the matrix fill</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mtx_headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>
+    <span class="n">swapped_mtx</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">num_tries</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">row_len</span><span class="p">,</span> <span class="n">col_len</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1">#  num_tries is a safety to kill the loop if nothing is ever found</span>
+    <span class="k">while</span> <span class="n">counter</span> <span class="o">&lt;</span> <span class="n">num_swaps</span> <span class="ow">and</span> <span class="n">num_tries</span> <span class="o">&lt;</span> <span class="n">max_tries</span><span class="p">:</span>
+        <span class="n">num_tries</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1">#row1, row2 = np.random.choice(row_len, 2, replace=False)</span>
+        <span class="n">row1</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="n">row2</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">row1</span> <span class="o">==</span> <span class="n">row2</span><span class="p">:</span>
+            <span class="n">row2</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
+        <span class="c1"># Curveball approach for determining possible columns</span>
+        <span class="c1">#    Find columns where present in one row and absent in the other</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">row_1_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tmp</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">row_2_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tmp</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1">#row_1_cols = np.intersect1d(</span>
+        <span class="c1">#    np.where(swapped_mtx[row1, :] == 1),</span>
+        <span class="c1">#    np.where(swapped_mtx[row2, :] == 0))</span>
+        <span class="c1">#row_2_cols = np.intersect1d(</span>
+        <span class="c1">#    np.where(swapped_mtx[row1, :] == 0),</span>
+        <span class="c1">#    np.where(swapped_mtx[row2, :] == 1))</span>
+        <span class="c1"># If there are two choices</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_1_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_2_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Pick two columns from the list of options and swap</span>
+            <span class="n">col1</span> <span class="o">=</span> <span class="n">row_1_cols</span><span class="p">[</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_1_cols</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+            <span class="n">col2</span> <span class="o">=</span> <span class="n">row_2_cols</span><span class="p">[</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_2_cols</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+            <span class="c1">#col1 = randrange(0, cols.shape[0])</span>
+            <span class="c1">#col2 = randrange(0, cols.shape[0])</span>
+            <span class="c1">#while col1 == col2:</span>
+            <span class="c1">#    col2 = randrange(0, cols.shape[0])</span>
+            <span class="c1">#col1, col2 = np.random.choice(cols, 2, replace=False)</span>
+            <span class="c1"># Swap them.  We know row 1 col 1 is 1 and row 2 col 2 is 1, so set</span>
+            <span class="c1">#    those to zero and r1, c2 and r2, c1 to 1</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">col1</span><span class="p">]</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">col1</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">v</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">col2</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">col1</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">col2</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">v</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">num_tries</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">num_tries</span> <span class="o">&gt;=</span> <span class="n">max_tries</span><span class="p">:</span>  <span class="c1"># pragma: nocover</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s1">&#39;Reached maximum number of tries without finding suitable swap&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx_headers</span><span class="p">)</span></div>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;curveball_randomize&#39;</span><span class="p">,</span> <span class="s1">&#39;curveball_two&#39;</span><span class="p">,</span> <span class="s1">&#39;curveball_three&#39;</span><span class="p">]</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../lmpy.html" >lmpy</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Lifemapper Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
+    </div>
+  </body>
+</html>
