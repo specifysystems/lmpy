@@ -7,7 +7,6 @@ populated matrix.
 
 Todo:
     * Eliminate "could not fix"
-    * Use dtype uint8 or smaller if possible
 """
 import numpy as np
 import time
@@ -16,6 +15,7 @@ from lmpy.matrix import Matrix
 
 # Number of times to look for a match when fixing problems
 SEARCH_THRESHOLD = 100000
+
 
 # .............................................................................
 def fill_shuffle_reshape_heuristic(orig_pam):
@@ -30,6 +30,7 @@ def fill_shuffle_reshape_heuristic(orig_pam):
     np.random.shuffle(approx)
     return approx.reshape(orig_pam.shape)
 
+
 # .............................................................................
 def total_fill_percentage_heuristic(orig_pam):
     """Create an approximation using the total fill percentage of the PAM.
@@ -40,8 +41,10 @@ def total_fill_percentage_heuristic(orig_pam):
     fill = np.sum(orig_pam)
     fill_percentage = 1.0 * fill / orig_pam.size
     approx = (np.random.uniform(
-        low=0.0, high=1.0, size=orig_pam.shape) <= fill_percentage).astype(np.int8)
+        low=0.0, high=1.0, size=orig_pam.shape
+        ) <= fill_percentage).astype(np.int8)
     return approx
+
 
 # .............................................................................
 def max_col_or_row_heuristic(orig_pam):
@@ -52,16 +55,14 @@ def max_col_or_row_heuristic(orig_pam):
     """
     row_totals = np.sum(orig_pam, axis=1)
     col_totals = np.sum(orig_pam, axis=0)
-    
+
     row_weights = row_totals.astype(np.float) / row_totals.shape[0]
     col_weights = col_totals.astype(np.float) / col_totals.shape[0]
-    
+
     row_weights = np.expand_dims(
         row_totals.astype(np.float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
         col_totals.astype(np.float) / col_totals.shape[0], 0)
-    #weights = np.maximum(row_weights, col_weights)
-    #return (np.random.uniform(low=0.0, high=1.0, size=orig_pam.shape) <= weights).astype(np.int8)
     return (np.random.uniform(
         low=0.0, high=1.0, size=orig_pam.shape) <= np.maximum(
             row_weights, col_weights)).astype(np.int8)
@@ -76,7 +77,7 @@ def min_col_or_row_heuristic(orig_pam):
     """
     row_totals = np.sum(orig_pam, axis=1, dtype=np.int)
     col_totals = np.sum(orig_pam, axis=0, dtype=np.int)
-    
+
     row_weights = np.expand_dims(
         row_totals.astype(np.float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
@@ -85,12 +86,15 @@ def min_col_or_row_heuristic(orig_pam):
         low=0.0, high=1.0, size=orig_pam.shape) <= np.minimum(
             row_weights, col_weights, dtype=np.single)).astype(np.int8)
 
+
 # .............................................................................
 def all_zeros_heuristic(orig_pam):
     """Creates a two-dimensional approximation composed of all zeros.
     """
     return np.zeros(orig_pam.shape, dtype=np.int8)
 
+
+# .............................................................................
 def all_ones_heuristic(orig_pam):
     """Creates a two-dimensional approximation composed of all ones.
     """
@@ -98,7 +102,6 @@ def all_ones_heuristic(orig_pam):
 
 
 # .............................................................................
-# TODO: Update to use new matrix objects
 def grady_randomize(mtx,
                     approximation_heuristic=total_fill_percentage_heuristic):
     """Main function for creating a random matrix
@@ -112,32 +115,19 @@ def grady_randomize(mtx,
         Matrix: A matrix of random presence absence values with the same
             marginal totals as the input matrix 'mtx'.
     """
-    # Step 0. Initialize
-    # ..................
-    mtx_data = mtx
-    #mtx_headers = mtx.get_headers()
-    mtx_headers = {}
-
-    # Get marginal totals
-    row_totals = np.sum(mtx_data, axis=1)
-    col_totals = np.sum(mtx_data, axis=0)
-    num_rows, num_cols = mtx_data.shape
-
-    # Step 1. Build weights matrix
-    #weights = weights_fn(row_totals, col_totals)
-
-    row_totals = row_totals.reshape((num_rows, 1))
-    col_totals = col_totals.reshape((1, num_cols))
-
-    # Step 2. Get Initial random matrix
+    # Step 0. Get marginal totals
     # ...........................
-    #rand_mtx_data = (np.random.uniform(
-    #    low=0.0, high=1.0, size=mtx_data.shape) <= weights).astype(np.int)
+    num_rows, num_cols = mtx.shape
+    row_totals = np.sum(mtx, axis=1).reshape((num_rows, 1))
+    col_totals = np.sum(mtx, axis=0).reshape((1, num_cols))
+
+    # Step 1. Get Initial random matrix
+    # ...........................
     # Get approximation
     rand_mtx_data = approximation_heuristic(mtx)
 
-    # Step 3: Fix broken marginals
-    # ...........................
+    # Step 2: Purge over-filled marginals
+    # ...................................
     # For each row / column with more ones than the marginal total, remove
     #    extra ones until within limit
     row_sums = np.sum(rand_mtx_data, axis=1).reshape((num_rows, 1))
@@ -154,7 +144,7 @@ def grady_randomize(mtx,
         rand_mtx_data[
             np.random.permutation(col_choices)[:change_count], j] = False
 
-    # Step 4: Fill
+    # Step 3: Fill
     # ...........................
     problem_rows = []
     problem_cols = []
@@ -190,7 +180,7 @@ def grady_randomize(mtx,
 
     problem_cols = unfilled_cols
 
-    # Step 5: Fix problems
+    # Step 4: Fix problems
     # ...........................
     j = 0
     while problem_rows:
@@ -216,7 +206,6 @@ def grady_randomize(mtx,
                 found = True
 
         if not found:  # pragma: no cover
-            #print(rand_mtx_data)
             raise Exception('Couldn\'t fix row, col ({}, {})'.format(r, c))
 
         r_sum = np.sum(rand_mtx_data[r, :])
@@ -229,8 +218,10 @@ def grady_randomize(mtx,
 
     row_sums = np.sum(rand_mtx_data, axis=1)
 
-    return Matrix(rand_mtx_data, headers=mtx_headers)
+    return Matrix(rand_mtx_data, headers=mtx.get_headers())
 
+
+# .............................................................................
 __all__ = [
     'all_ones_heuristic', 'all_zeros_heuristic',
     'fill_shuffle_reshape_heuristic', 'grady_randomize',

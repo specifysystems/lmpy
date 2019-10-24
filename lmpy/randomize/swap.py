@@ -53,6 +53,7 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
 
     return Matrix(swapped_mtx, headers=mtx_headers)
 
+
 # .............................................................................
 def trial_swap(matrix, num_trials=None):
     """Randomize a PAM matrix using the trial swap method
@@ -70,8 +71,7 @@ def trial_swap(matrix, num_trials=None):
     row_len, col_len = matrix.shape
     if num_trials is None:
         num_trials = matrix.size
-    #print('num trials: {}'.format(num_trials))
-        
+
     for _ in range(num_trials):
         column1 = randrange(0, col_len)
         column2 = randrange(0, col_len)
@@ -90,8 +90,8 @@ def trial_swap(matrix, num_trials=None):
                 swapped_mtx[row2][column2] = not(first_corner)
                 swapped_mtx[row1][column1] = not(first_corner)
                 num_success += 1
-    #print('num success: {}'.format(num_success))
 
     return Matrix(swapped_mtx, headers=mtx_headers)
 
+# .............................................................................
 __all__ = ['swap_randomize', 'trial_swap']

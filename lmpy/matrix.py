@@ -487,7 +487,7 @@ class Matrix(np.ndarray):
         """
         new_mtx = Matrix(self.view(np.ndarray).transpose(*axes))
         if len(axes) == 0:
-            dim_order = range(len(self.shape) -1, -1, -1)
+            dim_order = range(len(self.shape)-1, -1, -1)
         elif isinstance(axes[0], tuple):
             dim_order = list(axes[0])
         else:
@@ -503,7 +503,7 @@ class Matrix(np.ndarray):
                 print(e)
                 print(dir(self))
         return new_mtx
-        
+
     # ...........................
     def write_csv(self, flo, *slice_args):
         """Writes the Matrix object to a CSV file-like object.
