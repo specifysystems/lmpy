@@ -87,6 +87,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># .....................................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_absolute_values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;RunningStats instance</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            observed (numeric): The observed value to be used when computing an</span>
+<span class="sd">                F-statistic.  It can be a single value or an array-type.</span>
+<span class="sd">            compare_fn (:obj:method): A function used to compare pushed values</span>
+<span class="sd">                to the observed statistic value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compare_fn</span> <span class="o">=</span> <span class="n">compare_fn</span>
         <span class="k">if</span> <span class="n">observed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

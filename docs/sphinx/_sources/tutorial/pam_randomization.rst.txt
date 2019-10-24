@@ -19,14 +19,15 @@ Again, to generate these null models, the observed PAMs must be randomized.
 There are multiple ways to accomplish that task and so one must decide how to
 perform the randomizations.  This usually involves deciding on a set of
 properties to maintain when randomizing the data, which may include maintaining
-row and / or column totals.  For Lifemapper randomizations, we maintain row and
-column totals, meaning that for each site (row) the number of species present
-at that site does not change in the randomizations.  We also maintain the same
-number of sites present for each species (column).  These randomization
-properties limit the number of possible methods for generating our
-randomizations and the methods that do meet that criteria are often
-computationally complex.  Each of the methods that Lifemapper exposes is
-described below.
+row and / or column totals
+`(Gotelli 2000) <https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/0012-9658(2000)081%5B2606:NMAOSC%5D2.0.CO%3B2>`_.
+For Lifemapper randomizations, we maintain row and column totals, meaning that
+for each site (row) the number of species present at that site does not change
+in the randomizations.  We also maintain the same number of sites present for
+each species (column).  These randomization properties limit the number of
+possible methods for generating our randomizations and the methods that do meet
+that criteria are often computationally complex.  Each of the methods that
+Lifemapper exposes is described below.
 
 Randomization algorithms
 ========================
@@ -34,7 +35,8 @@ Swap
 ----
 The swap method, or Gotelli swap as it is sometimes called, looks for row and
 column combinations that have diagonal or anti-diagonal patterns of zeros and
-ones like:
+ones like
+`(Gotelli & Ensminger 2001) <https://link.springer.com/article/10.1007/s004420100717>`_:
 
 ::
 
@@ -82,23 +84,23 @@ possible with any other software that we know of.  We have found in testing
 that other PAM randomization methods are far too slow to operate on these large
 PAMs, if they can even operate at all at these data scales.  In response to
 this issue, we have created our own algorithm for randomizing PAMs while
-maintaining row and column marginal totals.  Our algorithm utilizes a heuristic
-to create an approximation of a valid randomization which is then corrected so
-that the marginal totals are maintained.  This approach provides multiple
-benefits when creating randomizations.  First, the flexibility afforded by
-allowing the heuristic to generate an invalid result allows us to operate on
-each matrix cell independently, and therefore allows us to create heuristics
-that utilize parallelization, resulting in faster running times, a reduced
-memory footprint, and better utilization of modern compute resources.  Next,
-our algorithm is open source and easily pluggable, so new heuristics can be
-developed by the larger community and easily incorporated.  Third, the design
-of the algorithm does not require anything other than the marginal totals to be
-known about the observed matrix which eliminates bias that it may cause.  It
-should be noted that the reduced memory footprint of this algorithm,
-independence from the observed PAM, and utilization of parallel compute
-resources not only speed up individual runs of the algorithm but allow for
-multiple instances of the algorithm to run concurrently on a single machine,
-further reducing the time required to create a null model.
+maintaining row and column marginal totals (Grady in prep).  Our algorithm
+utilizes a heuristic to create an approximation of a valid randomization which
+is then corrected so that the marginal totals are maintained.  This approach
+provides multiple benefits when creating randomizations.  First, the
+flexibility afforded by allowing the heuristic to generate an invalid result
+allows us to operate on each matrix cell independently, and therefore allows us
+to create heuristics that utilize parallelization, resulting in faster running
+times, a reduced memory footprint, and better utilization of modern compute
+resources.  Next, our algorithm is open source and easily pluggable, so new
+heuristics can be developed by the larger community and easily incorporated.
+Third, the design of the algorithm does not require anything other than the
+marginal totals to be known about the observed matrix which eliminates bias
+that it may cause.  It should be noted that the reduced memory footprint of
+this algorithm, independence from the observed PAM, and utilization of parallel
+compute resources not only speed up individual runs of the algorithm but allow
+for multiple instances of the algorithm to run concurrently on a single
+machine, further reducing the time required to create a null model.
 
 The choice of heuristic approximation function can have a significant impact on
 our algorithm.  It is possible to create bias in the algorithm with a poorly
@@ -116,16 +118,17 @@ of time.
 
 Strona's Curveball Method
 -------------------------
-Another method of note is the "curve ball" method presented by Strona et al.
-(2014).  This method uses pair extractions to perform several swaps at once
-between a pair of rows or columns.  Python code for this method is available
-with the supplementary materials for their paper.  This method can be quite
-fast for small to medium sized PAMs but is generally an order of magnitude
-slower than the Grady Heuristic method.  The memory footprint of the curveball
-method is somewhat less sustainable as matrix sizes grow as well.  At this time
-we do not provide an implementation of this approach because we have just used
-the published implementation for testing and not our own version.  Please
-contact us if you wish to use this method and we would be happy to help you get
+Another method of note is the "curve ball" method presented by
+`Strona et al. (2014) <https://www.nature.com/articles/ncomms5114>`_.  This
+method uses pair extractions to perform several swaps at once between a pair of
+rows or columns.  Python code for this method is available with the
+supplementary materials for their paper.  This method can be quite fast for
+small to medium sized PAMs but is generally an order of magnitude slower than
+the Grady Heuristic method.  The memory footprint of the curveball method is
+somewhat less sustainable as matrix sizes grow as well.  At this time we do not
+provide an implementation of this approach because we have just used the
+published implementation for testing and not our own version.  Please contact
+us if you wish to use this method and we would be happy to help you get
 started.
 
 ----
@@ -159,4 +162,11 @@ Matrix objects for each index calculated.
     >>> print('Standard deviation: {}'.format(rs.standard_deviation))
     >>> print('P-value: {}'.format(rs.p_values))
 
+----
 
+References
+==========
+* Grady (in preparation). A parallel, heuristic-based fill method for creating presence-absence matrix randomizations.
+* `Gotelli, N. J. (2000). Null model analysis of species co‐occurrence patterns. Ecology, 81(9), 2606-2621. <https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/0012-9658(2000)081%5B2606:NMAOSC%5D2.0.CO%3B2>`_
+* `Gotelli, N. J., & Entsminger, G. L. (2001). Swap and fill algorithms in null model analysis: rethinking the knight's tour. Oecologia, 129(2), 281-291. <https://link.springer.com/article/10.1007/s004420100717>`_
+* `Strona, G., Nappo, D., Boccacci, F., Fattorini, S., & San-Miguel-Ayanz, J. (2014). A fast and unbiased procedure to randomize ecological binary matrices with fixed row and column totals. Nature communications, 5, 4114. <https://www.nature.com/articles/ncomms5114>`_

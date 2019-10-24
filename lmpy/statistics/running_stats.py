@@ -39,6 +39,14 @@ class RunningStats(object):
     """
     # .....................................
     def __init__(self, observed=None, compare_fn=compare_absolute_values):
+        """RunningStats instance
+
+        Args:
+            observed (numeric): The observed value to be used when computing an
+                F-statistic.  It can be a single value or an array-type.
+            compare_fn (:obj:method): A function used to compare pushed values
+                to the observed statistic value.
+        """
         self.count = 0.0
         self.compare_fn = compare_fn
         if observed is not None:

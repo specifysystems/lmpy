@@ -23,8 +23,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="lmpy" href="../source/modules.html" />
-    <link rel="prev" title="TreeWrapper Objects" href="tree.html" /> 
+    <link rel="next" title="Running Statistics" href="running_stats.html" />
+    <link rel="prev" title="Matrix Objects" href="matrix.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -37,12 +37,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../source/modules.html" title="lmpy"
+          <a href="running_stats.html" title="Running Statistics"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="tree.html" title="TreeWrapper Objects"
+          <a href="matrix.html" title="Matrix Objects"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" accesskey="U">Tutorials</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -69,14 +70,15 @@ from the observed data can be evaluated against this distribution.</p>
 There are multiple ways to accomplish that task and so one must decide how to
 perform the randomizations.  This usually involves deciding on a set of
 properties to maintain when randomizing the data, which may include maintaining
-row and / or column totals.  For Lifemapper randomizations, we maintain row and
-column totals, meaning that for each site (row) the number of species present
-at that site does not change in the randomizations.  We also maintain the same
-number of sites present for each species (column).  These randomization
-properties limit the number of possible methods for generating our
-randomizations and the methods that do meet that criteria are often
-computationally complex.  Each of the methods that Lifemapper exposes is
-described below.</p>
+row and / or column totals
+<a class="reference external" href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/0012-9658(2000)081%5B2606:NMAOSC%5D2.0.CO%3B2">(Gotelli 2000)</a>.
+For Lifemapper randomizations, we maintain row and column totals, meaning that
+for each site (row) the number of species present at that site does not change
+in the randomizations.  We also maintain the same number of sites present for
+each species (column).  These randomization properties limit the number of
+possible methods for generating our randomizations and the methods that do meet
+that criteria are often computationally complex.  Each of the methods that
+Lifemapper exposes is described below.</p>
 </div>
 <div class="section" id="randomization-algorithms">
 <h2>Randomization algorithms<a class="headerlink" href="#randomization-algorithms" title="Permalink to this headline">¶</a></h2>
@@ -84,7 +86,8 @@ described below.</p>
 <h3>Swap<a class="headerlink" href="#swap" title="Permalink to this headline">¶</a></h3>
 <p>The swap method, or Gotelli swap as it is sometimes called, looks for row and
 column combinations that have diagonal or anti-diagonal patterns of zeros and
-ones like:</p>
+ones like
+<a class="reference external" href="https://link.springer.com/article/10.1007/s004420100717">(Gotelli &amp; Ensminger 2001)</a>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>   <span class="ow">or</span>   <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
 <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>        <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
 </pre></div>
@@ -128,23 +131,23 @@ possible with any other software that we know of.  We have found in testing
 that other PAM randomization methods are far too slow to operate on these large
 PAMs, if they can even operate at all at these data scales.  In response to
 this issue, we have created our own algorithm for randomizing PAMs while
-maintaining row and column marginal totals.  Our algorithm utilizes a heuristic
-to create an approximation of a valid randomization which is then corrected so
-that the marginal totals are maintained.  This approach provides multiple
-benefits when creating randomizations.  First, the flexibility afforded by
-allowing the heuristic to generate an invalid result allows us to operate on
-each matrix cell independently, and therefore allows us to create heuristics
-that utilize parallelization, resulting in faster running times, a reduced
-memory footprint, and better utilization of modern compute resources.  Next,
-our algorithm is open source and easily pluggable, so new heuristics can be
-developed by the larger community and easily incorporated.  Third, the design
-of the algorithm does not require anything other than the marginal totals to be
-known about the observed matrix which eliminates bias that it may cause.  It
-should be noted that the reduced memory footprint of this algorithm,
-independence from the observed PAM, and utilization of parallel compute
-resources not only speed up individual runs of the algorithm but allow for
-multiple instances of the algorithm to run concurrently on a single machine,
-further reducing the time required to create a null model.</p>
+maintaining row and column marginal totals (Grady in prep).  Our algorithm
+utilizes a heuristic to create an approximation of a valid randomization which
+is then corrected so that the marginal totals are maintained.  This approach
+provides multiple benefits when creating randomizations.  First, the
+flexibility afforded by allowing the heuristic to generate an invalid result
+allows us to operate on each matrix cell independently, and therefore allows us
+to create heuristics that utilize parallelization, resulting in faster running
+times, a reduced memory footprint, and better utilization of modern compute
+resources.  Next, our algorithm is open source and easily pluggable, so new
+heuristics can be developed by the larger community and easily incorporated.
+Third, the design of the algorithm does not require anything other than the
+marginal totals to be known about the observed matrix which eliminates bias
+that it may cause.  It should be noted that the reduced memory footprint of
+this algorithm, independence from the observed PAM, and utilization of parallel
+compute resources not only speed up individual runs of the algorithm but allow
+for multiple instances of the algorithm to run concurrently on a single
+machine, further reducing the time required to create a null model.</p>
 <p>The choice of heuristic approximation function can have a significant impact on
 our algorithm.  It is possible to create bias in the algorithm with a poorly
 chosen heuristic.  For example, a heuristic that just returns the observed PAM
@@ -160,16 +163,17 @@ of time.</p>
 </div>
 <div class="section" id="strona-s-curveball-method">
 <h3>Strona’s Curveball Method<a class="headerlink" href="#strona-s-curveball-method" title="Permalink to this headline">¶</a></h3>
-<p>Another method of note is the “curve ball” method presented by Strona et al.
-(2014).  This method uses pair extractions to perform several swaps at once
-between a pair of rows or columns.  Python code for this method is available
-with the supplementary materials for their paper.  This method can be quite
-fast for small to medium sized PAMs but is generally an order of magnitude
-slower than the Grady Heuristic method.  The memory footprint of the curveball
-method is somewhat less sustainable as matrix sizes grow as well.  At this time
-we do not provide an implementation of this approach because we have just used
-the published implementation for testing and not our own version.  Please
-contact us if you wish to use this method and we would be happy to help you get
+<p>Another method of note is the “curve ball” method presented by
+<a class="reference external" href="https://www.nature.com/articles/ncomms5114">Strona et al. (2014)</a>.  This
+method uses pair extractions to perform several swaps at once between a pair of
+rows or columns.  Python code for this method is available with the
+supplementary materials for their paper.  This method can be quite fast for
+small to medium sized PAMs but is generally an order of magnitude slower than
+the Grady Heuristic method.  The memory footprint of the curveball method is
+somewhat less sustainable as matrix sizes grow as well.  At this time we do not
+provide an implementation of this approach because we have just used the
+published implementation for testing and not our own version.  Please contact
+us if you wish to use this method and we would be happy to help you get
 started.</p>
 </div>
 </div>
@@ -202,6 +206,16 @@ Matrix objects for each index calculated.</p>
 </pre></div>
 </div>
 </div>
+<hr class="docutils" />
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Grady (in preparation). A parallel, heuristic-based fill method for creating presence-absence matrix randomizations.</li>
+<li><a class="reference external" href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/0012-9658(2000)081%5B2606:NMAOSC%5D2.0.CO%3B2">Gotelli, N. J. (2000). Null model analysis of species co‐occurrence patterns. Ecology, 81(9), 2606-2621.</a></li>
+<li><a class="reference external" href="https://link.springer.com/article/10.1007/s004420100717">Gotelli, N. J., &amp; Entsminger, G. L. (2001). Swap and fill algorithms in null model analysis: rethinking the knight’s tour. Oecologia, 129(2), 281-291.</a></li>
+<li><a class="reference external" href="https://www.nature.com/articles/ncomms5114">Strona, G., Nappo, D., Boccacci, F., Fattorini, S., &amp; San-Miguel-Ayanz, J. (2014). A fast and unbiased procedure to randomize ecological binary matrices with fixed row and column totals. Nature communications, 5, 4114.</a></li>
+</ul>
+</div>
 </div>
 
 
@@ -222,16 +236,17 @@ Matrix objects for each index calculated.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#generating-a-null-model">Generating a null model</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="tree.html"
-                        title="previous chapter">TreeWrapper Objects</a></p>
+  <p class="topless"><a href="matrix.html"
+                        title="previous chapter">Matrix Objects</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../source/modules.html"
-                        title="next chapter">lmpy</a></p>
+  <p class="topless"><a href="running_stats.html"
+                        title="next chapter">Running Statistics</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -263,12 +278,13 @@ Matrix objects for each index calculated.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../source/modules.html" title="lmpy"
+          <a href="running_stats.html" title="Running Statistics"
              >next</a> |</li>
         <li class="right" >
-          <a href="tree.html" title="TreeWrapper Objects"
+          <a href="matrix.html" title="Matrix Objects"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" >Tutorials</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

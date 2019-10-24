@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>&lt;no title&gt; &#8212; Lifemapper lmpy 1.0.0 documentation</title>
+    <title>Running Statistics &#8212; Lifemapper lmpy 1.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -22,7 +22,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="lmpy" href="../source/modules.html" />
+    <link rel="prev" title="PAM Randomization and Null Models" href="pam_randomization.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -34,6 +36,12 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../source/modules.html" title="lmpy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pam_randomization.html" title="PAM Randomization and Null Models"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -43,13 +51,66 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  
+  <div class="section" id="running-statistics">
+<h1>Running Statistics<a class="headerlink" href="#running-statistics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The running_stats module allows you to keep a running track of calculated
+statistics as they are produced rather than summarize, potentially many,
+computations after all indices have been generated.  This is especially useful
+when you want to compute site- or species-based statistics for large PAMs when
+creating a null model.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="instantiation">
+<h2>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this headline">¶</a></h2>
+<p>When tracking running statistics, you should first decide if you wish to
+compute P-values from an F-statistic.  If so, you will need to provide observed
+values when you instantiate the class.  Additionally, you will need to decide
+if you want to perform one- or two-tailed tests and provide the appropriate
+comparison function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span> <span class="o">=</span> <span class="n">RunningStats</span><span class="p">(</span><span class="n">observed</span><span class="o">=</span><span class="n">my_observed_statistic</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_absolute_values</span><span class="p">)</span> <span class="c1"># One tailed</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tracking-statistics">
+<h2>Tracking statistics<a class="headerlink" href="#tracking-statistics" title="Permalink to this headline">¶</a></h2>
+<p>Once you have an instance, simply “push” new values from random data as they
+are generated.  When you have generated all the values, or if you want current
+statistics, retrieve them from the available properties.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span> <span class="o">=</span> <span class="n">RunningStats</span><span class="p">(</span><span class="n">observed</span><span class="o">=</span><span class="n">my_observed_statistic</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_absolute_values</span><span class="p">)</span> <span class="c1"># One tailed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">rs</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">my_statistic</span><span class="p">(</span><span class="n">randomize</span><span class="p">(</span><span class="n">observed_data</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rs</span><span class="o">.</span><span class="n">mean</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Standard deviation: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rs</span><span class="o">.</span><span class="n">standard_deviation</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rs</span><span class="o">.</span><span class="n">p_values</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running Statistics</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#instantiation">Instantiation</a></li>
+<li><a class="reference internal" href="#tracking-statistics">Tracking statistics</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pam_randomization.html"
+                        title="previous chapter">PAM Randomization and Null Models</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../source/modules.html"
+                        title="next chapter">lmpy</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -80,6 +141,12 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../source/modules.html" title="lmpy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pam_randomization.html" title="PAM Randomization and Null Models"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
