@@ -24,7 +24,9 @@ models.
    
    tutorial/matrix
    tutorial/tree
-   modules
+   tutorial/pam_randomization
+   
+   source/modules
 
 
 Indices and tables
