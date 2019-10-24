@@ -4,9 +4,6 @@ This module contains functions used to randomize a PAM using CJ's algorithm.
 This algorithm can run in a parallel fashion and uses a fill-based approach so
 as to prevent a bias caused by starting with an initial condition of a
 populated matrix.
-
-Todo:
-    * Eliminate "could not fix"
 """
 import numpy as np
 import time
@@ -14,7 +11,7 @@ import time
 from lmpy.matrix import Matrix
 
 # Number of times to look for a match when fixing problems
-SEARCH_THRESHOLD = 100000
+SEARCH_THRESHOLD = 100
 
 
 # .............................................................................
@@ -124,7 +121,6 @@ def grady_randomize(mtx,
     # Step 1. Get Initial random matrix
     # ...........................
     # Get approximation
-    print(mtx)
     rand_mtx_data = approximation_heuristic(mtx)
 
     # Step 2: Purge over-filled marginals
@@ -207,7 +203,15 @@ def grady_randomize(mtx,
                 found = True
 
         if not found:  # pragma: no cover
-            raise Exception('Couldn\'t fix row, col ({}, {})'.format(r, c))
+            # Can't fix row easily so randomly move a one
+            prs = np.where(rand_mtx_data[:, c2] == 1)[0]
+            update_row = np.random.choice(prs)
+            rand_mtx_data[r, c2] = 1
+            rand_mtx_data[update_row, c2] = 0
+
+            # Should we add update row to problem rows or is it already there?
+            if update_row not in problem_rows:
+                problem_rows.append(update_row)
 
         r_sum = np.sum(rand_mtx_data[r, :])
         c_sum = np.sum(rand_mtx_data[:, c])
