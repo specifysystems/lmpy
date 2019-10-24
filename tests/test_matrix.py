@@ -389,6 +389,44 @@ class Test_Matrix(object):
         assert len(sliced_mtx.get_headers(axis=2)) == 1
 
     # .....................................
+    def test_T(self):
+        """Tests the T (transpose) property.
+        """
+        a, b = (4, 5)
+        c = 6
+
+        mtx = get_random_matrix(a, b)
+        assert mtx.shape == (a, b)
+        assert mtx.T.shape == (b, a)
+
+        mtx2 = get_random_matrix(c)
+        mtx2t = mtx2.T
+
+        assert np.all(mtx2 == mtx2t)
+
+    # .....................................
+    def test_transpose(self):
+        """Tests the transpose function of Matrix.
+        """
+        a, b, c = (4, 5, 6)
+
+        mtx = get_random_matrix(a, b)
+        assert mtx.shape == (a, b)
+        assert mtx.transpose().shape == (b, a)
+
+        mtx2 = get_random_matrix(a, b, c)
+        assert mtx2.shape == (a, b, c)
+        assert np.all(mtx2.transpose() == mtx2.view(np.ndarray).transpose())
+
+        assert np.all(
+            mtx2.transpose(
+                1, 2, 0) == mtx2.view(np.ndarray).transpose(1, 2, 0))
+
+        assert np.all(
+            mtx2.transpose(
+                (2, 1, 0)) == mtx2.view(np.ndarray).transpose(2, 1, 0))
+
+    # .....................................
     def test_write_csv_no_slice(self):
         """Test write_csv with no slicing.
         """

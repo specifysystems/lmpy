@@ -307,7 +307,7 @@ class Matrix(np.ndarray):
                     return self.headers[str(axis)]
                 else:
                     return None
-        except:
+        except:  # pragma: no cover
             return {}
 
     # ...........................
@@ -498,8 +498,9 @@ class Matrix(np.ndarray):
             old_dim = str(dim_order[i])
             try:
                 if old_dim in self.get_headers().keys():
-                    new_mtx.set_headers(self.get_headers(old_dim, axis=str(i)))
-            except Exception as e:
+                    new_mtx.set_headers(
+                        self.get_headers(axis=old_dim), axis=str(i))
+            except Exception as e:  # pragma: no cover
                 print(e)
                 print(dir(self))
         return new_mtx

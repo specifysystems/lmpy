@@ -124,6 +124,7 @@ def grady_randomize(mtx,
     # Step 1. Get Initial random matrix
     # ...........................
     # Get approximation
+    print(mtx)
     rand_mtx_data = approximation_heuristic(mtx)
 
     # Step 2: Purge over-filled marginals
