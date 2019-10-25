@@ -52,10 +52,6 @@
 <span class="sd">This algorithm can run in a parallel fashion and uses a fill-based approach so</span>
 <span class="sd">as to prevent a bias caused by starting with an initial condition of a</span>
 <span class="sd">populated matrix.</span>
-
-<span class="sd">Todo:</span>
-<span class="sd">    * Eliminate &quot;could not fix&quot;</span>
-<span class="sd">    * Use dtype uint8 or smaller if possible</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -63,7 +59,8 @@
 <span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
 
 <span class="c1"># Number of times to look for a match when fixing problems</span>
-<span class="n">SEARCH_THRESHOLD</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">SEARCH_THRESHOLD</span> <span class="o">=</span> <span class="mi">100</span>
+
 
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="fill_shuffle_reshape_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.fill_shuffle_reshape_heuristic">[docs]</a><span class="k">def</span> <span class="nf">fill_shuffle_reshape_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
@@ -78,6 +75,7 @@
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">approx</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
 
+
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="total_fill_percentage_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.total_fill_percentage_heuristic">[docs]</a><span class="k">def</span> <span class="nf">total_fill_percentage_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create an approximation using the total fill percentage of the PAM.</span>
@@ -88,8 +86,10 @@
     <span class="n">fill</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">)</span>
     <span class="n">fill_percentage</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">fill</span> <span class="o">/</span> <span class="n">orig_pam</span><span class="o">.</span><span class="n">size</span>
     <span class="n">approx</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
-        <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">fill_percentage</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+        <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">)</span> <span class="o">&lt;=</span> <span class="n">fill_percentage</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">approx</span></div>
+
 
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="max_col_or_row_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.max_col_or_row_heuristic">[docs]</a><span class="k">def</span> <span class="nf">max_col_or_row_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
@@ -100,16 +100,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">row_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">col_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    
+
     <span class="n">row_weights</span> <span class="o">=</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">col_weights</span> <span class="o">=</span> <span class="n">col_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">col_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    
+
     <span class="n">row_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
         <span class="n">row_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">col_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
         <span class="n">col_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">col_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="c1">#weights = np.maximum(row_weights, col_weights)</span>
-    <span class="c1">#return (np.random.uniform(low=0.0, high=1.0, size=orig_pam.shape) &lt;= weights).astype(np.int8)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
         <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
             <span class="n">row_weights</span><span class="p">,</span> <span class="n">col_weights</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span></div>
@@ -124,7 +122,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">row_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
     <span class="n">col_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
-    
+
     <span class="n">row_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
         <span class="n">row_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">col_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
@@ -133,12 +131,15 @@
         <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span>
             <span class="n">row_weights</span><span class="p">,</span> <span class="n">col_weights</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">single</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span></div>
 
+
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="all_zeros_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.all_zeros_heuristic">[docs]</a><span class="k">def</span> <span class="nf">all_zeros_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates a two-dimensional approximation composed of all zeros.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span></div>
 
+
+<span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="all_ones_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.all_ones_heuristic">[docs]</a><span class="k">def</span> <span class="nf">all_ones_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates a two-dimensional approximation composed of all ones.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -146,7 +147,6 @@
 
 
 <span class="c1"># .............................................................................</span>
-<span class="c1"># TODO: Update to use new matrix objects</span>
 <div class="viewcode-block" id="grady_randomize"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.grady_randomize">[docs]</a><span class="k">def</span> <span class="nf">grady_randomize</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span>
                     <span class="n">approximation_heuristic</span><span class="o">=</span><span class="n">total_fill_percentage_heuristic</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Main function for creating a random matrix</span>
@@ -160,32 +160,19 @@
 <span class="sd">        Matrix: A matrix of random presence absence values with the same</span>
 <span class="sd">            marginal totals as the input matrix &#39;mtx&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Step 0. Initialize</span>
-    <span class="c1"># ..................</span>
-    <span class="n">mtx_data</span> <span class="o">=</span> <span class="n">mtx</span>
-    <span class="c1">#mtx_headers = mtx.get_headers()</span>
-    <span class="n">mtx_headers</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="c1"># Get marginal totals</span>
-    <span class="n">row_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">col_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="n">mtx_data</span><span class="o">.</span><span class="n">shape</span>
-
-    <span class="c1"># Step 1. Build weights matrix</span>
-    <span class="c1">#weights = weights_fn(row_totals, col_totals)</span>
-
-    <span class="n">row_totals</span> <span class="o">=</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">col_totals</span> <span class="o">=</span> <span class="n">col_totals</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">))</span>
-
-    <span class="c1"># Step 2. Get Initial random matrix</span>
+    <span class="c1"># Step 0. Get marginal totals</span>
     <span class="c1"># ...........................</span>
-    <span class="c1">#rand_mtx_data = (np.random.uniform(</span>
-    <span class="c1">#    low=0.0, high=1.0, size=mtx_data.shape) &lt;= weights).astype(np.int)</span>
+    <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">row_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">col_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">))</span>
+
+    <span class="c1"># Step 1. Get Initial random matrix</span>
+    <span class="c1"># ...........................</span>
     <span class="c1"># Get approximation</span>
     <span class="n">rand_mtx_data</span> <span class="o">=</span> <span class="n">approximation_heuristic</span><span class="p">(</span><span class="n">mtx</span><span class="p">)</span>
 
-    <span class="c1"># Step 3: Fix broken marginals</span>
-    <span class="c1"># ...........................</span>
+    <span class="c1"># Step 2: Purge over-filled marginals</span>
+    <span class="c1"># ...................................</span>
     <span class="c1"># For each row / column with more ones than the marginal total, remove</span>
     <span class="c1">#    extra ones until within limit</span>
     <span class="n">row_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -202,7 +189,7 @@
         <span class="n">rand_mtx_data</span><span class="p">[</span>
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">col_choices</span><span class="p">)[:</span><span class="n">change_count</span><span class="p">],</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="c1"># Step 4: Fill</span>
+    <span class="c1"># Step 3: Fill</span>
     <span class="c1"># ...........................</span>
     <span class="n">problem_rows</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">problem_cols</span> <span class="o">=</span> <span class="p">[]</span>
@@ -238,7 +225,7 @@
 
     <span class="n">problem_cols</span> <span class="o">=</span> <span class="n">unfilled_cols</span>
 
-    <span class="c1"># Step 5: Fix problems</span>
+    <span class="c1"># Step 4: Fix problems</span>
     <span class="c1"># ...........................</span>
     <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">problem_rows</span><span class="p">:</span>
@@ -264,8 +251,15 @@
                 <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-            <span class="c1">#print(rand_mtx_data)</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Couldn</span><span class="se">\&#39;</span><span class="s1">t fix row, col (</span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+            <span class="c1"># Can&#39;t fix row easily so randomly move a one</span>
+            <span class="n">prs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[:,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">update_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">prs</span><span class="p">)</span>
+            <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">update_row</span><span class="p">,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Should we add update row to problem rows or is it already there?</span>
+            <span class="k">if</span> <span class="n">update_row</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">problem_rows</span><span class="p">:</span>
+                <span class="n">problem_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">update_row</span><span class="p">)</span>
 
         <span class="n">r_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">:])</span>
         <span class="n">c_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[:,</span> <span class="n">c</span><span class="p">])</span>
@@ -277,8 +271,10 @@
 
     <span class="n">row_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx_headers</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">())</span></div>
 
+
+<span class="c1"># .............................................................................</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;all_ones_heuristic&#39;</span><span class="p">,</span> <span class="s1">&#39;all_zeros_heuristic&#39;</span><span class="p">,</span>
     <span class="s1">&#39;fill_shuffle_reshape_heuristic&#39;</span><span class="p">,</span> <span class="s1">&#39;grady_randomize&#39;</span><span class="p">,</span>

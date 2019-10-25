@@ -101,6 +101,7 @@
 
     <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx_headers</span><span class="p">)</span></div>
 
+
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="trial_swap"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.swap.trial_swap">[docs]</a><span class="k">def</span> <span class="nf">trial_swap</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">num_trials</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Randomize a PAM matrix using the trial swap method</span>
@@ -118,8 +119,7 @@
     <span class="n">row_len</span><span class="p">,</span> <span class="n">col_len</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span>
     <span class="k">if</span> <span class="n">num_trials</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">num_trials</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">size</span>
-    <span class="c1">#print(&#39;num trials: {}&#39;.format(num_trials))</span>
-        
+
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_trials</span><span class="p">):</span>
         <span class="n">column1</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">col_len</span><span class="p">)</span>
         <span class="n">column2</span> <span class="o">=</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">col_len</span><span class="p">)</span>
@@ -138,10 +138,10 @@
                 <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column2</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span><span class="p">(</span><span class="n">first_corner</span><span class="p">)</span>
                 <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">column1</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span><span class="p">(</span><span class="n">first_corner</span><span class="p">)</span>
                 <span class="n">num_success</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="c1">#print(&#39;num success: {}&#39;.format(num_success))</span>
 
     <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx_headers</span><span class="p">)</span></div>
 
+<span class="c1"># .............................................................................</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;swap_randomize&#39;</span><span class="p">,</span> <span class="s1">&#39;trial_swap&#39;</span><span class="p">]</span>
 </pre></div>
 

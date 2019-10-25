@@ -27,3 +27,5 @@ Please use the following with citing our randomization algorithm:
 
 Tutorials and additional documentation can be found on
 [The lmpy GitHub pages](https://lifemapper.github.io/lmpy/).
+
+This work has been supported by NSF  Awards NSF BIO-1458422, OCI-1234983.
