@@ -23,7 +23,7 @@ class SampleDataFiles(object):
         * For test files, the format should be something like:
             "(in)valid_{name}.{extension}".
     """
-    # .....................................
+    # ...........................
     def get_trees(self, fmt, is_valid):
         """Gets an alignment file from the sample data.
 
@@ -40,7 +40,7 @@ class SampleDataFiles(object):
             self._get_glob_string(TREE_PATH, is_valid,
                                   self._get_format_extension(fmt)))
 
-    # .....................................
+    # ...........................
     def _get_format_extension(self, fmt):
         """Get the file extension for a format.
 
@@ -62,7 +62,7 @@ class SampleDataFiles(object):
         else:
             raise Exception('Cannot handle format: {}'.format(fmt))
 
-    # .....................................
+    # ...........................
     def _get_glob_string(self, search_dir, is_valid, fmt_ext):
         """Get a glob string for returning files.
 

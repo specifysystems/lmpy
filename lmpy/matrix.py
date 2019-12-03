@@ -16,12 +16,13 @@ import json
 import zipfile
 
 import numpy as np
+from tempfile import NamedTemporaryFile
 
 
 HEADERS_KEY = 'headers'
 METADATA_KEY = 'metadata'
 VERSION_KEY = 'version'
-VERSION = '1.0.0'
+VERSION = '2.0.0'
 HEADERS_FILENAME = 'headers.json'
 DATA_FILENAME = 'data.npz'
 
