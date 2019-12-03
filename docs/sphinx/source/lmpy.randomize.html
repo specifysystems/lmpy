@@ -1,32 +1,24 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>lmpy.randomize package &#8212; Lifemapper lmpy 1.0.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>lmpy.randomize package &#8212; Lifemapper lmpy 1.0.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.0.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="lmpy.statistics package" href="lmpy.statistics.html" />
     <link rel="prev" title="lmpy package" href="lmpy.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -42,7 +34,7 @@
         <li class="right" >
           <a href="lmpy.html" title="lmpy package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >lmpy</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="lmpy.html" accesskey="U">lmpy package</a> &#187;</li> 
       </ul>
@@ -58,83 +50,11 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-lmpy.randomize.curveball">
-<span id="lmpy-randomize-curveball-module"></span><h2>lmpy.randomize.curveball module<a class="headerlink" href="#module-lmpy.randomize.curveball" title="Permalink to this headline">¶</a></h2>
-<p>Module containing Curveball swap method</p>
-<dl class="function">
-<dt id="lmpy.randomize.curveball.curveball_randomize">
-<code class="descclassname">lmpy.randomize.curveball.</code><code class="descname">curveball_randomize</code><span class="sig-paren">(</span><em>matrix</em>, <em>num_swaps</em>, <em>max_tries=1000000</em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.randomize.curveball.curveball_randomize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Randomize a PAM matrix using the Gotelli swap method with curveball</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>(</strong> (<em>max_tries</em>) – obj: Matrix): A Lifemapper matrix object with binary elements</li>
-<li><strong>(</strong> – obj: int): The number of swaps to perform</li>
-<li><strong>(</strong> – obj: int): The maximum number of attempts to swap before
-failing</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="lmpy.randomize.curveball.curveball_two">
-<code class="descclassname">lmpy.randomize.curveball.</code><code class="descname">curveball_two</code><span class="sig-paren">(</span><em>matrix</em>, <em>num_swaps=None</em>, <em>max_tries=1000000</em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.randomize.curveball.curveball_two" title="Permalink to this definition">¶</a></dt>
-<dd><p>Randomize a PAM matrix using the Gotelli swap method with curveball</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>(</strong> (<em>max_tries</em>) – obj: Matrix): A Lifemapper matrix object with binary elements</li>
-<li><strong>(</strong> – obj: int): The number of swaps to perform</li>
-<li><strong>(</strong> – obj: int): The maximum number of attempts to swap before
-failing</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="lmpy.randomize.curveball.curveball_three">
-<code class="descclassname">lmpy.randomize.curveball.</code><code class="descname">curveball_three</code><span class="sig-paren">(</span><em>matrix</em>, <em>num_swaps</em>, <em>max_tries=1000000</em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.randomize.curveball.curveball_three" title="Permalink to this definition">¶</a></dt>
-<dd><p>Randomize a PAM matrix using the Gotelli swap method with curveball</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>(</strong> (<em>max_tries</em>) – obj: Matrix): A Lifemapper matrix object with binary elements</li>
-<li><strong>(</strong> – obj: int): The number of swaps to perform</li>
-<li><strong>(</strong> – obj: int): The maximum number of attempts to swap before
-failing</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="lmpy-randomize-curveball-module">
+<h2>lmpy.randomize.curveball module<a class="headerlink" href="#lmpy-randomize-curveball-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-lmpy.randomize.curveball_pub">
-<span id="lmpy-randomize-curveball-pub-module"></span><h2>lmpy.randomize.curveball_pub module<a class="headerlink" href="#module-lmpy.randomize.curveball_pub" title="Permalink to this headline">¶</a></h2>
-<p>Module containing original curveball code</p>
-<dl class="function">
-<dt id="lmpy.randomize.curveball_pub.curve_ball">
-<code class="descclassname">lmpy.randomize.curveball_pub.</code><code class="descname">curve_ball</code><span class="sig-paren">(</span><em>input_matrix</em>, <em>r_hp</em>, <em>num_iterations=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.randomize.curveball_pub.curve_ball" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="lmpy.randomize.curveball_pub.find_presences">
-<code class="descclassname">lmpy.randomize.curveball_pub.</code><code class="descname">find_presences</code><span class="sig-paren">(</span><em>input_matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.randomize.curveball_pub.find_presences" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<div class="section" id="lmpy-randomize-curveball-pub-module">
+<h2>lmpy.randomize.curveball_pub module<a class="headerlink" href="#lmpy-randomize-curveball-pub-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-lmpy.randomize.grady">
 <span id="lmpy-randomize-grady-module"></span><h2>lmpy.randomize.grady module<a class="headerlink" href="#module-lmpy.randomize.grady" title="Permalink to this headline">¶</a></h2>
@@ -145,19 +65,19 @@ as to prevent a bias caused by starting with an initial condition of a
 populated matrix.</p>
 <dl class="function">
 <dt id="lmpy.randomize.grady.all_ones_heuristic">
-<code class="descclassname">lmpy.randomize.grady.</code><code class="descname">all_ones_heuristic</code><span class="sig-paren">(</span><em>orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#all_ones_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.all_ones_heuristic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.grady.</code><code class="sig-name descname">all_ones_heuristic</code><span class="sig-paren">(</span><em class="sig-param">orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#all_ones_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.all_ones_heuristic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a two-dimensional approximation composed of all ones.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="lmpy.randomize.grady.all_zeros_heuristic">
-<code class="descclassname">lmpy.randomize.grady.</code><code class="descname">all_zeros_heuristic</code><span class="sig-paren">(</span><em>orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#all_zeros_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.all_zeros_heuristic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.grady.</code><code class="sig-name descname">all_zeros_heuristic</code><span class="sig-paren">(</span><em class="sig-param">orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#all_zeros_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.all_zeros_heuristic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a two-dimensional approximation composed of all zeros.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="lmpy.randomize.grady.fill_shuffle_reshape_heuristic">
-<code class="descclassname">lmpy.randomize.grady.</code><code class="descname">fill_shuffle_reshape_heuristic</code><span class="sig-paren">(</span><em>orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#fill_shuffle_reshape_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.fill_shuffle_reshape_heuristic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.grady.</code><code class="sig-name descname">fill_shuffle_reshape_heuristic</code><span class="sig-paren">(</span><em class="sig-param">orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#fill_shuffle_reshape_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.fill_shuffle_reshape_heuristic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an approximation with the correct number of 1s randomly placed.</p>
 <p>Creates an array with the total number of ones from the original PAM and
 shuffles it then it reshapes it to match the shape of the original PAM.</p>
@@ -165,37 +85,32 @@ shuffles it then it reshapes it to match the shape of the original PAM.</p>
 
 <dl class="function">
 <dt id="lmpy.randomize.grady.grady_randomize">
-<code class="descclassname">lmpy.randomize.grady.</code><code class="descname">grady_randomize</code><span class="sig-paren">(</span><em>mtx</em>, <em>approximation_heuristic=&lt;function total_fill_percentage_heuristic&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#grady_randomize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.grady_randomize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.grady.</code><code class="sig-name descname">grady_randomize</code><span class="sig-paren">(</span><em class="sig-param">mtx</em>, <em class="sig-param">approximation_heuristic=&lt;function total_fill_percentage_heuristic&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#grady_randomize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.grady_randomize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main function for creating a random matrix</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>mtx</strong> (<a class="reference internal" href="lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A Matrix object representation of a PAM</li>
-<li><strong>approximation_heuristic</strong> (<em>function</em>) – A function that generates an
-approximation of a final randomized matrix.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mtx</strong> (<a class="reference internal" href="lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A Matrix object representation of a PAM</p></li>
+<li><p><strong>approximation_heuristic</strong> (<em>function</em>) – A function that generates an
+approximation of a final randomized matrix.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
-<dt>A matrix of random presence absence values with the same</dt>
-<dd><p class="first last">marginal totals as the input matrix ‘mtx’.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A matrix of random presence absence values with the same</dt><dd><p>marginal totals as the input matrix ‘mtx’.</p>
 </dd>
 </dl>
 </p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="lmpy.randomize.grady.max_col_or_row_heuristic">
-<code class="descclassname">lmpy.randomize.grady.</code><code class="descname">max_col_or_row_heuristic</code><span class="sig-paren">(</span><em>orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#max_col_or_row_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.max_col_or_row_heuristic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.grady.</code><code class="sig-name descname">max_col_or_row_heuristic</code><span class="sig-paren">(</span><em class="sig-param">orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#max_col_or_row_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.max_col_or_row_heuristic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Weighting method using max weight between row and column</p>
 <p>This method returns a matrix of weights where the weight of each cell is
 the maximum between the proportions of the row and col</p>
@@ -203,7 +118,7 @@ the maximum between the proportions of the row and col</p>
 
 <dl class="function">
 <dt id="lmpy.randomize.grady.min_col_or_row_heuristic">
-<code class="descclassname">lmpy.randomize.grady.</code><code class="descname">min_col_or_row_heuristic</code><span class="sig-paren">(</span><em>orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#min_col_or_row_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.min_col_or_row_heuristic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.grady.</code><code class="sig-name descname">min_col_or_row_heuristic</code><span class="sig-paren">(</span><em class="sig-param">orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#min_col_or_row_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.min_col_or_row_heuristic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Weighting method using max weight between row and column</p>
 <p>This method returns a matrix of weights where the weight of each cell is
 the maximum between the proportions of the row and col</p>
@@ -211,7 +126,7 @@ the maximum between the proportions of the row and col</p>
 
 <dl class="function">
 <dt id="lmpy.randomize.grady.total_fill_percentage_heuristic">
-<code class="descclassname">lmpy.randomize.grady.</code><code class="descname">total_fill_percentage_heuristic</code><span class="sig-paren">(</span><em>orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#total_fill_percentage_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.total_fill_percentage_heuristic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.grady.</code><code class="sig-name descname">total_fill_percentage_heuristic</code><span class="sig-paren">(</span><em class="sig-param">orig_pam</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/grady.html#total_fill_percentage_heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.grady.total_fill_percentage_heuristic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an approximation using the total fill percentage of the PAM.</p>
 <p>Creates an approximation using the total matrix fill of the original PAM
 as a weight threshold to compare with randomly generated numbers.</p>
@@ -223,46 +138,38 @@ as a weight threshold to compare with randomly generated numbers.</p>
 <p>Module containing Gotelli swap method for randomizing a PAM</p>
 <dl class="function">
 <dt id="lmpy.randomize.swap.swap_randomize">
-<code class="descclassname">lmpy.randomize.swap.</code><code class="descname">swap_randomize</code><span class="sig-paren">(</span><em>matrix</em>, <em>num_swaps</em>, <em>max_tries=1000000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/swap.html#swap_randomize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.swap.swap_randomize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.swap.</code><code class="sig-name descname">swap_randomize</code><span class="sig-paren">(</span><em class="sig-param">matrix</em>, <em class="sig-param">num_swaps</em>, <em class="sig-param">max_tries=1000000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/swap.html#swap_randomize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.swap.swap_randomize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomize a PAM matrix using the Gotelli swap method</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>(</strong> (<em>max_tries</em>) – obj: Matrix): A Lifemapper matrix object with binary elements</li>
-<li><strong>(</strong> – obj: int): The number of swaps to perform</li>
-<li><strong>(</strong> – obj: int): The maximum number of attempts to swap before
-failing</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong> (<em>max_tries</em>) – obj: Matrix): A Lifemapper matrix object with binary elements</p></li>
+<li><p><strong>(</strong> – obj: int): The number of swaps to perform</p></li>
+<li><p><strong>(</strong> – obj: int): The maximum number of attempts to swap before
+failing</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="lmpy.randomize.swap.trial_swap">
-<code class="descclassname">lmpy.randomize.swap.</code><code class="descname">trial_swap</code><span class="sig-paren">(</span><em>matrix</em>, <em>num_trials=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/swap.html#trial_swap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.swap.trial_swap" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">lmpy.randomize.swap.</code><code class="sig-name descname">trial_swap</code><span class="sig-paren">(</span><em class="sig-param">matrix</em>, <em class="sig-param">num_trials=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/randomize/swap.html#trial_swap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.randomize.swap.trial_swap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomize a PAM matrix using the trial swap method</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>(</strong> (<em>num_swaps</em>) – obj: Matrix): A Lifemapper matrix object with binary elements</li>
-<li><strong>(</strong> – obj: int): The number of swaps to perform</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong> (<em>num_swaps</em>) – obj: Matrix): A Lifemapper matrix object with binary elements</p></li>
+<li><p><strong>(</strong> – obj: int): The number of swaps to perform</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-lmpy.randomize"></span></div>
+<div class="section" id="module-lmpy.randomize">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lmpy.randomize" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -271,15 +178,15 @@ failing</li>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">lmpy.randomize package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-lmpy.randomize.curveball">lmpy.randomize.curveball module</a></li>
-<li><a class="reference internal" href="#module-lmpy.randomize.curveball_pub">lmpy.randomize.curveball_pub module</a></li>
+<li><a class="reference internal" href="#lmpy-randomize-curveball-module">lmpy.randomize.curveball module</a></li>
+<li><a class="reference internal" href="#lmpy-randomize-curveball-pub-module">lmpy.randomize.curveball_pub module</a></li>
 <li><a class="reference internal" href="#module-lmpy.randomize.grady">lmpy.randomize.grady module</a></li>
 <li><a class="reference internal" href="#module-lmpy.randomize.swap">lmpy.randomize.swap module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-lmpy.randomize">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -298,13 +205,13 @@ failing</li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -326,14 +233,14 @@ failing</li>
         <li class="right" >
           <a href="lmpy.html" title="lmpy package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >lmpy</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="lmpy.html" >lmpy package</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Lifemapper Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>
