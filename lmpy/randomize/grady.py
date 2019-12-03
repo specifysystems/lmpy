@@ -117,6 +117,8 @@ def grady_randomize(mtx,
     num_rows, num_cols = mtx.shape
     row_totals = np.sum(mtx, axis=1).reshape((num_rows, 1))
     col_totals = np.sum(mtx, axis=0).reshape((1, num_cols))
+    valid_rows = np.sum(mtx, axis=1) != 0
+    valid_cols = np.sum(mtx, axis=0) != 0
 
     # Step 1. Get Initial random matrix
     # ...........................
@@ -185,8 +187,8 @@ def grady_randomize(mtx,
         c = np.random.choice(problem_cols)
         i = 0
 
-        cs = np.where(rand_mtx_data[r] == 0)[0]
-        rs = np.where(rand_mtx_data[:, c] == 0)[0]
+        cs = np.where((rand_mtx_data[r] == 0) & (valid_cols))[0]
+        rs = np.where((rand_mtx_data[:, c] == 0) & (valid_rows))[0]
 
         num_tries = 0
         found = False
