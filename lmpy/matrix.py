@@ -142,7 +142,7 @@ class Matrix(np.ndarray):
                         row_headers.append(
                             [q.strip() for q in items[:num_header_cols]])
                     data.append([dtype(x) for x in items[num_header_cols:]])
-    
+
                 i += 1
 
         # Process header columns from header rows
