@@ -73,8 +73,6 @@ class Test_Matrix(object):
         mtx.write(filename)
         test_mtx = Matrix.load(filename)
         os.remove(filename)
-        
-        
 
     # .....................................
     def test_load_csv(self):
