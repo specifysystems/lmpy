@@ -235,27 +235,6 @@ class Test_Matrix(object):
         assert len(row_headers) == mtx.shape[0]
 
     # .....................................
-    #def test_save(self):
-    #    """Test the save method.
-
-    #    Save should save a Matrix object to a file that can be loaded later.
-    #    """
-    #    orig_mtx = get_random_matrix(5, 5)
-
-    #    # Create a file like object and save original matrix
-    #    with tempfile.TemporaryFile() as save_f:
-    #        # Save the original matrix
-    #        orig_mtx.save(save_f)
-
-    #        # Load the saved Matrix
-    #        save_f.seek(0)
-    #        loaded_mtx = Matrix.load_flo(save_f)
-
-    #    # Verify data and headers are the same
-    #    assert np.allclose(loaded_mtx, orig_mtx)
-    #    assert loaded_mtx.get_headers() == orig_mtx.get_headers()
-
-    # .....................................
     def test_set_column_headers(self):
         """Test set_column_headers.
         """
