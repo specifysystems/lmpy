@@ -103,11 +103,11 @@ class Matrix(np.ndarray):
             filename (str): File location of matrix to load.
         """
         with open(filename, 'rb') as in_file:
-            return Matrix.load_flo(in_file)
+            return Matrix._load_flo(in_file)
 
     # ...........................
     @classmethod
-    def load_csv(cls, flo, dtype=np.float, num_header_rows=0,
+    def load_csv(cls, filename, dtype=np.float, num_header_rows=0,
                  num_header_cols=0):
         """Attempts to load a Matrix object from a CSV file-like object.
 
@@ -128,21 +128,22 @@ class Matrix(np.ndarray):
         header_lines = []  # Leading rows that are headers
         data = []
         i = 0
-        for line in flo:
-            items = line.strip().split(',')
-            # If header row, add to header rows for processing
-            if i < num_header_rows:
-                # Add the headers to header lines for processing
-                header_lines.append(items[num_header_cols:])
-            else:
-                if num_header_cols == 1:
-                    row_headers.append(items[0].strip())
-                elif num_header_cols > 1:
-                    row_headers.append(
-                        [q.strip() for q in items[:num_header_cols]])
-                data.append([dtype(x) for x in items[num_header_cols:]])
-
-            i += 1
+        with open(filename, 'r') as flo:
+            for line in flo:
+                items = line.strip().split(',')
+                # If header row, add to header rows for processing
+                if i < num_header_rows:
+                    # Add the headers to header lines for processing
+                    header_lines.append(items[num_header_cols:])
+                else:
+                    if num_header_cols == 1:
+                        row_headers.append(items[0].strip())
+                    elif num_header_cols > 1:
+                        row_headers.append(
+                            [q.strip() for q in items[:num_header_cols]])
+                    data.append([dtype(x) for x in items[num_header_cols:]])
+    
+                i += 1
 
         # Process header columns from header rows
         if num_header_rows == 1:
@@ -160,7 +161,7 @@ class Matrix(np.ndarray):
 
     # ...........................
     @classmethod
-    def load_flo(cls, flo):
+    def _load_flo(cls, flo):
         """Attempts to load a Matrix object from a file.
 
         Args:
@@ -341,7 +342,7 @@ class Matrix(np.ndarray):
         return self.get_headers(axis=0)
 
     # ...........................
-    def save(self, flo):
+    def _save_flo(self, flo):
         """Saves the Matrix to a file-like object.
 
         Saves the Matrix object in a JSON / Numpy zip file to the file-like
@@ -525,10 +526,22 @@ class Matrix(np.ndarray):
             filename (str): The file location to save to.
         """
         with open(filename, 'wb') as out_file:
-            self.save(out_file)
+            self._save_flo(out_file)
 
     # ...........................
-    def write_csv(self, flo, *slice_args):
+    def write_csv(self, filename, *slice_args):
+        """Writes the Matrix object to a CSV file location.
+
+        Args:
+            filename (str): The file location to write the CSV data.
+            *slice_args: A variable length argument list of iterables to use
+                for a slice operation prior to generating CSV content.
+        """
+        with open(filename, 'w') as out_file:
+            self._write_csv_flo(out_file, *slice_args)
+
+    # ...........................
+    def _write_csv_flo(self, flo, *slice_args):
         """Writes the Matrix object to a CSV file-like object.
 
         Args:
