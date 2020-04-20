@@ -507,6 +507,16 @@ class Matrix(np.ndarray):
         return new_mtx
 
     # ...........................
+    def write(self, filename):
+        """Write the matrix to the specified file location.
+
+        Args:
+            filename (str): The file location to save to.
+        """
+        with open(filename, 'wb') as out_file:
+            self.save(out_file)
+
+    # ...........................
     def write_csv(self, flo, *slice_args):
         """Writes the Matrix object to a CSV file-like object.
 

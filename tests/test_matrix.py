@@ -4,6 +4,7 @@ Note:
     * These test functions are pytest style tests for the matrix.py module.
 """
 import io
+import os
 import random
 import tempfile
 
@@ -425,6 +426,16 @@ class Test_Matrix(object):
         assert np.all(
             mtx2.transpose(
                 (2, 1, 0)) == mtx2.view(np.ndarray).transpose(2, 1, 0))
+
+    # .....................................
+    def test_write(self):
+        """Test write."""
+        mtx = get_random_matrix(10, 10)
+        filename = tempfile.NamedTemporaryFile(delete=False).name
+        mtx.write(filename)
+        with open(filename, 'rb') as in_file:
+            test_mtx = Matrix.load_flo(in_file)
+        os.remove(filename)
 
     # .....................................
     def test_write_csv_no_slice(self):
