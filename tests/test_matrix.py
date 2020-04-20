@@ -67,6 +67,15 @@ class Test_Matrix(object):
         with pytest.raises(BadZipfile):
             mtx = Matrix.load_flo(io.BytesIO())
 
+        # Load from file name
+        mtx = get_random_matrix(10, 10)
+        filename = tempfile.NamedTemporaryFile(delete=False).name
+        mtx.write(filename)
+        test_mtx = Matrix.load(filename)
+        os.remove(filename)
+        
+        
+
     # .....................................
     def test_load_csv(self):
         """Test the load_csv method.
@@ -433,8 +442,7 @@ class Test_Matrix(object):
         mtx = get_random_matrix(10, 10)
         filename = tempfile.NamedTemporaryFile(delete=False).name
         mtx.write(filename)
-        with open(filename, 'rb') as in_file:
-            test_mtx = Matrix.load_flo(in_file)
+        test_mtx = Matrix.load(filename)
         os.remove(filename)
 
     # .....................................

@@ -96,6 +96,17 @@ class Matrix(np.ndarray):
 
     # ...........................
     @classmethod
+    def load(cls, filename):
+        """Load a matrix from a filename.
+
+        Args:
+            filename (str): File location of matrix to load.
+        """
+        with open(filename, 'rb') as in_file:
+            return Matrix.load_flo(in_file)
+
+    # ...........................
+    @classmethod
     def load_csv(cls, flo, dtype=np.float, num_header_rows=0,
                  num_header_cols=0):
         """Attempts to load a Matrix object from a CSV file-like object.
