@@ -12,7 +12,7 @@ before_install:
   - export CPLUS_INCLUDE_PATH=/usr/include/gdal
   - export C_INCLUDE_PATH=/usr/include/gdal
 install:
-  - pip install GDAL=`gdal-config --version`
+  - pip install GDAL==`gdal-config --version`
   - pip install -r requirements.txt
 script:
   - py.test tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
