@@ -45,7 +45,7 @@ class Test_occurrence_filters:
             Point('species A', -30, -60)
         ]
         test_bounding_box = (0.0, 0.0, 180.0, 90.0)
-        bbox_filter = get_bounding_box_filter(test_bounding_box)
+        bbox_filter = get_bounding_box_filter(*test_bounding_box)
         filtered_points, filter_count = self._filter_points(
             bbox_filter, test_points)
         assert len(filtered_points) == 3
