@@ -153,8 +153,8 @@ class Test_occurrence_filters:
         filtered_points, filter_count = self._filter_points(
             unique_localities_filter, test_points)
         # Removed points - CIK
-        assert len(filtered_points) == 14
-        assert filter_count == 11
+        assert len(filtered_points) == 11
+        assert filter_count == 3
 
         # Current points - ABDEFGHJLMN
         filtered_points, filter_count = self._filter_points(
