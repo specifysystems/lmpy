@@ -38,10 +38,10 @@ class Test_occurrence_filters:
     def test_get_bounding_box_filter(self):
         """Test the get_bounding_box_filter function."""
         test_points = [
-            Point('species A', 10, 40), # Should pass
+            Point('species A', 10, 40),  # Should pass
             Point('species A', -10, 30),
-            Point('species A', 30, 30), # Should pass
-            Point('species A', 50, 30), # Should pass
+            Point('species A', 30, 30),  # Should pass
+            Point('species A', 50, 30),  # Should pass
             Point('species A', -30, -60)
         ]
         test_bounding_box = (0.0, 0.0, 180.0, 90.0)
@@ -56,10 +56,10 @@ class Test_occurrence_filters:
         """Test the get_data_flag_filter function."""
         test_points = [
             Point('species A', 10, 40, ['bad']),
-            Point('species A', -10, 30, ['good']), # Should pass
+            Point('species A', -10, 30, ['good']),  # Should pass
             Point('species A', 30, 30, ['worse']),
             Point('species A', 50, 30, ['bad']),
-            Point('species A', -30, -60, ['good']) # Should pass
+            Point('species A', -30, -60, ['good'])  # Should pass
         ]
         data_flag_filter = get_data_flag_filter(['bad', 'worse'])
         filtered_points, filter_count = self._filter_points(
@@ -72,11 +72,11 @@ class Test_occurrence_filters:
         """Test the get_disjoint_geometries_filter function."""
         test_geometries = ['POLYGON ((0 0, 40 0, 40 40, 0 40, 0 0))']
         test_points = [
-            Point('species A', -10, 40), # Should pass
-            Point('species A', -10, 30), # Should pass
+            Point('species A', -10, 40),  # Should pass
+            Point('species A', -10, 30),  # Should pass
             Point('species A', 30, 30),
-            Point('species A', 50, 30), # Should pass
-            Point('species A', -30, -60) # Should pass
+            Point('species A', 50, 30),  # Should pass
+            Point('species A', -30, -60)  # Should pass
         ]
         disjoint_filter = get_disjoint_geometries_filter(test_geometries)
         filtered_points, filter_count = self._filter_points(
@@ -91,13 +91,13 @@ class Test_occurrence_filters:
         test_points = [
             Point('species A', -10, 40),
             Point('species A', -10, 30),
-            Point('species A', 30, 30), # Should pass
+            Point('species A', 30, 30),  # Should pass
             Point('species A', 50, 30),
             Point('species A', -30, -60)
         ]
         intersect_filter = get_intersect_geometries_filter(test_geometries)
         filtered_points, filter_count = self._filter_points(
-            intersectt_filter, test_points)
+            intersect_filter, test_points)
         assert len(filtered_points) == 1
         assert filter_count == 4
 
@@ -105,11 +105,11 @@ class Test_occurrence_filters:
     def test_get_unique_localities_filter(self):
         """Test the get_unique_localities_filter function."""
         test_points = [
-            Point('species A', -10, 40), # Should pass
-            Point('species A', -10, 30), # Should pass
-            Point('species A', 30, 30), # Should pass
-            Point('species A', 50, 30), # Should pass
-            Point('species A', -30, -60), # Should pass
+            Point('species A', -10, 40),  # Should pass
+            Point('species A', -10, 30),  # Should pass
+            Point('species A', 30, 30),  # Should pass
+            Point('species A', 50, 30),  # Should pass
+            Point('species A', -30, -60),  # Should pass
             Point('species A', -10, 40),
             Point('species A', -10, 30),
             Point('species A', 30, 30),
@@ -127,25 +127,25 @@ class Test_occurrence_filters:
         """Test multiple filters."""
         test_bbox = ()
         test_points = [
-            Point('species A', 113, 57, ['good']), # A
-            Point('species A', -49, -25, ['bad']), # B
-            Point('species A', -49, -25, ['bad']), # C
-            Point('species A', 168, -13, ['bad']), # D
-            Point('species A', 114, 82, ['good']), # E
-            Point('species A', -67, -63, ['worse']), # F
-            Point('species A', 138, 81, ['worse']), # G
-            Point('species A', 82, -88, ['good']), # H
-            Point('species A', 82, -88, ['good']), # I
-            Point('species A', -76, 55, ['good']), # J
-            Point('species A', -76, 55, ['good']), # K
-            Point('species A', -121, 82, ['good']), # L
-            Point('species A', 58, -89, ['good']), # M
-            Point('species A', 0, 0, ['good']) # N
+            Point('species A', 113, 57, ['good']),  # A
+            Point('species A', -49, -25, ['bad']),  # B
+            Point('species A', -49, -25, ['bad']),  # C
+            Point('species A', 168, -13, ['bad']),  # D
+            Point('species A', 114, 82, ['good']),  # E
+            Point('species A', -67, -63, ['worse']),  # F
+            Point('species A', 138, 81, ['worse']),  # G
+            Point('species A', 82, -88, ['good']),  # H
+            Point('species A', 82, -88, ['good']),  # I
+            Point('species A', -76, 55, ['good']),  # J
+            Point('species A', -76, 55, ['good']),  # K
+            Point('species A', -121, 82, ['good']),  # L
+            Point('species A', 58, -89, ['good']),  # M
+            Point('species A', 0, 0, ['good'])  # N
         ]
         unique_localities_filter = get_unique_localities_filter()
         data_flag_filter = get_data_flag_filter(['bad', 'worse'])
         bbox_filter = get_bounding_box_filter(-90, -90, 90, 90)
-        disjoint_filter = get_dijoint_geometries_filter(
+        disjoint_filter = get_disjoint_geometries_filter(
             ['POLYGON ((0 -10, 10 0, 0 10, -10 0, 0 -10))'])
         intersect_filter = get_intersect_geometries_filter(
             ['POLYGON ((-180 0, 0 0, 0 90, -180 90, -180 0))'])

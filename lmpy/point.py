@@ -3,6 +3,7 @@
 Note: A namedtuple could replace this class for Python 3.7+
 """
 
+
 # .............................................................................
 class Point:
     def __init__(self, species_name, x, y, flags=None):

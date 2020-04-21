@@ -1,9 +1,7 @@
 """Module containing various filtering functions."""
 import os
-try:
-    from osgeo import ogr
-except:
-    import ogr
+from osgeo import ogr
+
 
 # .............................................................................
 def get_bounding_box_filter(min_x, min_y, max_x, max_y):
@@ -68,6 +66,7 @@ def get_disjoint_geometries_filter(geometry_wkts):
     geometries = []
     for wkt in geometry_wkts:
         geometries.append(ogr.CreateGeometryFromWkt(wkt))
+
     # .......................
     def disjoint_geometry_filter(point):
         """Intersect geometry filter function."""
@@ -94,6 +93,7 @@ def get_intersect_geometries_filter(geometry_wkts):
     geometries = []
     for wkt in geometry_wkts:
         geometries.append(ogr.CreateGeometryFromWkt(wkt))
+
     # .......................
     def intersect_geometry_filter(point):
         """Intersect geometry filter function."""
@@ -114,6 +114,7 @@ def get_unique_localities_filter():
             output indicating if the point is valid according to this filter.
     """
     unique_values = []
+
     # .......................
     def unique_localities_filter(point):
         """Unique localities filter function."""
@@ -123,4 +124,3 @@ def get_unique_localities_filter():
         unique_values.append(test_val)
         return True
     return unique_localities_filter
-
