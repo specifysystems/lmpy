@@ -67,6 +67,12 @@ class Test_occurrence_filters:
         assert len(filtered_points) == 2
         assert filter_count == 3
 
+        data_flag_filter = get_data_flag_filter('bad')
+        filtered_points, filter_count = self._filter_points(
+            data_flag_filter, test_points)
+        assert len(filtered_points) == 3
+        assert filter_count == 2
+
     # .....................................
     def test_get_disjoint_geometries_filter(self):
         """Test the get_disjoint_geometries_filter function."""
