@@ -1,6 +1,9 @@
 """Module containing various filtering functions."""
 import os
-from osgeo import ogr
+try:
+    from osgeo import ogr
+except:
+    import ogr
 
 # .............................................................................
 def get_bounding_box_filter(min_x, min_y, max_x, max_y):
