@@ -58,7 +58,7 @@ class Test_occurrence_filters:
             Point('species A', 10, 40, ['bad']),
             Point('species A', -10, 30, ['good']),  # Should pass
             Point('species A', 30, 30, ['worse']),
-            Point('species A', 50, 30, ['bad']),
+            Point('species A', 50, 30, 'bad'),
             Point('species A', -30, -60, ['good'])  # Should pass
         ]
         data_flag_filter = get_data_flag_filter(['bad', 'worse'])
@@ -66,12 +66,6 @@ class Test_occurrence_filters:
             data_flag_filter, test_points)
         assert len(filtered_points) == 2
         assert filter_count == 3
-
-        data_flag_filter = get_data_flag_filter('bad')
-        filtered_points, filter_count = self._filter_points(
-            data_flag_filter, test_points)
-        assert len(filtered_points) == 3
-        assert filter_count == 2
 
     # .....................................
     def test_get_disjoint_geometries_filter(self):
