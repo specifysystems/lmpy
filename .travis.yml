@@ -11,7 +11,7 @@ before_install:
   - sudo apt-get install --yes libgdal-dev gdal-bin python-gdal
   - export CPLUS_INCLUDE_PATH=/usr/include/gdal
   - export C_INCLUDE_PATH=/usr/include/gdal
-pip install GDALinstall:
+install:
   - pip install GDAL=`gdal-config --version`
   - pip install -r requirements.txt
 script:
