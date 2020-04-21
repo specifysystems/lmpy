@@ -8,7 +8,9 @@ before_install:
   - sudo add-apt-repository --yes ppa:ubuntugis/ppa
   - sudo apt-get --quiet update
   - sudo apt-get install --yes libgdal-dev gdal-bin
-install:
+  - export CPLUS_INCLUDE_PATH=/usr/include/gdal
+  - export C_INCLUDE_PATH=/usr/include/gdal
+pip install GDALinstall:
   - pip install gdal==`gdal-config --version`
   - pip install -r requirements.txt
 script:
