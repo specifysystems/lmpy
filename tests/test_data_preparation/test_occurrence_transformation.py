@@ -7,7 +7,7 @@ from lmpy.data_preparation.occurrence_transformation import none_getter
 # .............................................................................
 def test_none_getter():
     """Tests that none_getter always returns None."""
-    getter = none_gettter()
+    getter = none_getter
     assert getter(0) is None
     assert getter('a') is None
     assert getter(None) is None

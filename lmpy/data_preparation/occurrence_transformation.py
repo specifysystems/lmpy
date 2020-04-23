@@ -6,6 +6,16 @@ from lmpy import Point
 
 
 # .............................................................................
+def none_getter(obj):
+    """Return None as a function.
+
+    Returns:
+        None - Always returns None.
+    """
+    return None
+
+
+# .............................................................................
 def _get_points_for_generator(rec_generator, species_name_getter, x_getter,
                               y_getter, flags_getter):
     """Get a list of Points from a specimen record generator.
@@ -80,18 +90,18 @@ def convert_delimited_to_point(filename, species_getter, x_getter, y_getter,
 
 
 # .............................................................................
-def convert_json_to_point(json_obj, point_iterator=iter, species_name_getter,
-                          x_getter, y_getter, flags_getter=none_getter):
+def convert_json_to_point(json_obj, species_name_getter, x_getter, y_getter,
+                          flags_getter=none_getter, point_iterator=iter,):
     """Get a list of Points from a JSON object.
 
     Args:
         json_obj (dict or list): A JSON object to get point records from.
-        point_iterator: An iterator function to pull records from the JSON
-            object.
         species_name_getter: A function for getting species name from a record.
         x_getter: A function for getting the 'x' value from a record.
         y_getter: A function for getting the 'y' value from a record.
         flags_getter: A function for getting the 'flags' value from a record.
+        point_iterator: An iterator function to pull records from the JSON
+            object.
 
     Returns:
         list of Point named tuples
@@ -100,13 +110,3 @@ def convert_json_to_point(json_obj, point_iterator=iter, species_name_getter,
         point_iterator(json_obj), species_name_getter, x_getter, y_getter,
         flags_getter)
     return points
-
-
-# .............................................................................
-def none_getter(obj):
-    """Return None as a function.
-
-    Returns:
-        None - Always returns None.
-    """
-    return None
