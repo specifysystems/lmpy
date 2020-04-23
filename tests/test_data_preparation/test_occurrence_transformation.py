@@ -1,7 +1,7 @@
 """Tests the occurrence_transformation module."""
 import pytest
 
-from data_preparation.occurrence_transformation import none_getter
+from lmpy.data_preparation.occurrence_transformation import none_getter
 
 
 # .............................................................................
