@@ -3,7 +3,7 @@
 import pytest
 
 from lmpy import Point
-from lmpy.data_cleaning.occurrence_filters import (
+from lmpy.data_preparation.occurrence_filters import (
     get_bounding_box_filter, get_data_flag_filter,
     get_disjoint_geometries_filter, get_intersect_geometries_filter,
     get_unique_localities_filter)
