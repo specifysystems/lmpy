@@ -35,9 +35,9 @@ def _get_points_for_generator(rec_generator, species_name_getter, x_getter,
         try:
             points.append(
                 Point(
-                    species_name_getter(pt_rec), x_getter(pt_rec),
-                    y_getter(pt_rec), flags_getter(pt_rec)))
-        except (IndexError, KeyError):
+                    species_name_getter(pt_rec), float(x_getter(pt_rec)),
+                    float(y_getter(pt_rec)), flags_getter(pt_rec)))
+        except (IndexError, KeyError):  # pragma: no cover
             print('Could not extract required fields from {}'.format(pt_rec))
     return points
 
@@ -73,25 +73,18 @@ def convert_delimited_to_point(filename, species_getter, x_getter, y_getter,
     if isinstance(y_getter, int):
         y_getter = itemgetter(y_getter)
 
-    if flags_getter:
-        if isinstance(flags_getter, int):
-            flags_getter = itemgetter(flags_getter)
-    else:
-        flag_getter = none_getter
-
     with open(filename) as in_file:
         if headers:
             _ = next(in_file)
         reader = csv.reader(in_file, delimiter=delimiter)
         points = _get_points_for_generator(
-            reader, itemgetter(species_index), itemgetter(x_index),
-            itemgetter(y_index), flag_getter)
+            reader, species_getter, x_getter, y_getter, flags_getter)
     return points
 
 
 # .............................................................................
 def convert_json_to_point(json_obj, species_name_getter, x_getter, y_getter,
-                          flags_getter=none_getter, point_iterator=iter,):
+                          flags_getter=none_getter, point_iterator=iter):
     """Get a list of Points from a JSON object.
 
     Args:
