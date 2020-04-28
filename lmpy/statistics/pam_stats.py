@@ -149,33 +149,34 @@ def schluter_site_variance_ratio(pam):
 @DiversityMetric
 def num_sites(pam):
     """Get the number of sites with presences."""
-    return np.sum(np.any(pam, axis=1))
+    return int(np.sum(np.any(pam, axis=1)))
 
 
 # .............................................................................
 @DiversityMetric
 def num_species(pam):
     """Get the number of species with presences."""
-    return np.sum(np.any(pam, axis=0))
+    return int(np.sum(np.any(pam, axis=0)))
 
 
 # .............................................................................
 @DiversityMetric
 def whittaker(pam):
-    return num_species(pam) / (pam.sum(axis=0).astype(float) / num_sites(pam))
+    return float(num_species(pam) / omega_proportional(pam).sum())
 
 
 # .............................................................................
 @DiversityMetric
 def lande(pam):
-    return num_species(pam) - (
-        pam.sum(axis=0).astype(float) / num_sites(pam)).sum()
+    return float(num_species(pam) - (
+        pam.sum(axis=0).astype(float) / num_sites(pam)).sum())
 
 
 # .............................................................................
 @DiversityMetric
 def legendre(pam):
-    return omega(pam).sum() - (float((omega(pam) ** 2).sum()) / num_sites(pam))
+    return float(
+        omega(pam).sum() - (float((omega(pam) ** 2).sum()) / num_sites(pam)))
 
 
 # .............................................................................
@@ -226,7 +227,7 @@ def mean_nearest_taxon_distance(phylo_dist_mtx):
     """Calculates the nearest neighbor distance.
     """
     nearest_total = np.sum([np.min(row[row > 0.0]) for row in phylo_dist_mtx])
-    return nearest_total / phylo_dist_mtx.shape[0]
+    return float(nearest_total / phylo_dist_mtx.shape[0])
 
 
 # .............................................................................
@@ -237,8 +238,9 @@ def mean_pairwise_distance(phylo_dist_mtx):
     Calculates mean pairwise distance between the species present at each site
     """
     num_sp = phylo_dist_mtx.shape[0]
-    return (phylo_dist_mtx.sum() - phylo_dist_mtx.trace()
-            ) / (num_sp * (num_sp - 1))
+    return float((
+        phylo_dist_mtx.sum() - phylo_dist_mtx.trace()
+        ) / (num_sp * (num_sp - 1)))
 
 
 # .............................................................................
@@ -246,7 +248,7 @@ def mean_pairwise_distance(phylo_dist_mtx):
 def sum_pairwise_distance(phylo_dist_mtx):
     """Calculates the sum pairwise distance for all species present at a site
     """
-    return (phylo_dist_mtx.sum() - phylo_dist_mtx.trace()) / 2.0
+    return float((phylo_dist_mtx.sum() - phylo_dist_mtx.trace()) / 2.0)
 
 
 # .............................................................................
@@ -293,7 +295,7 @@ def pearson_correlation(pam, phylo_dist_mtx):
 def phylogenetic_diversity(tree):
     """Calculate phylogenetic diversity
     """
-    return np.sum([node.edge_length for node in tree.nodes])
+    return np.sum([node.edge_length for node in tree.nodes()])
 
 
 # .............................................................................
@@ -315,7 +317,7 @@ class PamStats:
         ('alpha', alpha),
         ('alpha proportional', alpha_proportional),
         ('phi', phi),
-        ('phi average proportional', phi_average_proportional),
+        ('phi average proportional', phi_average_proportional)
         ]
     site_tree_stats = [('Phylogenetic Diversity', phylogenetic_diversity)]
     site_tree_distance_matrix_stats = [
@@ -345,8 +347,7 @@ class PamStats:
         """Calculate diversity statistics."""
         print([func(self.pam) for _, func in self.diversity_stats])
         diversity_matrix = Matrix(
-            Matrix.concatenate(
-                [func(self.pam) for _, func in self.diversity_stats]),
+            np.array([func(self.pam) for _, func in self.diversity_stats]),
             headers={
                 '0': ['value'],
                 '1': [name for name, _ in self.diversity_stats]})
@@ -401,15 +402,16 @@ class PamStats:
 
                 # Get sub tree
                 present_labels = [ordered_labels[i] for i in present_species]
-                site_tree = self.tree.extract_tree_with_taxa_labels(
-                    present_labels)
-                # Get distance matrix
-                site_dist_mtx = site_tree.get_distance_matrix()
-                site_tree_dist_mtx_matrix[site_idx] = [
-                    func(site_dist_mtx
-                         ) for _, func in self.site_tree_distance_matrix_stats]
-                site_tree_stats_matrix[site_idx] = [
-                    func(site_tree) for _, func in self.site_tree_stats]
+                if present_labels:
+                    site_tree = self.tree.extract_tree_with_taxa_labels(
+                        present_labels)
+                    # Get distance matrix
+                    site_dist_mtx = site_tree.get_distance_matrix()
+                    site_tree_dist_mtx_matrix[site_idx] = [
+                        func(site_dist_mtx) for (
+                            _, func) in self.site_tree_distance_matrix_stats]
+                    site_tree_stats_matrix[site_idx] = [
+                        func(site_tree) for _, func in self.site_tree_stats]
 
             site_stats_matrix = Matrix.concatenate(
                 [site_stats_matrix, site_tree_stats_matrix,
