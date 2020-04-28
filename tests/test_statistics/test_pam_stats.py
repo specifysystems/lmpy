@@ -32,7 +32,9 @@ def get_random_pam_and_tree(num_species, num_sites, fill_percentage,
          ).astype(np.int),
         headers={'0': site_headers, '1': species_names})
     tree = TreeWrapper.get(
-        data='({});'.format(','.join(species_names)), schema='newick')
+        data='({});'.format(
+            ','.join([sp.replace(' ', '_') for sp in species_names])),
+        schema='newick')
     tree.resolve_polytomies()
     for node in tree.nodes():
         node.edge_length = np.random.random() * max_branch_length
