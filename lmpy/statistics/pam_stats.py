@@ -343,8 +343,9 @@ class PamStats:
     # ...........................
     def calculate_diversity_statistics(self):
         """Calculate diversity statistics."""
+        print([func(self.pam) for _, func in self.diversity_stats])
         diversity_matrix = Matrix(
-            np.array([stat[1](self.pam) for stat in self.diversity_stats]),
+            np.array([func(self.pam) for _, func in self.diversity_stats]),
             headers={
                 '0': ['value'],
                 '1': [name for name, _ in self.diversity_stats]})
