@@ -192,7 +192,7 @@ def c_score(pam):
             p_1 = omega_[i] - num_shared
             p_2 = omega_[j] - num_shared
             temp += p_1 * p_2
-    return 2 * temp / (num_species * (num_species - 1))
+    return 2 * temp / (num_species_ * (num_species_ - 1))
 
 
 # .............................................................................
