@@ -127,6 +127,15 @@ class Matrix(np.ndarray):
         row_headers = []
         header_lines = []  # Leading rows that are headers
         data = []
+        # Get data size
+        with open(filename, 'r') as flo:
+            row_count = -num_header_rows
+            col_count = None
+            for line in flo:
+                row_count += 1
+                if col_count is None:
+                    col_count = len(line.strip().split(',')) - num_header_cols
+        data = np.zeros((row_count, col_count), dtype=dtype)
         i = 0
         with open(filename, 'r') as flo:
             for line in flo:
@@ -141,7 +150,8 @@ class Matrix(np.ndarray):
                     elif num_header_cols > 1:
                         row_headers.append(
                             [q.strip() for q in items[:num_header_cols]])
-                    data.append([dtype(x) for x in items[num_header_cols:]])
+                    data[i-num_header_rows,:] = [
+                        dtype(x) for x in items[num_header_cols:]]
 
                 i += 1
 
@@ -155,9 +165,9 @@ class Matrix(np.ndarray):
                     h.append(header_lines[x][j].strip())
                 col_headers.append(h)
 
-        data_array = np.array(data)
+        #data_array = np.array(data)
 
-        return cls(data_array, headers={'0': row_headers, '1': col_headers})
+        return cls(data, headers={'0': row_headers, '1': col_headers})
 
     # ...........................
     @classmethod

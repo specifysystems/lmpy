@@ -165,8 +165,49 @@ class Test_PamStats:
     def test_add_metric(self):
         pam, tree = get_random_pam_and_tree(10, 20, .3, 1.0)
         ps = stats.PamStats(pam, tree=tree)
+        # Remove all metrics
+        ps.covariance_stats = []
+        ps.diversity_stats = []
+        ps.site_matrix_stats = []
+        ps.site_tree_stats = []
+        ps.site_tree_distance_matrix_stats = []
+        ps.site_pam_dist_mtx_stats = []
+        ps.species_matrix_stats = []
+
+        # Register all of the metrics
+        reg_metrics = [
+            ('sigma sites', stats.sigma_sites),
+            ('sigma species', stats.sigma_species),
+            ('c-score', stats.c_score),
+            ('lande', stats.lande),
+            ('legendre', stats.legendre),
+            ('num sites', stats.num_sites),
+            ('num species', stats.num_species),
+            ('whittaker', stats.whittaker),
+            ('alpha', stats.alpha),
+            ('alpha proportional', stats.alpha_proportional),
+            ('phi', stats.phi),
+            ('phi average proportional', stats.phi_average_proportional),
+            ('Phylogenetic Diversity', stats.phylogenetic_diversity),
+            ('MNTD', stats.mean_nearest_taxon_distance),
+            ('Mean Pairwise Distance', stats.mean_pairwise_distance),
+            ('Sum Pairwise Distance', stats.sum_pairwise_distance),
+            ('pearson_correlation', stats.pearson_correlation),
+            ('omega', stats.omega),
+            ('omega_proportional', stats.omega_proportional),
+            ('psi', stats.psi),
+            ('psi_average_proportional', stats.psi_average_proportional)
+            ]
         ps.register_metric(
             'schluter_site_variance', stats.schluter_site_variance_ratio)
         ps.register_metric(
             'schluter_species_variance', stats.schluter_species_variance_ratio)
+        for name, func in reg_metrics:
+            ps.register_metric(name, func)
+        ps.calculate_covariance_statistics()
         ps.calculate_diversity_statistics()
+        ps.calculate_site_statistics()
+        ps.calculate_species_statistics()
+
+        with pytest.raises(TypeError):
+            ps.register_metric('bad_metric', int)

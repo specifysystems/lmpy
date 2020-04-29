@@ -295,7 +295,10 @@ def pearson_correlation(pam, phylo_dist_mtx):
 def phylogenetic_diversity(tree):
     """Calculate phylogenetic diversity
     """
-    return np.sum([node.edge_length for node in tree.nodes()])
+    try:
+        return np.sum([node.edge_length for node in tree.nodes()])
+    except:
+        return 0.0
 
 
 # .............................................................................
@@ -368,8 +371,13 @@ class PamStats:
         if self.tree is not None:
             squid_annotations = self.tree.get_annotations('squid')
             squid_dict = {squid: label for label, squid in squid_annotations}
-            ordered_labels = [
-                squid_dict[squid] for squid in self.pam.get_column_headers()]
+            ordered_labels = []
+            for squid in self.pam.get_column_headers():
+                if squid in squid_dict.keys():
+                    v = squid_dict[squid]
+                else:
+                    v = ''
+                ordered_labels.append(v)
 
             site_tree_stats_matrix = Matrix(
                 np.zeros((self.pam.shape[0], len(self.site_tree_stats))),
