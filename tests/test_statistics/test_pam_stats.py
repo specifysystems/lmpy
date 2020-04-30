@@ -259,7 +259,7 @@ class Test_PamStats:
     # ............................
     def test_large_matrix(self):
         """Test species metrics"""
-        pam, tree = get_random_pam_and_tree(1000, 20000, .3, 1.0)
+        pam, tree = get_random_pam_and_tree(1000, 2000, .3, 1.0)
         ps = stats.PamStats(pam, tree=tree)
         ps.calculate_covariance_statistics()
         ps.calculate_diversity_statistics()
@@ -270,7 +270,7 @@ class Test_PamStats:
     def test_large_matrix_with_mismatches(self):
         """Test species metrics"""
         pam, tree = get_random_pam_and_tree(
-            1000, 20000, .3, 1.0, num_mismatches=50)
+            1000, 2000, .3, 1.0, num_mismatches=50)
         ps = stats.PamStats(pam, tree=tree)
         ps.calculate_covariance_statistics()
         ps.calculate_diversity_statistics()
@@ -281,10 +281,10 @@ class Test_PamStats:
     def test_large_matrix_with_mismatches_and_empty_row_cols(self):
         """Test species metrics"""
         pam, tree = get_random_pam_and_tree(
-            1000, 20000, .3, 1.0, num_mismatches=50)
+            1000, 2000, .3, 1.0, num_mismatches=50)
         for i in np.random.randint(0, 1000, (10,)):
-            pam[:, i] = np.zeros((20000,))
-        for i in np.random.randint(0, 20000, (10,)):
+            pam[:, i] = np.zeros((2000,))
+        for i in np.random.randint(0, 2000, (10,)):
             pam[i, :] = np.zeros((1000,))
         ps = stats.PamStats(pam, tree=tree)
         ps.calculate_covariance_statistics()
