@@ -150,7 +150,7 @@ class Matrix(np.ndarray):
                     elif num_header_cols > 1:
                         row_headers.append(
                             [q.strip() for q in items[:num_header_cols]])
-                    data[i-num_header_rows,:] = [
+                    data[i-num_header_rows, :] = [
                         dtype(x) for x in items[num_header_cols:]]
 
                 i += 1
@@ -164,8 +164,6 @@ class Matrix(np.ndarray):
                 for x in range(num_header_rows):
                     h.append(header_lines[x][j].strip())
                 col_headers.append(h)
-
-        #data_array = np.array(data)
 
         return cls(data, headers={'0': row_headers, '1': col_headers})
 

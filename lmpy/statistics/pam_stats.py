@@ -297,7 +297,7 @@ def phylogenetic_diversity(tree):
     """
     try:
         return np.sum([node.edge_length for node in tree.nodes()])
-    except:
+    except Exception:  # pragma: no cover
         return 0.0
 
 
@@ -375,7 +375,7 @@ class PamStats:
             for squid in self.pam.get_column_headers():
                 if squid in squid_dict.keys():
                     v = squid_dict[squid]
-                else:
+                else:  # pragma: no cover
                     v = ''
                 ordered_labels.append(v)
 
