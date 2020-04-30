@@ -3,7 +3,7 @@
 Note:
     * These test functions are pytest style tests for the pam_stats.py module.
 """
-from random import randint, random
+from random import randint, random, shuffle
 import time
 
 import numpy as np
@@ -191,6 +191,7 @@ class Test_Metrics:
             print(name)
             metric = func(pam)
             assert metric.shape == (10,)
+
 
 # .............................................................................
 class Test_PamStats:
