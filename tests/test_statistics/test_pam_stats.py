@@ -79,9 +79,9 @@ def get_random_pam_and_tree(num_species, num_sites, fill_percentage,
          ).astype(np.int),
         headers={'0': site_headers, '1': pam_species})
 
-    tree_data = '{};'.format(
+    tree_data = '({});'.format(
         _make_ultrametric_helper(tree_species, max_branch_length)[0])
-    tree = TreeWrapper.get(data='({});'.format(tree_data), schema='newick')
+    tree = TreeWrapper.get(data=tree_data, schema='newick')
     tree.annotate_tree_tips('squid', {sp: sp for sp in tree_species})
     return (pam, tree)
 
