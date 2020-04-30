@@ -3,6 +3,9 @@
 Note:
     * These test functions are pytest style tests for the pam_stats.py module.
 """
+from random import randint, random, shuffle
+import time
+
 import numpy as np
 import pytest
 
@@ -10,9 +13,38 @@ from lmpy import Matrix, TreeWrapper
 import lmpy.statistics.pam_stats as stats
 
 
+ROUND_POSITION = 7
+
+
+# .............................................................................
+def _make_ultrametric_helper(species, max_branch_length):
+    # If length of list == 1, bounce
+    if species and len(species) == 1:
+        node = species[0].replace(' ', '_')
+        node_height = 0.0
+    else:
+        # Split and recurse
+        split_pos = randint(1, len(species) - 1)
+        node_a, node_height_a = _make_ultrametric_helper(
+            species[:split_pos], max_branch_length)
+        node_b, node_height_b = _make_ultrametric_helper(
+            species[split_pos:], max_branch_length)
+        # Get the maximum node height and add this branch length
+        node_height = round(
+            max(node_height_a, node_height_b) + (
+                max_branch_length * random()), ROUND_POSITION)
+        # Make sure node heights are equal for each branch by subtracting
+        #    from node height
+        node = '({}:{},{}:{})'.format(
+            node_a, node_height - node_height_a, node_b,
+            node_height - node_height_b)
+    # Return branch and height
+    return (node, node_height)
+
+
 # .............................................................................
 def get_random_pam_and_tree(num_species, num_sites, fill_percentage,
-                            max_branch_length):
+                            max_branch_length, num_mismatches=0):
     """Get a random PAM and matching tree.
 
     Args:
@@ -22,23 +54,35 @@ def get_random_pam_and_tree(num_species, num_sites, fill_percentage,
             the PAM.
         max_branch_length (float): The maximum branch length for each branch in
             the tree.
+        num_mismatches (int): A number of mismatches to include between PAM and
+            tree.
     """
     site_headers = [
         'Site {}'.format(site_idx) for site_idx in range(num_sites)]
-    species_names = [
-        'Species {}'.format(sp_idx) for sp_idx in range(num_species)]
+    pam_species = []
+    tree_species = []
+    for sp_idx in range(num_species):
+        sp = 'Species {}'.format(sp_idx)
+        pam_species.append(sp)
+        tree_species.append(sp)
+
+    # Add a few species to PAM species and tree species
+    for sp_idx in range(num_mismatches):
+        pam_species.append('PamSpecies {}'.format(sp_idx))
+        tree_species.append('TreeSpecies {}'.format(sp_idx))
+
+    shuffle(pam_species)
+    shuffle(tree_species)
+
     pam = Matrix(
         (np.random.random((num_sites, num_species)) < fill_percentage
          ).astype(np.int),
-        headers={'0': site_headers, '1': species_names})
-    tree = TreeWrapper.get(
-        data='({});'.format(
-            ','.join([sp.replace(' ', '_') for sp in species_names])),
-        schema='newick')
-    tree.resolve_polytomies()
-    for node in tree.nodes():
-        node.edge_length = np.random.random() * max_branch_length
-    tree.annotate_tree_tips('squid', {sp: sp for sp in species_names})
+        headers={'0': site_headers, '1': pam_species})
+
+    tree_data = '({});'.format(
+        _make_ultrametric_helper(tree_species, max_branch_length)[0])
+    tree = TreeWrapper.get(data=tree_data, schema='newick')
+    tree.annotate_tree_tips('squid', {sp: sp for sp in tree_species})
     return (pam, tree)
 
 
@@ -211,3 +255,39 @@ class Test_PamStats:
 
         with pytest.raises(TypeError):
             ps.register_metric('bad_metric', int)
+
+    # ............................
+    def test_medium_matrix(self):
+        """Test species metrics"""
+        pam, tree = get_random_pam_and_tree(100, 200, .3, 1.0)
+        ps = stats.PamStats(pam, tree=tree)
+        ps.calculate_covariance_statistics()
+        ps.calculate_diversity_statistics()
+        ps.calculate_site_statistics()
+        ps.calculate_species_statistics()
+
+    # ............................
+    def test_medium_matrix_with_mismatches(self):
+        """Test species metrics"""
+        pam, tree = get_random_pam_and_tree(
+            100, 200, .3, 1.0, num_mismatches=10)
+        ps = stats.PamStats(pam, tree=tree)
+        ps.calculate_covariance_statistics()
+        ps.calculate_diversity_statistics()
+        ps.calculate_site_statistics()
+        ps.calculate_species_statistics()
+
+    # ............................
+    def test_medium_matrix_with_mismatches_and_empty_row_cols(self):
+        """Test species metrics"""
+        pam, tree = get_random_pam_and_tree(
+            100, 200, .3, 1.0, num_mismatches=10)
+        for i in np.random.randint(0, 100, (10,)):
+            pam[:, i] = np.zeros((200,))
+        for i in np.random.randint(0, 200, (10,)):
+            pam[i, :] = np.zeros((100,))
+        ps = stats.PamStats(pam, tree=tree)
+        ps.calculate_covariance_statistics()
+        ps.calculate_diversity_statistics()
+        ps.calculate_site_statistics()
+        ps.calculate_species_statistics()
