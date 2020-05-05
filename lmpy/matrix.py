@@ -16,7 +16,6 @@ import json
 import zipfile
 
 import numpy as np
-from tempfile import NamedTemporaryFile
 
 
 HEADERS_KEY = 'headers'
@@ -149,10 +148,10 @@ class Matrix(np.ndarray):
             col_headers = [q.strip() for q in header_lines[0]]
         elif num_header_rows > 1:
             for j in range(len(header_lines[0])):
-                h = []
-                for x in range(num_header_rows):
-                    h.append(header_lines[x][j].strip())
-                col_headers.append(h)
+                hdr = []
+                for hdr_idx in range(num_header_rows):
+                    hdr.append(header_lines[hdr_idx][j].strip())
+                col_headers.append(hdr)
 
         data_array = np.array(data)
 
@@ -207,7 +206,7 @@ class Matrix(np.ndarray):
             # Make sure we reshape if necessary if adding new axis (stacking)
             if mtx.ndim < axis + 1:  # Add 1 since zero-based
                 mtx = Matrix(
-                    np.expand_dims(mtx, mtx.ndim + 1), headers=mtx.headers,
+                    np.expand_dims(mtx, len(mtx.shape)), headers=mtx.headers,
                     metadata=mtx.metadata)
                 mtx.set_headers([''], axis=str(axis))
             # Cast mtx to Matrix in case it is not
@@ -229,7 +228,7 @@ class Matrix(np.ndarray):
         return new_mtx
 
     # ...........................
-    def flatten_2D(self):
+    def flatten_2d(self):
         """Flattens a higher dimension Matrix object into a 2D matrix.
 
         Todo:
@@ -314,12 +313,12 @@ class Matrix(np.ndarray):
         try:
             if axis is None:
                 return self.headers
-            else:
-                if str(axis) in self.headers.keys():
-                    return self.headers[str(axis)]
-                else:
-                    return None
-        except:  # pragma: no cover
+
+            if str(axis) in self.headers.keys():
+                return self.headers[str(axis)]
+
+            return None
+        except Exception:  # pragma: no cover
             return {}
 
     # ...........................
@@ -483,8 +482,8 @@ class Matrix(np.ndarray):
     def T(self):
         if self.ndim < 2:
             return self
-        else:
-            return self.transpose()
+
+        return self.transpose()
 
     # ...........................
     def transpose(self, *axes):
@@ -549,7 +548,7 @@ class Matrix(np.ndarray):
             mtx = self
 
         if mtx.ndim > 2:
-            mtx = mtx.flatten_2D()
+            mtx = mtx.flatten_2d()
 
         # .....................
         # Inner functions
@@ -572,7 +571,7 @@ class Matrix(np.ndarray):
             """
             try:
                 row_headers = mtx.headers['0']
-            except:
+            except (KeyError, TypeError):
                 # No row headers
                 row_headers = [[] for _ in range(mtx.shape[0])]
 

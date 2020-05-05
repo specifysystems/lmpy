@@ -159,12 +159,34 @@ class Test_Matrix(object):
         assert mtx9.shape == (4, 4, 4)
 
     # .....................................
-    def test_flatten_2D(self):
-        """Test flatten_2D method.
+    def test_concatenate_create_dimension(self):
+        """Test the concatenate function for stacking matrices."""
+        # Single-value matrices -> row
+        mtx_row_0 = Matrix.concatenate(
+            [get_random_matrix(1), get_random_matrix(1), get_random_matrix(1),
+             get_random_matrix(1)], axis=1)
+        assert mtx_row_0.shape == (1, 4)
+
+        # Test single row matrices
+        mtx_row_1 = get_random_matrix(1, 4)
+        mtx_row_2 = get_random_matrix(1, 4)
+        mtx_table_0 = Matrix.concatenate(
+            [mtx_row_0, mtx_row_1, mtx_row_2], axis=2)
+        assert mtx_table_0.shape == (1, 4, 3)
+
+        # Test table matrices
+        mtx_cube = Matrix.concatenate(
+            [get_random_matrix(3, 3), get_random_matrix(3, 3),
+             get_random_matrix(3, 3)], axis=2)
+        assert mtx_cube.shape == (3, 3, 3)
+
+    # .....................................
+    def test_flatten_2d(self):
+        """Test flatten_2d method.
         """
         x, y, z = 5, 5, 3
         mtx = get_random_matrix(x, y, z)
-        flat_mtx = mtx.flatten_2D()
+        flat_mtx = mtx.flatten_2d()
 
         # Test that there are two dimensions of headers and data
         assert len(flat_mtx.shape) == 2
@@ -179,12 +201,12 @@ class Test_Matrix(object):
         assert flat_mtx.shape[0] == x * z
 
     # .....................................
-    def test_flatten_2D_higher_dim(self):
-        """Test flatten_2D method.
+    def test_flatten_2d_higher_dim(self):
+        """Test flatten_2d method.
         """
         a, b, c, d = 4, 5, 6, 7
         mtx = get_random_matrix(a, b, c, d)
-        flat_mtx = mtx.flatten_2D()
+        flat_mtx = mtx.flatten_2d()
 
         # Test that there are two dimensions of headers and data
         assert len(flat_mtx.shape) == 2
@@ -199,12 +221,12 @@ class Test_Matrix(object):
         assert flat_mtx.shape[0] == a * c * d
 
     # .....................................
-    def test_flatten_2D_missing_header(self):
-        """Test flatten_2D method when headers are missing.
+    def test_flatten_2d_missing_header(self):
+        """Test flatten_2d method when headers are missing.
         """
         x, y, z = 5, 5, 3
         mtx = Matrix(np.random.random((x, y, z)))
-        flat_mtx = mtx.flatten_2D()
+        flat_mtx = mtx.flatten_2d()
 
         # Test that there are two dimensions of headers and data
         assert len(flat_mtx.shape) == 2
