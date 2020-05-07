@@ -3,7 +3,7 @@
 import pytest
 
 from lmpy import Point
-from lmpy.data_preparation.layer_encoder import LayerEncoder
+from lmpy.data_preparation.layer_encoder import LayerEncoder, DEFAULT_NODATA
 
 
 # .............................................................................
@@ -28,8 +28,8 @@ class Test_LayerEncoder:
         for i in range(len(bio_geo_filenames)):
             assert col_headers[i] == 'Hypothesis {}'.format(i)
         assert enc_mtx.shape[1] == len(bio_geo_filenames)
-        assert enc_mtx.min() >= NODATA_VALUE
-        tmp = enc_mtx[enc_mtx > NODATA_VALUE]
+        assert enc_mtx.min() >= DEFAULT_NODATA
+        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert tmp.min() >= -1
         assert tmp.max() <= 1
         assert json.loads(json.dumps(enc_mtx.get_geojson()))
@@ -56,8 +56,8 @@ class Test_LayerEncoder:
                 i + len(raster_pa_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(
             raster_pa_filenames) + len(vector_pa_filenames)
-        assert enc_mtx.min() >= NODATA_VALUE
-        tmp = enc_mtx[enc_mtx > NODATA_VALUE]
+        assert enc_mtx.min() >= DEFAULT_NODATA
+        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert tmp.min() >= 0
         assert tmp.max() <= 1
         assert json.loads(json.dumps(enc_mtx.get_geojson()))
@@ -70,10 +70,10 @@ class Test_LayerEncoder:
 
         for i, filename in enumerate(raster_env_filenames):
             encoder.encode_mean_value(
-                filename, 'Raster {}'.format(i), 1, 99, 25)
+                filename, 'Raster {}'.format(i))
         for i, filename in enumerate(vector_env_filenames):
             encoder.encode_mean_value(
-                filename, 'Vector {}'.format(i), 1, 99, 25,
+                filename, 'Vector {}'.format(i),
                 attribute_name='value')
         enc_mtx = encoder.get_encoded_matrix()
         col_headers = enc_mtx.get_column_headers()
@@ -84,8 +84,8 @@ class Test_LayerEncoder:
                 i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(
             raster_env_filenames) + len(vector_env_filenames)
-        assert enc_mtx.min() >= NODATA_VALUE
-        tmp = enc_mtx[enc_mtx > NODATA_VALUE]
+        assert enc_mtx.min() >= DEFAULT_NODATA
+        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert json.loads(json.dumps(enc_mtx.get_geojson()))
 
     # ................................
@@ -110,6 +110,6 @@ class Test_LayerEncoder:
                 i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(
             raster_env_filenames) + len(vector_env_filenames)
-        assert enc_mtx.min() >= NODATA_VALUE
-        tmp = enc_mtx[enc_mtx > NODATA_VALUE]
+        assert enc_mtx.min() >= DEFAULT_NODATA
+        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert json.loads(json.dumps(enc_mtx.get_geojson()))
