@@ -17,6 +17,7 @@ import zipfile
 
 import numpy as np
 from tempfile import NamedTemporaryFile
+from _collections_abc import dict_keys
 
 
 HEADERS_KEY = 'headers'
@@ -405,6 +406,9 @@ class Matrix(np.ndarray):
             * Duck types to use list of lists or dictionary to set values for
                 different axes.
         """
+        if isinstance(headers, dict_keys):
+            headers = list(headers)
+
         if axis is not None:
             self.headers[str(axis)] = headers
         else:
