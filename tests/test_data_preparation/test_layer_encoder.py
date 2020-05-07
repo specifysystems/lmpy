@@ -1,5 +1,6 @@
 """Tests the occurrence data filters
 """
+import json
 import pytest
 
 from lmpy import Point
@@ -96,10 +97,10 @@ class Test_LayerEncoder:
 
         for i, filename in enumerate(raster_env_filenames):
             encoder.encode_largest_class(
-                filename, 'Raster {}'.format(i), 1, 99, 25)
+                filename, 'Raster {}'.format(i), 10)
         for i, filename in enumerate(vector_env_filenames):
             encoder.encode_largest_class(
-                filename, 'Vector {}'.format(i), 1, 99, 25,
+                filename, 'Vector {}'.format(i), 10,
                 attribute_name='value')
         enc_mtx = encoder.get_encoded_matrix()
         col_headers = enc_mtx.get_column_headers()
