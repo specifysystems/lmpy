@@ -22,8 +22,13 @@ class Test_LayerEncoder:
         """Test encode biogeographic hypothesis."""
         encoder = LayerEncoder(shapegrid_filename)
         for i, filename in enumerate(bio_geo_filenames):
+            try:
+                event_field = filename.split('_event_')[1].split('.shp')[0]
+            except IndexError:
+                event_field = None
             encoder.encode_biogeographic_hypothesis(
-                filename, 'Hypothesis {}'.format(i), 10)
+                filename, 'Hypothesis {}'.format(i), 10,
+                event_field=event_field)
         enc_mtx = encoder.get_encoded_matrix()
         col_headers = enc_mtx.get_column_headers()
         for i in range(len(bio_geo_filenames)):
