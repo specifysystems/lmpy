@@ -107,3 +107,6 @@ venv.bak/
 # Eclipse
 .project
 .pydevproject
+
+# Spatial data aux files
+*.aux.xml
