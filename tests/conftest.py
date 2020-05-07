@@ -3,7 +3,6 @@
 import glob
 import os
 
-
 import pytest
 
 # .............................................................................
@@ -42,7 +41,7 @@ class SampleDataFiles(object):
             A list of raster filenames
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
-        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'env*.tif'))
+        return [glob.glob(os.path.join(ENCODER_DATA_PATH, 'env*.tif'))]
 
     # ...........................
     def get_vector_env_filenames(self):
@@ -52,7 +51,7 @@ class SampleDataFiles(object):
             A list of vector filenames
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
-        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'env*.shp'))
+        return [glob.glob(os.path.join(ENCODER_DATA_PATH, 'env*.shp'))]
 
     # ...........................
     def get_raster_pa_filenames(self):
@@ -62,7 +61,7 @@ class SampleDataFiles(object):
             A list of raster filenames
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
-        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'sdm*.tif'))
+        return [glob.glob(os.path.join(ENCODER_DATA_PATH, 'sdm*.tif'))]
 
     # ...........................
     def get_vector_pa_filenames(self):
@@ -72,7 +71,7 @@ class SampleDataFiles(object):
             A list of vector filenames
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
-        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'sdm*.shp'))
+        return [glob.glob(os.path.join(ENCODER_DATA_PATH, 'sdm*.shp'))]
 
     # ...........................
     def get_bio_geo_filenames(self):
@@ -82,7 +81,7 @@ class SampleDataFiles(object):
             A list of hypothesis filenames
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
-        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'bg_hyp*.shp'))
+        return [glob.glob(os.path.join(ENCODER_DATA_PATH, 'bg_hyp*.shp'))]
 
     # ...........................
     def get_trees(self, fmt, is_valid):

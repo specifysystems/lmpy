@@ -5,14 +5,6 @@ import pytest
 from lmpy import Point
 from lmpy.data_preparation.layer_encoder import LayerEncoder
 
-"""
-bio geo
-presence absence
-largest class
-mean value
-get geojson
-
-"""
 
 # .............................................................................
 class Test_LayerEncoder:
@@ -21,7 +13,7 @@ class Test_LayerEncoder:
     def test_base_constructor(self, shapegrid_filename):
         """Test construction."""
         encoder = LayerEncoder(shapegrid_filename)
-        assert encoder.get_encoded_matrix is None
+        assert encoder.get_encoded_matrix() is None
 
     # ................................
     def test_encode_biogeographic_hypothesis(self, shapegrid_filename,
@@ -41,7 +33,7 @@ class Test_LayerEncoder:
         assert tmp.min() >= -1
         assert tmp.max() <= 1
         assert json.loads(json.dumps(enc_mtx.get_geojson()))
-    
+
     # ................................
     def test_encode_presence_absence(self, shapegrid_filename,
                                      raster_pa_filenames, vector_pa_filenames):
