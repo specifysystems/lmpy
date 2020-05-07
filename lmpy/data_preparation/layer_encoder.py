@@ -214,7 +214,7 @@ class LayerEncoder:
         encoded_column = np.zeros((self.num_cells, num_columns))
         if num_columns == 1:
             column_headers = [column_name]
-        else:
+        else:  # pragma: no cover
             column_headers = [
                 '{}-{}'.format(column_name, val) for val in range(num_columns)]
 
