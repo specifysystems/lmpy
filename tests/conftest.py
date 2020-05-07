@@ -10,6 +10,7 @@ import pytest
 # .                                 Constants                                 .
 # .............................................................................
 TREES_DIR = 'trees'
+LAYER_ENCODER_DIR = 'encoding_layers'
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 SAMPLE_DATA_PATH = os.path.join(THIS_DIR, 'data_dir')
@@ -24,6 +25,66 @@ class SampleDataFiles(object):
             "(in)valid_{name}.{extension}".
     """
     # ...........................
+    def get_shapegrid_filenames(self):
+        """Get a list of shapegrid filenames.
+
+        Returns:
+            A list of shapegrid filenames
+        """
+        ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
+        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'shapegrid*.shp'))
+
+    # ...........................
+    def get_raster_env_filenames(self):
+        """Get a list of raster environmental layer filenames.
+
+        Returns:
+            A list of raster filenames
+        """
+        ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
+        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'env*.tif'))
+
+    # ...........................
+    def get_vector_env_filenames(self):
+        """Get a list of vector environmental layer filenames.
+
+        Returns:
+            A list of vector filenames
+        """
+        ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
+        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'env*.shp'))
+
+    # ...........................
+    def get_raster_pa_filenames(self):
+        """Get a list of raster presence absence layer filenames.
+
+        Returns:
+            A list of raster filenames
+        """
+        ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
+        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'sdm*.tif'))
+
+    # ...........................
+    def get_vector_pa_filenames(self):
+        """Get a list of vector presence absence layer filenames.
+
+        Returns:
+            A list of vector filenames
+        """
+        ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
+        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'sdm*.shp'))
+
+    # ...........................
+    def get_bio_geo_filenames(self):
+        """Get a list of biogeographic hypothesis filenames.
+
+        Returns:
+            A list of hypothesis filenames
+        """
+        ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
+        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'bg_hyp*.shp'))
+
+    # ...........................
     def get_trees(self, fmt, is_valid):
         """Gets an alignment file from the sample data.
 
@@ -36,7 +97,7 @@ class SampleDataFiles(object):
             A list of tree filenames.
         """
         TREE_PATH = os.path.join(SAMPLE_DATA_PATH, TREES_DIR)
-        return glob.iglob(
+        return glob.glob(
             self._get_glob_string(TREE_PATH, is_valid,
                                   self._get_format_extension(fmt)))
 
@@ -111,7 +172,13 @@ def pytest_generate_tests(metafunc):
     fixture_tuples = [
         ('valid_newick_tree', df.get_trees('newick', True)),
         ('valid_nexml_tree', df.get_trees('nexml', True)),
-        ('valid_nexus_tree', df.get_trees('nexus', True))
+        ('valid_nexus_tree', df.get_trees('nexus', True)),
+        ('shapegrid_filename', df.get_shapegrid_filenames()),
+        ('raster_env_filenames', df.get_raster_env_filenames()),
+        ('vector_env_filenames', df.get_vector_env_filenames()),
+        ('raster_pa_filenames', df.get_raster_pa_filenames()),
+        ('vector_pa_filenames', df.get_vector_pa_filenames()),
+        ('bio_geo_filenames', df.get_bio_geo_filenames())
     ]
     for fixture_name, fixture_values in fixture_tuples:
         if fixture_name in metafunc.fixturenames:
