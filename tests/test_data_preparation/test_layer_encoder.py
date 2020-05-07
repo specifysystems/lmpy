@@ -22,9 +22,9 @@ class Test_LayerEncoder:
         """Test encode biogeographic hypothesis."""
         encoder = LayerEncoder(shapegrid_filename)
         for i, filename in enumerate(bio_geo_filenames):
-            try:
+            if filename.find('_event_') > 0:
                 event_field = filename.split('_event_')[1].split('.shp')[0]
-            except IndexError:
+            else:
                 event_field = None
             encoder.encode_biogeographic_hypothesis(
                 filename, 'Hypothesis {}'.format(i), 10,
