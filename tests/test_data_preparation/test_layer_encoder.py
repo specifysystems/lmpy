@@ -33,7 +33,7 @@ class Test_LayerEncoder:
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert tmp.min() >= -1
         assert tmp.max() <= 1
-        assert json.loads(json.dumps(enc_mtx.get_geojson()))
+        assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
     def test_encode_presence_absence(self, shapegrid_filename,
@@ -61,7 +61,7 @@ class Test_LayerEncoder:
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert tmp.min() >= 0
         assert tmp.max() <= 1
-        assert json.loads(json.dumps(enc_mtx.get_geojson()))
+        assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
     def test_encode_mean_value(self, shapegrid_filename, raster_env_filenames,
@@ -87,7 +87,7 @@ class Test_LayerEncoder:
             raster_env_filenames) + len(vector_env_filenames)
         assert enc_mtx.min() >= DEFAULT_NODATA
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
-        assert json.loads(json.dumps(enc_mtx.get_geojson()))
+        assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
     def test_encode_largest_class(self, shapegrid_filename,
@@ -113,4 +113,4 @@ class Test_LayerEncoder:
             raster_env_filenames) + len(vector_env_filenames)
         assert enc_mtx.min() >= DEFAULT_NODATA
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
-        assert json.loads(json.dumps(enc_mtx.get_geojson()))
+        assert json.loads(json.dumps(encoder.get_geojson()))

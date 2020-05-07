@@ -286,7 +286,7 @@ class LayerEncoder:
             # Tuple or list
             x_size_2 = cell_size[0] / 2.0
             y_size_2 = cell_size[1] / 2.0
-        except TypeError:
+        except TypeError:  # pragma: no cover
             # Single value
             x_size_2 = y_size_2 = cell_size / 2.0
 
@@ -402,7 +402,8 @@ class LayerEncoder:
             envelope = geom.GetEnvelope()
             self.shapegrid_resolution = (envelope[1] - envelope[0],
                                          envelope[3] - envelope[2])
-        else:
+        else:  # pragma: no cover
+            # TODO: Write tests for this when we want full support
             # Hexagon
             center = geom.Centroid()
             x_cent = center.GetX()
@@ -446,7 +447,7 @@ class LayerEncoder:
             # Tuple or list
             x_res = resolution[0]
             y_res = resolution[1]
-        except TypeError:
+        except TypeError:  # pragma: no cover
             # Single value
             x_res = y_res = resolution
 
@@ -486,7 +487,7 @@ class LayerEncoder:
             for i in range(len(distinct_events) - 1, -1, -1):
                 if np.isclose(distinct_events[i], nodata):
                     distinct_events.pop(i)
-        except TypeError:
+        except TypeError:  # pragma: no cover
             # This happens if only one value
             if np.isclose(distinct_events, nodata):
                 distinct_events = []
