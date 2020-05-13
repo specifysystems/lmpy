@@ -17,6 +17,7 @@ import zipfile
 
 import numpy as np
 from tempfile import NamedTemporaryFile
+from _collections_abc import dict_keys
 
 
 HEADERS_KEY = 'headers'
@@ -112,7 +113,7 @@ class Matrix(np.ndarray):
         """Attempts to load a Matrix object from a CSV file-like object.
 
         Args:
-            flo (file-like): A file-like object with matrix data.
+            filename (str): A file location containing a CSV matrix.
             dtype (:obj:`method`, optional): The data type for the data.  Will
                 be used to cast data when adding to matrix.
             num_header_rows (:obj:`int`, optional): The number of header rows
@@ -216,8 +217,8 @@ class Matrix(np.ndarray):
             # Make sure we reshape if necessary if adding new axis (stacking)
             if mtx.ndim < axis + 1:  # Add 1 since zero-based
                 mtx = Matrix(
-                    np.expand_dims(mtx, mtx.ndim + 1), headers=mtx.headers,
-                    metadata=mtx.metadata)
+                    np.expand_dims(mtx, len(mtx.shape) + 1),
+                    headers=mtx.headers)
                 mtx.set_headers([''], axis=str(axis))
             # Cast mtx to Matrix in case it is not
             mtx = mtx.view(Matrix)
@@ -405,6 +406,9 @@ class Matrix(np.ndarray):
             * Duck types to use list of lists or dictionary to set values for
                 different axes.
         """
+        if isinstance(headers, dict_keys):
+            headers = list(headers)
+
         if axis is not None:
             self.headers[str(axis)] = headers
         else:

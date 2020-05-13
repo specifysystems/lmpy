@@ -490,7 +490,7 @@ class TreeWrapper(dendropy.Tree):
         """
         try:
             min_bl, max_bl = self.minmax_leaf_distance_from_root()
-            return np.isclose(min_bl, max_bl, rtol=rel_tol)
+            return bool(np.isclose(min_bl, max_bl, rtol=rel_tol))
         except:
             pass
         return False

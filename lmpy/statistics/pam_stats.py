@@ -226,8 +226,12 @@ def sigma_species(pam):
 def mean_nearest_taxon_distance(phylo_dist_mtx):
     """Calculates the nearest neighbor distance.
     """
-    nearest_total = np.sum([np.min(row[row > 0.0]) for row in phylo_dist_mtx])
-    return float(nearest_total / phylo_dist_mtx.shape[0])
+    try:
+        nearest_total = np.sum(
+            [np.min(row[row > 0.0]) for row in phylo_dist_mtx])
+        return float(nearest_total / phylo_dist_mtx.shape[0])
+    except Exception as err:
+        return 0.0
 
 
 # .............................................................................
@@ -360,15 +364,18 @@ class PamStats:
     def calculate_site_statistics(self):
         """Calculate site-based statistics."""
         # Matrix based
+        print('Start')
         site_stats_matrix = Matrix(
             np.zeros((self.pam.shape[0], len(self.site_matrix_stats))),
             headers={
                 '0': self.pam.get_row_headers(),
                 '1': [name for name, _ in self.site_matrix_stats]})
+        print('Site matrix stats')
         for i in range(len(self.site_matrix_stats)):
             site_stats_matrix[:, i] = self.site_matrix_stats[i][1](self.pam)
 
         if self.tree is not None:
+            print('Tree stuff')
             squid_annotations = self.tree.get_annotations('squid')
             squid_dict = {squid: label for label, squid in squid_annotations}
             ordered_labels = []
@@ -394,7 +401,9 @@ class PamStats:
                           self.site_tree_distance_matrix_stats]})
 
             # PAM / Tree stats
+            print('Get distance matrix')
             phylo_dist_mtx = self.tree.get_distance_matrix()
+            print('PAM dist mtx stats')
             site_pam_tree_matrix = Matrix(
                 Matrix.concatenate(
                     [func(self.pam, phylo_dist_mtx
@@ -403,6 +412,7 @@ class PamStats:
                     '0': self.pam.get_row_headers(),
                     '1': [name for name, _ in self.site_pam_dist_mtx_stats]})
 
+            print('Site by site')
             # Loop through PAM
             for site_idx, site_row in enumerate(self.pam):
                 # Get present species
@@ -410,11 +420,18 @@ class PamStats:
 
                 # Get sub tree
                 present_labels = [ordered_labels[i] for i in present_species]
+                present_dist_mtx_idxs = []
+                for idx, label in enumerate(
+                        phylo_dist_mtx.get_column_headers()):
+                    if label in present_labels:
+                        present_dist_mtx_idxs.append(idx)
                 if present_labels:
                     site_tree = self.tree.extract_tree_with_taxa_labels(
                         present_labels)
                     # Get distance matrix
-                    site_dist_mtx = site_tree.get_distance_matrix()
+                    site_dist_mtx = phylo_dist_mtx.slice(
+                        present_dist_mtx_idxs, present_dist_mtx_idxs)
+                    # site_dist_mtx = site_tree.get_distance_matrix()
                     site_tree_dist_mtx_matrix[site_idx] = [
                         func(site_dist_mtx) for (
                             _, func) in self.site_tree_distance_matrix_stats]
