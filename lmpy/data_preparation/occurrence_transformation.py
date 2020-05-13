@@ -134,3 +134,8 @@ def get_coordinate_converter(in_epsg, out_epsg):
             point.species_name, geom.GetX(), geom.GetY(), flags=point.flags)
 
     return converter_func
+
+
+# .............................................................................
+__all__ = ['convert_delimited_to_point', 'convert_json_to_point',
+           'get_coordinate_converter', 'none_getter']

@@ -1,21 +1,23 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>lmpy package &#8212; Lifemapper lmpy 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="lmpy.data_preparation package" href="lmpy.data_preparation.html" />
+    <link rel="prev" title="lmpy" href="modules.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -26,7 +28,14 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="lmpy.data_preparation.html" title="lmpy.data_preparation package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="lmpy"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">lmpy</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -41,10 +50,17 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="lmpy.data_preparation.html">lmpy.data_preparation package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lmpy.data_preparation.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmpy.data_preparation.html#module-lmpy.data_preparation.build_grid">lmpy.data_preparation.build_grid module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmpy.data_preparation.html#module-lmpy.data_preparation.layer_encoder">lmpy.data_preparation.layer_encoder module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmpy.data_preparation.html#module-lmpy.data_preparation.occurrence_filters">lmpy.data_preparation.occurrence_filters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmpy.data_preparation.html#module-lmpy.data_preparation.occurrence_transformation">lmpy.data_preparation.occurrence_transformation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmpy.data_preparation.html#module-lmpy.data_preparation">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="lmpy.randomize.html">lmpy.randomize package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.randomize.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lmpy.randomize.html#lmpy-randomize-curveball-module">lmpy.randomize.curveball module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lmpy.randomize.html#lmpy-randomize-curveball-pub-module">lmpy.randomize.curveball_pub module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.randomize.html#module-lmpy.randomize.grady">lmpy.randomize.grady module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.randomize.html#module-lmpy.randomize.swap">lmpy.randomize.swap module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.randomize.html#module-lmpy.randomize">Module contents</a></li>
@@ -52,6 +68,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lmpy.statistics.html">lmpy.statistics package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.statistics.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmpy.statistics.html#module-lmpy.statistics.pam_stats">lmpy.statistics.pam_stats module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.statistics.html#module-lmpy.statistics.running_stats">lmpy.statistics.running_stats module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.statistics.html#module-lmpy.statistics">Module contents</a></li>
 </ul>
@@ -75,18 +92,18 @@
 </li>
 </ul>
 </div>
-<dl class="class">
+<dl class="py class">
 <dt id="lmpy.matrix.Matrix">
 <em class="property">class </em><code class="sig-prename descclassname">lmpy.matrix.</code><code class="sig-name descname">Matrix</code><a class="headerlink" href="#lmpy.matrix.Matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
 <p>Lifemapper wrapper for Numpy ndarrays that adds headers.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.T">
 <em class="property">property </em><code class="sig-name descname">T</code><a class="headerlink" href="#lmpy.matrix.Matrix.T" title="Permalink to this definition">¶</a></dt>
 <dd><p>The transposed array.</p>
 <p>Same as <code class="docutils literal notranslate"><span class="pre">self.transpose()</span></code>.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">],[</span><span class="mf">3.</span><span class="p">,</span><span class="mf">4.</span><span class="p">]])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">],[</span><span class="mf">3.</span><span class="p">,</span><span class="mf">4.</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
 <span class="go">array([[ 1.,  2.],</span>
 <span class="go">       [ 3.,  4.]])</span>
@@ -106,9 +123,9 @@
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.concatenate">
-<em class="property">classmethod </em><code class="sig-name descname">concatenate</code><span class="sig-paren">(</span><em class="sig-param">mtx_list</em>, <em class="sig-param">axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.concatenate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.concatenate" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">concatenate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mtx_list</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.concatenate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.concatenate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Concatenates multiple Matrix objects together to form a new Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -138,7 +155,7 @@ for headers.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.flatten_2D">
 <code class="sig-name descname">flatten_2D</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.flatten_2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.flatten_2D" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flattens a higher dimension Matrix object into a 2D matrix.</p>
@@ -152,7 +169,7 @@ for headers.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.get_column_headers">
 <code class="sig-name descname">get_column_headers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_column_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_column_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut to get column headers.</p>
@@ -163,9 +180,9 @@ for headers.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.get_headers">
-<code class="sig-name descname">get_headers</code><span class="sig-paren">(</span><em class="sig-param">axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the headers associated with this Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -179,7 +196,7 @@ If axis is int, A list of headers for the specified axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.get_metadata">
 <code class="sig-name descname">get_metadata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves matrix metadata.</p>
@@ -193,7 +210,7 @@ If axis is int, A list of headers for the specified axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.get_row_headers">
 <code class="sig-name descname">get_row_headers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_row_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_row_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut to get row headers.</p>
@@ -204,9 +221,9 @@ If axis is int, A list of headers for the specified axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.load">
-<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a matrix from a filename.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -215,7 +232,7 @@ If axis is int, A list of headers for the specified axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.load_csv">
 <em class="property">classmethod </em><code class="sig-name descname">load_csv</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">dtype=&lt;class 'float'&gt;</em>, <em class="sig-param">num_header_rows=0</em>, <em class="sig-param">num_header_cols=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.load_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attempts to load a Matrix object from a CSV file-like object.</p>
@@ -240,9 +257,9 @@ columns in the CSV file.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.set_column_headers">
-<code class="sig-name descname">set_column_headers</code><span class="sig-paren">(</span><em class="sig-param">headers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_column_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_column_headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_column_headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">headers</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_column_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_column_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut to set column headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -251,9 +268,9 @@ columns in the CSV file.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.set_headers">
-<code class="sig-name descname">set_headers</code><span class="sig-paren">(</span><em class="sig-param">headers</em>, <em class="sig-param">axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">headers</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the headers for this Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -278,9 +295,9 @@ axis, else, process as if it is for the entire Matrix.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.set_row_headers">
-<code class="sig-name descname">set_row_headers</code><span class="sig-paren">(</span><em class="sig-param">headers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_row_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_row_headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_row_headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">headers</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_row_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_row_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut to set row headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -289,9 +306,9 @@ axis, else, process as if it is for the entire Matrix.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.slice">
-<code class="sig-name descname">slice</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.slice" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subsets the matrix and returns a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -319,9 +336,9 @@ to retrieve for each axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.slice_by_header">
-<code class="sig-name descname">slice_by_header</code><span class="sig-paren">(</span><em class="sig-param">header</em>, <em class="sig-param">axis</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.slice_by_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.slice_by_header" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">slice_by_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">header</span></em>, <em class="sig-param"><span class="n">axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.slice_by_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.slice_by_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a slice of the Matrix matching the header provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -341,9 +358,9 @@ to retrieve for each axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.transpose">
-<code class="sig-name descname">transpose</code><span class="sig-paren">(</span><em class="sig-param">*axes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.transpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.transpose" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transpose</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">axes</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.transpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.transpose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transposes the Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -359,9 +376,9 @@ transposition. see: ndarray.transpose</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the matrix to the specified file location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -370,9 +387,9 @@ transposition. see: ndarray.transpose</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.matrix.Matrix.write_csv">
-<code class="sig-name descname">write_csv</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">*slice_args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.write_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.write_csv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">slice_args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.write_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.matrix.Matrix.write_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the Matrix object to a CSV file location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -388,22 +405,33 @@ for a slice operation prior to generating CSV content.</p></li>
 </dd></dl>
 
 </div>
+<div class="section" id="module-lmpy.point">
+<span id="lmpy-point-module"></span><h2>lmpy.point module<a class="headerlink" href="#module-lmpy.point" title="Permalink to this headline">¶</a></h2>
+<p>Module containing Point class</p>
+<p>Note: A namedtuple could replace this class for Python 3.7+</p>
+<dl class="py class">
+<dt id="lmpy.point.Point">
+<em class="property">class </em><code class="sig-prename descclassname">lmpy.point.</code><code class="sig-name descname">Point</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">species_name</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">flags</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/point.html#Point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.point.Point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-lmpy.tree">
 <span id="lmpy-tree-module"></span><h2>lmpy.tree module<a class="headerlink" href="#module-lmpy.tree" title="Permalink to this headline">¶</a></h2>
 <p>Module for the Lifemapper TreeWrapper class.</p>
-<dl class="exception">
+<dl class="py exception">
 <dt id="lmpy.tree.LmTreeException">
 <em class="property">exception </em><code class="sig-prename descclassname">lmpy.tree.</code><code class="sig-name descname">LmTreeException</code><a class="reference internal" href="../_modules/lmpy/tree.html#LmTreeException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.LmTreeException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Wrapper around the base Exception class for tree related errors.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="lmpy.tree.PhyloTreeKeys">
 <em class="property">class </em><code class="sig-prename descclassname">lmpy.tree.</code><code class="sig-name descname">PhyloTreeKeys</code><a class="headerlink" href="#lmpy.tree.PhyloTreeKeys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Keys for phylogenetic trees.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="lmpy.tree.PhyloTreeKeys.MTX_IDX">
 <code class="sig-name descname">MTX_IDX</code><a class="headerlink" href="#lmpy.tree.PhyloTreeKeys.MTX_IDX" title="Permalink to this definition">¶</a></dt>
 <dd><p>The tree attribute indicating the matrix index position
@@ -415,7 +443,7 @@ for a node.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="lmpy.tree.PhyloTreeKeys.SQUID">
 <code class="sig-name descname">SQUID</code><a class="headerlink" href="#lmpy.tree.PhyloTreeKeys.SQUID" title="Permalink to this definition">¶</a></dt>
 <dd><p>The tree attribute indicating a hashed identifier for the
@@ -427,28 +455,28 @@ taxon.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">MTX_IDX</code><em class="property"> = 'mx'</em></dt>
+<dl class="py attribute">
+<dt id="id0">
+<code class="sig-name descname">MTX_IDX</code><em class="property"> = 'mx'</em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">SQUID</code><em class="property"> = 'squid'</em></dt>
+<dl class="py attribute">
+<dt id="id6">
+<code class="sig-name descname">SQUID</code><em class="property"> = 'squid'</em><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="lmpy.tree.TreeWrapper">
-<em class="property">class </em><code class="sig-prename descclassname">lmpy.tree.</code><code class="sig-name descname">TreeWrapper</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.tree.TreeWrapper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">lmpy.tree.</code><code class="sig-name descname">TreeWrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.tree.TreeWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dendropy.datamodel.treemodel.Tree</span></code></p>
 <p>Dendropy Tree wrapper.</p>
 <p>Dendropy tree wrapper that adds a little functionality and improves
 performance of some functions.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.add_node_labels">
-<code class="sig-name descname">add_node_labels</code><span class="sig-paren">(</span><em class="sig-param">prefix=None</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.add_node_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.add_node_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_node_labels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">overwrite</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.add_node_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.add_node_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add labels to the nodes in the tree.</p>
 <p>Add labels to the unlabeled nodes in the tree.</p>
 <dl class="field-list simple">
@@ -470,9 +498,9 @@ Defaults to False.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.annotate_tree">
-<code class="sig-name descname">annotate_tree</code><span class="sig-paren">(</span><em class="sig-param">annotation_dict</em>, <em class="sig-param">annotation_attribute=None</em>, <em class="sig-param">label_attribute=None</em>, <em class="sig-param">update=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.annotate_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.annotate_tree" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">annotate_tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">annotation_dict</span></em>, <em class="sig-param"><span class="n">annotation_attribute</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">update</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.annotate_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.annotate_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Annotates tree tips and nodes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -497,9 +525,9 @@ annotations with the annotations provided.  Defaults to False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.annotate_tree_tips">
-<code class="sig-name descname">annotate_tree_tips</code><span class="sig-paren">(</span><em class="sig-param">attribute_name</em>, <em class="sig-param">annotation_pairs</em>, <em class="sig-param">label_attribute='label'</em>, <em class="sig-param">update=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.annotate_tree_tips"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.annotate_tree_tips" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">annotate_tree_tips</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">attribute_name</span></em>, <em class="sig-param"><span class="n">annotation_pairs</span></em>, <em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">update</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.annotate_tree_tips"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.annotate_tree_tips" title="Permalink to this definition">¶</a></dt>
 <dd><p>Annotates the tips of the tree.</p>
 <dl class="simple">
 <dt>Deprecated:</dt><dd><ul class="simple">
@@ -523,9 +551,9 @@ existing annotations should be updated.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.from_base_tree">
-<em class="property">classmethod </em><code class="sig-name descname">from_base_tree</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.from_base_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_base_tree" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_base_tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.from_base_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_base_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a TreeWrapper object from a base dendropy.Tree.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -541,9 +569,9 @@ TreeWrapper.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.from_filename">
-<em class="property">classmethod </em><code class="sig-name descname">from_filename</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.from_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_filename" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_filename</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.from_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a TreeWrapper object by loading a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -562,9 +590,9 @@ TreeWrapper.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.get_annotations">
-<code class="sig-name descname">get_annotations</code><span class="sig-paren">(</span><em class="sig-param">annotation_attribute</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_annotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_annotations" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_annotations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">annotation_attribute</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_annotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_annotations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a list of (label, annotation) pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -573,9 +601,9 @@ TreeWrapper.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.get_distance_matrix">
-<code class="sig-name descname">get_distance_matrix</code><span class="sig-paren">(</span><em class="sig-param">label_attribute='label'</em>, <em class="sig-param">ordered_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_distance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_distance_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_distance_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">ordered_labels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_distance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_distance_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a Matrix object of phylogenetic distances.</p>
 <p>Get a Matrix object of phylogenetic distances between tips using a
 lower memory footprint.</p>
@@ -601,9 +629,9 @@ use this order of labels.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.get_distance_matrix_dendropy">
-<code class="sig-name descname">get_distance_matrix_dendropy</code><span class="sig-paren">(</span><em class="sig-param">label_attribute='label'</em>, <em class="sig-param">ordered_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_distance_matrix_dendropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_distance_matrix_dendropy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_distance_matrix_dendropy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">ordered_labels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_distance_matrix_dendropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_distance_matrix_dendropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a Matrix object of phylogenetic distances between tips.</p>
 <p>Gets the distance matrix between each tip using Dendropy.</p>
 <dl class="field-list simple">
@@ -641,7 +669,7 @@ footprint and works at nearly the same speed.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.get_labels">
 <code class="sig-name descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets tip labels for a clade.</p>
@@ -658,9 +686,9 @@ footprint and works at nearly the same speed.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.get_variance_covariance_matrix">
-<code class="sig-name descname">get_variance_covariance_matrix</code><span class="sig-paren">(</span><em class="sig-param">label_attribute='label'</em>, <em class="sig-param">ordered_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_variance_covariance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_variance_covariance_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_variance_covariance_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">ordered_labels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_variance_covariance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.get_variance_covariance_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a Matrix object of variance / co-variance for tips in tree.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -687,7 +715,7 @@ use this order of labels.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.has_branch_lengths">
 <code class="sig-name descname">has_branch_lengths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.has_branch_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.has_branch_lengths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a boolean indicating if the entire tree has branch lengths.</p>
@@ -701,7 +729,7 @@ use this order of labels.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.has_polytomies">
 <code class="sig-name descname">has_polytomies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.has_polytomies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.has_polytomies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns boolean indicating if the tree has polytomies.</p>
@@ -715,7 +743,7 @@ use this order of labels.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.is_binary">
 <code class="sig-name descname">is_binary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.is_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.is_binary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if the tree is binary.</p>
@@ -735,9 +763,9 @@ use this order of labels.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.is_ultrametric">
-<code class="sig-name descname">is_ultrametric</code><span class="sig-paren">(</span><em class="sig-param">rel_tol=0.001</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.is_ultrametric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.is_ultrametric" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_ultrametric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rel_tol</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.is_ultrametric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.is_ultrametric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if the tree is ultrametric.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -767,9 +795,9 @@ max are equal.  We will say they are equal if they are 99.9%.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.tree.TreeWrapper.prune_tips_without_attribute">
-<code class="sig-name descname">prune_tips_without_attribute</code><span class="sig-paren">(</span><em class="sig-param">search_attribute='mx'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.prune_tips_without_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.prune_tips_without_attribute" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">prune_tips_without_attribute</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">search_attribute</span><span class="o">=</span><span class="default_value">'mx'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.prune_tips_without_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.prune_tips_without_attribute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prunes the tree of any tips that don’t have the specified attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -785,18 +813,18 @@ PhyloTreeKeys.MTX_IDX.</p>
 </div>
 <div class="section" id="module-lmpy">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lmpy" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="lmpy.Matrix">
 <em class="property">class </em><code class="sig-prename descclassname">lmpy.</code><code class="sig-name descname">Matrix</code><a class="headerlink" href="#lmpy.Matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
 <p>Lifemapper wrapper for Numpy ndarrays that adds headers.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.T">
 <em class="property">property </em><code class="sig-name descname">T</code><a class="headerlink" href="#lmpy.Matrix.T" title="Permalink to this definition">¶</a></dt>
 <dd><p>The transposed array.</p>
 <p>Same as <code class="docutils literal notranslate"><span class="pre">self.transpose()</span></code>.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">],[</span><span class="mf">3.</span><span class="p">,</span><span class="mf">4.</span><span class="p">]])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">],[</span><span class="mf">3.</span><span class="p">,</span><span class="mf">4.</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
 <span class="go">array([[ 1.,  2.],</span>
 <span class="go">       [ 3.,  4.]])</span>
@@ -816,9 +844,9 @@ PhyloTreeKeys.MTX_IDX.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.concatenate">
-<em class="property">classmethod </em><code class="sig-name descname">concatenate</code><span class="sig-paren">(</span><em class="sig-param">mtx_list</em>, <em class="sig-param">axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.concatenate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.concatenate" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">concatenate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mtx_list</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.concatenate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.concatenate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Concatenates multiple Matrix objects together to form a new Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -848,7 +876,7 @@ for headers.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.flatten_2D">
 <code class="sig-name descname">flatten_2D</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.flatten_2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.flatten_2D" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flattens a higher dimension Matrix object into a 2D matrix.</p>
@@ -862,7 +890,7 @@ for headers.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.get_column_headers">
 <code class="sig-name descname">get_column_headers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_column_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.get_column_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut to get column headers.</p>
@@ -873,9 +901,9 @@ for headers.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.get_headers">
-<code class="sig-name descname">get_headers</code><span class="sig-paren">(</span><em class="sig-param">axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.get_headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.get_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the headers associated with this Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -889,7 +917,7 @@ If axis is int, A list of headers for the specified axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.get_metadata">
 <code class="sig-name descname">get_metadata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.get_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves matrix metadata.</p>
@@ -903,7 +931,7 @@ If axis is int, A list of headers for the specified axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.get_row_headers">
 <code class="sig-name descname">get_row_headers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.get_row_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.get_row_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut to get row headers.</p>
@@ -914,9 +942,9 @@ If axis is int, A list of headers for the specified axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.load">
-<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.load" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a matrix from a filename.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -925,7 +953,7 @@ If axis is int, A list of headers for the specified axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.load_csv">
 <em class="property">classmethod </em><code class="sig-name descname">load_csv</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">dtype=&lt;class 'float'&gt;</em>, <em class="sig-param">num_header_rows=0</em>, <em class="sig-param">num_header_cols=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.load_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.load_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attempts to load a Matrix object from a CSV file-like object.</p>
@@ -950,9 +978,9 @@ columns in the CSV file.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.set_column_headers">
-<code class="sig-name descname">set_column_headers</code><span class="sig-paren">(</span><em class="sig-param">headers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_column_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.set_column_headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_column_headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">headers</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_column_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.set_column_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut to set column headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -961,9 +989,9 @@ columns in the CSV file.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.set_headers">
-<code class="sig-name descname">set_headers</code><span class="sig-paren">(</span><em class="sig-param">headers</em>, <em class="sig-param">axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.set_headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">headers</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.set_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the headers for this Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -988,9 +1016,9 @@ axis, else, process as if it is for the entire Matrix.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.set_row_headers">
-<code class="sig-name descname">set_row_headers</code><span class="sig-paren">(</span><em class="sig-param">headers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_row_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.set_row_headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_row_headers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">headers</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.set_row_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.set_row_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut to set row headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -999,9 +1027,9 @@ axis, else, process as if it is for the entire Matrix.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.slice">
-<code class="sig-name descname">slice</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.slice" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subsets the matrix and returns a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1029,9 +1057,9 @@ to retrieve for each axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.slice_by_header">
-<code class="sig-name descname">slice_by_header</code><span class="sig-paren">(</span><em class="sig-param">header</em>, <em class="sig-param">axis</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.slice_by_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.slice_by_header" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">slice_by_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">header</span></em>, <em class="sig-param"><span class="n">axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.slice_by_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.slice_by_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a slice of the Matrix matching the header provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1051,9 +1079,9 @@ to retrieve for each axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.transpose">
-<code class="sig-name descname">transpose</code><span class="sig-paren">(</span><em class="sig-param">*axes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.transpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.transpose" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transpose</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">axes</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.transpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.transpose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transposes the Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1069,9 +1097,9 @@ transposition. see: ndarray.transpose</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the matrix to the specified file location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1080,9 +1108,9 @@ transposition. see: ndarray.transpose</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.Matrix.write_csv">
-<code class="sig-name descname">write_csv</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">*slice_args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.write_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.write_csv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">slice_args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/matrix.html#Matrix.write_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Matrix.write_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the Matrix object to a CSV file location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1097,19 +1125,19 @@ for a slice operation prior to generating CSV content.</p></li>
 
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="lmpy.LmTreeException">
 <em class="property">exception </em><code class="sig-prename descclassname">lmpy.</code><code class="sig-name descname">LmTreeException</code><a class="reference internal" href="../_modules/lmpy/tree.html#LmTreeException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.LmTreeException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Wrapper around the base Exception class for tree related errors.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="lmpy.PhyloTreeKeys">
 <em class="property">class </em><code class="sig-prename descclassname">lmpy.</code><code class="sig-name descname">PhyloTreeKeys</code><a class="headerlink" href="#lmpy.PhyloTreeKeys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Keys for phylogenetic trees.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="lmpy.PhyloTreeKeys.MTX_IDX">
 <code class="sig-name descname">MTX_IDX</code><a class="headerlink" href="#lmpy.PhyloTreeKeys.MTX_IDX" title="Permalink to this definition">¶</a></dt>
 <dd><p>The tree attribute indicating the matrix index position
@@ -1121,7 +1149,7 @@ for a node.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="lmpy.PhyloTreeKeys.SQUID">
 <code class="sig-name descname">SQUID</code><a class="headerlink" href="#lmpy.PhyloTreeKeys.SQUID" title="Permalink to this definition">¶</a></dt>
 <dd><p>The tree attribute indicating a hashed identifier for the
@@ -1133,28 +1161,28 @@ taxon.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">MTX_IDX</code><em class="property"> = 'mx'</em></dt>
+<dl class="py attribute">
+<dt id="id10">
+<code class="sig-name descname">MTX_IDX</code><em class="property"> = 'mx'</em><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">SQUID</code><em class="property"> = 'squid'</em></dt>
+<dl class="py attribute">
+<dt id="id11">
+<code class="sig-name descname">SQUID</code><em class="property"> = 'squid'</em><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="lmpy.TreeWrapper">
-<em class="property">class </em><code class="sig-prename descclassname">lmpy.</code><code class="sig-name descname">TreeWrapper</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.TreeWrapper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">lmpy.</code><code class="sig-name descname">TreeWrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmpy.TreeWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dendropy.datamodel.treemodel.Tree</span></code></p>
 <p>Dendropy Tree wrapper.</p>
 <p>Dendropy tree wrapper that adds a little functionality and improves
 performance of some functions.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.add_node_labels">
-<code class="sig-name descname">add_node_labels</code><span class="sig-paren">(</span><em class="sig-param">prefix=None</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.add_node_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.add_node_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_node_labels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">overwrite</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.add_node_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.add_node_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add labels to the nodes in the tree.</p>
 <p>Add labels to the unlabeled nodes in the tree.</p>
 <dl class="field-list simple">
@@ -1176,9 +1204,9 @@ Defaults to False.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.annotate_tree">
-<code class="sig-name descname">annotate_tree</code><span class="sig-paren">(</span><em class="sig-param">annotation_dict</em>, <em class="sig-param">annotation_attribute=None</em>, <em class="sig-param">label_attribute=None</em>, <em class="sig-param">update=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.annotate_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.annotate_tree" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">annotate_tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">annotation_dict</span></em>, <em class="sig-param"><span class="n">annotation_attribute</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">update</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.annotate_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.annotate_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Annotates tree tips and nodes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1203,9 +1231,9 @@ annotations with the annotations provided.  Defaults to False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.annotate_tree_tips">
-<code class="sig-name descname">annotate_tree_tips</code><span class="sig-paren">(</span><em class="sig-param">attribute_name</em>, <em class="sig-param">annotation_pairs</em>, <em class="sig-param">label_attribute='label'</em>, <em class="sig-param">update=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.annotate_tree_tips"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.annotate_tree_tips" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">annotate_tree_tips</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">attribute_name</span></em>, <em class="sig-param"><span class="n">annotation_pairs</span></em>, <em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">update</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.annotate_tree_tips"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.annotate_tree_tips" title="Permalink to this definition">¶</a></dt>
 <dd><p>Annotates the tips of the tree.</p>
 <dl class="simple">
 <dt>Deprecated:</dt><dd><ul class="simple">
@@ -1229,9 +1257,9 @@ existing annotations should be updated.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.from_base_tree">
-<em class="property">classmethod </em><code class="sig-name descname">from_base_tree</code><span class="sig-paren">(</span><em class="sig-param">tree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.from_base_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.from_base_tree" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_base_tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.from_base_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.from_base_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a TreeWrapper object from a base dendropy.Tree.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1247,9 +1275,9 @@ TreeWrapper.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.from_filename">
-<em class="property">classmethod </em><code class="sig-name descname">from_filename</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.from_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.from_filename" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_filename</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.from_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.from_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a TreeWrapper object by loading a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1268,9 +1296,9 @@ TreeWrapper.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.get_annotations">
-<code class="sig-name descname">get_annotations</code><span class="sig-paren">(</span><em class="sig-param">annotation_attribute</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_annotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_annotations" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_annotations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">annotation_attribute</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_annotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_annotations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a list of (label, annotation) pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1279,9 +1307,9 @@ TreeWrapper.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.get_distance_matrix">
-<code class="sig-name descname">get_distance_matrix</code><span class="sig-paren">(</span><em class="sig-param">label_attribute='label'</em>, <em class="sig-param">ordered_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_distance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_distance_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_distance_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">ordered_labels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_distance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_distance_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a Matrix object of phylogenetic distances.</p>
 <p>Get a Matrix object of phylogenetic distances between tips using a
 lower memory footprint.</p>
@@ -1307,9 +1335,9 @@ use this order of labels.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.get_distance_matrix_dendropy">
-<code class="sig-name descname">get_distance_matrix_dendropy</code><span class="sig-paren">(</span><em class="sig-param">label_attribute='label'</em>, <em class="sig-param">ordered_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_distance_matrix_dendropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_distance_matrix_dendropy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_distance_matrix_dendropy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">ordered_labels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_distance_matrix_dendropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_distance_matrix_dendropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a Matrix object of phylogenetic distances between tips.</p>
 <p>Gets the distance matrix between each tip using Dendropy.</p>
 <dl class="field-list simple">
@@ -1347,7 +1375,7 @@ footprint and works at nearly the same speed.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.get_labels">
 <code class="sig-name descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets tip labels for a clade.</p>
@@ -1364,9 +1392,9 @@ footprint and works at nearly the same speed.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.get_variance_covariance_matrix">
-<code class="sig-name descname">get_variance_covariance_matrix</code><span class="sig-paren">(</span><em class="sig-param">label_attribute='label'</em>, <em class="sig-param">ordered_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_variance_covariance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_variance_covariance_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_variance_covariance_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label_attribute</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">ordered_labels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.get_variance_covariance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.get_variance_covariance_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a Matrix object of variance / co-variance for tips in tree.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1393,7 +1421,7 @@ use this order of labels.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.has_branch_lengths">
 <code class="sig-name descname">has_branch_lengths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.has_branch_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.has_branch_lengths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a boolean indicating if the entire tree has branch lengths.</p>
@@ -1407,7 +1435,7 @@ use this order of labels.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.has_polytomies">
 <code class="sig-name descname">has_polytomies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.has_polytomies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.has_polytomies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns boolean indicating if the tree has polytomies.</p>
@@ -1421,7 +1449,7 @@ use this order of labels.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.is_binary">
 <code class="sig-name descname">is_binary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.is_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.is_binary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if the tree is binary.</p>
@@ -1441,9 +1469,9 @@ use this order of labels.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.is_ultrametric">
-<code class="sig-name descname">is_ultrametric</code><span class="sig-paren">(</span><em class="sig-param">rel_tol=0.001</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.is_ultrametric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.is_ultrametric" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_ultrametric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rel_tol</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.is_ultrametric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.is_ultrametric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if the tree is ultrametric.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1473,9 +1501,9 @@ max are equal.  We will say they are equal if they are 99.9%.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lmpy.TreeWrapper.prune_tips_without_attribute">
-<code class="sig-name descname">prune_tips_without_attribute</code><span class="sig-paren">(</span><em class="sig-param">search_attribute='mx'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.prune_tips_without_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.prune_tips_without_attribute" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">prune_tips_without_attribute</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">search_attribute</span><span class="o">=</span><span class="default_value">'mx'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/tree.html#TreeWrapper.prune_tips_without_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.TreeWrapper.prune_tips_without_attribute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prunes the tree of any tips that don’t have the specified attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1488,9 +1516,9 @@ PhyloTreeKeys.MTX_IDX.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="lmpy.Point">
-<em class="property">class </em><code class="sig-prename descclassname">lmpy.</code><code class="sig-name descname">Point</code><span class="sig-paren">(</span><em class="sig-param">species_name</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">flags=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/point.html#Point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Point" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">lmpy.</code><code class="sig-name descname">Point</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">species_name</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">flags</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lmpy/point.html#Point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lmpy.Point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
@@ -1509,12 +1537,19 @@ PhyloTreeKeys.MTX_IDX.</p>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-lmpy.matrix">lmpy.matrix module</a></li>
+<li><a class="reference internal" href="#module-lmpy.point">lmpy.point module</a></li>
 <li><a class="reference internal" href="#module-lmpy.tree">lmpy.tree module</a></li>
 <li><a class="reference internal" href="#module-lmpy">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">lmpy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lmpy.data_preparation.html"
+                        title="next chapter">lmpy.data_preparation package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -1531,7 +1566,7 @@ PhyloTreeKeys.MTX_IDX.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1545,12 +1580,19 @@ PhyloTreeKeys.MTX_IDX.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="lmpy.data_preparation.html" title="lmpy.data_preparation package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="lmpy"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >lmpy</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Lifemapper Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
     </div>
   </body>
 </html>

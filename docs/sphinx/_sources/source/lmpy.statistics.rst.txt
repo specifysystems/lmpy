@@ -4,6 +4,14 @@ lmpy.statistics package
 Submodules
 ----------
 
+lmpy.statistics.pam\_stats module
+---------------------------------
+
+.. automodule:: lmpy.statistics.pam_stats
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 lmpy.statistics.running\_stats module
 -------------------------------------
 

@@ -112,3 +112,7 @@ class RunningStats(object):
         else:
             raise Exception(
                 'P-values cannot be computed without observed values')
+
+
+# .............................................................................
+__all__ = ['RunningStats', 'compare_absolute_values', 'compare_signed_values']

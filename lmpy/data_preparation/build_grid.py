@@ -155,3 +155,8 @@ def build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size,
         feat.Destroy()
     data_set.Destroy()
     return shape_id
+
+
+# .............................................................................
+__all__ = ['build_shapegrid', 'hexagon_wkt_generator',
+           'make_polygon_wkt_from_points', 'square_wkt_generator']

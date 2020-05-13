@@ -4,22 +4,6 @@ lmpy.randomize package
 Submodules
 ----------
 
-lmpy.randomize.curveball module
--------------------------------
-
-.. automodule:: lmpy.randomize.curveball
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-lmpy.randomize.curveball\_pub module
-------------------------------------
-
-.. automodule:: lmpy.randomize.curveball_pub
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 lmpy.randomize.grady module
 ---------------------------
 

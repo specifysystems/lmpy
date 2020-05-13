@@ -484,3 +484,17 @@ class PamStats:
         else:
             raise TypeError(
                 'Unknown metric type: {}, {}'.format(name, metric_function))
+
+
+# .............................................................................
+__all__ = ['CovarianceMatrixMetric', 'DiversityMetric', 'PamDistMatrixMetric',
+           'PamStats', 'PamStatsMetric', 'SiteMatrixMetric',
+           'SpeciesMatrixMetric', 'TreeDistanceMatrixMetric', 'TreeMetric',
+           'alpha', 'alpha_proportional', 'c_score', 'lande', 'legendre',
+           'mean_nearest_taxon_distance', 'mean_pairwise_distance',
+           'num_sites', 'num_species', 'omega', 'omega_proportional',
+           'pearson_correlation', 'phi', 'phi_average_proportional',
+           'phylogenetic_diversity', 'psi', 'psi_average_proportional',
+           'schluter_site_variance_ratio', 'schluter_species_variance_ratio',
+           'sigma_sites', 'sigma_species', 'sum_pairwise_distance',
+           'whittaker']
