@@ -44,7 +44,7 @@ The 'get_coordinate_converter' function returns a function that will convert
 the X and Y coordinates of points provided to it from the original coordinate
 system to the specified target coordinate system.
 
-See: `get_coordinate_converter <>`_.
+See: `get_coordinate_converter <../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_transformation.get_coordinate_converter>`_.
 
     >>> points = [
     ...           Point('Test species', -30, 20),
