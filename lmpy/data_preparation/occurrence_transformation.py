@@ -2,6 +2,8 @@
 import csv
 from operator import itemgetter
 
+from osgeo import ogr, osr
+
 from lmpy import Point
 
 
@@ -103,3 +105,32 @@ def convert_json_to_point(json_obj, species_name_getter, x_getter, y_getter,
         point_iterator(json_obj), species_name_getter, x_getter, y_getter,
         flags_getter)
     return points
+
+
+# .............................................................................
+def get_coordinate_converter(in_epsg, out_epsg):
+    """Get a function to convert points from one coordinate system to another.
+
+    Args:
+        in_epsg (int): The EPSG code of the incoming points.
+        out_epsg (int): The target EPSG code for output points.
+
+    Returns:
+        function(point): A function that takes a point and returns a new point
+            with the coordinates converted.
+    """
+    source = osr.SpatialReference()
+    source.ImportFromEPSG(in_epsg)
+    target = osr.SpatialReference()
+    target.ImportFromEPSG(out_epsg)
+
+    transform = osr.CoordinateTransformation(source, target)
+
+    def converter_func(point):
+        geom = ogr.CreateGeometryFromWkt(
+            'POINT ({} {})'.format(point.x, point.y))
+        geom.Transform(transform)
+        return Point(
+            point.species_name, geom.GetX(), geom.GetY(), flags=point.flags)
+
+    return converter_func
