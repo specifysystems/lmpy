@@ -1,11 +1,12 @@
 """Tests the occurrence_transformation module."""
-import pytest
-
 from copy import deepcopy
 from operator import itemgetter
 import os
 from random import randint, shuffle
 import tempfile
+
+import numpy as np
+import pytest
 
 from lmpy import Point
 from lmpy.data_preparation.occurrence_transformation import (
