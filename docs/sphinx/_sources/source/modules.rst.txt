@@ -1,7 +1,10 @@
-lmpy
-====
+data_preparation
+================
 
 .. toctree::
    :maxdepth: 4
 
-   lmpy
+   build_grid
+   layer_encoder
+   occurrence_filters
+   occurrence_transformation

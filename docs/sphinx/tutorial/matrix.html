@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Matrix Objects &#8212; Lifemapper lmpy 1.0.1 documentation</title>
+    <title>Matrix Objects &#8212; Lifemapper lmpy 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="tutorial.html" title="Tutorials"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="tutorial.html" accesskey="U">Tutorials</a> &#187;</li> 
       </ul>
     </div>  
@@ -60,7 +60,7 @@ manipulating these arrays as well as their metadata and headers so that they
 are more useful for our needs.  This additional functionality may be useful for
 you as well, so we have included it in the lmpy repository.  Note that if you
 are developing an extension for the
-<a class="reference external" href="https://github.com/biotaphy/analyses">BiotaPhy Analyses Repository</a>, you
+<a class="reference external" href="https://github.com/biotaphy/BiotaPhyPy">BiotaPhy Python Repository</a>, you
 should utilize this class as arrays within a Lifemapper cluster use these
 Matrix objects.</p>
 </div>
@@ -78,17 +78,15 @@ Matrix objects.</p>
 <h3>Reading a CSV file<a class="headerlink" href="#reading-a-csv-file" title="Permalink to this headline">¶</a></h3>
 <p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.load_csv">Matrix.load_csv</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">csv_fn</span> <span class="o">=</span> <span class="s1">&#39;my_csv_file.csv&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csv_fn</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_f</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load_csv</span><span class="p">(</span><span class="n">in_f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">csv_fn</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="reading-a-saved-matrix">
 <h3>Reading a saved Matrix<a class="headerlink" href="#reading-a-saved-matrix" title="Permalink to this headline">¶</a></h3>
-<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.load_flo">Matrix.load_flo</a></p>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.load">Matrix.load</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx_fn</span> <span class="o">=</span> <span class="s1">&#39;my_mtx_file.lmm&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mtx_fn</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_f</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load_flo</span><span class="p">(</span><span class="n">in_f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mtx_fn</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -126,17 +124,15 @@ Matrix objects.</p>
 <h2>Writing Matrix objects<a class="headerlink" href="#writing-matrix-objects" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="saving-to-the-file-system">
 <h3>Saving to the file system<a class="headerlink" href="#saving-to-the-file-system" title="Permalink to this headline">¶</a></h3>
-<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.save">Matrix.save</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;path_to_new_file.lmm&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_f</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">mtx</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">out_f</span><span class="p">)</span>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.write">Matrix.save</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;path_to_new_file.lmm&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="writing-to-a-csv-file">
 <h3>Writing to a CSV file<a class="headerlink" href="#writing-to-a-csv-file" title="Permalink to this headline">¶</a></h3>
 <p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.write_csv">Matrix.write_csv</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;path_to_new_csv_file.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_f</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">mtx</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="n">out_f</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="s1">&#39;path_to_new_csv_file.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -292,12 +288,12 @@ Matrix objects.</p>
         <li class="right" >
           <a href="tutorial.html" title="Tutorials"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="tutorial.html" >Tutorials</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Lifemapper Team.
+        &#169; Copyright 2020, Lifemapper Team.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
