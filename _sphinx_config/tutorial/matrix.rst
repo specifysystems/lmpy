@@ -16,7 +16,7 @@ manipulating these arrays as well as their metadata and headers so that they
 are more useful for our needs.  This additional functionality may be useful for
 you as well, so we have included it in the lmpy repository.  Note that if you
 are developing an extension for the
-`BiotaPhy Analyses Repository <https://github.com/biotaphy/analyses>`_, you
+`BiotaPhy Python Repository <https://github.com/biotaphy/BiotaPhyPy>`_, you
 should utilize this class as arrays within a Lifemapper cluster use these
 Matrix objects.
 
@@ -36,16 +36,14 @@ Reading a CSV file
 See: `Matrix.load_csv <../source/lmpy.html#lmpy.matrix.Matrix.load_csv>`_
 
     >>> csv_fn = 'my_csv_file.csv'
-    >>> with open(csv_fn, 'r') as in_f:
-    ...     new_mtx = Matrix.load_csv(in_f)
+    >>> new_mtx = Matrix.load(csv_fn, num_header_rows=1)
 
 Reading a saved Matrix
 ----------------------
-See: `Matrix.load_flo <../source/lmpy.html#lmpy.matrix.Matrix.load_flo>`_
+See: `Matrix.load <../source/lmpy.html#lmpy.matrix.Matrix.load>`_
 
     >>> mtx_fn = 'my_mtx_file.lmm'
-    >>> with open(mtx_fn, 'r') as in_f:
-    ...     new_mtx = Matrix.load_flo(in_f)
+    >>> new_mtx = Matrix.load(mtx_fn)
 
 Concatenating existing Matrix objects
 -------------------------------------
@@ -79,17 +77,15 @@ Writing Matrix objects
 
 Saving to the file system
 -------------------------
-See: `Matrix.save <../source/lmpy.html#lmpy.matrix.Matrix.save>`_
+See: `Matrix.save <../source/lmpy.html#lmpy.matrix.Matrix.write>`_
 
-    >>> with open('path_to_new_file.lmm', 'w') as out_f:
-    ...     mtx.save(out_f)
+    >>> mtx.write('path_to_new_file.lmm')
 
 Writing to a CSV file
 ---------------------
 See: `Matrix.write_csv <../source/lmpy.html#lmpy.matrix.Matrix.write_csv>`_
 
-    >>> with open('path_to_new_csv_file.csv', 'w') as out_f:
-    ...     mtx.write_csv(out_f)
+    >>> mtx.write_csv('path_to_new_csv_file.csv')
 
 ----
 
