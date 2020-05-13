@@ -1,16 +1,16 @@
 """Tests the occurrence_transformation module."""
 import pytest
 
+from copy import deepcopy
+from operator import itemgetter
 import os
 from random import randint, shuffle
 import tempfile
 
 from lmpy import Point
 from lmpy.data_preparation.occurrence_transformation import (
-    convert_delimited_to_point, convert_json_to_point, none_getter)
-from _operator import itemgetter
-from data_preparation.occurrence_transformation import get_coordinate_converter
-from copy import deepcopy
+    convert_delimited_to_point, convert_json_to_point,
+    get_coordinate_converter, none_getter)
 
 
 # .............................................................................
