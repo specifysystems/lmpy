@@ -78,6 +78,7 @@ class TreeDistanceMatrixMetric(_SiteStatMetric):
 # .............................................................................
 @SiteMatrixMetric
 def alpha(pam):
+    """Calculate alpha diversity, the number of species in each site."""
     return pam.sum(axis=1)
 
 
@@ -91,14 +92,14 @@ def alpha_proportional(pam):
 # .............................................................................
 @SiteMatrixMetric
 def phi(pam):
-    """"""
+    """Calculate phi, the range size per site."""
     return pam.dot(pam.sum(axis=0))
 
 
 # .............................................................................
 @SiteMatrixMetric
 def phi_average_proportional(pam):
-    """"""
+    """Calculate proportional range size per site."""
     return pam.dot(omega(pam)).astype(np.float) / (num_sites(pam) * alpha(pam))
 
 
@@ -107,26 +108,30 @@ def phi_average_proportional(pam):
 # .............................................................................
 @SpeciesMatrixMetric
 def omega(pam):
+    """Calculate the range size per species."""
     return pam.sum(axis=0)
 
 
 # .............................................................................
 @SpeciesMatrixMetric
 def omega_proportional(pam):
+    """Calculate the mean proportional range size of each species."""
     return pam.sum(axis=0).astype(float) / num_sites(pam)
 
 
 # .............................................................................
 @SpeciesMatrixMetric
 def psi(pam):
+    """Calculate the range richness of each species."""
     return pam.sum(axis=1).dot(pam)
 
 
 # .............................................................................
 @SpeciesMatrixMetric
 def psi_average_proportional(pam):
-    return alpha(pam
-                 ).dot(pam).astype(np.float) / (num_species(pam) * omega(pam))
+    """Calculate the mean proportional species diversity."""
+    return alpha(
+        pam).dot(pam).astype(np.float) / (num_species(pam) * omega(pam))
 
 
 # .............................................................................
@@ -162,12 +167,14 @@ def num_species(pam):
 # .............................................................................
 @DiversityMetric
 def whittaker(pam):
+    """Calculate Whittaker's beta diversity metric for a PAM."""
     return float(num_species(pam) / omega_proportional(pam).sum())
 
 
 # .............................................................................
 @DiversityMetric
 def lande(pam):
+    """Calculate Lande's beta diversity metric for a PAM."""
     return float(num_species(pam) - (
         pam.sum(axis=0).astype(float) / num_sites(pam)).sum())
 
@@ -175,6 +182,7 @@ def lande(pam):
 # .............................................................................
 @DiversityMetric
 def legendre(pam):
+    """Calculate Legendre's beta diversity metric for a PAM."""
     return float(
         omega(pam).sum() - (float((omega(pam) ** 2).sum()) / num_sites(pam)))
 
@@ -182,6 +190,7 @@ def legendre(pam):
 # .............................................................................
 @DiversityMetric
 def c_score(pam):
+    """Calculate the checkerboard score for the PAM."""
     temp = 0.0
     # Cache these so we don't recompute
     omega_ = omega(pam)  # Cache so we don't waste computations

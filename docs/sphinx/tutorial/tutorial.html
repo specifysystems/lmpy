@@ -16,7 +16,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Matrix Objects" href="matrix.html" />
+    <link rel="next" title="Build Shapegrid" href="build_grid.html" />
     <link rel="prev" title="Installation" href="../pages/installation.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -29,7 +29,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="matrix.html" title="Matrix Objects"
+          <a href="build_grid.html" title="Build Shapegrid"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../pages/installation.html" title="Installation"
@@ -47,6 +47,17 @@
 <h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="build_grid.html">Build Shapegrid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build_grid.html#introduction">Introduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="layer_encoder.html">Layer Encoder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="layer_encoder.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layer_encoder.html#creating-a-pam">Creating a PAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layer_encoder.html#encoding-environmental-data">Encoding Environmental Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layer_encoder.html#encoding-biogeographic-hypotheses">Encoding Biogeographic Hypotheses</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="matrix.html">Matrix Objects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="matrix.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="matrix.html#creating-matrix-instances">Creating Matrix Instances</a><ul>
@@ -77,6 +88,20 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#bounding-box-filter">Bounding Box Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#data-flag-filter">Data Flag Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#disjoint-geometries-filter">Disjoint Geometries Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#intersect-geometries-filter">Intersect Geometries Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#unique-localities-filter">Unique Localities Filter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="occurrence_transformation.html">Delimited to Points</a></li>
+<li class="toctree-l1"><a class="reference internal" href="occurrence_transformation.html#json-to-points">JSON to Points</a></li>
+<li class="toctree-l1"><a class="reference internal" href="occurrence_transformation.html#convert-coordinate-systems">Convert Coordinate Systems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html#randomization-algorithms">Randomization algorithms</a><ul>
@@ -88,6 +113,56 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html#generating-a-null-model">Generating a null model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pam_statistics.html">PAM Statistics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#generating-default-statistics">Generating Default Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#adding-new-statistics">Adding New Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#covariance-matrix-metrics">Covariance Matrix Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#sigma-sites">sigma_sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#sigma-species">sigma_species</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#diversity-metrics">Diversity Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#schluter-species-variance-ratio">schluter_species_variance_ratio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#schluter-site-variance-ratio">schluter_site_variance_ratio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#num-sites">num_sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#num-species">num_species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#whittaker">whittaker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#lande">lande</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#legendre">legendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#c-score">c_score</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#species-matrix-metrics">Species Matrix Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#omega">omega</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#omega-proportional">omega_proportional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#psi">psi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#psi-average-proportional">psi_average_proportional</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#site-matrix-metrics">Site Matrix Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#alpha">alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#alpha-proportional">alpha_proportional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#phi">phi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#phi-average-proportional">phi_average_proportional</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#pam-distance-matrix-metrics">PAM Distance Matrix Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#pearson-correlation">pearson_correlation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#tree-metrics">Tree Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#phylogenetic-diversity">phylogenetic_diversity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html#tree-distance-matrix-metrics">Tree Distance Matrix Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#mean-nearest-taxon-distance">mean_nearest_taxon_distance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#mean-pairwise-distance">mean_pairwise_distance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pam_statistics.html#sum-pairwise-distance">sum_pairwise_distance</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="running_stats.html">Running Statistics</a><ul>
@@ -141,8 +216,8 @@
   <p class="topless"><a href="../pages/installation.html"
                         title="previous chapter">Installation</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="matrix.html"
-                        title="next chapter">Matrix Objects</a></p>
+  <p class="topless"><a href="build_grid.html"
+                        title="next chapter">Build Shapegrid</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -174,7 +249,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="matrix.html" title="Matrix Objects"
+          <a href="build_grid.html" title="Build Shapegrid"
              >next</a> |</li>
         <li class="right" >
           <a href="../pages/installation.html" title="Installation"
