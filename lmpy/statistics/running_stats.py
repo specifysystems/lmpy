@@ -109,5 +109,5 @@ class RunningStats(object):
         if self.f_counts is not None:
             return self.f_counts / float(self.count)
 
-         raise Exception(
+        raise Exception(
             'P-values cannot be computed without observed values')
