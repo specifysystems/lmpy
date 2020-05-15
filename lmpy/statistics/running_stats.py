@@ -99,8 +99,7 @@ class RunningStats(object):
         """
         if self.count > 1:
             return self.s_k / (self.count - 1)
-        else:
-            return 0.0
+        return 0.0
 
     # .....................................
     @property
