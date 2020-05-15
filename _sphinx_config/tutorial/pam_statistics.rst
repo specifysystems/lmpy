@@ -71,11 +71,13 @@ species by species matrix of metric values.
 
 sigma_sites
 -----------
-Sites covariance.
+Matrix of covariance of composition of sites.
+:math:`\mathbf{\Sigma}_{sites}(j,k) = \frac{1}{S}\sum_{i=1}^{S}\delta_{j,l}\delta_{k,l} - \frac{\alpha_j\alpha_k}{S^2}`
 
 sigma_species
 -------------
-Species covariance.
+Matrix of covariance of ranges of species.
+:math:`\mathbf{\Sigma}_{species}(h,i) = \frac{1}{N}\sum_{j=i}^{N}\delta_{i,j}\delta_{h,j} - \frac{\omega_i\omega_h}{N^2}`
 
 ----
 
@@ -86,9 +88,13 @@ entire study.
 
 schluter_species_variance_ratio
 -------------------------------
+Schluter species-ranges covariance.
+:math:`V_{species} = \frac{\bar{\psi}^* - N /\beta_W^2}{1/\beta_W - \bar{\varphi}^* / S}`
 
 schluter_site_variance_ratio
 ----------------------------
+Schluter sites-composition covariance.
+:math:`V_{sites} = \frac{\bar{\varphi}^* - S /\beta_W^2}{1/\beta_W - \bar{\psi}^* / N}`
 
 num_sites
 ---------
@@ -102,19 +108,23 @@ site.
 
 whittaker
 ---------
-Whittaker's beta diversity metric for a PAM.
+Whittaker's multaplicative beta diversity metric for a PAM.
+:math:`\beta_W = \frac{1}{\bar{\omega}^{*}}`
 
 lande
 -----
-Lande is Lande's beta diversity metric for a PAM.
+Lande is Lande's addative beta diversity metric for a PAM.
+:math:`\beta_A = S(1 - 1/\beta_W)`
 
 legendre
 --------
 Legendre is Legendre's beta diversity metric for a PAM.
+:math:`\beta_L = SS(\mathbf{X}) = SN / \beta_W - \left (\sum_{j=1}^{S}\omega_j^2 \right ) / N`
 
 c_score
 -------
-C-score is the checkerboard score for the PAM.
+C-score is the Stone & Robers checkerboard score for the PAM.
+:math:`C = \frac{2}{S(S-1)}\left [ \sum_{i=1}^{N} \sum_{h<i}(\omega_i - \omega_{i,h})(\omega_h - \omega_{i,h}) \right ]`
 
 ----
 
@@ -131,10 +141,12 @@ omega_proportional
 ------------------
 Omega proportional is the range size of each species as a proportion of the
 total number of sites.
+:math:`\omega_i^* = \frac{\bar{\rho}_i}{\bar{\psi}_i^* - \beta_W^{-1}}`
 
 psi
 ---
 Psi is the range richness of each species.
+:math:`\psi_j = \sum_{i=1}^{N}\delta_{i,j} \alpha_i`
 
 psi_average_proportional
 ------------------------
@@ -155,10 +167,12 @@ alpha_proportional
 ------------------
 Alpha proportional diversity is the ratio of the number of species present at
 each site to the total number of species in the entire study area.
+:math:`\alpha_j^* = \frac{\tau_j}{\bar{\varphi}_j^*-\beta_W^{-1}}`
 
 phi
 ---
 Phi is the sum of the range size of the species present at each site.
+:math:`\varphi_i = \sum_{j=1}^{S}\delta_{i,j} \omega_j`
 
 phi_average_proportional
 ------------------------
