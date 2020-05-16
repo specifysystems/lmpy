@@ -8,6 +8,7 @@ import pytest
 from lmpy import Point
 from lmpy.data_preparation.build_grid import (
     build_shapegrid, hexagon_wkt_generator, make_polygon_wkt_from_points,
+    square_wkt_generator)
 
 
 # .............................................................................
