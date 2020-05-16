@@ -8,7 +8,7 @@ Lifemapper installation that may also be useful for outside contributors and
 the community as a whole.
 
 Any community contributed tool through the
-[BiotaPhy Analyses Repository](https://github.com/biotaphy/analyses/) should
+[BiotaPhy Python Repository](https://github.com/biotaphy/BiotaPhyPy/) should
 use these objects to ensure that the new analysis is compatible with the
 Lifemapper backend.
 
