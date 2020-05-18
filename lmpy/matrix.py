@@ -103,11 +103,11 @@ class Matrix(np.ndarray):
             filename (str): File location of matrix to load.
         """
         with open(filename, 'rb') as in_file:
-            return Matrix._load_flo(in_file)
+            return Matrix.load_flo(in_file)
 
     # ...........................
     @classmethod
-    def load_csv(cls, filename, dtype=np.float, num_header_rows=0,
+    def load_csv(cls, flo, dtype=np.float, num_header_rows=0,
                  num_header_cols=0):
         """Attempts to load a Matrix object from a CSV file-like object.
 
@@ -127,49 +127,40 @@ class Matrix(np.ndarray):
         row_headers = []
         header_lines = []  # Leading rows that are headers
         data = []
-        # Get data size
-        with open(filename, 'r') as flo:
-            row_count = -num_header_rows
-            col_count = None
-            for line in flo:
-                row_count += 1
-                if col_count is None:
-                    col_count = len(line.strip().split(',')) - num_header_cols
-        data = np.zeros((row_count, col_count), dtype=dtype)
         i = 0
-        with open(filename, 'r') as flo:
-            for line in flo:
-                items = line.strip().split(',')
-                # If header row, add to header rows for processing
-                if i < num_header_rows:
-                    # Add the headers to header lines for processing
-                    header_lines.append(items[num_header_cols:])
-                else:
-                    if num_header_cols == 1:
-                        row_headers.append(items[0].strip())
-                    elif num_header_cols > 1:
-                        row_headers.append(
-                            [q.strip() for q in items[:num_header_cols]])
-                    data[i-num_header_rows, :] = [
-                        dtype(x) for x in items[num_header_cols:]]
+        for line in flo:
+            items = line.strip().split(',')
+            # If header row, add to header rows for processing
+            if i < num_header_rows:
+                # Add the headers to header lines for processing
+                header_lines.append(items[num_header_cols:])
+            else:
+                if num_header_cols == 1:
+                    row_headers.append(items[0].strip())
+                elif num_header_cols > 1:
+                    row_headers.append(
+                        [q.strip() for q in items[:num_header_cols]])
+                data.append([dtype(x) for x in items[num_header_cols:]])
 
-                i += 1
+            i += 1
 
         # Process header columns from header rows
         if num_header_rows == 1:
             col_headers = [q.strip() for q in header_lines[0]]
         elif num_header_rows > 1:
             for j in range(len(header_lines[0])):
-                h = []
-                for x in range(num_header_rows):
-                    h.append(header_lines[x][j].strip())
-                col_headers.append(h)
+                hdr = []
+                for hdr_idx in range(num_header_rows):
+                    hdr.append(header_lines[hdr_idx][j].strip())
+                col_headers.append(hdr)
 
-        return cls(data, headers={'0': row_headers, '1': col_headers})
+        data_array = np.array(data)
+
+        return cls(data_array, headers={'0': row_headers, '1': col_headers})
 
     # ...........................
     @classmethod
-    def _load_flo(cls, flo):
+    def load_flo(cls, flo):
         """Attempts to load a Matrix object from a file.
 
         Args:
@@ -238,7 +229,7 @@ class Matrix(np.ndarray):
         return new_mtx
 
     # ...........................
-    def flatten_2D(self):
+    def flatten_2d(self):
         """Flattens a higher dimension Matrix object into a 2D matrix.
 
         Todo:
@@ -323,12 +314,12 @@ class Matrix(np.ndarray):
         try:
             if axis is None:
                 return self.headers
-            else:
-                if str(axis) in self.headers.keys():
-                    return self.headers[str(axis)]
-                else:
-                    return None
-        except:  # pragma: no cover
+
+            if str(axis) in self.headers.keys():
+                return self.headers[str(axis)]
+
+            return None
+        except Exception:  # pragma: no cover
             return {}
 
     # ...........................
@@ -350,7 +341,7 @@ class Matrix(np.ndarray):
         return self.get_headers(axis=0)
 
     # ...........................
-    def _save_flo(self, flo):
+    def save(self, flo):
         """Saves the Matrix to a file-like object.
 
         Saves the Matrix object in a JSON / Numpy zip file to the file-like
@@ -495,8 +486,8 @@ class Matrix(np.ndarray):
     def T(self):
         if self.ndim < 2:
             return self
-        else:
-            return self.transpose()
+
+        return self.transpose()
 
     # ...........................
     def transpose(self, *axes):
@@ -537,22 +528,10 @@ class Matrix(np.ndarray):
             filename (str): The file location to save to.
         """
         with open(filename, 'wb') as out_file:
-            self._save_flo(out_file)
+            self.save(out_file)
 
     # ...........................
-    def write_csv(self, filename, *slice_args):
-        """Writes the Matrix object to a CSV file location.
-
-        Args:
-            filename (str): The file location to write the CSV data.
-            *slice_args: A variable length argument list of iterables to use
-                for a slice operation prior to generating CSV content.
-        """
-        with open(filename, 'w') as out_file:
-            self._write_csv_flo(out_file, *slice_args)
-
-    # ...........................
-    def _write_csv_flo(self, flo, *slice_args):
+    def write_csv(self, flo, *slice_args):
         """Writes the Matrix object to a CSV file-like object.
 
         Args:
@@ -573,7 +552,7 @@ class Matrix(np.ndarray):
             mtx = self
 
         if mtx.ndim > 2:
-            mtx = mtx.flatten_2D()
+            mtx = mtx.flatten_2d()
 
         # .....................
         # Inner functions
@@ -596,7 +575,7 @@ class Matrix(np.ndarray):
             """
             try:
                 row_headers = mtx.headers['0']
-            except:
+            except (KeyError, TypeError):
                 # No row headers
                 row_headers = [[] for _ in range(mtx.shape[0])]
 
