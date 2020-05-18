@@ -10,14 +10,13 @@ Todo:
     * Load should handle compressed and not compressed.
     * Watch NEP-0018 for Numpy function overrides (ex. concatenate)
 """
+from _collections_abc import dict_keys
 from copy import deepcopy
 import io
 import json
 import zipfile
 
 import numpy as np
-from tempfile import NamedTemporaryFile
-from _collections_abc import dict_keys
 
 
 HEADERS_KEY = 'headers'

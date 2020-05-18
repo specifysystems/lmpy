@@ -664,3 +664,7 @@ class LayerEncoder:
         ret['features'] = features
         shapegrid_dataset = shapegrid_layer = None
         return ret
+
+
+# .............................................................................
+__all__ = ['LayerEncoder']

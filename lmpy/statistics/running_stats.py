@@ -108,6 +108,10 @@ class RunningStats(object):
         """
         if self.f_counts is not None:
             return self.f_counts / float(self.count)
+        else:
+            raise Exception(
+                'P-values cannot be computed without observed values')
 
-        raise Exception(
-            'P-values cannot be computed without observed values')
+
+# .............................................................................
+__all__ = ['RunningStats', 'compare_absolute_values', 'compare_signed_values']

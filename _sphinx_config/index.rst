@@ -8,7 +8,7 @@ Welcome to Lifemapper lmpy's documentation!
 
 The Lifemapper lmpy repository contains common Lifemapper objects that can be
 useful to the community for either developing new tools for the 
-`BiotaPhy Analyses Repository <https://github.com/biotaphy/analyses>`_ or for
+`BiotaPhy Python Repository <https://github.com/biotaphy/BiotaPhyPy>`_ or for
 independent projects that want to use some of our performance and feature
 improvements.
 
@@ -27,6 +27,7 @@ models.
     tutorial/tutorial
    
     pages/about
+    pages/references
 
     Module documentation <source/modules>
 

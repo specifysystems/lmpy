@@ -124,3 +124,9 @@ def get_unique_localities_filter():
         unique_values.append(test_val)
         return True
     return unique_localities_filter
+
+
+# .............................................................................
+__all__ = ['get_bounding_box_filter', 'get_data_flag_filter',
+           'get_disjoint_geometries_filter', 'get_intersect_geometries_filter',
+           'get_unique_localities_filter']

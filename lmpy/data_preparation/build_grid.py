@@ -119,7 +119,7 @@ def build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size,
     target_srs = osr.SpatialReference()
     target_srs.ImportFromEPSG(epsg_code)
 
-    drv = ogr.GetDriverByName('ESRI Shapegrid')
+    drv = ogr.GetDriverByName('ESRI Shapefile')
     data_set = drv.CreateDataSource(shapegrid_file_name)
 
     layer = data_set.CreateLayer(
@@ -136,7 +136,7 @@ def build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size,
         wkt_generator = hexagon_wkt_generator(
             min_x, min_y, max_x, max_y, x_res, y_res)
     else:
-        raise Exception(
+        raise ValueError(
             'Cannot generate shapegrid cells with {} sides'.format(cell_sides))
 
     shape_id = 0
@@ -155,3 +155,8 @@ def build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size,
         feat.Destroy()
     data_set.Destroy()
     return shape_id
+
+
+# .............................................................................
+__all__ = ['build_shapegrid', 'hexagon_wkt_generator',
+           'make_polygon_wkt_from_points', 'square_wkt_generator']
