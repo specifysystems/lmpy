@@ -41,20 +41,31 @@ class Test_Matrix(object):
         """
         orig_mtx = get_random_matrix(5, 5)
 
-        # Save the original matrix
-        temp_filename = tempfile.NamedTemporaryFile(delete=False).name
-        orig_mtx.write(temp_filename)
+        # Create a file like object and save original matrix
+        mtx_bytesio = io.BytesIO()
+        orig_mtx.save(mtx_bytesio)
+        mtx_bytesio.seek(0)
 
         # Attempt to load matrix
-        loaded_mtx = Matrix.load(temp_filename)
+        loaded_mtx = Matrix.load_flo(mtx_bytesio)
+        mtx_bytesio.close()
 
         # Verify data and headers are the same
         assert np.allclose(loaded_mtx, orig_mtx)
         assert loaded_mtx.get_headers() == orig_mtx.get_headers()
 
+        # Write to temp file
+        with tempfile.TemporaryFile() as out_f:
+            orig_mtx.save(out_f)
+            out_f.seek(0)
+            np_mtx = Matrix.load_flo(out_f)
+
+        # Verify that the data is the same
+        assert np.allclose(np_mtx, orig_mtx)
+
         # Verify load fails with empty file
         with pytest.raises(BadZipfile):
-            mtx = Matrix._load_flo(io.BytesIO())
+            mtx = Matrix.load_flo(io.BytesIO())
 
         # Load from file name
         mtx = get_random_matrix(10, 10)
@@ -69,13 +80,13 @@ class Test_Matrix(object):
         """
         orig_mtx = get_random_matrix(5, 5)
 
-        temp_filename = tempfile.NamedTemporaryFile(delete=False).name
-        orig_mtx.write_csv(temp_filename)
+        with io.StringIO() as out_str:
+            orig_mtx.write_csv(out_str)
+            out_str.seek(0)
 
-        # Attempt to load matrix
-        loaded_mtx = Matrix.load_csv(
-            temp_filename, num_header_rows=1, num_header_cols=1)
-        os.remove(temp_filename)
+            # Attempt to load matrix
+            loaded_mtx = Matrix.load_csv(
+                out_str, num_header_rows=1, num_header_cols=1)
 
         print(loaded_mtx.get_headers())
         print(orig_mtx.get_headers())
@@ -103,13 +114,15 @@ class Test_Matrix(object):
 
         print(orig_mtx.get_headers())
 
-        temp_filename = tempfile.NamedTemporaryFile(delete=False).name
-        orig_mtx.write_csv(temp_filename)
+        with io.StringIO() as out_str:
+            orig_mtx.write_csv(out_str)
+            out_str.seek(0)
+            print(out_str.getvalue())
+            out_str.seek(0)
 
-        # Attempt to load matrix
-        loaded_mtx = Matrix.load_csv(
-            temp_filename, num_header_rows=2, num_header_cols=2)
-        os.remove(temp_filename)
+            # Attempt to load matrix
+            loaded_mtx = Matrix.load_csv(
+                out_str, num_header_rows=2, num_header_cols=2)
 
         print(loaded_mtx.get_headers())
         print(orig_mtx.get_headers())
@@ -146,12 +159,34 @@ class Test_Matrix(object):
         assert mtx9.shape == (4, 4, 4)
 
     # .....................................
-    def test_flatten_2D(self):
-        """Test flatten_2D method.
+    def test_concatenate_create_dimension(self):
+        """Test the concatenate function for stacking matrices."""
+        # Single-value matrices -> row
+        mtx_row_0 = Matrix.concatenate(
+            [get_random_matrix(1), get_random_matrix(1), get_random_matrix(1),
+             get_random_matrix(1)], axis=1)
+        assert mtx_row_0.shape == (1, 4)
+
+        # Test single row matrices
+        mtx_row_1 = get_random_matrix(1, 4)
+        mtx_row_2 = get_random_matrix(1, 4)
+        mtx_table_0 = Matrix.concatenate(
+            [mtx_row_0, mtx_row_1, mtx_row_2], axis=2)
+        assert mtx_table_0.shape == (1, 4, 3)
+
+        # Test table matrices
+        mtx_cube = Matrix.concatenate(
+            [get_random_matrix(3, 3), get_random_matrix(3, 3),
+             get_random_matrix(3, 3)], axis=2)
+        assert mtx_cube.shape == (3, 3, 3)
+
+    # .....................................
+    def test_flatten_2d(self):
+        """Test flatten_2d method.
         """
         x, y, z = 5, 5, 3
         mtx = get_random_matrix(x, y, z)
-        flat_mtx = mtx.flatten_2D()
+        flat_mtx = mtx.flatten_2d()
 
         # Test that there are two dimensions of headers and data
         assert len(flat_mtx.shape) == 2
@@ -166,12 +201,12 @@ class Test_Matrix(object):
         assert flat_mtx.shape[0] == x * z
 
     # .....................................
-    def test_flatten_2D_higher_dim(self):
-        """Test flatten_2D method.
+    def test_flatten_2d_higher_dim(self):
+        """Test flatten_2d method.
         """
         a, b, c, d = 4, 5, 6, 7
         mtx = get_random_matrix(a, b, c, d)
-        flat_mtx = mtx.flatten_2D()
+        flat_mtx = mtx.flatten_2d()
 
         # Test that there are two dimensions of headers and data
         assert len(flat_mtx.shape) == 2
@@ -186,12 +221,12 @@ class Test_Matrix(object):
         assert flat_mtx.shape[0] == a * c * d
 
     # .....................................
-    def test_flatten_2D_missing_header(self):
-        """Test flatten_2D method when headers are missing.
+    def test_flatten_2d_missing_header(self):
+        """Test flatten_2d method when headers are missing.
         """
         x, y, z = 5, 5, 3
         mtx = Matrix(np.random.random((x, y, z)))
-        flat_mtx = mtx.flatten_2D()
+        flat_mtx = mtx.flatten_2d()
 
         # Test that there are two dimensions of headers and data
         assert len(flat_mtx.shape) == 2
@@ -233,6 +268,27 @@ class Test_Matrix(object):
         row_headers = mtx.get_row_headers()
         assert isinstance(row_headers, list)
         assert len(row_headers) == mtx.shape[0]
+
+    # .....................................
+    def test_save(self):
+        """Test the save method.
+
+        Save should save a Matrix object to a file that can be loaded later.
+        """
+        orig_mtx = get_random_matrix(5, 5)
+
+        # Create a file like object and save original matrix
+        with tempfile.TemporaryFile() as save_f:
+            # Save the original matrix
+            orig_mtx.save(save_f)
+
+            # Load the saved Matrix
+            save_f.seek(0)
+            loaded_mtx = Matrix.load_flo(save_f)
+
+        # Verify data and headers are the same
+        assert np.allclose(loaded_mtx, orig_mtx)
+        assert loaded_mtx.get_headers() == orig_mtx.get_headers()
 
     # .....................................
     def test_set_column_headers(self):
@@ -431,12 +487,12 @@ class Test_Matrix(object):
         """
         mtx = get_random_matrix(10, 10)
 
-        temp_filename = tempfile.NamedTemporaryFile(delete=False).name
-        mtx.write_csv(temp_filename)
+        with io.StringIO() as out_str:
+            mtx.write_csv(out_str)
+            out_str.seek(0)
 
-        with open(temp_filename) as csv_str:
             # Test that csv can be read
-            for line in csv_str:
+            for line in out_str:
                 assert len(line.split(',')) > 1
 
     # .....................................
@@ -450,11 +506,12 @@ class Test_Matrix(object):
             new_rh.append([h, 'a', 'b'])
         mtx.set_row_headers(new_rh)
 
-        temp_filename = tempfile.NamedTemporaryFile(delete=False).name
-        mtx.write_csv(temp_filename)
-        with open(temp_filename) as csv_str:
+        with io.StringIO() as out_str:
+            mtx.write_csv(out_str)
+            out_str.seek(0)
+
             # Test that csv can be read
-            for line in csv_str:
+            for line in out_str:
                 assert len(line.split(',')) > 1
 
     # .....................................
@@ -464,11 +521,12 @@ class Test_Matrix(object):
         o_mtx = get_random_matrix(10, 10)
         mtx = Matrix(o_mtx)
 
-        temp_filename = tempfile.NamedTemporaryFile(delete=False).name
-        mtx.write_csv(temp_filename)
-        with open(temp_filename) as csv_str:
+        with io.StringIO() as out_str:
+            mtx.write_csv(out_str)
+            out_str.seek(0)
+
             # Test that csv can be read
-            for line in csv_str:
+            for line in out_str:
                 assert len(line.split(',')) > 1
 
     # .....................................
@@ -477,9 +535,10 @@ class Test_Matrix(object):
         """
         mtx = get_random_matrix(10, 10, 2)
 
-        temp_filename = tempfile.NamedTemporaryFile(delete=False).name
-        mtx.write_csv(temp_filename, range(0, 10), range(0, 1), [0])
-        with open(temp_filename) as csv_str:
+        with io.StringIO() as out_str:
+            mtx.write_csv(out_str, range(0, 10), range(0, 1), [0])
+            out_str.seek(0)
+
             # Test that csv can be read
-            for line in csv_str:
+            for line in out_str:
                 assert len(line.split(',')) > 1

@@ -12,4 +12,3 @@ from . import statistics
 __all__ = ['data_preparation', 'randomize', 'statistics']
 __all__.extend(matrix.__all__)
 __all__.extend(tree.__all__)
-__all__.append('Point')
