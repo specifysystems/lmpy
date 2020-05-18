@@ -1,10 +1,14 @@
 """This module contains tools for transforming raw occurrence data."""
 import csv
 from operator import itemgetter
+import sys
 
 from osgeo import ogr, osr
 
 from lmpy import Point
+
+
+csv.field_size_limit(sys.maxsize)
 
 
 # .............................................................................
@@ -39,7 +43,7 @@ def _get_points_for_generator(rec_generator, species_name_getter, x_getter,
                 Point(
                     species_name_getter(pt_rec), float(x_getter(pt_rec)),
                     float(y_getter(pt_rec)), flags_getter(pt_rec)))
-        except (IndexError, KeyError):  # pragma: no cover
+        except (IndexError, KeyError, ValueError):  # pragma: no cover
             print('Could not extract required fields from {}'.format(pt_rec))
     return points
 
