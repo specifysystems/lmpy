@@ -119,7 +119,7 @@ def build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size,
     target_srs = osr.SpatialReference()
     target_srs.ImportFromEPSG(epsg_code)
 
-    drv = ogr.GetDriverByName('ESRI Shapegrid')
+    drv = ogr.GetDriverByName('ESRI Shapefile')
     data_set = drv.CreateDataSource(shapegrid_file_name)
 
     layer = data_set.CreateLayer(

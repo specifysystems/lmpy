@@ -43,7 +43,7 @@ class Test_hexagon_wkt_generator:
         """Basic test to make sure it doesn't just fail and returns strings."""
         for pt_string in hexagon_wkt_generator(0, 0, 90, 90, 3, 3):
             assert isinstance(pt_string, str)
-    
+
 
 # .............................................................................
 class Test_square_wkt_generator:
