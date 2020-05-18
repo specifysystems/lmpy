@@ -27,6 +27,7 @@ models.
     tutorial/tutorial
    
     pages/about
+    pages/references
 
     Module documentation <source/modules>
 

@@ -13,6 +13,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -105,11 +106,13 @@ inputs.</p>
 species by species matrix of metric values.</p>
 <div class="section" id="sigma-sites">
 <h3>sigma_sites<a class="headerlink" href="#sigma-sites" title="Permalink to this headline">¶</a></h3>
-<p>Sites covariance.</p>
+<p>Matrix of covariance of composition of sites.
+<span class="math notranslate nohighlight">\(\mathbf{\Sigma}_{sites}(j,k) = \frac{1}{S}\sum_{i=1}^{S}\delta_{j,l}\delta_{k,l} - \frac{\alpha_j\alpha_k}{S^2}\)</span></p>
 </div>
 <div class="section" id="sigma-species">
 <h3>sigma_species<a class="headerlink" href="#sigma-species" title="Permalink to this headline">¶</a></h3>
-<p>Species covariance.</p>
+<p>Matrix of covariance of ranges of species.
+<span class="math notranslate nohighlight">\(\mathbf{\Sigma}_{species}(h,i) = \frac{1}{N}\sum_{j=i}^{N}\delta_{i,j}\delta_{h,j} - \frac{\omega_i\omega_h}{N^2}\)</span></p>
 </div>
 </div>
 <hr class="docutils" />
@@ -119,9 +122,13 @@ species by species matrix of metric values.</p>
 entire study.</p>
 <div class="section" id="schluter-species-variance-ratio">
 <h3>schluter_species_variance_ratio<a class="headerlink" href="#schluter-species-variance-ratio" title="Permalink to this headline">¶</a></h3>
+<p>Schluter species-ranges covariance.
+<span class="math notranslate nohighlight">\(V_{species} = \frac{\bar{\psi}^* - N /\beta_W^2}{1/\beta_W - \bar{\varphi}^* / S}\)</span></p>
 </div>
 <div class="section" id="schluter-site-variance-ratio">
 <h3>schluter_site_variance_ratio<a class="headerlink" href="#schluter-site-variance-ratio" title="Permalink to this headline">¶</a></h3>
+<p>Schluter sites-composition covariance.
+<span class="math notranslate nohighlight">\(V_{sites} = \frac{\bar{\varphi}^* - S /\beta_W^2}{1/\beta_W - \bar{\psi}^* / N}\)</span></p>
 </div>
 <div class="section" id="num-sites">
 <h3>num_sites<a class="headerlink" href="#num-sites" title="Permalink to this headline">¶</a></h3>
@@ -135,19 +142,23 @@ site.</p>
 </div>
 <div class="section" id="whittaker">
 <h3>whittaker<a class="headerlink" href="#whittaker" title="Permalink to this headline">¶</a></h3>
-<p>Whittaker’s beta diversity metric for a PAM.</p>
+<p>Whittaker’s multaplicative beta diversity metric for a PAM.
+<span class="math notranslate nohighlight">\(\beta_W = \frac{1}{\bar{\omega}^{*}}\)</span></p>
 </div>
 <div class="section" id="lande">
 <h3>lande<a class="headerlink" href="#lande" title="Permalink to this headline">¶</a></h3>
-<p>Lande is Lande’s beta diversity metric for a PAM.</p>
+<p>Lande is Lande’s addative beta diversity metric for a PAM.
+<span class="math notranslate nohighlight">\(\beta_A = S(1 - 1/\beta_W)\)</span></p>
 </div>
 <div class="section" id="legendre">
 <h3>legendre<a class="headerlink" href="#legendre" title="Permalink to this headline">¶</a></h3>
-<p>Legendre is Legendre’s beta diversity metric for a PAM.</p>
+<p>Legendre is Legendre’s beta diversity metric for a PAM.
+<span class="math notranslate nohighlight">\(\beta_L = SS(\mathbf{X}) = SN / \beta_W - \left (\sum_{j=1}^{S}\omega_j^2 \right ) / N\)</span></p>
 </div>
 <div class="section" id="c-score">
 <h3>c_score<a class="headerlink" href="#c-score" title="Permalink to this headline">¶</a></h3>
-<p>C-score is the checkerboard score for the PAM.</p>
+<p>C-score is the Stone &amp; Robers checkerboard score for the PAM.
+<span class="math notranslate nohighlight">\(C = \frac{2}{S(S-1)}\left [ \sum_{i=1}^{N} \sum_{h&lt;i}(\omega_i - \omega_{i,h})(\omega_h - \omega_{i,h}) \right ]\)</span></p>
 </div>
 </div>
 <hr class="docutils" />
@@ -162,11 +173,13 @@ for each species in the study.</p>
 <div class="section" id="omega-proportional">
 <h3>omega_proportional<a class="headerlink" href="#omega-proportional" title="Permalink to this headline">¶</a></h3>
 <p>Omega proportional is the range size of each species as a proportion of the
-total number of sites.</p>
+total number of sites.
+<span class="math notranslate nohighlight">\(\omega_i^* = \frac{\bar{\rho}_i}{\bar{\psi}_i^* - \beta_W^{-1}}\)</span></p>
 </div>
 <div class="section" id="psi">
 <h3>psi<a class="headerlink" href="#psi" title="Permalink to this headline">¶</a></h3>
-<p>Psi is the range richness of each species.</p>
+<p>Psi is the range richness of each species.
+<span class="math notranslate nohighlight">\(\psi_j = \sum_{i=1}^{N}\delta_{i,j} \alpha_i\)</span></p>
 </div>
 <div class="section" id="psi-average-proportional">
 <h3>psi_average_proportional<a class="headerlink" href="#psi-average-proportional" title="Permalink to this headline">¶</a></h3>
@@ -185,11 +198,13 @@ site in the study area.</p>
 <div class="section" id="alpha-proportional">
 <h3>alpha_proportional<a class="headerlink" href="#alpha-proportional" title="Permalink to this headline">¶</a></h3>
 <p>Alpha proportional diversity is the ratio of the number of species present at
-each site to the total number of species in the entire study area.</p>
+each site to the total number of species in the entire study area.
+<span class="math notranslate nohighlight">\(\alpha_j^* = \frac{\tau_j}{\bar{\varphi}_j^*-\beta_W^{-1}}\)</span></p>
 </div>
 <div class="section" id="phi">
 <h3>phi<a class="headerlink" href="#phi" title="Permalink to this headline">¶</a></h3>
-<p>Phi is the sum of the range size of the species present at each site.</p>
+<p>Phi is the sum of the range size of the species present at each site.
+<span class="math notranslate nohighlight">\(\varphi_i = \sum_{j=1}^{S}\delta_{i,j} \omega_j\)</span></p>
 </div>
 <div class="section" id="phi-average-proportional">
 <h3>phi_average_proportional<a class="headerlink" href="#phi-average-proportional" title="Permalink to this headline">¶</a></h3>

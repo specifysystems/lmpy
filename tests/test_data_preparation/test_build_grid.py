@@ -15,11 +15,29 @@ from lmpy.data_preparation.build_grid import (
 class Test_build_shapegrid:
     """Test build_shapegrid."""
     # ................................
-    def test_simple(self):
+    def test_simple_square(self):
         """Basic test to make sure it doesn't just fail."""
         temp_filename = NamedTemporaryFile(suffix='.shp').name
         build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 4)
         os.remove(temp_filename)
+
+    # ................................
+    def test_simple_hexagon(self):
+        """Basic test to make sure it doesn't just fail."""
+        temp_filename = NamedTemporaryFile(suffix='.shp').name
+        build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 6)
+        os.remove(temp_filename)
+
+    # ................................
+    def test_invalid_shape(self):
+        """Basic test to make sure it doesn't just fail."""
+        temp_filename = NamedTemporaryFile(suffix='.shp').name
+        with pytest.raises(ValueError) as val_err:
+            build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 7)
+        try:
+            os.remove(temp_filename)
+        except IOError:
+            pass
 
 
 # .............................................................................

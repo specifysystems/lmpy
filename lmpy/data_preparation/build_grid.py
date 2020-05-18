@@ -136,7 +136,7 @@ def build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size,
         wkt_generator = hexagon_wkt_generator(
             min_x, min_y, max_x, max_y, x_res, y_res)
     else:
-        raise Exception(
+        raise ValueError(
             'Cannot generate shapegrid cells with {} sides'.format(cell_sides))
 
     shape_id = 0
