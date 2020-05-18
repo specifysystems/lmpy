@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>lmpy.data_preparation.build_grid &#8212; Lifemapper lmpy 2.0.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../lmpy.html" accesskey="U">lmpy</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for lmpy.data_preparation.build_grid</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing methods to build a shapegrid</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">ogr</span><span class="p">,</span> <span class="n">osr</span>
+
+<span class="c1"># Calculate this once and store as a constant instead of for every cell</span>
+<span class="n">SQRT_3</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="make_polygon_wkt_from_points"><a class="viewcode-back" href="../../../source/lmpy.data_preparation.html#lmpy.data_preparation.build_grid.make_polygon_wkt_from_points">[docs]</a><span class="k">def</span> <span class="nf">make_polygon_wkt_from_points</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a polygon WKT string from a list of points.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        points (list of (x, y) tuples): A list of (x,y) points for each vertex</span>
+<span class="sd">            of the polygon.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Points should be ordered following right hand rule</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">point_strings</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">points</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s1">&#39;POLYGON((</span><span class="si">{}</span><span class="s1">))&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">point_strings</span><span class="p">))</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="hexagon_wkt_generator"><a class="viewcode-back" href="../../../source/lmpy.data_preparation.html#lmpy.data_preparation.build_grid.hexagon_wkt_generator">[docs]</a><span class="k">def</span> <span class="nf">hexagon_wkt_generator</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generator producing hexagonal WKT for cells of the shapegrid</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        min_x (numeric): The minimum x value</span>
+<span class="sd">        min_y (numeric): The minimum y value</span>
+<span class="sd">        max_x (numeric): The maximum x value</span>
+<span class="sd">        max_y (numeric): The maximum y value</span>
+<span class="sd">        x_res (numeric): The x size of the cell</span>
+<span class="sd">        y_res (numeric): The y size of the cell</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y_coord</span> <span class="o">=</span> <span class="n">max_y</span>
+    <span class="n">y_row</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">y_step</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y_res</span> <span class="o">*</span> <span class="n">SQRT_3</span> <span class="o">/</span> <span class="mi">4</span>
+    <span class="n">x_step</span> <span class="o">=</span> <span class="n">x_res</span> <span class="o">*</span> <span class="mf">1.5</span>
+
+    <span class="k">while</span> <span class="n">y_coord</span> <span class="o">&gt;</span> <span class="n">min_y</span><span class="p">:</span>
+        <span class="c1"># Every other row needs to be shifted slightly</span>
+        <span class="n">x_coord</span> <span class="o">=</span> <span class="n">min_x</span> <span class="k">if</span> <span class="n">y_row</span> <span class="k">else</span> <span class="n">min_x</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">75</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="n">x_coord</span> <span class="o">&lt;</span> <span class="n">max_x</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">([</span>
+                <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">5</span><span class="p">),</span> <span class="n">y_coord</span><span class="p">)])</span>
+            <span class="n">x_coord</span> <span class="o">+=</span> <span class="n">x_step</span>
+        <span class="n">y_row</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">y_row</span>
+        <span class="n">y_coord</span> <span class="o">+=</span> <span class="n">y_step</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="square_wkt_generator"><a class="viewcode-back" href="../../../source/lmpy.data_preparation.html#lmpy.data_preparation.build_grid.square_wkt_generator">[docs]</a><span class="k">def</span> <span class="nf">square_wkt_generator</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generator producing square WKT for cells of the shapegrid</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        min_x (numeric): The minimum x value</span>
+<span class="sd">        min_y (numeric): The minimum y value</span>
+<span class="sd">        max_x (numeric): The maximum x value</span>
+<span class="sd">        max_y (numeric): The maximum y value</span>
+<span class="sd">        x_res (numeric): The x size of the cell</span>
+<span class="sd">        y_res (numeric): The y size of the cell</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">y_coord</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">max_y</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="o">-</span><span class="n">y_res</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">x_coord</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">x_res</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">([</span>
+                <span class="p">(</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="n">y_res</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="n">y_res</span><span class="p">)])</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="build_shapegrid"><a class="viewcode-back" href="../../../source/lmpy.data_preparation.html#lmpy.data_preparation.build_grid.build_shapegrid">[docs]</a><span class="k">def</span> <span class="nf">build_shapegrid</span><span class="p">(</span><span class="n">shapegrid_file_name</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span>
+                    <span class="n">epsg_code</span><span class="p">,</span> <span class="n">cell_sides</span><span class="p">,</span> <span class="n">site_id</span><span class="o">=</span><span class="s1">&#39;siteid&#39;</span><span class="p">,</span> <span class="n">site_x</span><span class="o">=</span><span class="s1">&#39;siteX&#39;</span><span class="p">,</span>
+                    <span class="n">site_y</span><span class="o">=</span><span class="s1">&#39;siteY&#39;</span><span class="p">,</span> <span class="n">cutout_wkt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Build a shapegrid with an optional cutout</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        shapegrid_file_name (str): The location to store the resulting</span>
+<span class="sd">            shapegrid.</span>
+<span class="sd">        min_x (numeric): The minimum value for X of the shapegrid.</span>
+<span class="sd">        min_y (numeric): The minimum value for Y of the shapegrid.</span>
+<span class="sd">        max_x (numeric): The maximum value for X of the shapegrid.</span>
+<span class="sd">        max_y (numeric): The maximum value for Y of the shapegrid.</span>
+<span class="sd">        cell_size (numeric): The size of each cell (in units indicated by EPSG)</span>
+<span class="sd">        epsg_code (int): The EPSG code for the new shapegrid.</span>
+<span class="sd">        cell_sides (int): The number of sides for each cell of the shapegrid.</span>
+<span class="sd">            4 - square cells, 6 - hexagon cells</span>
+<span class="sd">        site_id (str): The name of the site id field for the shapefile.</span>
+<span class="sd">        site_x (str): The name of the X field for the shapefile.</span>
+<span class="sd">        site_y (str): The name of the Y field for the shapefile.</span>
+<span class="sd">        cutout_wkt (None or str): WKT for an area of the shapegrid to be cut</span>
+<span class="sd">            out.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int - The number of cells in the new shapegrid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># We&#39;ll always check for intersection to reduce amount of work</span>
+    <span class="k">if</span> <span class="n">cutout_wkt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cutout_wkt</span> <span class="o">=</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">([</span>
+            <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">),</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">)])</span>
+    <span class="n">selected_poly</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">cutout_wkt</span><span class="p">)</span>
+
+    <span class="c1"># Just in case we decide that these can vary at some point</span>
+    <span class="n">x_res</span> <span class="o">=</span> <span class="n">y_res</span> <span class="o">=</span> <span class="n">cell_size</span>
+
+    <span class="c1"># Initialize shapefile</span>
+    <span class="n">target_srs</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+    <span class="n">target_srs</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">epsg_code</span><span class="p">)</span>
+
+    <span class="n">drv</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
+    <span class="n">data_set</span> <span class="o">=</span> <span class="n">drv</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">shapegrid_file_name</span><span class="p">)</span>
+
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">data_set</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span>
+        <span class="n">data_set</span><span class="o">.</span><span class="n">GetName</span><span class="p">(),</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPolygon</span><span class="p">,</span> <span class="n">srs</span><span class="o">=</span><span class="n">target_srs</span><span class="p">)</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">FieldDefn</span><span class="p">(</span><span class="n">site_id</span><span class="p">,</span> <span class="n">ogr</span><span class="o">.</span><span class="n">OFTInteger</span><span class="p">))</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">FieldDefn</span><span class="p">(</span><span class="n">site_x</span><span class="p">,</span> <span class="n">ogr</span><span class="o">.</span><span class="n">OFTReal</span><span class="p">))</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">FieldDefn</span><span class="p">(</span><span class="n">site_y</span><span class="p">,</span> <span class="n">ogr</span><span class="o">.</span><span class="n">OFTReal</span><span class="p">))</span>
+
+    <span class="c1"># Set up generator</span>
+    <span class="k">if</span> <span class="n">cell_sides</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">wkt_generator</span> <span class="o">=</span> <span class="n">square_wkt_generator</span><span class="p">(</span>
+            <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">cell_sides</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="n">wkt_generator</span> <span class="o">=</span> <span class="n">hexagon_wkt_generator</span><span class="p">(</span>
+            <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;Cannot generate shapegrid cells with </span><span class="si">{}</span><span class="s1"> sides&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cell_sides</span><span class="p">))</span>
+
+    <span class="n">shape_id</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">cell_wkt</span> <span class="ow">in</span> <span class="n">wkt_generator</span><span class="p">:</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">cell_wkt</span><span class="p">)</span>
+        <span class="c1"># Check for intersection</span>
+        <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">Intersection</span><span class="p">(</span><span class="n">selected_poly</span><span class="p">):</span>
+            <span class="n">feat</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">feature_def</span><span class="o">=</span><span class="n">layer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">())</span>
+            <span class="n">feat</span><span class="o">.</span><span class="n">SetGeometry</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+            <span class="n">centroid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">Centroid</span><span class="p">()</span>
+            <span class="n">feat</span><span class="o">.</span><span class="n">SetField</span><span class="p">(</span><span class="n">site_x</span><span class="p">,</span> <span class="n">centroid</span><span class="o">.</span><span class="n">GetX</span><span class="p">())</span>
+            <span class="n">feat</span><span class="o">.</span><span class="n">SetField</span><span class="p">(</span><span class="n">site_y</span><span class="p">,</span> <span class="n">centroid</span><span class="o">.</span><span class="n">GetY</span><span class="p">())</span>
+            <span class="n">feat</span><span class="o">.</span><span class="n">SetField</span><span class="p">(</span><span class="n">site_id</span><span class="p">,</span> <span class="n">shape_id</span><span class="p">)</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">CreateFeature</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+            <span class="n">shape_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">feat</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    <span class="n">data_set</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">shape_id</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;build_shapegrid&#39;</span><span class="p">,</span> <span class="s1">&#39;hexagon_wkt_generator&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;make_polygon_wkt_from_points&#39;</span><span class="p">,</span> <span class="s1">&#39;square_wkt_generator&#39;</span><span class="p">]</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../lmpy.html" >lmpy</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Lifemapper Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

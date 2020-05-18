@@ -18,11 +18,11 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Lifemapper lmpy'
-copyright = '2019, Lifemapper Team'
+copyright = '2020, Lifemapper Team'
 author = 'Lifemapper Team'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.1'
+release = '2.0.0'
 
 
 # -- General configuration ---------------------------------------------------

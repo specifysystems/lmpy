@@ -336,6 +336,22 @@ class Test_Matrix(object):
             [new_row_headers[i] == test_row_headers[i] for i in range(n_rows)])
 
     # .....................................
+    def test_set_headers_with_dict_keys(self):
+        """Test set headers using dictionary keys.
+
+        Note:
+            This was failing to write because the Python JSON module could not
+            serialize dictionary keys.
+        """
+        mtx = get_random_matrix(3, 3)
+        row_headers = {'a': 1, 'b': 2, 'c': 3}.keys()
+        mtx.set_headers(row_headers, axis='0')
+        filename = tempfile.NamedTemporaryFile(delete=False).name
+        mtx.write(filename)
+        test_mtx = Matrix.load(filename)
+        os.remove(filename)
+
+    # .....................................
     def test_set_row_headers(self):
         """Test set_row_headers.
         """

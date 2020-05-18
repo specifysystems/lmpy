@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Occurrence Filters &#8212; Lifemapper lmpy 2.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Delimited to Points" href="occurrence_transformation.html" />
+    <link rel="prev" title="Matrix Objects" href="matrix.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="occurrence_transformation.html" title="Delimited to Points"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="matrix.html" title="Matrix Objects"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" accesskey="U">Tutorials</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="occurrence-filters">
+<h1>Occurrence Filters<a class="headerlink" href="#occurrence-filters" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Occurrence filters are methods that take a Point as input and return a binary
+value indicating if that point passes that particular filter.  These filter
+functions are exposed via ‘get’ methods that allow you to configure a
+particular filter to fit your needs and then provide a reusable function that
+can be used to process entire sets of points.  Filters can be chained together
+to “clean” occurrence data before processing.</p>
+<div class="section" id="bounding-box-filter">
+<h3>Bounding Box Filter<a class="headerlink" href="#bounding-box-filter" title="Permalink to this headline">¶</a></h3>
+<p>A bounding box filter simply checks to see if the X,Y coordinates of a point
+fall within the specified bounding box.</p>
+<p>See: <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_bounding_box_filter">get_bounding_box_filter</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">point_1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">point_2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bbox_filter</span> <span class="o">=</span> <span class="n">get_bounding_box_filter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">bbox_filter</span><span class="p">(</span><span class="n">point_1</span><span class="p">))</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">bbox_filter</span><span class="p">(</span><span class="n">point_2</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="data-flag-filter">
+<h3>Data Flag Filter<a class="headerlink" href="#data-flag-filter" title="Permalink to this headline">¶</a></h3>
+<p>Data flag filters can be used to determine if a point should be kept based on
+any flags attached to it.  For example, you may want to remove any points that
+have the flag ‘invalid’ but otherwise you would keep them, retaining points
+with acceptable flags.</p>
+<p>See: <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_data_flag_filter">get_data_flag_filter</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">point_1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;invalid&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">point_2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;added species&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">flag_filter</span> <span class="o">=</span> <span class="n">get_data_flag_filter</span><span class="p">([</span><span class="s1">&#39;invalid&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">flag_filter</span><span class="p">(</span><span class="n">point_1</span><span class="p">))</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">flag_filter</span><span class="p">(</span><span class="n">point_2</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="disjoint-geometries-filter">
+<h3>Disjoint Geometries Filter<a class="headerlink" href="#disjoint-geometries-filter" title="Permalink to this headline">¶</a></h3>
+<p>A disjoint geometries filter will only pass points that fall outside of a set
+of geometries.  This is useful if you want to do something like remove points
+that are found in herbaria.  You would create a set of bufferred point
+geometries around herbarium locations and use those to configure the filter.</p>
+<p>See <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_disjoint_geometries_filter">get_disjoint_geometries_filter</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Filter points not within bounding box (0, 0, 40, 40)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_geometries</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;POLYGON ((0 0, 40 0, 40 40, 0 40, 0 0))&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">point_1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">point_2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disjoint_filter</span> <span class="o">=</span> <span class="n">get_disjoint_geometries_filter</span><span class="p">(</span><span class="n">test_geometries</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">disjoint_filter</span><span class="p">(</span><span class="n">point_1</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">disjoint_filter</span><span class="p">(</span><span class="n">point_2</span><span class="p">))</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="intersect-geometries-filter">
+<h3>Intersect Geometries Filter<a class="headerlink" href="#intersect-geometries-filter" title="Permalink to this headline">¶</a></h3>
+<p>The intersect geometries filter is the inverse of the disjoint geometries
+filter.  It only passes points found within the specified test geometries.</p>
+<p>See <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_intersect_geometries_filter">get_intersect_geometries_filter</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Filter points within bounding box (0, 0, 40, 40)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_geometries</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;POLYGON ((0 0, 40 0, 40 40, 0 40, 0 0))&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">point_1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">point_2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">intersect_filter</span> <span class="o">=</span> <span class="n">get_intersect_geometries_filter</span><span class="p">(</span><span class="n">test_geometries</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">intersect_filter</span><span class="p">(</span><span class="n">point_1</span><span class="p">))</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">intersect_filter</span><span class="p">(</span><span class="n">point_2</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="unique-localities-filter">
+<h3>Unique Localities Filter<a class="headerlink" href="#unique-localities-filter" title="Permalink to this headline">¶</a></h3>
+<p>The unique localities filter is used to filter out points with identical
+localities.  This is used by Lifemapper to ensure that models are only produced
+for species with a minimum number of unique localites.</p>
+<p>See <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_unique_localities_filter">get_unique_localities_filter</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">point_1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unique_loc_filter</span> <span class="o">=</span> <span class="n">get_unique_localities_filter</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Should pass the first time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">unique_loc_filter</span><span class="p">(</span><span class="n">point_1</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Try a second time, should fail</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">unique_loc_filter</span><span class="p">(</span><span class="n">point_1</span><span class="p">))</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Occurrence Filters</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#bounding-box-filter">Bounding Box Filter</a></li>
+<li><a class="reference internal" href="#data-flag-filter">Data Flag Filter</a></li>
+<li><a class="reference internal" href="#disjoint-geometries-filter">Disjoint Geometries Filter</a></li>
+<li><a class="reference internal" href="#intersect-geometries-filter">Intersect Geometries Filter</a></li>
+<li><a class="reference internal" href="#unique-localities-filter">Unique Localities Filter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="matrix.html"
+                        title="previous chapter">Matrix Objects</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="occurrence_transformation.html"
+                        title="next chapter">Delimited to Points</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial/occurrence_filters.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="occurrence_transformation.html" title="Delimited to Points"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="matrix.html" title="Matrix Objects"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Lifemapper lmpy 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tutorial.html" >Tutorials</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Lifemapper Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>
