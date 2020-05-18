@@ -5,7 +5,9 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
+   lmpy.data_preparation
    lmpy.randomize
    lmpy.statistics
 
@@ -16,6 +18,14 @@ lmpy.matrix module
 ------------------
 
 .. automodule:: lmpy.matrix
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+lmpy.point module
+-----------------
+
+.. automodule:: lmpy.point
    :members:
    :undoc-members:
    :show-inheritance:

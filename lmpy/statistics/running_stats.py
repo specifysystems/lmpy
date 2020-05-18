@@ -99,8 +99,7 @@ class RunningStats(object):
         """
         if self.count > 1:
             return self.s_k / (self.count - 1)
-        else:
-            return 0.0
+        return 0.0
 
     # .....................................
     @property
@@ -112,3 +111,7 @@ class RunningStats(object):
         else:
             raise Exception(
                 'P-values cannot be computed without observed values')
+
+
+# .............................................................................
+__all__ = ['RunningStats', 'compare_absolute_values', 'compare_signed_values']
