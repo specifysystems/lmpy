@@ -10,7 +10,7 @@ Todo:
     * Load should handle compressed and not compressed.
     * Watch NEP-0018 for Numpy function overrides (ex. concatenate)
 """
-from _collections_abc import dict_keys
+from collections.abc import KeysView
 from copy import deepcopy
 import io
 import json
@@ -396,7 +396,7 @@ class Matrix(np.ndarray):
             * Duck types to use list of lists or dictionary to set values for
                 different axes.
         """
-        if isinstance(headers, dict_keys):
+        if isinstance(headers, KeysView):
             headers = list(headers)
 
         if axis is not None:

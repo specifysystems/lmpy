@@ -9,7 +9,7 @@ with open('LICENSE') as f:
 
 setup(
     name='lmpy',
-    version='2.0.0',
+    version='2.0.1',
     description='Package of commonly used and shared Lifemapper objects',
     long_description=readme,
     author='Lifemapper Team',
@@ -19,7 +19,5 @@ setup(
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
         'dendropy>=4.0.0',
-        'matplotlib',
-        'numpy>=1.11.0',
-        'scipy>=1.0.0']
+        'numpy>=1.11.0']
 )
