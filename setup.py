@@ -19,7 +19,5 @@ setup(
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
         'dendropy>=4.0.0',
-        'matplotlib',
-        'numpy>=1.11.0',
-        'scipy>=1.0.0']
+        'numpy>=1.11.0']
 )
