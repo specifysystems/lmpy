@@ -22,7 +22,7 @@ import numpy as np
 HEADERS_KEY = 'headers'
 METADATA_KEY = 'metadata'
 VERSION_KEY = 'version'
-VERSION = '2.0.0'
+VERSION = '2.0.2'
 HEADERS_FILENAME = 'headers.json'
 DATA_FILENAME = 'data.npz'
 
@@ -207,7 +207,7 @@ class Matrix(np.ndarray):
             # Make sure we reshape if necessary if adding new axis (stacking)
             if mtx.ndim < axis + 1:  # Add 1 since zero-based
                 mtx = Matrix(
-                    np.expand_dims(mtx, len(mtx.shape) + 1),
+                    np.expand_dims(mtx, axis),
                     headers=mtx.headers)
                 mtx.set_headers([''], axis=str(axis))
             # Cast mtx to Matrix in case it is not
