@@ -22,7 +22,7 @@ import numpy as np
 HEADERS_KEY = 'headers'
 METADATA_KEY = 'metadata'
 VERSION_KEY = 'version'
-VERSION = '2.0.0'
+VERSION = '2.0.2'
 HEADERS_FILENAME = 'headers.json'
 DATA_FILENAME = 'data.npz'
 
