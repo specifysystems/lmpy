@@ -2,9 +2,9 @@ dist: xenial
 language: python
 os: linux
 python:
-  - "3.5"
-  - "3.6"
-  - "3.7"
+  - '3.5'
+  - '3.6'
+  - '3.7'
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntugis/ppa
   - sudo apt-get --quiet update
@@ -18,3 +18,29 @@ script:
   - py.test tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
 after_success:
   - coveralls
+jobs:
+  include:
+  - stage: deploy
+    python: '3.7'
+    before_install:
+    - sudo add-apt-repository --yes ppa:ubuntugis/ppa
+    - sudo apt-get --quiet update
+    - sudo apt-get install --yes libgdal-dev gdal-bin python-gdal
+    - export CPLUS_INCLUDE_PATH=/usr/include/gdal
+    - export C_INCLUDE_PATH=/usr/include/gdal
+    install:
+    - pip install GDAL==`gdal-config --version`
+    - pip install -r requirements.txt
+    before_deploy:
+    - python setup.py sdist bdist_wheel
+    deploy:
+      provider: releases
+      skip_cleanup: true
+      api_key:
+        secure: kJqr3Tzr1QUJJi5k+uDmx29pp8R2GsdosRpd/DGH7PAtWs4C6dad2ISxfocW9+RjkeQgl8FuAZw8/GXeKby34HJqtimlyPLY0dfdl/NYEuICbUrv6wDgCUCKl/t/Rnj7ZOt6j5XYQGXQorHasrj8Kbh11/fccRWk8wNTtRq1DkwWYHOQg/4OTfQhDSQ9bIE5uUkNbAokJ0hrrz3dD0d6W01o90pNkImm+0rmL5hwmXQXw2fRaOJ/GQ2tvBMmFIvzeGrb/Cxj4z0EmcajheNOJurqsusm2uvWlI/EdtDipnzx81baSQu4/AoqMTjg6/8wjwrcrltKTvg68d9rR+lYTtDY5xkyDhSo7iwUtXZc+QAa42iQLt3xvFNgMHmOvR+j/pyiM8ziMULQvqCoVVglq0im+y6ZwjW7+9b5K/2c1UWOh7ZxIE23AKyzr4wHM3UwLgwCpE78fP4lHWo9+l39DDf5f3rqcefZvLLe7SNlIwSXngwCHnsQ0IA3UwcTD8ufs/9BrXjlNAGAX01t7thB+jma7Gc+DzlItUQhQx1G1PXSf/qlQV4MzQUIUHkHybPuHWUe0O6P5dTJnWbZq9AzJy/Q8HRaLM3x36F+sXBMNGDblHMETx2ZuRfAebafe6mpMjZriGFc1fU1GcUCuouRSsvi76RTYTx4JiFqpDJrPIg=
+      file_glob: true
+      file: dist/*
+      on:
+        tags: true
+        repo: lifemapper/lmpy
+
