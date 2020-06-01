@@ -1,5 +1,5 @@
 [![Latest release](https://img.shields.io/github/release/lifemapper/lmpy.svg)](https://github.com/lifemapper/lmpy/releases/latest)
-[![Build Status](https://travis-ci.org/lifemapper/lmpy.svg?branch=master)](https://travis-ci.org/lifemapper/lmpy) [![Coverage Status](https://coveralls.io/repos/github/lifemapper/lmpy/badge.svg)](https://coveralls.io/github/lifemapper/lmpy)
+[![Build Status](https://travis-ci.com/lifemapper/lmpy.svg?branch=master)](https://travis-ci.com/lifemapper/lmpy) [![Coverage Status](https://coveralls.io/repos/github/lifemapper/lmpy/badge.svg)](https://coveralls.io/github/lifemapper/lmpy)
 [![License Badge](https://img.shields.io/github/license/lifemapper/lmpy.svg)](https://github.com/lifemapper/lmpy/blob/master/LICENSE)
 
 # lmpy
