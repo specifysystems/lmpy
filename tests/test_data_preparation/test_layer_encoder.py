@@ -1,6 +1,8 @@
 """Tests the occurrence data filters
 """
 import json
+
+import numpy as np
 import pytest
 
 from lmpy import Point
@@ -34,7 +36,7 @@ class Test_LayerEncoder:
         for i in range(len(bio_geo_filenames)):
             assert col_headers[i] == 'Hypothesis {}'.format(i)
         assert enc_mtx.shape[1] == len(bio_geo_filenames)
-        assert enc_mtx.min() >= DEFAULT_NODATA
+        assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert tmp.min() >= -1
         assert tmp.max() <= 1
@@ -62,7 +64,7 @@ class Test_LayerEncoder:
                 i + len(raster_pa_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(
             raster_pa_filenames) + len(vector_pa_filenames)
-        assert enc_mtx.min() >= DEFAULT_NODATA
+        assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert tmp.min() >= 0
         assert tmp.max() <= 1
@@ -90,7 +92,7 @@ class Test_LayerEncoder:
                 i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(
             raster_env_filenames) + len(vector_env_filenames)
-        assert enc_mtx.min() >= DEFAULT_NODATA
+        assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert json.loads(json.dumps(encoder.get_geojson()))
 
@@ -116,6 +118,6 @@ class Test_LayerEncoder:
                 i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(
             raster_env_filenames) + len(vector_env_filenames)
-        assert enc_mtx.min() >= DEFAULT_NODATA
+        assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert json.loads(json.dumps(encoder.get_geojson()))
