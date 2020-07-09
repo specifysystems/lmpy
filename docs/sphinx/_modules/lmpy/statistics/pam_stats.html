@@ -4,7 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>lmpy.statistics.pam_stats &#8212; Lifemapper lmpy 2.0.2 documentation</title>
+    <title>lmpy.statistics.pam_stats &#8212; Lifemapper lmpy 2.0.5 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Lifemapper lmpy 2.0.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Lifemapper lmpy 2.0.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../../lmpy.html" accesskey="U">lmpy</a> &#187;</li> 
       </ul>
@@ -475,18 +475,25 @@
                         <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()):</span>
                     <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">present_labels</span><span class="p">:</span>
                         <span class="n">present_dist_mtx_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">present_labels</span><span class="p">:</span>
-                    <span class="n">site_tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">extract_tree_with_taxa_labels</span><span class="p">(</span>
-                        <span class="n">present_labels</span><span class="p">)</span>
-                    <span class="c1"># Get distance matrix</span>
-                    <span class="n">site_dist_mtx</span> <span class="o">=</span> <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span>
-                        <span class="n">present_dist_mtx_idxs</span><span class="p">,</span> <span class="n">present_dist_mtx_idxs</span><span class="p">)</span>
-                    <span class="c1"># site_dist_mtx = site_tree.get_distance_matrix()</span>
-                    <span class="n">site_tree_dist_mtx_matrix</span><span class="p">[</span><span class="n">site_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                        <span class="n">func</span><span class="p">(</span><span class="n">site_dist_mtx</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span>
-                            <span class="n">_</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="p">]</span>
-                    <span class="n">site_tree_stats_matrix</span><span class="p">[</span><span class="n">site_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                        <span class="n">func</span><span class="p">(</span><span class="n">site_tree</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span><span class="p">]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">present_labels</span><span class="p">:</span>
+                        <span class="n">site_tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">extract_tree_with_taxa_labels</span><span class="p">(</span>
+                            <span class="n">present_labels</span><span class="p">)</span>
+                        <span class="c1"># Get distance matrix</span>
+                        <span class="n">site_dist_mtx</span> <span class="o">=</span> <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span>
+                            <span class="n">present_dist_mtx_idxs</span><span class="p">,</span> <span class="n">present_dist_mtx_idxs</span><span class="p">)</span>
+                        <span class="c1"># site_dist_mtx = site_tree.get_distance_matrix()</span>
+                        <span class="n">site_tree_dist_mtx_matrix</span><span class="p">[</span><span class="n">site_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                            <span class="n">func</span><span class="p">(</span><span class="n">site_dist_mtx</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span>
+                                <span class="n">_</span><span class="p">,</span> <span class="n">func</span>
+                                <span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="p">]</span>
+                        <span class="n">site_tree_stats_matrix</span><span class="p">[</span><span class="n">site_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                            <span class="n">func</span><span class="p">(</span><span class="n">site_tree</span>
+                                 <span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+                    <span class="c1"># print(present_labels)</span>
+                    <span class="c1"># print(&#39;Site index: {}&#39;.format(site_idx))</span>
 
             <span class="n">site_stats_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">site_stats_matrix</span><span class="p">,</span> <span class="n">site_tree_stats_matrix</span><span class="p">,</span>
@@ -578,7 +585,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Lifemapper lmpy 2.0.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Lifemapper lmpy 2.0.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../../lmpy.html" >lmpy</a> &#187;</li> 
       </ul>

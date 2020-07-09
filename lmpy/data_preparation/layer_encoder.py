@@ -363,8 +363,9 @@ class LayerEncoder:
         """
         dataset = gdal.Open(raster_filename)
         band = dataset.GetRasterBand(1)
-        layer_array = band.ReadAsArray()
+        layer_array = band.ReadAsArray().astype(np.float)
         nodata = band.GetNoDataValue()
+        layer_array[np.where(layer_array == nodata)] = np.nan
 
         num_y, num_x = layer_array.shape
         min_x, x_res, _, max_y, _, y_res = dataset.GetGeoTransform()
