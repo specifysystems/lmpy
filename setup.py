@@ -9,7 +9,7 @@ with open('LICENSE') as f:
 
 setup(
     name='lmpy',
-    version='2.0.3',
+    version='2.0.5',
     description='Package of commonly used and shared Lifemapper objects',
     long_description=readme,
     author='Lifemapper Team',

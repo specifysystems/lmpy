@@ -434,18 +434,25 @@ class PamStats:
                         phylo_dist_mtx.get_column_headers()):
                     if label in present_labels:
                         present_dist_mtx_idxs.append(idx)
-                if present_labels:
-                    site_tree = self.tree.extract_tree_with_taxa_labels(
-                        present_labels)
-                    # Get distance matrix
-                    site_dist_mtx = phylo_dist_mtx.slice(
-                        present_dist_mtx_idxs, present_dist_mtx_idxs)
-                    # site_dist_mtx = site_tree.get_distance_matrix()
-                    site_tree_dist_mtx_matrix[site_idx] = [
-                        func(site_dist_mtx) for (
-                            _, func) in self.site_tree_distance_matrix_stats]
-                    site_tree_stats_matrix[site_idx] = [
-                        func(site_tree) for _, func in self.site_tree_stats]
+                try:
+                    if present_labels:
+                        site_tree = self.tree.extract_tree_with_taxa_labels(
+                            present_labels)
+                        # Get distance matrix
+                        site_dist_mtx = phylo_dist_mtx.slice(
+                            present_dist_mtx_idxs, present_dist_mtx_idxs)
+                        # site_dist_mtx = site_tree.get_distance_matrix()
+                        site_tree_dist_mtx_matrix[site_idx] = [
+                            func(site_dist_mtx) for (
+                                _, func
+                                ) in self.site_tree_distance_matrix_stats]
+                        site_tree_stats_matrix[site_idx] = [
+                            func(site_tree
+                                 ) for _, func in self.site_tree_stats]
+                except Exception as err:  # pragma: no cover
+                    print(err)
+                    # print(present_labels)
+                    # print('Site index: {}'.format(site_idx))
 
             site_stats_matrix = Matrix.concatenate(
                 [site_stats_matrix, site_tree_stats_matrix,
