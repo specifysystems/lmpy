@@ -428,7 +428,9 @@ class PamStats:
                 present_species = np.where(site_row == 1)[0]
 
                 # Get sub tree
-                present_labels = [ordered_labels[i] for i in present_species]
+                present_labels = list(
+                    filter(lambda x: bool(x),
+                           [ordered_labels[i] for i in present_species]))
                 present_dist_mtx_idxs = []
                 for idx, label in enumerate(
                         phylo_dist_mtx.get_column_headers()):
@@ -451,8 +453,8 @@ class PamStats:
                                  ) for _, func in self.site_tree_stats]
                 except Exception as err:  # pragma: no cover
                     print(err)
-                    # print(present_labels)
-                    # print('Site index: {}'.format(site_idx))
+                    print(present_labels)
+                    print('Site index: {}'.format(site_idx))
 
             site_stats_matrix = Matrix.concatenate(
                 [site_stats_matrix, site_tree_stats_matrix,
