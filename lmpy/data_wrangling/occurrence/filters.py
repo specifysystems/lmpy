@@ -64,8 +64,11 @@ def get_decimal_precision_filter(decimal_places):
     # .......................
     def decimal_precision_filter_func(point):
         """Filter for single point."""
-        pt_str = str(point)
-        return (pt_str - pt_str.index('.')) >= decimal_places
+        lat_str = str(point.y)
+        lon_str = str(point.x)
+        lat_decimals = len(lat_str) - lat_str.index('.') - 1
+        lon_decimals = len(lon_str) - lon_str.index('.') - 1
+        return min([lat_decimals, lon_decimals]) >= decimal_places
 
     return get_occurrence_filter(decimal_precision_filter_func)
 

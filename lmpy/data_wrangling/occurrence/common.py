@@ -14,7 +14,7 @@ def get_occurrence_filter(pass_condition_func):
     """Function to get a filter from a pass condition function."""
     # .......................
     def occurrence_filter(points):
-        return filter(pass_condition_func, make_list(points))
+        return list(filter(pass_condition_func, points))
     return occurrence_filter
 
 
