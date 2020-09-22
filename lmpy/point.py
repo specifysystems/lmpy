@@ -114,12 +114,8 @@ class PointCsvReader:
                 ret_points.append(pt)
 
             except ValueError as ve:
-                #print('value error: {}'.format(ve))
-                #print(point_dict)
                 pass
             except KeyError as ke:
-                #pass
-                print(point_dict)
                 raise ke
         if ret_points:
             tmp = ret_points

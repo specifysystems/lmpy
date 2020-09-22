@@ -25,7 +25,6 @@ def quadtree_index(geom, bbox, min_size, depth_left):
     min_x, max_x, min_y, max_y = intersection.GetEnvelope()
     if min_x == max_x or min_y == max_y:
         return []
-    # print('{}, {}, {}'.format(depth_left, intersection.Area(), bbox))
     # if intersection.Equals(test_geom):
     if intersection.Area() < min_size:
         return [(bbox, intersection)]
@@ -35,7 +34,6 @@ def quadtree_index(geom, bbox, min_size, depth_left):
     if depth_left > 0:
         half_x = min_x + (max_x - min_x) / 2.0
         half_y = min_y + (max_y - min_y) / 2.0
-        # print('Half x: {}, half y: {}'.format(half_x, half_y))
         ret.extend(
             quadtree_index(
                 intersection, (min_x, min_y, half_x, half_y), min_size,
@@ -90,8 +88,6 @@ class SpatialIndex:
         self.att_lookup[str(identifier)] = att_dict
         if isinstance(geom, str):
             geom = ogr.CreateGeometryFromWkt(geom)
-        #print(identifier)
-        #print(geom)
         min_x, max_x, min_y, max_y = geom.GetEnvelope()
         idx_entries = quadtree_index(
             geom, (min_x, min_y, max_x, max_y), self.min_size, self.depth_left)
@@ -129,7 +125,6 @@ class SpatialIndex:
     # ..........................
     @staticmethod
     def _point_intersect(pt_x, pt_y, geom):
-        # print('Intersecting geometry!')
         pt_geom = ogr.CreateGeometryFromWkt('POINT ({} {})'.format(pt_x, pt_y))
         return pt_geom.Within(geom)
 

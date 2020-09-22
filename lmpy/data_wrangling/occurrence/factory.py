@@ -108,13 +108,9 @@ def get_accepted_name_wrangler(accepted_taxa_filename):
             check_sp = point.species_name
             # Check if we don't have an entry for this name
             if check_sp not in accepted_map.keys():
-                # We don't have it, go get it!
-                # new_name = get_gbif_accepted_name(check_sp)
-                # print('New name: {}'.format(new_name))
                 # We don't have it, it doesn't exist
                 new_name = ''
                 accepted_map[check_sp] = new_name
-                # print('{},{},,'.format(check_sp, new_name))
             accepted_taxon_name = accepted_map[check_sp]
             if accepted_taxon_name is None or len(accepted_taxon_name) < 2:
                 # print('No accepted name for {}'.format(check_sp))

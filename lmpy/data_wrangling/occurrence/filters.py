@@ -187,7 +187,6 @@ def get_spatial_index_filter(spatial_index, get_species_intersections_func,
                 return True
         return False
 
-    print(spatial_index_point_filter)
     return get_occurrence_filter(spatial_index_point_filter)
 
 
