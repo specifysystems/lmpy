@@ -1,5 +1,6 @@
 dendropy>=4.0.0
 numpy>=1.11.0
+rtree
 coverage==4.5.4
 python-coveralls
 pytest
