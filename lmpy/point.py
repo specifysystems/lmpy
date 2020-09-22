@@ -4,6 +4,7 @@ Note: A namedtuple could replace this class for Python 3.7+
 """
 import csv
 import json
+from operator import itemgetter
 
 
 # .............................................................................
@@ -214,7 +215,6 @@ class PointJsonWriter():
         self.points.append(dict(point))
 
 
-
 # .............................................................................
 def none_getter(obj):
     """Return None as a function.
@@ -313,5 +313,3 @@ def convert_json_to_point(json_obj, species_name_getter, x_getter, y_getter,
         point_iterator(json_obj), species_name_getter, x_getter, y_getter,
         flags_getter)
     return points
-
-

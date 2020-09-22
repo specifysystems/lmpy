@@ -44,10 +44,14 @@ def wrangler_factory(wrangler_config):
         att_name = wrangler_config['attribute_name']
         list_delimiter = wrangler_config['field_delimiter']
         bad_values = wrangler_config['condition']['all']['not_in']
+
         # Not in list
         def all_not_in(value):
             field_values = value.split(list_delimiter)
-            return all([val.strip(']').strip('[').strip('"') not in bad_values for val in field_values])
+            return all(
+                [val.strip(']').strip('[').strip('"'
+                    ) not in bad_values for val in field_values])
+
         return get_attribute_filter(att_name, all_not_in)
     if wrangler_type == WRANGLER_TYPES.DECIMAL_PRECISION_FILTER:
         return get_decimal_precision_filter(
@@ -65,12 +69,14 @@ def wrangler_factory(wrangler_config):
             int(wrangler_config['minimum_points']))
     if wrangler_type == WRANGLER_TYPES.SPATIAL_INDEX_FILTER:
         spatial_index = SpatialIndex(wrangler_config['index_file'])
+
         def check_hit_func(hit, check_vals):
            for check_key, check_val in check_vals:
                if check_key in hit:
                   if hit[check_key] == check_val:
                       return True
            return False
+
         def get_valid_intersections_func(species_name):
             ret_vals = []
             if species_name in wrangler_config['species']:
@@ -80,6 +86,7 @@ def wrangler_factory(wrangler_config):
                        level_key = level_key.upper()
                     ret_vals.append((level_key, value))
             return ret_vals
+
         return get_spatial_index_filter(
             spatial_index, get_valid_intersections_func, check_hit_func)
     if wrangler_type == WRANGLER_TYPES.ATTRIBUTE_MAP_MODIFIER:
@@ -119,6 +126,7 @@ def get_accepted_name_wrangler(accepted_taxa_filename):
                 point.species_name = accepted_taxon_name
                 return_points.append(point)
         return return_points
+
     return accepted_taxon_wrangler
 
 # .............................................................................
@@ -139,5 +147,3 @@ def get_gbif_accepted_name(name_str):
     except KeyError:
         pass
     return ''
-
-

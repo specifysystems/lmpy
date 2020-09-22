@@ -72,7 +72,6 @@ def get_decimal_precision_filter(decimal_places):
         except ValueError:
             # TODO: Handle numbers with 'e' example: 1e-05
             return False
-            #raise Exception('cj')
         return min([lat_decimals, lon_decimals]) >= decimal_places
 
     return get_occurrence_filter(decimal_precision_filter_func)
@@ -202,6 +201,7 @@ def get_unique_localities_filter():
             a list of points that pass that filter function.
     """
     unique_localities = []
+
     # .......................
     def unique_localities_filter(point):
         """Unique localities filter function."""

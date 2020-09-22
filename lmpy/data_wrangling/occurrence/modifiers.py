@@ -12,7 +12,7 @@ def get_attribute_modifier(att_name, replace_func):
     Args:
         att_name (str): The point attribute to modify.
         replace_func (method): A method that returns a replacement value.
-        
+
     Returns:
         function(point): A function that takes a list of points and returns
             points with the coordinates converted.
@@ -44,7 +44,7 @@ def get_common_format_modifier(attribute_map):
         new_pt = Point(
             point.species_name, point.x, point.y,
             attributes={
-                new_name: point.get_attribute(old_name) \
+                new_name: point.get_attribute(old_name)
                     for old_name, new_name in attribute_map.items()})
         return new_pt
 

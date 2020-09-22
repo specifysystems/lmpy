@@ -3,8 +3,8 @@
 import pytest
 
 from lmpy import Point
-from lmpy.data_preparation.occurrence_filters import (
-    get_bounding_box_filter, get_data_flag_filter,
+from lmpy.data_wrangling.occurrence.filters import (
+    get_bounding_box_filter, get_attribute_filter,
     get_disjoint_geometries_filter, get_intersect_geometries_filter,
     get_unique_localities_filter)
 
@@ -52,18 +52,20 @@ class Test_occurrence_filters:
         assert filter_count == 2
 
     # .....................................
-    def test_get_data_flag_filter(self):
-        """Test the get_data_flag_filter function."""
+    def test_get_attribute_filter(self):
+        """Test the get_attribute_filter function."""
         test_points = [
-            Point('species A', 10, 40, ['bad']),
-            Point('species A', -10, 30, ['good']),  # Should pass
-            Point('species A', 30, 30, ['worse']),
-            Point('species A', 50, 30, 'bad'),
-            Point('species A', -30, -60, ['good'])  # Should pass
+            Point('species A', 10, 40, attributes={'flags': ['bad']}),
+            # Should pass
+            Point('species A', -10, 30, attributes={'flags': ['good']}),
+            Point('species A', 30, 30, attributes={'flags': ['worse']}),
+            Point('species A', 50, 30, attributes={'flags': 'bad'}),
+            # Should pass
+            Point('species A', -30, -60, attributes={'flags': ['good']})
         ]
-        data_flag_filter = get_data_flag_filter(['bad', 'worse'])
+        attribute_filter = get_attribute_filter(['bad', 'worse'])
         filtered_points, filter_count = self._filter_points(
-            data_flag_filter, test_points)
+            attribute_filter, test_points)
         assert len(filtered_points) == 2
         assert filter_count == 3
 
@@ -127,23 +129,24 @@ class Test_occurrence_filters:
         """Test multiple filters."""
         test_bbox = ()
         test_points = [
-            Point('species A', 113, 57, ['good']),  # A
-            Point('species A', -49, -25, ['bad']),  # B
-            Point('species A', -49, -25, ['bad']),  # C
-            Point('species A', 168, -13, ['bad']),  # D
-            Point('species A', 114, 82, ['good']),  # E
-            Point('species A', -67, -63, ['worse']),  # F
-            Point('species A', 138, 81, ['worse']),  # G
-            Point('species A', 82, -88, ['good']),  # H
-            Point('species A', 82, -88, ['good']),  # I
-            Point('species A', -76, 55, ['good']),  # J
-            Point('species A', -76, 55, ['good']),  # K
-            Point('species A', -121, 82, ['good']),  # L
-            Point('species A', 58, -89, ['good']),  # M
-            Point('species A', 0, 0, ['good'])  # N
+            Point('species A', 113, 57, attributes={'flags': ['good']}),  # A
+            Point('species A', -49, -25, attributes={'flags': ['bad']}),  # B
+            Point('species A', -49, -25, attributes={'flags': ['bad']}),  # C
+            Point('species A', 168, -13, attributes={'flags': ['bad']}),  # D
+            Point('species A', 114, 82, attributes={'flags': ['good']}),  # E
+            Point(
+                'species A', -67, -63, attributes={'flags': ['worse']}),  # F
+            Point('species A', 138, 81, attributes={'flags': ['worse']}),  # G
+            Point('species A', 82, -88, attributes={'flags': ['good']}),  # H
+            Point('species A', 82, -88, attributes={'flags': ['good']}),  # I
+            Point('species A', -76, 55, attributes={'flags': ['good']}),  # J
+            Point('species A', -76, 55, attributes={'flags': ['good']}),  # K
+            Point('species A', -121, 82, attributes={'flags': ['good']}),  # L
+            Point('species A', 58, -89, attributes={'flags': ['good']}),  # M
+            Point('species A', 0, 0, attributes={'flags': ['good']})  # N
         ]
         unique_localities_filter = get_unique_localities_filter()
-        data_flag_filter = get_data_flag_filter(['bad', 'worse'])
+        attribute_filter = get_attribute_filter(['bad', 'worse'])
         bbox_filter = get_bounding_box_filter(-90, -90, 90, 90)
         disjoint_filter = get_disjoint_geometries_filter(
             ['POLYGON ((0 -10, 10 0, 0 10, -10 0, 0 -10))'])
@@ -158,7 +161,7 @@ class Test_occurrence_filters:
 
         # Current points - ABDEFGHJLMN
         filtered_points, filter_count = self._filter_points(
-            data_flag_filter, filtered_points)
+            attribute_filter, filtered_points)
         # Removed points - BDFG
         assert len(filtered_points) == 7
         assert filter_count == 4

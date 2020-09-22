@@ -1,6 +1,7 @@
 """Module containing common functions for occurrence data wranglers."""
 from lmpy import Point
 
+
 # .............................................................................
 def make_list(points):
     """Make sure that 'points' is a list."""

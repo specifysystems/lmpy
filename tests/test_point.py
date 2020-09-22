@@ -9,9 +9,10 @@ import numpy as np
 import pytest
 
 from lmpy import Point
-from lmpy.data_preparation.occurrence_transformation import (
-    convert_delimited_to_point, convert_json_to_point,
-    get_coordinate_converter, none_getter)
+from lmpy.point import (
+    convert_delimited_to_point, convert_json_to_point, none_getter)
+from lmpy.data_wrangling.occurrence.modifiers import (
+    get_coordinate_converter_modifier)
 
 
 # .............................................................................
@@ -264,7 +265,7 @@ class Test_convert_json_to_point:
             assert -180.0 <= point.x <= 180.0
             assert isinstance(point.y, (int, float))
             assert -90.0 <= point.y <= 90.0
-            assert isinstance(point.flags, list)
+            assert isinstance(point.get_attribute('flags'), list)
 
     # ..........................
     def test_simple(self):
@@ -340,7 +341,7 @@ class Test_get_coordinate_converter:
         """Test that conversion produces known values."""
         in_vals = (4326, -89.555857, 37.3040553)
         out_vals = (2815, 333699.36, 163612.51)
-        converter = get_coordinate_converter(in_vals[0], out_vals[0])
+        converter = get_coordinate_converter_modifier(in_vals[0], out_vals[0])
         in_point = Point('test species', in_vals[1], in_vals[2])
         out_point = converter(in_point)
         assert np.isclose(out_point.x, out_vals[1])

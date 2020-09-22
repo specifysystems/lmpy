@@ -97,7 +97,6 @@ def wrangle_points(readers, writer, wranglers=None):
         readers = [readers]
     for reader in readers:
         for points in reader:
-            #raise Exception('cj1')
             if wranglers:
                 for flt in wranglers:
                     if points:
