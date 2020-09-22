@@ -31,7 +31,7 @@ def sort_points(readers, writer, wranglers=None):
             to use to modify / filter points.
     """
     # Make sure readers is a list
-    if isinstance(readers, PointReader):
+    if isinstance(readers, PointCsvReader):
         readers = [readers]
     in_points = []
     # Sort points
@@ -41,8 +41,8 @@ def sort_points(readers, writer, wranglers=None):
     sorted_points = sorted(in_points)
     in_points = None
     # Filter if desired
-    if filters:
-        for flt in filters:
+    if wranglers:
+        for flt in wranglers:
             if sorted_points:
                 sorted_points = flt(sorted_points)
     # Write points

@@ -2,8 +2,11 @@
 
 Version 1: Store geometries in memory in table.  Save as wkt.
 """
+import json
+import os
 from osgeo import ogr
 import rtree
+
 
 # .............................................................................
 def create_geometry_from_bbox(min_x, min_y, max_x, max_y):
@@ -56,19 +59,24 @@ def quadtree_index(geom, bbox, min_size, depth_left):
 class SpatialIndex:
     """This class provides an index for quickly performing intersects."""
     # ..........................
-    def __init__(self):
-        self.index = rtree.index.Index()
+    def __init__(self, index_name=None):
+        self.index = rtree.index.Index(index_name)
+        self._att_filename = '{}.json'.format(index_name)
+        self._geom_filename = '{}.geom_json'.format(index_name)
         self.att_lookup = {}
+        if os.path.exists(self._att_filename):
+            with open(self._att_filename) as in_file:
+                self.att_lookup = json.load(in_file)
         self.geom_lookup = {}
+        if os.path.exists(self._geom_filename):
+            with open(self._geom_filename) as in_file:
+                tmp_geoms = json.load(in_file)
+                for k, wkt in tmp_geoms.items():
+                    self.geom_lookup[k] = ogr.CreateGeometryFromWkt(wkt)
+                #self.geom_lookup = json.load(in_file)
         self.min_size = 0.01
         self.depth_left = 10
-        self.next_geom = 0
-
-    # ..........................
-    @classmethod
-    def load_from_file(cls, filename):
-        """Load a stored index."""
-        pass
+        self.next_geom = len(self.geom_lookup)
 
     # ..........................
     def add_feature(self, identifier, geom, att_dict):
@@ -79,7 +87,7 @@ class SpatialIndex:
             geom: A geometry to spatially index
             att_dict: A dictionary of attributes to store in the lookup table
         """
-        self.att_lookup[identifier] = att_dict
+        self.att_lookup[str(identifier)] = att_dict
         if isinstance(geom, str):
             geom = ogr.CreateGeometryFromWkt(geom)
         #print(identifier)
@@ -98,14 +106,24 @@ class SpatialIndex:
                 self.next_geom += 1
 
     # ..........................
+    def save(self):
+        """Save the index attributes"""
+        with open(self._att_filename, 'w') as out_file:
+            json.dump(self.att_lookup, out_file)
+        with open(self._geom_filename, 'w') as out_file:
+            out_geoms = {k: val.ExportToWkt() for k, val in self.geom_lookup.items()}
+            json.dump(out_geoms, out_file)
+            # json.dump(self.geom_lookup, out_file)
+
+    # ..........................
     def search(self, x, y):
         """Search for x, y and return attributes in lookup if found."""
         hits = {}
         for hit in self.index.intersection((x, y, x, y), objects=True):
             if hit.id not in hits.keys():
                 if isinstance(hit.object, bool) or \
-                        self._point_intersect(x, y, self.geom_lookup[hit.object]):
-                    hits[hit.id] = self.att_lookup[hit.id]
+                        self._point_intersect(x, y, self.geom_lookup[str(hit.object)]):
+                    hits[str(hit.id)] = self.att_lookup[str(hit.id)]
         return hits
 
     # ..........................

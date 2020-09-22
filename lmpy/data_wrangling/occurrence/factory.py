@@ -11,6 +11,7 @@ from lmpy.data_wrangling.occurrence.filters import (
 from lmpy.data_wrangling.occurrence.modifiers import (
     get_attribute_modifier, get_common_format_modifier,
     get_coordinate_converter_modifier)
+from lmpy.spatial import SpatialIndex
 
 
 # .............................................................................
@@ -20,6 +21,7 @@ class WRANGLER_TYPES:
     BBOX_FILTER = 'bbox_filter'
     DECIMAL_PRECISION_FILTER = 'decimal_precision_filter'
     MINIMUM_POINTS_FILTER = 'minimum_points_filter'
+    SPATIAL_INDEX_FILTER = 'spatial_index_filter'
     UNIQUE_LOCALITIES_FILTER = 'unique_localities_filter'
     # Modifiers
     ACCEPTED_NAME_MODIFIER = 'accepted_name_modifier'
@@ -61,17 +63,31 @@ def wrangler_factory(wrangler_config):
     if wrangler_type == WRANGLER_TYPES.MINIMUM_POINTS_FILTER:
         return get_minimum_points_filter(
             int(wrangler_config['minimum_points']))
+    if wrangler_type == WRANGLER_TYPES.SPATIAL_INDEX_FILTER:
+        spatial_index = SpatialIndex(wrangler_config['index_file'])
+        def check_hit_func(hit, check_vals):
+           for check_key, check_val in check_vals:
+               if check_key in hit:
+                  if hit[check_key] == check_val:
+                      return True
+           return False
+        def get_valid_intersections_func(species_name):
+            ret_vals = []
+            if species_name in wrangler_config['species']:
+                for level, value in wrangler_config['species'][species_name]:
+                    level_key = 'Level_{}_cod'.format(level)
+                    if int(level) < 4:
+                       level_key = level_key.upper()
+                    ret_vals.append((level_key, value))
+            return ret_vals
+        return get_spatial_index_filter(
+            spatial_index, get_valid_intersections_func, check_hit_func)
     if wrangler_type == WRANGLER_TYPES.ATTRIBUTE_MAP_MODIFIER:
         mapping = wrangler_config['attribute_mapping']
         return get_common_format_modifier(mapping)
     if wrangler_type == WRANGLER_TYPES.ACCEPTED_NAME_MODIFIER:
         return get_accepted_name_wrangler(wrangler_config['filename'])
-    print(wrangler_config)
 
-"""
- Get accepted names
- Localities / spatial index
-"""
 # TODO: Move this
 # .............................................................................
 def get_accepted_name_wrangler(accepted_taxa_filename):

@@ -24,7 +24,7 @@ def get_attribute_filter(att_name, pass_condition):
         return pass_condition(point.get_attribute(att_name))
 
     return get_occurrence_filter(point_filter_func)
-    
+
 
 # .............................................................................
 def get_bounding_box_filter(min_x, min_y, max_x, max_y):
@@ -168,7 +168,7 @@ def get_spatial_index_filter(spatial_index, get_species_intersections_func,
     """
     # Load spatial index
     if not isinstance(spatial_index, SpatialIndex):
-        spatial_index = SpatialIndex.load_from_file(spatial_index)
+        spatial_index = SpatialIndex(spatial_index)
     # Store valid intersections for each encountered species
     valid_intersections = {}
 
@@ -187,6 +187,7 @@ def get_spatial_index_filter(spatial_index, get_species_intersections_func,
                 return True
         return False
 
+    print(spatial_index_point_filter)
     return get_occurrence_filter(spatial_index_point_filter)
 
 
