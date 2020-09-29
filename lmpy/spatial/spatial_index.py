@@ -71,7 +71,7 @@ class SpatialIndex:
                 tmp_geoms = json.load(in_file)
                 for k, wkt in tmp_geoms.items():
                     self.geom_lookup[k] = ogr.CreateGeometryFromWkt(wkt)
-                #self.geom_lookup = json.load(in_file)
+                # self.geom_lookup = json.load(in_file)
         self.min_size = 0.01
         self.depth_left = 10
         self.next_geom = len(self.geom_lookup)
@@ -107,7 +107,8 @@ class SpatialIndex:
         with open(self._att_filename, 'w') as out_file:
             json.dump(self.att_lookup, out_file)
         with open(self._geom_filename, 'w') as out_file:
-            out_geoms = {k: val.ExportToWkt() for k, val in self.geom_lookup.items()}
+            out_geoms = {
+                k: val.ExportToWkt() for k, val in self.geom_lookup.items()}
             json.dump(out_geoms, out_file)
             # json.dump(self.geom_lookup, out_file)
 
@@ -118,7 +119,8 @@ class SpatialIndex:
         for hit in self.index.intersection((x, y, x, y), objects=True):
             if hit.id not in hits.keys():
                 if isinstance(hit.object, bool) or \
-                        self._point_intersect(x, y, self.geom_lookup[str(hit.object)]):
+                    self._point_intersect(
+                        x, y, self.geom_lookup[str(hit.object)]):
                     hits[str(hit.id)] = self.att_lookup[str(hit.id)]
         return hits
 

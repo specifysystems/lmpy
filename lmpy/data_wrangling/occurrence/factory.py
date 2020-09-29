@@ -49,8 +49,8 @@ def wrangler_factory(wrangler_config):
         def all_not_in(value):
             field_values = value.split(list_delimiter)
             return all(
-                [val.strip(']').strip('[').strip('"'
-                    ) not in bad_values for val in field_values])
+                [val.strip(']').strip('[').strip(
+                    '"') not in bad_values for val in field_values])
 
         return get_attribute_filter(att_name, all_not_in)
     if wrangler_type == WRANGLER_TYPES.DECIMAL_PRECISION_FILTER:
@@ -71,11 +71,11 @@ def wrangler_factory(wrangler_config):
         spatial_index = SpatialIndex(wrangler_config['index_file'])
 
         def check_hit_func(hit, check_vals):
-           for check_key, check_val in check_vals:
-               if check_key in hit:
-                  if hit[check_key] == check_val:
-                      return True
-           return False
+            for check_key, check_val in check_vals:
+                if check_key in hit:
+                    if hit[check_key] == check_val:
+                        return True
+            return False
 
         def get_valid_intersections_func(species_name):
             ret_vals = []
@@ -83,7 +83,7 @@ def wrangler_factory(wrangler_config):
                 for level, value in wrangler_config['species'][species_name]:
                     level_key = 'Level_{}_cod'.format(level)
                     if int(level) < 4:
-                       level_key = level_key.upper()
+                        level_key = level_key.upper()
                     ret_vals.append((level_key, value))
             return ret_vals
 
@@ -94,6 +94,7 @@ def wrangler_factory(wrangler_config):
         return get_common_format_modifier(mapping)
     if wrangler_type == WRANGLER_TYPES.ACCEPTED_NAME_MODIFIER:
         return get_accepted_name_wrangler(wrangler_config['filename'])
+
 
 # TODO: Move this
 # .............................................................................
@@ -128,6 +129,7 @@ def get_accepted_name_wrangler(accepted_taxa_filename):
         return return_points
 
     return accepted_taxon_wrangler
+
 
 # .............................................................................
 def get_gbif_accepted_name(name_str):

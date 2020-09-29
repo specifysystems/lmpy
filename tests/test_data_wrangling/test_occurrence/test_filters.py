@@ -26,12 +26,8 @@ class Test_occurrence_filters:
             int - A count of the points that were filtered out.
         """
         filter_count = 0
-        filtered_points = []
-        for point in points:
-            if filter_function(point):
-                filtered_points.append(point)
-            else:
-                filter_count += 1
+        filtered_points = filter_function(points)
+        filter_count = len(points) - len(list(filtered_points))
         return (filtered_points, filter_count)
 
     # .....................................
@@ -63,9 +59,17 @@ class Test_occurrence_filters:
             # Should pass
             Point('species A', -30, -60, attributes={'flags': ['good']})
         ]
-        attribute_filter = get_attribute_filter(['bad', 'worse'])
+
+        def bad_filter(value):
+            if isinstance(value, str):
+                value = [value]
+            return all([i not in ['bad', 'worse'] for i in list(value)])
+
+        attribute_filter = get_attribute_filter(
+            'flags', bad_filter)
         filtered_points, filter_count = self._filter_points(
             attribute_filter, test_points)
+        print(filtered_points)
         assert len(filtered_points) == 2
         assert filter_count == 3
 
@@ -146,7 +150,12 @@ class Test_occurrence_filters:
             Point('species A', 0, 0, attributes={'flags': ['good']})  # N
         ]
         unique_localities_filter = get_unique_localities_filter()
-        attribute_filter = get_attribute_filter(['bad', 'worse'])
+
+        def bad_filter(value):
+            return all([i not in ['bad', 'worse'] for i in list(value)])
+
+        attribute_filter = get_attribute_filter(
+            'flags', bad_filter)
         bbox_filter = get_bounding_box_filter(-90, -90, 90, 90)
         disjoint_filter = get_disjoint_geometries_filter(
             ['POLYGON ((0 -10, 10 0, 0 10, -10 0, 0 -10))'])

@@ -1,6 +1,8 @@
 """Module containing occurrence data wranglers for modifying point data."""
 from copy import deepcopy
 
+from osgeo import ogr, osr
+
 from lmpy.point import Point
 from lmpy.data_wrangling.occurrence.common import get_occurrence_map, make_list
 
@@ -45,7 +47,7 @@ def get_common_format_modifier(attribute_map):
             point.species_name, point.x, point.y,
             attributes={
                 new_name: point.get_attribute(old_name)
-                    for old_name, new_name in attribute_map.items()})
+                for old_name, new_name in attribute_map.items()})
         return new_pt
 
     return get_occurrence_map(modify_func)
