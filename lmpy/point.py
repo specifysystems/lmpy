@@ -114,9 +114,9 @@ class PointCsvReader:
                     curr_val = test_val
                 ret_points.append(pt)
 
-            except ValueError as ve:
+            except ValueError as ve:  # pragma: no cover
                 pass
-            except KeyError as ke:
+            except KeyError as ke:  # pragma: no cover
                 raise ke
         if ret_points:
             tmp = ret_points
