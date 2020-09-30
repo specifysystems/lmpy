@@ -70,7 +70,7 @@ class SpatialIndex:
             with open(self._geom_filename) as in_file:
                 tmp_geoms = json.load(in_file)
                 for k, wkt in tmp_geoms.items():
-                    self.geom_lookup[k] = ogr.CreateGeometryFromWkt(wkt)
+                    self.geom_lookup[str(k)] = ogr.CreateGeometryFromWkt(wkt)
                 # self.geom_lookup = json.load(in_file)
         self.min_size = 0.01
         self.depth_left = 10
@@ -98,7 +98,7 @@ class SpatialIndex:
             else:
                 # Add geometry to lookup, increment counter
                 self.index.insert(identifier, bbox, obj=self.next_geom)
-                self.geom_lookup[self.next_geom] = idx_geom
+                self.geom_lookup[str(self.next_geom)] = idx_geom
                 self.next_geom += 1
 
     # ..........................
