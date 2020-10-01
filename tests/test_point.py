@@ -10,7 +10,8 @@ import numpy as np
 import pytest
 
 from lmpy import Point
-from lmpy.point import none_getter, PointCsvReader, PointCsvWriter
+from lmpy.point import (
+    none_getter, PointCsvReader, PointCsvWriter, PointJsonWriter)
 from lmpy.data_wrangling.occurrence.modifiers import (
     get_coordinate_converter_modifier)
 
@@ -193,6 +194,26 @@ class Test_PointCsvWriter:
             suffix='.csv', delete=False, mode='w')
         filename = out_file.name
         with PointCsvWriter(filename, ['species_name', 'x', 'y']) as writer:
+            writer.write_points(Point('species', 0, 0))
+            writer.write_points(
+                [
+                    Point('species', 10, 10),
+                    Point('species', 20, 20),
+                    Point('species', -30, -30)
+                ])
+        os.remove(filename)
+
+
+# ............................................................................
+class Test_PointJsonWriter:
+    """Test PointJsonWriter class."""
+    # ..........................
+    def test_basic(self):
+        """Perform simple test."""
+        out_file = tempfile.NamedTemporaryFile(
+            suffix='.json', delete=False, mode='w')
+        filename = out_file.name
+        with PointJsonWriter(filename) as writer:
             writer.write_points(Point('species', 0, 0))
             writer.write_points(
                 [

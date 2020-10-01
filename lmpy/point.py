@@ -210,9 +210,13 @@ class PointJsonWriter():
         pass
 
     # .......................
-    def write_points(self, point):
+    def write_points(self, points):
         """Add a point to the JSON output."""
-        self.points.append(dict(point))
+        if isinstance(points, Point):
+            points = [points]
+
+        for point in points:
+            self.points.append(point.attributes)
 
 
 # .............................................................................
