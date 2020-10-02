@@ -4,9 +4,11 @@ import pytest
 
 from lmpy import Point
 from lmpy.data_wrangling.occurrence.filters import (
-    get_bounding_box_filter, get_attribute_filter,
-    get_disjoint_geometries_filter, get_intersect_geometries_filter,
+    get_attribute_filter, get_bounding_box_filter,
+    get_decimal_precision_filter, get_disjoint_geometries_filter,
+    get_intersect_geometries_filter, get_spatial_index_filter,
     get_unique_localities_filter)
+from lmpy.spatial.spatial_index import create_geometry_from_bbox, SpatialIndex
 
 
 # .............................................................................
@@ -46,6 +48,22 @@ class Test_occurrence_filters:
             bbox_filter, test_points)
         assert len(filtered_points) == 3
         assert filter_count == 2
+
+    # .....................................
+    def test_get_decimal_precision_filter(self):
+        """Test the get_decimal_precision_filter function."""
+        test_points = [
+            Point('Species A', 10, 10),  # Should not pass
+            Point('Species A', 10.0324, 9.23101),  # Should pass
+            Point('Species A', 3.23421, 70.013),  # Should not pass
+            Point('Species A', 60.23419, 40.10029),  # Should pass
+            Point('Species A', 100.123, 19.33444)  # Should not pass
+        ]
+        decimal_filter = get_decimal_precision_filter(4)
+        filtered_points, filter_count = self._filter_points(
+            decimal_filter, test_points)
+        assert len(filtered_points) == 2
+        assert filter_count == 3
 
     # .....................................
     def test_get_attribute_filter(self):
@@ -205,3 +223,32 @@ class Test_occurrence_filters:
             bbox_filter, test_points)
         assert len(filtered_points) == 0
         assert filter_count == 1
+
+    # ....................................
+    def test_get_spatial_index_filter(self):
+        """Test get_spatial_index_filter."""
+        test_points = [
+            Point('Species A', -10, -1),  # Should not pass
+            Point('Species A', 0, 0),  # Should not pass
+            Point('Species A', 30, 20),  # Should pass
+            Point('Species A', 40, 10),  # Should pass
+            Point('Species A', 10, 40),  # Should pass
+            Point('Species A', 30, 60)  # Should pass
+        ]
+
+        def get_true_list(species_name):
+            return [True]
+
+        def get_true(hit, check_vals):
+            return True
+
+        sp_index = SpatialIndex()
+        sp_index.add_feature(
+            1, create_geometry_from_bbox(-10, -10, 10, 10),
+            {'att_1': 'val_1'})
+        sp_index_filter = get_spatial_index_filter(
+            sp_index, get_true_list, get_true)
+        filtered_points, filter_count = self._filter_points(
+            sp_index_filter, test_points)
+        assert len(filtered_points) == 4
+        assert filter_count == 2

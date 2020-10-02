@@ -63,7 +63,7 @@ def wrangler_factory(wrangler_config):
         min_y = float(wrangler_config['min_y'])
         max_x = float(wrangler_config['max_x'])
         max_y = float(wrangler_config['max_y'])
-        return get_bbox_filter(min_x, min_y, max_x, max_y)
+        return get_bounding_box_filter(min_x, min_y, max_x, max_y)
     if wrangler_type == WRANGLER_TYPES.MINIMUM_POINTS_FILTER:
         return get_minimum_points_filter(
             int(wrangler_config['minimum_points']))

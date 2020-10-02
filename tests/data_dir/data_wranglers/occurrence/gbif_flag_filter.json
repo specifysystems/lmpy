@@ -1,0 +1,15 @@
+{
+    "wrangler_type": "attribute_filter",
+    "attribute_name": "issue",
+    "field_delimiter": ";",
+    "field_type": "list",
+    "condition": {
+        "all": {
+            "not_in": [
+                "TAXON_MATCH_FUZZY",
+                "TAXON_MATCH_HIGHERRANK",
+                "TAXON_MATCH_NONE"
+            ]
+        }
+    }
+}
