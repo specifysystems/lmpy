@@ -179,6 +179,7 @@ def get_spatial_index_filter(spatial_index, get_species_intersections_func,
         else:
             check_intersections = get_species_intersections_func(
                 point.species_name)
+            valid_intersections[point.species_name] = check_intersections
         if check_intersections is None or len(check_intersections) == 0:
             return True
         for hit in spatial_index.search(point.x, point.y).values():
