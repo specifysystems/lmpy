@@ -87,7 +87,6 @@ class Test_occurrence_filters:
             'flags', bad_filter)
         filtered_points, filter_count = self._filter_points(
             attribute_filter, test_points)
-        print(filtered_points)
         assert len(filtered_points) == 2
         assert filter_count == 3
 
@@ -228,12 +227,12 @@ class Test_occurrence_filters:
     def test_get_spatial_index_filter(self):
         """Test get_spatial_index_filter."""
         test_points = [
-            Point('Species A', -10, -1),  # Should not pass
-            Point('Species A', 0, 0),  # Should not pass
-            Point('Species A', 30, 20),  # Should pass
-            Point('Species A', 40, 10),  # Should pass
-            Point('Species A', 10, 40),  # Should pass
-            Point('Species A', 30, 60)  # Should pass
+            Point('Species A', -10, -1),  # Should pass
+            Point('Species A', 0, 0),  # Should pass
+            Point('Species A', 30, 20),  # Should not pass
+            Point('Species A', 40, 10),  # Should not pass
+            Point('Species A', 10, 40),  # Should not pass
+            Point('Species A', 30, 60)  # Should not pass
         ]
 
         def get_true_list(species_name):
@@ -250,5 +249,5 @@ class Test_occurrence_filters:
             sp_index, get_true_list, get_true)
         filtered_points, filter_count = self._filter_points(
             sp_index_filter, test_points)
-        assert len(filtered_points) == 4
-        assert filter_count == 2
+        assert len(filtered_points) == 2
+        assert filter_count == 4

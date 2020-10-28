@@ -101,6 +101,8 @@ def wrangler_factory(wrangler_config):
 def get_accepted_name_wrangler(accepted_taxa_filename):
     """Get a data wrangler for populating accepted taxon name for points."""
     accepted_map = {}
+    import os
+    print(os.getcwd())
     with open(accepted_taxa_filename, 'r') as in_file:
         _ = next(in_file)
         for line in in_file:

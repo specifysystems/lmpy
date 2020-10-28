@@ -60,6 +60,8 @@ class Test_get_coordinate_converter_modifier:
         converter = get_coordinate_converter_modifier(in_vals[0], out_vals[0])
         in_point = Point('test species', in_vals[1], in_vals[2])
         out_point = converter(in_point)[0]
+        print(
+            'out_point.x {}, out_vals[1], {}'.format(out_point.x, out_vals[1]))
         assert np.isclose(out_point.x, out_vals[1])
         assert np.isclose(out_point.y, out_vals[2])
         assert in_point.species_name == out_point.species_name
