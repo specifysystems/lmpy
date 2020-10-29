@@ -1,11 +1,41 @@
 """Test the occurrence data wrangler modifiers module."""
 from copy import deepcopy
+import tempfile
+
 import numpy as np
 
 from lmpy import Point
 from lmpy.data_wrangling.occurrence.modifiers import (
-    get_attribute_modifier, get_common_format_modifier,
-    get_coordinate_converter_modifier)
+    get_accepted_name_modifier, get_attribute_modifier,
+    get_common_format_modifier, get_coordinate_converter_modifier)
+
+
+# ............................................................................
+class Test_get_accepted_name_modifier:
+    """Test get_accepted_name_modifier."""
+    # .......................
+    def test_simple(self):
+        """Simple test that attribute values change as expected."""
+        points = [
+            Point('Oldname a1', 10, 20),
+            Point('Oldname a2', 20, 30),
+            Point('Newname a', -10, 0),
+            Point('Oldname b', 30, 30)
+            ]
+
+        with tempfile.NamedTemporaryFile(
+                mode='wt', encoding='utf8', delete=False) as temp_out:
+            temp_out.write('Name,Accepted name\n')
+            temp_out.write('Oldname a1,Newname a\n')
+            temp_out.write('Oldname a2,Newname a\n')
+            temp_out.write('Newname a,Newname a')
+            temp_filename = temp_out.name
+
+        modifier = get_accepted_name_modifier(temp_filename)
+        new_points = modifier(points)
+        assert len(new_points) == 3
+        new_points_2 = modifier(points[0])
+        assert len(new_points_2) == 1
 
 
 # ............................................................................

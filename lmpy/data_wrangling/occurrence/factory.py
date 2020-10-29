@@ -9,8 +9,8 @@ from lmpy.data_wrangling.occurrence.filters import (
     get_intersect_geometries_filter, get_minimum_points_filter,
     get_spatial_index_filter, get_unique_localities_filter)
 from lmpy.data_wrangling.occurrence.modifiers import (
-    get_attribute_modifier, get_common_format_modifier,
-    get_coordinate_converter_modifier)
+    get_accepted_name_modifier, get_attribute_modifier,
+    get_common_format_modifier, get_coordinate_converter_modifier)
 from lmpy.spatial import SpatialIndex
 
 
@@ -46,7 +46,7 @@ def wrangler_factory(wrangler_config):
         bad_values = wrangler_config['condition']['all']['not_in']
 
         # Not in list
-        def all_not_in(value):
+        def all_not_in(value):  # pragma: no cover
             field_values = value.split(list_delimiter)
             return all(
                 [val.strip(']').strip('[').strip(
@@ -70,14 +70,14 @@ def wrangler_factory(wrangler_config):
     if wrangler_type == WRANGLER_TYPES.SPATIAL_INDEX_FILTER:
         spatial_index = SpatialIndex(wrangler_config['index_file'])
 
-        def check_hit_func(hit, check_vals):
+        def check_hit_func(hit, check_vals):  # pragma: no cover
             for check_key, check_val in check_vals:
                 if check_key in hit:
                     if hit[check_key] == check_val:
                         return True
             return False
 
-        def get_valid_intersections_func(species_name):
+        def get_valid_intersections_func(species_name):  # pragma: no cover
             ret_vals = []
             if species_name in wrangler_config['species']:
                 for level, value in wrangler_config['species'][species_name]:
@@ -93,61 +93,4 @@ def wrangler_factory(wrangler_config):
         mapping = wrangler_config['attribute_mapping']
         return get_common_format_modifier(mapping)
     if wrangler_type == WRANGLER_TYPES.ACCEPTED_NAME_MODIFIER:
-        return get_accepted_name_wrangler(wrangler_config['filename'])
-
-
-# TODO: Move this
-# .............................................................................
-def get_accepted_name_wrangler(accepted_taxa_filename):
-    """Get a data wrangler for populating accepted taxon name for points."""
-    accepted_map = {}
-    import os
-    print(os.getcwd())
-    with open(accepted_taxa_filename, 'r') as in_file:
-        _ = next(in_file)
-        for line in in_file:
-            parts = line.split(',')
-            accepted_map[parts[0]] = parts[1]
-
-    # .......................
-    def accepted_taxon_wrangler(points):
-        return_points = []
-        if isinstance(points, Point):
-            points = [points]
-        for point in points:
-            check_sp = point.species_name
-            # Check if we don't have an entry for this name
-            if check_sp not in accepted_map.keys():
-                # We don't have it, it doesn't exist
-                new_name = ''
-                accepted_map[check_sp] = new_name
-            accepted_taxon_name = accepted_map[check_sp]
-            if accepted_taxon_name is None or len(accepted_taxon_name) < 2:
-                # print('No accepted name for {}'.format(check_sp))
-                pass
-            else:
-                point.species_name = accepted_taxon_name
-                return_points.append(point)
-        return return_points
-
-    return accepted_taxon_wrangler
-
-
-# .............................................................................
-def get_gbif_accepted_name(name_str):
-    """Get the accepted name for a name string.
-
-    Note:
-        If there is an HTTP error, I want it to fail out
-    """
-    other_filters = {'name': name_str.strip()}
-    url = 'http://api.gbif.org/v1/species/match?{}'.format(
-        urllib.parse.urlencode(other_filters))
-    response = requests.get(url).json()
-    try:
-        if response['status'].lower() in ('accepted', 'synonym') and \
-                'speciesKey' in response.keys():
-            return response['canonicalName']
-    except KeyError:
-        pass
-    return ''
+        return get_accepted_name_modifier(wrangler_config['filename'])

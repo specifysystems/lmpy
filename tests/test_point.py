@@ -75,6 +75,11 @@ class Test_Point:
         pt.set_attribute('test', 1)
         assert pt.get_attribute('test') == 1
 
+    # ..........................
+    def test_repr(self):
+        """Test the repr function."""
+        assert repr(Point('Species', 0, 0))
+
 
 # ............................................................................
 class Test_PointCsvReader:

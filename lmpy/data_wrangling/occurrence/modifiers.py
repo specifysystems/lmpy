@@ -8,6 +8,40 @@ from lmpy.data_wrangling.occurrence.common import get_occurrence_map, make_list
 
 
 # .............................................................................
+def get_accepted_name_modifier(accepted_taxa_filename):
+    """Get a data wrangler for populating accepted taxon name for points."""
+    accepted_map = {}
+    with open(accepted_taxa_filename, 'r') as in_file:
+        _ = next(in_file)
+        for line in in_file:
+            parts = line.split(',')
+            accepted_map[parts[0].strip()] = parts[1].strip()
+
+    # .......................
+    def accepted_taxon_wrangler(points):
+        return_points = []
+        if isinstance(points, Point):
+            points = [points]
+        for point in points:
+            check_sp = point.species_name
+            # Check if we don't have an entry for this name
+            if check_sp not in accepted_map.keys():
+                # We don't have it, it doesn't exist
+                new_name = ''
+                accepted_map[check_sp] = new_name
+            accepted_taxon_name = accepted_map[check_sp]
+            if accepted_taxon_name is None or len(accepted_taxon_name) < 2:
+                # print('No accepted name for {}'.format(check_sp))
+                pass
+            else:
+                point.species_name = accepted_taxon_name
+                return_points.append(point)
+        return return_points
+
+    return accepted_taxon_wrangler
+
+
+# .............................................................................
 def get_attribute_modifier(att_name, replace_func):
     """Get a function that replaces an Point attribute using a replace func.
 
