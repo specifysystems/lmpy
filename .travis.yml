@@ -27,7 +27,6 @@ jobs:
     language: shell
     before_install:
       - brew update
-      - brew install python
       - brew install gdal
     install:
       - pip install GDAL==`gdal-config --version`
@@ -40,11 +39,11 @@ jobs:
     before_install:
       - choco install python --version 3.8.0
       - python -m pip install --upgrade pip
-      - choco install gdal
+      - choco install geoda
     env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
     install:
-    - pip install GDAL==`gdal-config --version`
-    - pip install -r requirements.txt
+      - pip install GDAL==`gdal-config --version`
+      - pip install -r requirements.txt
     script:
       - py.test tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
   - stage: deploy
