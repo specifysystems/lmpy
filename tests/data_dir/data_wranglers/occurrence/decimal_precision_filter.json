@@ -1,0 +1,4 @@
+{
+    "wrangler_type": "decimal_precision_filter",
+    "decimal_precision": 4
+}
