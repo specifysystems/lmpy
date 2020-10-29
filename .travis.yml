@@ -21,6 +21,33 @@ after_success:
   - coveralls
 jobs:
   include:
+  - name: "Mac OSX test"
+    os: osx
+    osx_image: 
+    language: shell
+    before_install:
+      - sudo add-apt-repository --yes ppa:ubuntugis/ppa
+      - sudo apt-get --quiet update
+      - sudo apt-get install --yes libgdal-dev gdal-bin python-gdal libspatialindex-dev
+      - export CPLUS_INCLUDE_PATH=/usr/include/gdal
+      - export C_INCLUDE_PATH=/usr/include/gdal
+    install:
+      - pip install GDAL==`gdal-config --version`
+      - pip install -r requirements.txt
+    script:
+      - py.test tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
+  - name: "Windows test"
+    os: windows
+    language: shell
+    before_install:
+      - choco install python --version 3.8.0
+      - python -m pip install --upgrade pip
+    env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+    install:
+    - pip install GDAL==`gdal-config --version`
+    - pip install -r requirements.txt
+    script:
+      - py.test tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
   - stage: deploy
     python: '3.7'
     before_install:
