@@ -23,14 +23,12 @@ jobs:
   include:
   - name: "Mac OSX test"
     os: osx
-    osx_image: 
+    # osx_image: 
     language: shell
     before_install:
-      - sudo add-apt-repository --yes ppa:ubuntugis/ppa
-      - sudo apt-get --quiet update
-      - sudo apt-get install --yes libgdal-dev gdal-bin python-gdal libspatialindex-dev
-      - export CPLUS_INCLUDE_PATH=/usr/include/gdal
-      - export C_INCLUDE_PATH=/usr/include/gdal
+      - brew update
+      - brew install python
+      - brew install gdal
     install:
       - pip install GDAL==`gdal-config --version`
       - pip install -r requirements.txt
@@ -42,6 +40,7 @@ jobs:
     before_install:
       - choco install python --version 3.8.0
       - python -m pip install --upgrade pip
+      - choco install gdal
     env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
     install:
     - pip install GDAL==`gdal-config --version`
