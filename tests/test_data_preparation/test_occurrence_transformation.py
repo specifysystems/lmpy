@@ -12,6 +12,7 @@ from lmpy.data_preparation.occurrence_transformation import (
 from lmpy.data_wrangling.occurrence.filters import (
     get_bounding_box_filter, get_minimum_points_filter)
 
+
 # .............................................................................
 def _create_csv_reader(num_points, num_species):
     """Create a sample csv reader file."""
@@ -147,8 +148,91 @@ class Test_sort_points:
 # .............................................................................
 class Test_split_points:
     """Tests for split_points."""
+    # ................................
+    def test_multiple_with_wranglers(self):
+        """Test with multiple readers and data wranglers."""
+        wranglers = [
+            get_bounding_box_filter(-30, -30, 30, 30),
+        ]
+        # Create readers
+        readers = []
+        for _ in range(10):
+            reader_filename = _create_csv_reader(1000, 10)
+            reader = PointCsvReader(reader_filename, 'Species', 'x', 'y')
+            reader.open()
+            readers.append(reader)
+
+        # Create writers
+        writers = {}
+        for i in range(10):
+            writer_filename = tempfile.NamedTemporaryFile(
+                mode='wt', encoding='utf8', suffix='{}.csv'.format(i)).name
+            writer = PointCsvWriter(
+                writer_filename, ['species_name', 'x', 'y'])
+            writer.open()
+            writers[str(i)] = writer
+
+        split_points(
+            readers, writers, 'species_name', 1, 8, wranglers=wranglers)
+
+        # Verify points are in correct writer, close writer, and delete file
+        for (code, writer) in writers.items():
+            writer.close()
+            with PointCsvReader(
+                    writer.filename, 'species_name', 'x', 'y') as reader:
+                for points in reader:
+                    for point in points:
+                        # Check that all points are in correct writer
+                        assert point.species_name.startswith(
+                            'Species {}'.format(code))
+            os.remove(writer.filename)
+
+        # Close readers and delete filenames
+        for reader in readers:
+            reader.close()
+            os.remove(reader.filename)
 
 
 # .............................................................................
 class Test_wrangle_points:
     """Tests for wrangle_points."""
+    # ................................
+    def test_general(self):
+        """General testing of wrangle points."""
+        wranglers = [
+            get_bounding_box_filter(-30, -30, 30, 30),
+            get_minimum_points_filter(10)
+        ]
+        readers = []
+        for _ in range(10):
+            reader_filename = _create_csv_reader(1000, 10)
+            reader = PointCsvReader(reader_filename, 'Species', 'x', 'y')
+            reader.open()
+            readers.append(reader)
+
+        writer_filename = tempfile.NamedTemporaryFile(
+            mode='wt', encoding='utf8', suffix='.csv').name
+        with PointCsvWriter(
+                writer_filename, ['species_name', 'x', 'y']) as writer:
+            sorted_points = sort_points(readers, writer)
+
+        # Verify points are sorted
+        assert _verify_sorted(writer_filename)
+
+        # Close readers and delete filenames
+        for reader in readers:
+            reader.close()
+            os.remove(reader.filename)
+
+        # Use the writer output for input to wrangle
+        with PointCsvReader(
+                writer_filename, 'species_name', 'x', 'y') as wrangle_reader:
+            wrangler_writer_filename = tempfile.NamedTemporaryFile(
+                mode='wt', encoding='utf8', suffix='.csv').name
+            with PointCsvWriter(
+                    wrangler_writer_filename, ['species_name', 'x', 'y']
+                    ) as writer:
+                wrangle_points(wrangle_reader, writer, wranglers=wranglers)
+        # Delete writer files
+        os.remove(writer_filename)
+        os.remove(wrangler_writer_filename)
