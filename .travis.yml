@@ -32,9 +32,10 @@ jobs:
       - brew install spatialindex
     install:
       - pip3 install GDAL==`gdal-config --version`
+      - pip3 install pytest
       - pip3 install -r requirements.txt
     script:
-      - python3 -m pytest tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
+      - py.test-3 tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
   - name: "Windows test"
     os: windows
     language: shell
