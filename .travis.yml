@@ -28,6 +28,7 @@ jobs:
     before_install:
       - brew update
       - brew upgrade gdal
+      - brew install spatialindex
     install:
       - pip install GDAL==`gdal-config --version`
       - pip install -r requirements.txt
