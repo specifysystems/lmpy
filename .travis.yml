@@ -41,7 +41,7 @@ jobs:
       - python -m pip install --upgrade pip
       - choco install anaconda3
       - conda install -c conda-forge gdal
-    env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+    env: PATH=/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:$PATH
     install:
       - pip install GDAL==`gdal-config --version`
       - pip install -r requirements.txt
