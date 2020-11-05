@@ -27,6 +27,7 @@ jobs:
     language: shell
     before_install:
       - brew update
+      - brew upgrade python
       - brew upgrade gdal
       - brew install spatialindex
     install:
@@ -45,7 +46,7 @@ jobs:
       - conda update --all -y
       - conda install -c conda-forge -y gdal
       - conda install -c conda-forge -y libspatialindex
-    env: PATH=/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:$PATH
+    env: PATH=/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:/c/tools/Anaconda3/Library/bin:$PATH
     install:
       - pip install GDAL==`gdal-config --version`
       - pip install -r requirements.txt
