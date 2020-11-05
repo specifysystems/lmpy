@@ -42,7 +42,7 @@ jobs:
       - python -m pip install --upgrade pip
       - choco install anaconda3
       - conda update -all
-      - conda install -c conda-forge gdal
+      - travis_wait 40 conda install -c conda-forge gdal
       - conda install -c conda-forge libspatialindex
     env: PATH=/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:$PATH
     install:
