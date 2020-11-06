@@ -26,7 +26,7 @@ class WRANGLER_TYPES:
     ACCEPTED_NAME_MODIFIER = 'accepted_name_modifier'
     ATTRIBUTE_MODIFIER = 'attribute_modifier'
     ATTRIBUTE_MAP_MODIFIER = 'attribute_map_modifier'
-    CORDINATE_CONVERTER_MODIFIER = 'get_coordinate_converter_modifier'
+    CORDINATE_CONVERTER_MODIFIER = 'coordinate_converter_modifier'
 
 
 # .............................................................................
