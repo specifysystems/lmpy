@@ -1,5 +1,4 @@
 """Module containing wrangler factory tools."""
-from lmpy import Point
 from lmpy.data_wrangling.occurrence.filters import (
     get_attribute_filter, get_bounding_box_filter,
     get_decimal_precision_filter, get_disjoint_geometries_filter,

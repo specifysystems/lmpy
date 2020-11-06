@@ -108,7 +108,6 @@ class PointCsvReader:
                 if test_val != curr_val:
                     if curr_val is not None:
                         return ret_points
-                        ret_points = []
                     curr_val = test_val
                 ret_points.append(pt)
 
