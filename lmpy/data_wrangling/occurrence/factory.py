@@ -18,7 +18,7 @@ class WRANGLER_TYPES:
     ATTRIBUTE_FILTER = 'attribute_filter'
     BBOX_FILTER = 'bbox_filter'
     DECIMAL_PRECISION_FILTER = 'decimal_precision_filter'
-    DISJOING_GEOMETRIES_FILTER = 'disjoint_geometries_filter'
+    DISJOINT_GEOMETRIES_FILTER = 'disjoint_geometries_filter'
     INTERSECT_GEOMETRIES_FILTER = 'intersect_geometries_filter'
     MINIMUM_POINTS_FILTER = 'minimum_points_filter'
     SPATIAL_INDEX_FILTER = 'spatial_index_filter'
@@ -59,6 +59,13 @@ def wrangler_factory(wrangler_config):
     elif wrangler_type == WRANGLER_TYPES.DECIMAL_PRECISION_FILTER:
         occurrence_wrangler = get_decimal_precision_filter(
             int(wrangler_config['decimal_precision']))
+    elif wrangler_type == WRANGLER_TYPES.DISJOINT_GEOMETRIES_FILTER:
+        # Get geometries (wkts)
+        wkts = wrangler_config['geometry_wkts']
+        occurrence_wrangler = get_disjoint_geometries_filter(wkts)
+    elif wrangler_type == WRANGLER_TYPES.INTERSECT_GEOMETRIES_FILTER:
+        wkts = wrangler_config['geometry_wkts']
+        occurrence_wrangler = get_intersect_geometries_filter(wkts)
     elif wrangler_type == WRANGLER_TYPES.UNIQUE_LOCALITIES_FILTER:
         occurrence_wrangler = get_unique_localities_filter()
     elif wrangler_type == WRANGLER_TYPES.BBOX_FILTER:
@@ -93,10 +100,25 @@ def wrangler_factory(wrangler_config):
 
         occurrence_wrangler = get_spatial_index_filter(
             spatial_index, get_valid_intersections_func, check_hit_func)
+    elif wrangler_type == WRANGLER_TYPES.ATTRIBUTE_MODIFIER:
+        att_name = wrangler_config['attribute_name']
+        map_dict = wrangler_config['map_values']
+
+        def replace_func(in_value):
+            if in_value in map_dict:
+                return map_dict[in_value]
+            return None
+
+        occurrence_wrangler = get_attribute_modifier(att_name, replace_func)
     elif wrangler_type == WRANGLER_TYPES.ATTRIBUTE_MAP_MODIFIER:
         mapping = wrangler_config['attribute_mapping']
         occurrence_wrangler = get_common_format_modifier(mapping)
     elif wrangler_type == WRANGLER_TYPES.ACCEPTED_NAME_MODIFIER:
         occurrence_wrangler = get_accepted_name_modifier(
             wrangler_config['filename'])
+    elif wrangler_type == WRANGLER_TYPES.CORDINATE_CONVERTER_MODIFIER:
+        in_epsg = wrangler_config['in_epsg']
+        out_epsg = wrangler_config['out_epsg']
+        occurrence_wrangler = get_coordinate_converter_modifier(
+            in_epsg, out_epsg)
     return occurrence_wrangler
