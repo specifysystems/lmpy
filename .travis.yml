@@ -16,7 +16,7 @@ install:
   - pip install GDAL==`gdal-config --version`
   - pip install -r requirements.txt
 script:
-  - py.test tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
+  - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
 after_success:
   - coveralls
 jobs:
