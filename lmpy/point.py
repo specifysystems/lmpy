@@ -4,7 +4,6 @@ Note: A namedtuple could replace this class for Python 3.7+
 """
 import csv
 import json
-from operator import itemgetter
 
 
 # .............................................................................

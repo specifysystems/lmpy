@@ -4,7 +4,7 @@ from copy import deepcopy
 from osgeo import ogr, osr
 
 from lmpy.point import Point
-from lmpy.data_wrangling.occurrence.common import get_occurrence_map, make_list
+from lmpy.data_wrangling.occurrence.common import get_occurrence_map
 
 
 # .............................................................................

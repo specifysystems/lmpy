@@ -239,7 +239,7 @@ def mean_nearest_taxon_distance(phylo_dist_mtx):
         nearest_total = np.sum(
             [np.min(row[row > 0.0]) for row in phylo_dist_mtx])
         return float(nearest_total / phylo_dist_mtx.shape[0])
-    except Exception as err:
+    except Exception:
         return 0.0
 
 
