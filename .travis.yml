@@ -34,8 +34,9 @@ jobs:
       - pip3 install GDAL==`gdal-config --version`
       - pip3 install pytest
       - pip3 install -r requirements.txt
+      - ls -lah `which py.test`*
     script:
-      - py.test-3 tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
+      - py.test tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
   - name: "Windows test"
     os: windows
     language: shell
@@ -47,9 +48,9 @@ jobs:
       - conda update --all -y
       - conda install -c conda-forge -y gdal
       - conda install -c conda-forge -y libspatialindex
-    env: PATH=/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:/c/tools/Anaconda3/Library/include:$PATH
+    env: PATH=/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:$PATH
     install:
-      - pip install GDAL
+      - pip install --global-option=build_ext --global-option="-L/c/tools/Anaconda3/Library/include" GDAL
       - pip install -r requirements.txt
     script:
       - py.test tests/ --pep8 lmpy -v --cov lmpy --cov-report term-missing
