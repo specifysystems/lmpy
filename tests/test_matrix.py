@@ -71,9 +71,8 @@ class Test_Matrix(object):
         mtx = get_random_matrix(10, 10)
         filename = tempfile.NamedTemporaryFile(delete=False).name
         mtx.write(filename)
-        test_mtx = Matrix.load(filename)
+        _ = Matrix.load(filename)
         os.remove(filename)
-        assert test_mtx
 
     # .....................................
     def test_load_csv(self):
@@ -349,9 +348,8 @@ class Test_Matrix(object):
         mtx.set_headers(row_headers, axis='0')
         filename = tempfile.NamedTemporaryFile(delete=False).name
         mtx.write(filename)
-        test_mtx = Matrix.load(filename)
+        _ = Matrix.load(filename)
         os.remove(filename)
-        assert test_mtx
 
     # .....................................
     def test_set_row_headers(self):
@@ -481,9 +479,8 @@ class Test_Matrix(object):
         mtx = get_random_matrix(10, 10)
         filename = tempfile.NamedTemporaryFile(delete=False).name
         mtx.write(filename)
-        test_mtx = Matrix.load(filename)
+        _ = Matrix.load(filename)
         os.remove(filename)
-        assert test_mtx
 
     # .....................................
     def test_write_csv_no_slice(self):

@@ -508,7 +508,7 @@ class Matrix(np.ndarray):
         else:
             dim_order = list(axes)
         # Set headers
-        for i, old_dim in range(len(dim_order)):
+        for i, old_dim in enumerate(dim_order):
             old_dim = str(old_dim)
             try:
                 if old_dim in self.get_headers().keys():
