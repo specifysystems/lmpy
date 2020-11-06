@@ -1,11 +1,6 @@
-"""
-"""
 from . import matrix
 from . import randomize
 from . import tree
-from .matrix import *
-from .tree import *
-from .point import Point
 from . import data_preparation
 from . import data_wrangling
 from . import spatial

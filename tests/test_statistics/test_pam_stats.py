@@ -4,7 +4,6 @@ Note:
     * These test functions are pytest style tests for the pam_stats.py module.
 """
 from random import randint, random, shuffle
-import time
 
 import numpy as np
 import pytest

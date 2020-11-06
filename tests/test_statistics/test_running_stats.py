@@ -6,7 +6,6 @@ import pytest
 from lmpy import Matrix
 from lmpy.statistics.running_stats import (
     compare_absolute_values, compare_signed_values, RunningStats)
-from copy import deepcopy
 
 
 # .............................................................................
@@ -91,7 +90,7 @@ class Test_RunningStats(object):
     def test_matrix_with_no_p_values(self):
         """Tests the RunningStats class using Matrix objects without p-values
         """
-        obs = Matrix(np.random.randint(0, 10, size=(10, 10)))
+        _ = Matrix(np.random.randint(0, 10, size=(10, 10)))
         vals = []
         rs = RunningStats()
         assert np.all(rs.variance == np.zeros((10, 10)))
@@ -171,7 +170,6 @@ class Test_RunningStats(object):
     def test_numpy_arrays_with_no_p_values(self):
         """Tests the RunningStats class using numpy arrays without p-values
         """
-        obs = np.random.randint(0, 10, size=(10, 10))
         vals = []
         rs = RunningStats()
         assert np.all(rs.variance == np.zeros((10, 10)))

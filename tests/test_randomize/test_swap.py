@@ -1,7 +1,6 @@
 """Tests the randomize swap method module
 """
 import numpy as np
-import pytest
 
 from lmpy import Matrix
 from lmpy.randomize.swap import swap_randomize, trial_swap

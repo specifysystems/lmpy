@@ -1,11 +1,9 @@
 """Tests build shapegrid
 """
-import json
 import os
 from tempfile import NamedTemporaryFile
 import pytest
 
-from lmpy import Point
 from lmpy.data_preparation.build_grid import (
     build_shapegrid, hexagon_wkt_generator, make_polygon_wkt_from_points,
     square_wkt_generator)
@@ -32,7 +30,7 @@ class Test_build_shapegrid:
     def test_invalid_shape(self):
         """Basic test to make sure it doesn't just fail."""
         temp_filename = NamedTemporaryFile(suffix='.shp').name
-        with pytest.raises(ValueError) as val_err:
+        with pytest.raises(ValueError):
             build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 7)
         try:
             os.remove(temp_filename)

@@ -162,9 +162,9 @@ class Test_SpatialIndex:
         # Add feature that does not break down to rectangles
         wkt_2 = 'POLYGON ((0 -30, 30 0, 0 30, -30 0, 0 -30))'
         sp_index.add_feature(2, wkt_2, {'att_1': 'val_2'})
-        hits = sp_index.search(-30, 0)
+        _ = sp_index.search(-30, 0)
         sp_index.save()
         sp_index = None
         sp_index = SpatialIndex(temp_name)
-        hits = sp_index.search(-30, 0)
+        _ = sp_index.search(-30, 0)
         self._clean_up(sp_index)

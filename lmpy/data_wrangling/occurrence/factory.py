@@ -1,7 +1,4 @@
 """Module containing wrangler factory tools."""
-import requests
-import urllib
-
 from lmpy import Point
 from lmpy.data_wrangling.occurrence.filters import (
     get_attribute_filter, get_bounding_box_filter,
@@ -16,16 +13,21 @@ from lmpy.spatial import SpatialIndex
 
 # .............................................................................
 class WRANGLER_TYPES:
+    """Constants class for occurrence data wrangler types"""
     # Filters
     ATTRIBUTE_FILTER = 'attribute_filter'
     BBOX_FILTER = 'bbox_filter'
     DECIMAL_PRECISION_FILTER = 'decimal_precision_filter'
+    DISJOING_GEOMETRIES_FILTER = 'disjoint_geometries_filter'
+    INTERSECT_GEOMETRIES_FILTER = 'intersect_geometries_filter'
     MINIMUM_POINTS_FILTER = 'minimum_points_filter'
     SPATIAL_INDEX_FILTER = 'spatial_index_filter'
     UNIQUE_LOCALITIES_FILTER = 'unique_localities_filter'
     # Modifiers
     ACCEPTED_NAME_MODIFIER = 'accepted_name_modifier'
+    ATTRIBUTE_MODIFIER = 'attribute_modifier'
     ATTRIBUTE_MAP_MODIFIER = 'attribute_map_modifier'
+    CORDINATE_CONVERTER_MODIFIER = 'get_coordinate_converter_modifier'
 
 
 # .............................................................................
@@ -40,6 +42,7 @@ def wrangler_factory(wrangler_config):
         An occurrence data wrangler.
     """
     wrangler_type = wrangler_config['wrangler_type'].lower()
+    occurrence_wrangler = None
     if wrangler_type == WRANGLER_TYPES.ATTRIBUTE_FILTER:
         att_name = wrangler_config['attribute_name']
         list_delimiter = wrangler_config['field_delimiter']
@@ -52,22 +55,23 @@ def wrangler_factory(wrangler_config):
                 [val.strip(']').strip('[').strip(
                     '"') not in bad_values for val in field_values])
 
-        return get_attribute_filter(att_name, all_not_in)
-    if wrangler_type == WRANGLER_TYPES.DECIMAL_PRECISION_FILTER:
-        return get_decimal_precision_filter(
+        occurrence_wrangler = get_attribute_filter(att_name, all_not_in)
+    elif wrangler_type == WRANGLER_TYPES.DECIMAL_PRECISION_FILTER:
+        occurrence_wrangler = get_decimal_precision_filter(
             int(wrangler_config['decimal_precision']))
-    if wrangler_type == WRANGLER_TYPES.UNIQUE_LOCALITIES_FILTER:
-        return get_unique_localities_filter()
-    if wrangler_type == WRANGLER_TYPES.BBOX_FILTER:
+    elif wrangler_type == WRANGLER_TYPES.UNIQUE_LOCALITIES_FILTER:
+        occurrence_wrangler = get_unique_localities_filter()
+    elif wrangler_type == WRANGLER_TYPES.BBOX_FILTER:
         min_x = float(wrangler_config['min_x'])
         min_y = float(wrangler_config['min_y'])
         max_x = float(wrangler_config['max_x'])
         max_y = float(wrangler_config['max_y'])
-        return get_bounding_box_filter(min_x, min_y, max_x, max_y)
-    if wrangler_type == WRANGLER_TYPES.MINIMUM_POINTS_FILTER:
-        return get_minimum_points_filter(
+        occurrence_wrangler = get_bounding_box_filter(
+            min_x, min_y, max_x, max_y)
+    elif wrangler_type == WRANGLER_TYPES.MINIMUM_POINTS_FILTER:
+        occurrence_wrangler = get_minimum_points_filter(
             int(wrangler_config['minimum_points']))
-    if wrangler_type == WRANGLER_TYPES.SPATIAL_INDEX_FILTER:
+    elif wrangler_type == WRANGLER_TYPES.SPATIAL_INDEX_FILTER:
         spatial_index = SpatialIndex(wrangler_config['index_file'])
 
         def check_hit_func(hit, check_vals):  # pragma: no cover
@@ -87,10 +91,12 @@ def wrangler_factory(wrangler_config):
                     ret_vals.append((level_key, value))
             return ret_vals
 
-        return get_spatial_index_filter(
+        occurrence_wrangler = get_spatial_index_filter(
             spatial_index, get_valid_intersections_func, check_hit_func)
-    if wrangler_type == WRANGLER_TYPES.ATTRIBUTE_MAP_MODIFIER:
+    elif wrangler_type == WRANGLER_TYPES.ATTRIBUTE_MAP_MODIFIER:
         mapping = wrangler_config['attribute_mapping']
-        return get_common_format_modifier(mapping)
-    if wrangler_type == WRANGLER_TYPES.ACCEPTED_NAME_MODIFIER:
-        return get_accepted_name_modifier(wrangler_config['filename'])
+        occurrence_wrangler = get_common_format_modifier(mapping)
+    elif wrangler_type == WRANGLER_TYPES.ACCEPTED_NAME_MODIFIER:
+        occurrence_wrangler = get_accepted_name_modifier(
+            wrangler_config['filename'])
+    return occurrence_wrangler

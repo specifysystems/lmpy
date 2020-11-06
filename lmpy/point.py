@@ -53,8 +53,7 @@ class Point:
         """Get an attribute for the point."""
         if attribute_name in self.attributes.keys():
             return self.attributes[attribute_name]
-        else:
-            return None
+        return None
 
     # .......................
     def set_attribute(self, attribute_name, value):
@@ -114,7 +113,7 @@ class PointCsvReader:
                     curr_val = test_val
                 ret_points.append(pt)
 
-            except ValueError as ve:  # pragma: no cover
+            except ValueError:  # pragma: no cover
                 pass
             except KeyError as ke:  # pragma: no cover
                 raise ke
