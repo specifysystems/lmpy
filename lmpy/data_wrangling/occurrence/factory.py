@@ -103,7 +103,7 @@ def wrangler_factory(wrangler_config):
         att_name = wrangler_config['attribute_name']
         map_dict = wrangler_config['map_values']
 
-        def replace_func(in_value):
+        def replace_func(in_value):  # pragma: no cover
             if in_value in map_dict:
                 return map_dict[in_value]
             return None
