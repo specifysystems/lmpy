@@ -1,145 +1,106 @@
 """This module contains tools for transforming raw occurrence data."""
 import csv
-from operator import itemgetter
 import sys
 
-from osgeo import ogr, osr
-
-from lmpy import Point
+from lmpy.point import PointCsvReader
 
 
 csv.field_size_limit(sys.maxsize)
 
 
 # .............................................................................
-def none_getter(obj):
-    """Return None as a function.
-
-    Returns:
-        None - Always returns None.
-    """
-    return None
+def get_chunk_key(value, group_position, group_size, filler_char='a'):
+    """Get the chunk key from the value."""
+    value += 10 * filler_char
+    chunk = value[
+        group_size * group_position:group_size * (group_position + 1)].lower()
+    return chunk
 
 
 # .............................................................................
-def _get_points_for_generator(rec_generator, species_name_getter, x_getter,
-                              y_getter, flags_getter):
-    """Get a list of Points from a specimen record generator.
+def sort_points(readers, writer, wranglers=None):
+    """Sort and clean occurrence points.
 
     Args:
-        rec_generator: A generator function that generates point records.
-        species_name_getter: A function for getting species name from a record.
-        x_getter: A function for getting the 'x' value from a record.
-        y_getter: A function for getting the 'y' value from a record.
-        flags_getter: A function for getting the 'flags' value from a record.
-
-    Returns:
-        list of Point named tuples
+        readers (:obj:`list` of :obj:`PointReader): A list of point readers.
+        writer (PointWriter): A point writer to output points.
+        wranglers (list of DataWranglers): An optional list of data wranglers
+            to use to modify / filter points.
     """
-    points = []
-    for pt_rec in rec_generator:
-        try:
-            points.append(
-                Point(
-                    species_name_getter(pt_rec), float(x_getter(pt_rec)),
-                    float(y_getter(pt_rec)), flags_getter(pt_rec)))
-        except (IndexError, KeyError, ValueError):  # pragma: no cover
-            print('Could not extract required fields from {}'.format(pt_rec))
-    return points
+    # Make sure readers is a list
+    if isinstance(readers, PointCsvReader):
+        readers = [readers]
+    in_points = []
+    # Sort points
+    for reader in readers:
+        for points in reader:
+            in_points.extend(points)
+    sorted_points = sorted(in_points)
+    in_points = None
+    # Filter if desired
+    if wranglers:
+        for flt in wranglers:
+            if sorted_points:
+                sorted_points = flt(sorted_points)
+    # Write points
+    writer.write_points(sorted_points)
 
 
 # .............................................................................
-def convert_delimited_to_point(filename, species_getter, x_getter, y_getter,
-                               flags_getter=none_getter, delimiter=', ',
-                               headers=True):
-    """Convert a file of delimited data into points.
+def split_points(readers, writers, group_attribute, group_size, group_position,
+                 wranglers=None):
+    """Split points in the readers into smaller chunks for easier processing.
 
     Args:
-        filename (str): A path to a file of delimited data.
-        species_getter (function or int): A method to get the species name or
-            a column index in a delimited file.
-        x_getter (function or int): A method to get the point x value or a
-            column index in a delimited file.
-        y_getter (function or int): A method to get the point y value or a
-            column index in a delimited file.
-        flags_getter (function or int): A method to get the point flags or a
-            column index in a delimited file.
-        delimiter (str): The delimiter of the delimited data.
-        headers (bool): Does the file have a header row.
+        readers (:obj:`list` of :obj:`PointReader): A list of point readers.
+        writers (dict): A dictionary of {combo: PointWriter} used for writing
+            points.
+        group_attribute (str): The Point attribute to be used to determine
+            which group the Point belongs to.
+        group_size (int): How many characters to use for determining group.
+        group_position (int): Starting character index to use for determining
+            group.
+        wranglers (list of DataWranglers): An optional list of data wranglers
+            to use to modify / filter points.
 
-    Returns:
-        list of Point objects
+    Note:
+        group_attribute should be used when instantiating the Point readers.
     """
-    if isinstance(species_getter, int):
-        species_getter = itemgetter(species_getter)
-
-    if isinstance(x_getter, int):
-        x_getter = itemgetter(x_getter)
-
-    if isinstance(y_getter, int):
-        y_getter = itemgetter(y_getter)
-
-    with open(filename) as in_file:
-        if headers:
-            _ = next(in_file)
-        reader = csv.reader(in_file, delimiter=delimiter)
-        points = _get_points_for_generator(
-            reader, species_getter, x_getter, y_getter, flags_getter)
-    return points
+    for reader in readers:
+        for points in reader:
+            # Assume all points returned go into the same group
+            location_key = get_chunk_key(
+                points[0].get_attribute(group_attribute), group_position,
+                group_size)
+            if wranglers:
+                for flt in wranglers:
+                    if points:
+                        points = flt(points)
+            writers[location_key].write_points(points)
 
 
 # .............................................................................
-def convert_json_to_point(json_obj, species_name_getter, x_getter, y_getter,
-                          flags_getter=none_getter, point_iterator=iter):
-    """Get a list of Points from a JSON object.
+def wrangle_points(readers, writer, wranglers=None):
+    """Wrangle input points and write output points.
 
     Args:
-        json_obj (dict or list): A JSON object to get point records from.
-        species_name_getter: A function for getting species name from a record.
-        x_getter: A function for getting the 'x' value from a record.
-        y_getter: A function for getting the 'y' value from a record.
-        flags_getter: A function for getting the 'flags' value from a record.
-        point_iterator: An iterator function to pull records from the JSON
-            object.
-
-    Returns:
-        list of Point named tuples
+        readers (:obj:`list` of :obj:`PointReader): A list of point readers.
+        writer (PointWriter): A point writer to output points.
+        wranglers (list of DataWranglers): An optional list of data wranglers
+            to use to modify / filter points.
     """
-    points = _get_points_for_generator(
-        point_iterator(json_obj), species_name_getter, x_getter, y_getter,
-        flags_getter)
-    return points
+    # Make sure readers is a list
+    if isinstance(readers, PointCsvReader):
+        readers = [readers]
+    for reader in readers:
+        for points in reader:
+            if wranglers:
+                for flt in wranglers:
+                    if points:
+                        points = flt(points)
+            # Write wrangled points
+            writer.write_points(points)
 
 
 # .............................................................................
-def get_coordinate_converter(in_epsg, out_epsg):
-    """Get a function to convert points from one coordinate system to another.
-
-    Args:
-        in_epsg (int): The EPSG code of the incoming points.
-        out_epsg (int): The target EPSG code for output points.
-
-    Returns:
-        function(point): A function that takes a point and returns a new point
-            with the coordinates converted.
-    """
-    source = osr.SpatialReference()
-    source.ImportFromEPSG(in_epsg)
-    target = osr.SpatialReference()
-    target.ImportFromEPSG(out_epsg)
-
-    transform = osr.CoordinateTransformation(source, target)
-
-    def converter_func(point):
-        geom = ogr.CreateGeometryFromWkt(
-            'POINT ({} {})'.format(point.x, point.y))
-        geom.Transform(transform)
-        return Point(
-            point.species_name, geom.GetX(), geom.GetY(), flags=point.flags)
-
-    return converter_func
-
-
-# .............................................................................
-__all__ = ['convert_delimited_to_point', 'convert_json_to_point',
-           'get_coordinate_converter', 'none_getter']
+__all__ = ['get_chunk_key', 'sort_points', 'split_points', 'wrangle_points']

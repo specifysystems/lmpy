@@ -3,9 +3,7 @@
 import json
 
 import numpy as np
-import pytest
 
-from lmpy import Point
 from lmpy.data_preparation.layer_encoder import LayerEncoder, DEFAULT_NODATA
 
 
@@ -93,7 +91,7 @@ class Test_LayerEncoder:
         assert enc_mtx.shape[1] == len(
             raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
-        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        _ = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
@@ -119,5 +117,5 @@ class Test_LayerEncoder:
         assert enc_mtx.shape[1] == len(
             raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
-        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        _ = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert json.loads(json.dumps(encoder.get_geojson()))

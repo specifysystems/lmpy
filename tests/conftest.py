@@ -10,6 +10,7 @@ import pytest
 # .............................................................................
 TREES_DIR = 'trees'
 LAYER_ENCODER_DIR = 'encoding_layers'
+OCCURRENCE_WRANGLER_DIR = 'data_wranglers/occurrence'
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 SAMPLE_DATA_PATH = os.path.join(THIS_DIR, 'data_dir')
@@ -82,6 +83,17 @@ class SampleDataFiles(object):
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
         return [glob.glob(os.path.join(ENCODER_DATA_PATH, 'bg_hyp*.shp'))]
+
+    # ...........................
+    def get_occurrence_wrangler_configurations(self):
+        """Get a list of occurrence data wrangler configruation files.
+
+        Returns:
+            A list of occurrence data wrangler configuration filenames.
+        """
+        OCCURRENCE_WRANGLER_PATH = os.path.join(
+            SAMPLE_DATA_PATH, OCCURRENCE_WRANGLER_DIR)
+        return glob.glob(os.path.join(OCCURRENCE_WRANGLER_PATH, '*.json'))
 
     # ...........................
     def get_trees(self, fmt, is_valid):
@@ -177,7 +189,9 @@ def pytest_generate_tests(metafunc):
         ('vector_env_filenames', df.get_vector_env_filenames()),
         ('raster_pa_filenames', df.get_raster_pa_filenames()),
         ('vector_pa_filenames', df.get_vector_pa_filenames()),
-        ('bio_geo_filenames', df.get_bio_geo_filenames())
+        ('bio_geo_filenames', df.get_bio_geo_filenames()),
+        ('occurrence_wrangler_configuration',
+            df.get_occurrence_wrangler_configurations())
     ]
     for fixture_name, fixture_values in fixture_tuples:
         if fixture_name in metafunc.fixturenames:
