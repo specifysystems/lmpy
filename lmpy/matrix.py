@@ -508,15 +508,14 @@ class Matrix(np.ndarray):
         else:
             dim_order = list(axes)
         # Set headers
-        max_dim = len(self.shape)
-        for i in range(len(dim_order)):
-            old_dim = str(dim_order[i])
+        for i, old_dim in enumerate(dim_order):
+            old_dim = str(old_dim)
             try:
                 if old_dim in self.get_headers().keys():
                     new_mtx.set_headers(
                         self.get_headers(axis=old_dim), axis=str(i))
-            except Exception as e:  # pragma: no cover
-                print(e)
+            except Exception as err:  # pragma: no cover
+                print(err)
                 print(dir(self))
         return new_mtx
 

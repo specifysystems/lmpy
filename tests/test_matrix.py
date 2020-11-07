@@ -71,7 +71,7 @@ class Test_Matrix(object):
         mtx = get_random_matrix(10, 10)
         filename = tempfile.NamedTemporaryFile(delete=False).name
         mtx.write(filename)
-        test_mtx = Matrix.load(filename)
+        _ = Matrix.load(filename)
         os.remove(filename)
 
     # .....................................
@@ -348,7 +348,7 @@ class Test_Matrix(object):
         mtx.set_headers(row_headers, axis='0')
         filename = tempfile.NamedTemporaryFile(delete=False).name
         mtx.write(filename)
-        test_mtx = Matrix.load(filename)
+        _ = Matrix.load(filename)
         os.remove(filename)
 
     # .....................................
@@ -386,6 +386,7 @@ class Test_Matrix(object):
         # Generate the matrix and get original headers
         mtx = get_random_matrix(*tuple([j[0] for j in dims]))
         orig_headers = mtx.get_headers()
+        assert orig_headers
 
         # Get slice parameters and slice matrix
         slice_params = tuple([range(j[1], j[2]) for j in dims])
@@ -478,7 +479,7 @@ class Test_Matrix(object):
         mtx = get_random_matrix(10, 10)
         filename = tempfile.NamedTemporaryFile(delete=False).name
         mtx.write(filename)
-        test_mtx = Matrix.load(filename)
+        _ = Matrix.load(filename)
         os.remove(filename)
 
     # .....................................

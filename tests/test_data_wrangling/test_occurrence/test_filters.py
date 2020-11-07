@@ -1,9 +1,6 @@
 """Tests the occurrence data filters
 """
-import os
 import tempfile
-
-import pytest
 
 from lmpy import Point
 from lmpy.data_wrangling.occurrence.filters import (
@@ -175,7 +172,6 @@ class Test_occurrence_filters:
     # .....................................
     def test_multiple_filters(self):
         """Test multiple filters."""
-        test_bbox = ()
         test_points = [
             Point('species A', 113, 57, attributes={'flags': ['good']}),  # A
             Point('species A', -49, -25, attributes={'flags': ['bad']}),  # B

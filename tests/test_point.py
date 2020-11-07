@@ -1,12 +1,9 @@
 """Tests the occurrence_transformation module."""
-from copy import deepcopy
 import json
-from operator import itemgetter
 import os
-from random import randint, shuffle, triangular
+from random import triangular
 import tempfile
 
-import numpy as np
 import pytest
 
 from lmpy import Point
@@ -39,7 +36,7 @@ class Test_Point:
     # ..........................
     def test_constructor(self):
         """Basic constructor tests."""
-        pt = Point('test_species', 0, 0)
+        _ = Point('test_species', 0, 0)
         with pytest.raises(ValueError):
             Point(None, 0, 0)
 

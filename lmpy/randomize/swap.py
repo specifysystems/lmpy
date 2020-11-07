@@ -43,8 +43,8 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
                     (not(first_corner) ^ swapped_mtx[row2][column2])):
                 swapped_mtx[row1][column2] = first_corner
                 swapped_mtx[row2][column1] = first_corner
-                swapped_mtx[row2][column2] = not(first_corner)
-                swapped_mtx[row1][column1] = not(first_corner)
+                swapped_mtx[row2][column2] = not first_corner
+                swapped_mtx[row1][column1] = not first_corner
                 counter += 1
                 num_tries = 0
     if num_tries >= max_tries:  # pragma: nocover
@@ -87,11 +87,12 @@ def trial_swap(matrix, num_trials=None):
                     (not(first_corner) ^ swapped_mtx[row2][column2])):
                 swapped_mtx[row1][column2] = first_corner
                 swapped_mtx[row2][column1] = first_corner
-                swapped_mtx[row2][column2] = not(first_corner)
-                swapped_mtx[row1][column1] = not(first_corner)
+                swapped_mtx[row2][column2] = not first_corner
+                swapped_mtx[row1][column1] = not first_corner
                 num_success += 1
 
     return Matrix(swapped_mtx, headers=mtx_headers)
+
 
 # .............................................................................
 __all__ = ['swap_randomize', 'trial_swap']

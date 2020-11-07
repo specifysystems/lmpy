@@ -1,11 +1,8 @@
 """This module contains tools for transforming raw occurrence data."""
 import csv
-from operator import itemgetter
 import sys
 
-from osgeo import ogr, osr
-
-from lmpy.point import Point, PointCsvReader
+from lmpy.point import PointCsvReader
 
 
 csv.field_size_limit(sys.maxsize)
@@ -106,4 +103,4 @@ def wrangle_points(readers, writer, wranglers=None):
 
 
 # .............................................................................
-__all__ = ['get_chunk_key', 'sort_points', 'split_points', 'wrangler_points']
+__all__ = ['get_chunk_key', 'sort_points', 'split_points', 'wrangle_points']
