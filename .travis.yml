@@ -47,7 +47,7 @@ jobs:
       - conda update --all -y
       - conda install -c conda-forge -y gdal
       - conda install -c conda-forge -y libspatialindex
-    env: PATH=/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:$PATH
+    env: PATH=/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:/c/tools/Anaconda3/Library/lib:$PATH
     install:
       - pip install -r requirements.txt
       - pip install --global-option=build_ext --global-option="-L/c/tools/Anaconda3/Library/include" GDAL
