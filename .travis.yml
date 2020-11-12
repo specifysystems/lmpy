@@ -57,6 +57,7 @@ jobs:
       - pip install --global-option="build_ext" --global-option="-I/c/tools/Anaconda3/Library/Include" --global-option="-L/c/tools/Anaconda3/Library/Lib" GDAL
       #==$gdalversion
       #- pip install -r requirements.txt
+      - pip install numpy
       - pip install dendropy
       - pip install coverage
       - pip install python-coveralls
