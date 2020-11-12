@@ -58,10 +58,10 @@ jobs:
       #==$gdalversion
       #- pip install -r requirements.txt
       - pip install dendropy
-      - pip install coverage==4.5.4
+      - pip install coverage
       - pip install python-coveralls
       - pip install pytest
-      - pip install pytest-cov>=2.4.0,<2.6
+      - pip install pytest-cov
       - pip install pytest-flake8
     script:
       - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
