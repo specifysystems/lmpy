@@ -40,9 +40,8 @@ jobs:
     os: windows
     language: shell
     before_install:
-      - choco install python --version 3.8.0
       - choco install openssl
-      - python -m pip install --upgrade pip
+      #- python -m pip install --upgrade pip
       - choco install anaconda3
       - conda update --all -y
       - conda install -c conda-forge -y gdal
@@ -56,14 +55,7 @@ jobs:
       #- pip -v install rtree
       - pip install --global-option="build_ext" --global-option="-I/c/tools/Anaconda3/Library/Include" --global-option="-L/c/tools/Anaconda3/Library/Lib" GDAL
       #==$gdalversion
-      #- pip install -r requirements.txt
-      - pip install numpy
-      - pip install dendropy
-      - pip install coverage
-      - pip install python-coveralls
-      - pip install pytest
-      - pip install pytest-cov
-      - pip install pytest-flake8
+      - pip install -r requirements.txt
     script:
       - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
   - stage: deploy
