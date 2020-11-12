@@ -5,7 +5,14 @@ import sys
 from lmpy.point import PointCsvReader
 
 
-csv.field_size_limit(sys.maxsize)
+max_int = sys.maxsize
+while True:
+    # Decrease max_int value by factor of 10 if overflow
+    try:
+        csv.field_size_limit(max_int)
+        break
+    except OverflowError:
+        max_int = int(max_int / 10)
 
 
 # .............................................................................
