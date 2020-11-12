@@ -56,7 +56,8 @@ jobs:
       #- pip -v install rtree
       - pip install --global-option="build_ext" --global-option="-I/c/tools/Anaconda3/Library/Include" --global-option="-L/c/tools/Anaconda3/Library/Lib" GDAL
       #==$gdalversion
-      - pip install -r requirements.txt
+      #- pip install -r requirements.txt
+      - pip install dendropy
     script:
       - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
   - stage: deploy
