@@ -52,10 +52,8 @@ jobs:
       #- $gdaloutput = gdalinfo --version
       #- $a,$b = $gdaloutput.split(",")
       #- $c,$gdalversion = $a.split(" ")
-      - python -c "import os; print(os.environ['path']); import rtree"
       - pip install --global-option="build_ext" --global-option="-I/c/tools/Anaconda3/Library/Include" --global-option="-L/c/tools/Anaconda3/Library/Lib" GDAL
       - pip -v install rtree
-      - ls -lah /c/tools/Anaconda3/Library/bin/spatial*
       #==$gdalversion
       - pip install -r requirements.txt
     script:
