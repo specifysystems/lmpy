@@ -144,6 +144,7 @@ class Test_PointCsvWriter:
         out_file = tempfile.NamedTemporaryFile(
             suffix='.csv', delete=False, mode='w')
         filename = out_file.name
+        out_file.close()
         with PointCsvWriter(filename, ['species_name', 'x', 'y']) as writer:
             writer.write_points(Point('species', 0, 0))
             writer.write_points(
@@ -164,6 +165,7 @@ class Test_PointJsonWriter:
         out_file = tempfile.NamedTemporaryFile(
             suffix='.json', delete=False, mode='w')
         filename = out_file.name
+        out_file.close()
         with PointJsonWriter(filename) as writer:
             writer.write_points(Point('species', 0, 0))
             writer.write_points(
