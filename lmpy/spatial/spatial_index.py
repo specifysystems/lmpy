@@ -102,6 +102,11 @@ class SpatialIndex:
                 self.next_geom += 1
 
     # ..........................
+    def close(self):
+        """Close the index."""
+        self.index.close()
+
+    # ..........................
     def save(self):
         """Save the index attributes"""
         with open(self._att_filename, 'w') as out_file:
