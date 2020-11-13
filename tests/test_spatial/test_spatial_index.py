@@ -70,6 +70,7 @@ class Test_SpatialIndex:
     def _clean_up(self, sp_index):
         """Remove files created when saving an index."""
         index_name = sp_index.index.properties.filename
+        sp_index.close()
         for ext in ['.json', '.geom_json', '.dat', '.idx']:
             fn = '{}{}'.format(index_name, ext)
             if os.path.exists(fn):
