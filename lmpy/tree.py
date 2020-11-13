@@ -237,15 +237,15 @@ class TreeWrapper(dendropy.Tree):
         # Build path lookup dictionary
         path_lookups = {}
         for taxon in self.taxon_namespace:
-            n = self.find_node_for_taxon(taxon)
-            l = []
-            while n is not None:
-                if n.edge_length is not None:
+            test_node = self.find_node_for_taxon(taxon)
+            edge_lengths = []
+            while test_node is not None:
+                if test_node.edge_length is not None:
                     # If this is still too big, drop id and do some logic with
                     #    lengths
-                    l.append((id(n), n.edge_length))
-                n = n.parent_node
-            path_lookups[taxon.label] = l
+                    edge_lengths.append((id(test_node), test_node.edge_length))
+                test_node = test_node.parent_node
+            path_lookups[taxon.label] = edge_lengths
 
         num_taxa = len(self.taxon_namespace)
         for i_1 in range(num_taxa - 1):
@@ -420,9 +420,9 @@ class TreeWrapper(dendropy.Tree):
                             label_method(tip_node.taxon)
                                     ] for tip_node in right_child.leaf_nodes()]
                     # if len(leftTips) > 1 and len(rightTips) > 1:
-                    for l in left_tips:
-                        for r in right_tips:
-                            vcv[l, r] = vcv[r, l] = el
+                    for left in left_tips:
+                        for right in right_tips:
+                            vcv[left, right] = vcv[right, left] = el
 
             for node in self.leaf_nodes():
                 idx = label_lookup[label_method(node.taxon)]
@@ -442,7 +442,7 @@ class TreeWrapper(dendropy.Tree):
         try:
             self.minmax_leaf_distance_from_root()
             return True
-        except:
+        except Exception:
             return False
 
     # ..............................
@@ -491,7 +491,7 @@ class TreeWrapper(dendropy.Tree):
         try:
             min_bl, max_bl = self.minmax_leaf_distance_from_root()
             return bool(np.isclose(min_bl, max_bl, rtol=rel_tol))
-        except:
+        except Exception:
             pass
         return False
 
@@ -542,7 +542,7 @@ class TreeWrapper(dendropy.Tree):
                 annotation_attribute.lower() == 'label':
             try:
                 node.taxon.label = annotation_value
-            except:
+            except Exception:
                 node.label = annotation_value
         else:
             if node.annotations.get_value(annotation_attribute) is not None:
@@ -570,8 +570,7 @@ class TreeWrapper(dendropy.Tree):
         """
         if label_attribute is None or label_attribute.lower() == 'label':
             return self._label_method
-        else:
-            return self._annotation_method(label_attribute)
+        return self._annotation_method(label_attribute)
 
     # ..............................
     def _label_tree_nodes(self, node, i, prefix=None, overwrite=False):
@@ -610,7 +609,8 @@ class TreeWrapper(dendropy.Tree):
         return i
 
     # ..............................
-    def _label_method(self, node):
+    @staticmethod
+    def _label_method(node):
         """Use the label of the node or taxon for the label.
 
         Args:
@@ -623,13 +623,13 @@ class TreeWrapper(dendropy.Tree):
         # If the node (or taxon) has a label, return it
         if node.label is not None:
             return node.label
-        else:
-            # Try to return the label of the taxon object if it has one
-            try:
-                return node.taxon.label
-            except:
-                # Fall back to returning None
-                return None
+        # Try to return the label of the taxon object if it has one
+        try:
+            return node.taxon.label
+        except Exception:
+            # Fall back to returning None
+            return None
+
 
 # .............................................................................
 # Set the module for the classes to be lmpy

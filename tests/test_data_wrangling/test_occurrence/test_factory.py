@@ -1,7 +1,6 @@
 """Test the occurrence data wrangler factory module."""
 import json
 import os
-import pytest
 
 from lmpy.data_wrangling.occurrence.factory import wrangler_factory
 
@@ -17,5 +16,8 @@ class Test_wrangler_factory:
             config = json.loads(
                 raw_string.replace(
                     '$THIS_DIR$',
-                    os.path.dirname(occurrence_wrangler_configuration)))
+                    os.path.dirname(
+                        occurrence_wrangler_configuration).replace(
+                        '\\', '/')))
         wrangler = wrangler_factory(config)
+        assert wrangler

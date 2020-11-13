@@ -6,7 +6,6 @@ as to prevent a bias caused by starting with an initial condition of a
 populated matrix.
 """
 import numpy as np
-import time
 
 from lmpy.matrix import Matrix
 
