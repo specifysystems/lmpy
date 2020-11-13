@@ -407,7 +407,7 @@ def mcpa(incidence_matrix, phylo_mtx, env_mtx, bg_mtx):
             calculation.
     """
     site_present = np.any(incidence_matrix, axis=1)
-    empty_sites = np.where(site_present == False)[0]
+    empty_sites = np.where(site_present == 0)[0]
 
     # Initial purge of empty sites
     init_incidence = np.delete(incidence_matrix, empty_sites, axis=0)
@@ -481,7 +481,7 @@ def mcpa_parallel(incidence_matrix, phylo_mtx, env_mtx, bg_mtx):
             calculation.
     """
     site_present = np.any(incidence_matrix, axis=1)
-    empty_sites = np.where(site_present == False)[0]
+    empty_sites = np.where(site_present == 0)[0]
 
     # Initial purge of empty sites
     init_incidence = np.delete(incidence_matrix, empty_sites, axis=0)

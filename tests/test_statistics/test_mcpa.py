@@ -4,10 +4,8 @@ Note:
     * These test functions are pytest style tests
 """
 from random import randint, random, shuffle
-import time
 
 import numpy as np
-import pytest
 
 from lmpy import Matrix, TreeWrapper
 from lmpy.data_preparation.tree_encoder import TreeEncoder

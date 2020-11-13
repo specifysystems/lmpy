@@ -11,7 +11,7 @@ while True:
     try:
         csv.field_size_limit(max_int)
         break
-    except OverflowError:
+    except OverflowError:  # pragma: no cover
         max_int = int(max_int / 10)
 
 
