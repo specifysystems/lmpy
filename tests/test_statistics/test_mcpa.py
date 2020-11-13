@@ -63,7 +63,7 @@ def _get_random_pam_and_tree(num_species, num_sites, fill_percentage,
     pam_species = []
     tree_species = []
     for sp_idx in range(num_species):
-        sp = 'Species {}'.format(sp_idx)
+        sp = 'Species{}'.format(sp_idx)
         pam_species.append(sp)
         tree_species.append(sp)
 
@@ -80,10 +80,12 @@ def _get_random_pam_and_tree(num_species, num_sites, fill_percentage,
          ).astype(np.int),
         headers={'0': site_headers, '1': pam_species})
 
-    tree_data = '({});'.format(
+    tree_data = '{};'.format(
         _make_ultrametric_helper(tree_species, max_branch_length)[0])
     tree = TreeWrapper.get(data=tree_data, schema='newick')
     tree.annotate_tree_tips('squid', {sp: sp for sp in tree_species})
+    tree.annotate_tree_tips(
+        'mx', {sp: idx for idx, sp in enumerate(pam_species)})
     return (pam, tree)
 
 
