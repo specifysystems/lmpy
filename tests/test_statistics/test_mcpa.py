@@ -80,8 +80,17 @@ def _get_random_pam_and_tree(num_species, num_sites, fill_percentage,
          ).astype(np.int),
         headers={'0': site_headers, '1': pam_species})
 
-    tree_data = '{};'.format(
-        _make_ultrametric_helper(tree_species, max_branch_length)[0])
+    if max_branch_length:
+        tree_data = '{};'.format(
+            _make_ultrametric_helper(tree_species, max_branch_length)[0])
+    else:
+        tmp = []
+        tmp.extend(tree_species)
+        while len(tmp) > 1:
+            sp_1 = tmp.pop()
+            sp_2 = tmp.pop()
+            tmp.append('({},{})'.format(sp_1, sp_2))
+        tree_data = '{};'.format(tmp[0])
     tree = TreeWrapper.get(data=tree_data, schema='newick')
     tree.annotate_tree_tips('squid', {sp: sp for sp in tree_species})
     tree.annotate_tree_tips(
@@ -109,10 +118,19 @@ def _create_env_and_biogeo_matrices(pam, num_env_cols, num_bg_cols):
 class Test_MCPA:
     """Test various individual metrics."""
     # ............................
-    def test_mcpa(self):
-        """Test MCPA"""
+    def test_mcpa_with_branch_lengths(self):
+        """Test MCPA with branch lengths"""
         # Need PAM, Encoded tree, Env matrix, BG matrix
         pam, tree = _get_random_pam_and_tree(10, 20, .3, 1.0)
+        phylo_mtx = TreeEncoder(tree, pam).encode_phylogeny()
+        env_mtx, bg_mtx = _create_env_and_biogeo_matrices(pam, 10, 3)
+        mcpa(pam, phylo_mtx, env_mtx, bg_mtx)
+
+    # ............................
+    def test_mcpa_no_branch_lengths(self):
+        """Test MCPA no branch lengths"""
+        # Need PAM, Encoded tree, Env matrix, BG matrix
+        pam, tree = _get_random_pam_and_tree(10, 20, .3, None)
         phylo_mtx = TreeEncoder(tree, pam).encode_phylogeny()
         env_mtx, bg_mtx = _create_env_and_biogeo_matrices(pam, 10, 3)
         mcpa(pam, phylo_mtx, env_mtx, bg_mtx)
