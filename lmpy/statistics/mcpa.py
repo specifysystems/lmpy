@@ -72,15 +72,15 @@ def _calculate_beta(pred_std, weights, phylo_std, use_lock=True):
         * An (i by k) numpy ndarray, where i is the number of predictors in
             pred_std and k is the number of nodes in phylo_std.
     """
-    if use_lock:
+    if use_lock:  # pragma: no cover
         lock.acquire()
     temp1 = _beta_helper(pred_std, pred_std, weights)
     tmp1_inv = np.linalg.inv(temp1)
     temp2 = _beta_helper(pred_std, phylo_std, weights)
     beta = tmp1_inv.dot(temp2)
     if len(beta.shape) == 1:
-        beta = beta.reshape((beta.shape[0], 1))
-    if use_lock:
+        beta = beta.reshape((beta.shape[0], 1))  # pragma: no cover
+    if use_lock:  # pragma: no cover
         lock.release()
     return beta
 
@@ -181,13 +181,13 @@ def _mcpa_for_node(incidence_mtx, env_mtx, bg_mtx, phylo_col, use_locks=False):
             try:
                 env_adj_r2 = 1.0 - ((num_sites - 1.0) / (
                     num_sites - num_env_predictors - 1.0)) * (1.0 - env_r2)
-            except ZeroDivisionError:
+            except ZeroDivisionError:  # pragma: no cover
                 env_adj_r2 = 0.0
 
             try:
                 bg_adj_r2 = 1.0 - ((num_sites - 1.0) / (
                     num_sites - num_bg_predictors - 1.0)) * (1.0 - bg_r2)
-            except ZeroDivisionError:
+            except ZeroDivisionError:  # pragma: no cover
                 bg_adj_r2 = 0.0
 
             # env_f_pseudo_numerator = np.trace(
@@ -350,7 +350,7 @@ def get_p_values(observed_value, test_values, num_permutations=None):
             performed.  Divide the P-values by this if provided.
 
     Todo:
-        Deprecate this in favor of new method that is more flexible
+        Deprecate this in favor of method in running stats
     """
     if num_permutations is None:
         num_permutations = 1.0
@@ -367,7 +367,7 @@ def get_p_values(observed_value, test_values, num_permutations=None):
         # If this is a stack
         if test_mtx.ndim == 3:
             for i in range(test_mtx.shape[2]):
-                p_vals += np.abs(np.round(test_mtx[:, :, [i]], 5)
+                p_vals += np.abs(np.round(test_mtx[:, :, i], 5)
                                  ) >= np.abs(np.round(observed_value, 5))
         else:
             p_vals += np.abs(np.round(test_mtx, 5)
@@ -455,7 +455,8 @@ def mcpa(incidence_matrix, phylo_mtx, env_mtx, bg_mtx):
 
 
 # .............................................................................
-def mcpa_parallel(incidence_matrix, phylo_mtx, env_mtx, bg_mtx):
+def mcpa_parallel(
+        incidence_matrix, phylo_mtx, env_mtx, bg_mtx):  # pragma: no cover
     """Run MCPA for a set of matrices using parallelism.
 
     Performs MCPA across each of the tree nodes in parallel.

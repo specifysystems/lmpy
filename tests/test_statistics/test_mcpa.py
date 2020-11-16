@@ -9,7 +9,7 @@ import numpy as np
 
 from lmpy import Matrix, TreeWrapper
 from lmpy.data_preparation.tree_encoder import TreeEncoder
-from lmpy.statistics.mcpa import mcpa
+from lmpy.statistics.mcpa import get_p_values, mcpa
 
 
 ROUND_POSITION = 7
@@ -113,7 +113,7 @@ def _create_env_and_biogeo_matrices(pam, num_env_cols, num_bg_cols):
 
 
 # .............................................................................
-class Test_MCPA:
+class Test_mcpa:
     """Test various individual metrics."""
     # ............................
     def test_mcpa_with_branch_lengths(self):
@@ -132,3 +132,45 @@ class Test_MCPA:
         phylo_mtx = TreeEncoder(tree, pam).encode_phylogeny()
         env_mtx, bg_mtx = _create_env_and_biogeo_matrices(pam, 10, 3)
         mcpa(pam, phylo_mtx, env_mtx, bg_mtx)
+
+
+# .............................................................................
+class Test_get_p_values:
+    """Test the get_p_values method.
+
+    Note:
+        Deprecate this in favor of using running stats version.
+    """
+    # ............................
+    def test_single_permutation(self):
+        """Test with a single test permutation."""
+        obs_mtx = Matrix(np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+        test_mtx = Matrix(
+            np.array([[9, 8, 7], [6, 5, 4], [3, 2, 1]]).reshape(3, 3, 1))
+        p_vals = get_p_values(obs_mtx, [test_mtx])[:, :, 0]
+        p_test_mtx = Matrix(np.array([[1, 1, 1], [1, 1, 0], [0, 0, 0]]))
+        assert np.all(p_vals == p_test_mtx)
+
+    # ............................
+    def test_single_permutation_3dim(self):
+        """Test with a single test permutation."""
+        obs_mtx = Matrix(np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+        test_mtx = Matrix(np.array([[9, 8, 7], [6, 5, 4], [3, 2, 1]]))
+        p_vals = get_p_values(obs_mtx, [test_mtx])[:, :, 0]
+        p_test_mtx = Matrix(np.array([[1, 1, 1], [1, 1, 0], [0, 0, 0]]))
+        assert np.all(p_vals == p_test_mtx)
+
+    # ............................
+    def test_multiple_permutations(self):
+        """Test with multiple test permutations."""
+        obs_mtx = Matrix(np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+        test_mtxs = [
+            Matrix(np.array([[9, 8, 7], [6, 5, 4], [3, 2, 1]])),
+            Matrix(np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]])),
+            Matrix(np.array([[3, 3, 3], [6, 6, 6], [8, 8, 8]])),
+            Matrix(np.array([[3, 2, 1], [6, 5, 4], [9, 8, 7]]))
+        ]
+        p_vals = get_p_values(
+            obs_mtx, test_mtxs, num_permutations=len(test_mtxs))[:, :, 0]
+        p_test_mtx = Matrix(np.array([[1, 1, .75], [1, 1, .25], [.5, .5, 0]]))
+        assert np.all(p_vals == p_test_mtx)

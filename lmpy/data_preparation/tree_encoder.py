@@ -286,7 +286,7 @@ class TreeEncoder:
                 towards the tips at each hop.
         """
         if visited is None:
-            visited = []
+            visited = []  # pragma: no cover
 
         tip_props = []
         if node.num_child_nodes() > 0:  # Assume this is two since binary
