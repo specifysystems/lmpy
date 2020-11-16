@@ -13,7 +13,7 @@ before_install:
   - export CPLUS_INCLUDE_PATH=/usr/include/gdal
   - export C_INCLUDE_PATH=/usr/include/gdal
 install:
-  - pip install GDAL==`gdal-config --version`
+  - pip install -r dev-requirements.txt
   - pip install -r requirements.txt
 script:
   - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
@@ -31,8 +31,7 @@ jobs:
       - brew upgrade gdal
       - brew install spatialindex
     install:
-      - pip3 install GDAL==`gdal-config --version`
-      - pip3 install pytest
+      - pip3 install -r dev-requirements.txt
       - pip3 install -r requirements.txt
     script:
       - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
@@ -48,7 +47,6 @@ jobs:
       - conda install -c conda-forge -y rtree
     env: PATH=/c/tools/Anaconda3/Library/bin/:/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:/c/tools/Anaconda3/Library/lib:$PATH
     install:
-      - pip install --global-option="build_ext" --global-option="-I/c/tools/Anaconda3/Library/Include" --global-option="-L/c/tools/Anaconda3/Library/Lib" GDAL
       - pip install -r requirements.txt
     script:
       - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
@@ -61,10 +59,10 @@ jobs:
     - export CPLUS_INCLUDE_PATH=/usr/include/gdal
     - export C_INCLUDE_PATH=/usr/include/gdal
     install:
-    - pip install GDAL==`gdal-config --version`
-    - pip install -r requirements.txt
+      - pip install -r dev-requirements.txt
+      - pip install -r requirements.txt
     before_deploy:
-    - python setup.py sdist bdist_wheel
+      - python setup.py sdist bdist_wheel
     deploy:
       provider: releases
       skip_cleanup: true
