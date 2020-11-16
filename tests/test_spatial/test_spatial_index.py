@@ -70,6 +70,7 @@ class Test_SpatialIndex:
     def _clean_up(self, sp_index):
         """Remove files created when saving an index."""
         index_name = sp_index.index.properties.filename
+        sp_index.close()
         for ext in ['.json', '.geom_json', '.dat', '.idx']:
             fn = '{}{}'.format(index_name, ext)
             if os.path.exists(fn):
@@ -80,7 +81,9 @@ class Test_SpatialIndex:
         """Test constructor."""
         sp_index_1 = SpatialIndex()
         self._clean_up(sp_index_1)
-        temp_name = tempfile.NamedTemporaryFile().name
+        tmp_file = tempfile.NamedTemporaryFile()
+        temp_name = tmp_file.name
+        tmp_file.close()
         sp_index_2 = SpatialIndex(temp_name)
         sp_index_2.save()
         sp_index_2 = None
@@ -91,7 +94,9 @@ class Test_SpatialIndex:
     # ..........................
     def test_build_index(self):
         """Test building and reloading an index."""
-        temp_name = tempfile.NamedTemporaryFile().name
+        tmp_file = tempfile.NamedTemporaryFile()
+        temp_name = tmp_file.name
+        tmp_file.close()
         sp_index = SpatialIndex(temp_name)
         # Build index
         sp_index.add_feature(
@@ -110,7 +115,9 @@ class Test_SpatialIndex:
     # ..........................
     def test_search_index(self):
         """Test searching an index."""
-        temp_name = tempfile.NamedTemporaryFile().name
+        tmp_file = tempfile.NamedTemporaryFile()
+        temp_name = tmp_file.name
+        tmp_file.close()
         sp_index = SpatialIndex(temp_name)
         # Build index
         sp_index.add_feature(
@@ -154,7 +161,9 @@ class Test_SpatialIndex:
     # ..........................
     def test_edges(self):
         """Test edge cases."""
-        temp_name = tempfile.NamedTemporaryFile().name
+        tmp_file = tempfile.NamedTemporaryFile()
+        temp_name = tmp_file.name
+        tmp_file.close()
         sp_index = SpatialIndex(temp_name)
         # Add feature from WKT
         wkt_1 = 'POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))'
@@ -162,9 +171,9 @@ class Test_SpatialIndex:
         # Add feature that does not break down to rectangles
         wkt_2 = 'POLYGON ((0 -30, 30 0, 0 30, -30 0, 0 -30))'
         sp_index.add_feature(2, wkt_2, {'att_1': 'val_2'})
-        hits = sp_index.search(-30, 0)
+        _ = sp_index.search(-30, 0)
         sp_index.save()
         sp_index = None
         sp_index = SpatialIndex(temp_name)
-        hits = sp_index.search(-30, 0)
+        _ = sp_index.search(-30, 0)
         self._clean_up(sp_index)

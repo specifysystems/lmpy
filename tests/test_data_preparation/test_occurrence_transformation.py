@@ -4,7 +4,6 @@ import os
 import tempfile
 
 import numpy as np
-import pytest
 
 from lmpy.point import PointCsvReader, PointCsvWriter
 from lmpy.data_preparation.occurrence_transformation import (
@@ -77,7 +76,7 @@ class Test_sort_points:
         with PointCsvReader(reader_filename, 'Species', 'x', 'y') as reader:
             with PointCsvWriter(
                     writer_filename, ['species_name', 'x', 'y']) as writer:
-                sorted_points = sort_points(reader, writer)
+                _ = sort_points(reader, writer)
 
         # Verify points are sorted
         assert _verify_sorted(writer_filename)
@@ -100,7 +99,7 @@ class Test_sort_points:
             mode='wt', encoding='utf8', suffix='.csv').name
         with PointCsvWriter(
                 writer_filename, ['species_name', 'x', 'y']) as writer:
-            sorted_points = sort_points(readers, writer)
+            _ = sort_points(readers, writer)
 
         # Verify points are sorted
         assert _verify_sorted(writer_filename)
@@ -131,7 +130,7 @@ class Test_sort_points:
             mode='wt', encoding='utf8', suffix='.csv').name
         with PointCsvWriter(
                 writer_filename, ['species_name', 'x', 'y']) as writer:
-            sorted_points = sort_points(readers, writer, wranglers=wranglers)
+            _ = sort_points(readers, writer, wranglers=wranglers)
 
         # Verify points are sorted
         assert _verify_sorted(writer_filename)
@@ -214,7 +213,7 @@ class Test_wrangle_points:
             mode='wt', encoding='utf8', suffix='.csv').name
         with PointCsvWriter(
                 writer_filename, ['species_name', 'x', 'y']) as writer:
-            sorted_points = sort_points(readers, writer)
+            _ = sort_points(readers, writer)
 
         # Verify points are sorted
         assert _verify_sorted(writer_filename)

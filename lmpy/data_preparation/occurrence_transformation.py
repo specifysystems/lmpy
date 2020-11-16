@@ -1,14 +1,18 @@
 """This module contains tools for transforming raw occurrence data."""
 import csv
-from operator import itemgetter
 import sys
 
-from osgeo import ogr, osr
-
-from lmpy.point import Point, PointCsvReader
+from lmpy.point import PointCsvReader
 
 
-csv.field_size_limit(sys.maxsize)
+max_int = sys.maxsize
+while True:
+    # Decrease max_int value by factor of 10 if overflow
+    try:
+        csv.field_size_limit(max_int)
+        break
+    except OverflowError:  # pragma: no cover
+        max_int = int(max_int / 10)
 
 
 # .............................................................................
@@ -106,4 +110,4 @@ def wrangle_points(readers, writer, wranglers=None):
 
 
 # .............................................................................
-__all__ = ['get_chunk_key', 'sort_points', 'split_points', 'wrangler_points']
+__all__ = ['get_chunk_key', 'sort_points', 'split_points', 'wrangle_points']

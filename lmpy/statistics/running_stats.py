@@ -53,7 +53,7 @@ class RunningStats(object):
             self.observed = observed
             try:
                 self.f_counts = np.zeros(self.observed.shape)
-            except:
+            except Exception:
                 self.f_counts = 0.0
         else:
             self.observed = None

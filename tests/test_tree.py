@@ -375,7 +375,7 @@ END;
         }
 
         # Get original annotations
-        orig_annotations = dict(my_tree.get_annotations('att2'))
+        _ = dict(my_tree.get_annotations('att2'))
 
         # Annotate tree
         my_tree.annotate_tree_tips(

@@ -5,4 +5,4 @@ coverage==4.5.4
 python-coveralls
 pytest
 pytest-cov>=2.4.0,<2.6
-pytest-pep8
+pytest-flake8
