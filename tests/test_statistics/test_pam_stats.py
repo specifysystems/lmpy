@@ -322,3 +322,12 @@ class Test_PamStats:
         ps = stats.PamStats(pam, tree=tree)
         ps.site_pam_dist_mtx_stats = []
         ps.calculate_site_statistics()
+
+    # ............................
+    def test_single_double_tree_subsetting(self):
+        """Tests for sites with one or two sites present."""
+        pam, tree = get_random_pam_and_tree(5, 5, .2, 2.0)
+        pam[0] = [1, 1, 0, 0, 0]
+        pam[1] = [0, 0, 1, 0, 0]
+        ps = stats.PamStats(pam, tree=tree)
+        ps.calculate_site_statistics()
