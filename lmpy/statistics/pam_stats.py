@@ -239,7 +239,7 @@ def mean_nearest_taxon_distance(phylo_dist_mtx):
         nearest_total = np.sum(
             [np.min(row[row > 0.0]) for row in phylo_dist_mtx])
         return float(nearest_total / phylo_dist_mtx.shape[0])
-    except Exception:
+    except Exception:  # pragma: no cover
         return 0.0
 
 
@@ -413,13 +413,16 @@ class PamStats:
             print('Get distance matrix')
             phylo_dist_mtx = self.tree.get_distance_matrix()
             print('PAM dist mtx stats')
-            site_pam_tree_matrix = Matrix(
-                Matrix.concatenate(
-                    [func(self.pam, phylo_dist_mtx
-                          ) for _, func in self.site_pam_dist_mtx_stats]),
-                headers={
-                    '0': self.pam.get_row_headers(),
-                    '1': [name for name, _ in self.site_pam_dist_mtx_stats]})
+            site_pam_tree_matrix = None
+            if self.site_pam_dist_mtx_stats:
+                site_pam_tree_matrix = Matrix(
+                    Matrix.concatenate(
+                        [func(self.pam, phylo_dist_mtx
+                              ) for _, func in self.site_pam_dist_mtx_stats]),
+                    headers={
+                        '0': self.pam.get_row_headers(),
+                        '1': [name for name, _ in
+                              self.site_pam_dist_mtx_stats]})
 
             print('Site by site')
             # Loop through PAM
@@ -456,9 +459,17 @@ class PamStats:
                     print(present_labels)
                     print('Site index: {}'.format(site_idx))
 
-            site_stats_matrix = Matrix.concatenate(
-                [site_stats_matrix, site_tree_stats_matrix,
-                 site_tree_dist_mtx_matrix, site_pam_tree_matrix], axis=1)
+            all_stat_matrices = []
+            if site_stats_matrix is not None:
+                all_stat_matrices.append(site_stats_matrix)
+            if site_tree_stats_matrix is not None:
+                all_stat_matrices.append(site_tree_stats_matrix)
+            if site_tree_dist_mtx_matrix is not None:
+                all_stat_matrices.append(site_tree_dist_mtx_matrix)
+            if site_pam_tree_matrix is not None:
+                all_stat_matrices.append(site_pam_tree_matrix)
+
+            site_stats_matrix = Matrix.concatenate(all_stat_matrices, axis=1)
         return site_stats_matrix
 
     # ...........................
