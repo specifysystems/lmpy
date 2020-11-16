@@ -13,6 +13,7 @@ before_install:
   - export CPLUS_INCLUDE_PATH=/usr/include/gdal
   - export C_INCLUDE_PATH=/usr/include/gdal
 install:
+  - pip install GDAL==`gdal-config --version`
   - pip install -r dev-requirements.txt
   - pip install -r requirements.txt
 script:
@@ -47,6 +48,7 @@ jobs:
       - conda install -c conda-forge -y rtree
     env: PATH=/c/tools/Anaconda3/Library/bin/:/c/Python38:/c/Python38/Scripts:/c/tools/Anaconda3/Scripts:/c/tools/Anaconda3/Library/lib:$PATH
     install:
+      - pip install -r dev-requirements.txt
       - pip install -r requirements.txt
     script:
       - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
@@ -59,6 +61,7 @@ jobs:
     - export CPLUS_INCLUDE_PATH=/usr/include/gdal
     - export C_INCLUDE_PATH=/usr/include/gdal
     install:
+     - pip install GDAL==`gdal-config --version`
       - pip install -r dev-requirements.txt
       - pip install -r requirements.txt
     before_deploy:
