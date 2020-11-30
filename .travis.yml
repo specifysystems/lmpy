@@ -22,20 +22,20 @@ after_success:
   - coveralls
 jobs:
   include:
-  - name: "Mac OSX test"
-    os: osx
-    # osx_image: 
-    language: shell
-    before_install:
-      - brew update
-      - brew upgrade python3
-      - brew upgrade gdal
-      - brew install spatialindex
-    install:
-      - pip3 install -r dev-requirements.txt
-      - pip3 install -r requirements.txt
-    script:
-      - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
+  #- name: "Mac OSX test"
+  #  os: osx
+  #  # osx_image: 
+  #  language: shell
+  #  before_install:
+  #    - brew update
+  #    - brew upgrade python3
+  #    - brew upgrade gdal
+  #    - brew install spatialindex
+  #  install:
+  #    - pip3 install -r dev-requirements.txt
+  #    - pip3 install -r requirements.txt
+  #  script:
+  #    - py.test tests/ --flake8 lmpy -v --cov lmpy --cov-report term-missing
   - name: "Windows test"
     os: windows
     language: shell
