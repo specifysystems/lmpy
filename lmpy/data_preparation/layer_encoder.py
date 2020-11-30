@@ -48,7 +48,7 @@ def _get_presence_absence_method(min_presence, max_presence, min_coverage,
             as present to consider the window present
         nodata: This values should be considered nodata
     """
-    if min_coverage > 1.0:
+    if min_coverage >= 1.0:
         min_coverage = min_coverage / 100.0
 
     # ...............................
