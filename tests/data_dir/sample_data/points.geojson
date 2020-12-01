@@ -1,0 +1,1605 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -64,
+                    -78
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 17.51,
+                "attrib_2": "green",
+                "attrib_3": 50
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -23,
+                    -30
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 4.06,
+                "attrib_2": "red",
+                "attrib_3": 4
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    55,
+                    -7
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 13.02,
+                "attrib_2": "green",
+                "attrib_3": 43
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -121,
+                    42
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 6.3,
+                "attrib_2": "red",
+                "attrib_3": -10
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    172,
+                    27
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 9.31,
+                "attrib_2": "blue",
+                "attrib_3": 6
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    87,
+                    35
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 13.06,
+                "attrib_2": "green",
+                "attrib_3": 81
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    158,
+                    -7
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 1.84,
+                "attrib_2": "green",
+                "attrib_3": 8
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -13,
+                    -71
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 11.3,
+                "attrib_2": "blue",
+                "attrib_3": -2
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    138,
+                    48
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 14.71,
+                "attrib_2": "red",
+                "attrib_3": 43
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -64,
+                    73
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 2.85,
+                "attrib_2": "green",
+                "attrib_3": 16
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8,
+                    85
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 15.95,
+                "attrib_2": "blue",
+                "attrib_3": -2
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    168,
+                    -41
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 8.81,
+                "attrib_2": "red",
+                "attrib_3": 17
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    60,
+                    -70
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 6.76,
+                "attrib_2": "blue",
+                "attrib_3": 7
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -177,
+                    -5
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 6.52,
+                "attrib_2": "blue",
+                "attrib_3": 81
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122,
+                    74
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 8.36,
+                "attrib_2": "green",
+                "attrib_3": 93
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -30,
+                    23
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 11.2,
+                "attrib_2": "blue",
+                "attrib_3": 82
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -170,
+                    -4
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 12.18,
+                "attrib_2": "red",
+                "attrib_3": 26
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    178,
+                    5
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 17.9,
+                "attrib_2": "red",
+                "attrib_3": 65
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -174,
+                    -13
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 11.49,
+                "attrib_2": "red",
+                "attrib_3": -5
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -58,
+                    -46
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 1.15,
+                "attrib_2": "blue",
+                "attrib_3": 27
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -165,
+                    -1
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 4.37,
+                "attrib_2": "red",
+                "attrib_3": 58
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -108,
+                    11
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 14.62,
+                "attrib_2": "red",
+                "attrib_3": 52
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    139,
+                    67
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 1.84,
+                "attrib_2": "blue",
+                "attrib_3": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    116,
+                    78
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 7.69,
+                "attrib_2": "red",
+                "attrib_3": 96
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -41,
+                    58
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 12.04,
+                "attrib_2": "red",
+                "attrib_3": 68
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -144,
+                    -18
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 10.26,
+                "attrib_2": "red",
+                "attrib_3": 44
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    31,
+                    57
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 17.58,
+                "attrib_2": "red",
+                "attrib_3": 3
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    122,
+                    -35
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 17.8,
+                "attrib_2": "green",
+                "attrib_3": 89
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -151,
+                    -29
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 3.0,
+                "attrib_2": "red",
+                "attrib_3": 86
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    134,
+                    40
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 11.18,
+                "attrib_2": "green",
+                "attrib_3": 36
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    37,
+                    82
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 10.55,
+                "attrib_2": "red",
+                "attrib_3": 8
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    81,
+                    -6
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 0.67,
+                "attrib_2": "green",
+                "attrib_3": 78
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    26,
+                    13
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 5.01,
+                "attrib_2": "blue",
+                "attrib_3": 45
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8,
+                    35
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 17.7,
+                "attrib_2": "blue",
+                "attrib_3": 98
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    123,
+                    32
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 9.35,
+                "attrib_2": "red",
+                "attrib_3": 98
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -177,
+                    66
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 2.38,
+                "attrib_2": "red",
+                "attrib_3": 79
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -72,
+                    44
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 12.63,
+                "attrib_2": "red",
+                "attrib_3": 9
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    150,
+                    64
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 10.07,
+                "attrib_2": "green",
+                "attrib_3": 54
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -65,
+                    -69
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 1.51,
+                "attrib_2": "green",
+                "attrib_3": -1
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    153,
+                    -37
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 5.57,
+                "attrib_2": "green",
+                "attrib_3": -4
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -72,
+                    86
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 1.08,
+                "attrib_2": "red",
+                "attrib_3": -2
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    64,
+                    70
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 8.03,
+                "attrib_2": "blue",
+                "attrib_3": 75
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -33,
+                    -21
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 8.43,
+                "attrib_2": "blue",
+                "attrib_3": 9
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -180,
+                    -46
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 15.1,
+                "attrib_2": "red",
+                "attrib_3": 8
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -120,
+                    -87
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 19.68,
+                "attrib_2": "green",
+                "attrib_3": 33
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    42,
+                    67
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 10.86,
+                "attrib_2": "red",
+                "attrib_3": 44
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    34,
+                    38
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 11.55,
+                "attrib_2": "blue",
+                "attrib_3": 53
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    41,
+                    67
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 4.21,
+                "attrib_2": "blue",
+                "attrib_3": 27
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    138,
+                    11
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 17.59,
+                "attrib_2": "green",
+                "attrib_3": 74
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -134,
+                    -34
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 5.13,
+                "attrib_2": "green",
+                "attrib_3": 41
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -111,
+                    15
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 2.92,
+                "attrib_2": "blue",
+                "attrib_3": 46
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    71,
+                    59
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 11.4,
+                "attrib_2": "red",
+                "attrib_3": 23
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -116,
+                    11
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 16.41,
+                "attrib_2": "blue",
+                "attrib_3": 69
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    74,
+                    39
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 12.7,
+                "attrib_2": "blue",
+                "attrib_3": -8
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113,
+                    35
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 19.76,
+                "attrib_2": "blue",
+                "attrib_3": 2
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121,
+                    -51
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 14.37,
+                "attrib_2": "blue",
+                "attrib_3": -9
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    178,
+                    5
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 4.04,
+                "attrib_2": "blue",
+                "attrib_3": 98
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -111,
+                    -27
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 18.64,
+                "attrib_2": "blue",
+                "attrib_3": 17
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -27,
+                    70
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 10.2,
+                "attrib_2": "red",
+                "attrib_3": 85
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -78,
+                    19
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 7.43,
+                "attrib_2": "green",
+                "attrib_3": 9
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -114,
+                    -1
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 2.58,
+                "attrib_2": "green",
+                "attrib_3": 22
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -45,
+                    -13
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 13.52,
+                "attrib_2": "green",
+                "attrib_3": -8
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    59,
+                    28
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 0.73,
+                "attrib_2": "blue",
+                "attrib_3": 16
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -112,
+                    -65
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 10.37,
+                "attrib_2": "red",
+                "attrib_3": 66
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    115,
+                    -71
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 5.16,
+                "attrib_2": "green",
+                "attrib_3": 28
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -81,
+                    -21
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 2.26,
+                "attrib_2": "blue",
+                "attrib_3": 8
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    32,
+                    88
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 2.78,
+                "attrib_2": "red",
+                "attrib_3": 56
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    2,
+                    9
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 7.68,
+                "attrib_2": "green",
+                "attrib_3": 95
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -106,
+                    8
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 16.86,
+                "attrib_2": "red",
+                "attrib_3": 58
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -128,
+                    -32
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 10.04,
+                "attrib_2": "green",
+                "attrib_3": 35
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    122,
+                    -56
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 12.79,
+                "attrib_2": "green",
+                "attrib_3": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    115,
+                    36
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 19.66,
+                "attrib_2": "red",
+                "attrib_3": 50
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -175,
+                    62
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 6.62,
+                "attrib_2": "blue",
+                "attrib_3": 97
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    172,
+                    -17
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 4.11,
+                "attrib_2": "blue",
+                "attrib_3": 95
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -133,
+                    87
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 4.24,
+                "attrib_2": "green",
+                "attrib_3": 38
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    122,
+                    28
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 13.51,
+                "attrib_2": "red",
+                "attrib_3": 57
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -38,
+                    -60
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 12.5,
+                "attrib_2": "green",
+                "attrib_3": 62
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -68,
+                    -6
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 0.87,
+                "attrib_2": "green",
+                "attrib_3": 37
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    140,
+                    -87
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 5.49,
+                "attrib_2": "red",
+                "attrib_3": 9
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -130,
+                    -3
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 2.6,
+                "attrib_2": "blue",
+                "attrib_3": 92
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    156,
+                    -90
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 4.89,
+                "attrib_2": "green",
+                "attrib_3": 49
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    129,
+                    85
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 0.7,
+                "attrib_2": "red",
+                "attrib_3": 85
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -43,
+                    74
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 3.3,
+                "attrib_2": "blue",
+                "attrib_3": 71
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -149,
+                    24
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 10.04,
+                "attrib_2": "green",
+                "attrib_3": -2
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -7,
+                    -16
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 4.73,
+                "attrib_2": "red",
+                "attrib_3": 74
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    13,
+                    88
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 11.25,
+                "attrib_2": "red",
+                "attrib_3": 35
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    98,
+                    -55
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 15.69,
+                "attrib_2": "red",
+                "attrib_3": 48
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -145,
+                    -89
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 6.84,
+                "attrib_2": "green",
+                "attrib_3": 53
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    56,
+                    -74
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 5.39,
+                "attrib_2": "red",
+                "attrib_3": 32
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    72,
+                    67
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 15.48,
+                "attrib_2": "blue",
+                "attrib_3": 58
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -99,
+                    2
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 3.67,
+                "attrib_2": "blue",
+                "attrib_3": 87
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    20,
+                    -28
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 11.57,
+                "attrib_2": "red",
+                "attrib_3": 36
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -115,
+                    16
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 0.83,
+                "attrib_2": "green",
+                "attrib_3": 31
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    30,
+                    -77
+                ]
+            },
+            "properties": {
+                "species_name": "Species d",
+                "attrib_1": 1.24,
+                "attrib_2": "blue",
+                "attrib_3": 12
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    75,
+                    -38
+                ]
+            },
+            "properties": {
+                "species_name": "Species a",
+                "attrib_1": 1.32,
+                "attrib_2": "red",
+                "attrib_3": 13
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -91,
+                    78
+                ]
+            },
+            "properties": {
+                "species_name": "Species b",
+                "attrib_1": 1.24,
+                "attrib_2": "red",
+                "attrib_3": 64
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    153,
+                    39
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 6.27,
+                "attrib_2": "red",
+                "attrib_3": 36
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    133,
+                    -26
+                ]
+            },
+            "properties": {
+                "species_name": "Species e",
+                "attrib_1": 12.61,
+                "attrib_2": "red",
+                "attrib_3": 4
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    76,
+                    88
+                ]
+            },
+            "properties": {
+                "species_name": "Species f",
+                "attrib_1": 17.08,
+                "attrib_2": "red",
+                "attrib_3": 34
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -168,
+                    2
+                ]
+            },
+            "properties": {
+                "species_name": "Species c",
+                "attrib_1": 2.07,
+                "attrib_2": "blue",
+                "attrib_3": 34
+            }
+        }
+    ]
+}
