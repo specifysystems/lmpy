@@ -157,7 +157,7 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
     # ...............................
     def encode_method(window):
         """Encode method for numpy > 1.8"""
-        if window is None:
+        if window is None:  # pragma: no cover
             return nodata
         min_vals = int(min_coverage * window.size)
         # Set default min count to min_vals
