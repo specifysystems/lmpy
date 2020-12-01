@@ -1,6 +1,7 @@
 """Module containing occurrence data wranglers for modifying point data."""
 from copy import deepcopy
 
+# import osgeo
 from osgeo import ogr, osr
 
 from lmpy.point import Point
@@ -101,6 +102,12 @@ def get_coordinate_converter_modifier(in_epsg, out_epsg):
     """
     source = osr.SpatialReference()
     source.ImportFromEPSG(in_epsg)
+
+    # TODO: Change this in the future when we require GDAL >= 3
+    # if int(osgeo.__version__[0]) >= 3:  # pragma: no cover
+    #    # GDAL 3 changes axis order: https://github.com/OSGeo/gdal/issues/1546
+    #    source.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
+
     target = osr.SpatialReference()
     target.ImportFromEPSG(out_epsg)
 
@@ -108,12 +115,10 @@ def get_coordinate_converter_modifier(in_epsg, out_epsg):
 
     # .......................
     def converter_func(point):
-        geom = ogr.CreateGeometryFromWkt(
-            'POINT ({} {})'.format(point.x, point.y))
-        geom.Transform(transform)
+        new_x, new_y, _ = transform.TransformPoint(point.x, point.y)
         pt = deepcopy(point)
-        pt.x = geom.GetX()
-        pt.y = geom.GetY()
+        pt.x = new_x
+        pt.y = new_y
         return pt
 
     return get_occurrence_map(converter_func)

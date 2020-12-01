@@ -6,6 +6,7 @@ import os
 import tempfile
 
 import numpy as np
+from osgeo import ogr, osr
 
 from lmpy.data_preparation.build_grid import build_shapegrid
 from lmpy.data_preparation.layer_encoder import LayerEncoder, DEFAULT_NODATA
@@ -190,6 +191,7 @@ class Test_LayerEncoder:
         # File names
         shapegrid_filename = '{}.shp'.format(base_filename)
         layer_filename = '{}.asc'.format(base_filename)
+        biogeo_filename = '{}.bg.shp'.format(base_filename)
 
         # Create a shapegrid (50 x 50 1 degree cells)
         build_shapegrid(shapegrid_filename, 0, 0, 50, 50, 1, 4326, 4)
@@ -210,16 +212,30 @@ class Test_LayerEncoder:
                     vals.append(str(np.random.randint(0, 10)))
                 layer_out.write('{}\n'.format(' '.join(vals)))
 
+        # Create hypothesis layer
+        target_srs = osr.SpatialReference()
+        target_srs.ImportFromEPSG(4326)
+        drv = ogr.GetDriverByName('ESRI Shapefile')
+        data_set = drv.CreateDataSource(biogeo_filename)
+        layer = data_set.CreateLayer(
+            data_set.GetName(), geom_type=ogr.wkbPolygon, srs=target_srs)
+        hyp_wkt = 'POLYGON ((15 11, 19 19, 15 11, 11 11, 15 11))'
+        geom = ogr.CreateGeometryFromWkt(hyp_wkt)
+        feat = ogr.Feature(feature_def=layer.GetLayerDefn())
+        feat.SetGeometry(geom)
+        layer.CreateFeature(feat)
+        feat.Destroy()
+        data_set.Destroy()
+
         # Encode layer with multiple coverages
         encoder.encode_presence_absence(layer_filename, 'PA Layer', 5, 10, 25)
         encoder.encode_mean_value(layer_filename, 'Mean Layer')
         encoder.encode_largest_class(
             layer_filename, 'Largest class', 25, nodata=10)
+        encoder.encode_biogeographic_hypothesis(
+            biogeo_filename, 'Hypothesis', 10)
 
-        import json
         enc_geojson = encoder.get_geojson()
-        with open('/home/cjgrady/test.geojson', mode='wt') as out_file:
-            json.dump(enc_geojson, out_file)
 
         # Delete temp files
         for fn in glob.glob('{}.*'.format(base_filename)):
