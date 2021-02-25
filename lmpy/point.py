@@ -74,6 +74,8 @@ class PointCsvReader:
         self.y_field = y_field
         self.geopoint = geopoint
         self.group_field = group_field
+        self._next_points = []
+        self._curr_val = None
 
     # .......................
     def __enter__(self):
@@ -91,8 +93,6 @@ class PointCsvReader:
     # .......................
     def __next__(self):
         """Get lists of consecutive points with the same attribute value."""
-        ret_points = []
-        curr_val = None
         for point_dict in self.reader:
             try:
                 if self.geopoint is not None:
@@ -105,19 +105,22 @@ class PointCsvReader:
                     point_dict[self.species_field], x_val, y_val,
                     attributes=point_dict)
                 test_val = pt.get_attribute(self.group_field)
-                if test_val != curr_val:
-                    if curr_val is not None:
-                        return ret_points
-                    curr_val = test_val
-                ret_points.append(pt)
+                if test_val != self._curr_val:
+                    if self._curr_val is not None:
+                        self._curr_val = test_val
+                        tmp = self._next_points
+                        self._next_points = [pt]
+                        return tmp
+                    self._curr_val = test_val
+                self._next_points.append(pt)
 
             except ValueError:  # pragma: no cover
                 pass
             except KeyError as ke:  # pragma: no cover
                 raise ke
-        if ret_points:
-            tmp = ret_points
-            ret_points = None
+        if self._next_points:
+            tmp = self._next_points
+            self._next_points = []
             return tmp
         raise StopIteration
 

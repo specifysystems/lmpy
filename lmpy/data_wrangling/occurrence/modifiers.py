@@ -2,7 +2,7 @@
 from copy import deepcopy
 
 # import osgeo
-from osgeo import ogr, osr
+from osgeo import osr
 
 from lmpy.point import Point
 from lmpy.data_wrangling.occurrence.common import get_occurrence_map
