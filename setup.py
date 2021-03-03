@@ -9,8 +9,8 @@ with open('LICENSE') as f:
 
 setup(
     name='lmpy',
-    version='2.0.5',
-    description='Package of commonly used and shared Lifemapper objects',
+    version='3.0.0',
+    description='Package of commonly used and shared Lifemapper objects and tools',
     long_description=readme,
     author='Lifemapper Team',
     author_email='cjgrady@ku.edu',
