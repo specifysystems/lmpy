@@ -6,8 +6,11 @@ import numpy as np
 
 from lmpy import Point
 from lmpy.data_wrangling.occurrence.modifiers import (
-    get_accepted_name_modifier, get_attribute_modifier,
-    get_common_format_modifier, get_coordinate_converter_modifier)
+    get_accepted_name_modifier,
+    get_attribute_modifier,
+    get_common_format_modifier,
+    get_coordinate_converter_modifier
+)
 
 
 # ............................................................................

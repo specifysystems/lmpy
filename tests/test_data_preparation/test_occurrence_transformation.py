@@ -1,5 +1,4 @@
-"""Tests the occurrence data filters
-"""
+"""Tests the occurrence data filters."""
 import os
 import tempfile
 
@@ -7,14 +6,24 @@ import numpy as np
 
 from lmpy.point import PointCsvReader, PointCsvWriter
 from lmpy.data_preparation.occurrence_transformation import (
-    get_chunk_key, sort_points, split_points, wrangle_points)
+    get_chunk_key, sort_points, split_points, wrangle_points
+)
 from lmpy.data_wrangling.occurrence.filters import (
-    get_bounding_box_filter, get_minimum_points_filter)
+    get_bounding_box_filter, get_minimum_points_filter
+)
 
 
 # .............................................................................
 def _create_csv_reader(num_points, num_species):
-    """Create a sample csv reader file."""
+    """Create a sample csv reader file.
+
+    Args:
+        num_points (int): The number of points to write.
+        num_species (int): The number of species to simulate.
+
+    Returns:
+        str: The path to the created file.
+    """
     with tempfile.NamedTemporaryFile(
             mode='wt', encoding='utf8', suffix='.csv', delete=False
             ) as reader_file:
@@ -29,12 +38,25 @@ def _create_csv_reader(num_points, num_species):
 
 
 # .............................................................................
-def _verify_sorted(reader_filename, species_field='species_name', x_field='x',
-                   y_field='y'):
-    """Verify that a set of points are sorted."""
+def _verify_sorted(
+    reader_filename,
+    species_field='species_name',
+    x_field='x',
+    y_field='y'
+):
+    """Verify that a set of points are sorted.
+
+    Args:
+        reader_filename (str): The file location of the reader.
+        species_field (str): The field name in the reader for the species name data.
+        x_field (str): The field in the data containing the x coordinates.
+        y_field (str): The field in the data containing the y coordinates.
+
+    Returns:
+        bool: Indication if the file is sorted.
+    """
     points_list = []
-    with PointCsvReader(
-            reader_filename, species_field, x_field, y_field) as reader:
+    with PointCsvReader(reader_filename, species_field, x_field, y_field) as reader:
         for points in reader:
             points_list.extend(points)
     last_point = None
@@ -76,7 +98,7 @@ class Test_sort_points:
         with PointCsvReader(reader_filename, 'Species', 'x', 'y') as reader:
             with PointCsvWriter(
                     writer_filename, ['species_name', 'x', 'y']) as writer:
-                _ = sort_points(reader, writer)
+                sort_points(reader, writer)
 
         # Verify points are sorted
         assert _verify_sorted(writer_filename)
@@ -99,7 +121,7 @@ class Test_sort_points:
             mode='wt', encoding='utf8', suffix='.csv').name
         with PointCsvWriter(
                 writer_filename, ['species_name', 'x', 'y']) as writer:
-            _ = sort_points(readers, writer)
+            sort_points(readers, writer)
 
         # Verify points are sorted
         assert _verify_sorted(writer_filename)
@@ -130,7 +152,7 @@ class Test_sort_points:
             mode='wt', encoding='utf8', suffix='.csv').name
         with PointCsvWriter(
                 writer_filename, ['species_name', 'x', 'y']) as writer:
-            _ = sort_points(readers, writer, wranglers=wranglers)
+            sort_points(readers, writer, wranglers=wranglers)
 
         # Verify points are sorted
         assert _verify_sorted(writer_filename)
@@ -213,7 +235,7 @@ class Test_wrangle_points:
             mode='wt', encoding='utf8', suffix='.csv').name
         with PointCsvWriter(
                 writer_filename, ['species_name', 'x', 'y']) as writer:
-            _ = sort_points(readers, writer)
+            sort_points(readers, writer)
 
         # Verify points are sorted
         assert _verify_sorted(writer_filename)

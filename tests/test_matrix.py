@@ -1,8 +1,4 @@
-"""This module tests the analyses/lm_objects/matrix.py module.
-
-Note:
-    * These test functions are pytest style tests for the matrix.py module.
-"""
+"""This module tests the analyses/lm_objects/matrix.py module."""
 import io
 import os
 import random
@@ -20,8 +16,11 @@ def get_random_matrix(*dim_size):
     """Generates a randomized matrix with the shape provided in dim_size.
 
     Args:
-        *dim_size (:obj:`list` of :obj:`int`): Variable length argument list of
-            integers representing matrix dimension sizes.
+        *dim_size (list of int): Variable length argument list of integers representing
+            matrix dimension sizes.
+
+    Returns:
+        Matrix: A random matrix based on the provided parameters.
     """
     headers = {}
     i = 0
@@ -32,13 +31,11 @@ def get_random_matrix(*dim_size):
 
 
 # .............................................................................
-class Test_Matrix(object):
-    """Test the Matrix class.
-    """
+class Test_Matrix:
+    """Test the Matrix class."""
     # .....................................
     def test_load(self):
-        """Test the load class method.
-        """
+        """Test the load class method."""
         orig_mtx = get_random_matrix(5, 5)
 
         # Create a file like object and save original matrix
@@ -76,8 +73,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_load_csv(self):
-        """Test the load_csv method.
-        """
+        """Test the load_csv method."""
         orig_mtx = get_random_matrix(5, 5)
 
         with io.StringIO() as out_str:
@@ -97,8 +93,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_load_csv_multi_headers(self):
-        """Test the load_csv method.
-        """
+        """Test the load_csv method."""
         orig_mtx = get_random_matrix(5, 5)
         new_row_headers = []
         new_col_headers = []
@@ -133,8 +128,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_concatenate(self):
-        """Test the concatenate function.
-        """
+        """Test the concatenate function."""
         mtx1 = get_random_matrix(3, 2)
         mtx2 = get_random_matrix(3, 3)
         mtx3 = get_random_matrix(6, 5)
@@ -182,8 +176,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_flatten_2d(self):
-        """Test flatten_2d method.
-        """
+        """Test flatten_2d method."""
         x, y, z = 5, 5, 3
         mtx = get_random_matrix(x, y, z)
         flat_mtx = mtx.flatten_2d()
@@ -202,8 +195,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_flatten_2d_higher_dim(self):
-        """Test flatten_2d method.
-        """
+        """Test flatten_2d method."""
         a, b, c, d = 4, 5, 6, 7
         mtx = get_random_matrix(a, b, c, d)
         flat_mtx = mtx.flatten_2d()
@@ -222,8 +214,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_flatten_2d_missing_header(self):
-        """Test flatten_2d method when headers are missing.
-        """
+        """Test flatten_2d method when headers are missing."""
         x, y, z = 5, 5, 3
         mtx = Matrix(np.random.random((x, y, z)))
         flat_mtx = mtx.flatten_2d()
@@ -242,8 +233,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_get_column_headers(self):
-        """Test get_column_headers.
-        """
+        """Test get_column_headers."""
         mtx = get_random_matrix(3, 8)
         col_headers = mtx.get_column_headers()
         assert isinstance(col_headers, list)
@@ -251,8 +241,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_get_headers(self):
-        """Test get_headers.
-        """
+        """Test get_headers."""
         mtx = get_random_matrix(2, 2, 4)
         headers = mtx.get_headers()
         assert isinstance(headers, dict)
@@ -262,8 +251,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_get_row_headers(self):
-        """Test get_row_headers.
-        """
+        """Test get_row_headers."""
         mtx = get_random_matrix(3, 8)
         row_headers = mtx.get_row_headers()
         assert isinstance(row_headers, list)
@@ -292,8 +280,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_set_column_headers(self):
-        """Test set_column_headers.
-        """
+        """Test set_column_headers."""
         n_rows, n_cols = (9, 6)
         mtx = get_random_matrix(n_rows, n_cols)
         new_col_headers = ['Col head - {}'.format(i**2) for i in range(n_cols)]
@@ -311,8 +298,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_set_headers(self):
-        """Test set_headers.
-        """
+        """Test set_headers."""
         n_rows, n_cols = (8, 10)
         mtx = get_random_matrix(n_rows, n_cols)
         new_col_headers = ['Col head - {}'.format(i**2) for i in range(n_cols)]
@@ -353,8 +339,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_set_row_headers(self):
-        """Test set_row_headers.
-        """
+        """Test set_row_headers."""
         n_rows, n_cols = (9, 6)
         mtx = get_random_matrix(n_rows, n_cols)
         new_row_headers = ['Row head - {}'.format(i**2) for i in range(n_rows)]
@@ -372,12 +357,11 @@ class Test_Matrix(object):
 
     # .....................................
     def test_slice(self):
-        """Test the slice method.
-        """
+        """Test the slice method."""
         # Randomly generate size of matrix
         n_dim = random.randint(2, 4)
         dims = []
-        for i in range(n_dim):
+        for _ in range(n_dim):
             d_size = random.randint(1, 20)
             d_lower = random.randint(0, d_size - 1)
             d_upper = random.randint(d_lower + 1, d_size)
@@ -414,8 +398,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_slice_by_header(self):
-        """Test slice_by_header.
-        """
+        """Test slice_by_header."""
         mtx = get_random_matrix(3, 3, 3)
         # Get the header to use for slicing, we'll use layer 2
         slice_header = list(mtx.get_headers(axis=2))[1]
@@ -437,8 +420,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_T(self):
-        """Tests the T (transpose) property.
-        """
+        """Tests the T (transpose) property."""
         a, b = (4, 5)
         c = 6
 
@@ -453,8 +435,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_transpose(self):
-        """Tests the transpose function of Matrix.
-        """
+        """Tests the transpose function of Matrix."""
         a, b, c = (4, 5, 6)
 
         mtx = get_random_matrix(a, b)
@@ -484,8 +465,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_write_csv_no_slice(self):
-        """Test write_csv with no slicing.
-        """
+        """Test write_csv with no slicing."""
         mtx = get_random_matrix(10, 10)
 
         with io.StringIO() as out_str:
@@ -498,8 +478,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_write_csv_no_slice_list_row_headers(self):
-        """Test write_csv with no slicing and a list of row headers.
-        """
+        """Test write_csv with no slicing and a list of row headers."""
         mtx = get_random_matrix(10, 10)
         o_rh = mtx.get_row_headers()
         new_rh = []
@@ -517,8 +496,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_write_csv_no_slice_no_row_headers(self):
-        """Test write_csv no slicing and no row headers.
-        """
+        """Test write_csv no slicing and no row headers."""
         o_mtx = get_random_matrix(10, 10)
         mtx = Matrix(o_mtx)
 
@@ -532,8 +510,7 @@ class Test_Matrix(object):
 
     # .....................................
     def test_write_csv_slice(self):
-        """Test write_csv with slicing.
-        """
+        """Test write_csv with slicing."""
         mtx = get_random_matrix(10, 10, 2)
 
         with io.StringIO() as out_str:

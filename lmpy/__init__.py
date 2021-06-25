@@ -1,4 +1,4 @@
-"""Base init module"""
+"""Base init module."""
 # flake8: noqa
 from . import matrix
 from . import randomize

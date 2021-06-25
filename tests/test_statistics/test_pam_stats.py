@@ -1,7 +1,7 @@
 """This module tests the lmpy.statistics.pam_stats.py module.
 
 Note:
-    * These test functions are pytest style tests for the pam_stats.py module.
+    These test functions are pytest style tests for the pam_stats.py module.
 """
 from random import randint, random, shuffle
 
@@ -17,6 +17,15 @@ ROUND_POSITION = 7
 
 # .............................................................................
 def _make_ultrametric_helper(species, max_branch_length):
+    """Helper function for generating an ultrametric tree.
+
+    Args:
+        species (list): List of species to include.
+        max_branch_length (numeric): The maximum branch length for this branch.
+
+    Returns:
+        tuple: A tuple of a tree root node and the height.
+    """
     # If length of list == 1, bounce
     if species and len(species) == 1:
         node = species[0].replace(' ', '_')
@@ -25,25 +34,36 @@ def _make_ultrametric_helper(species, max_branch_length):
         # Split and recurse
         split_pos = randint(1, len(species) - 1)
         node_a, node_height_a = _make_ultrametric_helper(
-            species[:split_pos], max_branch_length)
+            species[:split_pos], max_branch_length
+        )
         node_b, node_height_b = _make_ultrametric_helper(
-            species[split_pos:], max_branch_length)
+            species[split_pos:], max_branch_length
+        )
         # Get the maximum node height and add this branch length
         node_height = round(
-            max(node_height_a, node_height_b) + (
-                max_branch_length * random()), ROUND_POSITION)
+            max(node_height_a, node_height_b) +
+            (max_branch_length * random()), ROUND_POSITION
+        )
         # Make sure node heights are equal for each branch by subtracting
         #    from node height
         node = '({}:{},{}:{})'.format(
-            node_a, node_height - node_height_a, node_b,
-            node_height - node_height_b)
+            node_a,
+            node_height - node_height_a,
+            node_b,
+            node_height - node_height_b
+        )
     # Return branch and height
     return (node, node_height)
 
 
 # .............................................................................
-def get_random_pam_and_tree(num_species, num_sites, fill_percentage,
-                            max_branch_length, num_mismatches=0):
+def get_random_pam_and_tree(
+    num_species,
+    num_sites,
+    fill_percentage,
+    max_branch_length,
+    num_mismatches=0
+):
     """Get a random PAM and matching tree.
 
     Args:
@@ -55,6 +75,9 @@ def get_random_pam_and_tree(num_species, num_sites, fill_percentage,
             the tree.
         num_mismatches (int): A number of mismatches to include between PAM and
             tree.
+
+    Returns:
+        tuple: Return a tuple of the PAM matrix and the tree generated.
     """
     site_headers = [
         'Site {}'.format(site_idx) for site_idx in range(num_sites)]
@@ -179,13 +202,14 @@ class Test_Metrics:
 
     # ............................
     def test_species_matrix_metrics(self):
-        """Test species metrics"""
+        """Test species metrics."""
         pam, tree = get_random_pam_and_tree(10, 20, .3, 1.0)
         metrics = [
             ('omega', stats.omega),
             ('omega_proportional', stats.omega_proportional),
             ('psi', stats.psi),
-            ('psi_average_proportional', stats.psi_average_proportional)]
+            ('psi_average_proportional', stats.psi_average_proportional)
+        ]
         for name, func in metrics:
             print(name)
             metric = func(pam)
@@ -197,6 +221,7 @@ class Test_PamStats:
     """Test the PamStats class."""
     # ............................
     def test_simple(self):
+        """Perform simple PAM stats computations."""
         pam, tree = get_random_pam_and_tree(10, 20, .3, 1.0)
         ps = stats.PamStats(pam, tree=tree)
         ps.calculate_covariance_statistics()
@@ -206,6 +231,7 @@ class Test_PamStats:
 
     # ............................
     def test_add_metric(self):
+        """Test adding metrics to the statistics computations."""
         pam, tree = get_random_pam_and_tree(10, 20, .3, 1.0)
         ps = stats.PamStats(pam, tree=tree)
         # Remove all metrics
@@ -240,11 +266,13 @@ class Test_PamStats:
             ('omega_proportional', stats.omega_proportional),
             ('psi', stats.psi),
             ('psi_average_proportional', stats.psi_average_proportional)
-            ]
+        ]
         ps.register_metric(
-            'schluter_site_variance', stats.schluter_site_variance_ratio)
+            'schluter_site_variance', stats.schluter_site_variance_ratio
+        )
         ps.register_metric(
-            'schluter_species_variance', stats.schluter_species_variance_ratio)
+            'schluter_species_variance', stats.schluter_species_variance_ratio
+        )
         for name, func in reg_metrics:
             ps.register_metric(name, func)
         ps.calculate_covariance_statistics()
@@ -257,7 +285,7 @@ class Test_PamStats:
 
     # ............................
     def test_medium_matrix(self):
-        """Test species metrics"""
+        """Test species metrics."""
         pam, tree = get_random_pam_and_tree(100, 200, .3, 1.0)
         ps = stats.PamStats(pam, tree=tree)
         ps.calculate_covariance_statistics()
@@ -267,7 +295,7 @@ class Test_PamStats:
 
     # ............................
     def test_medium_matrix_with_mismatches(self):
-        """Test species metrics"""
+        """Test species metrics."""
         pam, tree = get_random_pam_and_tree(
             100, 200, .3, 1.0, num_mismatches=10)
         ps = stats.PamStats(pam, tree=tree)
@@ -278,7 +306,7 @@ class Test_PamStats:
 
     # ............................
     def test_medium_matrix_with_mismatches_and_empty_row_cols(self):
-        """Test species metrics"""
+        """Test species metrics."""
         pam, tree = get_random_pam_and_tree(
             100, 200, .3, 1.0, num_mismatches=10)
         for i in np.random.randint(0, 100, (10,)):

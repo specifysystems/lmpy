@@ -1,5 +1,4 @@
-"""Tests the randomize Grady method module
-"""
+"""Tests the running statistics module."""
 import numpy as np
 import pytest
 
@@ -10,12 +9,10 @@ from lmpy.statistics.running_stats import (
 
 # .............................................................................
 class Test_RunningStats(object):
-    """Test the RunningStats class
-    """
+    """Test the RunningStats class."""
     # .....................................
     def test_single_values(self):
-        """Tests the RunningStats class using single values
-        """
+        """Tests the RunningStats class using single values."""
         vals1 = [1, 2, 3, 4, 5]
         vals2 = [6, 7, 7, 8, 9, 10]
         all_vals = []
@@ -36,8 +33,7 @@ class Test_RunningStats(object):
 
     # .....................................
     def test_single_values_with_p_values(self):
-        """Tests the RunningStats class using single values with p-values
-        """
+        """Tests the RunningStats class using single values with p-values."""
         f_val = 6
         vals1 = [1, 2, 3, 4, 5]
         vals2 = [6, -7, 7, -8, -9, 10]
@@ -62,8 +58,7 @@ class Test_RunningStats(object):
 
     # .....................................
     def test_single_values_with_p_values_signed(self):
-        """Tests the RunningStats class using single values with p-values
-        """
+        """Tests the RunningStats class using single values with p-values."""
         f_val = 6
         vals1 = [1, 2, 3, 4, 5]
         vals2 = [6, -7, 7, -8, 9, 10]
@@ -88,16 +83,15 @@ class Test_RunningStats(object):
 
     # .....................................
     def test_matrix_with_no_p_values(self):
-        """Tests the RunningStats class using Matrix objects without p-values
-        """
+        """Tests the RunningStats class using Matrix objects without p-values."""
         _ = Matrix(np.random.randint(0, 10, size=(10, 10)))
         vals = []
         rs = RunningStats()
         assert np.all(rs.variance == np.zeros((10, 10)))
-        for i in range(5):
+        for _ in range(5):
             vals.append(Matrix(np.random.randint(-10, 10, size=(10, 10))))
         rs.push(vals)
-        for i in range(5):
+        for _ in range(5):
             test_val = Matrix(np.random.randint(-10, 10, size=(10, 10)))
             rs.push(test_val)
             vals.append(test_val)
@@ -113,17 +107,16 @@ class Test_RunningStats(object):
 
     # .....................................
     def test_matrixs_with_p_values_absolute_values(self):
-        """Tests the RunningStats class using Matrix objects with p-values
-        """
+        """Tests the RunningStats class using Matrix objects with p-values."""
         obs = Matrix(np.random.randint(0, 10, size=(10, 10)))
         vals = []
         rs = RunningStats(
             observed=obs, compare_fn=compare_absolute_values)
         assert np.all(rs.variance == np.zeros((10, 10)))
-        for i in range(5):
+        for _ in range(5):
             vals.append(Matrix(np.random.randint(-10, 10, size=(10, 10))))
         rs.push(vals)
-        for i in range(5):
+        for _ in range(5):
             test_val = Matrix(np.random.randint(-10, 10, size=(10, 10)))
             rs.push(test_val)
             vals.append(test_val)
@@ -141,16 +134,15 @@ class Test_RunningStats(object):
 
     # .....................................
     def test_matrix_with_p_values_signed(self):
-        """Tests the RunningStats class using Matrix objects with p-values
-        """
+        """Tests the RunningStats class using Matrix objects with p-values."""
         obs = Matrix(np.random.randint(0, 10, size=(10, 10)))
         vals = []
         rs = RunningStats(observed=obs, compare_fn=compare_signed_values)
         assert np.all(rs.variance == np.zeros((10, 10)))
-        for i in range(5):
+        for _ in range(5):
             vals.append(Matrix(np.random.randint(-10, 10, size=(10, 10))))
         rs.push(vals)
-        for i in range(5):
+        for _ in range(5):
             test_val = Matrix(np.random.randint(-10, 10, size=(10, 10)))
             rs.push(test_val)
             vals.append(test_val)
@@ -168,15 +160,14 @@ class Test_RunningStats(object):
 
     # .....................................
     def test_numpy_arrays_with_no_p_values(self):
-        """Tests the RunningStats class using numpy arrays without p-values
-        """
+        """Tests the RunningStats class using numpy arrays without p-values."""
         vals = []
         rs = RunningStats()
         assert np.all(rs.variance == np.zeros((10, 10)))
-        for i in range(5):
+        for _ in range(5):
             vals.append(np.random.randint(-10, 10, size=(10, 10)))
         rs.push(vals)
-        for i in range(5):
+        for _ in range(5):
             test_val = np.random.randint(-10, 10, size=(10, 10))
             rs.push(test_val)
             vals.append(test_val)
@@ -190,17 +181,16 @@ class Test_RunningStats(object):
 
     # .....................................
     def test_numpy_arrays_with_p_values_absolute_values(self):
-        """Tests the RunningStats class using numpy arrays with p-values
-        """
+        """Tests the RunningStats class using numpy arrays with p-values."""
         obs = np.random.randint(0, 10, size=(10, 10))
         vals = []
         rs = RunningStats(
             observed=obs, compare_fn=compare_absolute_values)
         assert np.all(rs.variance == np.zeros((10, 10)))
-        for i in range(5):
+        for _ in range(5):
             vals.append(np.random.randint(-10, 10, size=(10, 10)))
         rs.push(vals)
-        for i in range(5):
+        for _ in range(5):
             test_val = np.random.randint(-10, 10, size=(10, 10))
             rs.push(test_val)
             vals.append(test_val)
@@ -216,16 +206,15 @@ class Test_RunningStats(object):
 
     # .....................................
     def test_numpy_arrays_with_p_values_signed(self):
-        """Tests the RunningStats class using numpy arrays with p-values
-        """
+        """Tests the RunningStats class using numpy arrays with p-values."""
         obs = np.random.randint(0, 10, size=(10, 10))
         vals = []
         rs = RunningStats(observed=obs, compare_fn=compare_signed_values)
         assert np.all(rs.variance == np.zeros((10, 10)))
-        for i in range(5):
+        for _ in range(5):
             vals.append(np.random.randint(-10, 10, size=(10, 10)))
         rs.push(vals)
-        for i in range(5):
+        for _ in range(5):
             test_val = np.random.randint(-10, 10, size=(10, 10))
             rs.push(test_val)
             vals.append(test_val)

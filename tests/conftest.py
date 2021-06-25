@@ -1,5 +1,4 @@
-"""Test configuration fixtures.
-"""
+"""Test configuration fixtures."""
 import glob
 import os
 
@@ -168,7 +167,7 @@ def data_files():
 
 # .............................................................................
 def pytest_generate_tests(metafunc):
-    """Pytest function for generating tests
+    """Pytest function for generating tests.
 
     Args:
         metafunc (:obj:`pytest.Metafunc`): Pytest metafunc object passed to

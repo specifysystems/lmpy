@@ -1,5 +1,4 @@
-"""Tests the randomize swap method module
-"""
+"""Tests the randomize swap method module."""
 import numpy as np
 
 from lmpy import Matrix
@@ -8,12 +7,17 @@ from copy import deepcopy
 
 
 # .............................................................................
-class Test_swap_randomize(object):
-    """Test the swap randomize method
-    """
+class Test_swap_randomize:
+    """Test the swap randomize method."""
     # .....................................
     def _test_pam_randomization(self, pam):
-        """Helper function to test randomization
+        """Helper function to test randomization.
+
+        Args:
+            pam (Matrix): A presence-absence matrix to use for randomization testing.
+
+        Raises:
+            Exception: Raised if the PAM is not randomized.
         """
         rand = swap_randomize(deepcopy(pam), 10000)
         # Randomize until not the same as original
@@ -30,8 +34,7 @@ class Test_swap_randomize(object):
 
     # .....................................
     def test_empty_column(self):
-        """Test with a known matrix that has an empty column
-        """
+        """Test with a known matrix that has an empty column."""
         pam = Matrix(
             np.array([
                 [0, 1, 0, 1, 0],
@@ -42,8 +45,7 @@ class Test_swap_randomize(object):
 
     # .....................................
     def test_empty_row(self):
-        """Test with a known matrix that has an empty row
-        """
+        """Test with a known matrix that has an empty row."""
         pam = Matrix(
             np.array([
                 [0, 1, 0, 1, 0],
@@ -54,8 +56,7 @@ class Test_swap_randomize(object):
 
     # .....................................
     def test_full_column(self):
-        """Test with a known matrix that has a full column
-        """
+        """Test with a known matrix that has a full column."""
         pam = Matrix(
             np.array([
                 [0, 1, 1, 1, 0],
@@ -66,8 +67,7 @@ class Test_swap_randomize(object):
 
     # .....................................
     def test_full_row(self):
-        """Test with a known matrix that has a full row
-        """
+        """Test with a known matrix that has a full row."""
         pam = Matrix(
             np.array([
                 [0, 1, 0, 1, 0],
@@ -78,8 +78,7 @@ class Test_swap_randomize(object):
 
     # .....................................
     def test_known_matrix(self):
-        """Test with a known matrix
-        """
+        """Test with a known matrix."""
         pam = Matrix(
             np.array([
                 [0, 1, 0, 1, 0],
@@ -90,26 +89,29 @@ class Test_swap_randomize(object):
 
     # .....................................
     def test_random_large_matrix(self):
-        """Test with a randomly generated large matrix
-        """
+        """Test with a randomly generated large matrix."""
         pam = Matrix(np.random.randint(0, 2, size=(1000, 10000)))
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_random_matrix(self):
-        """Test with a randomly generated matrix
-        """
+        """Test with a randomly generated matrix."""
         pam = Matrix(np.random.randint(0, 2, size=(10, 10)))
         self._test_pam_randomization(pam)
 
 
 # .............................................................................
-class Test_trial_swap_randomize(object):
-    """Test the trial swap randomize method
-    """
+class Test_trial_swap_randomize:
+    """Test the trial swap randomize method."""
     # .....................................
     def _test_pam_randomization(self, pam):
-        """Helper function to test randomization
+        """Helper function to test randomization.
+
+        Args:
+            pam (Matrix): A presence-absence matrix to use for randomization testing.
+
+        Raises:
+            Exception: Raised if the PAM is not randomized.
         """
         rand = trial_swap(deepcopy(pam))
         # Randomize until not the same as original
@@ -126,8 +128,7 @@ class Test_trial_swap_randomize(object):
 
     # .....................................
     def test_empty_column(self):
-        """Test with a known matrix that has an empty column
-        """
+        """Test with a known matrix that has an empty column."""
         pam = Matrix(
             np.array([
                 [0, 1, 0, 1, 0],
@@ -138,8 +139,7 @@ class Test_trial_swap_randomize(object):
 
     # .....................................
     def test_empty_row(self):
-        """Test with a known matrix that has an empty row
-        """
+        """Test with a known matrix that has an empty row."""
         pam = Matrix(
             np.array([
                 [0, 1, 0, 1, 0],
@@ -150,8 +150,7 @@ class Test_trial_swap_randomize(object):
 
     # .....................................
     def test_full_column(self):
-        """Test with a known matrix that has a full column
-        """
+        """Test with a known matrix that has a full column."""
         pam = Matrix(
             np.array([
                 [0, 1, 1, 1, 0],
@@ -162,8 +161,7 @@ class Test_trial_swap_randomize(object):
 
     # .....................................
     def test_full_row(self):
-        """Test with a known matrix that has a full row
-        """
+        """Test with a known matrix that has a full row."""
         pam = Matrix(
             np.array([
                 [0, 1, 0, 1, 0],
@@ -174,8 +172,7 @@ class Test_trial_swap_randomize(object):
 
     # .....................................
     def test_known_matrix(self):
-        """Test with a known matrix
-        """
+        """Test with a known matrix."""
         pam = Matrix(
             np.array([
                 [0, 1, 0, 1, 0],
@@ -186,14 +183,12 @@ class Test_trial_swap_randomize(object):
 
     # .....................................
     def test_random_large_matrix(self):
-        """Test with a randomly generated large matrix
-        """
+        """Test with a randomly generated large matrix."""
         pam = Matrix(np.random.randint(0, 2, size=(1000, 10000)))
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_random_matrix(self):
-        """Test with a randomly generated matrix
-        """
+        """Test with a randomly generated matrix."""
         pam = Matrix(np.random.randint(0, 2, size=(10, 10)))
         self._test_pam_randomization(pam)

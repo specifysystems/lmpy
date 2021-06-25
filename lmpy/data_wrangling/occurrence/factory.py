@@ -12,7 +12,7 @@ from lmpy.spatial import SpatialIndex
 
 # .............................................................................
 class WRANGLER_TYPES:
-    """Constants class for occurrence data wrangler types"""
+    """Constants class for occurrence data wrangler types."""
     # Filters
     ATTRIBUTE_FILTER = 'attribute_filter'
     BBOX_FILTER = 'bbox_filter'
@@ -34,11 +34,10 @@ def wrangler_factory(wrangler_config):
     """Get an occurrence data wrangler from the wrangler configuration.
 
     Args:
-        wrangler_config (dict): A dictionary of wrangler configuration
-            parameters.
+        wrangler_config (dict): A dictionary of wrangler configuration parameters.
 
-    Return:
-        An occurrence data wrangler.
+    Returns:
+        Method: An occurrence data wrangler.
     """
     wrangler_type = wrangler_config['wrangler_type'].lower()
     occurrence_wrangler = None

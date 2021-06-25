@@ -1,5 +1,4 @@
-"""Tests the occurrence data filters
-"""
+"""Tests the occurrence data filters."""
 import json
 
 import numpy as np
@@ -12,14 +11,27 @@ class Test_LayerEncoder:
     """Test LayerEncoder."""
     # ................................
     def test_base_constructor(self, shapegrid_filename):
-        """Test construction."""
+        """Test construction.
+
+        Args:
+            shapegrid_filename (str): File path to shapegrid.
+        """
         encoder = LayerEncoder(shapegrid_filename)
         assert encoder.get_encoded_matrix() is None
 
     # ................................
-    def test_encode_biogeographic_hypothesis(self, shapegrid_filename,
-                                             bio_geo_filenames):
-        """Test encode biogeographic hypothesis."""
+    def test_encode_biogeographic_hypothesis(
+        self,
+        shapegrid_filename,
+        bio_geo_filenames
+    ):
+        """Test encode biogeographic hypothesis.
+
+        Args:
+            shapegrid_filename (str): File path to shapegrid.
+            bio_geo_filenames (list of str): List of file paths to biogeographic
+                hypothesis layer files.
+        """
         encoder = LayerEncoder(shapegrid_filename)
         for i, filename in enumerate(bio_geo_filenames):
             if filename.find('_event_') > 0:
@@ -27,8 +39,8 @@ class Test_LayerEncoder:
             else:
                 event_field = None
             encoder.encode_biogeographic_hypothesis(
-                filename, 'Hypothesis {}'.format(i), 10,
-                event_field=event_field)
+                filename, 'Hypothesis {}'.format(i), 10, event_field=event_field
+            )
         enc_mtx = encoder.get_encoded_matrix()
         col_headers = enc_mtx.get_column_headers()
         for i in range(len(bio_geo_filenames)):
@@ -41,27 +53,34 @@ class Test_LayerEncoder:
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
-    def test_encode_presence_absence(self, shapegrid_filename,
-                                     raster_pa_filenames, vector_pa_filenames):
-        """Test encode presence absence."""
+    def test_encode_presence_absence(
+        self,
+        shapegrid_filename,
+        raster_pa_filenames,
+        vector_pa_filenames
+    ):
+        """Test encode presence absence.
+
+        Args:
+            shapegrid_filename (str): File path to shapegrid.
+            raster_pa_filenames (list of str): List of file paths to raster files.
+            vector_pa_filenames (list of str): List of file paths to vector files.
+        """
         encoder = LayerEncoder(shapegrid_filename)
 
         for i, filename in enumerate(raster_pa_filenames):
-            encoder.encode_presence_absence(
-                filename, 'Raster {}'.format(i), 1, 99, 25)
+            encoder.encode_presence_absence(filename, 'Raster {}'.format(i), 1, 99, 25)
         for i, filename in enumerate(vector_pa_filenames):
             encoder.encode_presence_absence(
-                filename, 'Vector {}'.format(i), 1, 99, 25,
-                attribute_name='value')
+                filename, 'Vector {}'.format(i), 1, 99, 25, attribute_name='value'
+            )
         enc_mtx = encoder.get_encoded_matrix()
         col_headers = enc_mtx.get_column_headers()
         for i in range(len(raster_pa_filenames)):
             assert col_headers[i] == 'Raster {}'.format(i)
         for i in range(len(vector_pa_filenames)):
-            assert col_headers[
-                i + len(raster_pa_filenames)] == 'Vector {}'.format(i)
-        assert enc_mtx.shape[1] == len(
-            raster_pa_filenames) + len(vector_pa_filenames)
+            assert col_headers[i + len(raster_pa_filenames)] == 'Vector {}'.format(i)
+        assert enc_mtx.shape[1] == len(raster_pa_filenames) + len(vector_pa_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
         tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert tmp.min() >= 0
@@ -69,25 +88,33 @@ class Test_LayerEncoder:
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
-    def test_encode_mean_value(self, shapegrid_filename, raster_env_filenames,
-                               vector_env_filenames):
-        """Test encode mean value."""
+    def test_encode_mean_value(
+        self,
+        shapegrid_filename,
+        raster_env_filenames,
+        vector_env_filenames
+    ):
+        """Test encode mean value.
+
+        Args:
+            shapegrid_filename (str): File path to shapegrid.
+            raster_env_filenames (list of str): List of file paths to raster files.
+            vector_env_filenames (list of str): List of file paths to vector files.
+        """
         encoder = LayerEncoder(shapegrid_filename)
 
         for i, filename in enumerate(raster_env_filenames):
-            encoder.encode_mean_value(
-                filename, 'Raster {}'.format(i))
+            encoder.encode_mean_value(filename, 'Raster {}'.format(i))
         for i, filename in enumerate(vector_env_filenames):
             encoder.encode_mean_value(
-                filename, 'Vector {}'.format(i),
-                attribute_name='value')
+                filename, 'Vector {}'.format(i), attribute_name='value'
+            )
         enc_mtx = encoder.get_encoded_matrix()
         col_headers = enc_mtx.get_column_headers()
         for i in range(len(raster_env_filenames)):
             assert col_headers[i] == 'Raster {}'.format(i)
         for i in range(len(vector_env_filenames)):
-            assert col_headers[
-                i + len(raster_env_filenames)] == 'Vector {}'.format(i)
+            assert col_headers[i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(
             raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
@@ -95,25 +122,33 @@ class Test_LayerEncoder:
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
-    def test_encode_largest_class(self, shapegrid_filename,
-                                  raster_env_filenames, vector_env_filenames):
-        """Test encode largest class."""
+    def test_encode_largest_class(
+        self,
+        shapegrid_filename,
+        raster_env_filenames,
+        vector_env_filenames
+    ):
+        """Test encode largest class.
+
+        Args:
+            shapegrid_filename (str): File path to shapegrid.
+            raster_env_filenames (list of str): List of file paths to raster files.
+            vector_env_filenames (list of str): List of file paths to vector files.
+        """
         encoder = LayerEncoder(shapegrid_filename)
 
         for i, filename in enumerate(raster_env_filenames):
-            encoder.encode_largest_class(
-                filename, 'Raster {}'.format(i), 10)
+            encoder.encode_largest_class(filename, 'Raster {}'.format(i), 10)
         for i, filename in enumerate(vector_env_filenames):
             encoder.encode_largest_class(
-                filename, 'Vector {}'.format(i), 10,
-                attribute_name='value')
+                filename, 'Vector {}'.format(i), 10, attribute_name='value'
+            )
         enc_mtx = encoder.get_encoded_matrix()
         col_headers = enc_mtx.get_column_headers()
         for i in range(len(raster_env_filenames)):
             assert col_headers[i] == 'Raster {}'.format(i)
         for i in range(len(vector_env_filenames)):
-            assert col_headers[
-                i + len(raster_env_filenames)] == 'Vector {}'.format(i)
+            assert col_headers[i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(
             raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA

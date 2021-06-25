@@ -1,3 +1,4 @@
+"""Statistics module."""
 from . import pam_stats
 from . import running_stats
 

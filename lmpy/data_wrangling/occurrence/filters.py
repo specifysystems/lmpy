@@ -1,7 +1,6 @@
 """Module containing occurrence data wranglers for filtering points."""
 from osgeo import ogr
-from lmpy.data_wrangling.occurrence.common import (
-    get_occurrence_filter, make_list)
+from lmpy.data_wrangling.occurrence.common import get_occurrence_filter, make_list
 from lmpy.spatial import SpatialIndex
 
 
@@ -11,16 +10,23 @@ def get_attribute_filter(att_name, pass_condition):
 
     Args:
         att_name (str): The attribute of a point to check.
-        pass_condition (func): A function that takes a value and returns a
-            boolean indicating if it passes a condition.
+        pass_condition (Method): A function that takes a value and returns a boolean
+            indicating if it passes a condition.
 
     Returns:
-        function - A function that takes a list of points as input and returns
-            a list of points that pass that filter function.
+        Method: A function that takes a list of points as input and returns a list of
+            points that pass that filter function.
     """
     # .......................
     def point_filter_func(point):
-        """Get the specified attribute from the point and check it."""
+        """Get the specified attribute from the point and check it.
+
+        Args:
+            point (Point): A point object to evaluate.
+
+        Returns:
+            bool: Indicator if the point passes filtering.
+        """
         return pass_condition(point.get_attribute(att_name))
 
     return get_occurrence_filter(point_filter_func)
@@ -31,20 +37,25 @@ def get_bounding_box_filter(min_x, min_y, max_x, max_y):
     """Get a filter function for the specified bounding box.
 
     Args:
-        x_index (str or int): The index of the 'x' value for each point.
-        y_index (str or int): The index of the 'y' value for each point.
         min_x (numeric): The minimum 'x' value for the bounding box.
         min_y (numeric): The minimum 'y' value for the bounding box.
         max_x (numeric): The maximum 'x' value for the bounding box.
         max_y (numeric): The maximum 'y' value for the bounding box.
 
     Returns:
-        function - A function that takes a list of points as input and returns
-            a list of points that pass that filter function.
+        Method: A function that takes a list of points as input and returns a list of
+            points that pass that filter function.
     """
     # .......................
     def bbox_filter_func(point):
-        """Filter for single point."""
+        """Filter for single point.
+
+        Args:
+            point (Point): A point object to evaluate.
+
+        Returns:
+            bool: Indicator if the point passes filtering.
+        """
         return min_x <= point.x <= max_x and min_y <= point.y <= max_y
 
     return get_occurrence_filter(bbox_filter_func)
@@ -57,13 +68,21 @@ def get_decimal_precision_filter(decimal_places):
     Args:
         decimal_places (int): Only keep points with at least this many decimal
             places of precision.
+
     Returns:
-        function - A function that takes a list of points as input and returns
-            a list of points that pass that filter function.
+        Method: A function that takes a list of points as input and returns a list of
+            points that pass that filter function.
     """
     # .......................
     def decimal_precision_filter_func(point):
-        """Filter for single point."""
+        """Filter for single point.
+
+        Args:
+            point (Point): A point object to evaluate.
+
+        Returns:
+            bool: Indicator if the point passes filtering.
+        """
         lat_str = str(point.y)
         lon_str = str(point.x)
         try:
@@ -86,8 +105,8 @@ def get_disjoint_geometries_filter(geometry_wkts):
             to check for intersection.
 
     Returns:
-        function - A function that takes a list of points as input and returns
-            a list of points that pass that filter function.
+        Method: A function that takes a list of points as input and returns a list of
+            points that pass that filter function.
     """
     geometries = []
     for wkt in geometry_wkts:
@@ -95,7 +114,14 @@ def get_disjoint_geometries_filter(geometry_wkts):
 
     # .......................
     def disjoint_geometry_filter(point):
-        """Disjoint geometry filter function."""
+        """Disjoint geometry filter function.
+
+        Args:
+            point (Point): A point object to evaluate.
+
+        Returns:
+            bool: Indicator if the point passes filtering.
+        """
         point_geometry = ogr.Geometry(ogr.wkbPoint)
         point_geometry.AddPoint(point.x, point.y)
         return all(
@@ -113,8 +139,8 @@ def get_intersect_geometries_filter(geometry_wkts):
             to check for intersection.
 
     Returns:
-        function - A function that takes a list of points as input and returns
-            a list of points that pass that filter function.
+        Method: A function that takes a list of points as input and returns a list of
+            points that pass that filter function.
     """
     geometries = []
     for wkt in geometry_wkts:
@@ -122,7 +148,14 @@ def get_intersect_geometries_filter(geometry_wkts):
 
     # .......................
     def intersect_geometry_filter(point):
-        """Intersect geometry filter function."""
+        """Intersect geometry filter function.
+
+        Args:
+            point (Point): A point object to evaluate.
+
+        Returns:
+            bool: Indicator if the point passes filtering.
+        """
         point_geometry = ogr.Geometry(ogr.wkbPoint)
         point_geometry.AddPoint(point.x, point.y)
         return any(
@@ -140,11 +173,19 @@ def get_minimum_points_filter(minimum_count):
         minimum_count (int): The minimum number of points in order to keep.
 
     Returns:
-        function - A function that takes a list of points as input and returns
-            a list of points that pass that filter function.
+        Method: A function that takes a list of points as input and returns a list of
+            points that pass that filter function.
     """
     # .......................
     def min_points_filter(points):
+        """Check that there are at least a minimum number of points.
+
+        Args:
+            points (list of Point): A list of points.
+
+        Returns:
+            list: All or nothing list of points sent to the function.
+        """
         if len(make_list(points)) >= minimum_count:
             return points
         return []
@@ -153,8 +194,11 @@ def get_minimum_points_filter(minimum_count):
 
 
 # .............................................................................
-def get_spatial_index_filter(spatial_index, get_species_intersections_func,
-                             check_hit_func):
+def get_spatial_index_filter(
+    spatial_index,
+    get_species_intersections_func,
+    check_hit_func
+):
     """Get a filter that uses a spatial index and logic to intersect hits.
 
     Args:
@@ -164,6 +208,10 @@ def get_spatial_index_filter(spatial_index, get_species_intersections_func,
             intersections for a species point.
         check_hit_func (method): A method for checking a hit against the valid
             hits for a species point.
+
+    Returns:
+        Method: A function that takes a list of points as input and returns a list of
+            points that pass that filter function.
     """
     # Load spatial index
     if not isinstance(spatial_index, SpatialIndex):
@@ -173,7 +221,14 @@ def get_spatial_index_filter(spatial_index, get_species_intersections_func,
 
     # .......................
     def spatial_index_point_filter(point):
-        """Check a point against the spatial index."""
+        """Check a point against the spatial index.
+
+        Args:
+            point (Point): A point object to evaluate.
+
+        Returns:
+            bool: Indicator if the point passes filtering.
+        """
         if point.species_name in valid_intersections:
             check_intersections = valid_intersections[point.species_name]
         else:
@@ -198,14 +253,21 @@ def get_unique_localities_filter():
         Retains the first point with an unseen locality, drops the rest.
 
     Returns:
-        function - A function that takes a list of points as input and returns
-            a list of points that pass that filter function.
+        Method: A function that takes a list of points as input and returns a list of
+            points that pass that filter function.
     """
     unique_localities = []
 
     # .......................
     def unique_localities_filter(point):
-        """Unique localities filter function."""
+        """Unique localities filter function.
+
+        Args:
+            point (Point): A point object to evaluate.
+
+        Returns:
+            bool: Indicator if the point passes filtering.
+        """
         test_val = (point.x, point.y)
         if test_val in unique_localities:
             return False

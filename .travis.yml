@@ -23,7 +23,7 @@ jobs:
   include:
   - name: "Mac OSX test"
     os: osx
-    # osx_image: 
+    # osx_image:
     language: shell
     before_install:
       - brew update
@@ -75,4 +75,3 @@ jobs:
       on:
         tags: true
         repo: lifemapper/lmpy
-

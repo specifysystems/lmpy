@@ -1,8 +1,4 @@
-"""This module tests the analyses/lm_objects/tree.py module.
-
-Note:
-    * The functions in this module are pytest style tests for tree.py.
-"""
+"""This module tests the analyses/lm_objects/tree.py module."""
 import random
 
 import dendropy
@@ -12,36 +8,34 @@ from lmpy import tree
 
 
 # .............................................................................
-class Test_PhyloTreeKeys(object):
+class Test_PhyloTreeKeys:
     """Test the PhyloTreeKeys class.
 
     This is a simple class that really just contains constants.
     """
     # .....................................
     def test_get_constants(self):
-        """Test that the constants can be retrieved.
-        """
+        """Test that the constants can be retrieved."""
         assert tree.PhyloTreeKeys.MTX_IDX is not None
         assert tree.PhyloTreeKeys.SQUID is not None
 
 
 # .............................................................................
-class Test_LmTreeException(object):
-    """Test the LmException class.
-    """
+class Test_LmTreeException:
+    """Test the LmException class."""
     # .....................................
     def test_exception(self):
         """Attempt to throw the exception.
 
         Raises:
-            tree.LmTreeException: If the test is successful.
+            LmTreeException: If the test is successful.
         """
         with pytest.raises(tree.LmTreeException):
             raise tree.LmTreeException('Test exception')
 
 
 # .............................................................................
-class Test_TreeWrapper(object):
+class Test_TreeWrapper:
     """Test the TreeWrapper class.
 
     The TreeWrapper class is an extension of dendropy.Tree.  Test that the
@@ -120,8 +114,7 @@ class Test_TreeWrapper(object):
 
     # .....................................
     def test_from_filename_invalid_file(self):
-        """Attempt to get a tree using an invalid file.
-        """
+        """Attempt to get a tree using an invalid file."""
         with pytest.raises(IOError):
             tree.TreeWrapper.from_filename('invalid_filename.bad')
 
@@ -265,8 +258,7 @@ class Test_TreeWrapper(object):
 
     # .....................................
     def test_annotate_tree_nodes(self):
-        """Test annotating internal nodes of a tree.
-        """
+        """Test annotating internal nodes of a tree."""
         my_tree = tree.TreeWrapper.get(data='(A,((B,C),D));', schema='newick')
         i = 0
         for node in my_tree.nodes():
@@ -392,8 +384,7 @@ END;
 
     # .....................................
     def test_annotate_tree_annotate_twice_with_update(self):
-        """Test annotating a tree twice using the same attribute.
-        """
+        """Test annotating a tree twice using the same attribute."""
         my_tree = tree.TreeWrapper.get(data='(A,(B,C));', schema='newick')
         att_pairs_1 = {
             'A': 'val1',
@@ -434,8 +425,7 @@ END;
 
     # .....................................
     def test_annotate_tree_dictionaries(self):
-        """Test annotating a tree with dictionaries.
-        """
+        """Test annotating a tree with dictionaries."""
         my_tree = tree.TreeWrapper.get(data='(A,(B,C));', schema='newick')
         att_pairs_1 = {
             'A': {
@@ -522,8 +512,7 @@ END;
 
     # .....................................
     def test_annotate_tree_tips_with_label_no_update(self):
-        """Test annotate_tree_tips without updating existing values.
-        """
+        """Test annotate_tree_tips without updating existing values."""
         # Set up tree
         nexus_string = """\
 #NEXUS
@@ -571,8 +560,7 @@ END;
 
     # .....................................
     def test_annotate_tree_tips_with_label_yes_update(self):
-        """Test annotate_tree_tips when updating existing values.
-        """
+        """Test annotate_tree_tips when updating existing values."""
         # Set up tree
         nexus_string = """\
 #NEXUS
@@ -655,7 +643,7 @@ END;
         # Get annotations
         annotations = my_tree.get_annotations('badattribute')
 
-        for val, att in annotations:
+        for _, att in annotations:
             assert att is None
 
     # .....................................
@@ -688,7 +676,7 @@ END;
 
         # Get annotations
         annotations = my_tree.get_annotations('myatt')
-        for val, att in annotations:
+        for _, att in annotations:
             assert att is not None
 
     # .....................................
@@ -1103,8 +1091,7 @@ END;
 
     # .....................................
     def test_get_labels(self):
-        """Test the get_labels functions.
-        """
+        """Test the get_labels functions."""
         # Set up tree
         nexus_string = """\
 #NEXUS
@@ -1133,8 +1120,7 @@ END;
 
     # .....................................
     def test_get_variance_covariance_matrix_with_attribute(self):
-        """Test get_variance_covariance_matrix using attribute labels.
-        """
+        """Test get_variance_covariance_matrix using attribute labels."""
         # Set up tree
         nexus_string = """\
 #NEXUS
@@ -1193,8 +1179,7 @@ END;
 
     # .....................................
     def test_get_variance_covariance_matrix_with_label(self):
-        """Test get_variance_covariance_matrix using taxon labels.
-        """
+        """Test get_variance_covariance_matrix using taxon labels."""
         # Set up tree
         nexus_string = """\
 #NEXUS
@@ -1255,8 +1240,7 @@ END;
 
     # .....................................
     def test_get_variance_covariance_matrix_no_branch_lengths(self):
-        """Test get_variance_covariance_matrix with no branch lengths.
-        """
+        """Test get_variance_covariance_matrix with no branch lengths."""
         newick_string = '((Taxon_1,Taxon_4),(Taxon_2, Taxon_3));'
         my_tree = tree.TreeWrapper.get(data=newick_string, schema='newick')
 
@@ -1266,8 +1250,7 @@ END;
 
     # .....................................
     def test_has_branch_lengths(self):
-        """Test the has_branch_lengths function.
-        """
+        """Test the has_branch_lengths function."""
         bl_newick = '((Taxon_1:0.1,Taxon_4:0.1):0.2,Taxon_3:0.3);'
         no_bl_newick = '((Taxon_1, Taxon_4),(Taxon_2, Taxon_3));'
 
@@ -1280,8 +1263,7 @@ END;
 
     # .....................................
     def test_has_polytomies(self):
-        """Test the has_polytomies function.
-        """
+        """Test the has_polytomies function."""
         poly_newick = '((A,B,C),D);'
         no_poly_newick = '((A,B),(C,D));'
 
@@ -1295,8 +1277,7 @@ END;
 
     # .....................................
     def test_is_binary(self):
-        """Test the is_binary function.
-        """
+        """Test the is_binary function."""
         no_bin_newick = '((A,B,C),D);'
         bin_newick = '((A,B),(C,D));'
 
@@ -1309,8 +1290,7 @@ END;
 
     # .....................................
     def test_is_ultrametric(self):
-        """Test the is_ultrametric function.
-        """
+        """Test the is_ultrametric function."""
         no_bl_newick = '((A,B),(C,D));'
         no_ultra_newick = '((A:0.1,B:0.2):0.1,(C:0.1,D:0.3):0.4);'
         ultra_newick = '((A:0.1,B:0.1):0.2,(C:0.2,D:0.2):0.1);'
@@ -1327,8 +1307,7 @@ END;
 
     # .....................................
     def test_prune_tips_without_attribute(self):
-        """Tests the prune_tips_without_attribute method.
-        """
+        """Tests the prune_tips_without_attribute method."""
         # Set up tree
         nexus_string = """\
 #NEXUS

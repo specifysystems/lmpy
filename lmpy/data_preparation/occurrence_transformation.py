@@ -17,11 +17,20 @@ while True:
 
 # .............................................................................
 def get_chunk_key(value, group_position, group_size, filler_char='a'):
-    """Get the chunk key from the value."""
+    """Get the chunk key from the value.
+
+    Args:
+        value (str): The value to pull the chunk key from.
+        group_position (int): The position of the group chunk.
+        group_size (int): The number of characters that comprises the group.
+        filler_char (str): What to use for filler characters in case the group chunk is
+            less than the desired number of characters.
+
+    Returns:
+        str: The group chunk key from the value.
+    """
     value += 10 * filler_char
-    chunk = value[
-        group_size * group_position:group_size * (group_position + 1)].lower()
-    return chunk
+    return value[group_size * group_position:group_size * (group_position + 1)].lower()
 
 
 # .............................................................................
@@ -54,8 +63,14 @@ def sort_points(readers, writer, wranglers=None):
 
 
 # .............................................................................
-def split_points(readers, writers, group_attribute, group_size, group_position,
-                 wranglers=None):
+def split_points(
+    readers,
+    writers,
+    group_attribute,
+    group_size,
+    group_position,
+    wranglers=None
+):
     """Split points in the readers into smaller chunks for easier processing.
 
     Args:

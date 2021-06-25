@@ -1,5 +1,4 @@
-"""Module containing Gotelli swap method for randomizing a PAM
-"""
+"""Module containing Gotelli swap method for randomizing a PAM."""
 from random import randrange
 
 from lmpy.matrix import Matrix
@@ -9,16 +8,21 @@ MAX_TRIES_WITHOUT_SWAP = 1000000
 
 # .............................................................................
 def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
-    """Randomize a PAM matrix using the Gotelli swap method
+    """Randomize a PAM matrix using the Gotelli swap method.
 
     Args:
-        matrix (:obj: Matrix): A Lifemapper matrix object with binary elements
-        num_swaps (:obj: int): The number of swaps to perform
-        max_tries (:obj: int): The maximum number of attempts to swap before
-            failing
+        matrix (Matrix): A Lifemapper matrix object with binary elements
+        num_swaps (int): The number of swaps to perform
+        max_tries (int): The maximum number of attempts to swap before failing.
+
+    Returns:
+        Matrix: A randomized matrix.
+
+    Raises:
+        Exception: Raised when the maximum number of tries is reached without swapping.
 
     Todo:
-        Allow num_swaps to be specified as a percentage of the matrix fill
+        Allow num_swaps to be specified as a percentage of the matrix fill.
     """
     mtx_headers = matrix.get_headers()
     swapped_mtx = matrix.copy().astype(int)
@@ -49,18 +53,22 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
                 num_tries = 0
     if num_tries >= max_tries:  # pragma: nocover
         raise Exception(
-            'Reached maximum number of tries without finding suitable swap')
+            'Reached maximum number of tries without finding suitable swap'
+        )
 
     return Matrix(swapped_mtx, headers=mtx_headers)
 
 
 # .............................................................................
 def trial_swap(matrix, num_trials=None):
-    """Randomize a PAM matrix using the trial swap method
+    """Randomize a PAM matrix using the trial swap method.
 
     Args:
-        matrix (:obj: Matrix): A Lifemapper matrix object with binary elements
-        num_swaps (:obj: int): The number of swaps to perform
+        matrix (Matrix): A Lifemapper matrix object with binary elements.
+        num_trials (int): The number of trials to perform.
+
+    Returns:
+        Matrix: A randomized matrix.
 
     Todo:
         Allow num_swaps to be specified as a percentage of the matrix fill

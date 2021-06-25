@@ -1,4 +1,4 @@
-"""This module contains a class for encoding spatial layers into a Matrix
+"""This module contains a class for encoding spatial layers into a Matrix.
 
 The 'LayerEncoder' class uses a shapegrid to generate a base matrix structure
 and then each layer is encoded as a new column (or columns) for the resulting
@@ -35,18 +35,20 @@ DEFAULT_NODATA = -9999
 
 
 # .............................................................................
-def _get_presence_absence_method(min_presence, max_presence, min_coverage,
-                                 nodata):
-    """Gets the function for determining presence for a data window
+def _get_presence_absence_method(min_presence, max_presence, min_coverage, nodata):
+    """Gets the function for determining presence for a data window.
 
     Args:
-        min_presence: Data cells must have a value greater than or equal to
-            this to be considered present
-        max_presence: Data cells must have a value less than or equal to this
-            to be considered present
-        min_coverage: At least the percentage of the window must be classified
-            as present to consider the window present
-        nodata: This values should be considered nodata
+        min_presence (numeric): Data cells must have a value greater than or equal to
+            this to be considered present.
+        max_presence (numeric): Data cells must have a value less than or equal to this
+            to be considered present.
+        min_coverage (numeric): At least the percentage of the window must be
+            classified as present to consider the window present.
+        nodata (numeric): This values should be considered nodata.
+
+    Returns:
+        Method: A function for getting presence absence of a window.
     """
     if min_coverage > 1.0:
         min_coverage = min_coverage / 100.0
@@ -64,12 +66,14 @@ def _get_presence_absence_method(min_presence, max_presence, min_coverage,
 
 # .............................................................................
 def _get_mean_value_method(nodata):
-    """Gets the function to use for determining the mean value of a data window
+    """Gets the function to use for determining the mean value of a data window.
 
     Args:
-        nodata: This value is assumed to be nodata in the array
-    """
+        nodata (numeric): This value is assumed to be nodata in the array.
 
+    Returns:
+        Method: A function for getting the mean value of a window.
+    """
     # ...............................
     def get_mean(window):
         window_mean = np.nanmean(window)
@@ -83,19 +87,28 @@ def _get_mean_value_method(nodata):
 
 # .............................................................................
 def _get_largest_class_method(min_coverage, nodata):
-    """Gets the function to use for determining the largest class
+    """Gets the function to use for determining the largest class.
 
     Args:
-        min_coverage: The minimum percentage of the data window that must be
+        min_coverage (numeric): The minimum percentage of the data window that must be
             covered by the largest class.
-        nodata: This value is assumed to be nodata in the array
+        nodata (numeric): This value is assumed to be nodata in the array
+
+    Returns:
+        Method: A function for getting the largest class in a window.
     """
     if min_coverage > 1.0:
         min_coverage = min_coverage / 100.0
 
     # ...............................
     def get_largest_class(window):
-        """Get largest class for numpy > 1.8
+        """Get largest class for numpy > 1.8.
+
+        Args:
+            window (Matrix): A window of layer data.
+
+        Returns:
+            ndarray: An array of encoded values.
         """
         min_num = min_coverage * window.size
         largest_count = 0
@@ -112,14 +125,17 @@ def _get_largest_class_method(min_coverage, nodata):
 
 # .............................................................................
 def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
-    """Gets the function to determine the hypothesis value for each data window
+    """Gets the function to determine the hypothesis value for each data window.
 
     Args:
-        hypothesis_values: A list of possible hypothesis values to look for.
+        hypothesis_values (list): A list of possible hypothesis values to look for.
             Each item in the list will be treated as its own column.
-        min_coverage: The minimum percentage of each data window that must be
+        min_coverage (numeric): The minimum percentage of each data window that must be
             covered by the returned hypothesis value.
-        nodata: This value is assumed to be nodata
+        nodata (numeric): This value is assumed to be nodata
+
+    Returns:
+        Method: A function to encode the values in a window.
     """
     # Build the map
     val_map = {}
@@ -151,7 +167,13 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
 
     # ...............................
     def encode_method(window):
-        """Encode method for numpy > 1.8
+        """Encode method for numpy > 1.8.
+
+        Args:
+            window (Matrix): A window of layer data.
+
+        Returns:
+            ndarray: An array of encoded values.
         """
         min_vals = int(min_coverage * window.size)
         # Set default min count to min_vals
@@ -175,14 +197,19 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
 
 # .............................................................................
 class LayerEncoder:
-    """The LayerEncoder class encodes layers into matrix columns
+    """The LayerEncoder class encodes layers into matrix columns.
 
     Attributes:
-        encoded_matrix: A Matrix object with encoded layers
+        encoded_matrix: A Matrix object with encoded layers.
     """
 
     # ...............................
     def __init__(self, shapegrid_filename):
+        """Constructor for the layer encoder.
+
+        Args:
+            shapegrid_filename (str): A file path for the shapegrid.
+        """
         # Process shapegrid
         self.shapegrid_filename = shapegrid_filename
         self._read_shapegrid(shapegrid_filename)
@@ -190,9 +217,8 @@ class LayerEncoder:
         self.encoded_matrix = None
 
     # ...............................
-    def _encode_layer(self, window_func, encode_func, column_name,
-                      num_columns=1):
-        """Encodes the layer using the provided encoding function
+    def _encode_layer(self, window_func, encode_func, column_name, num_columns=1):
+        """Encodes the layer using the provided encoding function.
 
         Args:
             window_func: A function that returns a window of array data for a
@@ -206,7 +232,7 @@ class LayerEncoder:
                 example.
 
         Returns:
-            A list of column headers for the newly encoded columns
+            list: A list of column headers for the newly encoded columns.
         """
         shapegrid_dataset = ogr.Open(self.shapegrid_filename)
         shapegrid_layer = shapegrid_dataset.GetLayer()
@@ -271,7 +297,11 @@ class LayerEncoder:
             The origin (0, 0) of the data array should represent (min x, max y)
                 for the layer.
 
-        TODO(CJ): Enable hexagonal windows by masking data
+        Returns:
+            Method: A function for processing a window of data.
+
+        Todo:
+            CJ - Enable hexagonal windows by masking data.
         """
         # Compute bounds here to save compute time
         y_size, x_size = data.shape
@@ -292,6 +322,15 @@ class LayerEncoder:
 
         # ...............................
         def get_rc(x_coord, y_coord):
+            """Get the row and column values for a x and y coordinate pair.
+
+            Args:
+                x_coord (numeric): The x coordinate for a position in the layer.
+                y_coord (numeric): The y coordinate for a postiion in the layer.
+
+            Returns:
+                tuple of int, int: Row and column values for the specified point.
+            """
             x_prop = (1.0 * x_coord - min_x) / x_range
             y_prop = (1.0 * y_coord - min_y) / y_range
 
@@ -301,7 +340,15 @@ class LayerEncoder:
 
         # ...............................
         def window_function(x_coord, y_coord):
-            """Get the array window from the centroid coordinates"""
+            """Get the array window from the centroid coordinates.
+
+            Args:
+                x_coord (numeric): The x coordinate for a position in the layer.
+                y_coord (numeric): The y coordinate for a postiion in the layer.
+
+            Returns:
+                numeric: The value of the layer at the specified position.
+            """
             # Note: Again, 0 row corresponds to top of map, so bigger y
             #     corresponds to lower row number
             # Upper left coorner
@@ -309,32 +356,36 @@ class LayerEncoder:
             # Lower right corner
             lry, lrx = get_rc(x_coord + x_size_2, y_coord - y_size_2)
 
-            return data[max(0, uly):min(y_size, lry),
-                        max(0, ulx):min(x_size, lrx)]
+            return data[max(0, uly):min(y_size, lry), max(0, ulx):min(x_size, lrx)]
 
         return window_function
 
     # ...............................
-    def _read_layer(self, layer_filename, resolution=None, bbox=None,
-                    nodata=DEFAULT_NODATA, event_field=None):
-        """Reads a layer for processing
+    def _read_layer(
+        self,
+        layer_filename,
+        resolution=None,
+        bbox=None,
+        nodata=DEFAULT_NODATA,
+        event_field=None
+    ):
+        """Reads a layer for processing.
 
         Args:
-            layer_filename: The file path for the layer to read.
-            resolution: An optional resolution to use for the input data if it
-                is a vector layer.
-            bbox: An optional bounding box in the form
-                (min x, min y, max x, max y) to use if the layer is a vector
+            layer_filename (str): The file path for the layer to read.
+            resolution (numeric): An optional resolution to use for the input data if
+                it is a vector layer.
+            bbox (tuple): An optional bounding box in the form
+                (min x, min y, max x, max y) to use if the layer is a vector layer.
+            nodata (numeric): An optional nodata value to use if the layer is a vector
                 layer.
-            nodata: An optional nodata value to use if the layer is a vector
-                layer.
-            event_field: If provided, use this field as the burn value for a
+            event_field (str): If provided, use this field as the burn value for a
                 vector layer.
 
         Returns:
-            A tuple containing a window function for returning a portion of the
-            numpy array generated by the layer and the NODATA value to use with
-            this layer.
+            tuple: A tuple containing a window function for returning a portion of the
+                numpy array generated by the layer and the NODATA value to use with
+                this layer.
         """
         # Get the file extension for the layer file name
         ext = os.path.splitext(layer_filename)[1]
@@ -351,15 +402,15 @@ class LayerEncoder:
 
     # ...............................
     def _read_raster_layer(self, raster_filename):
-        """Reads a raster layer for processing
+        """Reads a raster layer for processing.
 
         Args:
             raster_filename: The file path for the raster layer.
 
         Returns:
-            A tuple containing a window function for returning a portion of the
-            numpy array generated by the layer and the NODATA value to use with
-            this layer.
+            tuple: A tuple containing a window function for returning a portion of the
+                numpy array generated by the layer and the NODATA value to use with
+                this layer.
         """
         dataset = gdal.Open(raster_filename)
         band = dataset.GetRasterBand(1)
@@ -380,10 +431,10 @@ class LayerEncoder:
 
     # ...............................
     def _read_shapegrid(self, shapegrid_filename):
-        """Read the shapegrid
+        """Read the shapegrid.
 
         Args:
-            shapegrid_filename: The file location of the shapegrid
+            shapegrid_filename: The file location of the shapegrid.
         """
         shapegrid_dataset = ogr.Open(shapegrid_filename)
         self.shapegrid_layer = shapegrid_dataset.GetLayer()
@@ -417,9 +468,15 @@ class LayerEncoder:
         self.shapegrid_layer = None
 
     # ...............................
-    def _read_vector_layer(self, vector_filename, resolution=None, bbox=None,
-                           nodata=DEFAULT_NODATA, event_field=None):
-        """Reads a vector layer for processing
+    def _read_vector_layer(
+        self,
+        vector_filename,
+        resolution=None,
+        bbox=None,
+        nodata=DEFAULT_NODATA,
+        event_field=None
+    ):
+        """Reads a vector layer for processing.
 
         Args:
             vector_filename: The vectorfile path for the layer to read.
@@ -434,9 +491,9 @@ class LayerEncoder:
                 value for each cell.  This should be numeric.
 
         Returns:
-            A tuple containing a window function for returning a portion of the
-            numpy array generated by the layer, the NODATA value to use with
-            this layer, and a set of distinct events to be used for processing.
+            tuple: A tuple containing a window function for returning a portion of the
+                numpy array generated by the layer, the NODATA value to use with this
+                layer, and a set of distinct events to be used for processing.
         """
         options = ['ALL_TOUCHED=TRUE']
         if event_field is not None:
@@ -497,11 +554,17 @@ class LayerEncoder:
         return (window_func, nodata, distinct_events)
 
     # ...............................
-    def encode_biogeographic_hypothesis(self, layer_filename, column_name,
-                                        min_coverage, resolution=None,
-                                        bbox=None, nodata=DEFAULT_NODATA,
-                                        event_field=None):
-        """Encodes a biogeographic hypothesis layer
+    def encode_biogeographic_hypothesis(
+        self,
+        layer_filename,
+        column_name,
+        min_coverage,
+        resolution=None,
+        bbox=None,
+        nodata=DEFAULT_NODATA,
+        event_field=None
+    ):
+        """Encodes a biogeographic hypothesis layer.
 
         Encodes a biogeographic hypothesis layer by creating a Helmert contrast
         column in the encoded matrix.
@@ -521,7 +584,7 @@ class LayerEncoder:
                 hypotheses, use this field to separate the vector file.
 
         Returns:
-            A list of column headers for the newly encoded columns
+            list of str: A list of column headers for the newly encoded columns.
         """
         window_func, nodata, distinct_events = self._read_layer(
             layer_filename, resolution=resolution, bbox=bbox, nodata=nodata,
@@ -536,11 +599,19 @@ class LayerEncoder:
             num_columns=len(distinct_events))
 
     # ...............................
-    def encode_presence_absence(self, layer_filename, column_name,
-                                min_presence, max_presence, min_coverage,
-                                resolution=None, bbox=None,
-                                nodata=DEFAULT_NODATA, attribute_name=None):
-        """Encodes a distribution layer into a presence absence column
+    def encode_presence_absence(
+        self,
+        layer_filename,
+        column_name,
+        min_presence,
+        max_presence,
+        min_coverage,
+        resolution=None,
+        bbox=None,
+        nodata=DEFAULT_NODATA,
+        attribute_name=None
+    ):
+        """Encodes a distribution layer into a presence absence column.
 
         Args:
             layer_filename: The file location of the layer to encode.
@@ -559,7 +630,7 @@ class LayerEncoder:
                 determine presence.
 
         Returns:
-            A list of column headers for the newly encoded columns
+            list of str: A list of column headers for the newly encoded columns.
         """
         window_func, nodata, _ = self._read_layer(
             layer_filename, resolution=resolution, bbox=bbox, nodata=nodata,
@@ -569,9 +640,15 @@ class LayerEncoder:
         return self._encode_layer(window_func, encode_func, column_name)
 
     # ...............................
-    def encode_mean_value(self, layer_filename, column_name, resolution=None,
-                          bbox=None, nodata=DEFAULT_NODATA,
-                          attribute_name=None):
+    def encode_mean_value(
+        self,
+        layer_filename,
+        column_name,
+        resolution=None,
+        bbox=None,
+        nodata=DEFAULT_NODATA,
+        attribute_name=None
+    ):
         """Encodes a layer based on the mean value for each data window.
 
         Args:
@@ -587,7 +664,7 @@ class LayerEncoder:
                 determine value.
 
         Returns:
-            A list of column headers for the newly encoded columns
+            list of str: A list of column headers for the newly encoded columns
         """
         window_func, nodata, _ = self._read_layer(
             layer_filename, resolution=resolution, bbox=bbox, nodata=nodata,
@@ -596,9 +673,16 @@ class LayerEncoder:
         return self._encode_layer(window_func, encode_func, column_name)
 
     # ...............................
-    def encode_largest_class(self, layer_filename, column_name, min_coverage,
-                             resolution=None, bbox=None, nodata=DEFAULT_NODATA,
-                             attribute_name=None):
+    def encode_largest_class(
+        self,
+        layer_filename,
+        column_name,
+        min_coverage,
+        resolution=None,
+        bbox=None,
+        nodata=DEFAULT_NODATA,
+        attribute_name=None
+    ):
         """Encodes a layer based on the largest class in each data window.
 
         Args:
@@ -616,26 +700,33 @@ class LayerEncoder:
                 determine largest class.
 
         Returns:
-            A list of column headers for the newly encoded columns
+            list of str: A list of column headers for the newly encoded columns.
         """
         window_func, nodata, _ = self._read_layer(
-            layer_filename, resolution=resolution, bbox=bbox, nodata=nodata,
-            event_field=attribute_name)
+            layer_filename,
+            resolution=resolution,
+            bbox=bbox,
+            nodata=nodata,
+            event_field=attribute_name
+        )
         encode_func = _get_largest_class_method(min_coverage, nodata)
         return self._encode_layer(window_func, encode_func, column_name)
 
     # ...............................
     def get_encoded_matrix(self):
-        """Returns the encoded matrix
+        """Returns the encoded matrix.
 
         Returns:
-            The encoded matrix as a Matrix object
+            Matrix: The encoded matrix as a Matrix object
         """
         return self.encoded_matrix
 
     # ...............................
     def get_geojson(self):
-        """Formats the encoded matrix as GeoJSON
+        """Formats the encoded matrix as GeoJSON.
+
+        Returns:
+            dict: A JSON dictionary for the encoded matrix.
         """
         ret = {
             'type': 'FeatureCollection'

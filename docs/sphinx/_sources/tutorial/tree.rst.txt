@@ -21,7 +21,7 @@ From an existing Dendropy Tree
 See: `TreeWrapper.from_base_tree <../source/lmpy.html#lmpy.tree.TreeWrapper.from_base_tree>`_
 
     >>> tree = TreeWrapper.from_base_tree(dendropy_tree)
-    
+
 Reading a file
 --------------
 See: `TreeWrapper.from_filename <../source/lmpy.html#lmpy.tree.TreeWrapper.from_filename>`_
@@ -95,7 +95,7 @@ Get variance covariance matrix
 See: `TreeWrapper.get_variance_covariance_matrix <../source/lmpy.html#lmpy.tree.TreeWrapper.get_variance_covariance_matrix>`_
 
     >>> var_cov_mtx = tree.get_variance_covariance_matrix()
-    
+
 ----
 
 Inspecting the tree

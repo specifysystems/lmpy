@@ -29,11 +29,10 @@ DATA_FILENAME = 'data.npz'
 
 # .............................................................................
 class Matrix(np.ndarray):
-    """Lifemapper wrapper for Numpy ndarrays that adds headers.
-    """
+    """Lifemapper wrapper for Numpy ndarrays that adds headers."""
     # ...........................
     def __new__(cls, input_array, headers=None, metadata=None):
-        """Create a new Matrix object from an existing ndarray
+        """Create a new Matrix object from an existing ndarray.
 
         Args:
             input_array (numpy.ndarray): An existing ndarray
@@ -53,6 +52,9 @@ class Matrix(np.ndarray):
 
         Note:
             * Triggers a call to Matrix.__array_finalize__.
+
+        Returns:
+            Matrix: A converted numpy array to Matrix.
         """
         # input_array is already formed ndarray instance, cast to our type
         obj = np.asarray(input_array).view(cls)
@@ -68,11 +70,14 @@ class Matrix(np.ndarray):
 
     # ...........................
     def __array_finalize__(self, obj):
-        """
+        """Overridden function from ndarray.
 
         ``self`` is a new object resulting from ndarray.__new__(Matrix, ...),
         therefore it only has the attributes that the ndarray.__new__
         constructor gave it.
+
+        Args:
+            obj (Matrix): If the object is a matrix, pull out headers and metadata.
         """
         # We could have got to the ndarray.__new__ call in 3 ways:
         # 1. From an explicit constructor - Matrix():
@@ -101,18 +106,20 @@ class Matrix(np.ndarray):
 
         Args:
             filename (str): File location of matrix to load.
+
+        Returns:
+            Matrix: The matrix read from the file.
         """
         with open(filename, 'rb') as in_file:
             return Matrix.load_flo(in_file)
 
     # ...........................
     @classmethod
-    def load_csv(cls, flo, dtype=np.float, num_header_rows=0,
-                 num_header_cols=0):
+    def load_csv(cls, flo, dtype=np.float, num_header_rows=0, num_header_cols=0):
         """Attempts to load a Matrix object from a CSV file-like object.
 
         Args:
-            filename (str): A file location containing a CSV matrix.
+            flo (File-like object): A file like object containing csv data.
             dtype (:obj:`method`, optional): The data type for the data.  Will
                 be used to cast data when adding to matrix.
             num_header_rows (:obj:`int`, optional): The number of header rows
@@ -382,19 +389,18 @@ class Matrix(np.ndarray):
         """Sets the headers for this Matrix.
 
         Args:
-            headers (:obj:`dict` or :obj:`list` of :obj:`list` or :obj:`list`):
-                Matrix headers.  Can be a list of lists, a dictionary of lists,
-                or if axis is provided, a single list.
-            axis (:obj:`int`): If provided, set the headers for a specific
-                axis, else, process as if it is for the entire Matrix.
+            headers (dict or list of list or list): Matrix headers.  Can be a list of
+                lists, a dictionary of lists, or if axis is provided, a single list.
+            axis (int): If provided, set the headers for a specific axis, else, process
+                as if it is for the entire Matrix.
 
         Todo:
-            * Validate input for single axis operation?
+            Validate input for single axis operation?
 
         Note:
-            * Resets headers dictionary when setting values for all headers.
-            * Duck types to use list of lists or dictionary to set values for
-                different axes.
+            Resets headers dictionary when setting values for all headers.
+            Duck types to use list of lists or dictionary to set values for different
+                axes.
         """
         if isinstance(headers, KeysView):
             headers = list(headers)
@@ -453,11 +459,8 @@ class Matrix(np.ndarray):
             header (str): The name of a header to use for slicing
             axis (int): The axis to find this header.
 
-         Raises:
-            ValueError: If the header is not found for the specified axis.
-
         Todo:
-            * Add capability to slice over multiple axes and multiple headers.
+            Add capability to slice over multiple axes and multiple headers.
                 Maybe combine with other slice method and provide method to
                 search for header indices.
 
@@ -484,6 +487,11 @@ class Matrix(np.ndarray):
     # ...........................
     @property
     def T(self):
+        """Get the transpose of the matrix.
+
+        Returns:
+            Matrix: The matrix transpose.
+        """
         if self.ndim < 2:
             return self
 
@@ -559,18 +567,33 @@ class Matrix(np.ndarray):
         # .....................
         def already_lists(x):
             """Use this function for processing headers when they are lists.
+
+            Args:
+                x (list): A list value to return.
+
+            Returns:
+                list: A list of data.
             """
             return x
 
         # .....................
         def make_lists(x):
             """Use this function for processing non-list headers.
+
+            Args:
+                x (object): A non-list value to modify.
+
+            Returns:
+                list: A list of data.
             """
             return [x]
 
         # .....................
         def csv_generator():
             """Generator that yields rows of values to be output as CSV.
+
+            Yields:
+                list: A list of data for a row.
             """
             try:
                 row_headers = mtx.headers['0']

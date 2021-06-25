@@ -1,5 +1,4 @@
-"""Tests build shapegrid
-"""
+"""Tests build shapegrid."""
 import os
 from tempfile import NamedTemporaryFile
 import pytest
