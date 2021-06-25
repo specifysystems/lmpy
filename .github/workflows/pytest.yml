@@ -30,6 +30,17 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
 
+      # Install GDAL
+      - name: Install GDAL
+        run: |
+          sudo add-apt-repository --yes ppa:ubuntugis/ppa
+          sudo apt-get --quiet update
+          sudo apt-get install --yes libgdal-dev gdal-bin python-gdal libspatialindex-dev
+          export CPLUS_INCLUDE_PATH=/usr/include/gdal
+          export C_INCLUDE_PATH=/usr/include/gdal
+          pip install GDAL==`gdal-config --version`
+
+
       # Install python dependencies
       - name: Install python dependencies
         run: |
