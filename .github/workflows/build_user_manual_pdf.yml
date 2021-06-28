@@ -22,7 +22,7 @@ jobs:
       uses: ammaraskar/sphinx-action@master
       with:
         build-command: "sphinx-build -b html . _build"
-        docs_folder: "_sphinx_config/"
+        docs-folder: "_sphinx_config/"
     - name: Create documentation pdf
       uses: ammaraskar/sphinx-action@master
       with:
