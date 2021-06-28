@@ -22,7 +22,7 @@ jobs:
       uses: ammaraskar/sphinx-action@master
       with:
         pre-build-command: "apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended && ls -lah && ls -lah _sphinx_config/"
-        build-command: "sphinx-build -b latex ./_sphinx_config/ lmpy.pdf; echo $INPUT_DOCS-FOLDER; cat /tmp/sphinx-log"
+        build-command: "make latexpdf"
         #docs-folder: "_sphinx_config"
     # Create an artifact out of the previously built pdf.
     - uses: actions/upload-artifact@v1
