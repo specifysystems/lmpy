@@ -33,8 +33,10 @@ jobs:
       run: ls -lahtr ./_sphinx_config/
     - name: Ls build
       run: ls -lahtr ./_sphinx_config/_build/
+    - name: Find pdf
+      run: find . -type f -name "*.pdf"
     # Create an artifact out of the previously built pdf.
-    - uses: actions/upload-artifact@v1
-      with:
-        name: Documentation
-        path: /github/workspace/docs/sphinx/latex/lifemapperlmpy.pdf
+    #- uses: actions/upload-artifact@v1
+    #  with:
+    #    name: Documentation
+    #    path: /github/workspace/docs/sphinx/latex/lifemapperlmpy.pdf
