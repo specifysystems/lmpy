@@ -26,6 +26,13 @@ jobs:
         pre-build-command: "apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended && pip install -r requirements-docs.txt"
         build-command: "make latexpdf"
         docs-folder: "_sphinx_config/"
+    # Debug!
+    - name: Home ls
+      run: ls -lahtr .
+    - name: Docs folder ls
+      run: ls -lahtr ./_sphinx_config/
+    - name: Ls build
+      run: ls -lahtr ./_sphinx_config/_build/
     # Create an artifact out of the previously built pdf.
     - uses: actions/upload-artifact@v1
       with:
