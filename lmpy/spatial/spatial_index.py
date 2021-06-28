@@ -112,21 +112,29 @@ class SpatialIndex:
             geom (ogr.Geometry): A geometry to spatially index.
             att_dict (dict): A dictionary of attributes to store in the lookup table.
         """
-        self.att_lookup[str(identifier)] = att_dict
-        if isinstance(geom, str):
-            geom = ogr.CreateGeometryFromWkt(geom)
-        min_x, max_x, min_y, max_y = geom.GetEnvelope()
-        idx_entries = quadtree_index(
-            geom, (min_x, min_y, max_x, max_y), self.min_size, self.depth_left)
-        for bbox, idx_geom in idx_entries:
-            if isinstance(idx_geom, bool) and idx_geom:
-                # Index as entire bbox
-                self.index.insert(identifier, bbox, obj=True)
-            else:
-                # Add geometry to lookup, increment counter
-                self.index.insert(identifier, bbox, obj=self.next_geom)
-                self.geom_lookup[str(self.next_geom)] = idx_geom
-                self.next_geom += 1
+        try:
+            self.att_lookup[str(identifier)] = att_dict
+            if isinstance(geom, str):
+                geom = ogr.CreateGeometryFromWkt(geom)
+            min_x, max_x, min_y, max_y = geom.GetEnvelope()
+            idx_entries = quadtree_index(
+                geom, (min_x, min_y, max_x, max_y),
+                self.min_size, self.depth_left)
+            # print('{} - Num idx entries: {}'.format(
+            #     identifier, len(idx_entries)))
+            for bbox, idx_geom in idx_entries:
+                if isinstance(idx_geom, bool) and idx_geom:
+                    # Index as entire bbox
+                    self.index.insert(identifier, bbox, obj=True)
+                else:
+                    # Add geometry to lookup, increment counter
+                    self.index.insert(identifier, bbox, obj=self.next_geom)
+                    self.geom_lookup[str(self.next_geom)] = idx_geom
+                    self.next_geom += 1
+        except Exception as err:  # pragma: no cover
+            print(err)
+            print(identifier)
+            print(att_dict)
 
     # ..........................
     def close(self):

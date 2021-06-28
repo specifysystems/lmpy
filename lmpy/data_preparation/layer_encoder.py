@@ -50,11 +50,13 @@ def _get_presence_absence_method(min_presence, max_presence, min_coverage, nodat
     Returns:
         Method: A function for getting presence absence of a window.
     """
-    if min_coverage > 1.0:
+    if min_coverage >= 1.0:
         min_coverage = min_coverage / 100.0
 
     # ...............................
     def get_presence_absence(window):
+        if window is None:
+            return False
         min_num = max(min_coverage * window.size, 1)
         valid_cells = np.logical_and(
             np.logical_and(window >= min_presence, window <= max_presence),
@@ -76,6 +78,8 @@ def _get_mean_value_method(nodata):
     """
     # ...............................
     def get_mean(window):
+        if window is None:
+            return nodata
         window_mean = np.nanmean(window)
         if np.isnan(window_mean):
             return nodata
@@ -97,7 +101,7 @@ def _get_largest_class_method(min_coverage, nodata):
     Returns:
         Method: A function for getting the largest class in a window.
     """
-    if min_coverage > 1.0:
+    if min_coverage >= 1.0:
         min_coverage = min_coverage / 100.0
 
     # ...............................
@@ -110,6 +114,8 @@ def _get_largest_class_method(min_coverage, nodata):
         Returns:
             ndarray: An array of encoded values.
         """
+        if window is None:
+            return nodata
         min_num = min_coverage * window.size
         largest_count = 0
         largest_class = nodata
@@ -162,7 +168,7 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
         i += 1
         # Note: 'i' is the number of values, we'll use that later
 
-    if min_coverage > 1.0:
+    if min_coverage >= 1.0:
         min_coverage = min_coverage / 100.0
 
     # ...............................
@@ -175,6 +181,8 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
         Returns:
             ndarray: An array of encoded values.
         """
+        if window is None:  # pragma: no cover
+            return nodata
         min_vals = int(min_coverage * window.size)
         # Set default min count to min_vals
         # Note: This will cause last one to win if they are equal, change to
@@ -356,7 +364,13 @@ class LayerEncoder:
             # Lower right corner
             lry, lrx = get_rc(x_coord + x_size_2, y_coord - y_size_2)
 
-            return data[max(0, uly):min(y_size, lry), max(0, ulx):min(x_size, lrx)]
+            # If entire cell window is outside of layer, return None
+            if max([uly, lry]) < 0 or max([ulx, lrx]) < 0 or \
+                    min([uly, lry]) > y_size or min([ulx, lrx]) > x_size:
+                return None
+
+            return data[max(0, uly):min(y_size, lry),
+                        max(0, ulx):min(x_size, lrx)]
 
         return window_function
 

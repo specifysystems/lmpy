@@ -1,8 +1,4 @@
-"""This module tests the lmpy.statistics.pam_stats.py module.
-
-Note:
-    These test functions are pytest style tests for the pam_stats.py module.
-"""
+"""This module tests the lmpy.statistics.pam_stats.py module."""
 from random import randint, random, shuffle
 
 import numpy as np
@@ -318,3 +314,44 @@ class Test_PamStats:
         ps.calculate_diversity_statistics()
         ps.calculate_site_statistics()
         ps.calculate_species_statistics()
+
+    # ............................
+    def test_empty_stat_types_site_matrix_stats(self):
+        """Test removing all stats for type."""
+        pam, tree = get_random_pam_and_tree(100, 200, .3, 1.0)
+        ps = stats.PamStats(pam, tree=tree)
+        ps.site_matrix_stats = []
+        ps.calculate_site_statistics()
+
+    # ............................
+    def test_empty_stat_types_site_tree_stats(self):
+        """Test removing all stats for type."""
+        pam, tree = get_random_pam_and_tree(100, 200, .3, 1.0)
+        ps = stats.PamStats(pam, tree=tree)
+        ps.site_tree_stats = []
+        ps.calculate_site_statistics()
+
+    # ............................
+    def test_empty_stat_types_site_tree_matrix_stats(self):
+        """Test removing all stats for type."""
+        pam, tree = get_random_pam_and_tree(100, 200, .3, 1.0)
+        ps = stats.PamStats(pam, tree=tree)
+        ps.site_tree_distance_matrix_stats = []
+        ps.calculate_site_statistics()
+
+    # ............................
+    def test_empty_stat_types_site_pam_dist_matrix_stats(self):
+        """Test removing all stats for type."""
+        pam, tree = get_random_pam_and_tree(100, 200, .3, 1.0)
+        ps = stats.PamStats(pam, tree=tree)
+        ps.site_pam_dist_mtx_stats = []
+        ps.calculate_site_statistics()
+
+    # ............................
+    def test_single_double_tree_subsetting(self):
+        """Tests for sites with one or two sites present."""
+        pam, tree = get_random_pam_and_tree(5, 5, .2, 2.0)
+        pam[0] = [1, 1, 0, 0, 0]
+        pam[1] = [0, 0, 1, 0, 0]
+        ps = stats.PamStats(pam, tree=tree)
+        ps.calculate_site_statistics()

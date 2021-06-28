@@ -108,9 +108,11 @@ def get_disjoint_geometries_filter(geometry_wkts):
         Method: A function that takes a list of points as input and returns a list of
             points that pass that filter function.
     """
-    geometries = []
+    geom_index = SpatialIndex()
+    i = 0
     for wkt in geometry_wkts:
-        geometries.append(ogr.CreateGeometryFromWkt(wkt))
+        geom_index.add_feature(i, wkt, {"feature_id": i})
+        i += 1
 
     # .......................
     def disjoint_geometry_filter(point):
@@ -122,11 +124,8 @@ def get_disjoint_geometries_filter(geometry_wkts):
         Returns:
             bool: Indicator if the point passes filtering.
         """
-        point_geometry = ogr.Geometry(ogr.wkbPoint)
-        point_geometry.AddPoint(point.x, point.y)
-        return all(
-            [geom.Intersection(
-                point_geometry).IsEmpty() for geom in geometries])
+        hits = geom_index.search(point.x, point.y)
+        return not bool(hits)
     return get_occurrence_filter(disjoint_geometry_filter)
 
 

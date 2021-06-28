@@ -51,7 +51,7 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
                 swapped_mtx[row1][column1] = not first_corner
                 counter += 1
                 num_tries = 0
-    if num_tries >= max_tries:  # pragma: nocover
+    if num_tries >= max_tries:  # pragma: no cover
         raise Exception(
             'Reached maximum number of tries without finding suitable swap'
         )
