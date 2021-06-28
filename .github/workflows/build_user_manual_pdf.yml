@@ -18,12 +18,17 @@ jobs:
       with:
         path: "requirements-docs.txt"
     # Create PDF documentation
+    - name: Create html docs first?
+      uses: ammaraskar/sphinx-action@master
+      with:
+        build-command: "sphinx-build -b html . _build"
+        docs_folder: "_sphinx_config/"
     - name: Create documentation pdf
       uses: ammaraskar/sphinx-action@master
       with:
         pre-build-command: "apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended && ls -lahtr ./_sphinx_config/ && echo $INPUT_DOCS-FOLDER"
-        build-command: "sphinx-build -b latex ./_sphinx_config/ ./_build_latex/"
-        #docs-folder: "_sphinx_config"
+        build-command: "make latexpdf"
+        docs-folder: "_sphinx_config/"
     # Create an artifact out of the previously built pdf.
     - uses: actions/upload-artifact@v1
       with:
