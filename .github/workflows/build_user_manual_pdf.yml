@@ -27,7 +27,10 @@ jobs:
         build-command: "make latexpdf"
         docs-folder: "_sphinx_config/"
     # Create an artifact out of the previously built pdf.
-    - uses: actions/upload-artifact@v1
+    - name: Upload Release Asset
+      uses: svenstaro/upload-release-action@v2
       with:
-        name: Documentation
-        path: ./docs/sphinx/latex/lifemapperlmpy.pdf
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./docs/sphinx/latex/lifemapperlmpy.pdf
+        tag: ${{ github.ref }}
+        overwrite: true
