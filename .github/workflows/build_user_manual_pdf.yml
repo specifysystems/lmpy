@@ -30,4 +30,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: Documentation
-        path: lmpy.pdf
+        path: _sphinx_config/_build/latex/lifemapperlmpy.pdf
