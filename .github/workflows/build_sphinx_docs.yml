@@ -26,16 +26,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages
-    # Create PDF documentation
-    - name: Create documentation pdf
-      uses: ammaraskar/sphinx-action@master
-      with:
-        pre-build-command: "apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended && ls -lahtr"
-        # build-command: "sphinx-build -b latex _sphinx_config/ lmpy.pdf"
-        # docs-folder: "_sphinx_config"
-        build-command: "make latexpdf"
-    # Create an artifact out of the previously built pdf.
-    - uses: actions/upload-artifact@v1
-      with:
-        name: Documentation
-        path: lmpy.pdf
