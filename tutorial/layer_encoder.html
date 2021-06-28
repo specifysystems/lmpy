@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Layer Encoder &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Matrix Objects" href="matrix.html" />
+    <link rel="prev" title="Build Shapegrid" href="build_grid.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build_grid.html">Build Shapegrid</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Layer Encoder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-pam">Creating a PAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#encoding-environmental-data">Encoding Environmental Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#encoding-biogeographic-hypotheses">Encoding Biogeographic Hypotheses</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matrix.html">Matrix Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html">Delimited to Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#json-to-points">JSON to Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#convert-coordinate-systems">Convert Coordinate Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html">PAM Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_stats.html">Running Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tree.html">TreeWrapper Objects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source/modules.html">Module documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="tutorial.html">Tutorials</a> &raquo;</li>
+        
+      <li>Layer Encoder</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorial/layer_encoder.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="layer-encoder">
+<h1>Layer Encoder<a class="headerlink" href="#layer-encoder" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The layer encoder provides functionality for converting spatial data into a
+site by layer matrix.  This is useful for creating presence absence matrices,
+PAMs, as well as other matrices that have the same spatial composition, so
+that you may join species presence with environment or test biogeographic
+hypotheses.</p>
+</div>
+<div class="section" id="creating-a-pam">
+<h2>Creating a PAM<a class="headerlink" href="#creating-a-pam" title="Permalink to this headline">¶</a></h2>
+<p>Creating a PAM requires encoding each species layer (raster or vector) into a
+matrix column of presence or absence values for each site.  This operation
+requires that you create an encoder for a grid of cells and then encode each
+species layer individually.  There are three configuration parameters for
+encoding these layers to consider.  Minimum presence, this is the minimum value
+of the species layer that should be considered present.  For example, if your
+species layer is scaled 0-100, maybe you want to consider any value above 0 to
+be present.  Maximum presence is the maximum value to be considered present.
+This is possibly most useful when you have a postive NODATA value, such as 255
+for unsigned single byte integer cell values.  Finally, minimum coverage, this
+value indicates what portion of a grid cell must be covered by “present” values
+to call that cell present.  For instance, you may want to call grid cells
+present if any part of the cell is present, so you would set the value to
+something small, like 1 percent, or you may want more substantial coverage, so
+you would set the value to 10 or 25 percent.</p>
+<p>See: <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence">encode_presence_absence</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_filename</span> <span class="o">=</span> <span class="s1">&#39;my_grid.shp&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span>
+<span class="go">                    grid_epsg, cell_sides)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_presence</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_presence</span> <span class="o">=</span> <span class="mi">254</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_coverage</span> <span class="o">=</span> <span class="mi">25</span>  <span class="c1"># Percent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">species_raster_1</span><span class="p">,</span> <span class="s1">&#39;Species 1&#39;</span><span class="p">,</span> <span class="n">min_presence</span><span class="p">,</span> <span class="n">max_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">species_raster_2</span><span class="p">,</span> <span class="s1">&#39;Species 2&#39;</span><span class="p">,</span> <span class="n">min_presence</span><span class="p">,</span> <span class="n">max_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">species_raster_3</span><span class="p">,</span> <span class="s1">&#39;Species 3&#39;</span><span class="p">,</span> <span class="n">min_presence</span><span class="p">,</span> <span class="n">max_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pam</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_encoded_matrix</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pam_geojson</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_geojson</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="encoding-environmental-data">
+<h2>Encoding Environmental Data<a class="headerlink" href="#encoding-environmental-data" title="Permalink to this headline">¶</a></h2>
+<p>You may want to encode environmental data using the same grid used to create a
+PAM.  To do so, you can use teh encode_mean_value and encode_largest_class
+methods to store either the average non-NODATA value for continuous values or
+the most prevalent non-NODATA value for categorical data respectively.</p>
+<p>See: <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value">encode_mean_value</a>
+See: <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class">encode_largest_class</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_filename</span> <span class="o">=</span> <span class="s1">&#39;my_grid.shp&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span>
+<span class="go">                    grid_epsg, cell_sides)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_presence</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_presence</span> <span class="o">=</span> <span class="mi">127</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_coverage</span> <span class="o">=</span> <span class="mi">25</span>  <span class="c1"># Percent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_mean_value</span><span class="p">(</span><span class="n">env_raster_1</span><span class="p">,</span> <span class="s1">&#39;ENV Raster 1&#39;</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=-</span><span class="mi">999</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_mean_value</span><span class="p">(</span><span class="n">env_raster_2</span><span class="p">,</span> <span class="s1">&#39;ENV Raster 2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_largest_class</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">env_vector_3</span><span class="p">,</span> <span class="s1">&#39;ENV Vector 3&#39;</span><span class="p">,</span> <span class="n">min_coverage</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">attribute_name</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_largest_class</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">env_vector_4</span><span class="p">,</span> <span class="s1">&#39;ENV Vector 4&#39;</span><span class="p">,</span> <span class="n">min_coverage</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">attribute_name</span><span class="o">=</span><span class="s1">&#39;ecozone&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env_mtx</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_encoded_matrix</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env_geojson</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_geojson</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="encoding-biogeographic-hypotheses">
+<h2>Encoding Biogeographic Hypotheses<a class="headerlink" href="#encoding-biogeographic-hypotheses" title="Permalink to this headline">¶</a></h2>
+<p>You can encode biogeographic hypothesis layers as binary (0, 1) or tertiary
+(-1, 0, 1) values in a matrix.  This is used by computations such as MCPA
+(Metacommunity Phylogenetic Analysis) for determining if presences are found
+inside or outside of single-sided hypotheses or inside one side, the other, or
+neither for two-sided hypotheses.</p>
+<p>See <cite>encode_biogeographic_hypothesis &lt;../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis</cite>&gt;_</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_filename</span> <span class="o">=</span> <span class="s1">&#39;my_grid.shp&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span>
+<span class="go">                    grid_epsg, cell_sides)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_presence</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_presence</span> <span class="o">=</span> <span class="mi">127</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">min_coverage</span> <span class="o">=</span> <span class="mi">25</span>  <span class="c1"># Percent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_biogeographic_hypothesis</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">hypothesis_1</span><span class="p">,</span> <span class="s1">&#39;Hypothesis 1&#39;</span><span class="p">,</span> <span class="n">min_coverage</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Encode a hypothesis shapefile with multiple features using the &#39;zone&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#  attribute of each feature.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_biogeographic_hypothesis</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">hypothesis_2</span><span class="p">,</span> <span class="s1">&#39;Hypothesis 2&#39;</span><span class="p">,</span> <span class="n">min_coverage</span><span class="p">,</span> <span class="n">event_field</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bg_mtx</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_encoded_matrix</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bg_geojson</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_geojson</span><span class="p">()</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="matrix.html" class="btn btn-neutral float-right" title="Matrix Objects" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="build_grid.html" class="btn btn-neutral float-left" title="Build Shapegrid" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

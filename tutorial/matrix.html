@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Matrix Objects &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Occurrence Filters" href="occurrence_filters.html" />
+    <link rel="prev" title="Layer Encoder" href="layer_encoder.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build_grid.html">Build Shapegrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layer_encoder.html">Layer Encoder</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Matrix Objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-matrix-instances">Creating Matrix Instances</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#from-an-existing-numpy-ndarray">From an existing NumPy ndarray</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reading-a-csv-file">Reading a CSV file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reading-a-saved-matrix">Reading a saved Matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concatenating-existing-matrix-objects">Concatenating existing Matrix objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#slicing-by-array-indices">Slicing by array indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#slicing-by-headers">Slicing by headers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-matrix-objects">Writing Matrix objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#saving-to-the-file-system">Saving to the file system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-to-a-csv-file">Writing to a CSV file</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#header-management">Header management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#on-instantiation">On instantiation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-headers">Setting headers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getting-headers">Getting headers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata-management">Metadata management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">On instantiation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-metadata">Setting metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getting-metadata">Getting metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html">Delimited to Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#json-to-points">JSON to Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#convert-coordinate-systems">Convert Coordinate Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html">PAM Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_stats.html">Running Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tree.html">TreeWrapper Objects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source/modules.html">Module documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="tutorial.html">Tutorials</a> &raquo;</li>
+        
+      <li>Matrix Objects</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorial/matrix.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="matrix-objects">
+<h1>Matrix Objects<a class="headerlink" href="#matrix-objects" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>We have found that, while easy to use and an efficient data structure, NumPy
+arrays do not really support metadata.  We had dealt with this in the past by
+passing a secondary data structure with metadata along with the array but we
+found that it was too easy for that metadata to get lost, out of date, or just
+ignored.  In response, we have sub-classed Numpy ndarray to create ‘Matrix’
+objects that extend the base functionality provided by ndarrays to include
+metadata and headers for the arrays without the needing a secondary data
+structure.  Additionally, we provide some convenience functions for
+manipulating these arrays as well as their metadata and headers so that they
+are more useful for our needs.  This additional functionality may be useful for
+you as well, so we have included it in the lmpy repository.  Note that if you
+are developing an extension for the
+<a class="reference external" href="https://github.com/biotaphy/BiotaPhyPy">BiotaPhy Python Repository</a>, you
+should utilize this class as arrays within a Lifemapper cluster use these
+Matrix objects.</p>
+</div>
+<div class="section" id="creating-matrix-instances">
+<h2>Creating Matrix Instances<a class="headerlink" href="#creating-matrix-instances" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="from-an-existing-numpy-ndarray">
+<h3>From an existing NumPy ndarray<a class="headerlink" href="#from-an-existing-numpy-ndarray" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix">Matrix</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np_arr</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np_arr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reading-a-csv-file">
+<h3>Reading a CSV file<a class="headerlink" href="#reading-a-csv-file" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.load_csv">Matrix.load_csv</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">csv_fn</span> <span class="o">=</span> <span class="s1">&#39;my_csv_file.csv&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">csv_fn</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reading-a-saved-matrix">
+<h3>Reading a saved Matrix<a class="headerlink" href="#reading-a-saved-matrix" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.load">Matrix.load</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx_fn</span> <span class="o">=</span> <span class="s1">&#39;my_mtx_file.lmm&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mtx_fn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="concatenating-existing-matrix-objects">
+<h3>Concatenating existing Matrix objects<a class="headerlink" href="#concatenating-existing-matrix-objects" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.concatenate">Matrix.concatenate</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx_a</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx_b</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">concat_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">mtx_a</span><span class="p">,</span> <span class="n">mtx_b</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="slicing-by-array-indices">
+<h3>Slicing by array indices<a class="headerlink" href="#slicing-by-array-indices" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.slice">Matrix.slice</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np_mtx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np_mtx</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_mtx</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">slice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="slicing-by-headers">
+<h3>Slicing by headers<a class="headerlink" href="#slicing-by-headers" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.slice_by_header">Matrix.slice_by_header</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np_mtx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np_mtx</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">slice_by_header</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">Matrix([[5, 6, 7, 8, 9]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="writing-matrix-objects">
+<h2>Writing Matrix objects<a class="headerlink" href="#writing-matrix-objects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="saving-to-the-file-system">
+<h3>Saving to the file system<a class="headerlink" href="#saving-to-the-file-system" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.write">Matrix.save</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;path_to_new_file.lmm&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="writing-to-a-csv-file">
+<h3>Writing to a CSV file<a class="headerlink" href="#writing-to-a-csv-file" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.write_csv">Matrix.write_csv</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="s1">&#39;path_to_new_csv_file.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="header-management">
+<h2>Header management<a class="headerlink" href="#header-management" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="on-instantiation">
+<h3>On instantiation<a class="headerlink" href="#on-instantiation" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix">Matrix</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setting-headers">
+<h3>Setting headers<a class="headerlink" href="#setting-headers" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.set_headers">Matrix.set_headers</a>,
+<a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.set_column_headers">Matrix.set_column_headers</a>,
+<a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.set_row_headers">Matrix.set_row_headers</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Each method sets row headers to 0, 1, 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">set_headers</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">set_headers</span><span class="p">({</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">set_row_headers</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Each method sets column headers to &#39;A&#39;, &#39;B&#39;, &#39;C&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">set_headers</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">set_headers</span><span class="p">({</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">set_column_headers</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-headers">
+<h3>Getting headers<a class="headerlink" href="#getting-headers" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.get_headers">Matrix.get_headers</a>,
+<a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.get_column_headers">Matrix.get_column_headers</a>,
+<a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.get_row_headers">Matrix.get_row_headers</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="metadata-management">
+<h2>Metadata management<a class="headerlink" href="#metadata-management" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>On instantiation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix">Matrix</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;A 3x3 matrix of ones&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setting-metadata">
+<h3>Setting metadata<a class="headerlink" href="#setting-metadata" title="Permalink to this headline">¶</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;My name&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-metadata">
+<h3>Getting metadata<a class="headerlink" href="#getting-metadata" title="Permalink to this headline">¶</a></h3>
+<p>See: <a class="reference external" href="../source/lmpy.html#lmpy.matrix.Matrix.get_metadata">Matrix.get_metadata</a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">metadata</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtx</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="occurrence_filters.html" class="btn btn-neutral float-right" title="Occurrence Filters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="layer_encoder.html" class="btn btn-neutral float-left" title="Layer Encoder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

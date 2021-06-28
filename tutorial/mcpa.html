@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Metacommunity Phylogenetics Analysis (MCPA) &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source/modules.html">Module documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Metacommunity Phylogenetics Analysis (MCPA)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorial/mcpa.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="metacommunity-phylogenetics-analysis-mcpa">
+<h1>Metacommunity Phylogenetics Analysis (MCPA)<a class="headerlink" href="#metacommunity-phylogenetics-analysis-mcpa" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>We provide an implementation of the metacommunity phylogenetics analysis (MCPA)
+from Liebold et al, 2010 that allows a researcher to study the effects of
+environment and historical biogeography on the distributions of sister clades
+in a phylogeny.  This analysis can be used to find significant correlations
+between clade distributions and various environmental and biogeographic
+predictors to determine if their distributions are limited by environmental
+filtering, have vagility limited by historical biogeography, or a combination
+of both.</p>
+<p>The computation itself takes four matrix arguments, a site by species incidence
+matrix (presence absence matrix), a tip by node encoded phylogenetic tree,
+a site by environmental predictor matrix of environmental data, and a site by
+biogeographic predictor matrix of Helmert contrasts for each biogeographic
+hypothesis.</p>
+<dl class="simple">
+<dt>Leibold, M.A., E.P. Economo and P.R. Peres-Neto. 2010. Metacommunity</dt><dd><p>phylogenetics: separating the roles of environmental filters and
+historical biogeography. Ecology letters 13: 1290-1299.</p>
+</dd>
+</dl>
+</div>
+<hr class="docutils" />
+<div class="section" id="tutorial">
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<p>For this simple tutorial, we will perform a single MCPA run using observed
+data and will focus on the creation of the input matrices.  This example will
+make use of the various encoding methods provided with lmpy but those steps
+could be skipped if you already have a matrix representation of the needed
+components.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lmpy</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_preparation.layer_encoder</span> <span class="kn">import</span> <span class="n">LayerEncoder</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_preparation.tree_encoder</span> <span class="kn">import</span> <span class="n">TreeEncoder</span>
+<span class="kn">from</span> <span class="nn">lmpy.statistics.mcpa</span> <span class="kn">import</span> <span class="n">mcpa</span>
+
+<span class="c1"># Species distribution layers for PAM creation</span>
+<span class="n">SDM_LAYER_FILENAMES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;species_layer_1.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species_layer_2.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species_layer_3.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species_layer_4.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species_layer_5.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species_layer_6.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species_layer_7.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species_layer_8.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species_layer_9.tif&#39;</span>
+<span class="p">]</span>
+<span class="n">sdm_encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">()</span>
+<span class="n">pam</span> <span class="o">=</span> <span class="n">sdm_encoder</span><span class="o">.</span><span class="n">encode_layers</span><span class="p">()</span>
+
+<span class="c1"># Encode a phylogenetic tree with species matching a PAM</span>
+<span class="n">tree_filename</span> <span class="o">=</span> <span class="s1">&#39;my_tree.nex&#39;</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">TreeWrapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">tree_filename</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="s1">&#39;nexus&#39;</span><span class="p">)</span>
+<span class="n">tree_encoder</span> <span class="o">=</span> <span class="n">TreeEncoder</span><span class="p">(</span><span class="n">pam</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
+<span class="n">phylo_matrix</span> <span class="o">=</span> <span class="n">tree_encoder</span><span class="o">.</span><span class="n">encode_phylogeny</span><span class="p">()</span>
+
+<span class="c1"># Encode environmental data</span>
+<span class="n">ENVIRONMENT_LAYER_FILENAMES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;env_layer_1.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;env_layer_2.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;env_layer_3.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;env_layer_4.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;env_layer_5.tif&#39;</span>
+<span class="p">]</span>
+<span class="n">env_encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">()</span>
+<span class="n">env_mtx</span> <span class="o">=</span> <span class="n">env_encoder</span><span class="o">.</span><span class="n">encode_layers</span><span class="p">()</span>
+
+<span class="c1"># Encode biogeographic hypothesis data</span>
+<span class="n">BIOGEO_LAYER_FILENAMES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;bg_layer_1.shp&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;bg_layer_2.shp&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;bg_layer_3.shp&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;bg_layer_4.shp&#39;</span>
+<span class="p">]</span>
+<span class="n">bg_encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">()</span>
+<span class="n">bg_mtx</span> <span class="o">=</span> <span class="n">bg_encoder</span><span class="o">.</span><span class="n">encode_layers</span><span class="p">()</span>
+
+<span class="n">mcpa</span><span class="p">(</span><span class="n">pam</span><span class="p">,</span> <span class="n">phyl_mtx</span><span class="p">,</span> <span class="n">env_mtx</span><span class="p">,</span> <span class="n">bg_mtx</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>More soup to nuts tutorial
+Interpretation</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
