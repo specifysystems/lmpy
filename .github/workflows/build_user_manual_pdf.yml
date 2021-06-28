@@ -13,14 +13,11 @@ jobs:
       uses: actions/checkout@master
       with:
         fetch-depth: 0
-    - name: Install documentation dependencies
-      uses: py-actions/py-dependency-install@v2
-      with:
-        path: "requirements-docs.txt"
     # Create PDF documentation
     - name: Create html docs first?
       uses: ammaraskar/sphinx-action@master
       with:
+        pre-build-command: "pip install -r requirements-docs.txt"
         build-command: "sphinx-build -b html . _build"
         docs-folder: "_sphinx_config/"
     - name: Create documentation pdf
