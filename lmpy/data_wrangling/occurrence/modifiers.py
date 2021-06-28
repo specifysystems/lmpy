@@ -1,7 +1,8 @@
 """Module containing occurrence data wranglers for modifying point data."""
 from copy import deepcopy
 
-from osgeo import ogr, osr
+# import osgeo
+from osgeo import osr
 
 from lmpy.point import Point
 from lmpy.data_wrangling.occurrence.common import get_occurrence_map
@@ -9,7 +10,14 @@ from lmpy.data_wrangling.occurrence.common import get_occurrence_map
 
 # .............................................................................
 def get_accepted_name_modifier(accepted_taxa_filename):
-    """Get a data wrangler for populating accepted taxon name for points."""
+    """Get a data wrangler for populating accepted taxon name for points.
+
+    Args:
+        accepted_taxa_filename (str): A file containing accepted taxon names.
+
+    Returns:
+        Method: A function for filling in accepted taxon name for points.
+    """
     accepted_map = {}
     with open(accepted_taxa_filename, 'r') as in_file:
         _ = next(in_file)
@@ -50,8 +58,8 @@ def get_attribute_modifier(att_name, replace_func):
         replace_func (method): A method that returns a replacement value.
 
     Returns:
-        function(point): A function that takes a list of points and returns
-            points with the coordinates converted.
+        Method: A function that takes a list of points and returns points with the
+            coordinates converted.
     """
     # .......................
     def modify_func(point):
@@ -72,8 +80,8 @@ def get_common_format_modifier(attribute_map):
             name.
 
     Returns:
-        function(point): A function that takes a list of points and returns
-            points with the coordinates converted.
+        Method: A function that takes a list of points and returns points with the
+            coordinates converted.
     """
     # .......................
     def modify_func(point):
@@ -96,11 +104,17 @@ def get_coordinate_converter_modifier(in_epsg, out_epsg):
         out_epsg (int): The target EPSG code for output points.
 
     Returns:
-        function(point): A function that takes a list of points and returns
-            points with the coordinates converted.
+        Method: A function that takes a list of points and returns points with the
+            coordinates converted.
     """
     source = osr.SpatialReference()
     source.ImportFromEPSG(in_epsg)
+
+    # TODO: Change this in the future when we require GDAL >= 3
+    # if int(osgeo.__version__[0]) >= 3:  # pragma: no cover
+    #    # GDAL 3 changes axis order: https://github.com/OSGeo/gdal/issues/1546
+    #    source.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
+
     target = osr.SpatialReference()
     target.ImportFromEPSG(out_epsg)
 
@@ -108,12 +122,10 @@ def get_coordinate_converter_modifier(in_epsg, out_epsg):
 
     # .......................
     def converter_func(point):
-        geom = ogr.CreateGeometryFromWkt(
-            'POINT ({} {})'.format(point.x, point.y))
-        geom.Transform(transform)
+        new_x, new_y, _ = transform.TransformPoint(point.x, point.y)
         pt = deepcopy(point)
-        pt.x = geom.GetX()
-        pt.y = geom.GetY()
+        pt.x = new_x
+        pt.y = new_y
         return pt
 
     return get_occurrence_map(converter_func)

@@ -1,3 +1,4 @@
+"""Module for PAM randomization __init__."""
 from . import grady
 from . import swap
 

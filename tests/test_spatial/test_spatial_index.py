@@ -68,7 +68,11 @@ class Test_SpatialIndex:
     """Tests for the SpatialIndex class."""
     # ..........................
     def _clean_up(self, sp_index):
-        """Remove files created when saving an index."""
+        """Remove files created when saving an index.
+
+        Args:
+            sp_index (SpatialIndex): The index to clean up.
+        """
         index_name = sp_index.index.properties.filename
         sp_index.close()
         for ext in ['.json', '.geom_json', '.dat', '.idx']:

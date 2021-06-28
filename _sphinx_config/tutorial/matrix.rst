@@ -30,7 +30,7 @@ See: `Matrix <../source/lmpy.html#lmpy.matrix.Matrix>`_
 
     >>> np_arr = numpy.ones((5, 5))
     >>> new_mtx = Matrix(np_arr)
-    
+
 Reading a CSV file
 ------------------
 See: `Matrix.load_csv <../source/lmpy.html#lmpy.matrix.Matrix.load_csv>`_
@@ -52,7 +52,7 @@ See: `Matrix.concatenate <../source/lmpy.html#lmpy.matrix.Matrix.concatenate>`_
     >>> mtx_a = Matrix(np.ones((3, 3)))
     >>> mtx_b = Matrix(np.zeros((3, 10)))
     >>> concat_mtx = Matrix.concatenate([mtx_a, mtx_b], axis=1)
-    
+
 Slicing by array indices
 ------------------------
 See: `Matrix.slice <../source/lmpy.html#lmpy.matrix.Matrix.slice>`_
@@ -60,7 +60,7 @@ See: `Matrix.slice <../source/lmpy.html#lmpy.matrix.Matrix.slice>`_
     >>> np_mtx = numpy.arange(15).reshape((3, 5))
     >>> mtx = Matrix(np_mtx)
     >>> new_mtx = mtx.slice([0, 1], [0, 3, 4])
-    
+
 Slicing by headers
 ------------------
 See: `Matrix.slice_by_header <../source/lmpy.html#lmpy.matrix.Matrix.slice_by_header>`_
@@ -141,7 +141,7 @@ Setting metadata
 ----------------
 
     >>> mtx.metadata['author'] = 'My name'
-    
+
 Getting metadata
 ----------------
 See: `Matrix.get_metadata <../source/lmpy.html#lmpy.matrix.Matrix.get_metadata>`_

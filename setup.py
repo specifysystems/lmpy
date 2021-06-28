@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Setup module for lmpy."""
 from setuptools import setup, find_packages
 
 with open('README.md') as f:
@@ -9,8 +10,8 @@ with open('LICENSE') as f:
 
 setup(
     name='lmpy',
-    version='2.0.5',
-    description='Package of commonly used and shared Lifemapper objects',
+    version='3.0.0b1',
+    description='Package of commonly used and shared Lifemapper objects and tools',
     long_description=readme,
     author='Lifemapper Team',
     author_email='cjgrady@ku.edu',

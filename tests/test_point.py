@@ -13,7 +13,14 @@ from lmpy.point import (
 
 # .............................................................................
 def _flag_getter(index):
-    """Returns a getter for the test flags separated by ', '"""
+    """Returns a getter for the test flags separated by ', '.
+
+    Args:
+        index (int or str): The index that contains flag information in the point.
+
+    Returns:
+        Method: A function to get issue flags.
+    """
     def getter(obj):
         flag_string = obj[index]
         return flag_string.split(', ')
@@ -82,9 +89,26 @@ class Test_Point:
 class Test_PointCsvReader:
     """Test the PointCSVReader class."""
     # ..........................
-    def _make_csv(self, num_species, species_field, x_field, y_field,
-                  geopoint_field=None):
-        """Make a CSV file."""
+    def _make_csv(
+        self,
+        num_species,
+        species_field,
+        x_field,
+        y_field,
+        geopoint_field=None
+    ):
+        """Make a CSV file.
+
+        Args:
+            num_species (int): The number of species to include in the test file.
+            species_field (str): The name of a field to use for species name data.
+            x_field (str): The name of a field to use for x coordinate data.
+            y_field (str): The name of a field to use for y coordinate data.
+            geopoint_field (str, optional): The name of field to use for geopoint data.
+
+        Returns:
+            str: A file path for the test data file.
+        """
         if geopoint_field is not None:
             headers = [species_field, geopoint_field]
 

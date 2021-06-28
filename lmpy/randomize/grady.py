@@ -1,4 +1,4 @@
-"""Randomize PAMs using CJ's algorithm
+"""Randomize PAMs using CJ's algorithm.
 
 This module contains functions used to randomize a PAM using CJ's algorithm.
 This algorithm can run in a parallel fashion and uses a fill-based approach so
@@ -19,6 +19,12 @@ def fill_shuffle_reshape_heuristic(orig_pam):
 
     Creates an array with the total number of ones from the original PAM and
     shuffles it then it reshapes it to match the shape of the original PAM.
+
+    Args:
+        orig_pam (Matrix): The observed PAM to randomize.
+
+    Returns:
+        Matrix: An approximate randomization of the PAM that is uncorrected.
     """
     fill = int(np.sum(orig_pam))
     approx = np.zeros((orig_pam.shape), dtype=np.int8)
@@ -33,21 +39,35 @@ def total_fill_percentage_heuristic(orig_pam):
 
     Creates an approximation using the total matrix fill of the original PAM
     as a weight threshold to compare with randomly generated numbers.
+
+    Args:
+        orig_pam (Matrix): The observed PAM to randomize.
+
+    Returns:
+        Matrix: An approximate randomization of the PAM that is uncorrected.
     """
     fill = np.sum(orig_pam)
     fill_percentage = 1.0 * fill / orig_pam.size
-    approx = (np.random.uniform(
-        low=0.0, high=1.0, size=orig_pam.shape
-        ) <= fill_percentage).astype(np.int8)
+    approx = (
+        np.random.uniform(
+            low=0.0, high=1.0, size=orig_pam.shape
+        ) <= fill_percentage
+    ).astype(np.int8)
     return approx
 
 
 # .............................................................................
 def max_col_or_row_heuristic(orig_pam):
-    """Weighting method using max weight between row and column
+    """Weighting method using max weight between row and column.
 
     This method returns a matrix of weights where the weight of each cell is
     the maximum between the proportions of the row and col
+
+    Args:
+        orig_pam (Matrix): The observed PAM to randomize.
+
+    Returns:
+        Matrix: An approximate randomization of the PAM that is uncorrected.
     """
     row_totals = np.sum(orig_pam, axis=1)
     col_totals = np.sum(orig_pam, axis=0)
@@ -59,17 +79,25 @@ def max_col_or_row_heuristic(orig_pam):
         row_totals.astype(np.float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
         col_totals.astype(np.float) / col_totals.shape[0], 0)
-    return (np.random.uniform(
-        low=0.0, high=1.0, size=orig_pam.shape) <= np.maximum(
-            row_weights, col_weights)).astype(np.int8)
+    return (
+        np.random.uniform(
+            low=0.0, high=1.0, size=orig_pam.shape
+        ) <= np.maximum(row_weights, col_weights)
+    ).astype(np.int8)
 
 
 # .............................................................................
 def min_col_or_row_heuristic(orig_pam):
-    """Weighting method using max weight between row and column
+    """Weighting method using max weight between row and column.
 
     This method returns a matrix of weights where the weight of each cell is
     the maximum between the proportions of the row and col
+
+    Args:
+        orig_pam (Matrix): The observed PAM to randomize.
+
+    Returns:
+        Matrix: An approximate randomization of the PAM that is uncorrected.
     """
     row_totals = np.sum(orig_pam, axis=1, dtype=np.int)
     col_totals = np.sum(orig_pam, axis=0, dtype=np.int)
@@ -78,14 +106,22 @@ def min_col_or_row_heuristic(orig_pam):
         row_totals.astype(np.float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
         col_totals.astype(np.float) / col_totals.shape[0], 0)
-    return (np.random.uniform(
-        low=0.0, high=1.0, size=orig_pam.shape) <= np.minimum(
-            row_weights, col_weights, dtype=np.single)).astype(np.int8)
+    return (
+        np.random.uniform(
+            low=0.0, high=1.0, size=orig_pam.shape
+        ) <= np.minimum(row_weights, col_weights, dtype=np.single)
+    ).astype(np.int8)
 
 
 # .............................................................................
 def all_zeros_heuristic(orig_pam):
     """Creates a two-dimensional approximation composed of all zeros.
+
+    Args:
+        orig_pam (Matrix): The observed PAM to randomize.
+
+    Returns:
+        Matrix: An approximate randomization of the PAM that is uncorrected.
     """
     return np.zeros(orig_pam.shape, dtype=np.int8)
 
@@ -93,14 +129,19 @@ def all_zeros_heuristic(orig_pam):
 # .............................................................................
 def all_ones_heuristic(orig_pam):
     """Creates a two-dimensional approximation composed of all ones.
+
+    Args:
+        orig_pam (Matrix): The observed PAM to randomize.
+
+    Returns:
+        Matrix: An approximate randomization of the PAM that is uncorrected.
     """
     return np.ones(orig_pam.shape, dtype=np.int8)
 
 
 # .............................................................................
-def grady_randomize(mtx,
-                    approximation_heuristic=total_fill_percentage_heuristic):
-    """Main function for creating a random matrix
+def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic):
+    """Main function for creating a random matrix.
 
     Args:
         mtx (Matrix): A Matrix object representation of a PAM
@@ -229,7 +270,11 @@ def grady_randomize(mtx,
 
 # .............................................................................
 __all__ = [
-    'all_ones_heuristic', 'all_zeros_heuristic',
-    'fill_shuffle_reshape_heuristic', 'grady_randomize',
-    'max_col_or_row_heuristic', 'min_col_or_row_heuristic',
-    'total_fill_percentage_heuristic']
+    'all_ones_heuristic',
+    'all_zeros_heuristic',
+    'fill_shuffle_reshape_heuristic',
+    'grady_randomize',
+    'max_col_or_row_heuristic',
+    'min_col_or_row_heuristic',
+    'total_fill_percentage_heuristic'
+]

@@ -1,13 +1,17 @@
-"""Tests the occurrence data filters
-"""
+"""Tests the occurrence data filters."""
 import tempfile
 
 from lmpy import Point
 from lmpy.data_wrangling.occurrence.filters import (
-    get_attribute_filter, get_bounding_box_filter,
-    get_decimal_precision_filter, get_disjoint_geometries_filter,
-    get_intersect_geometries_filter, get_minimum_points_filter,
-    get_spatial_index_filter, get_unique_localities_filter)
+    get_attribute_filter,
+    get_bounding_box_filter,
+    get_decimal_precision_filter,
+    get_disjoint_geometries_filter,
+    get_intersect_geometries_filter,
+    get_minimum_points_filter,
+    get_spatial_index_filter,
+    get_unique_localities_filter
+)
 from lmpy.spatial.spatial_index import create_geometry_from_bbox, SpatialIndex
 
 
@@ -24,8 +28,8 @@ class Test_occurrence_filters:
             points (list of Point): A list of points to test.
 
         Returns:
-            list - A list of points that pass the filter.
-            int - A count of the points that were filtered out.
+            list: A list of points that pass the filter.
+            int: A count of the points that were filtered out.
         """
         filter_count = 0
         filtered_points = filter_function(points)

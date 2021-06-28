@@ -4,7 +4,7 @@ from lmpy import Matrix
 
 
 # .............................................................................
-# Matric Decorators
+# Metric Decorators
 # .............................................................................
 class PamStatsMetric:
     """Base class for PAM statistics metrics.
@@ -15,12 +15,24 @@ class PamStatsMetric:
     # .........................
     def __init__(self, func):
         """Constructor.
+
+        Args:
+            func: The function to call.
         """
         self.func = func
         self.__doc__ = self.func.__doc__
 
     # .........................
     def __call__(self, *args, **kwargs):
+        """Call the wrapped function.
+
+        Args:
+            *args: Positional arguments passed to the function.
+            **kwargs: Keyword arguments passed to the function.
+
+        Returns:
+            object: The output of the wrapped function.
+        """
         # Do anything needed before calling the function
         ret = self.func(*args, **kwargs)
         # Do anything needed after the function
@@ -29,8 +41,7 @@ class PamStatsMetric:
 
 # .............................................................................
 class CovarianceMatrixMetric(PamStatsMetric):
-    """
-    """
+    """A metric that produces a covariance matrix."""
 
 
 # .............................................................................
@@ -60,7 +71,7 @@ class SiteMatrixMetric(_SiteStatMetric):
 
 # .............................................................................
 class PamDistMatrixMetric(_SiteStatMetric):
-    """A site-based metric computed from a PAM and Tree"""
+    """A site-based metric computed from a PAM and Tree."""
 
 
 # .............................................................................
@@ -78,28 +89,59 @@ class TreeDistanceMatrixMetric(_SiteStatMetric):
 # .............................................................................
 @SiteMatrixMetric
 def alpha(pam):
-    """Calculate alpha diversity, the number of species in each site."""
+    """Calculate alpha diversity, the number of species in each site.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: A column of alpha diversity values for each site in the PAM.
+    """
     return pam.sum(axis=1)
 
 
 # .............................................................................
 @SiteMatrixMetric
 def alpha_proportional(pam):
-    """Calculate proportional alpha diversity."""
+    """Calculate proportional alpha diversity.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: A column of proportional alpha diversity values for each site in the
+            PAM.
+    """
     return pam.sum(axis=1).astype(np.float) / num_species(pam)
 
 
 # .............................................................................
 @SiteMatrixMetric
 def phi(pam):
-    """Calculate phi, the range size per site."""
+    """Calculate phi, the range size per site.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: A column of the sum of the range sizes for the species present at each
+            site in the PAM.
+    """
     return pam.dot(pam.sum(axis=0))
 
 
 # .............................................................................
 @SiteMatrixMetric
 def phi_average_proportional(pam):
-    """Calculate proportional range size per site."""
+    """Calculate proportional range size per site.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: A column of the proportional value of the sum of the range sizes for
+            the species present at each site in the PAM.
+    """
     return pam.dot(omega(pam)).astype(np.float) / (num_sites(pam) * alpha(pam))
 
 
@@ -108,28 +150,57 @@ def phi_average_proportional(pam):
 # .............................................................................
 @SpeciesMatrixMetric
 def omega(pam):
-    """Calculate the range size per species."""
+    """Calculate the range size per species.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: A row of range sizes for each species in the PAM.
+    """
     return pam.sum(axis=0)
 
 
 # .............................................................................
 @SpeciesMatrixMetric
 def omega_proportional(pam):
-    """Calculate the mean proportional range size of each species."""
+    """Calculate the mean proportional range size of each species.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: A row of the proportional range sizes for each species in the PAM.
+    """
     return pam.sum(axis=0).astype(float) / num_sites(pam)
 
 
 # .............................................................................
 @SpeciesMatrixMetric
 def psi(pam):
-    """Calculate the range richness of each species."""
+    """Calculate the range richness of each species.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: A row of range richness for the sites that each species is present in.
+    """
     return pam.sum(axis=1).dot(pam)
 
 
 # .............................................................................
 @SpeciesMatrixMetric
 def psi_average_proportional(pam):
-    """Calculate the mean proportional species diversity."""
+    """Calculate the mean proportional species diversity.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: A row of proportional range richness for the sites that each species in
+            the PAM is present.
+    """
     return alpha(
         pam).dot(pam).astype(np.float) / (num_species(pam) * omega(pam))
 
@@ -139,6 +210,14 @@ def psi_average_proportional(pam):
 # .............................................................................
 @DiversityMetric
 def schluter_species_variance_ratio(pam):
+    """Calculate Schluter's species variance ratio.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        float: The Schluter species variance ratio for the PAM.
+    """
     sigma_species_ = sigma_species(pam)
     return float(sigma_species_.sum() / sigma_species_.trace())
 
@@ -146,6 +225,14 @@ def schluter_species_variance_ratio(pam):
 # .............................................................................
 @DiversityMetric
 def schluter_site_variance_ratio(pam):
+    """Calculate Schluter's site variance ratio.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        float: The Schluter site variance ratio for the PAM.
+    """
     sigma_sites_ = sigma_sites(pam)
     return float(sigma_sites_.sum() / sigma_sites_.trace())
 
@@ -153,28 +240,56 @@ def schluter_site_variance_ratio(pam):
 # .............................................................................
 @DiversityMetric
 def num_sites(pam):
-    """Get the number of sites with presences."""
+    """Get the number of sites with presences.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        int: The number of sites that have present species.
+    """
     return int(np.sum(np.any(pam, axis=1)))
 
 
 # .............................................................................
 @DiversityMetric
 def num_species(pam):
-    """Get the number of species with presences."""
+    """Get the number of species with presences.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        int: The number of species that are present in at least one site.
+    """
     return int(np.sum(np.any(pam, axis=0)))
 
 
 # .............................................................................
 @DiversityMetric
 def whittaker(pam):
-    """Calculate Whittaker's beta diversity metric for a PAM."""
+    """Calculate Whittaker's beta diversity metric for a PAM.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        float: Whittaker's beta diversity for the PAM.
+    """
     return float(num_species(pam) / omega_proportional(pam).sum())
 
 
 # .............................................................................
 @DiversityMetric
 def lande(pam):
-    """Calculate Lande's beta diversity metric for a PAM."""
+    """Calculate Lande's beta diversity metric for a PAM.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        float: Lande's beta diversity for the PAM.
+    """
     return float(num_species(pam) - (
         pam.sum(axis=0).astype(float) / num_sites(pam)).sum())
 
@@ -182,7 +297,14 @@ def lande(pam):
 # .............................................................................
 @DiversityMetric
 def legendre(pam):
-    """Calculate Legendre's beta diversity metric for a PAM."""
+    """Calculate Legendre's beta diversity metric for a PAM.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        float: Legendre's beta diversity for the PAM.
+    """
     return float(
         omega(pam).sum() - (float((omega(pam) ** 2).sum()) / num_sites(pam)))
 
@@ -190,7 +312,14 @@ def legendre(pam):
 # .............................................................................
 @DiversityMetric
 def c_score(pam):
-    """Calculate the checkerboard score for the PAM."""
+    """Calculate the checker board score for the PAM.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        float: The checkerboard score for the PAM.
+    """
     temp = 0.0
     # Cache these so we don't recompute
     omega_ = omega(pam)  # Cache so we don't waste computations
@@ -210,7 +339,13 @@ def c_score(pam):
 # .............................................................................
 @CovarianceMatrixMetric
 def sigma_sites(pam):
-    """
+    """Compute the site sigma metric for a PAM.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: Matrix of covariance of composition of sites.
     """
     site_by_site = pam.dot(pam.T).astype(np.float)
     alpha_prop = alpha_proportional(pam)
@@ -220,7 +355,13 @@ def sigma_sites(pam):
 # .............................................................................
 @CovarianceMatrixMetric
 def sigma_species(pam):
-    """
+    """Compute the species sigma metric for a PAM.
+
+    Args:
+        pam (Matrix): The presence-absence matrix to use for the computation.
+
+    Returns:
+        Matrix: Matrix of covariance of composition of species.
     """
     species_by_site = pam.T.dot(pam).astype(np.float)
     omega_prop = omega_proportional(pam)
@@ -234,21 +375,33 @@ def sigma_species(pam):
 @TreeDistanceMatrixMetric
 def mean_nearest_taxon_distance(phylo_dist_mtx):
     """Calculates the nearest neighbor distance.
+
+    Args:
+        phylo_dist_mtx (Matrix): A matrix of distances between the species present at a
+            site.
+
+    Returns:
+        float: The average distance from each taxa to taxa nearest to it.
     """
     try:
         nearest_total = np.sum(
             [np.min(row[row > 0.0]) for row in phylo_dist_mtx])
         return float(nearest_total / phylo_dist_mtx.shape[0])
-    except Exception:
+    except Exception:  # pragma: no cover
         return 0.0
 
 
 # .............................................................................
 @TreeDistanceMatrixMetric
 def mean_pairwise_distance(phylo_dist_mtx):
-    """Calculates mean pairwise distance
+    """Calculates mean pairwise distance between species present at a site.
 
-    Calculates mean pairwise distance between the species present at each site
+    Args:
+        phylo_dist_mtx (Matrix): A matrix of distances between the species present at a
+            site.
+
+    Returns:
+        float: The average distance from each taxa all of the other co-located taxa.
     """
     num_sp = phylo_dist_mtx.shape[0]
     return float((
@@ -259,7 +412,14 @@ def mean_pairwise_distance(phylo_dist_mtx):
 # .............................................................................
 @TreeDistanceMatrixMetric
 def sum_pairwise_distance(phylo_dist_mtx):
-    """Calculates the sum pairwise distance for all species present at a site
+    """Calculates the sum pairwise distance for all species present at a site.
+
+    Args:
+        phylo_dist_mtx (Matrix): A matrix of distances between the species present at a
+            site.
+
+    Returns:
+        float: The total distance from each taxa all of the other co-located taxa.
     """
     return float((phylo_dist_mtx.sum() - phylo_dist_mtx.trace()) / 2.0)
 
@@ -267,7 +427,15 @@ def sum_pairwise_distance(phylo_dist_mtx):
 # .............................................................................
 @PamDistMatrixMetric
 def pearson_correlation(pam, phylo_dist_mtx):
-    """Calculates the Pearson correlation coef. for each site."""
+    """Calculates the Pearson correlation coefficient for each site.
+
+    Args:
+        pam (Matrix): A presence-absence matrix to use for the computation.
+        phylo_dist_mtx (Matrix): A matrix of distance between species.
+
+    Returns:
+        Matrix: A column of Pearson correlation values for each site in a PAM.
+    """
     num_sites_ = pam.shape[0]
     pearson = np.zeros((num_sites_, 1), dtype=float)
 
@@ -306,7 +474,13 @@ def pearson_correlation(pam, phylo_dist_mtx):
 # .............................................................................
 @TreeMetric
 def phylogenetic_diversity(tree):
-    """Calculate phylogenetic diversity
+    """Calculate phylogenetic diversity of a tree.
+
+    Args:
+        tree (TreeWrapper): A phylogenetic tree to compute phylogenetic diversity for.
+
+    Returns:
+        float: The sum of the edge lengths of the nodes of the provided tree.
     """
     try:
         return np.sum([node.edge_length for node in tree.nodes()])
@@ -350,17 +524,31 @@ class PamStats:
 
     # ...........................
     def __init__(self, pam, tree=None):
+        """Constructor for PAM stats computations.
+
+        Args:
+            pam (Matrix): A presence-absence matrix to use for computations.
+            tree (TreeWrapper): A tree to use for phylogenetic distance computations.
+        """
         self.pam = pam
         self.tree = tree
 
     # ...........................
     def calculate_covariance_statistics(self):
-        """Calculate covariance statistics matrices."""
+        """Calculate covariance statistics matrices.
+
+        Returns:
+            list of tuple: A list of metric name, value tuples for covariance stats.
+        """
         return [(name, func(self.pam)) for name, func in self.covariance_stats]
 
     # ...........................
     def calculate_diversity_statistics(self):
-        """Calculate diversity statistics."""
+        """Calculate diversity statistics.
+
+        Returns:
+            list of tuple: A list of metric name, value tuples for diversity metrics.
+        """
         print([func(self.pam) for _, func in self.diversity_stats])
         diversity_matrix = Matrix(
             np.array([func(self.pam) for _, func in self.diversity_stats]),
@@ -371,7 +559,11 @@ class PamStats:
 
     # ...........................
     def calculate_site_statistics(self):
-        """Calculate site-based statistics."""
+        """Calculate site-based statistics.
+
+        Returns:
+            Matrix: A matrix of site-based statistics for the selected metrics.
+        """
         # Matrix based
         print('Start')
         site_stats_matrix = Matrix(
@@ -413,13 +605,16 @@ class PamStats:
             print('Get distance matrix')
             phylo_dist_mtx = self.tree.get_distance_matrix()
             print('PAM dist mtx stats')
-            site_pam_tree_matrix = Matrix(
-                Matrix.concatenate(
-                    [func(self.pam, phylo_dist_mtx
-                          ) for _, func in self.site_pam_dist_mtx_stats]),
-                headers={
-                    '0': self.pam.get_row_headers(),
-                    '1': [name for name, _ in self.site_pam_dist_mtx_stats]})
+            site_pam_tree_matrix = None
+            if self.site_pam_dist_mtx_stats:
+                site_pam_tree_matrix = Matrix(
+                    Matrix.concatenate(
+                        [func(self.pam, phylo_dist_mtx
+                              ) for _, func in self.site_pam_dist_mtx_stats]),
+                    headers={
+                        '0': self.pam.get_row_headers(),
+                        '1': [name for name, _ in
+                              self.site_pam_dist_mtx_stats]})
 
             print('Site by site')
             # Loop through PAM
@@ -456,14 +651,26 @@ class PamStats:
                     print(present_labels)
                     print('Site index: {}'.format(site_idx))
 
-            site_stats_matrix = Matrix.concatenate(
-                [site_stats_matrix, site_tree_stats_matrix,
-                 site_tree_dist_mtx_matrix, site_pam_tree_matrix], axis=1)
+            all_stat_matrices = []
+            if site_stats_matrix is not None:
+                all_stat_matrices.append(site_stats_matrix)
+            if site_tree_stats_matrix is not None:
+                all_stat_matrices.append(site_tree_stats_matrix)
+            if site_tree_dist_mtx_matrix is not None:
+                all_stat_matrices.append(site_tree_dist_mtx_matrix)
+            if site_pam_tree_matrix is not None:
+                all_stat_matrices.append(site_pam_tree_matrix)
+
+            site_stats_matrix = Matrix.concatenate(all_stat_matrices, axis=1)
         return site_stats_matrix
 
     # ...........................
     def calculate_species_statistics(self):
-        """Calculate species-based statistics."""
+        """Calculate species-based statistics.
+
+        Returns:
+            Matrix: A matrix of species-based statistics for the selected metrics.
+        """
         # Matrix based
         species_stats_matrix = Matrix(
             np.zeros((self.pam.shape[1], len(self.species_matrix_stats))),
@@ -483,6 +690,9 @@ class PamStats:
         Args:
             name (str): A name for this metric that will be used for a header.
             metric_function (function): A decorated metric generating function.
+
+        Raises:
+            TypeError: Raised if the metric function type cannot be processed.
         """
         if isinstance(metric_function, CovarianceMatrixMetric):
             self.covariance_stats.append((name, metric_function))
@@ -501,18 +711,42 @@ class PamStats:
             self.species_matrix_stats.append((name, metric_function))
         else:
             raise TypeError(
-                'Unknown metric type: {}, {}'.format(name, metric_function))
+                'Unknown metric type: {}, {}'.format(name, metric_function)
+            )
 
 
 # .............................................................................
-__all__ = ['CovarianceMatrixMetric', 'DiversityMetric', 'PamDistMatrixMetric',
-           'PamStats', 'PamStatsMetric', 'SiteMatrixMetric',
-           'SpeciesMatrixMetric', 'TreeDistanceMatrixMetric', 'TreeMetric',
-           'alpha', 'alpha_proportional', 'c_score', 'lande', 'legendre',
-           'mean_nearest_taxon_distance', 'mean_pairwise_distance',
-           'num_sites', 'num_species', 'omega', 'omega_proportional',
-           'pearson_correlation', 'phi', 'phi_average_proportional',
-           'phylogenetic_diversity', 'psi', 'psi_average_proportional',
-           'schluter_site_variance_ratio', 'schluter_species_variance_ratio',
-           'sigma_sites', 'sigma_species', 'sum_pairwise_distance',
-           'whittaker']
+__all__ = [
+    'CovarianceMatrixMetric',
+    'DiversityMetric',
+    'PamDistMatrixMetric',
+    'PamStats',
+    'PamStatsMetric',
+    'SiteMatrixMetric',
+    'SpeciesMatrixMetric',
+    'TreeDistanceMatrixMetric',
+    'TreeMetric',
+    'alpha',
+    'alpha_proportional',
+    'c_score',
+    'lande',
+    'legendre',
+    'mean_nearest_taxon_distance',
+    'mean_pairwise_distance',
+    'num_sites',
+    'num_species',
+    'omega',
+    'omega_proportional',
+    'pearson_correlation',
+    'phi',
+    'phi_average_proportional',
+    'phylogenetic_diversity',
+    'psi',
+    'psi_average_proportional',
+    'schluter_site_variance_ratio',
+    'schluter_species_variance_ratio',
+    'sigma_sites',
+    'sigma_species',
+    'sum_pairwise_distance',
+    'whittaker'
+]

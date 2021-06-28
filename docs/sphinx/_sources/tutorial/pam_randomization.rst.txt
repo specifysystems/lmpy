@@ -144,7 +144,7 @@ randomized matrix as they can quickly require a large amount of disk space.  It
 is fairly easy to utilize Python multi-processing to utilize multiple CPU cores
 on a single machine but we will keep this example as simple as possible.  For
 this null model, we'll assume that the "calculate_c_score" function exists.  We
-will use the 
+will use the
 `RunningStats <../source/lmpy.statistics.html#module-lmpy.statistics.running_stats>`_
 class to keep track of mean, standard deviation, and p-values for our null
 model.  Note that the RunningStats class can handle either single values or

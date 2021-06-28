@@ -7,7 +7,7 @@ Welcome to Lifemapper lmpy's documentation!
 ===========================================
 
 The Lifemapper lmpy repository contains common Lifemapper objects that can be
-useful to the community for either developing new tools for the 
+useful to the community for either developing new tools for the
 `BiotaPhy Python Repository <https://github.com/biotaphy/BiotaPhyPy>`_ or for
 independent projects that want to use some of our performance and feature
 improvements.
@@ -21,11 +21,11 @@ models.
 .. toctree::
     :maxdepth: 2
     :caption: Contents:
-   
+
     pages/installation
-    
+
     tutorial/tutorial
-   
+
     pages/about
     pages/references
 

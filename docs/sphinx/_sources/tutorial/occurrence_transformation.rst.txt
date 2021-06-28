@@ -52,4 +52,3 @@ See: `get_coordinate_converter <../source/lmpy.data_preparation.html#lmpy.data_p
     ...           Point('Test species', -28, 18)]
     >>> converter = get_coordinate_converter(4326, 2815)
     >>> new_points = [converter(pt) for pt in points]
-

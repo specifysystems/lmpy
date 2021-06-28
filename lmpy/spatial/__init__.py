@@ -1,4 +1,4 @@
-"""Spatial tools"""
+"""Spatial tools."""
 # flake8: noqa
 from . import spatial_index
 from .spatial_index import *
