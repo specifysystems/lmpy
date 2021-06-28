@@ -1,8 +1,8 @@
 name: Sphinx to GitHub Pages
 on:
   push:
-    #tags:
-    #  - '*.*.*' # Tag events matching {major}.{minor}.{patch}{whatever}
+    tags:
+      - '*.*.*' # Tag events matching {major}.{minor}.{patch}{whatever}
     branches:
       - main
 jobs:
