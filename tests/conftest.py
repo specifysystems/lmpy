@@ -7,6 +7,7 @@ import pytest
 # .............................................................................
 # .                                 Constants                                 .
 # .............................................................................
+DWCA_DIR = 'dwcas'
 TREES_DIR = 'trees'
 LAYER_ENCODER_DIR = 'encoding_layers'
 OCCURRENCE_WRANGLER_DIR = 'data_wranglers/occurrence'
@@ -82,6 +83,16 @@ class SampleDataFiles(object):
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
         return [glob.glob(os.path.join(ENCODER_DATA_PATH, 'bg_hyp*.shp'))]
+
+    # ...........................
+    def get_dwcas(self):
+        """Get a list of sample Darwin Core Archive filenames.
+
+        Returns:
+            list: A list of sample dwca zip files.
+        """
+        DWCA_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, DWCA_DIR)
+        return [glob.glob(os.path.join(DWCA_DATA_PATH, '*.zip'))]
 
     # ...........................
     def get_occurrence_wrangler_configurations(self):
@@ -190,7 +201,8 @@ def pytest_generate_tests(metafunc):
         ('vector_pa_filenames', df.get_vector_pa_filenames()),
         ('bio_geo_filenames', df.get_bio_geo_filenames()),
         ('occurrence_wrangler_configuration',
-            df.get_occurrence_wrangler_configurations())
+            df.get_occurrence_wrangler_configurations()),
+        ('dwca_filename', df.get_dwcas()),
     ]
     for fixture_name, fixture_values in fixture_tuples:
         if fixture_name in metafunc.fixturenames:

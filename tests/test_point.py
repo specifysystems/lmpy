@@ -8,7 +8,8 @@ import pytest
 
 from lmpy import Point
 from lmpy.point import (
-    none_getter, PointCsvReader, PointCsvWriter, PointJsonWriter)
+    none_getter, PointCsvReader, PointCsvWriter, PointDwcaReader, PointJsonWriter
+)
 
 
 # .............................................................................
@@ -178,6 +179,24 @@ class Test_PointCsvWriter:
                     Point('species', -30, -30)
                 ])
         os.remove(filename)
+
+
+# ............................................................................
+class Test_PointDwcaReader:
+    """Test PointDwcaReader class."""
+    # ..........................
+    def test_aggregator_dwca(self, dwca_filename):
+        """Test that an aggregator DWCA file can be processed correctly.
+
+        Args:
+            dwca_filename (str): A DWCA file to process.
+        """
+        with PointDwcaReader(dwca_filename) as reader:
+            for pt in reader:
+                assert isinstance(pt, Point)
+
+# Test that constants work
+# Test specific fields
 
 
 # ............................................................................
