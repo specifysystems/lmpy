@@ -192,9 +192,11 @@ class Test_PointDwcaReader:
         Args:
             dwca_filename (str): A DWCA file to process.
         """
-        with PointDwcaReader(dwca_filename) as reader:
-            for pt in reader:
-                assert isinstance(pt, Point)
+        for fn in dwca_filename:
+            with PointDwcaReader(fn) as reader:
+                for points in reader:
+                    for pt in points:
+                        assert isinstance(pt, Point)
 
     # ..........................
     def test_constants_dwca(self):
@@ -218,7 +220,7 @@ class Test_PointDwcaReader:
         meta_xml_data = '\n'.join(
             [
                 '<archive xmlns="http://rs.tdwg.org/dwc/text/">',
-                '<extension',
+                '<core',
                 ' encoding="utf-8"',
                 ' fieldsTerminatedBy=","',
                 ' linesTerminatedBy="\n"',
@@ -235,7 +237,7 @@ class Test_PointDwcaReader:
                     constant_field,
                     constant_value
                 ),
-                '</extension>',
+                '</core>',
                 '</archive>'
             ]
         )
@@ -251,11 +253,12 @@ class Test_PointDwcaReader:
         # Set up reader
         with PointDwcaReader(dwca_filename) as reader:
             # For each point
-            for pt in reader:
+            for points in reader:
                 # Check that all records are points
-                assert isinstance(pt, Point)
-                # Check for constant field
-                assert pt.get_attribute(constant_field) == constant_value
+                for pt in points:
+                    assert isinstance(pt, Point)
+                    # Check for constant field
+                    assert pt.get_attribute(constant_field) == constant_value
 
 # Test that constants work
 # Test specific fields

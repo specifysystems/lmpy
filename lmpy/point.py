@@ -4,6 +4,7 @@ Note: A namedtuple could replace this class for Python 3.7+
 """
 import copy
 import csv
+import io
 import json
 import xml.etree.ElementTree as ET
 import zipfile
@@ -21,6 +22,13 @@ DWCA_OCCURRENCE_PARAMS = {
     'encoding': 'UTF-8',
     'dateFormat': 'YYY-MM-DD',
 }
+
+# DWCA Tag Constants
+CORE_TAG = '{http://rs.tdwg.org/dwc/text/}core'
+FIELD_TAG = '{http://rs.tdwg.org/dwc/text/}field'
+FILES_TAG = '{http://rs.tdwg.org/dwc/text/}files'
+ID_TAG = '{http://rs.tdwg.org/dwc/text/}id'
+LOCATION_TAG = '{http://rs.tdwg.org/dwc/text/}location'
 
 
 # .....................................................................................
@@ -327,7 +335,7 @@ class PointDwcaReader:
         self.occurrence_params = copy.deepcopy(DWCA_OCCURRENCE_PARAMS)
         self._curr_val = None
         self._next_points = []
-        self.species_term = 'species'
+        self.species_term = 'scientificName'
         self.x_term = 'decimalLongitude'
         self.y_term = 'decimalLatitude'
         self.geopoint_term = None
@@ -417,21 +425,26 @@ class PointDwcaReader:
             point_dict = {
                 term: self.fields[term](point_row) for term in self.fields.keys()
             }
-            pt = Point(
-                self._get_species_name(point_dict),
-                self._get_x_value(point_dict),
-                self._get_y_value(point_dict),
-                attributes=point_dict
-            )
-            test_val = pt.get_attribute(self.group_field)
-            if test_val != self._curr_val:
-                if self._curr_val is not None:
+            try:
+                pt = Point(
+                    self._get_species_name(point_dict),
+                    self._get_x_value(point_dict),
+                    self._get_y_value(point_dict),
+                    attributes=point_dict
+                )
+                test_val = pt.get_attribute(self.group_field)
+                if test_val != self._curr_val:
+                    if self._curr_val is not None:
+                        self._curr_val = test_val
+                        tmp = self._next_points
+                        self._next_points = [pt]
+                        return tmp
                     self._curr_val = test_val
-                    tmp = self._next_points
-                    self._next_points = [pt]
-                    return tmp
-                self._curr_val = test_val
-            self._next_points.append(pt)
+                self._next_points.append(pt)
+            except KeyError:
+                pass
+            except TypeError:
+                pass
 
         if self._next_points:
             tmp = self._next_points
@@ -447,7 +460,7 @@ class PointDwcaReader:
             meta_contents (str): The string contents of the metadata file (meta.xml).
         """
         root_element = ET.fromstring(meta_contents)
-        core_element = root_element.find('core')
+        core_element = root_element.find(CORE_TAG)
 
         # Process core element
         # - Look for parameters we use for processing
@@ -456,14 +469,16 @@ class PointDwcaReader:
                 self.occurrence_params[core_att] = core_element.attrib[core_att]
 
         # Get the occurrence data file name in the zip file
-        self.occurrence_filename = core_element.find('files').find('location')[0]
+        self.occurrence_filename = core_element.find(FILES_TAG).findall(
+            LOCATION_TAG
+        )[0].text
 
         # Get the CSV fields from the metadata
-        for field_element in core_element.findall('field'):
+        for field_element in core_element.findall(FIELD_TAG):
             # Get field processing function
             field_term = field_element.attrib['term']
             # Remove namespace
-            if field_term.index('/') > 0:
+            if field_term.find('/') > 0:
                 field_term = field_term.split('/')[-1]
             field_index = None
             field_default = None
@@ -471,7 +486,7 @@ class PointDwcaReader:
             field_delimiter = None
 
             if 'index' in field_element.attrib.keys():
-                field_index = field_element.attrib['index']
+                field_index = int(field_element.attrib['index'])
             if 'default' in field_element.attrib.keys():
                 field_default = field_element.attrib['default']
             if 'vocabulary' in field_element.attrib.keys():
@@ -486,7 +501,7 @@ class PointDwcaReader:
                 delimiter=field_delimiter
             )
         # Check for id field
-        for id_element in core_element.findall('id'):
+        for id_element in core_element.findall(ID_TAG):
             field_term = 'id'
             field_index = None
             field_default = None
@@ -494,7 +509,7 @@ class PointDwcaReader:
             field_delimiter = None
 
             if 'index' in id_element.attrib.keys():
-                field_index = id_element.attrib['index']
+                field_index = int(id_element.attrib['index'])
             if 'default' in id_element.attrib.keys():
                 field_default = id_element.attrib['default']
             if 'vocabulary' in id_element.attrib.keys():
@@ -515,20 +530,32 @@ class PointDwcaReader:
         # Open the zip file
         self._zip_archive = zipfile.ZipFile(self.archive_filename, mode='r')
         # self._zip_archive.open()
-        meta_contents = self._zip_archive.read(self.meta_filename)
+        meta_contents = io.TextIOWrapper(
+            self._zip_archive.open(self.meta_filename)
+        ).read()
         self._process_metadata(meta_contents)
         # Read metadata
         # Get occurrence file ready
-        self.file = open(
-            self.occurrence_filename, 'r', encoding=self.occurrence_params['encoding']
+        self.file = io.TextIOWrapper(
+            self._zip_archive.open(self.occurrence_filename)
         )
-        self.reader = csv.reader(
-            self.file,
-            delimiter=self.occurrence_params['fieldsTerminatedBy'],
-            lineterminator=self.occurrence_params['linesTerminatedBy'],
-            quotechar=self.occurrence_params['fieldsEnclosedBy']
-        )
-        for _ in range(self.occurrence_params['ignoreHeaderLines']):
+
+        delimiter = self.occurrence_params['fieldsTerminatedBy']
+        if delimiter.find('t') > 0:
+            delimiter = '\t'
+
+        reader_params = {
+            'delimiter': delimiter,
+        }
+        if len(self.occurrence_params['linesTerminatedBy']) > 0:
+            reader_params[
+                'lineterminator'
+            ] = self.occurrence_params['linesTerminatedBy']
+        if len(self.occurrence_params['fieldsEnclosedBy']) > 0:
+            reader_params['quotechar'] = self.occurrence_params['fieldsEnclosedBy']
+
+        self.reader = csv.reader(self.file, **reader_params)
+        for _ in range(int(self.occurrence_params['ignoreHeaderLines'])):
             next(self.reader)
 
     # .......................
