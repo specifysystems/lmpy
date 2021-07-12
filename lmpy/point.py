@@ -220,6 +220,8 @@ class PointCsvReader:
                 pass
             except KeyError as ke:  # pragma: no cover
                 raise ke
+            except TypeError:  # pragma: no cover
+                pass
         if self._next_points:
             tmp = self._next_points
             self._next_points = []
@@ -245,17 +247,20 @@ class PointCsvReader:
 class PointCsvWriter():
     """Class for writing Points to a CSV file."""
     # .......................
-    def __init__(self, filename, fields):
+    def __init__(self, filename, fields, **kwargs):
         """Constructor for writing points to csv file.
 
         Args:
             filename (str): A file location to write points to.
             fields (list): A list of fields to include in the csv headers.
+            **kwargs (dict): Keyword parameters that will be passed to the DictWriter
+                instance from the csv module.
         """
         self.filename = filename
         self.file = None
         self.writer = None
         self.field_names = fields
+        self.kwargs = kwargs
 
     # .......................
     def __enter__(self):
@@ -285,7 +290,7 @@ class PointCsvWriter():
     def open(self):
         """Open file for writing."""
         self.file = open(self.filename, 'w')
-        self.writer = csv.DictWriter(self.file, self.field_names)
+        self.writer = csv.DictWriter(self.file, self.field_names, **self.kwargs)
         self.writer.writeheader()
 
     # .......................

@@ -26,7 +26,7 @@ def get_occurrence_filter(pass_condition_func):
             filtered.
 
     Returns:
-        Method: A function to filter a lsit of points.
+        Method: A function to filter a list of points.
     """
     # .......................
     def occurrence_filter(points):
