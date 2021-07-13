@@ -74,3 +74,6 @@ Putting It All Together
 
 Aggregate and Clean Multiple Data Files
 ---------------------------------------
+
+    >>> get_data_from_aggregator
+
