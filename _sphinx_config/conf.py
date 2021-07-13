@@ -40,7 +40,8 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
-    'sphinx_rtd_theme'
+    'sphinx_rtd_theme',
+    'autoapi.extension'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -65,3 +66,8 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['.static']
 
 master_doc = 'index'
+
+
+# Auto api config
+autoapi_type = 'python'
+autoapi_dirs = ['../lmpy']
