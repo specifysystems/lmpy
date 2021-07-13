@@ -12,7 +12,7 @@ can be used to process entire sets of points.  Filters can be chained together
 to "clean" occurrence data before processing.
 
 Bounding Box Filter
--------------------
+===================
 A bounding box filter simply checks to see if the X,Y coordinates of a point
 fall within the specified bounding box.
 
@@ -29,7 +29,7 @@ See: `get_bounding_box_filter <../source/lmpy.data_preparation.html#lmpy.data_pr
 ----
 
 Data Flag Filter
-----------------
+================
 Data flag filters can be used to determine if a point should be kept based on
 any flags attached to it.  For example, you may want to remove any points that
 have the flag 'invalid' but otherwise you would keep them, retaining points
@@ -48,7 +48,7 @@ See: `get_data_flag_filter <../source/lmpy.data_preparation.html#lmpy.data_prepa
 ----
 
 Disjoint Geometries Filter
---------------------------
+==========================
 A disjoint geometries filter will only pass points that fall outside of a set
 of geometries.  This is useful if you want to do something like remove points
 that are found in herbaria.  You would create a set of bufferred point
@@ -69,7 +69,7 @@ See `get_disjoint_geometries_filter <../source/lmpy.data_preparation.html#lmpy.d
 ----
 
 Intersect Geometries Filter
----------------------------
+===========================
 The intersect geometries filter is the inverse of the disjoint geometries
 filter.  It only passes points found within the specified test geometries.
 
@@ -88,7 +88,7 @@ See `get_intersect_geometries_filter <../source/lmpy.data_preparation.html#lmpy.
 ----
 
 Unique Localities Filter
-------------------------
+========================
 The unique localities filter is used to filter out points with identical
 localities.  This is used by Lifemapper to ensure that models are only produced
 for species with a minimum number of unique localites.

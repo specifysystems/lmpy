@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Delimited to Points &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  <title>Occurrence Transformations &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
   
 
   
@@ -98,9 +98,12 @@
 <li class="toctree-l2"><a class="reference internal" href="matrix.html">Matrix Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcpa.html">Metacommunity Phylogenetics Analysis (MCPA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Delimited to Points</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#json-to-points">JSON to Points</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#convert-coordinate-systems">Convert Coordinate Systems</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Occurrence Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#delimited-to-points">Delimited to Points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#json-to-points">JSON to Points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#convert-coordinate-systems">Convert Coordinate Systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_statistics.html">PAM Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running_stats.html">Running Statistics</a></li>
@@ -161,7 +164,7 @@
         
           <li><a href="tutorial.html">Tutorials</a> &raquo;</li>
         
-      <li>Delimited to Points</li>
+      <li>Occurrence Transformations</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -180,8 +183,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="delimited-to-points">
-<h1>Delimited to Points<a class="headerlink" href="#delimited-to-points" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="occurrence-transformations">
+<h1>Occurrence Transformations<a class="headerlink" href="#occurrence-transformations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="delimited-to-points">
+<h2>Delimited to Points<a class="headerlink" href="#delimited-to-points" title="Permalink to this headline">¶</a></h2>
 <p>Converting delimited data (tab, comma, or other) to points can be done using
 <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_transformation.convert_delimited_to_point">convert_delimited_to_point</a>
 You can use column indices or getter methods like ‘itemgetter’ to get values.</p>
@@ -195,7 +200,7 @@ You can use column indices or getter methods like ‘itemgetter’ to get values
 </div>
 <hr class="docutils" />
 <div class="section" id="json-to-points">
-<h1>JSON to Points<a class="headerlink" href="#json-to-points" title="Permalink to this headline">¶</a></h1>
+<h2>JSON to Points<a class="headerlink" href="#json-to-points" title="Permalink to this headline">¶</a></h2>
 <p>Point data can be extracted from JSON data as well by using dictionary keys or
 getter functions.  Combined with an optional iterator function, even
 complicated JSON data structures can be processed to extract occurrence point
@@ -218,7 +223,7 @@ information.</p>
 </div>
 <hr class="docutils" />
 <div class="section" id="convert-coordinate-systems">
-<h1>Convert Coordinate Systems<a class="headerlink" href="#convert-coordinate-systems" title="Permalink to this headline">¶</a></h1>
+<h2>Convert Coordinate Systems<a class="headerlink" href="#convert-coordinate-systems" title="Permalink to this headline">¶</a></h2>
 <p>The ‘get_coordinate_converter’ function returns a function that will convert
 the X and Y coordinates of points provided to it from the original coordinate
 system to the specified target coordinate system.</p>
@@ -230,6 +235,7 @@ system to the specified target coordinate system.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">converter</span> <span class="o">=</span> <span class="n">get_coordinate_converter</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">2815</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">new_points</span> <span class="o">=</span> <span class="p">[</span><span class="n">converter</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">points</span><span class="p">]</span>
 </pre></div>
+</div>
 </div>
 </div>
 

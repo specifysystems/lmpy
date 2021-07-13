@@ -98,9 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="matrix.html">Matrix Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcpa.html">Metacommunity Phylogenetics Analysis (MCPA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html">Delimited to Points</a></li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#json-to-points">JSON to Points</a></li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#convert-coordinate-systems">Convert Coordinate Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html">Occurrence Transformations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_statistics.html">PAM Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running_stats.html">Running Statistics</a></li>
@@ -184,15 +182,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="build_grid.html">Build Shapegrid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="build_grid.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_grid.html#build-a-shapegrid">Build a Shapegrid</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="data_cleaning.html">Data Cleaning</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#reading-data-files">Reading Data Files</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#read-a-csv-file">Read a CSV File</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#read-a-darwin-core-archive-file">Read a Darwin Core Archive File</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#reading-a-csv-file">Reading a CSV File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#reading-a-darwin-core-archive-file">Reading a Darwin Core Archive File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#filtering-records">Filtering Records</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#built-in-filters">Built-in Filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#custom-filters">Custom Filters</a></li>
@@ -205,32 +201,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#putting-it-all-together">Putting It All Together</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#aggregate-and-clean-multiple-data-files">Aggregate and Clean Multiple Data Files</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#creating-matrix-instances">Creating Matrix Instances</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#from-an-existing-numpy-ndarray">From an existing NumPy ndarray</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#reading-a-csv-file">Reading a CSV file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#reading-a-saved-matrix">Reading a saved Matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#concatenating-existing-matrix-objects">Concatenating existing Matrix objects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#slicing-by-array-indices">Slicing by array indices</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#slicing-by-headers">Slicing by headers</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#writing-matrix-objects">Writing Matrix objects</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#saving-to-the-file-system">Saving to the file system</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#writing-to-a-csv-file">Writing to a CSV file</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#header-management">Header management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#on-instantiation">On instantiation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#setting-headers">Setting headers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#getting-headers">Getting headers</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#metadata-management">Metadata management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#id2">On instantiation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#setting-metadata">Setting metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#getting-metadata">Getting metadata</a></li>
 </ul>
 </li>
 </ul>
@@ -278,19 +248,20 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#bounding-box-filter">Bounding Box Filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#data-flag-filter">Data Flag Filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#disjoint-geometries-filter">Disjoint Geometries Filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#intersect-geometries-filter">Intersect Geometries Filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="occurrence_filters.html#unique-localities-filter">Unique Localities Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html#bounding-box-filter">Bounding Box Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html#data-flag-filter">Data Flag Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html#disjoint-geometries-filter">Disjoint Geometries Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html#intersect-geometries-filter">Intersect Geometries Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html#unique-localities-filter">Unique Localities Filter</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="occurrence_transformation.html">Occurrence Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#delimited-to-points">Delimited to Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#json-to-points">JSON to Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#convert-coordinate-systems">Convert Coordinate Systems</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="occurrence_transformation.html">Delimited to Points</a></li>
-<li class="toctree-l1"><a class="reference internal" href="occurrence_transformation.html#json-to-points">JSON to Points</a></li>
-<li class="toctree-l1"><a class="reference internal" href="occurrence_transformation.html#convert-coordinate-systems">Convert Coordinate Systems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html#randomization-algorithms">Randomization algorithms</a><ul>
