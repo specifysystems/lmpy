@@ -71,3 +71,15 @@ master_doc = 'index'
 # Auto api config
 autoapi_type = 'python'
 autoapi_dirs = ['../lmpy']
+autoapi_options = [
+    'members',
+    'undoc-members',
+    'private-members',
+    'show-inheritance',
+    'show-module-summary',
+    'special-members',
+    'imported-members',
+    'inherited-members'
+]
+autoapi_python_class_content = 'init'
+autoapi_member_order = 'alphabetical'

@@ -20,7 +20,7 @@ DEFAULT_TREE_SCHEMA = 'nexus'
 
 
 # .............................
-class PhyloTreeKeys(object):
+class PhyloTreeKeys:
     """Keys for phylogenetic trees.
 
     Attributes:
@@ -52,7 +52,7 @@ class TreeWrapper(dendropy.Tree):
         """Creates a TreeWrapper object from a base dendropy.Tree.
 
         Args:
-            tree (dendropy.Tree): A base dendropy tree object to wrap into a
+            tree (:obj:`dendropy.Tree`): A base dendropy tree object to wrap into a
                 TreeWrapper.
 
         Returns:
@@ -66,7 +66,7 @@ class TreeWrapper(dendropy.Tree):
         """Creates a TreeWrapper object by loading a file.
 
         Args:
-            filename (str): A file path to a tree file that should be loaded.
+            filename (:obj:`str`): A file path to a tree file that should be loaded.
 
         Returns:
             TreeWrapper: The newly loaded tree.
@@ -161,11 +161,13 @@ class TreeWrapper(dendropy.Tree):
             Update to use annotate_tree.
 
         Args:
-            attribute_name (str): The name of the annotation attribute to add.
-            annotation_pairs (dict): A dictionary of label keys with annotation values.
-            label_attribute (str, optional): If this is provided, use this annotation
-                attribute as the key instead of the label. Defaults to 'label'.
-            update (bool, optional): Defaults to False.  Indicates if existing
+            attribute_name (:obj:`str`): The name of the annotation attribute to add.
+            annotation_pairs (:obj:`dict`): A dictionary of label keys with annotation
+                values.
+            label_attribute (:obj:`str`, optional): If this is provided, use this
+                annotation attribute as the key instead of the label. Defaults to
+                'label'.
+            update (:obj:`bool`, optional): Defaults to False.  Indicates if existing
                 annotations should be updated.
         """
         label_method = self._get_label_method(label_attribute)
@@ -196,7 +198,7 @@ class TreeWrapper(dendropy.Tree):
         """Gets a list of (label, annotation) pairs.
 
         Args:
-            annotation_attribute (str): The annotation attribute to retrieve.
+            annotation_attribute (:obj:`str`): The annotation attribute to retrieve.
 
         Returns:
             list: A list of annotations.
@@ -216,10 +218,10 @@ class TreeWrapper(dendropy.Tree):
         lower memory footprint.
 
         Args:
-            label_attribute (str, optional): The attribute of the tips to use as labels
-                for the matrix.  Defaults to 'label'.
-            ordered_labels (list of str, optional): If provided, use this order of
-                labels.
+            label_attribute (:obj:`str`, optional): The attribute of the tips to use as
+                labels for the matrix.  Defaults to 'label'.
+            ordered_labels (:obj:`list` of :obj:`str`, optional): If provided, use this
+                order of labels.
 
         Returns:
             Matrix: A distance matrix from each tip to each of the other tips
@@ -306,10 +308,10 @@ class TreeWrapper(dendropy.Tree):
         Gets the distance matrix between each tip using Dendropy.
 
         Args:
-            label_attribute (str, optional): The attribute of the tips to use as labels
-                for the matrix.  Defaults to 'label'.
-            ordered_labels (list of str, optional): If provided, use this order of
-                labels.
+            label_attribute (:obj:`str`, optional): The attribute of the tips to use as
+                labels for the matrix.  Defaults to 'label'.
+            ordered_labels (:obj:`list` of :obj:`str`, optional): If provided, use this
+                order of labels.
 
         Note:
             This method may require a significant amount of memory for large trees.
@@ -377,10 +379,10 @@ class TreeWrapper(dendropy.Tree):
         """Gets a Matrix object of variance / co-variance for tips in tree.
 
         Args:
-            label_attribute (str, optional): The attribute of the tips to use as labels
-                for the matrix.  Defaults to 'label'.
-            ordered_labels (list of str, optional): If provided, use this order of
-                labels.
+            label_attribute (:obj:`str`, optional): The attribute of the tips to use as
+                labels for the matrix.  Defaults to 'label'.
+            ordered_labels (:obj:`list` of :obj:`str`, optional): If provided, use this
+                order of labels.
 
         Returns:
             Matrix: A matrix of variance / co-variance values for the tips in
@@ -488,7 +490,7 @@ class TreeWrapper(dendropy.Tree):
         """Checks if the tree is ultrametric.
 
         Args:
-            rel_tol (float): The relative tolerance to determine if the min and
+            rel_tol (:obj:`float`): The relative tolerance to determine if the min and
                 max are equal.  We will say they are equal if they are 99.9%.
 
         Returns:
@@ -511,8 +513,8 @@ class TreeWrapper(dendropy.Tree):
         """Prunes the tree of any tips that don't have the specified attribute.
 
         Args:
-            search_attribute (str, optional): The attribute to look for when pruning
-                tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.
+            search_attribute (:obj:`str`, optional): The attribute to look for when
+                pruning tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.
         """
         prune_taxa = []
         for taxon in self.taxon_namespace:
@@ -527,7 +529,7 @@ class TreeWrapper(dendropy.Tree):
         """Use the label attribute as the node label.
 
         Args:
-            label_attribute (str): The annotation to use as the label for the
+            label_attribute (:obj:`str`): The annotation to use as the label for the
                 nodes in the tree.
 
         Returns:
@@ -537,7 +539,7 @@ class TreeWrapper(dendropy.Tree):
             """Get the label of a taxon.
 
             Args:
-                taxon (Taxon): A taxon object to get the label for.
+                taxon (:obj:`dendropy.Taxon`): A taxon object to get the label for.
 
             Returns:
                 str: The taxon's label.
@@ -551,11 +553,11 @@ class TreeWrapper(dendropy.Tree):
         """Annotates a node with the given value.
 
         Args:
-            node (Node): A node to add an annotation to.
-            annotation_attribute (str): The annotation attribute to add.  If
+            node (:obj:`dendropy.Node`): A node to add an annotation to.
+            annotation_attribute (:obj:`str`): The annotation attribute to add.  If
                 None or 'label', update the node label.
-            annotation_value: The value of the annotation.
-            update (bool, optional): If True, update existing attribute.
+            annotation_value (:obj:`object`): The value of the annotation.
+            update (:obj:`bool`, optional): If True, update existing attribute.
                 Defaults to False.
         """
         if annotation_attribute is None or \
@@ -582,7 +584,7 @@ class TreeWrapper(dendropy.Tree):
         """Gets the function to be used for retrieving labels.
 
         Args:
-            label_attribute (str): An annotation name, 'label', or None used to
+            label_attribute (:obj:`str`): An annotation name, 'label', or None used to
                 determine which method to use to retrieve the label of a node.
 
         Returns:
@@ -597,12 +599,12 @@ class TreeWrapper(dendropy.Tree):
         """Private function to do the work when labeling nodes.
 
         Args:
-            node (Node): A node to label.
-            i (int): A count of the number of previously labeled nodes.
-            prefix (str, optional): A prefix to use when labeling nodes resulting in
-                labels like 'prefix_0'.  Defaults to None and no prefix.
-            overwrite (bool, optional): Should node labels be overwritten.  Defaults to
-                False.
+            node (:obj:`dendropy.Node`): A node to label.
+            i (:obj:`int`): A count of the number of previously labeled nodes.
+            prefix (:obj:`str`, optional): A prefix to use when labeling nodes
+                resulting in labels like 'prefix_0'.  Defaults to None and no prefix.
+            overwrite (:obj:`bool`, optional): Should node labels be overwritten.
+                Defaults to False.
 
         Returns:
             int: The number of nodes already labeled in the tree.
@@ -633,7 +635,7 @@ class TreeWrapper(dendropy.Tree):
         """Use the label of the node or taxon for the label.
 
         Args:
-            node (Node): The node to get the label for.
+            node (:obj:`dendropy.Node`): The node to get the label for.
 
         Returns:
             str: If the node or the node's taxon has a label, return it.
