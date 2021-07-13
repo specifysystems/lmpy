@@ -77,7 +77,8 @@ class Matrix(np.ndarray):
         constructor gave it.
 
         Args:
-            obj (Matrix): If the object is a matrix, pull out headers and metadata.
+            obj (:obj:`Matrix1): If the object is a matrix, pull out headers and
+                metadata.
         """
         # We could have got to the ndarray.__new__ call in 3 ways:
         # 1. From an explicit constructor - Matrix():
@@ -105,7 +106,7 @@ class Matrix(np.ndarray):
         """Load a matrix from a filename.
 
         Args:
-            filename (str): File location of matrix to load.
+            filename (:obj:`str`): File location of matrix to load.
 
         Returns:
             Matrix: The matrix read from the file.
@@ -196,10 +197,9 @@ class Matrix(np.ndarray):
         Args:
             mtx_list (:obj:`list` of :obj:`Matrix`): A List of Matrix objects
                 to concatenate together.
-            axis (int, optional): The axis to concatenate these Matrix objects
-                on.  This should be an integer for the matrix axis of
-                concatenation.  This will be converted to a string where needed
-                for headers.
+            axis (:obj:`int`, optional): The axis to concatenate these Matrix objects
+                on.  This should be an integer for the matrix axis of concatenation.
+                This will be converted to a string where needed for headers.
 
         Note:
             * Assumes that headers for other axes are the same.
@@ -315,8 +315,8 @@ class Matrix(np.ndarray):
                 axis, else, return all.
 
         Returns:
-            If axis is None, a dictionary of all headers for the matrix.
-            If axis is int, A list of headers for the specified axis.
+            dict: If axis is None, a dictionary of all headers for the matrix.
+            list: If axis is int, A list of headers for the specified axis.
         """
         try:
             if axis is None:
@@ -389,10 +389,11 @@ class Matrix(np.ndarray):
         """Sets the headers for this Matrix.
 
         Args:
-            headers (dict or list of list or list): Matrix headers.  Can be a list of
-                lists, a dictionary of lists, or if axis is provided, a single list.
-            axis (int): If provided, set the headers for a specific axis, else, process
-                as if it is for the entire Matrix.
+            headers (:obj:`dict` or :obj:`list` of :obj:`list` or :obj:`list`): Matrix
+                headers.  Can be a list of lists, a dictionary of lists, or if axis is
+                provided, a single list.
+            axis (:obj:`int`): If provided, set the headers for a specific axis, else,
+                process  as if it is for the entire Matrix.
 
         Todo:
             Validate input for single axis operation?
@@ -456,8 +457,8 @@ class Matrix(np.ndarray):
         """Gets a slice of the Matrix matching the header provided.
 
         Args:
-            header (str): The name of a header to use for slicing
-            axis (int): The axis to find this header.
+            header (:obj:`str`): The name of a header to use for slicing
+            axis (:obj:`int`): The axis to find this header.
 
         Todo:
             Add capability to slice over multiple axes and multiple headers.
@@ -502,8 +503,8 @@ class Matrix(np.ndarray):
         """Transposes the Matrix.
 
         Args:
-            axes (None, tuple of ints, n ints): The order of the axes in the
-                transposition. see: ndarray.transpose
+            axes (:obj:`None`, :obj:`tuple` of :obj:`int`, n :obj:`int`s): The order of
+                the axes in the transposition. see: ndarray.transpose
 
         Returns:
             Matrix: A transposed version of the original matrix
@@ -532,7 +533,7 @@ class Matrix(np.ndarray):
         """Write the matrix to the specified file location.
 
         Args:
-            filename (str): The file location to save to.
+            filename (:obj:`str`): The file location to save to.
         """
         with open(filename, 'wb') as out_file:
             self.save(out_file)
@@ -569,7 +570,7 @@ class Matrix(np.ndarray):
             """Use this function for processing headers when they are lists.
 
             Args:
-                x (list): A list value to return.
+                x (:obj:`list`): A list value to return.
 
             Returns:
                 list: A list of data.
@@ -581,7 +582,7 @@ class Matrix(np.ndarray):
             """Use this function for processing non-list headers.
 
             Args:
-                x (object): A non-list value to modify.
+                x (:obj:`object`): A non-list value to modify.
 
             Returns:
                 list: A list of data.
