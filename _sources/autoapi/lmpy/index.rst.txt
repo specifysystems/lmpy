@@ -1,0 +1,35 @@
+:mod:`lmpy`
+===========
+
+.. py:module:: lmpy
+
+.. autoapi-nested-parse::
+
+   Base init module.
+
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   data_preparation/index.rst
+   data_wrangling/index.rst
+   randomize/index.rst
+   spatial/index.rst
+   statistics/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   matrix/index.rst
+   point/index.rst
+   tree/index.rst
+
+

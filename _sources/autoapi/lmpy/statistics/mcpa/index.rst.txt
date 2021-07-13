@@ -1,0 +1,297 @@
+:mod:`lmpy.statistics.mcpa`
+===========================
+
+.. py:module:: lmpy.statistics.mcpa
+
+.. autoapi-nested-parse::
+
+   Module for performing a MetaCommunity Phylogenetics Analysis.
+
+   See:
+       Leibold, M.A., E.P. Economo and P.R. Peres-Neto. 2010. Metacommunity
+            phylogenetics: separating the roles of environmental filters and
+            historical biogeography. Ecology letters 13: 1290-1299.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.statistics.mcpa._beta_helper
+   lmpy.statistics.mcpa._calculate_beta
+   lmpy.statistics.mcpa._calculate_r_squared
+   lmpy.statistics.mcpa._calculate_y_hat
+   lmpy.statistics.mcpa._mcpa_for_node
+   lmpy.statistics.mcpa._standardize_matrix
+   lmpy.statistics.mcpa._trace_mtx_by_transverse
+   lmpy.statistics.mcpa.get_p_values
+   lmpy.statistics.mcpa.mcpa
+   lmpy.statistics.mcpa.mcpa_parallel
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.statistics.mcpa.lock
+   lmpy.statistics.mcpa.CONCURRENCY_FACTOR
+
+
+.. data:: lock
+   
+
+   
+
+.. data:: CONCURRENCY_FACTOR
+   :annotation: = 5
+
+   
+
+.. function:: _beta_helper(mtx1, mtx2, weights)
+
+   This helper function avoids creating large temporary matrices.
+
+   :param mtx1: A (n [sites] by i [predictors]) standardized matrix.
+   :type mtx1: Matrix
+   :param mtx2: A (n [sites] by i [predictors]) standardized matrix.
+   :type mtx2: Matrix
+   :param weights: A (n [sites]) array of site weights.
+   :type weights: Matrix
+
+   :returns: The beta matrix created by the helper.
+   :rtype: Matrix
+
+
+.. function:: _calculate_beta(pred_std, weights, phylo_std, use_lock=True)
+
+   Calculates the regression model (beta) for the provided inputs.
+
+   :param pred_std: A standardized predictor matrix
+                    (n [sites] by i [predictors]).
+   :type pred_std: Matrix
+   :param weights: A matrix of site weights (n by n).
+   :type weights: Matrix
+   :param phylo_std: A standardized phylo matrix (n by k [nodes]).
+   :type phylo_std: Matrix
+   :param use_lock: If true, use a lock when performing the computation
+                    to save on overall memory usage.  This is useful for large, or
+                    full, predictor matrices but can be skipped for single columns to
+                    improve performance.
+   :type use_lock: boolean
+
+   .. note::
+
+      * The computation is::
+          beta = (M_T.W.M)^-1.M_T.W.P
+      * M is the predictor matrix
+      * M_T is the transverse of the predictor matrix
+      * W is the weights column
+      * P is the phylo matrix
+      * "^-1" is the inverse of the matrix
+      * Locking is available to prevent many threads / subprocesses from
+          performing memory intensive computations concurrently and
+          overwhelming the system.
+
+   .. todo:: * Update documentation so that note shows symbols in equation
+
+   :returns:
+
+             An (i by k) numpy ndarray, where i is the number of predictors in
+                 pred_std and k is the number of nodes in phylo_std.
+   :rtype: Matrix
+
+
+.. function:: _calculate_r_squared(y_hat, phylo_std)
+
+   Calculates the R-squared value for the inputs.
+
+   :param y_hat: A predicted value for a regression
+                 (n [sites] by k [nodes]).
+   :type y_hat: Matrix
+   :param phylo_std: A standardized phylo matrix
+                     (n [sites] by k [nodes]).
+   :type phylo_std: Matrix
+
+   .. note::
+
+      * R^2 = trace(y_hat . y_hat) / trace(P . P_T)
+      * y_hat_T is the transverse of y_hat
+      * P_T is the transverse of phylo_std
+
+   :returns: R squared value for the inputs.
+   :rtype: Matrix
+
+
+.. function:: _calculate_y_hat(pred_std, beta)
+
+   Calculates the predicted value for a regression (Y hat).
+
+   :param pred_std: A standardized predictor matrix
+                    (n [sites] by i [predictors]).
+   :type pred_std: Matrix
+   :param beta: The regression model associated with this prediction
+                (i by k [nodes]).
+   :type beta: Matrix
+
+   :returns: An (n [sites] by k [nodes]) numpy ndarray
+   :rtype: Matrix
+
+
+.. function:: _mcpa_for_node(incidence_mtx, env_mtx, bg_mtx, phylo_col, use_locks=False)
+
+   Runs MCPA computations for a single tree node.
+
+   :param incidence_mtx: An incidence matrix (PAM).
+   :type incidence_mtx: Matrix
+   :param env_mtx: An environmental matrix (GRIM).
+   :type env_mtx: Matrix
+   :param bg_mtx: A matrix of encoded Biogeographic hypotheses.
+   :type bg_mtx: Matrix
+   :param phylo_col: A column from the phylo matrix for a
+                     single node.
+   :type phylo_col: Matrix
+   :param use_locks: Indicator if locks are needed for larger
+                     computations.  This is probably only true for parallel runs.
+   :type use_locks: boolean
+
+   :returns: Tuple of observed Matrix, f-values Matrix
+   :rtype: tuple
+
+
+.. function:: _standardize_matrix(mtx, weights)
+
+   Standardizes a phylogenetic or predictor matrix.
+
+   :param mtx: The matrix to standardize
+   :type mtx: Matrix
+   :param weights: A one-dimensional array of sums to use for standardization.
+   :type weights: Matrix
+
+   .. note::
+
+      * Formula for standardization ::
+          Mstd = M - 1c.1r.W.M(1/trace(W)) ./ 1c(1r.W(M*M)
+                     - ((1r.W.M)*(1r.W.M)(1/trace(W))(1/trace(W)-1))^0.5
+      * M - Matrix to be standardized
+      * W - A k by k diagonal matrix of weights, where each non-zero value is
+          the column or row sum (depending on the M) for an incidence matrix.
+      * 1r - A row of k ones
+      * 1c - A column of k ones
+      * trace - Returns the sum of the input matrix
+      * "./" indicates Hadamard division
+      * "*" indicates Hadamard multiplication
+      * Code adopted from supplemental material MATLAB code
+
+   See:
+       Literature supplemental materials
+
+   :returns: Standardized matrix.
+   :rtype: Matrix
+
+
+.. function:: _trace_mtx_by_transverse(mtx)
+
+   Prevent a memory bomb by performing trace(mtx . mtx.T) in a smarter way.
+
+   This method takes advantage of the fact that we are really only interested
+       in the diagonal matrix created by performing a dot product of a matrix
+       and its transverse.  Because of that, we can perform the dot product of
+       each row by its transverse and then sum the results.
+
+   :param mtx: A matrix to use to calculate the trace(M . M_T).
+   :type mtx: Matrix
+
+   .. note::
+
+      * There was an error in the formula that called for a dot product of
+          each matrix transverse with itself.  This was a typo as that would
+          only work with square matrices.
+
+   :returns: Trace matrix dot matrix transverse.
+   :rtype: Matrix
+
+
+.. function:: get_p_values(observed_value, test_values, num_permutations=None)
+
+   Gets an array of P-Values.
+
+   Gets an (1 or 2 dimension) array of P values where the P value for an array
+       location is determined by finding the number of test values at
+       corresponding locations are greater than or equal to that value and
+       then dividing that number by the number of permutations
+
+   :param observed_value: An array of observed values to use as a
+                          reference.
+   :type observed_value: Matrix
+   :param test_values: A list of arrays generated from randomizations
+                       that will be compared to the observed
+   :type test_values: Matrix
+   :param num_permutations: (optional) The total number of randomizations
+                            performed.  Divide the P-values by this if provided.
+
+   .. todo:: Deprecate this in favor of method in running stats
+
+   :returns: Calculated p-values.
+   :rtype: Matrix
+
+
+.. function:: mcpa(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)
+
+   Runs MCPA for a set of matrices.
+
+   :param incidence_matrix: A binary Lifemapper Matrix object
+                            representing the incidence of each species for each site by coding
+                            them as ones.  This is the same thing as a Lifemapper Presence
+                            Absence Matrix, or PAM (n [sites] by k+1 [species]).
+   :type incidence_matrix: Matrix
+   :param phylo_mtx: A matrix encoding of a phylogenetic tree where each
+                     cell represents the relative contribution of each tip to each
+                     inner tree node (k+1 [species] by k [nodes]).
+   :type phylo_mtx: Matrix
+   :param env_mtx: A matrix encoding of the environment for each site
+                   (n [sites] by ei [environmental predictors]).
+   :type env_mtx: Matrix
+   :param bg_mtx: A matrix of Helmert contrasts (-1, 0, 1) for
+                  Biogeographic hypotheses (n [sites] by bi [biogeographic
+                  predictors]).
+   :type bg_mtx: Matirx
+
+   :returns: Tuple of Matrix of observed values and Matrix of F-pseudo values.
+   :rtype: tuple
+
+
+.. function:: mcpa_parallel(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)
+
+   Run MCPA for a set of matrices using parallelism.
+
+   Performs MCPA across each of the tree nodes in parallel.
+
+   :param incidence_matrix: A binary Lifemapper Matrix object
+                            representing the incidence of each species for each site by coding
+                            them as ones.  This is the same thing as a Lifemapper Presence
+                            Absence Matrix, or PAM (n [sites] by k+1 [species]).
+   :type incidence_matrix: Matrix
+   :param phylo_mtx: A matrix encoding of a phylogenetic tree where each
+                     cell represents the relative contribution of each tip to each
+                     inner tree node (k+1 [species] by k [nodes]).
+   :type phylo_mtx: Matrix
+   :param env_mtx: A matrix encoding of the environment for each site
+                   (n [sites] by ei [environmental predictors]).
+   :type env_mtx: Matrix
+   :param bg_mtx: A matrix of Helmert contrasts (-1, 0, 1) for
+                  Biogeographic hypotheses (n [sites] by bi [biogeographic
+                  predictors]).
+   :type bg_mtx: Matirx
+
+   :returns: Tuple of Matrix of observed values and Matrix of F-pseudo values.
+   :rtype: tuple
+
+

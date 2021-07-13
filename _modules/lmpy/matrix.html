@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
 
   
   
@@ -92,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
 </ul>
 
             
@@ -188,7 +190,7 @@
 
 
 <span class="c1"># .............................................................................</span>
-<span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix">[docs]</a><span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Lifemapper wrapper for Numpy ndarrays that adds headers.&quot;&quot;&quot;</span>
     <span class="c1"># ...........................</span>
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -229,7 +231,7 @@
         <span class="k">return</span> <span class="n">obj</span>
 
     <span class="c1"># ...........................</span>
-    <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix.__array_finalize__"><a class="viewcode-back" href="../../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.__array_finalize__">[docs]</a>    <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Overridden function from ndarray.</span>
 
 <span class="sd">        ``self`` is a new object resulting from ndarray.__new__(Matrix, ...),</span>
@@ -257,11 +259,11 @@
         <span class="c1">#    default value for &#39;headers&#39;, because this method sees all creation</span>
         <span class="c1">#    of default objects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;headers&#39;</span><span class="p">,</span> <span class="p">{})</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="p">{})</span></div>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="Matrix.load"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.load"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load a matrix from a filename.</span>
 
 <span class="sd">        Args:</span>
@@ -274,8 +276,8 @@
             <span class="k">return</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load_flo</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span></div>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="Matrix.load_csv"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load_csv">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">load_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flo</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_header_cols</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.load_csv"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load_csv">[docs]</a>    <span class="k">def</span> <span class="nf">load_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flo</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_header_cols</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Attempts to load a Matrix object from a CSV file-like object.</span>
 
 <span class="sd">        Args:</span>
@@ -326,8 +328,8 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">row_headers</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">col_headers</span><span class="p">})</span></div>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="Matrix.load_flo"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load_flo">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">load_flo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flo</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.load_flo"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load_flo">[docs]</a>    <span class="k">def</span> <span class="nf">load_flo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flo</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Attempts to load a Matrix object from a file.</span>
 
 <span class="sd">        Args:</span>
@@ -349,8 +351,8 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">my_obj</span><span class="p">[</span><span class="n">HEADERS_KEY</span><span class="p">])</span></div>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="Matrix.concatenate"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.concatenate">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mtx_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.concatenate"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.concatenate">[docs]</a>    <span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mtx_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Concatenates multiple Matrix objects together to form a new Matrix.</span>
 
 <span class="sd">        Args:</span>
@@ -646,7 +648,7 @@
 
     <span class="c1"># ...........................</span>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix.T"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.T">[docs]</a>    <span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the transpose of the matrix.</span>
 
 <span class="sd">        Returns:</span>
@@ -655,7 +657,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
 
     <span class="c1"># ...........................</span>
 <div class="viewcode-block" id="Matrix.transpose"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.transpose">[docs]</a>    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">axes</span><span class="p">):</span>
@@ -794,7 +796,7 @@
         <span class="c1"># .....................</span>
         <span class="c1"># Main write_csv function</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">csv_generator</span><span class="p">():</span>
-            <span class="n">flo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])))</span></div>
+            <span class="n">flo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])))</span></div></div>
 
 
 <span class="c1"># .............................................................................</span>

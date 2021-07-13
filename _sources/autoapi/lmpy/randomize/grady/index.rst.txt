@@ -1,0 +1,130 @@
+:mod:`lmpy.randomize.grady`
+===========================
+
+.. py:module:: lmpy.randomize.grady
+
+.. autoapi-nested-parse::
+
+   Randomize PAMs using CJ's algorithm.
+
+   This module contains functions used to randomize a PAM using CJ's algorithm.
+   This algorithm can run in a parallel fashion and uses a fill-based approach so
+   as to prevent a bias caused by starting with an initial condition of a
+   populated matrix.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.randomize.grady.fill_shuffle_reshape_heuristic
+   lmpy.randomize.grady.total_fill_percentage_heuristic
+   lmpy.randomize.grady.max_col_or_row_heuristic
+   lmpy.randomize.grady.min_col_or_row_heuristic
+   lmpy.randomize.grady.all_zeros_heuristic
+   lmpy.randomize.grady.all_ones_heuristic
+   lmpy.randomize.grady.grady_randomize
+
+
+
+.. function:: fill_shuffle_reshape_heuristic(orig_pam)
+
+   Create an approximation with the correct number of 1s randomly placed.
+
+   Creates an array with the total number of ones from the original PAM and
+   shuffles it then it reshapes it to match the shape of the original PAM.
+
+   :param orig_pam: The observed PAM to randomize.
+   :type orig_pam: Matrix
+
+   :returns: An approximate randomization of the PAM that is uncorrected.
+   :rtype: Matrix
+
+
+.. function:: total_fill_percentage_heuristic(orig_pam)
+
+   Create an approximation using the total fill percentage of the PAM.
+
+   Creates an approximation using the total matrix fill of the original PAM
+   as a weight threshold to compare with randomly generated numbers.
+
+   :param orig_pam: The observed PAM to randomize.
+   :type orig_pam: Matrix
+
+   :returns: An approximate randomization of the PAM that is uncorrected.
+   :rtype: Matrix
+
+
+.. function:: max_col_or_row_heuristic(orig_pam)
+
+   Weighting method using max weight between row and column.
+
+   This method returns a matrix of weights where the weight of each cell is
+   the maximum between the proportions of the row and col
+
+   :param orig_pam: The observed PAM to randomize.
+   :type orig_pam: Matrix
+
+   :returns: An approximate randomization of the PAM that is uncorrected.
+   :rtype: Matrix
+
+
+.. function:: min_col_or_row_heuristic(orig_pam)
+
+   Weighting method using max weight between row and column.
+
+   This method returns a matrix of weights where the weight of each cell is
+   the maximum between the proportions of the row and col
+
+   :param orig_pam: The observed PAM to randomize.
+   :type orig_pam: Matrix
+
+   :returns: An approximate randomization of the PAM that is uncorrected.
+   :rtype: Matrix
+
+
+.. function:: all_zeros_heuristic(orig_pam)
+
+   Creates a two-dimensional approximation composed of all zeros.
+
+   :param orig_pam: The observed PAM to randomize.
+   :type orig_pam: Matrix
+
+   :returns: An approximate randomization of the PAM that is uncorrected.
+   :rtype: Matrix
+
+
+.. function:: all_ones_heuristic(orig_pam)
+
+   Creates a two-dimensional approximation composed of all ones.
+
+   :param orig_pam: The observed PAM to randomize.
+   :type orig_pam: Matrix
+
+   :returns: An approximate randomization of the PAM that is uncorrected.
+   :rtype: Matrix
+
+
+.. function:: grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic)
+
+   Main function for creating a random matrix.
+
+   :param mtx: A Matrix object representation of a PAM
+   :type mtx: Matrix
+   :param approximation_heuristic: A function that generates an
+                                   approximation of a final randomized matrix.
+   :type approximation_heuristic: function
+
+   :returns:
+
+             A matrix of random presence absence values with the same
+                 marginal totals as the input matrix 'mtx'.
+   :rtype: Matrix
+
+

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
 
   
   
@@ -92,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
 </ul>
 
             
@@ -253,17 +255,17 @@
 
     <span class="c1"># .....................................</span>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">standard_deviation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunningStats.standard_deviation"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats.standard_deviation">[docs]</a>    <span class="k">def</span> <span class="nf">standard_deviation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve the standard deviation of the test values.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            float: The standard deviation of the test values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span></div>
 
     <span class="c1"># .....................................</span>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunningStats.variance"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats.variance">[docs]</a>    <span class="k">def</span> <span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve the variance of the test values.</span>
 
 <span class="sd">        Returns:</span>
@@ -271,11 +273,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_k</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="mf">0.0</span></div>
 
     <span class="c1"># .....................................</span>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">p_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunningStats.p_values"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats.p_values">[docs]</a>    <span class="k">def</span> <span class="nf">p_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve p-values from the test values greater than the f-statistic.</span>
 
 <span class="sd">        Returns:</span>
@@ -288,7 +290,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="s1">&#39;P-values cannot be computed without observed values&#39;</span><span class="p">)</span></div>
+                <span class="s1">&#39;P-values cannot be computed without observed values&#39;</span><span class="p">)</span></div></div>
 
 
 <span class="c1"># .............................................................................</span>

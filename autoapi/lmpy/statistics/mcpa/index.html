@@ -1,0 +1,627 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.statistics.mcpa &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.mcpa</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/autoapi/lmpy/statistics/mcpa/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-lmpy.statistics.mcpa">
+<span id="lmpy-statistics-mcpa"></span><h1><a class="reference internal" href="#module-lmpy.statistics.mcpa" title="lmpy.statistics.mcpa"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.mcpa</span></code></a><a class="headerlink" href="#module-lmpy.statistics.mcpa" title="Permalink to this headline">¶</a></h1>
+<p>Module for performing a MetaCommunity Phylogenetics Analysis.</p>
+<dl class="simple">
+<dt>See:</dt><dd><dl class="simple">
+<dt>Leibold, M.A., E.P. Economo and P.R. Peres-Neto. 2010. Metacommunity</dt><dd><p>phylogenetics: separating the roles of environmental filters and
+historical biogeography. Ecology letters 13: 1290-1299.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._beta_helper" title="lmpy.statistics.mcpa._beta_helper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_beta_helper</span></code></a>(mtx1, mtx2, weights)</p></td>
+<td><p>This helper function avoids creating large temporary matrices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._calculate_beta" title="lmpy.statistics.mcpa._calculate_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_calculate_beta</span></code></a>(pred_std, weights, phylo_std, use_lock=True)</p></td>
+<td><p>Calculates the regression model (beta) for the provided inputs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._calculate_r_squared" title="lmpy.statistics.mcpa._calculate_r_squared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_calculate_r_squared</span></code></a>(y_hat, phylo_std)</p></td>
+<td><p>Calculates the R-squared value for the inputs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._calculate_y_hat" title="lmpy.statistics.mcpa._calculate_y_hat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_calculate_y_hat</span></code></a>(pred_std, beta)</p></td>
+<td><p>Calculates the predicted value for a regression (Y hat).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._mcpa_for_node" title="lmpy.statistics.mcpa._mcpa_for_node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_mcpa_for_node</span></code></a>(incidence_mtx, env_mtx, bg_mtx, phylo_col, use_locks=False)</p></td>
+<td><p>Runs MCPA computations for a single tree node.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._standardize_matrix" title="lmpy.statistics.mcpa._standardize_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_standardize_matrix</span></code></a>(mtx, weights)</p></td>
+<td><p>Standardizes a phylogenetic or predictor matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._trace_mtx_by_transverse" title="lmpy.statistics.mcpa._trace_mtx_by_transverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_trace_mtx_by_transverse</span></code></a>(mtx)</p></td>
+<td><p>Prevent a memory bomb by performing trace(mtx . mtx.T) in a smarter way.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa.get_p_values" title="lmpy.statistics.mcpa.get_p_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_p_values</span></code></a>(observed_value, test_values, num_permutations=None)</p></td>
+<td><p>Gets an array of P-Values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa.mcpa" title="lmpy.statistics.mcpa.mcpa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mcpa</span></code></a>(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)</p></td>
+<td><p>Runs MCPA for a set of matrices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa.mcpa_parallel" title="lmpy.statistics.mcpa.mcpa_parallel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mcpa_parallel</span></code></a>(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)</p></td>
+<td><p>Run MCPA for a set of matrices using parallelism.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa.lock" title="lmpy.statistics.mcpa.lock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lock</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa.CONCURRENCY_FACTOR" title="lmpy.statistics.mcpa.CONCURRENCY_FACTOR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONCURRENCY_FACTOR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa.lock">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">lock</span></span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.lock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa.CONCURRENCY_FACTOR">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">CONCURRENCY_FACTOR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#CONCURRENCY_FACTOR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.CONCURRENCY_FACTOR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa._beta_helper">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_beta_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mtx2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_beta_helper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._beta_helper" title="Permalink to this definition">¶</a></dt>
+<dd><p>This helper function avoids creating large temporary matrices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mtx1</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites] by i [predictors]) standardized matrix.</p></li>
+<li><p><strong>mtx2</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites] by i [predictors]) standardized matrix.</p></li>
+<li><p><strong>weights</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites]) array of site weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The beta matrix created by the helper.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa._calculate_beta">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_lock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_beta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the regression model (beta) for the provided inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pred_std</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized predictor matrix
+(n [sites] by i [predictors]).</p></li>
+<li><p><strong>weights</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of site weights (n by n).</p></li>
+<li><p><strong>phylo_std</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized phylo matrix (n by k [nodes]).</p></li>
+<li><p><strong>use_lock</strong> (<em>boolean</em>) – If true, use a lock when performing the computation
+to save on overall memory usage.  This is useful for large, or
+full, predictor matrices but can be skipped for single columns to
+improve performance.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>The computation is::</dt><dd><p>beta = (M_T.W.M)^-1.M_T.W.P</p>
+</dd>
+</dl>
+</li>
+<li><p>M is the predictor matrix</p></li>
+<li><p>M_T is the transverse of the predictor matrix</p></li>
+<li><p>W is the weights column</p></li>
+<li><p>P is the phylo matrix</p></li>
+<li><p>“^-1” is the inverse of the matrix</p></li>
+<li><dl class="simple">
+<dt>Locking is available to prevent many threads / subprocesses from</dt><dd><p>performing memory intensive computations concurrently and
+overwhelming the system.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>An (i by k) numpy ndarray, where i is the number of predictors in</dt><dd><p>pred_std and k is the number of nodes in phylo_std.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa._calculate_r_squared">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_r_squared</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_hat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_std</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_r_squared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_r_squared" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the R-squared value for the inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_hat</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A predicted value for a regression
+(n [sites] by k [nodes]).</p></li>
+<li><p><strong>phylo_std</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized phylo matrix
+(n [sites] by k [nodes]).</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>R^2 = trace(y_hat . y_hat) / trace(P . P_T)</p></li>
+<li><p>y_hat_T is the transverse of y_hat</p></li>
+<li><p>P_T is the transverse of phylo_std</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>R squared value for the inputs.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa._calculate_y_hat">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_y_hat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_y_hat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_y_hat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the predicted value for a regression (Y hat).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pred_std</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized predictor matrix
+(n [sites] by i [predictors]).</p></li>
+<li><p><strong>beta</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The regression model associated with this prediction
+(i by k [nodes]).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An (n [sites] by k [nodes]) numpy ndarray</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa._mcpa_for_node">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_mcpa_for_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_locks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_mcpa_for_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._mcpa_for_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs MCPA computations for a single tree node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>incidence_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An incidence matrix (PAM).</p></li>
+<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An environmental matrix (GRIM).</p></li>
+<li><p><strong>bg_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of encoded Biogeographic hypotheses.</p></li>
+<li><p><strong>phylo_col</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A column from the phylo matrix for a
+single node.</p></li>
+<li><p><strong>use_locks</strong> (<em>boolean</em>) – Indicator if locks are needed for larger
+computations.  This is probably only true for parallel runs.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple of observed Matrix, f-values Matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa._standardize_matrix">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_standardize_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_standardize_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._standardize_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standardizes a phylogenetic or predictor matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The matrix to standardize</p></li>
+<li><p><strong>weights</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A one-dimensional array of sums to use for standardization.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Formula for standardization ::</dt><dd><dl class="simple">
+<dt>Mstd = M - 1c.1r.W.M(1/trace(W)) ./ 1c(1r.W(M*M)</dt><dd><ul>
+<li><p>((1r.W.M)*(1r.W.M)(1/trace(W))(1/trace(W)-1))^0.5</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><p>M - Matrix to be standardized</p></li>
+<li><dl class="simple">
+<dt>W - A k by k diagonal matrix of weights, where each non-zero value is</dt><dd><p>the column or row sum (depending on the M) for an incidence matrix.</p>
+</dd>
+</dl>
+</li>
+<li><p>1r - A row of k ones</p></li>
+<li><p>1c - A column of k ones</p></li>
+<li><p>trace - Returns the sum of the input matrix</p></li>
+<li><p>“./” indicates Hadamard division</p></li>
+<li><p>“*” indicates Hadamard multiplication</p></li>
+<li><p>Code adopted from supplemental material MATLAB code</p></li>
+</ul>
+</div>
+<dl class="simple">
+<dt>See:</dt><dd><p>Literature supplemental materials</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Standardized matrix.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa._trace_mtx_by_transverse">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_trace_mtx_by_transverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_trace_mtx_by_transverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._trace_mtx_by_transverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prevent a memory bomb by performing trace(mtx . mtx.T) in a smarter way.</p>
+<dl class="simple">
+<dt>This method takes advantage of the fact that we are really only interested</dt><dd><p>in the diagonal matrix created by performing a dot product of a matrix
+and its transverse.  Because of that, we can perform the dot product of
+each row by its transverse and then sum the results.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix to use to calculate the trace(M . M_T).</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>There was an error in the formula that called for a dot product of</dt><dd><p>each matrix transverse with itself.  This was a typo as that would
+only work with square matrices.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Trace matrix dot matrix transverse.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa.get_p_values">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">get_p_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_permutations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#get_p_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.get_p_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an array of P-Values.</p>
+<dl class="simple">
+<dt>Gets an (1 or 2 dimension) array of P values where the P value for an array</dt><dd><p>location is determined by finding the number of test values at
+corresponding locations are greater than or equal to that value and
+then dividing that number by the number of permutations</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observed_value</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An array of observed values to use as a
+reference.</p></li>
+<li><p><strong>test_values</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A list of arrays generated from randomizations
+that will be compared to the observed</p></li>
+<li><p><strong>num_permutations</strong> – (optional) The total number of randomizations
+performed.  Divide the P-values by this if provided.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Calculated p-values.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa.mcpa">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">mcpa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#mcpa"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.mcpa" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs MCPA for a set of matrices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>incidence_matrix</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A binary Lifemapper Matrix object
+representing the incidence of each species for each site by coding
+them as ones.  This is the same thing as a Lifemapper Presence
+Absence Matrix, or PAM (n [sites] by k+1 [species]).</p></li>
+<li><p><strong>phylo_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of a phylogenetic tree where each
+cell represents the relative contribution of each tip to each
+inner tree node (k+1 [species] by k [nodes]).</p></li>
+<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of the environment for each site
+(n [sites] by ei [environmental predictors]).</p></li>
+<li><p><strong>bg_mtx</strong> (<em>Matirx</em>) – A matrix of Helmert contrasts (-1, 0, 1) for
+Biogeographic hypotheses (n [sites] by bi [biogeographic
+predictors]).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple of Matrix of observed values and Matrix of F-pseudo values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.mcpa.mcpa_parallel">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">mcpa_parallel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#mcpa_parallel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.mcpa_parallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run MCPA for a set of matrices using parallelism.</p>
+<p>Performs MCPA across each of the tree nodes in parallel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>incidence_matrix</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A binary Lifemapper Matrix object
+representing the incidence of each species for each site by coding
+them as ones.  This is the same thing as a Lifemapper Presence
+Absence Matrix, or PAM (n [sites] by k+1 [species]).</p></li>
+<li><p><strong>phylo_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of a phylogenetic tree where each
+cell represents the relative contribution of each tip to each
+inner tree node (k+1 [species] by k [nodes]).</p></li>
+<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of the environment for each site
+(n [sites] by ei [environmental predictors]).</p></li>
+<li><p><strong>bg_mtx</strong> (<em>Matirx</em>) – A matrix of Helmert contrasts (-1, 0, 1) for
+Biogeographic hypotheses (n [sites] by bi [biogeographic
+predictors]).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple of Matrix of observed values and Matrix of F-pseudo values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

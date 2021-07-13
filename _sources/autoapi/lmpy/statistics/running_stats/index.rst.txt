@@ -1,0 +1,113 @@
+:mod:`lmpy.statistics.running_stats`
+====================================
+
+.. py:module:: lmpy.statistics.running_stats
+
+.. autoapi-nested-parse::
+
+   Class for keeping track of running statistics to save memory.
+
+   .. note::
+
+      * Mean and standard deviation computations based on
+          https://www.johndcook.com/blog/standard_deviation/
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.statistics.running_stats.RunningStats
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.statistics.running_stats.compare_absolute_values
+   lmpy.statistics.running_stats.compare_signed_values
+
+
+
+.. function:: compare_absolute_values(observed, test_data)
+
+   Compares the absolute values of the observed and random data.
+
+   :param observed: A numpy array of observed values.
+   :type observed: :obj:`Numpy array`
+   :param test_data: A numpy array of random values.
+   :type test_data: :obj:`Numpy array`
+
+   :returns:
+
+             Boolean indicating if the absolute value of the test data is greater than
+                 the absolute value of the observed data.
+   :rtype: bool
+
+
+.. function:: compare_signed_values(observed, test_data)
+
+   Compares the signed values of the observed and random data.
+
+   :param observed: A numpy array of observed values.
+   :type observed: :obj:`Numpy array`
+   :param test_data: A numpy array of random values.
+   :type test_data: :obj:`Numpy array`
+
+   :returns: An indication if the test data is greater than the observed data.
+   :rtype: bool
+
+
+.. class:: RunningStats(observed=None, compare_fn=compare_absolute_values)
+
+
+   Bases: :py:obj:`object`
+
+   Keep track of running statistics to reduce required memory.
+
+   .. method:: push(self, val)
+
+      Add a test value to the running totals.
+
+      :param val: A value to use for the
+                  running statistics.
+      :type val: Matrix, Numpy array, or numeric
+
+
+   .. method:: standard_deviation(self)
+      :property:
+
+      Retrieve the standard deviation of the test values.
+
+      :returns: The standard deviation of the test values.
+      :rtype: float
+
+
+   .. method:: variance(self)
+      :property:
+
+      Retrieve the variance of the test values.
+
+      :returns: The variance of the test values.
+      :rtype: float
+
+
+   .. method:: p_values(self)
+      :property:
+
+      Retrieve p-values from the test values greater than the f-statistic.
+
+      :returns: Computed p-values.
+      :rtype: Matrix
+
+      :raises Exception: Raised if there are no observed values.
+
+
+

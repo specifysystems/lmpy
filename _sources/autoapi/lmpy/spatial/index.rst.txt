@@ -1,0 +1,20 @@
+:mod:`lmpy.spatial`
+===================
+
+.. py:module:: lmpy.spatial
+
+.. autoapi-nested-parse::
+
+   Spatial tools.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   spatial_index/index.rst
+
+

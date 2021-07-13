@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.statistics.running_stats &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.running_stats</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/autoapi/lmpy/statistics/running_stats/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-lmpy.statistics.running_stats">
+<span id="lmpy-statistics-running-stats"></span><h1><a class="reference internal" href="../../../../source/lmpy.statistics.html#module-lmpy.statistics.running_stats" title="lmpy.statistics.running_stats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.running_stats</span></code></a><a class="headerlink" href="#module-lmpy.statistics.running_stats" title="Permalink to this headline">¶</a></h1>
+<p>Class for keeping track of running statistics to save memory.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Mean and standard deviation computations based on</dt><dd><p><a class="reference external" href="https://www.johndcook.com/blog/standard_deviation/">https://www.johndcook.com/blog/standard_deviation/</a></p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats" title="lmpy.statistics.running_stats.RunningStats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RunningStats</span></code></a></p></td>
+<td><p>Keep track of running statistics to reduce required memory.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.compare_absolute_values" title="lmpy.statistics.running_stats.compare_absolute_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_absolute_values</span></code></a>(observed, test_data)</p></td>
+<td><p>Compares the absolute values of the observed and random data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.compare_signed_values" title="lmpy.statistics.running_stats.compare_signed_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_signed_values</span></code></a>(observed, test_data)</p></td>
+<td><p>Compares the signed values of the observed and random data.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.running_stats.compare_absolute_values">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.running_stats.</span></span><span class="sig-name descname"><span class="pre">compare_absolute_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#compare_absolute_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.compare_absolute_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares the absolute values of the observed and random data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observed</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">array</span></code>) – A numpy array of observed values.</p></li>
+<li><p><strong>test_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">array</span></code>) – A numpy array of random values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Boolean indicating if the absolute value of the test data is greater than</dt><dd><p>the absolute value of the observed data.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.running_stats.compare_signed_values">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.running_stats.</span></span><span class="sig-name descname"><span class="pre">compare_signed_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#compare_signed_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.compare_signed_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares the signed values of the observed and random data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observed</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">array</span></code>) – A numpy array of observed values.</p></li>
+<li><p><strong>test_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">array</span></code>) – A numpy array of random values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An indication if the test data is greater than the observed data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.running_stats.RunningStats">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.running_stats.</span></span><span class="sig-name descname"><span class="pre">RunningStats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">compare_absolute_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#RunningStats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.RunningStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Keep track of running statistics to reduce required memory.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.running_stats.RunningStats.push">
+<span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#RunningStats.push"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.RunningStats.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a test value to the running totals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>val</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a><em>, </em><em>Numpy array</em><em>, or </em><em>numeric</em>) – A value to use for the
+running statistics.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.running_stats.RunningStats.standard_deviation">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">standard_deviation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#RunningStats.standard_deviation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.RunningStats.standard_deviation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the standard deviation of the test values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The standard deviation of the test values.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.running_stats.RunningStats.variance">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">variance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#RunningStats.variance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.RunningStats.variance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the variance of the test values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The variance of the test values.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.running_stats.RunningStats.p_values">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">p_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#RunningStats.p_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.RunningStats.p_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve p-values from the test values greater than the f-statistic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Computed p-values.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Raised if there are no observed values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

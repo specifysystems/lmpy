@@ -1,0 +1,751 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.statistics.mcpa &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>lmpy.statistics.mcpa</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lmpy.statistics.mcpa</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module for performing a MetaCommunity Phylogenetics Analysis.</span>
+
+<span class="sd">See:</span>
+<span class="sd">    Leibold, M.A., E.P. Economo and P.R. Peres-Neto. 2010. Metacommunity</span>
+<span class="sd">         phylogenetics: separating the roles of environmental filters and</span>
+<span class="sd">         historical biogeography. Ecology letters 13: 1290-1299.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="k">import</span> <span class="n">ThreadPoolExecutor</span> <span class="k">as</span> <span class="n">ExecutorClass</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span>
+
+<span class="c1"># Note: This lock is used when calculating beta to keep memory usage down</span>
+<div class="viewcode-block" id="lock"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa.lock">[docs]</a><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span></div>
+
+<span class="c1"># Note: This will depend on the executor class used and is subject to tuning.</span>
+<span class="c1">#    Threads should have a higher level of concurrency than processes.</span>
+<div class="viewcode-block" id="CONCURRENCY_FACTOR"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa.CONCURRENCY_FACTOR">[docs]</a><span class="n">CONCURRENCY_FACTOR</span> <span class="o">=</span> <span class="mi">5</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="_beta_helper"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa._beta_helper">[docs]</a><span class="k">def</span> <span class="nf">_beta_helper</span><span class="p">(</span><span class="n">mtx1</span><span class="p">,</span> <span class="n">mtx2</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This helper function avoids creating large temporary matrices.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mtx1 (Matrix): A (n [sites] by i [predictors]) standardized matrix.</span>
+<span class="sd">        mtx2 (Matrix): A (n [sites] by i [predictors]) standardized matrix.</span>
+<span class="sd">        weights (Matrix): A (n [sites]) array of site weights.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The beta matrix created by the helper.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">num_predictors</span> <span class="o">=</span> <span class="n">mtx1</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">num_k</span> <span class="o">=</span> <span class="n">mtx2</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">out_mtx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_predictors</span><span class="p">,</span> <span class="n">num_k</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_predictors</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num_k</span><span class="p">):</span>
+            <span class="n">out_mtx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx1</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">weights</span> <span class="o">*</span> <span class="n">mtx2</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">out_mtx</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="_calculate_beta"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa._calculate_beta">[docs]</a><span class="k">def</span> <span class="nf">_calculate_beta</span><span class="p">(</span><span class="n">pred_std</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">phylo_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the regression model (beta) for the provided inputs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pred_std (Matrix): A standardized predictor matrix</span>
+<span class="sd">            (n [sites] by i [predictors]).</span>
+<span class="sd">        weights (Matrix): A matrix of site weights (n by n).</span>
+<span class="sd">        phylo_std (Matrix): A standardized phylo matrix (n by k [nodes]).</span>
+<span class="sd">        use_lock (boolean): If true, use a lock when performing the computation</span>
+<span class="sd">            to save on overall memory usage.  This is useful for large, or</span>
+<span class="sd">            full, predictor matrices but can be skipped for single columns to</span>
+<span class="sd">            improve performance.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        * The computation is::</span>
+<span class="sd">            beta = (M_T.W.M)^-1.M_T.W.P</span>
+<span class="sd">        * M is the predictor matrix</span>
+<span class="sd">        * M_T is the transverse of the predictor matrix</span>
+<span class="sd">        * W is the weights column</span>
+<span class="sd">        * P is the phylo matrix</span>
+<span class="sd">        * &quot;^-1&quot; is the inverse of the matrix</span>
+<span class="sd">        * Locking is available to prevent many threads / subprocesses from</span>
+<span class="sd">            performing memory intensive computations concurrently and</span>
+<span class="sd">            overwhelming the system.</span>
+
+<span class="sd">    Todo:</span>
+<span class="sd">        * Update documentation so that note shows symbols in equation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: An (i by k) numpy ndarray, where i is the number of predictors in</span>
+<span class="sd">            pred_std and k is the number of nodes in phylo_std.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">use_lock</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+    <span class="n">temp1</span> <span class="o">=</span> <span class="n">_beta_helper</span><span class="p">(</span><span class="n">pred_std</span><span class="p">,</span> <span class="n">pred_std</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="n">tmp1_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">temp1</span><span class="p">)</span>
+    <span class="n">temp2</span> <span class="o">=</span> <span class="n">_beta_helper</span><span class="p">(</span><span class="n">pred_std</span><span class="p">,</span> <span class="n">phylo_std</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">tmp1_inv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">temp2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">beta</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">beta</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">if</span> <span class="n">use_lock</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">beta</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="_calculate_r_squared"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa._calculate_r_squared">[docs]</a><span class="k">def</span> <span class="nf">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">phylo_std</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the R-squared value for the inputs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        y_hat (Matrix): A predicted value for a regression</span>
+<span class="sd">            (n [sites] by k [nodes]).</span>
+<span class="sd">        phylo_std (Matrix): A standardized phylo matrix</span>
+<span class="sd">            (n [sites] by k [nodes]).</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        * R^2 = trace(y_hat . y_hat) / trace(P . P_T)</span>
+<span class="sd">        * y_hat_T is the transverse of y_hat</span>
+<span class="sd">        * P_T is the transverse of phylo_std</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: R squared value for the inputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># t1 = np.trace(y_hat.dot(y_hat.T))</span>
+    <span class="n">t_1</span> <span class="o">=</span> <span class="n">_trace_mtx_by_transverse</span><span class="p">(</span><span class="n">y_hat</span><span class="p">)</span>
+    <span class="c1"># t2 = np.trace(phylo_std.dot(phylo_std.T))</span>
+    <span class="n">t_2</span> <span class="o">=</span> <span class="n">_trace_mtx_by_transverse</span><span class="p">(</span><span class="n">phylo_std</span><span class="p">)</span>
+    <span class="n">r_2</span> <span class="o">=</span> <span class="n">t_1</span> <span class="o">/</span> <span class="n">t_2</span>
+    <span class="c1"># r2 = np.trace(</span>
+    <span class="c1">#    y_hat.T.dot(y_hat)) / np.trace(phylo_std.T.dot(phylo_std.T))</span>
+    <span class="k">return</span> <span class="n">r_2</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="_calculate_y_hat"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa._calculate_y_hat">[docs]</a><span class="k">def</span> <span class="nf">_calculate_y_hat</span><span class="p">(</span><span class="n">pred_std</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the predicted value for a regression (Y hat).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pred_std (Matrix): A standardized predictor matrix</span>
+<span class="sd">            (n [sites] by i [predictors]).</span>
+<span class="sd">        beta (Matrix): The regression model associated with this prediction</span>
+<span class="sd">            (i by k [nodes]).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: An (n [sites] by k [nodes]) numpy ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pred_std</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="_mcpa_for_node"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa._mcpa_for_node">[docs]</a><span class="k">def</span> <span class="nf">_mcpa_for_node</span><span class="p">(</span><span class="n">incidence_mtx</span><span class="p">,</span> <span class="n">env_mtx</span><span class="p">,</span> <span class="n">bg_mtx</span><span class="p">,</span> <span class="n">phylo_col</span><span class="p">,</span> <span class="n">use_locks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Runs MCPA computations for a single tree node.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        incidence_mtx (Matrix): An incidence matrix (PAM).</span>
+<span class="sd">        env_mtx (Matrix): An environmental matrix (GRIM).</span>
+<span class="sd">        bg_mtx (Matrix): A matrix of encoded Biogeographic hypotheses.</span>
+<span class="sd">        phylo_col (Matrix): A column from the phylo matrix for a</span>
+<span class="sd">            single node.</span>
+<span class="sd">        use_locks (boolean): Indicator if locks are needed for larger</span>
+<span class="sd">            computations.  This is probably only true for parallel runs.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: Tuple of observed Matrix, f-values Matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">species_present_at_node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">phylo_col</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">phylo_col</span> <span class="o">=</span> <span class="n">phylo_col</span><span class="p">[</span><span class="n">species_present_at_node</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># Purge incidence matrix to only those species present for this node</span>
+    <span class="n">incidence_temp</span> <span class="o">=</span> <span class="n">incidence_mtx</span><span class="p">[:,</span> <span class="n">species_present_at_node</span><span class="p">]</span>
+
+    <span class="c1"># Get the sites present for this node and purge the other matrices</span>
+    <span class="n">sites_present</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">incidence_temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">incidence</span> <span class="o">=</span> <span class="n">incidence_temp</span><span class="p">[</span><span class="n">sites_present</span><span class="p">]</span>
+    <span class="n">env_predictors</span> <span class="o">=</span> <span class="n">env_mtx</span><span class="p">[</span><span class="n">sites_present</span><span class="p">]</span>
+    <span class="n">bg_predictors</span> <span class="o">=</span> <span class="n">bg_mtx</span><span class="p">[</span><span class="n">sites_present</span><span class="p">]</span>
+
+    <span class="c1"># Get the number of sites and check that all matrices have been purged</span>
+    <span class="n">num_sites</span> <span class="o">=</span> <span class="n">sites_present</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">num_env_predictors</span> <span class="o">=</span> <span class="n">env_predictors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_bg_predictors</span> <span class="o">=</span> <span class="n">bg_predictors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">obs_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_env_predictors</span> <span class="o">+</span> <span class="n">num_bg_predictors</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">f_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_env_predictors</span> <span class="o">+</span> <span class="n">num_bg_predictors</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sites_present</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Standardize matrices</span>
+            <span class="n">site_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">incidence</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">species_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">incidence</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">e_std</span> <span class="o">=</span> <span class="n">_standardize_matrix</span><span class="p">(</span><span class="n">env_predictors</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">)</span>
+            <span class="n">b_std</span> <span class="o">=</span> <span class="n">_standardize_matrix</span><span class="p">(</span><span class="n">bg_predictors</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">)</span>
+            <span class="n">all_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">b_std</span><span class="p">,</span> <span class="n">e_std</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">p_std</span> <span class="o">=</span> <span class="n">_standardize_matrix</span><span class="p">(</span><span class="n">phylo_col</span><span class="p">,</span> <span class="n">species_weights</span><span class="p">)</span>
+            <span class="n">p_sigma_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">incidence</span><span class="p">,</span> <span class="n">p_std</span><span class="p">)</span>
+            <span class="c1"># Get Beta, Y(hat), Rho, R-squared, F-pseudo</span>
+            <span class="n">beta_env_all</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span><span class="n">e_std</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span>
+                                           <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span><span class="p">)</span>
+            <span class="n">y_hat_env_all</span> <span class="o">=</span> <span class="n">_calculate_y_hat</span><span class="p">(</span><span class="n">e_std</span><span class="p">,</span> <span class="n">beta_env_all</span><span class="p">)</span>
+            <span class="n">beta_bg_all</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span><span class="n">all_std</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span>
+                                          <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span><span class="p">)</span>
+            <span class="n">y_hat_bg_all</span> <span class="o">=</span> <span class="n">_calculate_y_hat</span><span class="p">(</span><span class="n">all_std</span><span class="p">,</span> <span class="n">beta_bg_all</span><span class="p">)</span>
+            <span class="n">env_r2</span> <span class="o">=</span> <span class="n">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat_env_all</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">)</span>
+            <span class="n">bg_r2</span> <span class="o">=</span> <span class="n">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat_bg_all</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">env_adj_r2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">((</span><span class="n">num_sites</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+                    <span class="n">num_sites</span> <span class="o">-</span> <span class="n">num_env_predictors</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">env_r2</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">env_adj_r2</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">bg_adj_r2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">((</span><span class="n">num_sites</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+                    <span class="n">num_sites</span> <span class="o">-</span> <span class="n">num_bg_predictors</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">bg_r2</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">bg_adj_r2</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+            <span class="c1"># env_f_pseudo_numerator = np.trace(</span>
+            <span class="c1">#    y_hat_env_all.T.dot(y_hat_env_all))</span>
+            <span class="n">env_f_pseudo_numerator</span> <span class="o">=</span> <span class="n">_trace_mtx_by_transverse</span><span class="p">(</span><span class="n">y_hat_env_all</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="c1"># bg_f_pseudo_numerator = np.trace(</span>
+            <span class="c1">#    y_hat_bg_all.T.dot(y_hat_bg_all))</span>
+            <span class="n">bg_f_pseudo_numerator</span> <span class="o">=</span> <span class="n">_trace_mtx_by_transverse</span><span class="p">(</span><span class="n">y_hat_bg_all</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+            <span class="c1"># Pre-calculate the denominator for the F-pseudo stats</span>
+            <span class="n">env_denom_temp</span> <span class="o">=</span> <span class="n">p_sigma_std</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">y_hat_env_all</span><span class="o">.</span><span class="n">T</span>
+            <span class="c1"># env_f_pseudo_denominator = np.trace(</span>
+            <span class="c1">#    env_denom_temp.T.dot(env_denom_temp))</span>
+            <span class="n">env_f_pseudo_denominator</span> <span class="o">=</span> <span class="n">_trace_mtx_by_transverse</span><span class="p">(</span>
+                <span class="n">env_denom_temp</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">bg_denom_temp</span> <span class="o">=</span> <span class="n">p_sigma_std</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">y_hat_bg_all</span><span class="o">.</span><span class="n">T</span>
+            <span class="c1"># bg_f_pseudo_denominator = np.trace(</span>
+            <span class="c1">#    bg_denom_temp.T.dot(bg_denom_temp))</span>
+            <span class="n">bg_f_pseudo_denominator</span> <span class="o">=</span> <span class="n">_trace_mtx_by_transverse</span><span class="p">(</span><span class="n">bg_denom_temp</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+            <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># Environment</span>
+            <span class="c1"># For each environmental predictor, compute the semi-partial</span>
+            <span class="c1">#    correlation and the F-pseudo value</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_env_predictors</span><span class="p">):</span>
+                <span class="n">wo_predictor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">e_std</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">predictor</span> <span class="o">=</span> <span class="n">e_std</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+
+                <span class="c1"># Semi-partial correlation</span>
+                <span class="n">beta_wo_pred</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
+                    <span class="n">wo_predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span>
+                    <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span><span class="p">)</span>
+                <span class="n">y_hat_wo_pred</span> <span class="o">=</span> <span class="n">_calculate_y_hat</span><span class="p">(</span><span class="n">wo_predictor</span><span class="p">,</span> <span class="n">beta_wo_pred</span><span class="p">)</span>
+                <span class="n">beta_j_i</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
+                    <span class="n">predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">r2_j_i</span> <span class="o">=</span> <span class="n">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat_wo_pred</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">)</span>
+                <span class="n">semi_partial</span> <span class="o">=</span> <span class="n">beta_j_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                    <span class="n">env_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">beta_j_i</span><span class="p">)</span>
+                <span class="n">f_pseudo_env_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">env_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">env_f_pseudo_denominator</span>
+                <span class="n">obs_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_partial</span>
+                <span class="n">f_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_pseudo_env_i</span>
+                <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># Add Environment adjusted R squared</span>
+            <span class="n">obs_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">env_adj_r2</span>
+            <span class="n">f_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">env_f_pseudo_numerator</span> <span class="o">/</span> <span class="n">env_f_pseudo_denominator</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Biogeography</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bg_predictors</span><span class="p">):</span>
+                <span class="n">wo_predictor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">all_std</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">predictor</span> <span class="o">=</span> <span class="n">all_std</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+
+                <span class="c1"># Semi-partial correlation</span>
+                <span class="n">beta_wo_pred</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
+                    <span class="n">wo_predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span>
+                    <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span><span class="p">)</span>
+                <span class="n">y_hat_wo_pred</span> <span class="o">=</span> <span class="n">_calculate_y_hat</span><span class="p">(</span><span class="n">wo_predictor</span><span class="p">,</span> <span class="n">beta_wo_pred</span><span class="p">)</span>
+                <span class="n">beta_j_i</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
+                    <span class="n">predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">r2_j_i</span> <span class="o">=</span> <span class="n">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat_wo_pred</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">)</span>
+                <span class="n">semi_partial</span> <span class="o">=</span> <span class="n">beta_j_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                    <span class="n">bg_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">beta_j_i</span><span class="p">)</span>
+                <span class="n">f_pseudo_bg_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">bg_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">bg_f_pseudo_denominator</span>
+                <span class="n">obs_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_partial</span>
+                <span class="n">f_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_pseudo_bg_i</span>
+                <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># Add Biogeography adjusted R squared</span>
+            <span class="n">obs_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">bg_adj_r2</span>
+            <span class="n">f_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">bg_f_pseudo_numerator</span> <span class="o">/</span> <span class="n">bg_f_pseudo_denominator</span>
+    <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span><span class="p">:</span>
+        <span class="c1"># Singular matrix that does not have inverse</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">obs_values</span><span class="p">,</span> <span class="n">f_values</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="_standardize_matrix"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa._standardize_matrix">[docs]</a><span class="k">def</span> <span class="nf">_standardize_matrix</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Standardizes a phylogenetic or predictor matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mtx (Matrix): The matrix to standardize</span>
+<span class="sd">        weights (Matrix): A one-dimensional array of sums to use for standardization.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        * Formula for standardization ::</span>
+<span class="sd">            Mstd = M - 1c.1r.W.M(1/trace(W)) ./ 1c(1r.W(M*M)</span>
+<span class="sd">                       - ((1r.W.M)*(1r.W.M)(1/trace(W))(1/trace(W)-1))^0.5</span>
+<span class="sd">        * M - Matrix to be standardized</span>
+<span class="sd">        * W - A k by k diagonal matrix of weights, where each non-zero value is</span>
+<span class="sd">            the column or row sum (depending on the M) for an incidence matrix.</span>
+<span class="sd">        * 1r - A row of k ones</span>
+<span class="sd">        * 1c - A column of k ones</span>
+<span class="sd">        * trace - Returns the sum of the input matrix</span>
+<span class="sd">        * &quot;./&quot; indicates Hadamard division</span>
+<span class="sd">        * &quot;*&quot; indicates Hadamard multiplication</span>
+<span class="sd">        * Code adopted from supplemental material MATLAB code</span>
+
+<span class="sd">    See:</span>
+<span class="sd">        Literature supplemental materials</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Standardized matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create a row of ones, we&#39;ll transpose for a column</span>
+    <span class="n">ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># This maps to trace(W)</span>
+    <span class="n">total_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># s1 = 1r.W.M</span>
+    <span class="n">s_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">ones</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mtx</span><span class="p">)</span>
+    <span class="c1"># s2 = 1r.W.(M*M)</span>
+    <span class="n">s_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">ones</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mtx</span> <span class="o">*</span> <span class="n">mtx</span><span class="p">)</span>
+
+    <span class="n">mean_weighted</span> <span class="o">=</span> <span class="n">s_1</span> <span class="o">/</span> <span class="n">total_sum</span>
+    <span class="n">std_dev_weighted</span> <span class="o">=</span> <span class="p">((</span><span class="n">s_2</span> <span class="o">-</span> <span class="p">(</span><span class="n">s_1</span> <span class="o">**</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">total_sum</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_sum</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+    <span class="c1"># Fixes any invalid values created previously</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">ones</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">std_dev_weighted</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">std_mtx</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">*</span> <span class="p">(</span><span class="n">mtx</span> <span class="o">-</span> <span class="n">ones</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mean_weighted</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">std_mtx</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="_trace_mtx_by_transverse"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa._trace_mtx_by_transverse">[docs]</a><span class="k">def</span> <span class="nf">_trace_mtx_by_transverse</span><span class="p">(</span><span class="n">mtx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prevent a memory bomb by performing trace(mtx . mtx.T) in a smarter way.</span>
+
+<span class="sd">    This method takes advantage of the fact that we are really only interested</span>
+<span class="sd">        in the diagonal matrix created by performing a dot product of a matrix</span>
+<span class="sd">        and its transverse.  Because of that, we can perform the dot product of</span>
+<span class="sd">        each row by its transverse and then sum the results.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mtx (Matrix): A matrix to use to calculate the trace(M . M_T).</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        * There was an error in the formula that called for a dot product of</span>
+<span class="sd">            each matrix transverse with itself.  This was a typo as that would</span>
+<span class="sd">            only work with square matrices.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Trace matrix dot matrix transverse.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">row</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">mtx</span><span class="p">])</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="get_p_values"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa.get_p_values">[docs]</a><span class="k">def</span> <span class="nf">get_p_values</span><span class="p">(</span><span class="n">observed_value</span><span class="p">,</span> <span class="n">test_values</span><span class="p">,</span> <span class="n">num_permutations</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets an array of P-Values.</span>
+
+<span class="sd">    Gets an (1 or 2 dimension) array of P values where the P value for an array</span>
+<span class="sd">        location is determined by finding the number of test values at</span>
+<span class="sd">        corresponding locations are greater than or equal to that value and</span>
+<span class="sd">        then dividing that number by the number of permutations</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        observed_value (Matrix): An array of observed values to use as a</span>
+<span class="sd">            reference.</span>
+<span class="sd">        test_values (Matrix): A list of arrays generated from randomizations</span>
+<span class="sd">            that will be compared to the observed</span>
+<span class="sd">        num_permutations: (optional) The total number of randomizations</span>
+<span class="sd">            performed.  Divide the P-values by this if provided.</span>
+
+<span class="sd">    Todo:</span>
+<span class="sd">        Deprecate this in favor of method in running stats</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Calculated p-values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">num_permutations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">num_permutations</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="c1"># Create the P-Values matrix</span>
+    <span class="n">p_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">observed_value</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># For each matrix in test values</span>
+    <span class="k">for</span> <span class="n">test_mtx</span> <span class="ow">in</span> <span class="n">test_values</span><span class="p">:</span>
+        <span class="c1"># Add 1 where every value in the test matrix is greater than or equal</span>
+        <span class="c1">#    to the value in the observed value.  Numpy comparisons will create</span>
+        <span class="c1">#    a matrix of boolean values for each cell, which when added to the</span>
+        <span class="c1">#    p_vals matrix will be treated as 1 for True and 0 for False</span>
+
+        <span class="c1"># If this is a stack</span>
+        <span class="k">if</span> <span class="n">test_mtx</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">test_mtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="n">p_vals</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">test_mtx</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="mi">5</span><span class="p">)</span>
+                                 <span class="p">)</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">observed_value</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p_vals</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">test_mtx</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+                             <span class="p">)</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">observed_value</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="c1"># Reshape and adding depth header</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_vals</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">p_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">p_vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="n">observed_value</span><span class="o">.</span><span class="n">headers</span>
+    <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;P-values&#39;</span><span class="p">]</span>
+    <span class="c1"># Scale and return the p-values matrix</span>
+    <span class="n">ret_data_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">p_vals</span> <span class="o">/</span> <span class="n">num_permutations</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">ret_data_tmp</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="mcpa"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa.mcpa">[docs]</a><span class="k">def</span> <span class="nf">mcpa</span><span class="p">(</span><span class="n">incidence_matrix</span><span class="p">,</span> <span class="n">phylo_mtx</span><span class="p">,</span> <span class="n">env_mtx</span><span class="p">,</span> <span class="n">bg_mtx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Runs MCPA for a set of matrices.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        incidence_matrix (Matrix): A binary Lifemapper Matrix object</span>
+<span class="sd">            representing the incidence of each species for each site by coding</span>
+<span class="sd">            them as ones.  This is the same thing as a Lifemapper Presence</span>
+<span class="sd">            Absence Matrix, or PAM (n [sites] by k+1 [species]).</span>
+<span class="sd">        phylo_mtx (Matrix): A matrix encoding of a phylogenetic tree where each</span>
+<span class="sd">            cell represents the relative contribution of each tip to each</span>
+<span class="sd">            inner tree node (k+1 [species] by k [nodes]).</span>
+<span class="sd">        env_mtx (Matrix): A matrix encoding of the environment for each site</span>
+<span class="sd">            (n [sites] by ei [environmental predictors]).</span>
+<span class="sd">        bg_mtx (Matirx): A matrix of Helmert contrasts (-1, 0, 1) for</span>
+<span class="sd">            Biogeographic hypotheses (n [sites] by bi [biogeographic</span>
+<span class="sd">            predictors]).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: Tuple of Matrix of observed values and Matrix of F-pseudo values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">site_present</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">incidence_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">empty_sites</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">site_present</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Initial purge of empty sites</span>
+    <span class="n">init_incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">incidence_matrix</span><span class="p">,</span> <span class="n">empty_sites</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">env_predictors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">env_mtx</span><span class="p">,</span> <span class="n">empty_sites</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">bg_predictors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">bg_mtx</span><span class="p">,</span> <span class="n">empty_sites</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_predictors</span> <span class="o">=</span> <span class="n">env_predictors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bg_predictors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">obs_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_predictors</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">f_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_predictors</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">):</span>
+        <span class="c1"># print(&#39;Node {} of {}&#39;.format(i+1, num_nodes))</span>
+        <span class="n">obs</span><span class="p">,</span> <span class="n">f_vals</span> <span class="o">=</span> <span class="n">_mcpa_for_node</span><span class="p">(</span>
+            <span class="n">init_incidence</span><span class="p">,</span> <span class="n">env_predictors</span><span class="p">,</span> <span class="n">bg_predictors</span><span class="p">,</span>
+            <span class="n">phylo_mtx</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="n">obs_results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs</span>
+        <span class="n">f_results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_vals</span>
+
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;Processed mcpa for </span><span class="si">{}</span><span class="s1"> of </span><span class="si">{}</span><span class="s1"> nodes&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">)))</span>
+
+    <span class="c1"># Correct any nans and add depth</span>
+    <span class="n">obs_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">obs_results</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">f_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">f_results</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="n">column_headers</span> <span class="o">=</span> <span class="n">env_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
+    <span class="n">column_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Env - Adjusted R-squared&#39;</span><span class="p">)</span>
+    <span class="n">column_headers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bg_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">())</span>
+    <span class="n">column_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;BG - Adjusted R-squared&#39;</span><span class="p">)</span>
+    <span class="n">obs_headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
+        <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">,</span>
+        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Observed&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">f_headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
+        <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">,</span>
+        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;F-values&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">obs_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">obs_results</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">obs_headers</span><span class="p">)</span>
+    <span class="n">f_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">f_results</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">f_headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">obs_mtx</span><span class="p">,</span> <span class="n">f_mtx</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="mcpa_parallel"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa.mcpa_parallel">[docs]</a><span class="k">def</span> <span class="nf">mcpa_parallel</span><span class="p">(</span><span class="n">incidence_matrix</span><span class="p">,</span> <span class="n">phylo_mtx</span><span class="p">,</span> <span class="n">env_mtx</span><span class="p">,</span> <span class="n">bg_mtx</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="sd">&quot;&quot;&quot;Run MCPA for a set of matrices using parallelism.</span>
+
+<span class="sd">    Performs MCPA across each of the tree nodes in parallel.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        incidence_matrix (Matrix): A binary Lifemapper Matrix object</span>
+<span class="sd">            representing the incidence of each species for each site by coding</span>
+<span class="sd">            them as ones.  This is the same thing as a Lifemapper Presence</span>
+<span class="sd">            Absence Matrix, or PAM (n [sites] by k+1 [species]).</span>
+<span class="sd">        phylo_mtx (Matrix): A matrix encoding of a phylogenetic tree where each</span>
+<span class="sd">            cell represents the relative contribution of each tip to each</span>
+<span class="sd">            inner tree node (k+1 [species] by k [nodes]).</span>
+<span class="sd">        env_mtx (Matrix): A matrix encoding of the environment for each site</span>
+<span class="sd">            (n [sites] by ei [environmental predictors]).</span>
+<span class="sd">        bg_mtx (Matirx): A matrix of Helmert contrasts (-1, 0, 1) for</span>
+<span class="sd">            Biogeographic hypotheses (n [sites] by bi [biogeographic</span>
+<span class="sd">            predictors]).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: Tuple of Matrix of observed values and Matrix of F-pseudo values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">site_present</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">incidence_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">empty_sites</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">site_present</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Initial purge of empty sites</span>
+    <span class="n">init_incidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">incidence_matrix</span><span class="p">,</span> <span class="n">empty_sites</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">env_predictors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">env_mtx</span><span class="p">,</span> <span class="n">empty_sites</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">bg_predictors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">bg_mtx</span><span class="p">,</span> <span class="n">empty_sites</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_predictors</span> <span class="o">=</span> <span class="n">env_predictors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bg_predictors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">obs_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_predictors</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">f_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_predictors</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+        <span class="n">_mcpa_for_node</span><span class="p">,</span> <span class="n">init_incidence</span><span class="p">,</span> <span class="n">env_predictors</span><span class="p">,</span> <span class="n">bg_predictors</span><span class="p">,</span>
+        <span class="n">use_locks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Use an Executor to parallelize the computations over each tree node</span>
+    <span class="c1"># Note: The executor class is determined at the module level, so see top of</span>
+    <span class="c1">#    module for more information about executor class and concurrency</span>
+    <span class="k">with</span> <span class="n">ExecutorClass</span><span class="p">(</span><span class="n">CONCURRENCY_FACTOR</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">comp_run</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="n">func</span><span class="p">,</span> <span class="p">[</span><span class="n">phylo_mtx</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)])</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">f_val</span> <span class="ow">in</span> <span class="n">comp_run</span><span class="p">:</span>
+            <span class="n">obs_results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs</span>
+            <span class="n">f_results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_val</span>
+
+    <span class="c1"># Correct any nans</span>
+    <span class="n">obs_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">obs_results</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">f_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">f_results</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="n">column_headers</span> <span class="o">=</span> <span class="n">env_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
+    <span class="n">column_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Env - Adjusted R-squared&#39;</span><span class="p">)</span>
+    <span class="n">column_headers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bg_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">())</span>
+    <span class="n">column_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;BG - Adjusted R-squared&#39;</span><span class="p">)</span>
+    <span class="n">obs_headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
+        <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">,</span>
+        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Observed&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">f_headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
+        <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">,</span>
+        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;F-values&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">obs_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">obs_results</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">obs_headers</span><span class="p">)</span>
+    <span class="n">f_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">f_results</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">f_headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">obs_mtx</span><span class="p">,</span> <span class="n">f_mtx</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,938 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.statistics.pam_stats &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.pam_stats</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/autoapi/lmpy/statistics/pam_stats/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-lmpy.statistics.pam_stats">
+<span id="lmpy-statistics-pam-stats"></span><h1><a class="reference internal" href="../../../../source/lmpy.statistics.html#module-lmpy.statistics.pam_stats" title="lmpy.statistics.pam_stats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.pam_stats</span></code></a><a class="headerlink" href="#module-lmpy.statistics.pam_stats" title="Permalink to this headline">¶</a></h1>
+<p>Module containing base PAM statistic functionality.</p>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStatsMetric" title="lmpy.statistics.pam_stats.PamStatsMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamStatsMetric</span></code></a></p></td>
+<td><p>Base class for PAM statistics metrics.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.CovarianceMatrixMetric" title="lmpy.statistics.pam_stats.CovarianceMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CovarianceMatrixMetric</span></code></a></p></td>
+<td><p>A metric that produces a covariance matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.DiversityMetric" title="lmpy.statistics.pam_stats.DiversityMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiversityMetric</span></code></a></p></td>
+<td><p>A single-value diversity metric.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.SpeciesMatrixMetric" title="lmpy.statistics.pam_stats.SpeciesMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpeciesMatrixMetric</span></code></a></p></td>
+<td><p>A species-based statistic that is generated from a PAM.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.SiteMatrixMetric" title="lmpy.statistics.pam_stats.SiteMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SiteMatrixMetric</span></code></a></p></td>
+<td><p>A site-based metric that takes the PAM as input.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamDistMatrixMetric" title="lmpy.statistics.pam_stats.PamDistMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamDistMatrixMetric</span></code></a></p></td>
+<td><p>A site-based metric computed from a PAM and Tree.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.TreeMetric" title="lmpy.statistics.pam_stats.TreeMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeMetric</span></code></a></p></td>
+<td><p>A site-based metric that takes a Dendropy tree as an argument.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.TreeDistanceMatrixMetric" title="lmpy.statistics.pam_stats.TreeDistanceMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeDistanceMatrixMetric</span></code></a></p></td>
+<td><p>A site-based metric that takes a distance matrix as an argument.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats" title="lmpy.statistics.pam_stats.PamStats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamStats</span></code></a></p></td>
+<td><p>Class for managing metric computation for PAM statistics.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.alpha" title="lmpy.statistics.pam_stats.alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alpha</span></code></a>(pam)</p></td>
+<td><p>Calculate alpha diversity, the number of species in each site.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.alpha_proportional" title="lmpy.statistics.pam_stats.alpha_proportional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alpha_proportional</span></code></a>(pam)</p></td>
+<td><p>Calculate proportional alpha diversity.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.phi" title="lmpy.statistics.pam_stats.phi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phi</span></code></a>(pam)</p></td>
+<td><p>Calculate phi, the range size per site.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.phi_average_proportional" title="lmpy.statistics.pam_stats.phi_average_proportional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phi_average_proportional</span></code></a>(pam)</p></td>
+<td><p>Calculate proportional range size per site.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.omega" title="lmpy.statistics.pam_stats.omega"><code class="xref py py-obj docutils literal notranslate"><span class="pre">omega</span></code></a>(pam)</p></td>
+<td><p>Calculate the range size per species.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.omega_proportional" title="lmpy.statistics.pam_stats.omega_proportional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">omega_proportional</span></code></a>(pam)</p></td>
+<td><p>Calculate the mean proportional range size of each species.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.psi" title="lmpy.statistics.pam_stats.psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi</span></code></a>(pam)</p></td>
+<td><p>Calculate the range richness of each species.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.psi_average_proportional" title="lmpy.statistics.pam_stats.psi_average_proportional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi_average_proportional</span></code></a>(pam)</p></td>
+<td><p>Calculate the mean proportional species diversity.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.schluter_species_variance_ratio" title="lmpy.statistics.pam_stats.schluter_species_variance_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">schluter_species_variance_ratio</span></code></a>(pam)</p></td>
+<td><p>Calculate Schluter’s species variance ratio.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.schluter_site_variance_ratio" title="lmpy.statistics.pam_stats.schluter_site_variance_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">schluter_site_variance_ratio</span></code></a>(pam)</p></td>
+<td><p>Calculate Schluter’s site variance ratio.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.num_sites" title="lmpy.statistics.pam_stats.num_sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_sites</span></code></a>(pam)</p></td>
+<td><p>Get the number of sites with presences.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.num_species" title="lmpy.statistics.pam_stats.num_species"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_species</span></code></a>(pam)</p></td>
+<td><p>Get the number of species with presences.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.whittaker" title="lmpy.statistics.pam_stats.whittaker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">whittaker</span></code></a>(pam)</p></td>
+<td><p>Calculate Whittaker’s beta diversity metric for a PAM.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.lande" title="lmpy.statistics.pam_stats.lande"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lande</span></code></a>(pam)</p></td>
+<td><p>Calculate Lande’s beta diversity metric for a PAM.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.legendre" title="lmpy.statistics.pam_stats.legendre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">legendre</span></code></a>(pam)</p></td>
+<td><p>Calculate Legendre’s beta diversity metric for a PAM.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.c_score" title="lmpy.statistics.pam_stats.c_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_score</span></code></a>(pam)</p></td>
+<td><p>Calculate the checker board score for the PAM.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.sigma_sites" title="lmpy.statistics.pam_stats.sigma_sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sigma_sites</span></code></a>(pam)</p></td>
+<td><p>Compute the site sigma metric for a PAM.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.sigma_species" title="lmpy.statistics.pam_stats.sigma_species"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sigma_species</span></code></a>(pam)</p></td>
+<td><p>Compute the species sigma metric for a PAM.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.mean_nearest_taxon_distance" title="lmpy.statistics.pam_stats.mean_nearest_taxon_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean_nearest_taxon_distance</span></code></a>(phylo_dist_mtx)</p></td>
+<td><p>Calculates the nearest neighbor distance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.mean_pairwise_distance" title="lmpy.statistics.pam_stats.mean_pairwise_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean_pairwise_distance</span></code></a>(phylo_dist_mtx)</p></td>
+<td><p>Calculates mean pairwise distance between species present at a site.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.sum_pairwise_distance" title="lmpy.statistics.pam_stats.sum_pairwise_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum_pairwise_distance</span></code></a>(phylo_dist_mtx)</p></td>
+<td><p>Calculates the sum pairwise distance for all species present at a site.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.pearson_correlation" title="lmpy.statistics.pam_stats.pearson_correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pearson_correlation</span></code></a>(pam, phylo_dist_mtx)</p></td>
+<td><p>Calculates the Pearson correlation coefficient for each site.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.phylogenetic_diversity" title="lmpy.statistics.pam_stats.phylogenetic_diversity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phylogenetic_diversity</span></code></a>(tree)</p></td>
+<td><p>Calculate phylogenetic diversity of a tree.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStatsMetric">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">PamStatsMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStatsMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStatsMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for PAM statistics metrics.</p>
+<p>This wrapper is used to classify each statistic so that the arguments it
+needs can be inferred.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStatsMetric.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStatsMetric.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStatsMetric.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the wrapped function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments passed to the function.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments passed to the function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The output of the wrapped function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.CovarianceMatrixMetric">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">CovarianceMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#CovarianceMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.CovarianceMatrixMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStatsMetric" title="lmpy.statistics.pam_stats.PamStatsMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamStatsMetric</span></code></a></p>
+<p>A metric that produces a covariance matrix.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.DiversityMetric">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">DiversityMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#DiversityMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.DiversityMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStatsMetric" title="lmpy.statistics.pam_stats.PamStatsMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamStatsMetric</span></code></a></p>
+<p>A single-value diversity metric.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.SpeciesMatrixMetric">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">SpeciesMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#SpeciesMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.SpeciesMatrixMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SpeciesStatMetric</span></code></p>
+<p>A species-based statistic that is generated from a PAM.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.SiteMatrixMetric">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">SiteMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#SiteMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.SiteMatrixMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SiteStatMetric</span></code></p>
+<p>A site-based metric that takes the PAM as input.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamDistMatrixMetric">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">PamDistMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamDistMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamDistMatrixMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SiteStatMetric</span></code></p>
+<p>A site-based metric computed from a PAM and Tree.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.TreeMetric">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">TreeMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#TreeMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.TreeMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SiteStatMetric</span></code></p>
+<p>A site-based metric that takes a Dendropy tree as an argument.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.TreeDistanceMatrixMetric">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">TreeDistanceMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#TreeDistanceMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.TreeDistanceMatrixMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SiteStatMetric</span></code></p>
+<p>A site-based metric that takes a distance matrix as an argument.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.alpha">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#alpha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate alpha diversity, the number of species in each site.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A column of alpha diversity values for each site in the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.alpha_proportional">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">alpha_proportional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#alpha_proportional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.alpha_proportional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate proportional alpha diversity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A column of proportional alpha diversity values for each site in the</dt><dd><p>PAM.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.phi">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">phi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#phi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.phi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate phi, the range size per site.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A column of the sum of the range sizes for the species present at each</dt><dd><p>site in the PAM.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.phi_average_proportional">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">phi_average_proportional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#phi_average_proportional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.phi_average_proportional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate proportional range size per site.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A column of the proportional value of the sum of the range sizes for</dt><dd><p>the species present at each site in the PAM.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.omega">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">omega</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#omega"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.omega" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the range size per species.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A row of range sizes for each species in the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.omega_proportional">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">omega_proportional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#omega_proportional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.omega_proportional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the mean proportional range size of each species.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A row of the proportional range sizes for each species in the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.psi">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#psi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.psi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the range richness of each species.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A row of range richness for the sites that each species is present in.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.psi_average_proportional">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">psi_average_proportional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#psi_average_proportional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.psi_average_proportional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the mean proportional species diversity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A row of proportional range richness for the sites that each species in</dt><dd><p>the PAM is present.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.schluter_species_variance_ratio">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">schluter_species_variance_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#schluter_species_variance_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.schluter_species_variance_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Schluter’s species variance ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Schluter species variance ratio for the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.schluter_site_variance_ratio">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">schluter_site_variance_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#schluter_site_variance_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.schluter_site_variance_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Schluter’s site variance ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Schluter site variance ratio for the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.num_sites">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">num_sites</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#num_sites"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.num_sites" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of sites with presences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The number of sites that have present species.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.num_species">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">num_species</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#num_species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.num_species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of species with presences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The number of species that are present in at least one site.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.whittaker">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">whittaker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#whittaker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.whittaker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Whittaker’s beta diversity metric for a PAM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whittaker’s beta diversity for the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.lande">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">lande</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#lande"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.lande" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Lande’s beta diversity metric for a PAM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lande’s beta diversity for the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.legendre">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">legendre</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#legendre"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.legendre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Legendre’s beta diversity metric for a PAM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Legendre’s beta diversity for the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.c_score">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">c_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#c_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.c_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the checker board score for the PAM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The checkerboard score for the PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.sigma_sites">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">sigma_sites</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#sigma_sites"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.sigma_sites" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the site sigma metric for a PAM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix of covariance of composition of sites.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.sigma_species">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">sigma_species</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#sigma_species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.sigma_species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the species sigma metric for a PAM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The presence-absence matrix to use for the computation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix of covariance of composition of species.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.mean_nearest_taxon_distance">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">mean_nearest_taxon_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phylo_dist_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#mean_nearest_taxon_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.mean_nearest_taxon_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the nearest neighbor distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>phylo_dist_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of distances between the species present at a
+site.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The average distance from each taxa to taxa nearest to it.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.mean_pairwise_distance">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">mean_pairwise_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phylo_dist_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#mean_pairwise_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.mean_pairwise_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates mean pairwise distance between species present at a site.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>phylo_dist_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of distances between the species present at a
+site.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The average distance from each taxa all of the other co-located taxa.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.sum_pairwise_distance">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">sum_pairwise_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phylo_dist_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#sum_pairwise_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.sum_pairwise_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the sum pairwise distance for all species present at a site.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>phylo_dist_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of distances between the species present at a
+site.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The total distance from each taxa all of the other co-located taxa.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.pearson_correlation">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">pearson_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_dist_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#pearson_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.pearson_correlation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the Pearson correlation coefficient for each site.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A presence-absence matrix to use for the computation.</p></li>
+<li><p><strong>phylo_dist_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of distance between species.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A column of Pearson correlation values for each site in a PAM.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.phylogenetic_diversity">
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">phylogenetic_diversity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#phylogenetic_diversity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.phylogenetic_diversity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate phylogenetic diversity of a tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tree</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper"><em>TreeWrapper</em></a>) – A phylogenetic tree to compute phylogenetic diversity for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The sum of the edge lengths of the nodes of the provided tree.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">PamStats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for managing metric computation for PAM statistics.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.covariance_stats">
+<span class="sig-name descname"><span class="pre">covariance_stats</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[None,</span> <span class="pre">None]</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.covariance_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.covariance_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.diversity_stats">
+<span class="sig-name descname"><span class="pre">diversity_stats</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[None,</span> <span class="pre">None,</span> <span class="pre">None,</span> <span class="pre">None,</span> <span class="pre">None,</span> <span class="pre">None]</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.diversity_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.diversity_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.site_matrix_stats">
+<span class="sig-name descname"><span class="pre">site_matrix_stats</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[None,</span> <span class="pre">None,</span> <span class="pre">None,</span> <span class="pre">None]</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.site_matrix_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.site_matrix_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.site_tree_stats">
+<span class="sig-name descname"><span class="pre">site_tree_stats</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[None]</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.site_tree_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.site_tree_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.site_tree_distance_matrix_stats">
+<span class="sig-name descname"><span class="pre">site_tree_distance_matrix_stats</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[None,</span> <span class="pre">None,</span> <span class="pre">None]</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.site_tree_distance_matrix_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.site_tree_distance_matrix_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.site_pam_dist_mtx_stats">
+<span class="sig-name descname"><span class="pre">site_pam_dist_mtx_stats</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[None]</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.site_pam_dist_mtx_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.site_pam_dist_mtx_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.species_matrix_stats">
+<span class="sig-name descname"><span class="pre">species_matrix_stats</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[None,</span> <span class="pre">None,</span> <span class="pre">None,</span> <span class="pre">None]</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.species_matrix_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.species_matrix_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.calculate_covariance_statistics">
+<span class="sig-name descname"><span class="pre">calculate_covariance_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.calculate_covariance_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.calculate_covariance_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate covariance statistics matrices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of metric name, value tuples for covariance stats.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.calculate_diversity_statistics">
+<span class="sig-name descname"><span class="pre">calculate_diversity_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.calculate_diversity_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.calculate_diversity_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate diversity statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of metric name, value tuples for diversity metrics.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.calculate_site_statistics">
+<span class="sig-name descname"><span class="pre">calculate_site_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.calculate_site_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.calculate_site_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate site-based statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A matrix of site-based statistics for the selected metrics.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.calculate_species_statistics">
+<span class="sig-name descname"><span class="pre">calculate_species_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.calculate_species_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.calculate_species_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate species-based statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A matrix of species-based statistics for the selected metrics.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.register_metric">
+<span class="sig-name descname"><span class="pre">register_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.register_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.register_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a new metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – A name for this metric that will be used for a header.</p></li>
+<li><p><strong>metric_function</strong> (<em>function</em>) – A decorated metric generating function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – Raised if the metric function type cannot be processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+:mod:`lmpy.matrix`
+==================
+
+.. py:module:: lmpy.matrix
+
+.. autoapi-nested-parse::
+
+   Module that contains a Matrix class that has header information.
+
+   .. note::
+
+      * Subclassing based on
+          https://docs.scipy.org/doc/numpy/user/basics.subclassing.html
+
+   .. todo::
+
+      * Handle multiple rows / columns / etc of headers like:
+          (PAM x, y, site ids).
+      * Load should handle compressed and not compressed.
+      * Watch NEP-0018 for Numpy function overrides (ex. concatenate)
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.matrix.Matrix
+
+
+
+
+.. class:: Matrix(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)
+
+
+   Bases: :py:obj:`numpy.ndarray`
+
+   Lifemapper wrapper for Numpy ndarrays that adds headers.
+
+   .. method:: __array_finalize__(self, obj)
+
+      Overridden function from ndarray.
+
+      ``self`` is a new object resulting from ndarray.__new__(Matrix, ...),
+      therefore it only has the attributes that the ndarray.__new__
+      constructor gave it.
+
+      :param obj: If the object is a matrix, pull out headers and metadata.
+      :type obj: Matrix
+
+
+   .. method:: load(cls, filename)
+      :classmethod:
+
+      Load a matrix from a filename.
+
+      :param filename: File location of matrix to load.
+      :type filename: str
+
+      :returns: The matrix read from the file.
+      :rtype: Matrix
+
+
+   .. method:: load_csv(cls, flo, dtype=np.float, num_header_rows=0, num_header_cols=0)
+      :classmethod:
+
+      Attempts to load a Matrix object from a CSV file-like object.
+
+      :param flo: A file like object containing csv data.
+      :type flo: File-like object
+      :param dtype: The data type for the data.  Will
+                    be used to cast data when adding to matrix.
+      :type dtype: :obj:`method`, optional
+      :param num_header_rows: The number of header rows
+                              in the CSV file.
+      :type num_header_rows: :obj:`int`, optional
+      :param num_header_cols: The number of header
+                              columns in the CSV file.
+      :type num_header_cols: :obj:`int`, optional
+
+      :returns: The newly loaded Matrix object.
+      :rtype: Matrix
+
+
+   .. method:: load_flo(cls, flo)
+      :classmethod:
+
+      Attempts to load a Matrix object from a file.
+
+      :param flo: A file-like object with matrix data.
+      :type flo: file-like
+
+      :returns: The newly loaded Matrix object.
+      :rtype: Matrix
+
+
+   .. method:: concatenate(cls, mtx_list, axis=0)
+      :classmethod:
+
+      Concatenates multiple Matrix objects together to form a new Matrix.
+
+      :param mtx_list: A List of Matrix objects
+                       to concatenate together.
+      :type mtx_list: :obj:`list` of :obj:`Matrix`
+      :param axis: The axis to concatenate these Matrix objects
+                   on.  This should be an integer for the matrix axis of
+                   concatenation.  This will be converted to a string where needed
+                   for headers.
+      :type axis: int, optional
+
+      .. note:: * Assumes that headers for other axes are the same.
+
+      :returns: The concatenated Matrix objects.
+      :rtype: Matrix
+
+
+   .. method:: flatten_2d(self)
+
+      Flattens a higher dimension Matrix object into a 2D matrix.
+
+      .. todo::
+
+         * Modify this method to take an argument for the number of
+             dimensions that the matrix should be flattened to.
+
+      :returns: A Matrix object flattened to only have two dimensions.
+      :rtype: Matrix
+
+
+   .. method:: get_column_headers(self)
+
+      Shortcut to get column headers.
+
+      :returns: A list of headers for each column.
+
+
+   .. method:: get_headers(self, axis=None)
+
+      Gets the headers associated with this Matrix.
+
+      :param axis: If provided, return headers for this
+                   axis, else, return all.
+      :type axis: :obj:`int`, optional
+
+      :returns: If axis is None, a dictionary of all headers for the matrix.
+                If axis is int, A list of headers for the specified axis.
+
+
+   .. method:: get_metadata(self)
+
+      Retrieves matrix metadata.
+
+      :returns: A dictionary of metadata for the matrix.
+      :rtype: dict
+
+
+   .. method:: get_row_headers(self)
+
+      Shortcut to get row headers.
+
+      :returns: A list of headers for the rows in the matrix.
+
+
+   .. method:: save(self, flo)
+
+      Saves the Matrix to a file-like object.
+
+      Saves the Matrix object in a JSON / Numpy zip file to the file-like
+      object.
+
+      :param flo: The file-like object to write to.
+      :type flo: file-like
+
+
+   .. method:: set_column_headers(self, headers)
+
+      Shortcut to set column headers.
+
+      :param headers: A list of new column headers.
+      :type headers: :obj:`list` of :obj:`str`
+
+
+   .. method:: set_headers(self, headers, axis=None)
+
+      Sets the headers for this Matrix.
+
+      :param headers: Matrix headers.  Can be a list of
+                      lists, a dictionary of lists, or if axis is provided, a single list.
+      :type headers: dict or list of list or list
+      :param axis: If provided, set the headers for a specific axis, else, process
+                   as if it is for the entire Matrix.
+      :type axis: int
+
+      .. todo:: Validate input for single axis operation?
+
+      .. note::
+
+         Resets headers dictionary when setting values for all headers.
+         Duck types to use list of lists or dictionary to set values for different
+             axes.
+
+
+   .. method:: set_row_headers(self, headers)
+
+      Shortcut to set row headers.
+
+      :param headers: A list of new row headers.
+      :type headers: :obj:`list` of :obj:`str`
+
+
+   .. method:: slice(self, *args)
+
+      Subsets the matrix and returns a new instance.
+
+      :param \*args: A variable length argument list of iterables for the indices
+                     to retrieve for each axis.
+
+      .. note:: * The first parameter will be for axis 0, second for axis 1, etc.
+
+      :returns:
+
+                A new Matrix that is a subset of the original specified by
+                    the slicing parameters.
+      :rtype: Matrix
+
+
+   .. method:: slice_by_header(self, header, axis)
+
+      Gets a slice of the Matrix matching the header provided.
+
+      :param header: The name of a header to use for slicing
+      :type header: str
+      :param axis: The axis to find this header.
+      :type axis: int
+
+      .. todo::
+
+         Add capability to slice over multiple axes and multiple headers.
+             Maybe combine with other slice method and provide method to
+             search for header indices.
+
+      :returns: A subset of the original Matrix specified by the header.
+      :rtype: Matrix
+
+
+   .. method:: T(self)
+      :property:
+
+      Get the transpose of the matrix.
+
+      :returns: The matrix transpose.
+      :rtype: Matrix
+
+
+   .. method:: transpose(self, *axes)
+
+      Transposes the Matrix.
+
+      :param axes: The order of the axes in the
+                   transposition. see: ndarray.transpose
+      :type axes: None, tuple of ints, n ints
+
+      :returns: A transposed version of the original matrix
+      :rtype: Matrix
+
+
+   .. method:: write(self, filename)
+
+      Write the matrix to the specified file location.
+
+      :param filename: The file location to save to.
+      :type filename: str
+
+
+   .. method:: write_csv(self, flo, *slice_args)
+
+      Writes the Matrix object to a CSV file-like object.
+
+      :param flo: The file-like object to write to.
+      :type flo: file-like
+      :param \*slice_args: A variable length argument list of iterables to use
+                           for a slice operation prior to generating CSV content.
+
+      .. todo::
+
+         Handle header overlap (where the header for one axis is for another
+             axis header.
+
+      .. note:: Currently only works for 2-D tables.
+
+
+

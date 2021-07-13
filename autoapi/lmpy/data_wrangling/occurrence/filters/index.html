@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.data_wrangling.occurrence.filters &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_wrangling.occurrence.filters</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/autoapi/lmpy/data_wrangling/occurrence/filters/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-lmpy.data_wrangling.occurrence.filters">
+<span id="lmpy-data-wrangling-occurrence-filters"></span><h1><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#module-lmpy.data_wrangling.occurrence.filters" title="lmpy.data_wrangling.occurrence.filters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_wrangling.occurrence.filters</span></code></a><a class="headerlink" href="#module-lmpy.data_wrangling.occurrence.filters" title="Permalink to this headline">¶</a></h1>
+<p>Module containing occurrence data wranglers for filtering points.</p>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_attribute_filter" title="lmpy.data_wrangling.occurrence.filters.get_attribute_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_attribute_filter</span></code></a>(att_name, pass_condition)</p></td>
+<td><p>Get a filter function for checking a point attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_bounding_box_filter" title="lmpy.data_wrangling.occurrence.filters.get_bounding_box_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_bounding_box_filter</span></code></a>(min_x, min_y, max_x, max_y)</p></td>
+<td><p>Get a filter function for the specified bounding box.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_decimal_precision_filter" title="lmpy.data_wrangling.occurrence.filters.get_decimal_precision_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_decimal_precision_filter</span></code></a>(decimal_places)</p></td>
+<td><p>Get a filter function to remove points with inadequate precision.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_disjoint_geometries_filter" title="lmpy.data_wrangling.occurrence.filters.get_disjoint_geometries_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_disjoint_geometries_filter</span></code></a>(geometry_wkts)</p></td>
+<td><p>Get a filter function for finding disjoint geometries.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_intersect_geometries_filter" title="lmpy.data_wrangling.occurrence.filters.get_intersect_geometries_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_intersect_geometries_filter</span></code></a>(geometry_wkts)</p></td>
+<td><p>Get a filter function for intersecting the provided geometries.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_minimum_points_filter" title="lmpy.data_wrangling.occurrence.filters.get_minimum_points_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_minimum_points_filter</span></code></a>(minimum_count)</p></td>
+<td><p>Get a filter that returns all points if a minimum number, else none.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_spatial_index_filter" title="lmpy.data_wrangling.occurrence.filters.get_spatial_index_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spatial_index_filter</span></code></a>(spatial_index, get_species_intersections_func, check_hit_func)</p></td>
+<td><p>Get a filter that uses a spatial index and logic to intersect hits.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../../source/lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_unique_localities_filter" title="lmpy.data_wrangling.occurrence.filters.get_unique_localities_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_unique_localities_filter</span></code></a>()</p></td>
+<td><p>Get a filter that only retains points with unique localities.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.filters.get_attribute_filter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.filters.</span></span><span class="sig-name descname"><span class="pre">get_attribute_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">att_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pass_condition</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/filters.html#get_attribute_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.filters.get_attribute_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a filter function for checking a point attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>att_name</strong> (<em>str</em>) – The attribute of a point to check.</p></li>
+<li><p><strong>pass_condition</strong> (<em>Method</em>) – A function that takes a value and returns a boolean
+indicating if it passes a condition.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A function that takes a list of points as input and returns a list of</dt><dd><p>points that pass that filter function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.filters.get_bounding_box_filter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.filters.</span></span><span class="sig-name descname"><span class="pre">get_bounding_box_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/filters.html#get_bounding_box_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.filters.get_bounding_box_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a filter function for the specified bounding box.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_x</strong> (<em>numeric</em>) – The minimum ‘x’ value for the bounding box.</p></li>
+<li><p><strong>min_y</strong> (<em>numeric</em>) – The minimum ‘y’ value for the bounding box.</p></li>
+<li><p><strong>max_x</strong> (<em>numeric</em>) – The maximum ‘x’ value for the bounding box.</p></li>
+<li><p><strong>max_y</strong> (<em>numeric</em>) – The maximum ‘y’ value for the bounding box.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A function that takes a list of points as input and returns a list of</dt><dd><p>points that pass that filter function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.filters.get_decimal_precision_filter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.filters.</span></span><span class="sig-name descname"><span class="pre">get_decimal_precision_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decimal_places</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/filters.html#get_decimal_precision_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.filters.get_decimal_precision_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a filter function to remove points with inadequate precision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>decimal_places</strong> (<em>int</em>) – Only keep points with at least this many decimal
+places of precision.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A function that takes a list of points as input and returns a list of</dt><dd><p>points that pass that filter function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.filters.get_disjoint_geometries_filter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.filters.</span></span><span class="sig-name descname"><span class="pre">get_disjoint_geometries_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_wkts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/filters.html#get_disjoint_geometries_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.filters.get_disjoint_geometries_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a filter function for finding disjoint geometries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>geometry_wkts</strong> (<em>list of str</em>) – A list of geometry Well-Known Text strings
+to check for intersection.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A function that takes a list of points as input and returns a list of</dt><dd><p>points that pass that filter function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.filters.get_intersect_geometries_filter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.filters.</span></span><span class="sig-name descname"><span class="pre">get_intersect_geometries_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_wkts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/filters.html#get_intersect_geometries_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.filters.get_intersect_geometries_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a filter function for intersecting the provided geometries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>geometry_wkts</strong> (<em>list of str</em>) – A list of geometry Well-Known Text strings
+to check for intersection.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A function that takes a list of points as input and returns a list of</dt><dd><p>points that pass that filter function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.filters.get_minimum_points_filter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.filters.</span></span><span class="sig-name descname"><span class="pre">get_minimum_points_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimum_count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/filters.html#get_minimum_points_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.filters.get_minimum_points_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a filter that returns all points if a minimum number, else none.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>minimum_count</strong> (<em>int</em>) – The minimum number of points in order to keep.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A function that takes a list of points as input and returns a list of</dt><dd><p>points that pass that filter function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.filters.get_spatial_index_filter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.filters.</span></span><span class="sig-name descname"><span class="pre">get_spatial_index_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spatial_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_species_intersections_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_hit_func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/filters.html#get_spatial_index_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.filters.get_spatial_index_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a filter that uses a spatial index and logic to intersect hits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spatial_index</strong> (<em>str</em><em> or </em><a class="reference internal" href="../../../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex" title="lmpy.spatial.spatial_index.SpatialIndex"><em>SpatialIndex</em></a>) – A spatial index or file path for
+one to load.</p></li>
+<li><p><strong>get_species_intersections_func</strong> (<em>method</em>) – A method for retrieving valid
+intersections for a species point.</p></li>
+<li><p><strong>check_hit_func</strong> (<em>method</em>) – A method for checking a hit against the valid
+hits for a species point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A function that takes a list of points as input and returns a list of</dt><dd><p>points that pass that filter function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.filters.get_unique_localities_filter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.filters.</span></span><span class="sig-name descname"><span class="pre">get_unique_localities_filter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/filters.html#get_unique_localities_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.filters.get_unique_localities_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a filter that only retains points with unique localities.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Retains the first point with an unseen locality, drops the rest.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A function that takes a list of points as input and returns a list of</dt><dd><p>points that pass that filter function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

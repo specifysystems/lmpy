@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.randomize.grady &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.randomize.grady</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/autoapi/lmpy/randomize/grady/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-lmpy.randomize.grady">
+<span id="lmpy-randomize-grady"></span><h1><a class="reference internal" href="../../../../source/lmpy.randomize.html#module-lmpy.randomize.grady" title="lmpy.randomize.grady"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.randomize.grady</span></code></a><a class="headerlink" href="#module-lmpy.randomize.grady" title="Permalink to this headline">¶</a></h1>
+<p>Randomize PAMs using CJ’s algorithm.</p>
+<p>This module contains functions used to randomize a PAM using CJ’s algorithm.
+This algorithm can run in a parallel fashion and uses a fill-based approach so
+as to prevent a bias caused by starting with an initial condition of a
+populated matrix.</p>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.randomize.html#lmpy.randomize.grady.fill_shuffle_reshape_heuristic" title="lmpy.randomize.grady.fill_shuffle_reshape_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill_shuffle_reshape_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Create an approximation with the correct number of 1s randomly placed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../source/lmpy.randomize.html#lmpy.randomize.grady.total_fill_percentage_heuristic" title="lmpy.randomize.grady.total_fill_percentage_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_fill_percentage_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Create an approximation using the total fill percentage of the PAM.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.randomize.html#lmpy.randomize.grady.max_col_or_row_heuristic" title="lmpy.randomize.grady.max_col_or_row_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_col_or_row_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Weighting method using max weight between row and column.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../source/lmpy.randomize.html#lmpy.randomize.grady.min_col_or_row_heuristic" title="lmpy.randomize.grady.min_col_or_row_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min_col_or_row_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Weighting method using max weight between row and column.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.randomize.html#lmpy.randomize.grady.all_zeros_heuristic" title="lmpy.randomize.grady.all_zeros_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_zeros_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Creates a two-dimensional approximation composed of all zeros.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../../source/lmpy.randomize.html#lmpy.randomize.grady.all_ones_heuristic" title="lmpy.randomize.grady.all_ones_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_ones_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Creates a two-dimensional approximation composed of all ones.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.randomize.html#lmpy.randomize.grady.grady_randomize" title="lmpy.randomize.grady.grady_randomize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grady_randomize</span></code></a>(mtx, approximation_heuristic=total_fill_percentage_heuristic)</p></td>
+<td><p>Main function for creating a random matrix.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.fill_shuffle_reshape_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">fill_shuffle_reshape_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#fill_shuffle_reshape_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.fill_shuffle_reshape_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an approximation with the correct number of 1s randomly placed.</p>
+<p>Creates an array with the total number of ones from the original PAM and
+shuffles it then it reshapes it to match the shape of the original PAM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig_pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The observed PAM to randomize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.total_fill_percentage_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">total_fill_percentage_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#total_fill_percentage_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.total_fill_percentage_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an approximation using the total fill percentage of the PAM.</p>
+<p>Creates an approximation using the total matrix fill of the original PAM
+as a weight threshold to compare with randomly generated numbers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig_pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The observed PAM to randomize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.max_col_or_row_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">max_col_or_row_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#max_col_or_row_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.max_col_or_row_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weighting method using max weight between row and column.</p>
+<p>This method returns a matrix of weights where the weight of each cell is
+the maximum between the proportions of the row and col</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig_pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The observed PAM to randomize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.min_col_or_row_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">min_col_or_row_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#min_col_or_row_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.min_col_or_row_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weighting method using max weight between row and column.</p>
+<p>This method returns a matrix of weights where the weight of each cell is
+the maximum between the proportions of the row and col</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig_pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The observed PAM to randomize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.all_zeros_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">all_zeros_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#all_zeros_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.all_zeros_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a two-dimensional approximation composed of all zeros.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig_pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The observed PAM to randomize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.all_ones_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">all_ones_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#all_ones_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.all_ones_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a two-dimensional approximation composed of all ones.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig_pam</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The observed PAM to randomize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.grady_randomize">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">grady_randomize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approximation_heuristic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">total_fill_percentage_heuristic</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#grady_randomize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.grady_randomize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main function for creating a random matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A Matrix object representation of a PAM</p></li>
+<li><p><strong>approximation_heuristic</strong> (<em>function</em>) – A function that generates an
+approximation of a final randomized matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A matrix of random presence absence values with the same</dt><dd><p>marginal totals as the input matrix ‘mtx’.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

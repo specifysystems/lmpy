@@ -1,0 +1,22 @@
+:mod:`lmpy.statistics`
+======================
+
+.. py:module:: lmpy.statistics
+
+.. autoapi-nested-parse::
+
+   Statistics module.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   mcpa/index.rst
+   pam_stats/index.rst
+   running_stats/index.rst
+
+

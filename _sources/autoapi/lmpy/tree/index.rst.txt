@@ -1,0 +1,384 @@
+:mod:`lmpy.tree`
+================
+
+.. py:module:: lmpy.tree
+
+.. autoapi-nested-parse::
+
+   Module for the Lifemapper TreeWrapper class.
+
+   .. todo::
+
+      * Should we provide a method to collapse clades that only have one child?
+      * Add method to remove annotations.
+      * Move label method out of internal functions.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tree.PhyloTreeKeys
+   lmpy.tree.TreeWrapper
+
+
+
+
+.. class:: PhyloTreeKeys
+
+   Bases: :py:obj:`object`
+
+   Keys for phylogenetic trees.
+
+   .. attribute:: MTX_IDX
+
+      The tree attribute indicating the matrix index position
+      for a node.
+
+      :type: str
+
+   .. attribute:: SQUID
+
+      The tree attribute indicating a hashed identifier for the
+      taxon.
+
+      :type: str
+
+   .. attribute:: MTX_IDX
+      :annotation: = mx
+
+      
+
+   .. attribute:: SQUID
+      :annotation: = squid
+
+      
+
+
+.. exception:: LmTreeException
+
+
+   Bases: :py:obj:`Exception`
+
+   Wrapper around the base Exception class for tree related errors.
+
+
+.. class:: TreeWrapper(*args, **kwargs)
+
+
+   Bases: :py:obj:`dendropy.Tree`
+
+   Dendropy Tree wrapper.
+
+   Dendropy tree wrapper that adds a little functionality and improves
+   performance of some functions.
+
+   .. method:: from_base_tree(cls, tree)
+      :classmethod:
+
+      Creates a TreeWrapper object from a base dendropy.Tree.
+
+      :param tree: A base dendropy tree object to wrap into a
+                   TreeWrapper.
+      :type tree: dendropy.Tree
+
+      :returns: The newly wrapped tree.
+      :rtype: TreeWrapper
+
+
+   .. method:: from_filename(cls, filename)
+      :classmethod:
+
+      Creates a TreeWrapper object by loading a file.
+
+      :param filename: A file path to a tree file that should be loaded.
+      :type filename: str
+
+      :returns: The newly loaded tree.
+      :rtype: TreeWrapper
+
+      :raises IOError: Raised if the tree file cannot be loaded based on the file
+          extension.
+
+
+   .. method:: add_node_labels(self, prefix=None, overwrite=False)
+
+      Add labels to the nodes in the tree.
+
+      Add labels to the unlabeled nodes in the tree.
+
+      :param prefix: If provided, prefix the node labels
+                     with this string.
+      :type prefix: :obj:`str`, optional
+      :param overwrite: Indicates whether existing node
+                        labels should be overwritten or if they should be maintained.
+                        Defaults to False.
+      :type overwrite: :obj:`bool`, optional
+
+      .. note:: * This labels nodes the way that R does.
+
+
+   .. method:: annotate_tree(self, annotation_dict, annotation_attribute=None, label_attribute=None, update=False)
+
+      Annotates tree tips and nodes.
+
+      :param annotation_dict: A dictionary where the keys
+                              correspond with the node labels and the value is either, a
+                              single value, or a dictionary of annotation name keys and
+                              annotation value values.
+      :type annotation_dict: :obj:`dict`
+      :param annotation_attribute: Only used if
+                                   annotation_dict contains single values, this will be the name
+                                   of the annotation added for each node.  Using None or setting
+                                   value to 'label' will change the label of the node.  Defaults
+                                   to None.
+      :type annotation_attribute: :obj:`str` or None, optional
+      :param label_attribute: Use the value of this
+                              annotation as the label for the node.  Setting the value to
+                              'label' or leaving as None will use the label of the node.
+                              Defaults to None.
+      :type label_attribute: :obj:`str`, optional
+      :param update: If True, update any existing
+                     annotations with the annotations provided.  Defaults to False.
+      :type update: :obj:`bool`, optional
+
+
+   .. method:: annotate_tree_tips(self, attribute_name, annotation_pairs, label_attribute='label', update=False)
+
+      Annotates the tips of the tree.
+
+      Deprecated:
+          Update to use annotate_tree.
+
+      :param attribute_name: The name of the annotation attribute to add.
+      :type attribute_name: str
+      :param annotation_pairs: A dictionary of label keys with annotation values.
+      :type annotation_pairs: dict
+      :param label_attribute: If this is provided, use this annotation
+                              attribute as the key instead of the label. Defaults to 'label'.
+      :type label_attribute: str, optional
+      :param update: Defaults to False.  Indicates if existing
+                     annotations should be updated.
+      :type update: bool, optional
+
+
+   .. method:: get_annotations(self, annotation_attribute)
+
+      Gets a list of (label, annotation) pairs.
+
+      :param annotation_attribute: The annotation attribute to retrieve.
+      :type annotation_attribute: str
+
+      :returns: A list of annotations.
+      :rtype: list
+
+
+   .. method:: get_distance_matrix(self, label_attribute='label', ordered_labels=None)
+
+      Gets a Matrix object of phylogenetic distances.
+
+      Get a Matrix object of phylogenetic distances between tips using a
+      lower memory footprint.
+
+      :param label_attribute: The attribute of the tips to use as labels
+                              for the matrix.  Defaults to 'label'.
+      :type label_attribute: str, optional
+      :param ordered_labels: If provided, use this order of
+                             labels.
+      :type ordered_labels: list of str, optional
+
+      :returns:
+
+                A distance matrix from each tip to each of the other tips
+                    in the tree.
+      :rtype: Matrix
+
+
+   .. method:: get_distance_matrix_dendropy(self, label_attribute='label', ordered_labels=None)
+
+      Gets a Matrix object of phylogenetic distances between tips.
+
+      Gets the distance matrix between each tip using Dendropy.
+
+      :param label_attribute: The attribute of the tips to use as labels
+                              for the matrix.  Defaults to 'label'.
+      :type label_attribute: str, optional
+      :param ordered_labels: If provided, use this order of
+                             labels.
+      :type ordered_labels: list of str, optional
+
+      .. note::
+
+         This method may require a significant amount of memory for large trees.
+             The `get_distance_matrix` method has a smaller memory footprint and
+             works at nearly the same speed.
+
+      :returns:
+
+                A distance matrix from each tip to each of the other tips in the
+                    tree.
+      :rtype: Matrix
+
+
+   .. method:: get_labels(self)
+
+      Gets tip labels for a clade.
+
+      .. note:: Bottom-up order.
+
+      :returns: A list of taxon labels for the taxa in the tree.
+
+
+   .. method:: get_variance_covariance_matrix(self, label_attribute='label', ordered_labels=None)
+
+      Gets a Matrix object of variance / co-variance for tips in tree.
+
+      :param label_attribute: The attribute of the tips to use as labels
+                              for the matrix.  Defaults to 'label'.
+      :type label_attribute: str, optional
+      :param ordered_labels: If provided, use this order of
+                             labels.
+      :type ordered_labels: list of str, optional
+
+      :returns:
+
+                A matrix of variance / co-variance values for the tips in
+                    the tree.
+      :rtype: Matrix
+
+      :raises LmTreeException: If the tree does not have branch lengths.
+
+
+   .. method:: has_branch_lengths(self)
+
+      Returns a boolean indicating if the entire tree has branch lengths.
+
+      :returns: An indication if the tree has branch lengths.
+      :rtype: bool
+
+
+   .. method:: has_polytomies(self)
+
+      Returns boolean indicating if the tree has polytomies.
+
+      :returns: An indication if the tree has any polytomies.
+      :rtype: bool
+
+
+   .. method:: is_binary(self)
+
+      Checks if the tree is binary.
+
+      :returns: An indication if the tree is binary.
+      :rtype: bool
+
+      .. note:: * Checks that every clade has either zero or two children.
+
+
+   .. method:: is_ultrametric(self, rel_tol=0.001)
+
+      Checks if the tree is ultrametric.
+
+      :param rel_tol: The relative tolerance to determine if the min and
+                      max are equal.  We will say they are equal if they are 99.9%.
+      :type rel_tol: float
+
+      :returns:
+
+                Returns true if the distance from the root to each tip is the
+                    same (within the tolerance interval).
+      :rtype: bool
+
+      .. note::
+
+         * To be ultrametric, the branch length from root to tip must be
+             equal for all tips.
+
+
+   .. method:: prune_tips_without_attribute(self, search_attribute=PhyloTreeKeys.MTX_IDX)
+
+      Prunes the tree of any tips that don't have the specified attribute.
+
+      :param search_attribute: The attribute to look for when pruning
+                               tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.
+      :type search_attribute: str, optional
+
+
+   .. method:: _annotation_method(self, label_attribute)
+
+      Use the label attribute as the node label.
+
+      :param label_attribute: The annotation to use as the label for the
+                              nodes in the tree.
+      :type label_attribute: str
+
+      :returns: A method for retrieving the label for a taxon.
+      :rtype: Method
+
+
+   .. method:: _annotate_node(self, node, annotation_attribute, annotation_value, update=False)
+
+      Annotates a node with the given value.
+
+      :param node: A node to add an annotation to.
+      :type node: Node
+      :param annotation_attribute: The annotation attribute to add.  If
+                                   None or 'label', update the node label.
+      :type annotation_attribute: str
+      :param annotation_value: The value of the annotation.
+      :param update: If True, update existing attribute.
+                     Defaults to False.
+      :type update: bool, optional
+
+
+   .. method:: _get_label_method(self, label_attribute)
+
+      Gets the function to be used for retrieving labels.
+
+      :param label_attribute: An annotation name, 'label', or None used to
+                              determine which method to use to retrieve the label of a node.
+      :type label_attribute: str
+
+      :returns: Function for labeling nodes.
+
+
+   .. method:: _label_tree_nodes(self, node, i, prefix=None, overwrite=False)
+
+      Private function to do the work when labeling nodes.
+
+      :param node: A node to label.
+      :type node: Node
+      :param i: A count of the number of previously labeled nodes.
+      :type i: int
+      :param prefix: A prefix to use when labeling nodes resulting in
+                     labels like 'prefix_0'.  Defaults to None and no prefix.
+      :type prefix: str, optional
+      :param overwrite: Should node labels be overwritten.  Defaults to
+                        False.
+      :type overwrite: bool, optional
+
+      :returns: The number of nodes already labeled in the tree.
+      :rtype: int
+
+      .. note:: * Recursive.
+
+
+   .. method:: _label_method(node)
+      :staticmethod:
+
+      Use the label of the node or taxon for the label.
+
+      :param node: The node to get the label for.
+      :type node: Node
+
+      :returns: If the node or the node's taxon has a label, return it.
+                None: If the node and it's taxon do not have labels.
+      :rtype: str
+
+
+

@@ -1,0 +1,23 @@
+:mod:`lmpy.data_preparation`
+============================
+
+.. py:module:: lmpy.data_preparation
+
+.. autoapi-nested-parse::
+
+   Data preparation module __init__.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   build_grid/index.rst
+   layer_encoder/index.rst
+   occurrence_transformation/index.rst
+   tree_encoder/index.rst
+
+

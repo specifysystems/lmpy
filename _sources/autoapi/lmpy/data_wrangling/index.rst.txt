@@ -1,0 +1,20 @@
+:mod:`lmpy.data_wrangling`
+==========================
+
+.. py:module:: lmpy.data_wrangling
+
+.. autoapi-nested-parse::
+
+   Data wrangling package.
+
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   occurrence/index.rst
+
+

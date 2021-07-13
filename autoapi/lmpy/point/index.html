@@ -1,0 +1,783 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.point &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.point</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/autoapi/lmpy/point/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-lmpy.point">
+<span id="lmpy-point"></span><h1><a class="reference internal" href="../../../source/lmpy.html#module-lmpy.point" title="lmpy.point"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.point</span></code></a><a class="headerlink" href="#module-lmpy.point" title="Permalink to this headline">¶</a></h1>
+<p>Module containing Point class.</p>
+<p>Note: A namedtuple could replace this class for Python 3.7+</p>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.Point" title="lmpy.point.Point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Point</span></code></a></p></td>
+<td><p>Class representing an occurrence data point.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointCsvReader" title="lmpy.point.PointCsvReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCsvReader</span></code></a></p></td>
+<td><p>Class for reading Points from a CSV file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointCsvWriter" title="lmpy.point.PointCsvWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCsvWriter</span></code></a></p></td>
+<td><p>Class for writing Points to a CSV file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointDwcaReader" title="lmpy.point.PointDwcaReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointDwcaReader</span></code></a></p></td>
+<td><p>Class for reading Darwin Core Archives.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointJsonWriter" title="lmpy.point.PointJsonWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointJsonWriter</span></code></a></p></td>
+<td><p>Class for writing Points to JSON.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.get_field_process_func" title="lmpy.point.get_field_process_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_field_process_func</span></code></a>(index=None, default=None, vocabulary=None, delimiter=None)</p></td>
+<td><p>Get a function to process a field for a specimen record.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.none_getter" title="lmpy.point.none_getter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">none_getter</span></code></a>(obj)</p></td>
+<td><p>Return None as a function.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.DEFAULT_META_FILENAME" title="lmpy.point.DEFAULT_META_FILENAME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_META_FILENAME</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.DWCA_OCCURRENCE_PARAMS" title="lmpy.point.DWCA_OCCURRENCE_PARAMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DWCA_OCCURRENCE_PARAMS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.CORE_TAG" title="lmpy.point.CORE_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CORE_TAG</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.FIELD_TAG" title="lmpy.point.FIELD_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FIELD_TAG</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.FILES_TAG" title="lmpy.point.FILES_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FILES_TAG</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.ID_TAG" title="lmpy.point.ID_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ID_TAG</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.LOCATION_TAG" title="lmpy.point.LOCATION_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LOCATION_TAG</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.DEFAULT_META_FILENAME">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_META_FILENAME</span></span><em class="property"> <span class="pre">=</span> <span class="pre">meta.xml</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#DEFAULT_META_FILENAME"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.DEFAULT_META_FILENAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.DWCA_OCCURRENCE_PARAMS">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">DWCA_OCCURRENCE_PARAMS</span></span><a class="reference internal" href="../../../_modules/lmpy/point.html#DWCA_OCCURRENCE_PARAMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.DWCA_OCCURRENCE_PARAMS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.CORE_TAG">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">CORE_TAG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">{http://rs.tdwg.org/dwc/text/}core</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#CORE_TAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.CORE_TAG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.FIELD_TAG">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">FIELD_TAG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">{http://rs.tdwg.org/dwc/text/}field</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#FIELD_TAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.FIELD_TAG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.FILES_TAG">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">FILES_TAG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">{http://rs.tdwg.org/dwc/text/}files</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#FILES_TAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.FILES_TAG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.ID_TAG">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">ID_TAG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">{http://rs.tdwg.org/dwc/text/}id</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#ID_TAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.ID_TAG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.LOCATION_TAG">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">LOCATION_TAG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">{http://rs.tdwg.org/dwc/text/}location</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#LOCATION_TAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.LOCATION_TAG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.point.Point">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">Point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">species_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attributes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#Point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing an occurrence data point.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.Point.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.__eq__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if this point equals the other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="../../../source/lmpy.html#lmpy.point.Point" title="lmpy.point.Point"><em>Point</em></a>) – A different Point object to compare with.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An indication if the two points are equal for the primary attributes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.Point.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.__lt__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if this point is less than the other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="../../../source/lmpy.html#lmpy.point.Point" title="lmpy.point.Point"><em>Point</em></a>) – A different Point object to compare with.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>An indication if this point is less than the other for the primary</dt><dd><p>attributes.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.Point.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a string representation of this Point object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A string representation of this Point.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.Point.get_attribute">
+<span class="sig-name descname"><span class="pre">get_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.get_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.get_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an attribute for the point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>attribute_name</strong> (<em>str</em>) – The attribute to attempt to retrieve.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value of the attribute if it exists.
+None: Returned if the attribute does not exist for the Point.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.Point.set_attribute">
+<span class="sig-name descname"><span class="pre">set_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.set_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.set_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set an attribute for the point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attribute_name</strong> (<em>str</em>) – The name of the attribute to set.</p></li>
+<li><p><strong>value</strong> (<em>object</em>) – The value to set the attribute to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvReader">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointCsvReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geopoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'species_name'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for reading Points from a CSV file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvReader.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointCsvReader" title="lmpy.point.PointCsvReader">PointCsvReader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvReader.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager magic method on exit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*args</strong> – Positional arguments passed to the exit function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvReader.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader.__iter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointCsvReader" title="lmpy.point.PointCsvReader">PointCsvReader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvReader.__next__">
+<span class="sig-name descname"><span class="pre">__next__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader.__next__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader.__next__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get lists of consecutive points with the same attribute value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of point objects.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>KeyError</strong> – Raised if an attribute is missing.</p></li>
+<li><p><strong>StopIteration</strong> – Raised when there are no additional objects.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvReader.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the file and initialize.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvReader.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvWriter">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointCsvWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for writing Points to a CSV file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvWriter.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvWriter.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvWriter.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointCsvWriter" title="lmpy.point.PointCsvWriter">PointCsvWriter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvWriter.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvWriter.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvWriter.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager magic method on exit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*args</strong> – Positional arguments passed to the exit function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvWriter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvWriter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvWriter.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvWriter.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvWriter.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvWriter.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open file for writing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointCsvWriter.write_points">
+<span class="sig-name descname"><span class="pre">write_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvWriter.write_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvWriter.write_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a Point object to the CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>points</strong> (<em>list</em>) – A list of points to write.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointDwcaReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dwca_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_META_FILENAME</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for reading Darwin Core Archives.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader._get_species_name">
+<span class="sig-name descname"><span class="pre">_get_species_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader._get_species_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader._get_species_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the species name from the attribute dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point_dict</strong> (<em>dict</em>) – A dictionary of point attributes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A species name</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader._get_x_value">
+<span class="sig-name descname"><span class="pre">_get_x_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader._get_x_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader._get_x_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the x coordinate value from the attribute dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point_dict</strong> (<em>dict</em>) – A dictionary of point attributes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The x coordinate retrieved.
+None: Returned if there is no x value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numeric</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader._get_y_value">
+<span class="sig-name descname"><span class="pre">_get_y_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader._get_y_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader._get_y_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the y coordinate value from the attribute dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point_dict</strong> (<em>dict</em>) – A dictionary of point attributes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The y coordinate retrieved.
+None: Returned if there is no y value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numeric</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointDwcaReader" title="lmpy.point.PointDwcaReader">PointDwcaReader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager magic method on exit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*args</strong> – Positional arguments passed to the exit function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader.__iter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointDwcaReader" title="lmpy.point.PointDwcaReader">PointDwcaReader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader.__next__">
+<span class="sig-name descname"><span class="pre">__next__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader.__next__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader.__next__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get lists of consecutive points with the same attribute value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of point objects.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>StopIteration</strong> – Raised when there are no additional objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader._process_metadata">
+<span class="sig-name descname"><span class="pre">_process_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_contents</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader._process_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader._process_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the metadata file contained in the archive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>meta_contents</strong> (<em>str</em>) – The string contents of the metadata file (meta.xml).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the file and initialize.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointDwcaReader.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointDwcaReader.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointDwcaReader.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.point.PointJsonWriter">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointJsonWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointJsonWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointJsonWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for writing Points to JSON.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointJsonWriter.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointJsonWriter.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointJsonWriter.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.point.PointJsonWriter" title="lmpy.point.PointJsonWriter">PointJsonWriter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointJsonWriter.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointJsonWriter.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointJsonWriter.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit and write JSON.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*args</strong> – Positional arguments sent to the exit function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointJsonWriter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointJsonWriter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointJsonWriter.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the writer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointJsonWriter.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointJsonWriter.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointJsonWriter.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dummy method for consistency.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point.PointJsonWriter.write_points">
+<span class="sig-name descname"><span class="pre">write_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointJsonWriter.write_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointJsonWriter.write_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a point to the JSON output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>points</strong> (<em>list</em>) – A list of point objects to write out.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.point.get_field_process_func">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">get_field_process_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vocabulary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#get_field_process_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.get_field_process_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a function to process a field for a specimen record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em><em>, </em><em>optional</em>) – The column index of the field value to process.  If
+none, always return the default.</p></li>
+<li><p><strong>default</strong> (<em>number</em><em> or </em><em>string</em><em>, </em><em>optional</em>) – An optional default value (optional if
+index is not None) to return when the value of the field is empty.</p></li>
+<li><p><strong>vocabulary</strong> (<em>str</em><em>, </em><em>optional</em>) – A URI that identifies a vocabulary used for this
+field’s possible values.</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em><em>, </em><em>optional</em>) – An optional delimiter to split the field value
+with.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A method for getting the value of a field for a specimen row.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.point.none_getter">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">none_getter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#none_getter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.none_getter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return None as a function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj</strong> (<em>object</em>) – Any object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Always returns None.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

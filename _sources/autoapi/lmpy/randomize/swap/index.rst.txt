@@ -1,0 +1,59 @@
+:mod:`lmpy.randomize.swap`
+==========================
+
+.. py:module:: lmpy.randomize.swap
+
+.. autoapi-nested-parse::
+
+   Module containing Gotelli swap method for randomizing a PAM.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.randomize.swap.swap_randomize
+   lmpy.randomize.swap.trial_swap
+
+
+
+.. function:: swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP)
+
+   Randomize a PAM matrix using the Gotelli swap method.
+
+   :param matrix: A Lifemapper matrix object with binary elements
+   :type matrix: Matrix
+   :param num_swaps: The number of swaps to perform
+   :type num_swaps: int
+   :param max_tries: The maximum number of attempts to swap before failing.
+   :type max_tries: int
+
+   :returns: A randomized matrix.
+   :rtype: Matrix
+
+   :raises Exception: Raised when the maximum number of tries is reached without swapping.
+
+   .. todo:: Allow num_swaps to be specified as a percentage of the matrix fill.
+
+
+.. function:: trial_swap(matrix, num_trials=None)
+
+   Randomize a PAM matrix using the trial swap method.
+
+   :param matrix: A Lifemapper matrix object with binary elements.
+   :type matrix: Matrix
+   :param num_trials: The number of trials to perform.
+   :type num_trials: int
+
+   :returns: A randomized matrix.
+   :rtype: Matrix
+
+   .. todo:: Allow num_swaps to be specified as a percentage of the matrix fill
+
+

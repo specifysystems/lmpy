@@ -1,0 +1,614 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.data_preparation.tree_encoder &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>lmpy.data_preparation.tree_encoder</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lmpy.data_preparation.tree_encoder</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing a class for encoding a Phylogenetic tree into a matrix.</span>
+
+<span class="sd">See:</span>
+<span class="sd">    Leibold, m.A., E.P. Economo and P.R. Peres-Neto. 2010. Metacommunity</span>
+<span class="sd">        phylogenetics: separating the roles of environmental filters and</span>
+<span class="sd">        historical biogeography. Ecology letters 13: 1290-1299.</span>
+
+<span class="sd">Todo:</span>
+<span class="sd">    Use method to get labels by matrix index when available from tree.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">shuffle</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">PhyloTreeKeys</span><span class="p">,</span> <span class="n">TreeWrapper</span>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="EncodingException"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.EncodingException">[docs]</a><span class="k">class</span> <span class="nc">EncodingException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span></div>
+    <span class="sd">&quot;&quot;&quot;Exception indicating there was a problem with encoding.&quot;&quot;&quot;</span>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="TreeEncoder"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.TreeEncoder">[docs]</a><span class="k">class</span> <span class="nc">TreeEncoder</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A class representing encoding of tree to match PAM.&quot;&quot;&quot;</span>
+
+    <span class="c1"># ..............................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">pam</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Base constructor for tree encoder.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tree (TreeWrapper): A tree object to encode.</span>
+<span class="sd">            pam (Matrix): A PAM matrix object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pam</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pam</span> <span class="o">=</span> <span class="n">pam</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
+
+    <span class="c1"># ..............................</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TreeEncoder.from_file"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.TreeEncoder.from_file">[docs]</a>    <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree_file_name</span><span class="p">,</span> <span class="n">pam_file_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates an instance of the PhyloEncoding class from tree and pam.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tree_file_name (str): The location of the tree.</span>
+<span class="sd">            pam_file_name (str): The location of the PAM.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TreeEncoder: A new tree encoder instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">TreeWrapper</span><span class="o">.</span><span class="n">from_filename</span><span class="p">(</span><span class="n">tree_file_name</span><span class="p">)</span>
+        <span class="n">pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pam_file_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">pam</span><span class="p">)</span></div>
+
+    <span class="c1"># ..............................</span>
+<div class="viewcode-block" id="TreeEncoder.encode_phylogeny"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.TreeEncoder.encode_phylogeny">[docs]</a>    <span class="k">def</span> <span class="nf">encode_phylogeny</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Encode the phylogenetic tree into a matrix.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            P in the literature, a tip (row) by internal node (column) matrix</span>
+<span class="sd">                that needs to match the provided PAM.</span>
+
+<span class="sd">        Todo:</span>
+<span class="sd">            Consider providing options for correcting the tree / pam</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            EncodingException: Raised if the PAM and tree do not match.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: An encoding of the phylogenetic tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">():</span>  <span class="c1"># Make sure that the PAM and tree match</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">has_branch_lengths</span><span class="p">():</span>
+                <span class="n">p_mtx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_p_matrix_with_branch_lengths</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">p_mtx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_p_matrix_no_branch_lengths</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EncodingException</span><span class="p">(</span>
+                <span class="s2">&quot;PAM and Tree do not match, fix before encoding&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">p_mtx</span></div>
+
+    <span class="c1"># ..............................</span>
+<div class="viewcode-block" id="TreeEncoder.validate"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.TreeEncoder.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Validates the tree / PAM combination.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Boolean indicating if the tree / pam is valid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check if tree is ultrametric</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">has_branch_lengths</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">is_ultrametric</span><span class="p">())</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">is_binary</span><span class="p">():</span>
+            <span class="c1"># Check that matrix indices in tree match PAM</span>
+            <span class="c1"># List of matrix indices (based on PAM column count)</span>
+            <span class="n">pam_mtx_indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="c1"># All matrix indices in tree</span>
+            <span class="n">tree_mtx_indices</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">mtx_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">mtx_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_annotations</span><span class="p">(</span>
+                    <span class="n">PhyloTreeKeys</span><span class="o">.</span><span class="n">MTX_IDX</span><span class="p">)</span> <span class="k">if</span> <span class="n">mtx_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+
+            <span class="c1"># Find the intersection between the two lists</span>
+            <span class="n">intersection</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">pam_mtx_indices</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">tree_mtx_indices</span><span class="p">)</span>
+
+            <span class="c1"># This checks that there are no duplicates in either of the indices</span>
+            <span class="c1">#     lists and that they overlap completely</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">pam_mtx_indices</span><span class="p">)</span> <span class="ow">and</span> \
+                    <span class="nb">len</span><span class="p">(</span><span class="n">pam_mtx_indices</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree_mtx_indices</span><span class="p">):</span>
+                <span class="c1"># If everything checks out to here, return true for valid</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="c1"># If anything does not validate, return false</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="c1"># ..............................</span>
+<div class="viewcode-block" id="TreeEncoder._build_p_branch_length_values"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.TreeEncoder._build_p_branch_length_values">[docs]</a>    <span class="k">def</span> <span class="nf">_build_p_branch_length_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Recurse through the tree to get P matrix values for node / tips.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node (dendropy.Node): The current clade.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: A tuple of branch length dictionary, sum of branch lengths, and</span>
+<span class="sd">                p-values dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Dictionary of branch length lists, bottom-up from tip to current node</span>
+        <span class="n">bl_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">clade_bl</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">edge_length</span>  <span class="c1"># To avoid lookups</span>
+
+        <span class="c1"># This is the sum of all branch lengths in the clade and will be used</span>
+        <span class="c1">#    as the denominator for the p value for each tip to this node.  See</span>
+        <span class="c1">#    the literature for more information.  We will initialize with the</span>
+        <span class="c1">#    branch length of this clade because it will always be added</span>
+        <span class="c1">#    whether we are at a tip or an internal node.</span>
+        <span class="n">bl_sum</span> <span class="o">=</span> <span class="n">clade_bl</span>
+
+        <span class="c1"># Dictionary of dictionaries of p values, first key is node path id,</span>
+        <span class="c1">#    sub-keys are tip matrix indices for that node</span>
+        <span class="n">p_vals_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">num_child_nodes</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Assume this is two since binary</span>
+            <span class="n">clade_p_vals</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">multipliers</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>  <span class="c1"># One positive, one negative</span>
+            <span class="n">shuffle</span><span class="p">(</span><span class="n">multipliers</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">child_nodes</span><span class="p">():</span>
+                <span class="p">(</span><span class="n">child_bl_dict</span><span class="p">,</span> <span class="n">child_bl_sum</span><span class="p">,</span> <span class="n">child_p_val_dict</span>
+                 <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_p_branch_length_values</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+                <span class="n">multiplier</span> <span class="o">=</span> <span class="n">multipliers</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+                <span class="c1"># Extend the p values dictionary</span>
+                <span class="n">p_vals_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">child_p_val_dict</span><span class="p">)</span>
+
+                <span class="c1"># Add this child&#39;s branch length sum to the clade&#39;s branch</span>
+                <span class="c1">#    length sum</span>
+                <span class="n">bl_sum</span> <span class="o">+=</span> <span class="n">child_bl_sum</span>
+                <span class="n">child_bl</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">edge_length</span>
+
+                <span class="c1"># We will add this value to the branch length list for all of</span>
+                <span class="c1">#    the tips in this clade.  It is the branch length of this</span>
+                <span class="c1">#    clade divided by the number of tips in the clade.</span>
+                <span class="n">add_val</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">child_bl</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_bl_dict</span><span class="p">)</span>
+
+                <span class="c1"># Process eac of the tips in the child_bl_dict</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">child_bl_k</span> <span class="ow">in</span> <span class="n">child_bl_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="c1"># The formula for calculating the p value is:</span>
+                    <span class="c1">#    P(tip)(node) = (l1 + l2/2 + l3/3 + ... ln/n) / sum of</span>
+                    <span class="c1">#        branch lengths to node</span>
+                    <span class="c1">#    The value is arbitrarily set to be positive for one</span>
+                    <span class="c1">#        child and negative for the other</span>
+                    <span class="c1">#    The &#39;l&#39; term is the length of a branch  and it is</span>
+                    <span class="c1">#        divided by the number of tips that share that</span>
+                    <span class="c1">#        branch.</span>
+                    <span class="n">tip_bls</span> <span class="o">=</span> <span class="n">child_bl_k</span> <span class="o">+</span> <span class="p">[</span><span class="n">add_val</span><span class="p">]</span>
+
+                    <span class="c1"># Add the p value to p_vals_dict</span>
+                    <span class="n">clade_p_vals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">tip_bls</span><span class="p">)</span> <span class="o">/</span> <span class="n">child_bl_sum</span>
+
+                    <span class="c1"># Add to bl_dict with this branch length</span>
+                    <span class="n">bl_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">tip_bls</span>
+
+            <span class="n">p_vals_dict</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">clade_p_vals</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># We are at a tip</span>
+            <span class="n">bl_dict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">PhyloTreeKeys</span><span class="o">.</span><span class="n">MTX_IDX</span><span class="p">):</span> <span class="p">[]</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">bl_dict</span><span class="p">,</span> <span class="n">bl_sum</span><span class="p">,</span> <span class="n">p_vals_dict</span></div>
+
+    <span class="c1"># ..............................</span>
+<div class="viewcode-block" id="TreeEncoder._build_p_matrix_no_branch_lengths"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.TreeEncoder._build_p_matrix_no_branch_lengths">[docs]</a>    <span class="k">def</span> <span class="nf">_build_p_matrix_no_branch_lengths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a P matrix when no branch lengths are present.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            For this method, we assume that there is a total weight of -1 to</span>
+<span class="sd">                the left and +1 to the right for each node.  As we go down</span>
+<span class="sd">                (towards the tips) of the tree, we divide the proportion of</span>
+<span class="sd">                each previously visited node by 2.  We then recurse with this</span>
+<span class="sd">                new visited list down the tree.  Once we reach a tip, we can</span>
+<span class="sd">                return that list of proportions because it will match for that</span>
+<span class="sd">                tip for each of its ancestors.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            3</span>
+<span class="sd">            +-- 2</span>
+<span class="sd">            |   +-- 1</span>
+<span class="sd">            |   |   +-- 0</span>
+<span class="sd">            |   |   |   +-- A</span>
+<span class="sd">            |   |   |   +-- B</span>
+<span class="sd">            |   |   |</span>
+<span class="sd">            |   |   +-- C</span>
+<span class="sd">            |   |</span>
+<span class="sd">            |   +-- D</span>
+<span class="sd">            |</span>
+<span class="sd">            +--4</span>
+<span class="sd">               +-- E</span>
+<span class="sd">               +-- F</span>
+
+<span class="sd">            Step 1: (Node 3) []</span>
+<span class="sd">                - recurse left with [(3,-1)]</span>
+<span class="sd">                - recurse right with [(3,1)]</span>
+<span class="sd">            Step 2: (Node 2) [(3,-1)]</span>
+<span class="sd">                - recurse left with [(3,-.5),(2,-1)]</span>
+<span class="sd">                - recurse right with [(3,-.5),(2,1)]</span>
+<span class="sd">            Step 3: (Node 1)[(3,-.5),(2,-1)]</span>
+<span class="sd">                - recurse left with [(3,-.25),(2,-.5),(1,-1)]</span>
+<span class="sd">                - recurse right with [3,-.25),(2,-.5),(1,1)]</span>
+<span class="sd">            Step 4: (Node 0)[(3,-.25),(2,-.5),(1,-1)]</span>
+<span class="sd">                - recurse left with [(3,-.125),(2,-.25),(1,-.5),(0,-1)]</span>
+<span class="sd">                - recurse right with [(3,-.125),(2,-.25),(1,-.5),(0,1)]</span>
+<span class="sd">            Step 5: (Tip A) - Return [(3,-.125),(2,-.25),(1,-.5),(0,-1)]</span>
+<span class="sd">            Step 6: (Tip B) - Return [(3,-.125),(2,-.25),(1,-.5),(0,1)]</span>
+<span class="sd">            Step 7: (Tip C) - Return [(3,-.25),(2,-.5),(1,1)]</span>
+<span class="sd">            Step 8: (Tip D) - Return [(3,-.5),(2,1)]</span>
+<span class="sd">            Step 9: (Node 4) [(3,1)]</span>
+<span class="sd">                - recurse left with [(3,.5),(4,-1)]</span>
+<span class="sd">                - recurse right with [(3,.5),(4,1)]</span>
+<span class="sd">            Step 10: (Tip E) - Return [(3,.5),(4,-1)]</span>
+<span class="sd">            Step 11: (Tip F) - Return [(3,.5),(4,1)]</span>
+
+<span class="sd">            Creates matrix:</span>
+<span class="sd">                     0     1     2      3       4</span>
+<span class="sd">                A -1.0  -0.5  -0.25  -0.125   0.0</span>
+<span class="sd">                B  1.0  -0.5  -0.25  -0.125   0.0</span>
+<span class="sd">                C  0.0   1.0  -0.5   -0.25    0.0</span>
+<span class="sd">                D  0.0   0.0   1.0   -0.5     0.0</span>
+<span class="sd">                E  0.0   0.0   0.0    0.5    -1.0</span>
+<span class="sd">                F  0.0   0.0   0.0    0.5     1.0</span>
+
+<span class="sd">        See:</span>
+<span class="sd">            Page 1293 of the literature.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: An encoded phylogeny matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># .......................</span>
+        <span class="c1"># Initialize the matrix</span>
+        <span class="n">internal_node_labels</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="o">.</span><span class="n">is_leaf</span><span class="p">()]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
+
+        <span class="c1"># We need a mapping of node path id to matrix column.  I don&#39;t think</span>
+        <span class="c1">#     order matters</span>
+        <span class="n">node_col_idx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="n">internal_node_labels</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">internal_node_labels</span><span class="p">))))</span>
+
+        <span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">internal_node_labels</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">),</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">internal_node_labels</span><span class="p">})</span>
+
+        <span class="c1"># Get the list of tip proportion lists</span>
+        <span class="c1"># Note: Which tip each of the lists belongs to doesn&#39;t really matter</span>
+        <span class="c1">#    but recursion will start at the top and go to the bottom of the</span>
+        <span class="c1">#    tree tips.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">seed_node</span><span class="o">.</span><span class="n">_set_edge_length</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">tip_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_p_matrix_tip_proportion_list</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">seed_node</span><span class="p">,</span> <span class="n">visited</span><span class="o">=</span><span class="p">[])</span>
+
+        <span class="c1"># The matrix index of the tip in the PAM maps to the row index of P</span>
+        <span class="k">for</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">tip_prop</span> <span class="ow">in</span> <span class="n">tip_props</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">node_clade_id</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tip_prop</span><span class="p">:</span>
+                <span class="n">mtx</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">node_col_idx</span><span class="p">[</span><span class="n">node_clade_id</span><span class="p">]]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="k">return</span> <span class="n">mtx</span></div>
+
+    <span class="c1"># ..............................</span>
+<div class="viewcode-block" id="TreeEncoder._build_p_matrix_tip_proportion_list"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.TreeEncoder._build_p_matrix_tip_proportion_list">[docs]</a>    <span class="k">def</span> <span class="nf">_build_p_matrix_tip_proportion_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">visited</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Builds a list of tip proportions for the p matrix w/o branch lengths.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node (dendropy.Node): The current clade.</span>
+<span class="sd">            visited (:obj:`None` or :obj:`list` of :obj:`tuple`): A list of</span>
+<span class="sd">                (node path id, proportion) tuples.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Proportion for each visited node is divided by two as we go</span>
+<span class="sd">                towards the tips at each hop.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of tip proportions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">visited</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># pragma: no cover</span>
+
+        <span class="n">tip_props</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">num_child_nodes</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Assume this is two since binary</span>
+            <span class="c1"># First divide all existing visited by two</span>
+            <span class="n">new_visited</span> <span class="o">=</span> <span class="p">[(</span><span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">]</span>
+            <span class="c1"># Recurse.  Left is negative, right is positive</span>
+            <span class="n">left_child</span><span class="p">,</span> <span class="n">right_child</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">child_nodes</span><span class="p">()</span>
+            <span class="n">tip_props</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_build_p_matrix_tip_proportion_list</span><span class="p">(</span>
+                    <span class="n">left_child</span><span class="p">,</span> <span class="n">visited</span><span class="o">=</span><span class="n">new_visited</span> <span class="o">+</span> <span class="p">[(</span><span class="n">node</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)]))</span>
+            <span class="n">tip_props</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_build_p_matrix_tip_proportion_list</span><span class="p">(</span>
+                    <span class="n">right_child</span><span class="p">,</span> <span class="n">visited</span><span class="o">=</span><span class="n">new_visited</span> <span class="o">+</span> <span class="p">[(</span><span class="n">node</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tip_props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">PhyloTreeKeys</span><span class="o">.</span><span class="n">MTX_IDX</span><span class="p">),</span>
+                 <span class="n">visited</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">tip_props</span></div>
+
+    <span class="c1"># ..............................</span>
+<div class="viewcode-block" id="TreeEncoder._build_p_matrix_with_branch_lengths"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/tree_encoder/index.html#lmpy.data_preparation.tree_encoder.TreeEncoder._build_p_matrix_with_branch_lengths">[docs]</a>    <span class="k">def</span> <span class="nf">_build_p_matrix_with_branch_lengths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a P matrix when branch lengths are present.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            For this method, we assume that there is a total weight of -1 to</span>
+<span class="sd">                the left and +1 to the right for each node.  As we go down</span>
+<span class="sd">                (towards the tips) of the tree, we divide the proportion of</span>
+<span class="sd">                each previously visited node by 2.  We then recurse with this</span>
+<span class="sd">                new visited list down the tree.  Once we reach a tip, we can</span>
+<span class="sd">                return that list of proportions because it will match for that</span>
+<span class="sd">                tip for each of its ancestors.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            3</span>
+<span class="sd">            +-- 2 (0.4)</span>
+<span class="sd">            |    +-- 1 (0.15)</span>
+<span class="sd">            |    |    +-- 0 (0.65)</span>
+<span class="sd">            |    |    |    +-- A (0.2)</span>
+<span class="sd">            |    |    |    +-- B (0.2)</span>
+<span class="sd">            |    |    |</span>
+<span class="sd">            |    |    +-- C (0.85)</span>
+<span class="sd">            |    |</span>
+<span class="sd">            |    +-- D (1.0)</span>
+<span class="sd">            |</span>
+<span class="sd">            +-- 4 (0.9)</span>
+<span class="sd">                 +-- E (0.5)</span>
+<span class="sd">                 +-- F (0.5)</span>
+
+<span class="sd">            Value for any cell (tip)(node) = (l1 + l2/2 + l3/3 + ... + ln/n) /</span>
+<span class="sd">                                   (Sum of branch lengths in daughter clade)</span>
+<span class="sd">            ln / n -&gt; The length of branch n divided by the number of tips that</span>
+<span class="sd">                descend from that clade</span>
+
+<span class="sd">            P(A)(2) = (0.2 + 0.65/2 + 0.15/3) /</span>
+<span class="sd">                        (0.2 + 0.2 + 0.65 + 0.85 + 0.15)</span>
+<span class="sd">                    = (0.2 + 0.325 + 0.05) / (2.05)</span>
+<span class="sd">                    = 0.575 / 2.05</span>
+<span class="sd">                    = 0.280</span>
+
+<span class="sd">            P(D)(3) = (1.0 + 0.4/4) / (.2 + .2 + .65 + .85 + .15 + 1.0 + .4)</span>
+<span class="sd">                    = 1.1 / 3.45</span>
+<span class="sd">                    = 0.319</span>
+
+<span class="sd">            Creates matrix:</span>
+<span class="sd">                    0         1       2       3       4</span>
+<span class="sd">                A  -1.000  -0.500  -0.280  -0.196   0.000</span>
+<span class="sd">                B   1.000  -0.500  -0.280  -0.196   0.000</span>
+<span class="sd">                C   0.000   1.000  -0.439  -0.290   0.000</span>
+<span class="sd">                D   0.000   0.000   1.000  -0.319   0.000</span>
+<span class="sd">                E   0.000   0.000   0.000   0.500  -1.000</span>
+<span class="sd">                F   0.000   0.000   0.000   0.500   1.000</span>
+
+<span class="sd">        See:</span>
+<span class="sd">            Literature supplemental material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: An encoded phylogeny matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We only need the P-values dictionary</span>
+        <span class="c1"># TODO: Is there a better way to do this so the length of the r?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">seed_node</span><span class="o">.</span><span class="n">_set_edge_length</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">p_val_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_p_branch_length_values</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">seed_node</span><span class="p">)</span>
+
+        <span class="c1"># Initialize the matrix</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
+        <span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_val_dict</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">),</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">p_val_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())})</span>
+
+        <span class="c1"># We need a mapping of node path id to matrix column.  I don&#39;t think</span>
+        <span class="c1">#     order matters</span>
+        <span class="n">node_col_idx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="n">p_val_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p_val_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))))</span>
+
+        <span class="k">for</span> <span class="n">node_clade_id</span><span class="p">,</span> <span class="n">p_val_node_val</span> <span class="ow">in</span> <span class="n">p_val_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">tip_mtx_idx</span><span class="p">,</span> <span class="n">tip_p_vals</span> <span class="ow">in</span> <span class="n">p_val_node_val</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">mtx</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">tip_mtx_idx</span><span class="p">)][</span><span class="n">node_col_idx</span><span class="p">[</span><span class="n">node_clade_id</span><span class="p">]]</span> <span class="o">=</span> <span class="n">tip_p_vals</span>
+
+        <span class="k">return</span> <span class="n">mtx</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

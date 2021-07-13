@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
 
   
   
@@ -92,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
 </ul>
 
             
@@ -180,7 +182,7 @@
 
 
 <span class="c1"># .............................</span>
-<span class="k">class</span> <span class="nc">PhyloTreeKeys</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PhyloTreeKeys"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.tree.PhyloTreeKeys">[docs]</a><span class="k">class</span> <span class="nc">PhyloTreeKeys</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Keys for phylogenetic trees.</span>
 
 <span class="sd">    Attributes:</span>
@@ -189,8 +191,8 @@
 <span class="sd">        SQUID (str): The tree attribute indicating a hashed identifier for the</span>
 <span class="sd">            taxon.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">MTX_IDX</span> <span class="o">=</span> <span class="s1">&#39;mx&#39;</span>  <span class="c1"># The matrix index for this node</span>
-    <span class="n">SQUID</span> <span class="o">=</span> <span class="s1">&#39;squid&#39;</span>  <span class="c1"># This is the LM SQUID (species identifier) for the tip</span>
+<div class="viewcode-block" id="PhyloTreeKeys.MTX_IDX"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.tree.PhyloTreeKeys.MTX_IDX">[docs]</a>    <span class="n">MTX_IDX</span> <span class="o">=</span> <span class="s1">&#39;mx&#39;</span>  <span class="c1"># The matrix index for this node</span></div>
+<div class="viewcode-block" id="PhyloTreeKeys.SQUID"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.tree.PhyloTreeKeys.SQUID">[docs]</a>    <span class="n">SQUID</span> <span class="o">=</span> <span class="s1">&#39;squid&#39;</span>  <span class="c1"># This is the LM SQUID (species identifier) for the tip</span></div></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -200,15 +202,15 @@
 
 
 <span class="c1"># .............................................................................</span>
-<span class="k">class</span> <span class="nc">TreeWrapper</span><span class="p">(</span><span class="n">dendropy</span><span class="o">.</span><span class="n">Tree</span><span class="p">):</span>
+<div class="viewcode-block" id="TreeWrapper"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.tree.TreeWrapper">[docs]</a><span class="k">class</span> <span class="nc">TreeWrapper</span><span class="p">(</span><span class="n">dendropy</span><span class="o">.</span><span class="n">Tree</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Dendropy Tree wrapper.</span>
 
 <span class="sd">    Dendropy tree wrapper that adds a little functionality and improves</span>
 <span class="sd">    performance of some functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># ..............................</span>
-<div class="viewcode-block" id="TreeWrapper.from_base_tree"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.tree.TreeWrapper.from_base_tree">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_base_tree</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TreeWrapper.from_base_tree"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.tree.TreeWrapper.from_base_tree">[docs]</a>    <span class="k">def</span> <span class="nf">from_base_tree</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a TreeWrapper object from a base dendropy.Tree.</span>
 
 <span class="sd">        Args:</span>
@@ -221,8 +223,8 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tree</span><span class="o">.</span><span class="n">as_string</span><span class="p">(</span><span class="s1">&#39;nexus&#39;</span><span class="p">),</span> <span class="n">schema</span><span class="o">=</span><span class="s1">&#39;nexus&#39;</span><span class="p">)</span></div>
 
     <span class="c1"># ..............................</span>
-<div class="viewcode-block" id="TreeWrapper.from_filename"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.tree.TreeWrapper.from_filename">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_filename</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TreeWrapper.from_filename"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.tree.TreeWrapper.from_filename">[docs]</a>    <span class="k">def</span> <span class="nf">from_filename</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a TreeWrapper object by loading a file.</span>
 
 <span class="sd">        Args:</span>
@@ -683,7 +685,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">purge_taxon_namespace</span><span class="p">()</span></div>
 
     <span class="c1"># ..............................</span>
-    <span class="k">def</span> <span class="nf">_annotation_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_attribute</span><span class="p">):</span>
+<div class="viewcode-block" id="TreeWrapper._annotation_method"><a class="viewcode-back" href="../../autoapi/lmpy/tree/index.html#lmpy.tree.TreeWrapper._annotation_method">[docs]</a>    <span class="k">def</span> <span class="nf">_annotation_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_attribute</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Use the label attribute as the node label.</span>
 
 <span class="sd">        Args:</span>
@@ -703,10 +705,10 @@
 <span class="sd">                str: The taxon&#39;s label.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="n">taxon</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">label_attribute</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">label_method</span>
+        <span class="k">return</span> <span class="n">label_method</span></div>
 
     <span class="c1"># ..............................</span>
-    <span class="k">def</span> <span class="nf">_annotate_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">annotation_attribute</span><span class="p">,</span> <span class="n">annotation_value</span><span class="p">,</span>
+<div class="viewcode-block" id="TreeWrapper._annotate_node"><a class="viewcode-back" href="../../autoapi/lmpy/tree/index.html#lmpy.tree.TreeWrapper._annotate_node">[docs]</a>    <span class="k">def</span> <span class="nf">_annotate_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">annotation_attribute</span><span class="p">,</span> <span class="n">annotation_value</span><span class="p">,</span>
                        <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Annotates a node with the given value.</span>
 
@@ -735,10 +737,10 @@
                         <span class="n">annotation_attribute</span><span class="p">,</span> <span class="n">annotation_value</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">node</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">add_new</span><span class="p">(</span>
-                    <span class="n">annotation_attribute</span><span class="p">,</span> <span class="n">annotation_value</span><span class="p">)</span>
+                    <span class="n">annotation_attribute</span><span class="p">,</span> <span class="n">annotation_value</span><span class="p">)</span></div>
 
     <span class="c1"># ..............................</span>
-    <span class="k">def</span> <span class="nf">_get_label_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_attribute</span><span class="p">):</span>
+<div class="viewcode-block" id="TreeWrapper._get_label_method"><a class="viewcode-back" href="../../autoapi/lmpy/tree/index.html#lmpy.tree.TreeWrapper._get_label_method">[docs]</a>    <span class="k">def</span> <span class="nf">_get_label_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_attribute</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gets the function to be used for retrieving labels.</span>
 
 <span class="sd">        Args:</span>
@@ -750,10 +752,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">label_attribute</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">label_attribute</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label_method</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotation_method</span><span class="p">(</span><span class="n">label_attribute</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotation_method</span><span class="p">(</span><span class="n">label_attribute</span><span class="p">)</span></div>
 
     <span class="c1"># ..............................</span>
-    <span class="k">def</span> <span class="nf">_label_tree_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="TreeWrapper._label_tree_nodes"><a class="viewcode-back" href="../../autoapi/lmpy/tree/index.html#lmpy.tree.TreeWrapper._label_tree_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">_label_tree_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Private function to do the work when labeling nodes.</span>
 
 <span class="sd">        Args:</span>
@@ -785,11 +787,11 @@
                 <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label_tree_nodes</span><span class="p">(</span>
                     <span class="n">child</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
         <span class="c1"># Return the current i value</span>
-        <span class="k">return</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">i</span></div>
 
     <span class="c1"># ..............................</span>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_label_method</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+<div class="viewcode-block" id="TreeWrapper._label_method"><a class="viewcode-back" href="../../autoapi/lmpy/tree/index.html#lmpy.tree.TreeWrapper._label_method">[docs]</a>    <span class="k">def</span> <span class="nf">_label_method</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Use the label of the node or taxon for the label.</span>
 
 <span class="sd">        Args:</span>
@@ -807,7 +809,7 @@
             <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">label</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="c1"># Fall back to returning None</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="kc">None</span></div></div>
 
 
 <span class="c1"># .............................................................................</span>

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
 
   
   
@@ -92,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
 </ul>
 
             
@@ -171,7 +173,40 @@
 <li class="toctree-l2"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#module-lmpy.data_wrangling.occurrence.factory">lmpy.data_wrangling.occurrence.factory module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#module-lmpy.data_wrangling.occurrence.filters">lmpy.data_wrangling.occurrence.filters module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#module-lmpy.data_wrangling.occurrence.modifiers">lmpy.data_wrangling.occurrence.modifiers module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#module-lmpy.data_wrangling.occurrence">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#module-lmpy.data_wrangling.occurrence">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.common.get_occurrence_filter">get_occurrence_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.common.get_occurrence_map">get_occurrence_map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.common.make_list">make_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES">WRANGLER_TYPES</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.ACCEPTED_NAME_MODIFIER">ACCEPTED_NAME_MODIFIER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.ATTRIBUTE_FILTER">ATTRIBUTE_FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.ATTRIBUTE_MAP_MODIFIER">ATTRIBUTE_MAP_MODIFIER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.ATTRIBUTE_MODIFIER">ATTRIBUTE_MODIFIER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.BBOX_FILTER">BBOX_FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.CORDINATE_CONVERTER_MODIFIER">CORDINATE_CONVERTER_MODIFIER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.DECIMAL_PRECISION_FILTER">DECIMAL_PRECISION_FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.DISJOINT_GEOMETRIES_FILTER">DISJOINT_GEOMETRIES_FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.INTERSECT_GEOMETRIES_FILTER">INTERSECT_GEOMETRIES_FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.MINIMUM_POINTS_FILTER">MINIMUM_POINTS_FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.SPATIAL_INDEX_FILTER">SPATIAL_INDEX_FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES.UNIQUE_LOCALITIES_FILTER">UNIQUE_LOCALITIES_FILTER</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.factory.wrangler_factory">wrangler_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_attribute_filter">get_attribute_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_bounding_box_filter">get_bounding_box_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_decimal_precision_filter">get_decimal_precision_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_disjoint_geometries_filter">get_disjoint_geometries_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_intersect_geometries_filter">get_intersect_geometries_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_minimum_points_filter">get_minimum_points_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_spatial_index_filter">get_spatial_index_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.filters.get_unique_localities_filter">get_unique_localities_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.modifiers.get_accepted_name_modifier">get_accepted_name_modifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.modifiers.get_attribute_modifier">get_attribute_modifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.modifiers.get_common_format_modifier">get_common_format_modifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lmpy.data_wrangling.occurrence.html#lmpy.data_wrangling.occurrence.modifiers.get_coordinate_converter_modifier">get_coordinate_converter_modifier</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

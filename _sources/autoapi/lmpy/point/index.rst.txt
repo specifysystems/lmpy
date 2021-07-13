@@ -1,0 +1,401 @@
+:mod:`lmpy.point`
+=================
+
+.. py:module:: lmpy.point
+
+.. autoapi-nested-parse::
+
+   Module containing Point class.
+
+   Note: A namedtuple could replace this class for Python 3.7+
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.point.Point
+   lmpy.point.PointCsvReader
+   lmpy.point.PointCsvWriter
+   lmpy.point.PointDwcaReader
+   lmpy.point.PointJsonWriter
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.point.get_field_process_func
+   lmpy.point.none_getter
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.point.DEFAULT_META_FILENAME
+   lmpy.point.DWCA_OCCURRENCE_PARAMS
+   lmpy.point.CORE_TAG
+   lmpy.point.FIELD_TAG
+   lmpy.point.FILES_TAG
+   lmpy.point.ID_TAG
+   lmpy.point.LOCATION_TAG
+
+
+.. data:: DEFAULT_META_FILENAME
+   :annotation: = meta.xml
+
+   
+
+.. data:: DWCA_OCCURRENCE_PARAMS
+   
+
+   
+
+.. data:: CORE_TAG
+   :annotation: = {http://rs.tdwg.org/dwc/text/}core
+
+   
+
+.. data:: FIELD_TAG
+   :annotation: = {http://rs.tdwg.org/dwc/text/}field
+
+   
+
+.. data:: FILES_TAG
+   :annotation: = {http://rs.tdwg.org/dwc/text/}files
+
+   
+
+.. data:: ID_TAG
+   :annotation: = {http://rs.tdwg.org/dwc/text/}id
+
+   
+
+.. data:: LOCATION_TAG
+   :annotation: = {http://rs.tdwg.org/dwc/text/}location
+
+   
+
+.. class:: Point(species_name, x, y, attributes=None)
+
+
+   Class representing an occurrence data point.
+
+   .. method:: __eq__(self, other)
+
+      Test if this point equals the other.
+
+      :param other: A different Point object to compare with.
+      :type other: Point
+
+      :returns: An indication if the two points are equal for the primary attributes.
+      :rtype: bool
+
+
+   .. method:: __lt__(self, other)
+
+      Test if this point is less than the other.
+
+      :param other: A different Point object to compare with.
+      :type other: Point
+
+      :returns:
+
+                An indication if this point is less than the other for the primary
+                    attributes.
+      :rtype: bool
+
+
+   .. method:: __repr__(self)
+
+      Get a string representation of this Point object.
+
+      :returns: A string representation of this Point.
+      :rtype: str
+
+
+   .. method:: get_attribute(self, attribute_name)
+
+      Get an attribute for the point.
+
+      :param attribute_name: The attribute to attempt to retrieve.
+      :type attribute_name: str
+
+      :returns: The value of the attribute if it exists.
+                None: Returned if the attribute does not exist for the Point.
+      :rtype: object
+
+
+   .. method:: set_attribute(self, attribute_name, value)
+
+      Set an attribute for the point.
+
+      :param attribute_name: The name of the attribute to set.
+      :type attribute_name: str
+      :param value: The value to set the attribute to.
+      :type value: object
+
+
+
+.. class:: PointCsvReader(filename, species_field, x_field, y_field, geopoint=None, group_field='species_name')
+
+
+   Class for reading Points from a CSV file.
+
+   .. method:: __enter__(self)
+
+      Context manager magic method.
+
+      :returns: This instance.
+      :rtype: PointCsvReader
+
+
+   .. method:: __exit__(self, *args)
+
+      Context manager magic method on exit.
+
+      :param \*args: Positional arguments passed to the exit function.
+
+
+   .. method:: __iter__(self)
+
+      Iterator magic method.
+
+      :returns: This instance.
+      :rtype: PointCsvReader
+
+
+   .. method:: __next__(self)
+
+      Get lists of consecutive points with the same attribute value.
+
+      :returns: A list of point objects.
+      :rtype: list
+
+      :raises KeyError: Raised if an attribute is missing.
+      :raises StopIteration: Raised when there are no additional objects.
+
+
+   .. method:: open(self)
+
+      Open the file and initialize.
+
+
+   .. method:: close(self)
+
+      Close the file.
+
+
+
+.. class:: PointCsvWriter(filename, fields, **kwargs)
+
+
+   Class for writing Points to a CSV file.
+
+   .. method:: __enter__(self)
+
+      Context manager magic method.
+
+      :returns: This instance.
+      :rtype: PointCsvWriter
+
+
+   .. method:: __exit__(self, *args)
+
+      Context manager magic method on exit.
+
+      :param \*args: Positional arguments passed to the exit function.
+
+
+   .. method:: close(self)
+
+      Close file.
+
+
+   .. method:: open(self)
+
+      Open file for writing.
+
+
+   .. method:: write_points(self, points)
+
+      Write a Point object to the CSV file.
+
+      :param points: A list of points to write.
+      :type points: list
+
+
+
+.. class:: PointDwcaReader(dwca_filename, meta_filename=DEFAULT_META_FILENAME)
+
+
+   Class for reading Darwin Core Archives.
+
+   .. method:: _get_species_name(self, point_dict)
+
+      Get the species name from the attribute dictionary.
+
+      :param point_dict: A dictionary of point attributes.
+      :type point_dict: dict
+
+      :returns: A species name
+      :rtype: str
+
+
+   .. method:: _get_x_value(self, point_dict)
+
+      Get the x coordinate value from the attribute dictionary.
+
+      :param point_dict: A dictionary of point attributes.
+      :type point_dict: dict
+
+      :returns: The x coordinate retrieved.
+                None: Returned if there is no x value.
+      :rtype: numeric
+
+
+   .. method:: _get_y_value(self, point_dict)
+
+      Get the y coordinate value from the attribute dictionary.
+
+      :param point_dict: A dictionary of point attributes.
+      :type point_dict: dict
+
+      :returns: The y coordinate retrieved.
+                None: Returned if there is no y value.
+      :rtype: numeric
+
+
+   .. method:: __enter__(self)
+
+      Context manager magic method.
+
+      :returns: This instance.
+      :rtype: PointDwcaReader
+
+
+   .. method:: __exit__(self, *args)
+
+      Context manager magic method on exit.
+
+      :param \*args: Positional arguments passed to the exit function.
+
+
+   .. method:: __iter__(self)
+
+      Iterator magic method.
+
+      :returns: This instance.
+      :rtype: PointDwcaReader
+
+
+   .. method:: __next__(self)
+
+      Get lists of consecutive points with the same attribute value.
+
+      :returns: A list of point objects.
+      :rtype: list
+
+      :raises StopIteration: Raised when there are no additional objects.
+
+
+   .. method:: _process_metadata(self, meta_contents)
+
+      Process the metadata file contained in the archive.
+
+      :param meta_contents: The string contents of the metadata file (meta.xml).
+      :type meta_contents: str
+
+
+   .. method:: open(self)
+
+      Open the file and initialize.
+
+
+   .. method:: close(self)
+
+      Close the file.
+
+
+
+.. class:: PointJsonWriter(filename)
+
+
+   Class for writing Points to JSON.
+
+   .. method:: __enter__(self)
+
+      Context manager magic method.
+
+      :returns: This instance.
+      :rtype: PointJsonWriter
+
+
+   .. method:: __exit__(self, *args)
+
+      Exit and write JSON.
+
+      :param \*args: Positional arguments sent to the exit function.
+
+
+   .. method:: close(self)
+
+      Close the writer.
+
+
+   .. method:: open(self)
+
+      Dummy method for consistency.
+
+
+   .. method:: write_points(self, points)
+
+      Add a point to the JSON output.
+
+      :param points: A list of point objects to write out.
+      :type points: list
+
+
+
+.. function:: get_field_process_func(index=None, default=None, vocabulary=None, delimiter=None)
+
+   Get a function to process a field for a specimen record.
+
+   :param index: The column index of the field value to process.  If
+                 none, always return the default.
+   :type index: int, optional
+   :param default: An optional default value (optional if
+                   index is not None) to return when the value of the field is empty.
+   :type default: number or string, optional
+   :param vocabulary: A URI that identifies a vocabulary used for this
+                      field's possible values.
+   :type vocabulary: str, optional
+   :param delimiter: An optional delimiter to split the field value
+                     with.
+   :type delimiter: str, optional
+
+   :returns: A method for getting the value of a field for a specimen row.
+   :rtype: Method
+
+
+.. function:: none_getter(obj)
+
+   Return None as a function.
+
+   :param obj: Any object.
+   :type obj: object
+
+   :returns: Always returns None.
+   :rtype: None
+
+

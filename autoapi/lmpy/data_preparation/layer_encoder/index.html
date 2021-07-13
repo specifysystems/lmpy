@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.data_preparation.layer_encoder &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/modules.html">Module documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_preparation.layer_encoder</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/autoapi/lmpy/data_preparation/layer_encoder/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-lmpy.data_preparation.layer_encoder">
+<span id="lmpy-data-preparation-layer-encoder"></span><h1><a class="reference internal" href="../../../../source/lmpy.data_preparation.html#module-lmpy.data_preparation.layer_encoder" title="lmpy.data_preparation.layer_encoder"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_preparation.layer_encoder</span></code></a><a class="headerlink" href="#module-lmpy.data_preparation.layer_encoder" title="Permalink to this headline">¶</a></h1>
+<p>This module contains a class for encoding spatial layers into a Matrix.</p>
+<p>The ‘LayerEncoder’ class uses a shapegrid to generate a base matrix structure
+and then each layer is encoded as a new column (or columns) for the resulting
+encoded matrix.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Data array is oriented at top left (min x, max y)</p>
+</div>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder" title="lmpy.data_preparation.layer_encoder.LayerEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LayerEncoder</span></code></a></p></td>
+<td><p>The LayerEncoder class encodes layers into matrix columns.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.layer_encoder.</span></span><span class="sig-name descname"><span class="pre">LayerEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shapegrid_filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>The LayerEncoder class encodes layers into matrix columns.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encoded_matrix">
+<span class="sig-name descname"><span class="pre">encoded_matrix</span></span><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encoded_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Matrix object with encoded layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder._encode_layer">
+<span class="sig-name descname"><span class="pre">_encode_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._encode_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._encode_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes the layer using the provided encoding function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_func</strong> – A function that returns a window of array data for a
+provided x, y pair.</p></li>
+<li><p><strong>encode_func</strong> – A function that encodes a window of array data.</p></li>
+<li><p><strong>column_name</strong> – The header name to use for the column in the encoded
+matrix.</p></li>
+<li><p><strong>num_columns</strong> – The number of columns that will be encoded by
+‘encode_func’.  This can be non-zero if we are testing for
+multiple biogeographic hypotheses in a single vector layer for
+example.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of column headers for the newly encoded columns.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder._get_window_function">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_get_window_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_bbox</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cell_sides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._get_window_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._get_window_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a windowing function for the data.</p>
+<p>This function generates a function that will return a “window” of array
+data for a given (x, y) pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A numpy array with data for a layer</p></li>
+<li><p><strong>layer_bbox</strong> – The bounding box of the layer in the map units of the
+layer.</p></li>
+<li><p><strong>cell_size</strong> – Either a single value or a tuple with two values. If it
+is a single value, it will be used for both x and y cell sizes.
+If a tuple is provided, the first value will be used for the
+size of each cell in the x dimension and the second will be
+used for the size of the cell in the y dimension.</p></li>
+<li><p><strong>num_cell_sides</strong> – <dl class="simple">
+<dt>The number of sides each shapegrid cell has::</dt><dd><p>4 – square
+6 – hexagon</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>The origin (0, 0) of the data array should represent (min x, max y)</dt><dd><p>for the layer.</p>
+</dd>
+</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A function for processing a window of data.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder._read_layer">
+<span class="sig-name descname"><span class="pre">_read_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._read_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._read_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a layer for processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layer_filename</strong> (<em>str</em>) – The file path for the layer to read.</p></li>
+<li><p><strong>resolution</strong> (<em>numeric</em>) – An optional resolution to use for the input data if
+it is a vector layer.</p></li>
+<li><p><strong>bbox</strong> (<em>tuple</em>) – An optional bounding box in the form
+(min x, min y, max x, max y) to use if the layer is a vector layer.</p></li>
+<li><p><strong>nodata</strong> (<em>numeric</em>) – An optional nodata value to use if the layer is a vector
+layer.</p></li>
+<li><p><strong>event_field</strong> (<em>str</em>) – If provided, use this field as the burn value for a
+vector layer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing a window function for returning a portion of the</dt><dd><p>numpy array generated by the layer and the NODATA value to use with
+this layer.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder._read_raster_layer">
+<span class="sig-name descname"><span class="pre">_read_raster_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raster_filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._read_raster_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._read_raster_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a raster layer for processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raster_filename</strong> – The file path for the raster layer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing a window function for returning a portion of the</dt><dd><p>numpy array generated by the layer and the NODATA value to use with
+this layer.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder._read_shapegrid">
+<span class="sig-name descname"><span class="pre">_read_shapegrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapegrid_filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._read_shapegrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._read_shapegrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the shapegrid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>shapegrid_filename</strong> – The file location of the shapegrid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder._read_vector_layer">
+<span class="sig-name descname"><span class="pre">_read_vector_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._read_vector_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._read_vector_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a vector layer for processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vector_filename</strong> – The vectorfile path for the layer to read.</p></li>
+<li><p><strong>resolution</strong> – An optional resolution to use for the generated data
+array for the layer.</p></li>
+<li><p><strong>bbox</strong> – An optional bounding box in the form
+(min x, min y, max x, max y) to use for the vector layer.  Will
+use the shapegrid bounding box if not provided.</p></li>
+<li><p><strong>nodata</strong> – An optional nodata value to use if the layer is a vector
+layer.</p></li>
+<li><p><strong>event_field</strong> – An optional shapefile attribute to use as the burn
+value for each cell.  This should be numeric.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing a window function for returning a portion of the</dt><dd><p>numpy array generated by the layer, the NODATA value to use with this
+layer, and a set of distinct events to be used for processing.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis">
+<span class="sig-name descname"><span class="pre">encode_biogeographic_hypothesis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_biogeographic_hypothesis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes a biogeographic hypothesis layer.</p>
+<p>Encodes a biogeographic hypothesis layer by creating a Helmert contrast
+column in the encoded matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layer_filename</strong> – The file location of the layer to encode.</p></li>
+<li><p><strong>column_name</strong> – What to name this column in the encoded matrix.</p></li>
+<li><p><strong>min_coverage</strong> – The minimum percentage of each data window that must
+be covered.</p></li>
+<li><p><strong>resolution</strong> – If the layer is a vector, optionally use this as the
+resolution of the data grid.</p></li>
+<li><p><strong>bbox</strong> – If the layer is a vector, optionally use this bounding box
+for the data grid.</p></li>
+<li><p><strong>nodata</strong> – If the layer is a vector, optionally use this as the data
+grid nodata value.</p></li>
+<li><p><strong>event_field</strong> – If the layer is a vector and contains multiple
+hypotheses, use this field to separate the vector file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of column headers for the newly encoded columns.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence">
+<span class="sig-name descname"><span class="pre">encode_presence_absence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_presence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_presence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_presence_absence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes a distribution layer into a presence absence column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layer_filename</strong> – The file location of the layer to encode.</p></li>
+<li><p><strong>column_name</strong> – What to name this column in the encoded matrix.</p></li>
+<li><p><strong>min_presence</strong> – The minimum value that should be treated as presence.</p></li>
+<li><p><strong>max_presence</strong> – The maximum value to be considered as present.</p></li>
+<li><p><strong>min_coverage</strong> – The minimum percentage of each data window that must
+be present to consider that cell present.</p></li>
+<li><p><strong>resolution</strong> – If the layer is a vector, optionally use this as the
+resolution of the data grid.</p></li>
+<li><p><strong>bbox</strong> – If the layer is a vector, optionally use this bounding box
+for the data grid.</p></li>
+<li><p><strong>nodata</strong> – If the layer is a vector, optionally use this as the data
+grid nodata value.</p></li>
+<li><p><strong>attribute_name</strong> – If the layer is a vector, use this field to
+determine presence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of column headers for the newly encoded columns.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value">
+<span class="sig-name descname"><span class="pre">encode_mean_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_mean_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes a layer based on the mean value for each data window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layer_filename</strong> – The file location of the layer to encode.</p></li>
+<li><p><strong>column_name</strong> – What to name this column in the encoded matrix.</p></li>
+<li><p><strong>resolution</strong> – If the layer is a vector, optionally use this as the
+resolution of the data grid.</p></li>
+<li><p><strong>bbox</strong> – If the layer is a vector, optionally use this bounding box
+for the data grid.</p></li>
+<li><p><strong>nodata</strong> – If the layer is a vector, optionally use this as the data
+grid nodata value.</p></li>
+<li><p><strong>attribute_name</strong> – If the layer is a vector, use this field to
+determine value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of column headers for the newly encoded columns</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class">
+<span class="sig-name descname"><span class="pre">encode_largest_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_largest_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes a layer based on the largest class in each data window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layer_filename</strong> – The file location of the layer to encode.</p></li>
+<li><p><strong>column_name</strong> – What to name this column in the encoded matrix.</p></li>
+<li><p><strong>min_coverage</strong> – The minimum percentage of each data window that must
+be the covered by the largest class.</p></li>
+<li><p><strong>resolution</strong> – If the layer is a vector, optionally use this as the
+resolution of the data grid.</p></li>
+<li><p><strong>bbox</strong> – If the layer is a vector, optionally use this bounding box
+for the data grid.</p></li>
+<li><p><strong>nodata</strong> – If the layer is a vector, optionally use this as the data
+grid nodata value.</p></li>
+<li><p><strong>attribute_name</strong> – If the layer is a vector, use this field to
+determine largest class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of column headers for the newly encoded columns.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.get_encoded_matrix">
+<span class="sig-name descname"><span class="pre">get_encoded_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.get_encoded_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.get_encoded_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the encoded matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The encoded matrix as a Matrix object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.get_geojson">
+<span class="sig-name descname"><span class="pre">get_geojson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.get_geojson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.get_geojson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats the encoded matrix as GeoJSON.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A JSON dictionary for the encoded matrix.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
