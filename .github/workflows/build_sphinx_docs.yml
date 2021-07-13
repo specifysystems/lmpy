@@ -39,9 +39,6 @@ jobs:
       uses: sphinx-notes/pages@1.0
       with:
         documentation_path: _sphinx_config/
-    - name: Debugging2
-      run: |
-        cat /tmp/sphinx*.log
     - name: Push changes to GH Pages branch
       uses: ad-m/github-push-action@master
       with:
