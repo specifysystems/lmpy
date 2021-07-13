@@ -31,8 +31,6 @@ Classes
 
 .. class:: PhyloTreeKeys
 
-   Bases: :py:obj:`object`
-
    Keys for phylogenetic trees.
 
    .. attribute:: MTX_IDX
@@ -85,7 +83,7 @@ Classes
 
       :param tree: A base dendropy tree object to wrap into a
                    TreeWrapper.
-      :type tree: dendropy.Tree
+      :type tree: :obj:`Tree`
 
       :returns: The newly wrapped tree.
       :rtype: TreeWrapper
@@ -97,7 +95,7 @@ Classes
       Creates a TreeWrapper object by loading a file.
 
       :param filename: A file path to a tree file that should be loaded.
-      :type filename: str
+      :type filename: :obj:`str`
 
       :returns: The newly loaded tree.
       :rtype: TreeWrapper
@@ -156,15 +154,17 @@ Classes
           Update to use annotate_tree.
 
       :param attribute_name: The name of the annotation attribute to add.
-      :type attribute_name: str
-      :param annotation_pairs: A dictionary of label keys with annotation values.
-      :type annotation_pairs: dict
-      :param label_attribute: If this is provided, use this annotation
-                              attribute as the key instead of the label. Defaults to 'label'.
-      :type label_attribute: str, optional
+      :type attribute_name: :obj:`str`
+      :param annotation_pairs: A dictionary of label keys with annotation
+                               values.
+      :type annotation_pairs: :obj:`dict`
+      :param label_attribute: If this is provided, use this
+                              annotation attribute as the key instead of the label. Defaults to
+                              'label'.
+      :type label_attribute: :obj:`str`, optional
       :param update: Defaults to False.  Indicates if existing
                      annotations should be updated.
-      :type update: bool, optional
+      :type update: :obj:`bool`, optional
 
 
    .. method:: get_annotations(self, annotation_attribute)
@@ -172,7 +172,7 @@ Classes
       Gets a list of (label, annotation) pairs.
 
       :param annotation_attribute: The annotation attribute to retrieve.
-      :type annotation_attribute: str
+      :type annotation_attribute: :obj:`str`
 
       :returns: A list of annotations.
       :rtype: list
@@ -185,12 +185,12 @@ Classes
       Get a Matrix object of phylogenetic distances between tips using a
       lower memory footprint.
 
-      :param label_attribute: The attribute of the tips to use as labels
-                              for the matrix.  Defaults to 'label'.
-      :type label_attribute: str, optional
-      :param ordered_labels: If provided, use this order of
-                             labels.
-      :type ordered_labels: list of str, optional
+      :param label_attribute: The attribute of the tips to use as
+                              labels for the matrix.  Defaults to 'label'.
+      :type label_attribute: :obj:`str`, optional
+      :param ordered_labels: If provided, use this
+                             order of labels.
+      :type ordered_labels: :obj:`list` of :obj:`str`, optional
 
       :returns:
 
@@ -205,12 +205,12 @@ Classes
 
       Gets the distance matrix between each tip using Dendropy.
 
-      :param label_attribute: The attribute of the tips to use as labels
-                              for the matrix.  Defaults to 'label'.
-      :type label_attribute: str, optional
-      :param ordered_labels: If provided, use this order of
-                             labels.
-      :type ordered_labels: list of str, optional
+      :param label_attribute: The attribute of the tips to use as
+                              labels for the matrix.  Defaults to 'label'.
+      :type label_attribute: :obj:`str`, optional
+      :param ordered_labels: If provided, use this
+                             order of labels.
+      :type ordered_labels: :obj:`list` of :obj:`str`, optional
 
       .. note::
 
@@ -238,12 +238,12 @@ Classes
 
       Gets a Matrix object of variance / co-variance for tips in tree.
 
-      :param label_attribute: The attribute of the tips to use as labels
-                              for the matrix.  Defaults to 'label'.
-      :type label_attribute: str, optional
-      :param ordered_labels: If provided, use this order of
-                             labels.
-      :type ordered_labels: list of str, optional
+      :param label_attribute: The attribute of the tips to use as
+                              labels for the matrix.  Defaults to 'label'.
+      :type label_attribute: :obj:`str`, optional
+      :param ordered_labels: If provided, use this
+                             order of labels.
+      :type ordered_labels: :obj:`list` of :obj:`str`, optional
 
       :returns:
 
@@ -286,7 +286,7 @@ Classes
 
       :param rel_tol: The relative tolerance to determine if the min and
                       max are equal.  We will say they are equal if they are 99.9%.
-      :type rel_tol: float
+      :type rel_tol: :obj:`float`
 
       :returns:
 
@@ -304,9 +304,9 @@ Classes
 
       Prunes the tree of any tips that don't have the specified attribute.
 
-      :param search_attribute: The attribute to look for when pruning
-                               tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.
-      :type search_attribute: str, optional
+      :param search_attribute: The attribute to look for when
+                               pruning tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.
+      :type search_attribute: :obj:`str`, optional
 
 
    .. method:: _annotation_method(self, label_attribute)
@@ -315,7 +315,7 @@ Classes
 
       :param label_attribute: The annotation to use as the label for the
                               nodes in the tree.
-      :type label_attribute: str
+      :type label_attribute: :obj:`str`
 
       :returns: A method for retrieving the label for a taxon.
       :rtype: Method
@@ -326,14 +326,15 @@ Classes
       Annotates a node with the given value.
 
       :param node: A node to add an annotation to.
-      :type node: Node
+      :type node: :obj:`Node`
       :param annotation_attribute: The annotation attribute to add.  If
                                    None or 'label', update the node label.
-      :type annotation_attribute: str
+      :type annotation_attribute: :obj:`str`
       :param annotation_value: The value of the annotation.
+      :type annotation_value: :obj:`object`
       :param update: If True, update existing attribute.
                      Defaults to False.
-      :type update: bool, optional
+      :type update: :obj:`bool`, optional
 
 
    .. method:: _get_label_method(self, label_attribute)
@@ -342,7 +343,7 @@ Classes
 
       :param label_attribute: An annotation name, 'label', or None used to
                               determine which method to use to retrieve the label of a node.
-      :type label_attribute: str
+      :type label_attribute: :obj:`str`
 
       :returns: Function for labeling nodes.
 
@@ -352,15 +353,15 @@ Classes
       Private function to do the work when labeling nodes.
 
       :param node: A node to label.
-      :type node: Node
+      :type node: :obj:`Node`
       :param i: A count of the number of previously labeled nodes.
-      :type i: int
-      :param prefix: A prefix to use when labeling nodes resulting in
-                     labels like 'prefix_0'.  Defaults to None and no prefix.
-      :type prefix: str, optional
-      :param overwrite: Should node labels be overwritten.  Defaults to
-                        False.
-      :type overwrite: bool, optional
+      :type i: :obj:`int`
+      :param prefix: A prefix to use when labeling nodes
+                     resulting in labels like 'prefix_0'.  Defaults to None and no prefix.
+      :type prefix: :obj:`str`, optional
+      :param overwrite: Should node labels be overwritten.
+                        Defaults to False.
+      :type overwrite: :obj:`bool`, optional
 
       :returns: The number of nodes already labeled in the tree.
       :rtype: int
@@ -374,7 +375,7 @@ Classes
       Use the label of the node or taxon for the label.
 
       :param node: The node to get the label for.
-      :type node: Node
+      :type node: :obj:`Node`
 
       :returns: If the node or the node's taxon has a label, return it.
                 None: If the node and it's taxon do not have labels.

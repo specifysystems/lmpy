@@ -173,7 +173,7 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="compare_absolute_values"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.compare_absolute_values">[docs]</a><span class="k">def</span> <span class="nf">compare_absolute_values</span><span class="p">(</span><span class="n">observed</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+<div class="viewcode-block" id="compare_absolute_values"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.compare_absolute_values">[docs]</a><span class="k">def</span> <span class="nf">compare_absolute_values</span><span class="p">(</span><span class="n">observed</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compares the absolute values of the observed and random data.</span>
 
 <span class="sd">    Args:</span>
@@ -188,7 +188,7 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="compare_signed_values"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.compare_signed_values">[docs]</a><span class="k">def</span> <span class="nf">compare_signed_values</span><span class="p">(</span><span class="n">observed</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+<div class="viewcode-block" id="compare_signed_values"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.compare_signed_values">[docs]</a><span class="k">def</span> <span class="nf">compare_signed_values</span><span class="p">(</span><span class="n">observed</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compares the signed values of the observed and random data.</span>
 
 <span class="sd">    Args:</span>
@@ -202,7 +202,7 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="RunningStats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats">[docs]</a><span class="k">class</span> <span class="nc">RunningStats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="RunningStats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.RunningStats">[docs]</a><span class="k">class</span> <span class="nc">RunningStats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Keep track of running statistics to reduce required memory.&quot;&quot;&quot;</span>
     <span class="c1"># .....................................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_absolute_values</span><span class="p">):</span>
@@ -229,7 +229,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">s_k</span> <span class="o">=</span> <span class="mf">0.0</span>
 
     <span class="c1"># .....................................</span>
-<div class="viewcode-block" id="RunningStats.push"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<div class="viewcode-block" id="RunningStats.push"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.RunningStats.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a test value to the running totals.</span>
 
 <span class="sd">        Args:</span>
@@ -254,7 +254,7 @@
 
     <span class="c1"># .....................................</span>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="RunningStats.standard_deviation"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats.standard_deviation">[docs]</a>    <span class="k">def</span> <span class="nf">standard_deviation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunningStats.standard_deviation"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.RunningStats.standard_deviation">[docs]</a>    <span class="k">def</span> <span class="nf">standard_deviation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve the standard deviation of the test values.</span>
 
 <span class="sd">        Returns:</span>
@@ -264,7 +264,7 @@
 
     <span class="c1"># .....................................</span>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="RunningStats.variance"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats.variance">[docs]</a>    <span class="k">def</span> <span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunningStats.variance"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.RunningStats.variance">[docs]</a>    <span class="k">def</span> <span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve the variance of the test values.</span>
 
 <span class="sd">        Returns:</span>
@@ -276,7 +276,7 @@
 
     <span class="c1"># .....................................</span>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="RunningStats.p_values"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.running_stats.RunningStats.p_values">[docs]</a>    <span class="k">def</span> <span class="nf">p_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunningStats.p_values"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.RunningStats.p_values">[docs]</a>    <span class="k">def</span> <span class="nf">p_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve p-values from the test values greater than the f-statistic.</span>
 
 <span class="sd">        Returns:</span>

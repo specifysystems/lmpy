@@ -237,7 +237,7 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="SpatialIndex"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex">[docs]</a><span class="k">class</span> <span class="nc">SpatialIndex</span><span class="p">:</span>
+<div class="viewcode-block" id="SpatialIndex"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/spatial_index/index.html#lmpy.spatial.spatial_index.SpatialIndex">[docs]</a><span class="k">class</span> <span class="nc">SpatialIndex</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This class provides an index for quickly performing intersects.&quot;&quot;&quot;</span>
     <span class="c1"># ..........................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -265,7 +265,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">next_geom</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="p">)</span>
 
     <span class="c1"># ..........................</span>
-<div class="viewcode-block" id="SpatialIndex.add_feature"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex.add_feature">[docs]</a>    <span class="k">def</span> <span class="nf">add_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">geom</span><span class="p">,</span> <span class="n">att_dict</span><span class="p">):</span>
+<div class="viewcode-block" id="SpatialIndex.add_feature"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/spatial_index/index.html#lmpy.spatial.spatial_index.SpatialIndex.add_feature">[docs]</a>    <span class="k">def</span> <span class="nf">add_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">geom</span><span class="p">,</span> <span class="n">att_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a feature to the index.</span>
 
 <span class="sd">        Args:</span>
@@ -298,12 +298,12 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">att_dict</span><span class="p">)</span></div>
 
     <span class="c1"># ..........................</span>
-<div class="viewcode-block" id="SpatialIndex.close"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SpatialIndex.close"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/spatial_index/index.html#lmpy.spatial.spatial_index.SpatialIndex.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Close the index.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="c1"># ..........................</span>
-<div class="viewcode-block" id="SpatialIndex.save"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SpatialIndex.save"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/spatial_index/index.html#lmpy.spatial.spatial_index.SpatialIndex.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Save the index attributes.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_att_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">att_lookup</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span>
@@ -314,7 +314,7 @@
             <span class="c1"># json.dump(self.geom_lookup, out_file)</span>
 
     <span class="c1"># ..........................</span>
-<div class="viewcode-block" id="SpatialIndex.search"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="SpatialIndex.search"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/spatial_index/index.html#lmpy.spatial.spatial_index.SpatialIndex.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Search for x, y and return attributes in lookup if found.</span>
 
 <span class="sd">        Args:</span>

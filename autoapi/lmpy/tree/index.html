@@ -161,7 +161,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-lmpy.tree">
-<span id="lmpy-tree"></span><h1><a class="reference internal" href="../../../source/lmpy.html#module-lmpy.tree" title="lmpy.tree"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tree</span></code></a><a class="headerlink" href="#module-lmpy.tree" title="Permalink to this headline">¶</a></h1>
+<span id="lmpy-tree"></span><h1><a class="reference internal" href="#module-lmpy.tree" title="lmpy.tree"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tree</span></code></a><a class="headerlink" href="#module-lmpy.tree" title="Permalink to this headline">¶</a></h1>
 <p>Module for the Lifemapper TreeWrapper class.</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
@@ -173,10 +173,10 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.tree.PhyloTreeKeys" title="lmpy.tree.PhyloTreeKeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PhyloTreeKeys</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tree.PhyloTreeKeys" title="lmpy.tree.PhyloTreeKeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PhyloTreeKeys</span></code></a></p></td>
 <td><p>Keys for phylogenetic trees.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeWrapper</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeWrapper</span></code></a></p></td>
 <td><p>Dendropy Tree wrapper.</p></td>
 </tr>
 </tbody>
@@ -184,8 +184,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.tree.PhyloTreeKeys">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.tree.</span></span><span class="sig-name descname"><span class="pre">PhyloTreeKeys</span></span><a class="reference internal" href="../../../_modules/lmpy/tree.html#PhyloTreeKeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.PhyloTreeKeys" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Keys for phylogenetic trees.</p>
+<dd><p>Keys for phylogenetic trees.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lmpy.tree.PhyloTreeKeys.MTX_IDX">
 <span class="sig-name descname"><span class="pre">MTX_IDX</span></span><a class="reference internal" href="../../../_modules/lmpy/tree.html#PhyloTreeKeys.MTX_IDX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.PhyloTreeKeys.MTX_IDX" title="Permalink to this definition">¶</a></dt>
@@ -242,14 +241,14 @@ performance of some functions.</p>
 <dd><p>Creates a TreeWrapper object from a base dendropy.Tree.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tree</strong> (<em>dendropy.Tree</em>) – A base dendropy tree object to wrap into a
+<dd class="field-odd"><p><strong>tree</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Tree</span></code>) – A base dendropy tree object to wrap into a
 TreeWrapper.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The newly wrapped tree.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper">TreeWrapper</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper">TreeWrapper</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -260,13 +259,13 @@ TreeWrapper.</p>
 <dd><p>Creates a TreeWrapper object by loading a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – A file path to a tree file that should be loaded.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – A file path to a tree file that should be loaded.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The newly loaded tree.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper">TreeWrapper</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper">TreeWrapper</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>IOError</strong> – Raised if the tree file cannot be loaded based on the file
@@ -337,11 +336,13 @@ annotations with the annotations provided.  Defaults to False.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>attribute_name</strong> (<em>str</em>) – The name of the annotation attribute to add.</p></li>
-<li><p><strong>annotation_pairs</strong> (<em>dict</em>) – A dictionary of label keys with annotation values.</p></li>
-<li><p><strong>label_attribute</strong> (<em>str</em><em>, </em><em>optional</em>) – If this is provided, use this annotation
-attribute as the key instead of the label. Defaults to ‘label’.</p></li>
-<li><p><strong>update</strong> (<em>bool</em><em>, </em><em>optional</em>) – Defaults to False.  Indicates if existing
+<li><p><strong>attribute_name</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The name of the annotation attribute to add.</p></li>
+<li><p><strong>annotation_pairs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary of label keys with annotation
+values.</p></li>
+<li><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – If this is provided, use this
+annotation attribute as the key instead of the label. Defaults to
+‘label’.</p></li>
+<li><p><strong>update</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Defaults to False.  Indicates if existing
 annotations should be updated.</p></li>
 </ul>
 </dd>
@@ -354,7 +355,7 @@ annotations should be updated.</p></li>
 <dd><p>Gets a list of (label, annotation) pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>annotation_attribute</strong> (<em>str</em>) – The annotation attribute to retrieve.</p>
+<dd class="field-odd"><p><strong>annotation_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The annotation attribute to retrieve.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A list of annotations.</p>
@@ -374,10 +375,10 @@ lower memory footprint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>label_attribute</strong> (<em>str</em><em>, </em><em>optional</em>) – The attribute of the tips to use as labels
-for the matrix.  Defaults to ‘label’.</p></li>
-<li><p><strong>ordered_labels</strong> (<em>list of str</em><em>, </em><em>optional</em>) – If provided, use this order of
-labels.</p></li>
+<li><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The attribute of the tips to use as
+labels for the matrix.  Defaults to ‘label’.</p></li>
+<li><p><strong>ordered_labels</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – If provided, use this
+order of labels.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -388,7 +389,7 @@ labels.</p></li>
 </p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -401,10 +402,10 @@ labels.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>label_attribute</strong> (<em>str</em><em>, </em><em>optional</em>) – The attribute of the tips to use as labels
-for the matrix.  Defaults to ‘label’.</p></li>
-<li><p><strong>ordered_labels</strong> (<em>list of str</em><em>, </em><em>optional</em>) – If provided, use this order of
-labels.</p></li>
+<li><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The attribute of the tips to use as
+labels for the matrix.  Defaults to ‘label’.</p></li>
+<li><p><strong>ordered_labels</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – If provided, use this
+order of labels.</p></li>
 </ul>
 </dd>
 </dl>
@@ -425,7 +426,7 @@ works at nearly the same speed.</p>
 </p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -452,10 +453,10 @@ works at nearly the same speed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>label_attribute</strong> (<em>str</em><em>, </em><em>optional</em>) – The attribute of the tips to use as labels
-for the matrix.  Defaults to ‘label’.</p></li>
-<li><p><strong>ordered_labels</strong> (<em>list of str</em><em>, </em><em>optional</em>) – If provided, use this order of
-labels.</p></li>
+<li><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The attribute of the tips to use as
+labels for the matrix.  Defaults to ‘label’.</p></li>
+<li><p><strong>ordered_labels</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – If provided, use this
+order of labels.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -466,10 +467,10 @@ labels.</p></li>
 </p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="../../../source/lmpy.html#lmpy.tree.LmTreeException" title="lmpy.tree.LmTreeException"><strong>LmTreeException</strong></a> – If the tree does not have branch lengths.</p>
+<dd class="field-even"><p><a class="reference internal" href="#lmpy.tree.LmTreeException" title="lmpy.tree.LmTreeException"><strong>LmTreeException</strong></a> – If the tree does not have branch lengths.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -528,7 +529,7 @@ labels.</p></li>
 <dd><p>Checks if the tree is ultrametric.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>rel_tol</strong> (<em>float</em>) – The relative tolerance to determine if the min and
+<dd class="field-odd"><p><strong>rel_tol</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – The relative tolerance to determine if the min and
 max are equal.  We will say they are equal if they are 99.9%.</p>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -560,8 +561,8 @@ max are equal.  We will say they are equal if they are 99.9%.</p>
 <dd><p>Prunes the tree of any tips that don’t have the specified attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>search_attribute</strong> (<em>str</em><em>, </em><em>optional</em>) – The attribute to look for when pruning
-tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.</p>
+<dd class="field-odd"><p><strong>search_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The attribute to look for when
+pruning tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -572,7 +573,7 @@ tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.</p>
 <dd><p>Use the label attribute as the node label.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>label_attribute</strong> (<em>str</em>) – The annotation to use as the label for the
+<dd class="field-odd"><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The annotation to use as the label for the
 nodes in the tree.</p>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -591,11 +592,11 @@ nodes in the tree.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node</strong> (<em>Node</em>) – A node to add an annotation to.</p></li>
-<li><p><strong>annotation_attribute</strong> (<em>str</em>) – The annotation attribute to add.  If
+<li><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – A node to add an annotation to.</p></li>
+<li><p><strong>annotation_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The annotation attribute to add.  If
 None or ‘label’, update the node label.</p></li>
-<li><p><strong>annotation_value</strong> – The value of the annotation.</p></li>
-<li><p><strong>update</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, update existing attribute.
+<li><p><strong>annotation_value</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code>) – The value of the annotation.</p></li>
+<li><p><strong>update</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – If True, update existing attribute.
 Defaults to False.</p></li>
 </ul>
 </dd>
@@ -608,7 +609,7 @@ Defaults to False.</p></li>
 <dd><p>Gets the function to be used for retrieving labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>label_attribute</strong> (<em>str</em>) – An annotation name, ‘label’, or None used to
+<dd class="field-odd"><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – An annotation name, ‘label’, or None used to
 determine which method to use to retrieve the label of a node.</p>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -624,12 +625,12 @@ determine which method to use to retrieve the label of a node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node</strong> (<em>Node</em>) – A node to label.</p></li>
-<li><p><strong>i</strong> (<em>int</em>) – A count of the number of previously labeled nodes.</p></li>
-<li><p><strong>prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – A prefix to use when labeling nodes resulting in
-labels like ‘prefix_0’.  Defaults to None and no prefix.</p></li>
-<li><p><strong>overwrite</strong> (<em>bool</em><em>, </em><em>optional</em>) – Should node labels be overwritten.  Defaults to
-False.</p></li>
+<li><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – A node to label.</p></li>
+<li><p><strong>i</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – A count of the number of previously labeled nodes.</p></li>
+<li><p><strong>prefix</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – A prefix to use when labeling nodes
+resulting in labels like ‘prefix_0’.  Defaults to None and no prefix.</p></li>
+<li><p><strong>overwrite</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Should node labels be overwritten.
+Defaults to False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -653,7 +654,7 @@ False.</p></li>
 <dd><p>Use the label of the node or taxon for the label.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>node</strong> (<em>Node</em>) – The node to get the label for.</p>
+<dd class="field-odd"><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – The node to get the label for.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>If the node or the node’s taxon has a label, return it.

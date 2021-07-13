@@ -247,16 +247,16 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mtx1</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites] by i [predictors]) standardized matrix.</p></li>
-<li><p><strong>mtx2</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites] by i [predictors]) standardized matrix.</p></li>
-<li><p><strong>weights</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites]) array of site weights.</p></li>
+<li><p><strong>mtx1</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites] by i [predictors]) standardized matrix.</p></li>
+<li><p><strong>mtx2</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites] by i [predictors]) standardized matrix.</p></li>
+<li><p><strong>weights</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (n [sites]) array of site weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The beta matrix created by the helper.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -268,10 +268,10 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pred_std</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized predictor matrix
+<li><p><strong>pred_std</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized predictor matrix
 (n [sites] by i [predictors]).</p></li>
-<li><p><strong>weights</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of site weights (n by n).</p></li>
-<li><p><strong>phylo_std</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized phylo matrix (n by k [nodes]).</p></li>
+<li><p><strong>weights</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of site weights (n by n).</p></li>
+<li><p><strong>phylo_std</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized phylo matrix (n by k [nodes]).</p></li>
 <li><p><strong>use_lock</strong> (<em>boolean</em>) – If true, use a lock when performing the computation
 to save on overall memory usage.  This is useful for large, or
 full, predictor matrices but can be skipped for single columns to
@@ -309,7 +309,7 @@ overwhelming the system.</p>
 </p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -321,9 +321,9 @@ overwhelming the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_hat</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A predicted value for a regression
+<li><p><strong>y_hat</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A predicted value for a regression
 (n [sites] by k [nodes]).</p></li>
-<li><p><strong>phylo_std</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized phylo matrix
+<li><p><strong>phylo_std</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized phylo matrix
 (n [sites] by k [nodes]).</p></li>
 </ul>
 </dd>
@@ -341,7 +341,7 @@ overwhelming the system.</p>
 <dd class="field-odd"><p>R squared value for the inputs.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -353,9 +353,9 @@ overwhelming the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pred_std</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized predictor matrix
+<li><p><strong>pred_std</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A standardized predictor matrix
 (n [sites] by i [predictors]).</p></li>
-<li><p><strong>beta</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The regression model associated with this prediction
+<li><p><strong>beta</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The regression model associated with this prediction
 (i by k [nodes]).</p></li>
 </ul>
 </dd>
@@ -363,7 +363,7 @@ overwhelming the system.</p>
 <dd class="field-even"><p>An (n [sites] by k [nodes]) numpy ndarray</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -375,10 +375,10 @@ overwhelming the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>incidence_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An incidence matrix (PAM).</p></li>
-<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An environmental matrix (GRIM).</p></li>
-<li><p><strong>bg_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of encoded Biogeographic hypotheses.</p></li>
-<li><p><strong>phylo_col</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A column from the phylo matrix for a
+<li><p><strong>incidence_mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An incidence matrix (PAM).</p></li>
+<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An environmental matrix (GRIM).</p></li>
+<li><p><strong>bg_mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix of encoded Biogeographic hypotheses.</p></li>
+<li><p><strong>phylo_col</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A column from the phylo matrix for a
 single node.</p></li>
 <li><p><strong>use_locks</strong> (<em>boolean</em>) – Indicator if locks are needed for larger
 computations.  This is probably only true for parallel runs.</p></li>
@@ -400,8 +400,8 @@ computations.  This is probably only true for parallel runs.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The matrix to standardize</p></li>
-<li><p><strong>weights</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A one-dimensional array of sums to use for standardization.</p></li>
+<li><p><strong>mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – The matrix to standardize</p></li>
+<li><p><strong>weights</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A one-dimensional array of sums to use for standardization.</p></li>
 </ul>
 </dd>
 </dl>
@@ -441,7 +441,7 @@ computations.  This is probably only true for parallel runs.</p></li>
 <dd class="field-odd"><p>Standardized matrix.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -458,7 +458,7 @@ each row by its transverse and then sum the results.</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix to use to calculate the trace(M . M_T).</p>
+<dd class="field-odd"><p><strong>mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix to use to calculate the trace(M . M_T).</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -477,7 +477,7 @@ only work with square matrices.</p>
 <dd class="field-odd"><p>Trace matrix dot matrix transverse.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -495,9 +495,9 @@ then dividing that number by the number of permutations</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>observed_value</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An array of observed values to use as a
+<li><p><strong>observed_value</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – An array of observed values to use as a
 reference.</p></li>
-<li><p><strong>test_values</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A list of arrays generated from randomizations
+<li><p><strong>test_values</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A list of arrays generated from randomizations
 that will be compared to the observed</p></li>
 <li><p><strong>num_permutations</strong> – (optional) The total number of randomizations
 performed.  Divide the P-values by this if provided.</p></li>
@@ -509,7 +509,7 @@ performed.  Divide the P-values by this if provided.</p></li>
 <dd class="field-odd"><p>Calculated p-values.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -521,14 +521,14 @@ performed.  Divide the P-values by this if provided.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>incidence_matrix</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A binary Lifemapper Matrix object
+<li><p><strong>incidence_matrix</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A binary Lifemapper Matrix object
 representing the incidence of each species for each site by coding
 them as ones.  This is the same thing as a Lifemapper Presence
 Absence Matrix, or PAM (n [sites] by k+1 [species]).</p></li>
-<li><p><strong>phylo_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of a phylogenetic tree where each
+<li><p><strong>phylo_mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of a phylogenetic tree where each
 cell represents the relative contribution of each tip to each
 inner tree node (k+1 [species] by k [nodes]).</p></li>
-<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of the environment for each site
+<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of the environment for each site
 (n [sites] by ei [environmental predictors]).</p></li>
 <li><p><strong>bg_mtx</strong> (<em>Matirx</em>) – A matrix of Helmert contrasts (-1, 0, 1) for
 Biogeographic hypotheses (n [sites] by bi [biogeographic
@@ -552,14 +552,14 @@ predictors]).</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>incidence_matrix</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A binary Lifemapper Matrix object
+<li><p><strong>incidence_matrix</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A binary Lifemapper Matrix object
 representing the incidence of each species for each site by coding
 them as ones.  This is the same thing as a Lifemapper Presence
 Absence Matrix, or PAM (n [sites] by k+1 [species]).</p></li>
-<li><p><strong>phylo_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of a phylogenetic tree where each
+<li><p><strong>phylo_mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of a phylogenetic tree where each
 cell represents the relative contribution of each tip to each
 inner tree node (k+1 [species] by k [nodes]).</p></li>
-<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../../../source/lmpy.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of the environment for each site
+<li><p><strong>env_mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A matrix encoding of the environment for each site
 (n [sites] by ei [environmental predictors]).</p></li>
 <li><p><strong>bg_mtx</strong> (<em>Matirx</em>) – A matrix of Helmert contrasts (-1, 0, 1) for
 Biogeographic hypotheses (n [sites] by bi [biogeographic

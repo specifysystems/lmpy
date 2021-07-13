@@ -55,7 +55,7 @@ Functions
    as a weight threshold to compare with randomly generated numbers.
 
    :param orig_pam: The observed PAM to randomize.
-   :type orig_pam: Matrix
+   :type orig_pam: :obj:`Matrix`
 
    :returns: An approximate randomization of the PAM that is uncorrected.
    :rtype: Matrix
@@ -69,7 +69,7 @@ Functions
    the maximum between the proportions of the row and col
 
    :param orig_pam: The observed PAM to randomize.
-   :type orig_pam: Matrix
+   :type orig_pam: :obj:`Matrix`
 
    :returns: An approximate randomization of the PAM that is uncorrected.
    :rtype: Matrix
@@ -83,7 +83,7 @@ Functions
    the maximum between the proportions of the row and col
 
    :param orig_pam: The observed PAM to randomize.
-   :type orig_pam: Matrix
+   :type orig_pam: :obj:`Matrix`
 
    :returns: An approximate randomization of the PAM that is uncorrected.
    :rtype: Matrix
@@ -94,7 +94,7 @@ Functions
    Creates a two-dimensional approximation composed of all zeros.
 
    :param orig_pam: The observed PAM to randomize.
-   :type orig_pam: Matrix
+   :type orig_pam: :obj:`Matrix`
 
    :returns: An approximate randomization of the PAM that is uncorrected.
    :rtype: Matrix
@@ -105,7 +105,7 @@ Functions
    Creates a two-dimensional approximation composed of all ones.
 
    :param orig_pam: The observed PAM to randomize.
-   :type orig_pam: Matrix
+   :type orig_pam: :obj:`Matrix`
 
    :returns: An approximate randomization of the PAM that is uncorrected.
    :rtype: Matrix
@@ -116,10 +116,10 @@ Functions
    Main function for creating a random matrix.
 
    :param mtx: A Matrix object representation of a PAM
-   :type mtx: Matrix
+   :type mtx: :obj:`Matrix`
    :param approximation_heuristic: A function that generates an
                                    approximation of a final randomized matrix.
-   :type approximation_heuristic: function
+   :type approximation_heuristic: :obj:`Method`
 
    :returns:
 

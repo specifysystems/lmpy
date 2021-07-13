@@ -193,17 +193,18 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class representing an occurrence data point.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species_name</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            species_name (str): The species name for this point.</span>
-<span class="sd">            x (float): The value of the x coordinate for this occurrence point.</span>
-<span class="sd">            y (float): The value of the y coordinate for this occurrence point.</span>
-<span class="sd">            attributes (dict): A dictionary of attributes associated with this point.</span>
+<span class="sd">            species_name (:obj:`str`): The species name for this point.</span>
+<span class="sd">            x (:obj:`float`): The value of the x coordinate for this occurrence point.</span>
+<span class="sd">            y (:obj:`float`): The value of the y coordinate for this occurrence point.</span>
+<span class="sd">            attributes (:obj:`dict`): A dictionary of attributes associated with this</span>
+<span class="sd">                point.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Raised if the species name is omitted.</span>
@@ -227,7 +228,7 @@
         <span class="sd">&quot;&quot;&quot;Test if this point equals the other.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            other (Point): A different Point object to compare with.</span>
+<span class="sd">            other (:obj:`Point`): A different Point object to compare with.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: An indication if the two points are equal for the primary attributes.</span>
@@ -240,7 +241,7 @@
         <span class="sd">&quot;&quot;&quot;Test if this point is less than the other.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            other (Point): A different Point object to compare with.</span>
+<span class="sd">            other (:obj:`Point`): A different Point object to compare with.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: An indication if this point is less than the other for the primary</span>
@@ -266,11 +267,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="Point.get_attribute"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.Point.get_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">):</span>
+<div class="viewcode-block" id="Point.get_attribute"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.get_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get an attribute for the point.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            attribute_name (str): The attribute to attempt to retrieve.</span>
+<span class="sd">            attribute_name (:obj:`str`): The attribute to attempt to retrieve.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            object: The value of the attribute if it exists.</span>
@@ -281,18 +282,18 @@
         <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="Point.set_attribute"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.Point.set_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Point.set_attribute"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.set_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set an attribute for the point.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            attribute_name (str): The name of the attribute to set.</span>
-<span class="sd">            value (object): The value to set the attribute to.</span>
+<span class="sd">            attribute_name (:obj:`str`): The name of the attribute to set.</span>
+<span class="sd">            value (:obj:`object`): The value to set the attribute to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">attribute_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div></div>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="PointCsvReader"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointCsvReader">[docs]</a><span class="k">class</span> <span class="nc">PointCsvReader</span><span class="p">:</span>
+<div class="viewcode-block" id="PointCsvReader"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader">[docs]</a><span class="k">class</span> <span class="nc">PointCsvReader</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for reading Points from a CSV file.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
@@ -307,12 +308,16 @@
         <span class="sd">&quot;&quot;&quot;Constructor for a Point CSV retriever.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            filename (str): A file path containing CSV occurrence data.</span>
-<span class="sd">            species_field (str): The field name of the column containing species data.</span>
-<span class="sd">            x_field (str): The field name of the column containing x coordinates.</span>
-<span class="sd">            y_field (str): The field name of the column containing y coordinates.</span>
-<span class="sd">            geopoint (str): The field name of the column containing geopoint data.</span>
-<span class="sd">            group_field (str): The name of the field to use for grouping points.</span>
+<span class="sd">            filename (:obj:`str`): A file path containing CSV occurrence data.</span>
+<span class="sd">            species_field (:obj:`str`): The field name of the column containing species</span>
+<span class="sd">                data.</span>
+<span class="sd">            x_field (:obj:`str`): The field name of the column containing x</span>
+<span class="sd">                coordinates.</span>
+<span class="sd">            y_field (:obj:`str`): The field name of the column containing y</span>
+<span class="sd">                coordinates.</span>
+<span class="sd">            geopoint (:obj:`str`): The field name of the column containing geopoint</span>
+<span class="sd">                data.</span>
+<span class="sd">            group_field (:obj:`str`): The name of the field to use for grouping points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
@@ -398,7 +403,7 @@
         <span class="k">raise</span> <span class="ne">StopIteration</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvReader.open"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointCsvReader.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvReader.open"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Open the file and initialize.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
         <span class="n">temp_lines</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">),</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">),</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)]</span>
@@ -407,23 +412,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">dialect</span><span class="o">=</span><span class="n">dialect</span><span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvReader.close"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointCsvReader.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvReader.close"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Close the file.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="PointCsvWriter"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointCsvWriter">[docs]</a><span class="k">class</span> <span class="nc">PointCsvWriter</span><span class="p">():</span>
+<div class="viewcode-block" id="PointCsvWriter"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter">[docs]</a><span class="k">class</span> <span class="nc">PointCsvWriter</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Class for writing Points to a CSV file.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for writing points to csv file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            filename (str): A file location to write points to.</span>
-<span class="sd">            fields (list): A list of fields to include in the csv headers.</span>
-<span class="sd">            **kwargs (dict): Keyword parameters that will be passed to the DictWriter</span>
-<span class="sd">                instance from the csv module.</span>
+<span class="sd">            filename (:obj:`str`): A file location to write points to.</span>
+<span class="sd">            fields (:obj:`list`): A list of fields to include in the csv headers.</span>
+<span class="sd">            **kwargs (:obj:`dict`): Keyword parameters that will be passed to the</span>
+<span class="sd">                DictWriter instance from the csv module.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
@@ -451,23 +456,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvWriter.close"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointCsvWriter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvWriter.close"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Close file.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvWriter.open"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointCsvWriter.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvWriter.open"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Open file for writing.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_names</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvWriter.write_points"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointCsvWriter.write_points">[docs]</a>    <span class="k">def</span> <span class="nf">write_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvWriter.write_points"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter.write_points">[docs]</a>    <span class="k">def</span> <span class="nf">write_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Write a Point object to the CSV file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            points (list): A list of points to write.</span>
+<span class="sd">            points (:obj:`list` of :obj:`Point`): A list of points to write.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">Point</span><span class="p">):</span>
             <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">points</span><span class="p">]</span>
@@ -478,16 +483,16 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="PointDwcaReader"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointDwcaReader">[docs]</a><span class="k">class</span> <span class="nc">PointDwcaReader</span><span class="p">:</span>
+<div class="viewcode-block" id="PointDwcaReader"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader">[docs]</a><span class="k">class</span> <span class="nc">PointDwcaReader</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for reading Darwin Core Archives.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dwca_filename</span><span class="p">,</span> <span class="n">meta_filename</span><span class="o">=</span><span class="n">DEFAULT_META_FILENAME</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for reading Darwin Core Archives.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            dwca_filename (str): File location of a DWCA zip file.</span>
-<span class="sd">            meta_filename (str): File within the archive containing metadata.  Defaults</span>
-<span class="sd">                to DEFAULT_META_FILENAME.</span>
+<span class="sd">            dwca_filename (:obj:`str`): File location of a DWCA zip file.</span>
+<span class="sd">            meta_filename (:obj:`str`): File within the archive containing metadata.</span>
+<span class="sd">                Defaults to DEFAULT_META_FILENAME.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">meta_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span> <span class="o">=</span> <span class="n">dwca_filename</span>
@@ -507,7 +512,7 @@
         <span class="sd">&quot;&quot;&quot;Get the species name from the attribute dictionary.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            point_dict (dict): A dictionary of point attributes.</span>
+<span class="sd">            point_dict (:obj:`dict`): A dictionary of point attributes.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: A species name</span>
@@ -519,7 +524,7 @@
         <span class="sd">&quot;&quot;&quot;Get the x coordinate value from the attribute dictionary.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            point_dict (dict): A dictionary of point attributes.</span>
+<span class="sd">            point_dict (:obj:`dict`): A dictionary of point attributes.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            numeric: The x coordinate retrieved.</span>
@@ -534,7 +539,7 @@
         <span class="sd">&quot;&quot;&quot;Get the y coordinate value from the attribute dictionary.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            point_dict (dict): A dictionary of point attributes.</span>
+<span class="sd">            point_dict (:obj:`dict`): A dictionary of point attributes.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            numeric: The y coordinate retrieved.</span>
@@ -618,7 +623,8 @@
         <span class="sd">&quot;&quot;&quot;Process the metadata file contained in the archive.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            meta_contents (str): The string contents of the metadata file (meta.xml).</span>
+<span class="sd">            meta_contents (:obj:`str`): The string contents of the metadata file</span>
+<span class="sd">                (meta.xml).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">root_element</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">meta_contents</span><span class="p">)</span>
         <span class="n">core_element</span> <span class="o">=</span> <span class="n">root_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">CORE_TAG</span><span class="p">)</span>
@@ -686,7 +692,7 @@
             <span class="p">)</span>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointDwcaReader.open"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointDwcaReader.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointDwcaReader.open"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Open the file and initialize.&quot;&quot;&quot;</span>
         <span class="c1"># Open the zip file</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_zip_archive</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -720,21 +726,21 @@
             <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointDwcaReader.close"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointDwcaReader.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointDwcaReader.close"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Close the file.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_zip_archive</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="PointJsonWriter"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointJsonWriter">[docs]</a><span class="k">class</span> <span class="nc">PointJsonWriter</span><span class="p">():</span>
+<div class="viewcode-block" id="PointJsonWriter"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter">[docs]</a><span class="k">class</span> <span class="nc">PointJsonWriter</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Class for writing Points to JSON.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for writing JSON points.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            filename (str): A file location to write the points to.</span>
+<span class="sd">            filename (:obj:`str`): A file location to write the points to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
@@ -759,22 +765,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointJsonWriter.close"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointJsonWriter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointJsonWriter.close"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Close the writer.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointJsonWriter.open"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointJsonWriter.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointJsonWriter.open"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Dummy method for consistency.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointJsonWriter.write_points"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.PointJsonWriter.write_points">[docs]</a>    <span class="k">def</span> <span class="nf">write_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
+<div class="viewcode-block" id="PointJsonWriter.write_points"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter.write_points">[docs]</a>    <span class="k">def</span> <span class="nf">write_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a point to the JSON output.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            points (list): A list of point objects to write out.</span>
+<span class="sd">            points (:obj:`list` of :obj:`Point`): A list of point objects to write out.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">Point</span><span class="p">):</span>
             <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">points</span><span class="p">]</span>
@@ -784,18 +790,18 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="get_field_process_func"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.get_field_process_func">[docs]</a><span class="k">def</span> <span class="nf">get_field_process_func</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vocabulary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="get_field_process_func"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.get_field_process_func">[docs]</a><span class="k">def</span> <span class="nf">get_field_process_func</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vocabulary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a function to process a field for a specimen record.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        index (int, optional): The column index of the field value to process.  If</span>
-<span class="sd">            none, always return the default.</span>
+<span class="sd">        index (:obj:`int`, optional): The column index of the field value to process.</span>
+<span class="sd">            If none, always return the default.</span>
 <span class="sd">        default (number or string, optional): An optional default value (optional if</span>
 <span class="sd">            index is not None) to return when the value of the field is empty.</span>
-<span class="sd">        vocabulary (str, optional): A URI that identifies a vocabulary used for this</span>
-<span class="sd">            field&#39;s possible values.</span>
-<span class="sd">        delimiter (str, optional): An optional delimiter to split the field value</span>
-<span class="sd">            with.</span>
+<span class="sd">        vocabulary (:obj:`str`, optional): A URI that identifies a vocabulary used for</span>
+<span class="sd">            this field&#39;s possible values.</span>
+<span class="sd">        delimiter (:obj:`str`, optional): An optional delimiter to split the field</span>
+<span class="sd">            value with.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Method: A method for getting the value of a field for a specimen row.</span>
@@ -805,7 +811,7 @@
         <span class="sd">&quot;&quot;&quot;Returns the default value, always.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            row (list): A row of data for a specimen.</span>
+<span class="sd">            row (:obj:`list`): A row of data for a specimen.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            object: Whatever the default value for the field is.</span>
@@ -817,7 +823,7 @@
         <span class="sd">&quot;&quot;&quot;Returns a list of value for the field.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            row (list): A row of data for a specimen.</span>
+<span class="sd">            row (:obj:`list`): A row of data for a specimen.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list: A list of values generated by splitting the row index.</span>
@@ -834,7 +840,7 @@
         <span class="sd">&quot;&quot;&quot;Returns a value for the field.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            row (list): A row of data for a specimen.</span>
+<span class="sd">            row (:obj:`list`): A row of data for a specimen.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            object: Whatever value is retrieved from the field.</span>
@@ -855,11 +861,11 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="none_getter"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.point.none_getter">[docs]</a><span class="k">def</span> <span class="nf">none_getter</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<div class="viewcode-block" id="none_getter"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.none_getter">[docs]</a><span class="k">def</span> <span class="nf">none_getter</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return None as a function.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        obj (object): Any object.</span>
+<span class="sd">        obj (:obj:`object`): Any object.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None: Always returns None.</span>

@@ -175,7 +175,7 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="fill_shuffle_reshape_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.fill_shuffle_reshape_heuristic">[docs]</a><span class="k">def</span> <span class="nf">fill_shuffle_reshape_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+<div class="viewcode-block" id="fill_shuffle_reshape_heuristic"><a class="viewcode-back" href="../../../autoapi/lmpy/randomize/grady/index.html#lmpy.randomize.grady.fill_shuffle_reshape_heuristic">[docs]</a><span class="k">def</span> <span class="nf">fill_shuffle_reshape_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create an approximation with the correct number of 1s randomly placed.</span>
 
 <span class="sd">    Creates an array with the total number of ones from the original PAM and</span>
@@ -195,14 +195,14 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="total_fill_percentage_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.total_fill_percentage_heuristic">[docs]</a><span class="k">def</span> <span class="nf">total_fill_percentage_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+<div class="viewcode-block" id="total_fill_percentage_heuristic"><a class="viewcode-back" href="../../../autoapi/lmpy/randomize/grady/index.html#lmpy.randomize.grady.total_fill_percentage_heuristic">[docs]</a><span class="k">def</span> <span class="nf">total_fill_percentage_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create an approximation using the total fill percentage of the PAM.</span>
 
 <span class="sd">    Creates an approximation using the total matrix fill of the original PAM</span>
 <span class="sd">    as a weight threshold to compare with randomly generated numbers.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+<span class="sd">        orig_pam (:obj:`Matrix`): The observed PAM to randomize.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
@@ -218,14 +218,14 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="max_col_or_row_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.max_col_or_row_heuristic">[docs]</a><span class="k">def</span> <span class="nf">max_col_or_row_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+<div class="viewcode-block" id="max_col_or_row_heuristic"><a class="viewcode-back" href="../../../autoapi/lmpy/randomize/grady/index.html#lmpy.randomize.grady.max_col_or_row_heuristic">[docs]</a><span class="k">def</span> <span class="nf">max_col_or_row_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Weighting method using max weight between row and column.</span>
 
 <span class="sd">    This method returns a matrix of weights where the weight of each cell is</span>
 <span class="sd">    the maximum between the proportions of the row and col</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+<span class="sd">        orig_pam (:obj:`Matrix`): The observed PAM to randomize.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
@@ -248,14 +248,14 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="min_col_or_row_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.min_col_or_row_heuristic">[docs]</a><span class="k">def</span> <span class="nf">min_col_or_row_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+<div class="viewcode-block" id="min_col_or_row_heuristic"><a class="viewcode-back" href="../../../autoapi/lmpy/randomize/grady/index.html#lmpy.randomize.grady.min_col_or_row_heuristic">[docs]</a><span class="k">def</span> <span class="nf">min_col_or_row_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Weighting method using max weight between row and column.</span>
 
 <span class="sd">    This method returns a matrix of weights where the weight of each cell is</span>
 <span class="sd">    the maximum between the proportions of the row and col</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+<span class="sd">        orig_pam (:obj:`Matrix`): The observed PAM to randomize.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
@@ -275,11 +275,11 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="all_zeros_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.all_zeros_heuristic">[docs]</a><span class="k">def</span> <span class="nf">all_zeros_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+<div class="viewcode-block" id="all_zeros_heuristic"><a class="viewcode-back" href="../../../autoapi/lmpy/randomize/grady/index.html#lmpy.randomize.grady.all_zeros_heuristic">[docs]</a><span class="k">def</span> <span class="nf">all_zeros_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates a two-dimensional approximation composed of all zeros.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+<span class="sd">        orig_pam (:obj:`Matrix`): The observed PAM to randomize.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
@@ -288,11 +288,11 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="all_ones_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.all_ones_heuristic">[docs]</a><span class="k">def</span> <span class="nf">all_ones_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+<div class="viewcode-block" id="all_ones_heuristic"><a class="viewcode-back" href="../../../autoapi/lmpy/randomize/grady/index.html#lmpy.randomize.grady.all_ones_heuristic">[docs]</a><span class="k">def</span> <span class="nf">all_ones_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates a two-dimensional approximation composed of all ones.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+<span class="sd">        orig_pam (:obj:`Matrix`): The observed PAM to randomize.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
@@ -301,12 +301,12 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="grady_randomize"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.grady_randomize">[docs]</a><span class="k">def</span> <span class="nf">grady_randomize</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">approximation_heuristic</span><span class="o">=</span><span class="n">total_fill_percentage_heuristic</span><span class="p">):</span>
+<div class="viewcode-block" id="grady_randomize"><a class="viewcode-back" href="../../../autoapi/lmpy/randomize/grady/index.html#lmpy.randomize.grady.grady_randomize">[docs]</a><span class="k">def</span> <span class="nf">grady_randomize</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">approximation_heuristic</span><span class="o">=</span><span class="n">total_fill_percentage_heuristic</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Main function for creating a random matrix.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        mtx (Matrix): A Matrix object representation of a PAM</span>
-<span class="sd">        approximation_heuristic (function): A function that generates an</span>
+<span class="sd">        mtx (:obj:`Matrix`): A Matrix object representation of a PAM</span>
+<span class="sd">        approximation_heuristic (:obj:`Method`): A function that generates an</span>
 <span class="sd">            approximation of a final randomized matrix.</span>
 
 <span class="sd">    Returns:</span>

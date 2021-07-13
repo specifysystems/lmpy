@@ -96,7 +96,7 @@ Attributes
       Test if this point equals the other.
 
       :param other: A different Point object to compare with.
-      :type other: Point
+      :type other: :obj:`Point`
 
       :returns: An indication if the two points are equal for the primary attributes.
       :rtype: bool
@@ -107,7 +107,7 @@ Attributes
       Test if this point is less than the other.
 
       :param other: A different Point object to compare with.
-      :type other: Point
+      :type other: :obj:`Point`
 
       :returns:
 
@@ -129,7 +129,7 @@ Attributes
       Get an attribute for the point.
 
       :param attribute_name: The attribute to attempt to retrieve.
-      :type attribute_name: str
+      :type attribute_name: :obj:`str`
 
       :returns: The value of the attribute if it exists.
                 None: Returned if the attribute does not exist for the Point.
@@ -141,9 +141,9 @@ Attributes
       Set an attribute for the point.
 
       :param attribute_name: The name of the attribute to set.
-      :type attribute_name: str
+      :type attribute_name: :obj:`str`
       :param value: The value to set the attribute to.
-      :type value: object
+      :type value: :obj:`object`
 
 
 
@@ -232,7 +232,7 @@ Attributes
       Write a Point object to the CSV file.
 
       :param points: A list of points to write.
-      :type points: list
+      :type points: :obj:`list` of :obj:`Point`
 
 
 
@@ -246,7 +246,7 @@ Attributes
       Get the species name from the attribute dictionary.
 
       :param point_dict: A dictionary of point attributes.
-      :type point_dict: dict
+      :type point_dict: :obj:`dict`
 
       :returns: A species name
       :rtype: str
@@ -257,7 +257,7 @@ Attributes
       Get the x coordinate value from the attribute dictionary.
 
       :param point_dict: A dictionary of point attributes.
-      :type point_dict: dict
+      :type point_dict: :obj:`dict`
 
       :returns: The x coordinate retrieved.
                 None: Returned if there is no x value.
@@ -269,7 +269,7 @@ Attributes
       Get the y coordinate value from the attribute dictionary.
 
       :param point_dict: A dictionary of point attributes.
-      :type point_dict: dict
+      :type point_dict: :obj:`dict`
 
       :returns: The y coordinate retrieved.
                 None: Returned if there is no y value.
@@ -313,8 +313,9 @@ Attributes
 
       Process the metadata file contained in the archive.
 
-      :param meta_contents: The string contents of the metadata file (meta.xml).
-      :type meta_contents: str
+      :param meta_contents: The string contents of the metadata file
+                            (meta.xml).
+      :type meta_contents: :obj:`str`
 
 
    .. method:: open(self)
@@ -363,7 +364,7 @@ Attributes
       Add a point to the JSON output.
 
       :param points: A list of point objects to write out.
-      :type points: list
+      :type points: :obj:`list` of :obj:`Point`
 
 
 
@@ -371,18 +372,18 @@ Attributes
 
    Get a function to process a field for a specimen record.
 
-   :param index: The column index of the field value to process.  If
-                 none, always return the default.
-   :type index: int, optional
+   :param index: The column index of the field value to process.
+                 If none, always return the default.
+   :type index: :obj:`int`, optional
    :param default: An optional default value (optional if
                    index is not None) to return when the value of the field is empty.
    :type default: number or string, optional
-   :param vocabulary: A URI that identifies a vocabulary used for this
-                      field's possible values.
-   :type vocabulary: str, optional
-   :param delimiter: An optional delimiter to split the field value
-                     with.
-   :type delimiter: str, optional
+   :param vocabulary: A URI that identifies a vocabulary used for
+                      this field's possible values.
+   :type vocabulary: :obj:`str`, optional
+   :param delimiter: An optional delimiter to split the field
+                     value with.
+   :type delimiter: :obj:`str`, optional
 
    :returns: A method for getting the value of a field for a specimen row.
    :rtype: Method
@@ -393,7 +394,7 @@ Attributes
    Return None as a function.
 
    :param obj: Any object.
-   :type obj: object
+   :type obj: :obj:`object`
 
    :returns: Always returns None.
    :rtype: None

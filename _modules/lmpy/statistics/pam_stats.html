@@ -167,7 +167,7 @@
 <span class="c1"># .............................................................................</span>
 <span class="c1"># Metric Decorators</span>
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="PamStatsMetric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStatsMetric">[docs]</a><span class="k">class</span> <span class="nc">PamStatsMetric</span><span class="p">:</span>
+<div class="viewcode-block" id="PamStatsMetric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStatsMetric">[docs]</a><span class="k">class</span> <span class="nc">PamStatsMetric</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Base class for PAM statistics metrics.</span>
 
 <span class="sd">    This wrapper is used to classify each statistic so that the arguments it</span>
@@ -201,12 +201,12 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="CovarianceMatrixMetric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.CovarianceMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">CovarianceMatrixMetric</span><span class="p">(</span><span class="n">PamStatsMetric</span><span class="p">):</span></div>
+<div class="viewcode-block" id="CovarianceMatrixMetric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.CovarianceMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">CovarianceMatrixMetric</span><span class="p">(</span><span class="n">PamStatsMetric</span><span class="p">):</span></div>
     <span class="sd">&quot;&quot;&quot;A metric that produces a covariance matrix.&quot;&quot;&quot;</span>
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="DiversityMetric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.DiversityMetric">[docs]</a><span class="k">class</span> <span class="nc">DiversityMetric</span><span class="p">(</span><span class="n">PamStatsMetric</span><span class="p">):</span></div>
+<div class="viewcode-block" id="DiversityMetric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.DiversityMetric">[docs]</a><span class="k">class</span> <span class="nc">DiversityMetric</span><span class="p">(</span><span class="n">PamStatsMetric</span><span class="p">):</span></div>
     <span class="sd">&quot;&quot;&quot;A single-value diversity metric.&quot;&quot;&quot;</span>
 
 
@@ -221,27 +221,27 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="SpeciesMatrixMetric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.SpeciesMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">SpeciesMatrixMetric</span><span class="p">(</span><span class="n">_SpeciesStatMetric</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SpeciesMatrixMetric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.SpeciesMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">SpeciesMatrixMetric</span><span class="p">(</span><span class="n">_SpeciesStatMetric</span><span class="p">):</span></div>
     <span class="sd">&quot;&quot;&quot;A species-based statistic that is generated from a PAM.&quot;&quot;&quot;</span>
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="SiteMatrixMetric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.SiteMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">SiteMatrixMetric</span><span class="p">(</span><span class="n">_SiteStatMetric</span><span class="p">):</span></div>
+<div class="viewcode-block" id="SiteMatrixMetric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.SiteMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">SiteMatrixMetric</span><span class="p">(</span><span class="n">_SiteStatMetric</span><span class="p">):</span></div>
     <span class="sd">&quot;&quot;&quot;A site-based metric that takes the PAM as input.&quot;&quot;&quot;</span>
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="PamDistMatrixMetric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamDistMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">PamDistMatrixMetric</span><span class="p">(</span><span class="n">_SiteStatMetric</span><span class="p">):</span></div>
+<div class="viewcode-block" id="PamDistMatrixMetric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamDistMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">PamDistMatrixMetric</span><span class="p">(</span><span class="n">_SiteStatMetric</span><span class="p">):</span></div>
     <span class="sd">&quot;&quot;&quot;A site-based metric computed from a PAM and Tree.&quot;&quot;&quot;</span>
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="TreeMetric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.TreeMetric">[docs]</a><span class="k">class</span> <span class="nc">TreeMetric</span><span class="p">(</span><span class="n">_SiteStatMetric</span><span class="p">):</span></div>
+<div class="viewcode-block" id="TreeMetric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.TreeMetric">[docs]</a><span class="k">class</span> <span class="nc">TreeMetric</span><span class="p">(</span><span class="n">_SiteStatMetric</span><span class="p">):</span></div>
     <span class="sd">&quot;&quot;&quot;A site-based metric that takes a Dendropy tree as an argument.&quot;&quot;&quot;</span>
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="TreeDistanceMatrixMetric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.TreeDistanceMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">TreeDistanceMatrixMetric</span><span class="p">(</span><span class="n">_SiteStatMetric</span><span class="p">):</span></div>
+<div class="viewcode-block" id="TreeDistanceMatrixMetric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.TreeDistanceMatrixMetric">[docs]</a><span class="k">class</span> <span class="nc">TreeDistanceMatrixMetric</span><span class="p">(</span><span class="n">_SiteStatMetric</span><span class="p">):</span></div>
     <span class="sd">&quot;&quot;&quot;A site-based metric that takes a distance matrix as an argument.&quot;&quot;&quot;</span>
 
 
@@ -650,13 +650,13 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="PamStats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats">[docs]</a><span class="k">class</span> <span class="nc">PamStats</span><span class="p">:</span>
+<div class="viewcode-block" id="PamStats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats">[docs]</a><span class="k">class</span> <span class="nc">PamStats</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for managing metric computation for PAM statistics.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="PamStats.covariance_stats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.covariance_stats">[docs]</a>    <span class="n">covariance_stats</span> <span class="o">=</span> <span class="p">[</span>
+<div class="viewcode-block" id="PamStats.covariance_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.covariance_stats">[docs]</a>    <span class="n">covariance_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;sigma sites&#39;</span><span class="p">,</span> <span class="n">sigma_sites</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;sigma species&#39;</span><span class="p">,</span> <span class="n">sigma_species</span><span class="p">)</span></div>
         <span class="p">]</span>
-<div class="viewcode-block" id="PamStats.diversity_stats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.diversity_stats">[docs]</a>    <span class="n">diversity_stats</span> <span class="o">=</span> <span class="p">[</span>
+<div class="viewcode-block" id="PamStats.diversity_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.diversity_stats">[docs]</a>    <span class="n">diversity_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;c-score&#39;</span><span class="p">,</span> <span class="n">c_score</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;lande&#39;</span><span class="p">,</span> <span class="n">lande</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;legendre&#39;</span><span class="p">,</span> <span class="n">legendre</span><span class="p">),</span>
@@ -664,19 +664,19 @@
         <span class="p">(</span><span class="s1">&#39;num species&#39;</span><span class="p">,</span> <span class="n">num_species</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;whittaker&#39;</span><span class="p">,</span> <span class="n">whittaker</span><span class="p">)</span></div>
         <span class="p">]</span>
-<div class="viewcode-block" id="PamStats.site_matrix_stats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.site_matrix_stats">[docs]</a>    <span class="n">site_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
+<div class="viewcode-block" id="PamStats.site_matrix_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.site_matrix_stats">[docs]</a>    <span class="n">site_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;alpha proportional&#39;</span><span class="p">,</span> <span class="n">alpha_proportional</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="n">phi</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;phi average proportional&#39;</span><span class="p">,</span> <span class="n">phi_average_proportional</span><span class="p">)</span></div>
         <span class="p">]</span>
-<div class="viewcode-block" id="PamStats.site_tree_stats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.site_tree_stats">[docs]</a>    <span class="n">site_tree_stats</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Phylogenetic Diversity&#39;</span><span class="p">,</span> <span class="n">phylogenetic_diversity</span><span class="p">)]</span></div>
-<div class="viewcode-block" id="PamStats.site_tree_distance_matrix_stats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.site_tree_distance_matrix_stats">[docs]</a>    <span class="n">site_tree_distance_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
+<div class="viewcode-block" id="PamStats.site_tree_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.site_tree_stats">[docs]</a>    <span class="n">site_tree_stats</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Phylogenetic Diversity&#39;</span><span class="p">,</span> <span class="n">phylogenetic_diversity</span><span class="p">)]</span></div>
+<div class="viewcode-block" id="PamStats.site_tree_distance_matrix_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.site_tree_distance_matrix_stats">[docs]</a>    <span class="n">site_tree_distance_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;MNTD&#39;</span><span class="p">,</span> <span class="n">mean_nearest_taxon_distance</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;Mean Pairwise Distance&#39;</span><span class="p">,</span> <span class="n">mean_pairwise_distance</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;Sum Pairwise Distance&#39;</span><span class="p">,</span> <span class="n">sum_pairwise_distance</span><span class="p">)]</span></div>
-<div class="viewcode-block" id="PamStats.site_pam_dist_mtx_stats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.site_pam_dist_mtx_stats">[docs]</a>    <span class="n">site_pam_dist_mtx_stats</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pearson_correlation&#39;</span><span class="p">,</span> <span class="n">pearson_correlation</span><span class="p">)]</span></div>
-<div class="viewcode-block" id="PamStats.species_matrix_stats"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.species_matrix_stats">[docs]</a>    <span class="n">species_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
+<div class="viewcode-block" id="PamStats.site_pam_dist_mtx_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.site_pam_dist_mtx_stats">[docs]</a>    <span class="n">site_pam_dist_mtx_stats</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pearson_correlation&#39;</span><span class="p">,</span> <span class="n">pearson_correlation</span><span class="p">)]</span></div>
+<div class="viewcode-block" id="PamStats.species_matrix_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.species_matrix_stats">[docs]</a>    <span class="n">species_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;omega&#39;</span><span class="p">,</span> <span class="n">omega</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;omega_proportional&#39;</span><span class="p">,</span> <span class="n">omega_proportional</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;psi&#39;</span><span class="p">,</span> <span class="n">psi</span><span class="p">),</span>
@@ -695,7 +695,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="PamStats.calculate_covariance_statistics"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.calculate_covariance_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_covariance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PamStats.calculate_covariance_statistics"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.calculate_covariance_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_covariance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate covariance statistics matrices.</span>
 
 <span class="sd">        Returns:</span>
@@ -704,7 +704,7 @@
         <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance_stats</span><span class="p">]</span></div>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="PamStats.calculate_diversity_statistics"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.calculate_diversity_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_diversity_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PamStats.calculate_diversity_statistics"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.calculate_diversity_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_diversity_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate diversity statistics.</span>
 
 <span class="sd">        Returns:</span>
@@ -719,7 +719,7 @@
         <span class="k">return</span> <span class="n">diversity_matrix</span></div>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="PamStats.calculate_site_statistics"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.calculate_site_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_site_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PamStats.calculate_site_statistics"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.calculate_site_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_site_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate site-based statistics.</span>
 
 <span class="sd">        Returns:</span>
@@ -826,7 +826,7 @@
         <span class="k">return</span> <span class="n">site_stats_matrix</span></div>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="PamStats.calculate_species_statistics"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.calculate_species_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_species_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PamStats.calculate_species_statistics"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.calculate_species_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_species_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate species-based statistics.</span>
 
 <span class="sd">        Returns:</span>
@@ -845,7 +845,7 @@
         <span class="k">return</span> <span class="n">species_stats_matrix</span></div>
 
     <span class="c1"># ...........................</span>
-<div class="viewcode-block" id="PamStats.register_metric"><a class="viewcode-back" href="../../../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.register_metric">[docs]</a>    <span class="k">def</span> <span class="nf">register_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">):</span>
+<div class="viewcode-block" id="PamStats.register_metric"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.register_metric">[docs]</a>    <span class="k">def</span> <span class="nf">register_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Register a new metric.</span>
 
 <span class="sd">        Args:</span>
