@@ -19,7 +19,7 @@ presence-absence matrix (PAM) randomizations that are used to create null
 models.
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 4
     :caption: Contents:
 
     pages/installation
