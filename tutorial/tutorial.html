@@ -92,8 +92,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="build_grid.html">Build Shapegrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html">Data Cleaning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="layer_encoder.html">Layer Encoder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="matrix.html">Matrix Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpa.html">Metacommunity Phylogenetics Analysis (MCPA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html">Delimited to Points</a></li>
 <li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#json-to-points">JSON to Points</a></li>
@@ -182,6 +184,55 @@
 <li class="toctree-l2"><a class="reference internal" href="build_grid.html#introduction">Introduction</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="data_cleaning.html">Data Cleaning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#reading-data-files">Reading Data Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#read-a-csv-file">Read a CSV File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#read-a-darwin-core-archive-file">Read a Darwin Core Archive File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#filtering-records">Filtering Records</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#built-in-filters">Built-in Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#custom-filters">Custom Filters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#modifying-records">Modifying Records</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#built-in-modifiers">Built-in Modifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#custom-modifiers">Custom Modifiers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#putting-it-all-together">Putting It All Together</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#aggregate-and-clean-multiple-data-files">Aggregate and Clean Multiple Data Files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#creating-matrix-instances">Creating Matrix Instances</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#from-an-existing-numpy-ndarray">From an existing NumPy ndarray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#reading-a-csv-file">Reading a CSV file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#reading-a-saved-matrix">Reading a saved Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#concatenating-existing-matrix-objects">Concatenating existing Matrix objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#slicing-by-array-indices">Slicing by array indices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#slicing-by-headers">Slicing by headers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#writing-matrix-objects">Writing Matrix objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#saving-to-the-file-system">Saving to the file system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#writing-to-a-csv-file">Writing to a CSV file</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#header-management">Header management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#on-instantiation">On instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#setting-headers">Setting headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#getting-headers">Getting headers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_cleaning.html#metadata-management">Metadata management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#id2">On instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#setting-metadata">Setting metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_cleaning.html#getting-metadata">Getting metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="layer_encoder.html">Layer Encoder</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="layer_encoder.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="layer_encoder.html#creating-a-pam">Creating a PAM</a></li>
@@ -217,6 +268,11 @@
 <li class="toctree-l3"><a class="reference internal" href="matrix.html#getting-metadata">Getting metadata</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mcpa.html">Metacommunity Phylogenetics Analysis (MCPA)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mcpa.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpa.html#tutorial">Tutorial</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a><ul>
