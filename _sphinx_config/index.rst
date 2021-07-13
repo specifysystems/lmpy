@@ -29,8 +29,6 @@ models.
     pages/about
     pages/references
 
-    .. Module documentation <source/modules>
-
 
 Indices and tables
 ==================
