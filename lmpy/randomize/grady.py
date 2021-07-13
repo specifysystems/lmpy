@@ -41,7 +41,7 @@ def total_fill_percentage_heuristic(orig_pam):
     as a weight threshold to compare with randomly generated numbers.
 
     Args:
-        orig_pam (Matrix): The observed PAM to randomize.
+        orig_pam (:obj:`lmpy.Matrix`): The observed PAM to randomize.
 
     Returns:
         Matrix: An approximate randomization of the PAM that is uncorrected.
@@ -64,7 +64,7 @@ def max_col_or_row_heuristic(orig_pam):
     the maximum between the proportions of the row and col
 
     Args:
-        orig_pam (Matrix): The observed PAM to randomize.
+        orig_pam (:obj:`lmpy.Matrix`): The observed PAM to randomize.
 
     Returns:
         Matrix: An approximate randomization of the PAM that is uncorrected.
@@ -94,7 +94,7 @@ def min_col_or_row_heuristic(orig_pam):
     the maximum between the proportions of the row and col
 
     Args:
-        orig_pam (Matrix): The observed PAM to randomize.
+        orig_pam (:obj:`lmpy.Matrix`): The observed PAM to randomize.
 
     Returns:
         Matrix: An approximate randomization of the PAM that is uncorrected.
@@ -118,7 +118,7 @@ def all_zeros_heuristic(orig_pam):
     """Creates a two-dimensional approximation composed of all zeros.
 
     Args:
-        orig_pam (Matrix): The observed PAM to randomize.
+        orig_pam (:obj:`lmpy.Matrix`): The observed PAM to randomize.
 
     Returns:
         Matrix: An approximate randomization of the PAM that is uncorrected.
@@ -131,7 +131,7 @@ def all_ones_heuristic(orig_pam):
     """Creates a two-dimensional approximation composed of all ones.
 
     Args:
-        orig_pam (Matrix): The observed PAM to randomize.
+        orig_pam (:obj:`lmpy.Matrix`): The observed PAM to randomize.
 
     Returns:
         Matrix: An approximate randomization of the PAM that is uncorrected.
@@ -144,8 +144,8 @@ def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic
     """Main function for creating a random matrix.
 
     Args:
-        mtx (Matrix): A Matrix object representation of a PAM
-        approximation_heuristic (function): A function that generates an
+        mtx (:obj:`lmpy.Matrix`): A Matrix object representation of a PAM
+        approximation_heuristic (:obj:`Method`): A function that generates an
             approximation of a final randomized matrix.
 
     Returns:
