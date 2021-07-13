@@ -34,13 +34,33 @@ Functions
 
    Constants class for occurrence data wrangler types.
 
+   .. attribute:: ACCEPTED_NAME_MODIFIER
+      :annotation: = accepted_name_modifier
+
+      
+
    .. attribute:: ATTRIBUTE_FILTER
       :annotation: = attribute_filter
 
       
 
+   .. attribute:: ATTRIBUTE_MAP_MODIFIER
+      :annotation: = attribute_map_modifier
+
+      
+
+   .. attribute:: ATTRIBUTE_MODIFIER
+      :annotation: = attribute_modifier
+
+      
+
    .. attribute:: BBOX_FILTER
       :annotation: = bbox_filter
+
+      
+
+   .. attribute:: CORDINATE_CONVERTER_MODIFIER
+      :annotation: = coordinate_converter_modifier
 
       
 
@@ -71,26 +91,6 @@ Functions
 
    .. attribute:: UNIQUE_LOCALITIES_FILTER
       :annotation: = unique_localities_filter
-
-      
-
-   .. attribute:: ACCEPTED_NAME_MODIFIER
-      :annotation: = accepted_name_modifier
-
-      
-
-   .. attribute:: ATTRIBUTE_MODIFIER
-      :annotation: = attribute_modifier
-
-      
-
-   .. attribute:: ATTRIBUTE_MAP_MODIFIER
-      :annotation: = attribute_map_modifier
-
-      
-
-   .. attribute:: CORDINATE_CONVERTER_MODIFIER
-      :annotation: = coordinate_converter_modifier
 
       
 

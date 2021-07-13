@@ -18,21 +18,10 @@ Functions
 
 .. autoapisummary::
 
-   lmpy.data_wrangling.occurrence.common.make_list
    lmpy.data_wrangling.occurrence.common.get_occurrence_filter
    lmpy.data_wrangling.occurrence.common.get_occurrence_map
+   lmpy.data_wrangling.occurrence.common.make_list
 
-
-
-.. function:: make_list(points)
-
-   Make sure that 'points' is a list.
-
-   :param points: A point or list of points.
-   :type points: list or Point
-
-   :returns: A list of Point objects.
-   :rtype: list of Point
 
 
 .. function:: get_occurrence_filter(pass_condition_func)
@@ -56,5 +45,16 @@ Functions
 
    :returns: A function to map the provied function to all points.
    :rtype: Method
+
+
+.. function:: make_list(points)
+
+   Make sure that 'points' is a list.
+
+   :param points: A point or list of points.
+   :type points: list or Point
+
+   :returns: A list of Point objects.
+   :rtype: list of Point
 
 

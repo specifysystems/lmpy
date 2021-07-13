@@ -36,35 +36,6 @@ Functions
 
 
 
-.. function:: compare_absolute_values(observed, test_data)
-
-   Compares the absolute values of the observed and random data.
-
-   :param observed: A numpy array of observed values.
-   :type observed: :obj:`Numpy array`
-   :param test_data: A numpy array of random values.
-   :type test_data: :obj:`Numpy array`
-
-   :returns:
-
-             Boolean indicating if the absolute value of the test data is greater than
-                 the absolute value of the observed data.
-   :rtype: bool
-
-
-.. function:: compare_signed_values(observed, test_data)
-
-   Compares the signed values of the observed and random data.
-
-   :param observed: A numpy array of observed values.
-   :type observed: :obj:`Numpy array`
-   :param test_data: A numpy array of random values.
-   :type test_data: :obj:`Numpy array`
-
-   :returns: An indication if the test data is greater than the observed data.
-   :rtype: bool
-
-
 .. class:: RunningStats(observed=None, compare_fn=compare_absolute_values)
 
 
@@ -77,6 +48,17 @@ Functions
    :type observed: numeric
    :param compare_fn (: obj:method): A function used to compare pushed values
                         to the observed statistic value.
+
+   .. method:: p_values(self)
+      :property:
+
+      Retrieve p-values from the test values greater than the f-statistic.
+
+      :returns: Computed p-values.
+      :rtype: Matrix
+
+      :raises Exception: Raised if there are no observed values.
+
 
    .. method:: push(self, val)
 
@@ -105,15 +87,33 @@ Functions
       :rtype: float
 
 
-   .. method:: p_values(self)
-      :property:
 
-      Retrieve p-values from the test values greater than the f-statistic.
+.. function:: compare_absolute_values(observed, test_data)
 
-      :returns: Computed p-values.
-      :rtype: Matrix
+   Compares the absolute values of the observed and random data.
 
-      :raises Exception: Raised if there are no observed values.
+   :param observed: A numpy array of observed values.
+   :type observed: :obj:`Numpy array`
+   :param test_data: A numpy array of random values.
+   :type test_data: :obj:`Numpy array`
 
+   :returns:
+
+             Boolean indicating if the absolute value of the test data is greater than
+                 the absolute value of the observed data.
+   :rtype: bool
+
+
+.. function:: compare_signed_values(observed, test_data)
+
+   Compares the signed values of the observed and random data.
+
+   :param observed: A numpy array of observed values.
+   :type observed: :obj:`Numpy array`
+   :param test_data: A numpy array of random values.
+   :type test_data: :obj:`Numpy array`
+
+   :returns: An indication if the test data is greater than the observed data.
+   :rtype: bool
 
 

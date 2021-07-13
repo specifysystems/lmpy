@@ -29,6 +29,14 @@ Classes
 
 
 
+.. exception:: LmTreeException
+
+
+   Bases: :py:obj:`Exception`
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
 .. class:: PhyloTreeKeys
 
    Keys for phylogenetic trees.
@@ -56,14 +64,6 @@ Classes
       :annotation: = squid
 
       
-
-
-.. exception:: LmTreeException
-
-
-   Bases: :py:obj:`Exception`
-
-   Initialize self.  See help(type(self)) for accurate signature.
 
 
 .. class:: TreeWrapper(*args, **kwargs)
@@ -194,32 +194,77 @@ Classes
        t12 = Tree(seed_node=seed)
        assert t12.seed_node is seed
 
-   .. method:: from_base_tree(cls, tree)
-      :classmethod:
+   .. method:: _annotate_node(self, node, annotation_attribute, annotation_value, update=False)
 
-      Creates a TreeWrapper object from a base dendropy.Tree.
+      Annotates a node with the given value.
 
-      :param tree: A base dendropy tree object to wrap into a
-                   TreeWrapper.
-      :type tree: :obj:`Tree`
+      :param node: A node to add an annotation to.
+      :type node: :obj:`Node`
+      :param annotation_attribute: The annotation attribute to add.  If
+                                   None or 'label', update the node label.
+      :type annotation_attribute: :obj:`str`
+      :param annotation_value: The value of the annotation.
+      :type annotation_value: :obj:`object`
+      :param update: If True, update existing attribute.
+                     Defaults to False.
+      :type update: :obj:`bool`, optional
 
-      :returns: The newly wrapped tree.
-      :rtype: TreeWrapper
+
+   .. method:: _annotation_method(self, label_attribute)
+
+      Use the label attribute as the node label.
+
+      :param label_attribute: The annotation to use as the label for the
+                              nodes in the tree.
+      :type label_attribute: :obj:`str`
+
+      :returns: A method for retrieving the label for a taxon.
+      :rtype: Method
 
 
-   .. method:: from_filename(cls, filename)
-      :classmethod:
+   .. method:: _get_label_method(self, label_attribute)
 
-      Creates a TreeWrapper object by loading a file.
+      Gets the function to be used for retrieving labels.
 
-      :param filename: A file path to a tree file that should be loaded.
-      :type filename: :obj:`str`
+      :param label_attribute: An annotation name, 'label', or None used to
+                              determine which method to use to retrieve the label of a node.
+      :type label_attribute: :obj:`str`
 
-      :returns: The newly loaded tree.
-      :rtype: TreeWrapper
+      :returns: Function for labeling nodes.
 
-      :raises IOError: Raised if the tree file cannot be loaded based on the file
-          extension.
+
+   .. method:: _label_method(node)
+      :staticmethod:
+
+      Use the label of the node or taxon for the label.
+
+      :param node: The node to get the label for.
+      :type node: :obj:`Node`
+
+      :returns: If the node or the node's taxon has a label, return it.
+                None: If the node and it's taxon do not have labels.
+      :rtype: str
+
+
+   .. method:: _label_tree_nodes(self, node, i, prefix=None, overwrite=False)
+
+      Private function to do the work when labeling nodes.
+
+      :param node: A node to label.
+      :type node: :obj:`Node`
+      :param i: A count of the number of previously labeled nodes.
+      :type i: :obj:`int`
+      :param prefix: A prefix to use when labeling nodes
+                     resulting in labels like 'prefix_0'.  Defaults to None and no prefix.
+      :type prefix: :obj:`str`, optional
+      :param overwrite: Should node labels be overwritten.
+                        Defaults to False.
+      :type overwrite: :obj:`bool`, optional
+
+      :returns: The number of nodes already labeled in the tree.
+      :rtype: int
+
+      .. note:: * Recursive.
 
 
    .. method:: add_node_labels(self, prefix=None, overwrite=False)
@@ -283,6 +328,34 @@ Classes
       :param update: Defaults to False.  Indicates if existing
                      annotations should be updated.
       :type update: :obj:`bool`, optional
+
+
+   .. method:: from_base_tree(cls, tree)
+      :classmethod:
+
+      Creates a TreeWrapper object from a base dendropy.Tree.
+
+      :param tree: A base dendropy tree object to wrap into a
+                   TreeWrapper.
+      :type tree: :obj:`Tree`
+
+      :returns: The newly wrapped tree.
+      :rtype: TreeWrapper
+
+
+   .. method:: from_filename(cls, filename)
+      :classmethod:
+
+      Creates a TreeWrapper object by loading a file.
+
+      :param filename: A file path to a tree file that should be loaded.
+      :type filename: :obj:`str`
+
+      :returns: The newly loaded tree.
+      :rtype: TreeWrapper
+
+      :raises IOError: Raised if the tree file cannot be loaded based on the file
+          extension.
 
 
    .. method:: get_annotations(self, annotation_attribute)
@@ -425,79 +498,6 @@ Classes
       :param search_attribute: The attribute to look for when
                                pruning tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.
       :type search_attribute: :obj:`str`, optional
-
-
-   .. method:: _annotation_method(self, label_attribute)
-
-      Use the label attribute as the node label.
-
-      :param label_attribute: The annotation to use as the label for the
-                              nodes in the tree.
-      :type label_attribute: :obj:`str`
-
-      :returns: A method for retrieving the label for a taxon.
-      :rtype: Method
-
-
-   .. method:: _annotate_node(self, node, annotation_attribute, annotation_value, update=False)
-
-      Annotates a node with the given value.
-
-      :param node: A node to add an annotation to.
-      :type node: :obj:`Node`
-      :param annotation_attribute: The annotation attribute to add.  If
-                                   None or 'label', update the node label.
-      :type annotation_attribute: :obj:`str`
-      :param annotation_value: The value of the annotation.
-      :type annotation_value: :obj:`object`
-      :param update: If True, update existing attribute.
-                     Defaults to False.
-      :type update: :obj:`bool`, optional
-
-
-   .. method:: _get_label_method(self, label_attribute)
-
-      Gets the function to be used for retrieving labels.
-
-      :param label_attribute: An annotation name, 'label', or None used to
-                              determine which method to use to retrieve the label of a node.
-      :type label_attribute: :obj:`str`
-
-      :returns: Function for labeling nodes.
-
-
-   .. method:: _label_tree_nodes(self, node, i, prefix=None, overwrite=False)
-
-      Private function to do the work when labeling nodes.
-
-      :param node: A node to label.
-      :type node: :obj:`Node`
-      :param i: A count of the number of previously labeled nodes.
-      :type i: :obj:`int`
-      :param prefix: A prefix to use when labeling nodes
-                     resulting in labels like 'prefix_0'.  Defaults to None and no prefix.
-      :type prefix: :obj:`str`, optional
-      :param overwrite: Should node labels be overwritten.
-                        Defaults to False.
-      :type overwrite: :obj:`bool`, optional
-
-      :returns: The number of nodes already labeled in the tree.
-      :rtype: int
-
-      .. note:: * Recursive.
-
-
-   .. method:: _label_method(node)
-      :staticmethod:
-
-      Use the label of the node or taxon for the label.
-
-      :param node: The node to get the label for.
-      :type node: :obj:`Node`
-
-      :returns: If the node or the node's taxon has a label, return it.
-                None: If the node and it's taxon do not have labels.
-      :rtype: str
 
 
 

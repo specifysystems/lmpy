@@ -41,14 +41,9 @@ Attributes
 
 .. autoapisummary::
 
-   lmpy.statistics.mcpa.lock
    lmpy.statistics.mcpa.CONCURRENCY_FACTOR
+   lmpy.statistics.mcpa.lock
 
-
-.. data:: lock
-   
-
-   
 
 .. data:: CONCURRENCY_FACTOR
    :annotation: = 5
@@ -242,6 +237,11 @@ Attributes
    :returns: Calculated p-values.
    :rtype: Matrix
 
+
+.. data:: lock
+   
+
+   
 
 .. function:: mcpa(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)
 

@@ -187,16 +187,14 @@ Classes
       :rtype: list of str
 
 
-   .. method:: encode_presence_absence(self, layer_filename, column_name, min_presence, max_presence, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. method:: encode_largest_class(self, layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
 
-      Encodes a distribution layer into a presence absence column.
+      Encodes a layer based on the largest class in each data window.
 
       :param layer_filename: The file location of the layer to encode.
       :param column_name: What to name this column in the encoded matrix.
-      :param min_presence: The minimum value that should be treated as presence.
-      :param max_presence: The maximum value to be considered as present.
       :param min_coverage: The minimum percentage of each data window that must
-                           be present to consider that cell present.
+                           be the covered by the largest class.
       :param resolution: If the layer is a vector, optionally use this as the
                          resolution of the data grid.
       :param bbox: If the layer is a vector, optionally use this bounding box
@@ -204,7 +202,7 @@ Classes
       :param nodata: If the layer is a vector, optionally use this as the data
                      grid nodata value.
       :param attribute_name: If the layer is a vector, use this field to
-                             determine presence.
+                             determine largest class.
 
       :returns: A list of column headers for the newly encoded columns.
       :rtype: list of str
@@ -229,14 +227,16 @@ Classes
       :rtype: list of str
 
 
-   .. method:: encode_largest_class(self, layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. method:: encode_presence_absence(self, layer_filename, column_name, min_presence, max_presence, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
 
-      Encodes a layer based on the largest class in each data window.
+      Encodes a distribution layer into a presence absence column.
 
       :param layer_filename: The file location of the layer to encode.
       :param column_name: What to name this column in the encoded matrix.
+      :param min_presence: The minimum value that should be treated as presence.
+      :param max_presence: The maximum value to be considered as present.
       :param min_coverage: The minimum percentage of each data window that must
-                           be the covered by the largest class.
+                           be present to consider that cell present.
       :param resolution: If the layer is a vector, optionally use this as the
                          resolution of the data grid.
       :param bbox: If the layer is a vector, optionally use this bounding box
@@ -244,7 +244,7 @@ Classes
       :param nodata: If the layer is a vector, optionally use this as the data
                      grid nodata value.
       :param attribute_name: If the layer is a vector, use this field to
-                             determine largest class.
+                             determine presence.
 
       :returns: A list of column headers for the newly encoded columns.
       :rtype: list of str

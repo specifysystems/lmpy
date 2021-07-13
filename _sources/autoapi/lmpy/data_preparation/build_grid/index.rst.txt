@@ -18,64 +18,11 @@ Functions
 
 .. autoapisummary::
 
-   lmpy.data_preparation.build_grid.make_polygon_wkt_from_points
-   lmpy.data_preparation.build_grid.hexagon_wkt_generator
-   lmpy.data_preparation.build_grid.square_wkt_generator
    lmpy.data_preparation.build_grid.build_shapegrid
+   lmpy.data_preparation.build_grid.hexagon_wkt_generator
+   lmpy.data_preparation.build_grid.make_polygon_wkt_from_points
+   lmpy.data_preparation.build_grid.square_wkt_generator
 
-
-
-.. function:: make_polygon_wkt_from_points(points)
-
-   Create a polygon WKT string from a list of points.
-
-   :param points: A list of (x,y) points for each vertex of the polygon.
-   :type points: list of tuple
-
-   .. note:: Points should be ordered following right hand rule.
-
-   :returns: A polygon well-known text string.
-   :rtype: str
-
-
-.. function:: hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
-
-   Generator producing hexagonal WKT for cells of the shapegrid.
-
-   :param min_x: The minimum x value.
-   :type min_x: numeric
-   :param min_y: The minimum y value.
-   :type min_y: numeric
-   :param max_x: The maximum x value.
-   :type max_x: numeric
-   :param max_y: The maximum y value.
-   :type max_y: numeric
-   :param x_res: The x size of the cell.
-   :type x_res: numeric
-   :param y_res: The y size of the cell.
-   :type y_res: numeric
-
-   :Yields: *str* -- Well-known text polygons for the cells.
-
-
-.. function:: square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
-
-   Generator producing square WKT for cells of the shapegrid.
-
-   :param min_x: The minimum x value.
-   :type min_x: numeric
-   :param min_y: The minimum y value.
-   :type min_y: numeric
-   :param max_x: The maximum x value.
-   :type max_x: numeric
-   :param max_y: The maximum y value.
-   :type max_y: numeric
-   :param x_res: The x size of the cell.
-   :type x_res: numeric
-   :param y_res: The y size of the cell.
-   :type y_res: numeric
-
-   :Yields: *str* -- Well-known text polygons for the cells.
 
 
 .. function:: build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)
@@ -114,5 +61,58 @@ Functions
    :rtype: int
 
    :raises ValueError: Raised if an invalid number of cell sides is specified.
+
+
+.. function:: hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
+
+   Generator producing hexagonal WKT for cells of the shapegrid.
+
+   :param min_x: The minimum x value.
+   :type min_x: numeric
+   :param min_y: The minimum y value.
+   :type min_y: numeric
+   :param max_x: The maximum x value.
+   :type max_x: numeric
+   :param max_y: The maximum y value.
+   :type max_y: numeric
+   :param x_res: The x size of the cell.
+   :type x_res: numeric
+   :param y_res: The y size of the cell.
+   :type y_res: numeric
+
+   :Yields: *str* -- Well-known text polygons for the cells.
+
+
+.. function:: make_polygon_wkt_from_points(points)
+
+   Create a polygon WKT string from a list of points.
+
+   :param points: A list of (x,y) points for each vertex of the polygon.
+   :type points: list of tuple
+
+   .. note:: Points should be ordered following right hand rule.
+
+   :returns: A polygon well-known text string.
+   :rtype: str
+
+
+.. function:: square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
+
+   Generator producing square WKT for cells of the shapegrid.
+
+   :param min_x: The minimum x value.
+   :type min_x: numeric
+   :param min_y: The minimum y value.
+   :type min_y: numeric
+   :param max_x: The maximum x value.
+   :type max_x: numeric
+   :param max_y: The maximum y value.
+   :type max_y: numeric
+   :param x_res: The x size of the cell.
+   :type x_res: numeric
+   :param y_res: The y size of the cell.
+   :type y_res: numeric
+
+   :Yields: *str* -- Well-known text polygons for the cells.
 
 

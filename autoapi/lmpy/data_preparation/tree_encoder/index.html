@@ -19,6 +19,8 @@
 
   
   
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
 
   
   
@@ -205,64 +207,6 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder.from_file">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pam_file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder.from_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates an instance of the PhyloEncoding class from tree and pam.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tree_file_name</strong> (<em>str</em>) – The location of the tree.</p></li>
-<li><p><strong>pam_file_name</strong> (<em>str</em>) – The location of the PAM.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A new tree encoder instance.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#lmpy.data_preparation.tree_encoder.TreeEncoder" title="lmpy.data_preparation.tree_encoder.TreeEncoder">TreeEncoder</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder.encode_phylogeny">
-<span class="sig-name descname"><span class="pre">encode_phylogeny</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder.encode_phylogeny"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder.encode_phylogeny" title="Permalink to this definition">¶</a></dt>
-<dd><p>Encode the phylogenetic tree into a matrix.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<dl class="simple">
-<dt>P in the literature, a tip (row) by internal node (column) matrix</dt><dd><p>that needs to match the provided PAM.</p>
-</dd>
-</dl>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#lmpy.data_preparation.tree_encoder.EncodingException" title="lmpy.data_preparation.tree_encoder.EncodingException"><strong>EncodingException</strong></a> – Raised if the PAM and tree do not match.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An encoding of the phylogenetic tree.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder.validate">
-<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder.validate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Validates the tree / PAM combination.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Boolean indicating if the tree / pam is valid.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder._build_p_branch_length_values">
 <span class="sig-name descname"><span class="pre">_build_p_branch_length_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder._build_p_branch_length_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder._build_p_branch_length_values" title="Permalink to this definition">¶</a></dt>
@@ -473,6 +417,64 @@ F   0.000   0.000   0.000   0.500   1.000</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder.encode_phylogeny">
+<span class="sig-name descname"><span class="pre">encode_phylogeny</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder.encode_phylogeny"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder.encode_phylogeny" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode the phylogenetic tree into a matrix.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>P in the literature, a tip (row) by internal node (column) matrix</dt><dd><p>that needs to match the provided PAM.</p>
+</dd>
+</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.data_preparation.tree_encoder.EncodingException" title="lmpy.data_preparation.tree_encoder.EncodingException"><strong>EncodingException</strong></a> – Raised if the PAM and tree do not match.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An encoding of the phylogenetic tree.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder.from_file">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pam_file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an instance of the PhyloEncoding class from tree and pam.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree_file_name</strong> (<em>str</em>) – The location of the tree.</p></li>
+<li><p><strong>pam_file_name</strong> (<em>str</em>) – The location of the PAM.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A new tree encoder instance.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.data_preparation.tree_encoder.TreeEncoder" title="lmpy.data_preparation.tree_encoder.TreeEncoder">TreeEncoder</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates the tree / PAM combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Boolean indicating if the tree / pam is valid.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>

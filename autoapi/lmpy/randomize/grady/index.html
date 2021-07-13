@@ -19,6 +19,8 @@
 
   
   
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
 
   
   
@@ -177,11 +179,17 @@ populated matrix.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.randomize.grady.all_ones_heuristic" title="lmpy.randomize.grady.all_ones_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_ones_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Creates a two-dimensional approximation composed of all ones.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.randomize.grady.all_zeros_heuristic" title="lmpy.randomize.grady.all_zeros_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_zeros_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Creates a two-dimensional approximation composed of all zeros.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.randomize.grady.fill_shuffle_reshape_heuristic" title="lmpy.randomize.grady.fill_shuffle_reshape_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill_shuffle_reshape_heuristic</span></code></a>(orig_pam)</p></td>
 <td><p>Create an approximation with the correct number of 1s randomly placed.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.randomize.grady.total_fill_percentage_heuristic" title="lmpy.randomize.grady.total_fill_percentage_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_fill_percentage_heuristic</span></code></a>(orig_pam)</p></td>
-<td><p>Create an approximation using the total fill percentage of the PAM.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.randomize.grady.grady_randomize" title="lmpy.randomize.grady.grady_randomize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grady_randomize</span></code></a>(mtx, approximation_heuristic=total_fill_percentage_heuristic)</p></td>
+<td><p>Main function for creating a random matrix.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.randomize.grady.max_col_or_row_heuristic" title="lmpy.randomize.grady.max_col_or_row_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_col_or_row_heuristic</span></code></a>(orig_pam)</p></td>
 <td><p>Weighting method using max weight between row and column.</p></td>
@@ -189,17 +197,45 @@ populated matrix.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.randomize.grady.min_col_or_row_heuristic" title="lmpy.randomize.grady.min_col_or_row_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min_col_or_row_heuristic</span></code></a>(orig_pam)</p></td>
 <td><p>Weighting method using max weight between row and column.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.randomize.grady.all_zeros_heuristic" title="lmpy.randomize.grady.all_zeros_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_zeros_heuristic</span></code></a>(orig_pam)</p></td>
-<td><p>Creates a two-dimensional approximation composed of all zeros.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.randomize.grady.all_ones_heuristic" title="lmpy.randomize.grady.all_ones_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_ones_heuristic</span></code></a>(orig_pam)</p></td>
-<td><p>Creates a two-dimensional approximation composed of all ones.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.randomize.grady.grady_randomize" title="lmpy.randomize.grady.grady_randomize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grady_randomize</span></code></a>(mtx, approximation_heuristic=total_fill_percentage_heuristic)</p></td>
-<td><p>Main function for creating a random matrix.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.randomize.grady.total_fill_percentage_heuristic" title="lmpy.randomize.grady.total_fill_percentage_heuristic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_fill_percentage_heuristic</span></code></a>(orig_pam)</p></td>
+<td><p>Create an approximation using the total fill percentage of the PAM.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.all_ones_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">all_ones_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#all_ones_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.all_ones_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a two-dimensional approximation composed of all ones.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig_pam</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code>) – The observed PAM to randomize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.randomize.grady.all_zeros_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">all_zeros_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#all_zeros_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.all_zeros_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a two-dimensional approximation composed of all zeros.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig_pam</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code>) – The observed PAM to randomize.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.randomize.grady.fill_shuffle_reshape_heuristic">
 <span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">fill_shuffle_reshape_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#fill_shuffle_reshape_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.fill_shuffle_reshape_heuristic" title="Permalink to this definition">¶</a></dt>
@@ -220,17 +256,23 @@ shuffles it then it reshapes it to match the shape of the original PAM.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="lmpy.randomize.grady.total_fill_percentage_heuristic">
-<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">total_fill_percentage_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#total_fill_percentage_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.total_fill_percentage_heuristic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create an approximation using the total fill percentage of the PAM.</p>
-<p>Creates an approximation using the total matrix fill of the original PAM
-as a weight threshold to compare with randomly generated numbers.</p>
+<dt class="sig sig-object py" id="lmpy.randomize.grady.grady_randomize">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">grady_randomize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approximation_heuristic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">total_fill_percentage_heuristic</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#grady_randomize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.grady_randomize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main function for creating a random matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>orig_pam</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code>) – The observed PAM to randomize.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mtx</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code>) – A Matrix object representation of a PAM</p></li>
+<li><p><strong>approximation_heuristic</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Method</span></code>) – A function that generates an
+approximation of a final randomized matrix.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>A matrix of random presence absence values with the same</dt><dd><p>marginal totals as the input matrix ‘mtx’.</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
@@ -277,57 +319,17 @@ the maximum between the proportions of the row and col</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="lmpy.randomize.grady.all_zeros_heuristic">
-<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">all_zeros_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#all_zeros_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.all_zeros_heuristic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a two-dimensional approximation composed of all zeros.</p>
+<dt class="sig sig-object py" id="lmpy.randomize.grady.total_fill_percentage_heuristic">
+<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">total_fill_percentage_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#total_fill_percentage_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.total_fill_percentage_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an approximation using the total fill percentage of the PAM.</p>
+<p>Creates an approximation using the total matrix fill of the original PAM
+as a weight threshold to compare with randomly generated numbers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>orig_pam</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code>) – The observed PAM to randomize.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lmpy.randomize.grady.all_ones_heuristic">
-<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">all_ones_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#all_ones_heuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.all_ones_heuristic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a two-dimensional approximation composed of all ones.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>orig_pam</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code>) – The observed PAM to randomize.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An approximate randomization of the PAM that is uncorrected.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lmpy.randomize.grady.grady_randomize">
-<span class="sig-prename descclassname"><span class="pre">lmpy.randomize.grady.</span></span><span class="sig-name descname"><span class="pre">grady_randomize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approximation_heuristic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">total_fill_percentage_heuristic</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/randomize/grady.html#grady_randomize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.randomize.grady.grady_randomize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Main function for creating a random matrix.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mtx</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code>) – A Matrix object representation of a PAM</p></li>
-<li><p><strong>approximation_heuristic</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Method</span></code>) – A function that generates an
-approximation of a final randomized matrix.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A matrix of random presence absence values with the same</dt><dd><p>marginal totals as the input matrix ‘mtx’.</p>
-</dd>
-</dl>
-</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>

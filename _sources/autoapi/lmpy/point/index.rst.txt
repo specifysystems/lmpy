@@ -42,14 +42,19 @@ Attributes
 
 .. autoapisummary::
 
+   lmpy.point.CORE_TAG
    lmpy.point.DEFAULT_META_FILENAME
    lmpy.point.DWCA_OCCURRENCE_PARAMS
-   lmpy.point.CORE_TAG
    lmpy.point.FIELD_TAG
    lmpy.point.FILES_TAG
    lmpy.point.ID_TAG
    lmpy.point.LOCATION_TAG
 
+
+.. data:: CORE_TAG
+   :annotation: = {http://rs.tdwg.org/dwc/text/}core
+
+   
 
 .. data:: DEFAULT_META_FILENAME
    :annotation: = meta.xml
@@ -58,11 +63,6 @@ Attributes
 
 .. data:: DWCA_OCCURRENCE_PARAMS
    
-
-   
-
-.. data:: CORE_TAG
-   :annotation: = {http://rs.tdwg.org/dwc/text/}core
 
    
 
@@ -215,14 +215,14 @@ Attributes
       :raises StopIteration: Raised when there are no additional objects.
 
 
-   .. method:: open(self)
-
-      Open the file and initialize.
-
-
    .. method:: close(self)
 
       Close the file.
+
+
+   .. method:: open(self)
+
+      Open the file and initialize.
 
 
 
@@ -284,6 +284,39 @@ Attributes
                          Defaults to DEFAULT_META_FILENAME.
    :type meta_filename: :obj:`str`
 
+   .. method:: __enter__(self)
+
+      Context manager magic method.
+
+      :returns: This instance.
+      :rtype: PointDwcaReader
+
+
+   .. method:: __exit__(self, *args)
+
+      Context manager magic method on exit.
+
+      :param \*args: Positional arguments passed to the exit function.
+
+
+   .. method:: __iter__(self)
+
+      Iterator magic method.
+
+      :returns: This instance.
+      :rtype: PointDwcaReader
+
+
+   .. method:: __next__(self)
+
+      Get lists of consecutive points with the same attribute value.
+
+      :returns: A list of point objects.
+      :rtype: list
+
+      :raises StopIteration: Raised when there are no additional objects.
+
+
    .. method:: _get_species_name(self, point_dict)
 
       Get the species name from the attribute dictionary.
@@ -319,39 +352,6 @@ Attributes
       :rtype: numeric
 
 
-   .. method:: __enter__(self)
-
-      Context manager magic method.
-
-      :returns: This instance.
-      :rtype: PointDwcaReader
-
-
-   .. method:: __exit__(self, *args)
-
-      Context manager magic method on exit.
-
-      :param \*args: Positional arguments passed to the exit function.
-
-
-   .. method:: __iter__(self)
-
-      Iterator magic method.
-
-      :returns: This instance.
-      :rtype: PointDwcaReader
-
-
-   .. method:: __next__(self)
-
-      Get lists of consecutive points with the same attribute value.
-
-      :returns: A list of point objects.
-      :rtype: list
-
-      :raises StopIteration: Raised when there are no additional objects.
-
-
    .. method:: _process_metadata(self, meta_contents)
 
       Process the metadata file contained in the archive.
@@ -361,14 +361,14 @@ Attributes
       :type meta_contents: :obj:`str`
 
 
-   .. method:: open(self)
-
-      Open the file and initialize.
-
-
    .. method:: close(self)
 
       Close the file.
+
+
+   .. method:: open(self)
+
+      Open the file and initialize.
 
 
 

@@ -23,14 +23,36 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.randomize.grady.all_ones_heuristic
+   lmpy.randomize.grady.all_zeros_heuristic
    lmpy.randomize.grady.fill_shuffle_reshape_heuristic
-   lmpy.randomize.grady.total_fill_percentage_heuristic
+   lmpy.randomize.grady.grady_randomize
    lmpy.randomize.grady.max_col_or_row_heuristic
    lmpy.randomize.grady.min_col_or_row_heuristic
-   lmpy.randomize.grady.all_zeros_heuristic
-   lmpy.randomize.grady.all_ones_heuristic
-   lmpy.randomize.grady.grady_randomize
+   lmpy.randomize.grady.total_fill_percentage_heuristic
 
+
+
+.. function:: all_ones_heuristic(orig_pam)
+
+   Creates a two-dimensional approximation composed of all ones.
+
+   :param orig_pam: The observed PAM to randomize.
+   :type orig_pam: :obj:`Matrix`
+
+   :returns: An approximate randomization of the PAM that is uncorrected.
+   :rtype: Matrix
+
+
+.. function:: all_zeros_heuristic(orig_pam)
+
+   Creates a two-dimensional approximation composed of all zeros.
+
+   :param orig_pam: The observed PAM to randomize.
+   :type orig_pam: :obj:`Matrix`
+
+   :returns: An approximate randomization of the PAM that is uncorrected.
+   :rtype: Matrix
 
 
 .. function:: fill_shuffle_reshape_heuristic(orig_pam)
@@ -47,17 +69,20 @@ Functions
    :rtype: Matrix
 
 
-.. function:: total_fill_percentage_heuristic(orig_pam)
+.. function:: grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic)
 
-   Create an approximation using the total fill percentage of the PAM.
+   Main function for creating a random matrix.
 
-   Creates an approximation using the total matrix fill of the original PAM
-   as a weight threshold to compare with randomly generated numbers.
+   :param mtx: A Matrix object representation of a PAM
+   :type mtx: :obj:`Matrix`
+   :param approximation_heuristic: A function that generates an
+                                   approximation of a final randomized matrix.
+   :type approximation_heuristic: :obj:`Method`
 
-   :param orig_pam: The observed PAM to randomize.
-   :type orig_pam: :obj:`Matrix`
+   :returns:
 
-   :returns: An approximate randomization of the PAM that is uncorrected.
+             A matrix of random presence absence values with the same
+                 marginal totals as the input matrix 'mtx'.
    :rtype: Matrix
 
 
@@ -89,42 +114,17 @@ Functions
    :rtype: Matrix
 
 
-.. function:: all_zeros_heuristic(orig_pam)
+.. function:: total_fill_percentage_heuristic(orig_pam)
 
-   Creates a two-dimensional approximation composed of all zeros.
+   Create an approximation using the total fill percentage of the PAM.
 
-   :param orig_pam: The observed PAM to randomize.
-   :type orig_pam: :obj:`Matrix`
-
-   :returns: An approximate randomization of the PAM that is uncorrected.
-   :rtype: Matrix
-
-
-.. function:: all_ones_heuristic(orig_pam)
-
-   Creates a two-dimensional approximation composed of all ones.
+   Creates an approximation using the total matrix fill of the original PAM
+   as a weight threshold to compare with randomly generated numbers.
 
    :param orig_pam: The observed PAM to randomize.
    :type orig_pam: :obj:`Matrix`
 
    :returns: An approximate randomization of the PAM that is uncorrected.
-   :rtype: Matrix
-
-
-.. function:: grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic)
-
-   Main function for creating a random matrix.
-
-   :param mtx: A Matrix object representation of a PAM
-   :type mtx: :obj:`Matrix`
-   :param approximation_heuristic: A function that generates an
-                                   approximation of a final randomized matrix.
-   :type approximation_heuristic: :obj:`Method`
-
-   :returns:
-
-             A matrix of random presence absence values with the same
-                 marginal totals as the input matrix 'mtx'.
    :rtype: Matrix
 
 

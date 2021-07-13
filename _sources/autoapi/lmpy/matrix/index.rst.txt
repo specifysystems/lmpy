@@ -63,6 +63,15 @@ Classes
    :returns: A converted numpy array to Matrix.
    :rtype: Matrix
 
+   .. method:: T(self)
+      :property:
+
+      Get the transpose of the matrix.
+
+      :returns: The matrix transpose.
+      :rtype: Matrix
+
+
    .. method:: __array_finalize__(self, obj)
 
       Overridden function from ndarray.
@@ -73,51 +82,6 @@ Classes
 
       :param obj (: obj:`Matrix1): If the object is a matrix, pull out headers and
                     metadata.
-
-
-   .. method:: load(cls, filename)
-      :classmethod:
-
-      Load a matrix from a filename.
-
-      :param filename: File location of matrix to load.
-      :type filename: :obj:`str`
-
-      :returns: The matrix read from the file.
-      :rtype: Matrix
-
-
-   .. method:: load_csv(cls, flo, dtype=np.float, num_header_rows=0, num_header_cols=0)
-      :classmethod:
-
-      Attempts to load a Matrix object from a CSV file-like object.
-
-      :param flo: A file like object containing csv data.
-      :type flo: File-like object
-      :param dtype: The data type for the data.  Will
-                    be used to cast data when adding to matrix.
-      :type dtype: :obj:`method`, optional
-      :param num_header_rows: The number of header rows
-                              in the CSV file.
-      :type num_header_rows: :obj:`int`, optional
-      :param num_header_cols: The number of header
-                              columns in the CSV file.
-      :type num_header_cols: :obj:`int`, optional
-
-      :returns: The newly loaded Matrix object.
-      :rtype: Matrix
-
-
-   .. method:: load_flo(cls, flo)
-      :classmethod:
-
-      Attempts to load a Matrix object from a file.
-
-      :param flo: A file-like object with matrix data.
-      :type flo: file-like
-
-      :returns: The newly loaded Matrix object.
-      :rtype: Matrix
 
 
    .. method:: concatenate(cls, mtx_list, axis=0)
@@ -185,6 +149,51 @@ Classes
       Shortcut to get row headers.
 
       :returns: A list of headers for the rows in the matrix.
+
+
+   .. method:: load(cls, filename)
+      :classmethod:
+
+      Load a matrix from a filename.
+
+      :param filename: File location of matrix to load.
+      :type filename: :obj:`str`
+
+      :returns: The matrix read from the file.
+      :rtype: Matrix
+
+
+   .. method:: load_csv(cls, flo, dtype=np.float, num_header_rows=0, num_header_cols=0)
+      :classmethod:
+
+      Attempts to load a Matrix object from a CSV file-like object.
+
+      :param flo: A file like object containing csv data.
+      :type flo: File-like object
+      :param dtype: The data type for the data.  Will
+                    be used to cast data when adding to matrix.
+      :type dtype: :obj:`method`, optional
+      :param num_header_rows: The number of header rows
+                              in the CSV file.
+      :type num_header_rows: :obj:`int`, optional
+      :param num_header_cols: The number of header
+                              columns in the CSV file.
+      :type num_header_cols: :obj:`int`, optional
+
+      :returns: The newly loaded Matrix object.
+      :rtype: Matrix
+
+
+   .. method:: load_flo(cls, flo)
+      :classmethod:
+
+      Attempts to load a Matrix object from a file.
+
+      :param flo: A file-like object with matrix data.
+      :type flo: file-like
+
+      :returns: The newly loaded Matrix object.
+      :rtype: Matrix
 
 
    .. method:: save(self, flo)
@@ -267,15 +276,6 @@ Classes
              search for header indices.
 
       :returns: A subset of the original Matrix specified by the header.
-      :rtype: Matrix
-
-
-   .. method:: T(self)
-      :property:
-
-      Get the transpose of the matrix.
-
-      :returns: The matrix transpose.
       :rtype: Matrix
 
 

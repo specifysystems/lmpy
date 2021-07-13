@@ -19,6 +19,8 @@
 
   
   
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
 
   
   
@@ -234,6 +236,20 @@ axis.  (Ex:</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="lmpy.matrix.Matrix.T">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.T"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the transpose of the matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The matrix transpose.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.__array_finalize__">
 <span class="sig-name descname"><span class="pre">__array_finalize__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.__array_finalize__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.__array_finalize__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overridden function from ndarray.</p>
@@ -244,65 +260,6 @@ constructor gave it.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>(</strong> (<em>obj</em>) – obj:<a href="#id2"><span class="problematic" id="id3">`</span></a>Matrix1): If the object is a matrix, pull out headers and
 metadata.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.matrix.Matrix.load">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a matrix from a filename.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – File location of matrix to load.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The matrix read from the file.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.matrix.Matrix.load_csv">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_header_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_header_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_csv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attempts to load a Matrix object from a CSV file-like object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>flo</strong> (<em>File-like object</em>) – A file like object containing csv data.</p></li>
-<li><p><strong>dtype</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">method</span></code>, optional) – The data type for the data.  Will
-be used to cast data when adding to matrix.</p></li>
-<li><p><strong>num_header_rows</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The number of header rows
-in the CSV file.</p></li>
-<li><p><strong>num_header_cols</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The number of header
-columns in the CSV file.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The newly loaded Matrix object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.matrix.Matrix.load_flo">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load_flo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load_flo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_flo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attempts to load a Matrix object from a file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>flo</strong> (<em>file-like</em>) – A file-like object with matrix data.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The newly loaded Matrix object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -403,6 +360,65 @@ list: If axis is int, A list of headers for the specified axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of headers for the rows in the matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.matrix.Matrix.load">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a matrix from a filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – File location of matrix to load.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The matrix read from the file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.matrix.Matrix.load_csv">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_header_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_header_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to load a Matrix object from a CSV file-like object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flo</strong> (<em>File-like object</em>) – A file like object containing csv data.</p></li>
+<li><p><strong>dtype</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">method</span></code>, optional) – The data type for the data.  Will
+be used to cast data when adding to matrix.</p></li>
+<li><p><strong>num_header_rows</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The number of header rows
+in the CSV file.</p></li>
+<li><p><strong>num_header_cols</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The number of header
+columns in the CSV file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The newly loaded Matrix object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.matrix.Matrix.load_flo">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load_flo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load_flo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_flo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to load a Matrix object from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>flo</strong> (<em>file-like</em>) – A file-like object with matrix data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The newly loaded Matrix object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -512,20 +528,6 @@ to retrieve for each axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A subset of the original Matrix specified by the header.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.matrix.Matrix.T">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.T"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.T" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the transpose of the matrix.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The matrix transpose.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>

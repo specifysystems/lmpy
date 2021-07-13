@@ -17,15 +17,15 @@ Classes
 
 .. autoapisummary::
 
-   lmpy.statistics.pam_stats.PamStatsMetric
    lmpy.statistics.pam_stats.CovarianceMatrixMetric
    lmpy.statistics.pam_stats.DiversityMetric
-   lmpy.statistics.pam_stats.SpeciesMatrixMetric
-   lmpy.statistics.pam_stats.SiteMatrixMetric
    lmpy.statistics.pam_stats.PamDistMatrixMetric
-   lmpy.statistics.pam_stats.TreeMetric
-   lmpy.statistics.pam_stats.TreeDistanceMatrixMetric
    lmpy.statistics.pam_stats.PamStats
+   lmpy.statistics.pam_stats.PamStatsMetric
+   lmpy.statistics.pam_stats.SiteMatrixMetric
+   lmpy.statistics.pam_stats.SpeciesMatrixMetric
+   lmpy.statistics.pam_stats.TreeDistanceMatrixMetric
+   lmpy.statistics.pam_stats.TreeMetric
 
 
 
@@ -36,46 +36,27 @@ Functions
 
    lmpy.statistics.pam_stats.alpha
    lmpy.statistics.pam_stats.alpha_proportional
-   lmpy.statistics.pam_stats.phi
-   lmpy.statistics.pam_stats.phi_average_proportional
-   lmpy.statistics.pam_stats.omega
-   lmpy.statistics.pam_stats.omega_proportional
-   lmpy.statistics.pam_stats.psi
-   lmpy.statistics.pam_stats.psi_average_proportional
-   lmpy.statistics.pam_stats.schluter_species_variance_ratio
-   lmpy.statistics.pam_stats.schluter_site_variance_ratio
-   lmpy.statistics.pam_stats.num_sites
-   lmpy.statistics.pam_stats.num_species
-   lmpy.statistics.pam_stats.whittaker
+   lmpy.statistics.pam_stats.c_score
    lmpy.statistics.pam_stats.lande
    lmpy.statistics.pam_stats.legendre
-   lmpy.statistics.pam_stats.c_score
-   lmpy.statistics.pam_stats.sigma_sites
-   lmpy.statistics.pam_stats.sigma_species
    lmpy.statistics.pam_stats.mean_nearest_taxon_distance
    lmpy.statistics.pam_stats.mean_pairwise_distance
-   lmpy.statistics.pam_stats.sum_pairwise_distance
+   lmpy.statistics.pam_stats.num_sites
+   lmpy.statistics.pam_stats.num_species
+   lmpy.statistics.pam_stats.omega
+   lmpy.statistics.pam_stats.omega_proportional
    lmpy.statistics.pam_stats.pearson_correlation
+   lmpy.statistics.pam_stats.phi
+   lmpy.statistics.pam_stats.phi_average_proportional
    lmpy.statistics.pam_stats.phylogenetic_diversity
-
-
-
-.. class:: PamStatsMetric(func)
-
-
-   Constructor.
-
-   :param func: The function to call.
-
-   .. method:: __call__(self, *args, **kwargs)
-
-      Call the wrapped function.
-
-      :param \*args: Positional arguments passed to the function.
-      :param \*\*kwargs: Keyword arguments passed to the function.
-
-      :returns: The output of the wrapped function.
-      :rtype: object
+   lmpy.statistics.pam_stats.psi
+   lmpy.statistics.pam_stats.psi_average_proportional
+   lmpy.statistics.pam_stats.schluter_site_variance_ratio
+   lmpy.statistics.pam_stats.schluter_species_variance_ratio
+   lmpy.statistics.pam_stats.sigma_sites
+   lmpy.statistics.pam_stats.sigma_species
+   lmpy.statistics.pam_stats.sum_pairwise_distance
+   lmpy.statistics.pam_stats.whittaker
 
 
 
@@ -99,26 +80,6 @@ Functions
    :param func: The function to call.
 
 
-.. class:: SpeciesMatrixMetric(func)
-
-
-   Bases: :py:obj:`_SpeciesStatMetric`
-
-   Constructor.
-
-   :param func: The function to call.
-
-
-.. class:: SiteMatrixMetric(func)
-
-
-   Bases: :py:obj:`_SiteStatMetric`
-
-   Constructor.
-
-   :param func: The function to call.
-
-
 .. class:: PamDistMatrixMetric(func)
 
 
@@ -127,296 +88,6 @@ Functions
    Constructor.
 
    :param func: The function to call.
-
-
-.. class:: TreeMetric(func)
-
-
-   Bases: :py:obj:`_SiteStatMetric`
-
-   Constructor.
-
-   :param func: The function to call.
-
-
-.. class:: TreeDistanceMatrixMetric(func)
-
-
-   Bases: :py:obj:`_SiteStatMetric`
-
-   Constructor.
-
-   :param func: The function to call.
-
-
-.. function:: alpha(pam)
-
-   Calculate alpha diversity, the number of species in each site.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: A column of alpha diversity values for each site in the PAM.
-   :rtype: Matrix
-
-
-.. function:: alpha_proportional(pam)
-
-   Calculate proportional alpha diversity.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns:
-
-             A column of proportional alpha diversity values for each site in the
-                 PAM.
-   :rtype: Matrix
-
-
-.. function:: phi(pam)
-
-   Calculate phi, the range size per site.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns:
-
-             A column of the sum of the range sizes for the species present at each
-                 site in the PAM.
-   :rtype: Matrix
-
-
-.. function:: phi_average_proportional(pam)
-
-   Calculate proportional range size per site.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns:
-
-             A column of the proportional value of the sum of the range sizes for
-                 the species present at each site in the PAM.
-   :rtype: Matrix
-
-
-.. function:: omega(pam)
-
-   Calculate the range size per species.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: A row of range sizes for each species in the PAM.
-   :rtype: Matrix
-
-
-.. function:: omega_proportional(pam)
-
-   Calculate the mean proportional range size of each species.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: A row of the proportional range sizes for each species in the PAM.
-   :rtype: Matrix
-
-
-.. function:: psi(pam)
-
-   Calculate the range richness of each species.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: A row of range richness for the sites that each species is present in.
-   :rtype: Matrix
-
-
-.. function:: psi_average_proportional(pam)
-
-   Calculate the mean proportional species diversity.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns:
-
-             A row of proportional range richness for the sites that each species in
-                 the PAM is present.
-   :rtype: Matrix
-
-
-.. function:: schluter_species_variance_ratio(pam)
-
-   Calculate Schluter's species variance ratio.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: The Schluter species variance ratio for the PAM.
-   :rtype: float
-
-
-.. function:: schluter_site_variance_ratio(pam)
-
-   Calculate Schluter's site variance ratio.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: The Schluter site variance ratio for the PAM.
-   :rtype: float
-
-
-.. function:: num_sites(pam)
-
-   Get the number of sites with presences.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: The number of sites that have present species.
-   :rtype: int
-
-
-.. function:: num_species(pam)
-
-   Get the number of species with presences.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: The number of species that are present in at least one site.
-   :rtype: int
-
-
-.. function:: whittaker(pam)
-
-   Calculate Whittaker's beta diversity metric for a PAM.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: Whittaker's beta diversity for the PAM.
-   :rtype: float
-
-
-.. function:: lande(pam)
-
-   Calculate Lande's beta diversity metric for a PAM.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: Lande's beta diversity for the PAM.
-   :rtype: float
-
-
-.. function:: legendre(pam)
-
-   Calculate Legendre's beta diversity metric for a PAM.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: Legendre's beta diversity for the PAM.
-   :rtype: float
-
-
-.. function:: c_score(pam)
-
-   Calculate the checker board score for the PAM.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: The checkerboard score for the PAM.
-   :rtype: float
-
-
-.. function:: sigma_sites(pam)
-
-   Compute the site sigma metric for a PAM.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: Matrix of covariance of composition of sites.
-   :rtype: Matrix
-
-
-.. function:: sigma_species(pam)
-
-   Compute the species sigma metric for a PAM.
-
-   :param pam: The presence-absence matrix to use for the computation.
-   :type pam: Matrix
-
-   :returns: Matrix of covariance of composition of species.
-   :rtype: Matrix
-
-
-.. function:: mean_nearest_taxon_distance(phylo_dist_mtx)
-
-   Calculates the nearest neighbor distance.
-
-   :param phylo_dist_mtx: A matrix of distances between the species present at a
-                          site.
-   :type phylo_dist_mtx: Matrix
-
-   :returns: The average distance from each taxa to taxa nearest to it.
-   :rtype: float
-
-
-.. function:: mean_pairwise_distance(phylo_dist_mtx)
-
-   Calculates mean pairwise distance between species present at a site.
-
-   :param phylo_dist_mtx: A matrix of distances between the species present at a
-                          site.
-   :type phylo_dist_mtx: Matrix
-
-   :returns: The average distance from each taxa all of the other co-located taxa.
-   :rtype: float
-
-
-.. function:: sum_pairwise_distance(phylo_dist_mtx)
-
-   Calculates the sum pairwise distance for all species present at a site.
-
-   :param phylo_dist_mtx: A matrix of distances between the species present at a
-                          site.
-   :type phylo_dist_mtx: Matrix
-
-   :returns: The total distance from each taxa all of the other co-located taxa.
-   :rtype: float
-
-
-.. function:: pearson_correlation(pam, phylo_dist_mtx)
-
-   Calculates the Pearson correlation coefficient for each site.
-
-   :param pam: A presence-absence matrix to use for the computation.
-   :type pam: Matrix
-   :param phylo_dist_mtx: A matrix of distance between species.
-   :type phylo_dist_mtx: Matrix
-
-   :returns: A column of Pearson correlation values for each site in a PAM.
-   :rtype: Matrix
-
-
-.. function:: phylogenetic_diversity(tree)
-
-   Calculate phylogenetic diversity of a tree.
-
-   :param tree: A phylogenetic tree to compute phylogenetic diversity for.
-   :type tree: TreeWrapper
-
-   :returns: The sum of the edge lengths of the nodes of the provided tree.
-   :rtype: float
 
 
 .. class:: PamStats(pam, tree=None)
@@ -444,7 +115,7 @@ Functions
 
       
 
-   .. attribute:: site_tree_stats
+   .. attribute:: site_pam_dist_mtx_stats
       :annotation: = [None]
 
       
@@ -454,7 +125,7 @@ Functions
 
       
 
-   .. attribute:: site_pam_dist_mtx_stats
+   .. attribute:: site_tree_stats
       :annotation: = [None]
 
       
@@ -507,5 +178,334 @@ Functions
 
       :raises TypeError: Raised if the metric function type cannot be processed.
 
+
+
+.. class:: PamStatsMetric(func)
+
+
+   Constructor.
+
+   :param func: The function to call.
+
+   .. method:: __call__(self, *args, **kwargs)
+
+      Call the wrapped function.
+
+      :param \*args: Positional arguments passed to the function.
+      :param \*\*kwargs: Keyword arguments passed to the function.
+
+      :returns: The output of the wrapped function.
+      :rtype: object
+
+
+
+.. class:: SiteMatrixMetric(func)
+
+
+   Bases: :py:obj:`_SiteStatMetric`
+
+   Constructor.
+
+   :param func: The function to call.
+
+
+.. class:: SpeciesMatrixMetric(func)
+
+
+   Bases: :py:obj:`_SpeciesStatMetric`
+
+   Constructor.
+
+   :param func: The function to call.
+
+
+.. class:: TreeDistanceMatrixMetric(func)
+
+
+   Bases: :py:obj:`_SiteStatMetric`
+
+   Constructor.
+
+   :param func: The function to call.
+
+
+.. class:: TreeMetric(func)
+
+
+   Bases: :py:obj:`_SiteStatMetric`
+
+   Constructor.
+
+   :param func: The function to call.
+
+
+.. function:: alpha(pam)
+
+   Calculate alpha diversity, the number of species in each site.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: A column of alpha diversity values for each site in the PAM.
+   :rtype: Matrix
+
+
+.. function:: alpha_proportional(pam)
+
+   Calculate proportional alpha diversity.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns:
+
+             A column of proportional alpha diversity values for each site in the
+                 PAM.
+   :rtype: Matrix
+
+
+.. function:: c_score(pam)
+
+   Calculate the checker board score for the PAM.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: The checkerboard score for the PAM.
+   :rtype: float
+
+
+.. function:: lande(pam)
+
+   Calculate Lande's beta diversity metric for a PAM.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: Lande's beta diversity for the PAM.
+   :rtype: float
+
+
+.. function:: legendre(pam)
+
+   Calculate Legendre's beta diversity metric for a PAM.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: Legendre's beta diversity for the PAM.
+   :rtype: float
+
+
+.. function:: mean_nearest_taxon_distance(phylo_dist_mtx)
+
+   Calculates the nearest neighbor distance.
+
+   :param phylo_dist_mtx: A matrix of distances between the species present at a
+                          site.
+   :type phylo_dist_mtx: Matrix
+
+   :returns: The average distance from each taxa to taxa nearest to it.
+   :rtype: float
+
+
+.. function:: mean_pairwise_distance(phylo_dist_mtx)
+
+   Calculates mean pairwise distance between species present at a site.
+
+   :param phylo_dist_mtx: A matrix of distances between the species present at a
+                          site.
+   :type phylo_dist_mtx: Matrix
+
+   :returns: The average distance from each taxa all of the other co-located taxa.
+   :rtype: float
+
+
+.. function:: num_sites(pam)
+
+   Get the number of sites with presences.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: The number of sites that have present species.
+   :rtype: int
+
+
+.. function:: num_species(pam)
+
+   Get the number of species with presences.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: The number of species that are present in at least one site.
+   :rtype: int
+
+
+.. function:: omega(pam)
+
+   Calculate the range size per species.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: A row of range sizes for each species in the PAM.
+   :rtype: Matrix
+
+
+.. function:: omega_proportional(pam)
+
+   Calculate the mean proportional range size of each species.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: A row of the proportional range sizes for each species in the PAM.
+   :rtype: Matrix
+
+
+.. function:: pearson_correlation(pam, phylo_dist_mtx)
+
+   Calculates the Pearson correlation coefficient for each site.
+
+   :param pam: A presence-absence matrix to use for the computation.
+   :type pam: Matrix
+   :param phylo_dist_mtx: A matrix of distance between species.
+   :type phylo_dist_mtx: Matrix
+
+   :returns: A column of Pearson correlation values for each site in a PAM.
+   :rtype: Matrix
+
+
+.. function:: phi(pam)
+
+   Calculate phi, the range size per site.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns:
+
+             A column of the sum of the range sizes for the species present at each
+                 site in the PAM.
+   :rtype: Matrix
+
+
+.. function:: phi_average_proportional(pam)
+
+   Calculate proportional range size per site.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns:
+
+             A column of the proportional value of the sum of the range sizes for
+                 the species present at each site in the PAM.
+   :rtype: Matrix
+
+
+.. function:: phylogenetic_diversity(tree)
+
+   Calculate phylogenetic diversity of a tree.
+
+   :param tree: A phylogenetic tree to compute phylogenetic diversity for.
+   :type tree: TreeWrapper
+
+   :returns: The sum of the edge lengths of the nodes of the provided tree.
+   :rtype: float
+
+
+.. function:: psi(pam)
+
+   Calculate the range richness of each species.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: A row of range richness for the sites that each species is present in.
+   :rtype: Matrix
+
+
+.. function:: psi_average_proportional(pam)
+
+   Calculate the mean proportional species diversity.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns:
+
+             A row of proportional range richness for the sites that each species in
+                 the PAM is present.
+   :rtype: Matrix
+
+
+.. function:: schluter_site_variance_ratio(pam)
+
+   Calculate Schluter's site variance ratio.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: The Schluter site variance ratio for the PAM.
+   :rtype: float
+
+
+.. function:: schluter_species_variance_ratio(pam)
+
+   Calculate Schluter's species variance ratio.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: The Schluter species variance ratio for the PAM.
+   :rtype: float
+
+
+.. function:: sigma_sites(pam)
+
+   Compute the site sigma metric for a PAM.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: Matrix of covariance of composition of sites.
+   :rtype: Matrix
+
+
+.. function:: sigma_species(pam)
+
+   Compute the species sigma metric for a PAM.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: Matrix of covariance of composition of species.
+   :rtype: Matrix
+
+
+.. function:: sum_pairwise_distance(phylo_dist_mtx)
+
+   Calculates the sum pairwise distance for all species present at a site.
+
+   :param phylo_dist_mtx: A matrix of distances between the species present at a
+                          site.
+   :type phylo_dist_mtx: Matrix
+
+   :returns: The total distance from each taxa all of the other co-located taxa.
+   :rtype: float
+
+
+.. function:: whittaker(pam)
+
+   Calculate Whittaker's beta diversity metric for a PAM.
+
+   :param pam: The presence-absence matrix to use for the computation.
+   :type pam: Matrix
+
+   :returns: Whittaker's beta diversity for the PAM.
+   :rtype: float
 
 

@@ -19,6 +19,8 @@
 
   
   
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
 
   
   
@@ -181,6 +183,13 @@
 </tr>
 </tbody>
 </table>
+<dl class="py exception">
+<dt class="sig sig-object py" id="lmpy.tree.LmTreeException">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.tree.</span></span><span class="sig-name descname"><span class="pre">LmTreeException</span></span><a class="reference internal" href="../../../_modules/lmpy/tree.html#LmTreeException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.LmTreeException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.tree.PhyloTreeKeys">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.tree.</span></span><span class="sig-name descname"><span class="pre">PhyloTreeKeys</span></span><a class="reference internal" href="../../../_modules/lmpy/tree.html#PhyloTreeKeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.PhyloTreeKeys" title="Permalink to this definition">¶</a></dt>
@@ -219,13 +228,6 @@ taxon.</p>
 <span class="sig-name descname"><span class="pre">SQUID</span></span><em class="property"> <span class="pre">=</span> <span class="pre">squid</span></em><a class="reference internal" href="../../../_modules/lmpy/tree.html#PhyloTreeKeys.SQUID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="lmpy.tree.LmTreeException">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.tree.</span></span><span class="sig-name descname"><span class="pre">LmTreeException</span></span><a class="reference internal" href="../../../_modules/lmpy/tree.html#LmTreeException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.LmTreeException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Exception</span></code></p>
-<p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -361,42 +363,102 @@ that the new <a href="#id17"><span class="problematic" id="id18">|Tree|</span></
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper.from_base_tree">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_base_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper.from_base_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_base_tree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a TreeWrapper object from a base dendropy.Tree.</p>
+<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._annotate_node">
+<span class="sig-name descname"><span class="pre">_annotate_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotation_attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotation_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._annotate_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._annotate_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Annotates a node with the given value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tree</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Tree</span></code>) – A base dendropy tree object to wrap into a
-TreeWrapper.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The newly wrapped tree.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper">TreeWrapper</a></p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – A node to add an annotation to.</p></li>
+<li><p><strong>annotation_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The annotation attribute to add.  If
+None or ‘label’, update the node label.</p></li>
+<li><p><strong>annotation_value</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code>) – The value of the annotation.</p></li>
+<li><p><strong>update</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – If True, update existing attribute.
+Defaults to False.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper.from_filename">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper.from_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_filename" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a TreeWrapper object by loading a file.</p>
+<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._annotation_method">
+<span class="sig-name descname"><span class="pre">_annotation_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_attribute</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._annotation_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._annotation_method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the label attribute as the node label.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – A file path to a tree file that should be loaded.</p>
+<dd class="field-odd"><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The annotation to use as the label for the
+nodes in the tree.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The newly loaded tree.</p>
+<dd class="field-even"><p>A method for retrieving the label for a taxon.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper">TreeWrapper</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>IOError</strong> – Raised if the tree file cannot be loaded based on the file
-extension.</p>
+<dd class="field-odd"><p>Method</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._get_label_method">
+<span class="sig-name descname"><span class="pre">_get_label_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_attribute</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._get_label_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._get_label_method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the function to be used for retrieving labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – An annotation name, ‘label’, or None used to
+determine which method to use to retrieve the label of a node.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Function for labeling nodes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._label_method">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_label_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._label_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._label_method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the label of the node or taxon for the label.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – The node to get the label for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>If the node or the node’s taxon has a label, return it.
+None: If the node and it’s taxon do not have labels.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._label_tree_nodes">
+<span class="sig-name descname"><span class="pre">_label_tree_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._label_tree_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._label_tree_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Private function to do the work when labeling nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – A node to label.</p></li>
+<li><p><strong>i</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – A count of the number of previously labeled nodes.</p></li>
+<li><p><strong>prefix</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – A prefix to use when labeling nodes
+resulting in labels like ‘prefix_0’.  Defaults to None and no prefix.</p></li>
+<li><p><strong>overwrite</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Should node labels be overwritten.
+Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The number of nodes already labeled in the tree.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Recursive.</p></li>
+</ul>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -470,6 +532,45 @@ annotation attribute as the key instead of the label. Defaults to
 <li><p><strong>update</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Defaults to False.  Indicates if existing
 annotations should be updated.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper.from_base_tree">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_base_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper.from_base_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_base_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a TreeWrapper object from a base dendropy.Tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tree</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Tree</span></code>) – A base dendropy tree object to wrap into a
+TreeWrapper.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The newly wrapped tree.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper">TreeWrapper</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper.from_filename">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper.from_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a TreeWrapper object by loading a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – A file path to a tree file that should be loaded.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The newly loaded tree.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper">TreeWrapper</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>IOError</strong> – Raised if the tree file cannot be loaded based on the file
+extension.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -688,105 +789,6 @@ max are equal.  We will say they are equal if they are 99.9%.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>search_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The attribute to look for when
 pruning tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._annotation_method">
-<span class="sig-name descname"><span class="pre">_annotation_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_attribute</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._annotation_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._annotation_method" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use the label attribute as the node label.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The annotation to use as the label for the
-nodes in the tree.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A method for retrieving the label for a taxon.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Method</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._annotate_node">
-<span class="sig-name descname"><span class="pre">_annotate_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotation_attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotation_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._annotate_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._annotate_node" title="Permalink to this definition">¶</a></dt>
-<dd><p>Annotates a node with the given value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – A node to add an annotation to.</p></li>
-<li><p><strong>annotation_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The annotation attribute to add.  If
-None or ‘label’, update the node label.</p></li>
-<li><p><strong>annotation_value</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code>) – The value of the annotation.</p></li>
-<li><p><strong>update</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – If True, update existing attribute.
-Defaults to False.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._get_label_method">
-<span class="sig-name descname"><span class="pre">_get_label_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_attribute</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._get_label_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._get_label_method" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the function to be used for retrieving labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>label_attribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – An annotation name, ‘label’, or None used to
-determine which method to use to retrieve the label of a node.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Function for labeling nodes.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._label_tree_nodes">
-<span class="sig-name descname"><span class="pre">_label_tree_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._label_tree_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._label_tree_nodes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Private function to do the work when labeling nodes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – A node to label.</p></li>
-<li><p><strong>i</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – A count of the number of previously labeled nodes.</p></li>
-<li><p><strong>prefix</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – A prefix to use when labeling nodes
-resulting in labels like ‘prefix_0’.  Defaults to None and no prefix.</p></li>
-<li><p><strong>overwrite</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Should node labels be overwritten.
-Defaults to False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The number of nodes already labeled in the tree.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul class="simple">
-<li><p>Recursive.</p></li>
-</ul>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.tree.TreeWrapper._label_method">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_label_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper._label_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper._label_method" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use the label of the node or taxon for the label.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>node</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code>) – The node to get the label for.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>If the node or the node’s taxon has a label, return it.
-None: If the node and it’s taxon do not have labels.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

@@ -32,6 +32,22 @@ Classes
    :param index_name: A name to use for saving the index to a file.
    :type index_name: str
 
+   .. method:: _point_intersect(pt_x, pt_y, geom)
+      :staticmethod:
+
+      Perform a point intersect.
+
+      :param pt_x: The x coordinate of the point.
+      :type pt_x: numeric
+      :param pt_y: The y coordinate of the point.
+      :type pt_y: numeric
+      :param geom: The geometry to intersect.
+      :type geom: ogr.Geometry
+
+      :returns: Indication if the point is within the geometry.
+      :rtype: bool
+
+
    .. method:: add_feature(self, identifier, geom, att_dict)
 
       Add a feature to the index.
@@ -65,22 +81,6 @@ Classes
 
       :returns: A dictionary of index hits for the search.
       :rtype: dict
-
-
-   .. method:: _point_intersect(pt_x, pt_y, geom)
-      :staticmethod:
-
-      Perform a point intersect.
-
-      :param pt_x: The x coordinate of the point.
-      :type pt_x: numeric
-      :param pt_y: The y coordinate of the point.
-      :type pt_y: numeric
-      :param geom: The geometry to intersect.
-      :type geom: ogr.Geometry
-
-      :returns: Indication if the point is within the geometry.
-      :rtype: bool
 
 
 

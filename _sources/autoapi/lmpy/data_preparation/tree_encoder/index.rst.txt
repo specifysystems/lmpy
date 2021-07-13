@@ -47,45 +47,6 @@ Classes
    :param pam: A PAM matrix object.
    :type pam: Matrix
 
-   .. method:: from_file(cls, tree_file_name, pam_file_name)
-      :classmethod:
-
-      Creates an instance of the PhyloEncoding class from tree and pam.
-
-      :param tree_file_name: The location of the tree.
-      :type tree_file_name: str
-      :param pam_file_name: The location of the PAM.
-      :type pam_file_name: str
-
-      :returns: A new tree encoder instance.
-      :rtype: TreeEncoder
-
-
-   .. method:: encode_phylogeny(self)
-
-      Encode the phylogenetic tree into a matrix.
-
-      .. note::
-
-         P in the literature, a tip (row) by internal node (column) matrix
-             that needs to match the provided PAM.
-
-      .. todo:: Consider providing options for correcting the tree / pam
-
-      :raises EncodingException: Raised if the PAM and tree do not match.
-
-      :returns: An encoding of the phylogenetic tree.
-      :rtype: Matrix
-
-
-   .. method:: validate(self)
-
-      Validates the tree / PAM combination.
-
-      :returns: Boolean indicating if the tree / pam is valid.
-      :rtype: bool
-
-
    .. method:: _build_p_branch_length_values(self, node)
 
       Recurse through the tree to get P matrix values for node / tips.
@@ -248,6 +209,45 @@ Classes
 
       :returns: An encoded phylogeny matrix.
       :rtype: Matrix
+
+
+   .. method:: encode_phylogeny(self)
+
+      Encode the phylogenetic tree into a matrix.
+
+      .. note::
+
+         P in the literature, a tip (row) by internal node (column) matrix
+             that needs to match the provided PAM.
+
+      .. todo:: Consider providing options for correcting the tree / pam
+
+      :raises EncodingException: Raised if the PAM and tree do not match.
+
+      :returns: An encoding of the phylogenetic tree.
+      :rtype: Matrix
+
+
+   .. method:: from_file(cls, tree_file_name, pam_file_name)
+      :classmethod:
+
+      Creates an instance of the PhyloEncoding class from tree and pam.
+
+      :param tree_file_name: The location of the tree.
+      :type tree_file_name: str
+      :param pam_file_name: The location of the PAM.
+      :type pam_file_name: str
+
+      :returns: A new tree encoder instance.
+      :rtype: TreeEncoder
+
+
+   .. method:: validate(self)
+
+      Validates the tree / PAM combination.
+
+      :returns: Boolean indicating if the tree / pam is valid.
+      :rtype: bool
 
 
 
