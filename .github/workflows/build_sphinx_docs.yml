@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
-      #with:
-      #  fetch-depth: 0
-      # Install GDAL
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+    # Install GDAL
     - name: Install GDAL
       run: |
         pip install numpy
@@ -32,6 +32,9 @@ jobs:
       #  path: "requirements-docs.txt"
       run: |
         pip install -r requirements-docs.txt
+    - name: Debugging
+      run: |
+        echo $PYTHONPATH; ls -lah
     - name: Build and Commit
       uses: sphinx-notes/pages@1.0
       with:
