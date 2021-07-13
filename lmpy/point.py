@@ -39,10 +39,11 @@ class Point:
         """Constructor.
 
         Args:
-            species_name (str): The species name for this point.
-            x (float): The value of the x coordinate for this occurrence point.
-            y (float): The value of the y coordinate for this occurrence point.
-            attributes (dict): A dictionary of attributes associated with this point.
+            species_name (:obj:`str`): The species name for this point.
+            x (:obj:`float`): The value of the x coordinate for this occurrence point.
+            y (:obj:`float`): The value of the y coordinate for this occurrence point.
+            attributes (:obj:`dict`): A dictionary of attributes associated with this
+                point.
 
         Raises:
             ValueError: Raised if the species name is omitted.
@@ -66,7 +67,7 @@ class Point:
         """Test if this point equals the other.
 
         Args:
-            other (Point): A different Point object to compare with.
+            other (:obj:`Point`): A different Point object to compare with.
 
         Returns:
             bool: An indication if the two points are equal for the primary attributes.
@@ -79,7 +80,7 @@ class Point:
         """Test if this point is less than the other.
 
         Args:
-            other (Point): A different Point object to compare with.
+            other (:obj:`Point`): A different Point object to compare with.
 
         Returns:
             bool: An indication if this point is less than the other for the primary
@@ -109,7 +110,7 @@ class Point:
         """Get an attribute for the point.
 
         Args:
-            attribute_name (str): The attribute to attempt to retrieve.
+            attribute_name (:obj:`str`): The attribute to attempt to retrieve.
 
         Returns:
             object: The value of the attribute if it exists.
@@ -124,8 +125,8 @@ class Point:
         """Set an attribute for the point.
 
         Args:
-            attribute_name (str): The name of the attribute to set.
-            value (object): The value to set the attribute to.
+            attribute_name (:obj:`str`): The name of the attribute to set.
+            value (:obj:`object`): The value to set the attribute to.
         """
         self.attributes[attribute_name] = value
 
@@ -146,12 +147,16 @@ class PointCsvReader:
         """Constructor for a Point CSV retriever.
 
         Args:
-            filename (str): A file path containing CSV occurrence data.
-            species_field (str): The field name of the column containing species data.
-            x_field (str): The field name of the column containing x coordinates.
-            y_field (str): The field name of the column containing y coordinates.
-            geopoint (str): The field name of the column containing geopoint data.
-            group_field (str): The name of the field to use for grouping points.
+            filename (:obj:`str`): A file path containing CSV occurrence data.
+            species_field (:obj:`str`): The field name of the column containing species
+                data.
+            x_field (:obj:`str`): The field name of the column containing x
+                coordinates.
+            y_field (:obj:`str`): The field name of the column containing y
+                coordinates.
+            geopoint (:obj:`str`): The field name of the column containing geopoint
+                data.
+            group_field (:obj:`str`): The name of the field to use for grouping points.
         """
         self.filename = filename
         self.file = None
@@ -259,10 +264,10 @@ class PointCsvWriter():
         """Constructor for writing points to csv file.
 
         Args:
-            filename (str): A file location to write points to.
-            fields (list): A list of fields to include in the csv headers.
-            **kwargs (dict): Keyword parameters that will be passed to the DictWriter
-                instance from the csv module.
+            filename (:obj:`str`): A file location to write points to.
+            fields (:obj:`list`): A list of fields to include in the csv headers.
+            **kwargs (:obj:`dict`): Keyword parameters that will be passed to the
+                DictWriter instance from the csv module.
         """
         self.filename = filename
         self.file = None
@@ -306,7 +311,7 @@ class PointCsvWriter():
         """Write a Point object to the CSV file.
 
         Args:
-            points (list): A list of points to write.
+            points (:obj:`list` of :obj:`Point`): A list of points to write.
         """
         if isinstance(points, Point):
             points = [points]
@@ -324,9 +329,9 @@ class PointDwcaReader:
         """Constructor for reading Darwin Core Archives.
 
         Args:
-            dwca_filename (str): File location of a DWCA zip file.
-            meta_filename (str): File within the archive containing metadata.  Defaults
-                to DEFAULT_META_FILENAME.
+            dwca_filename (:obj:`str`): File location of a DWCA zip file.
+            meta_filename (:obj:`str`): File within the archive containing metadata.
+                Defaults to DEFAULT_META_FILENAME.
         """
         self.meta_filename = meta_filename
         self.archive_filename = dwca_filename
@@ -346,7 +351,7 @@ class PointDwcaReader:
         """Get the species name from the attribute dictionary.
 
         Args:
-            point_dict (dict): A dictionary of point attributes.
+            point_dict (:obj:`dict`): A dictionary of point attributes.
 
         Returns:
             str: A species name
@@ -358,7 +363,7 @@ class PointDwcaReader:
         """Get the x coordinate value from the attribute dictionary.
 
         Args:
-            point_dict (dict): A dictionary of point attributes.
+            point_dict (:obj:`dict`): A dictionary of point attributes.
 
         Returns:
             numeric: The x coordinate retrieved.
@@ -373,7 +378,7 @@ class PointDwcaReader:
         """Get the y coordinate value from the attribute dictionary.
 
         Args:
-            point_dict (dict): A dictionary of point attributes.
+            point_dict (:obj:`dict`): A dictionary of point attributes.
 
         Returns:
             numeric: The y coordinate retrieved.
@@ -457,7 +462,8 @@ class PointDwcaReader:
         """Process the metadata file contained in the archive.
 
         Args:
-            meta_contents (str): The string contents of the metadata file (meta.xml).
+            meta_contents (:obj:`str`): The string contents of the metadata file
+                (meta.xml).
         """
         root_element = ET.fromstring(meta_contents)
         core_element = root_element.find(CORE_TAG)
@@ -573,7 +579,7 @@ class PointJsonWriter():
         """Constructor for writing JSON points.
 
         Args:
-            filename (str): A file location to write the points to.
+            filename (:obj:`str`): A file location to write the points to.
         """
         self.filename = filename
         self.points = []
@@ -613,7 +619,7 @@ class PointJsonWriter():
         """Add a point to the JSON output.
 
         Args:
-            points (list): A list of point objects to write out.
+            points (:obj:`list` of :obj:`Point`): A list of point objects to write out.
         """
         if isinstance(points, Point):
             points = [points]
@@ -627,14 +633,14 @@ def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=
     """Get a function to process a field for a specimen record.
 
     Args:
-        index (int, optional): The column index of the field value to process.  If
-            none, always return the default.
+        index (:obj:`int`, optional): The column index of the field value to process.
+            If none, always return the default.
         default (number or string, optional): An optional default value (optional if
             index is not None) to return when the value of the field is empty.
-        vocabulary (str, optional): A URI that identifies a vocabulary used for this
-            field's possible values.
-        delimiter (str, optional): An optional delimiter to split the field value
-            with.
+        vocabulary (:obj:`str`, optional): A URI that identifies a vocabulary used for
+            this field's possible values.
+        delimiter (:obj:`str`, optional): An optional delimiter to split the field
+            value with.
 
     Returns:
         Method: A method for getting the value of a field for a specimen row.
@@ -644,7 +650,7 @@ def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=
         """Returns the default value, always.
 
         Args:
-            row (list): A row of data for a specimen.
+            row (:obj:`list`): A row of data for a specimen.
 
         Returns:
             object: Whatever the default value for the field is.
@@ -656,7 +662,7 @@ def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=
         """Returns a list of value for the field.
 
         Args:
-            row (list): A row of data for a specimen.
+            row (:obj:`list`): A row of data for a specimen.
 
         Returns:
             list: A list of values generated by splitting the row index.
@@ -673,7 +679,7 @@ def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=
         """Returns a value for the field.
 
         Args:
-            row (list): A row of data for a specimen.
+            row (:obj:`list`): A row of data for a specimen.
 
         Returns:
             object: Whatever value is retrieved from the field.
@@ -698,7 +704,7 @@ def none_getter(obj):
     """Return None as a function.
 
     Args:
-        obj (object): Any object.
+        obj (:obj:`object`): Any object.
 
     Returns:
         None: Always returns None.
