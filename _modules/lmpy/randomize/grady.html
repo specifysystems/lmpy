@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.randomize.grady &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">Module documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>lmpy.randomize.grady</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lmpy.randomize.grady</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Randomize PAMs using CJ&#39;s algorithm.</span>
+
+<span class="sd">This module contains functions used to randomize a PAM using CJ&#39;s algorithm.</span>
+<span class="sd">This algorithm can run in a parallel fashion and uses a fill-based approach so</span>
+<span class="sd">as to prevent a bias caused by starting with an initial condition of a</span>
+<span class="sd">populated matrix.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
+
+<span class="c1"># Number of times to look for a match when fixing problems</span>
+<span class="n">SEARCH_THRESHOLD</span> <span class="o">=</span> <span class="mi">100</span>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="fill_shuffle_reshape_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.fill_shuffle_reshape_heuristic">[docs]</a><span class="k">def</span> <span class="nf">fill_shuffle_reshape_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an approximation with the correct number of 1s randomly placed.</span>
+
+<span class="sd">    Creates an array with the total number of ones from the original PAM and</span>
+<span class="sd">    shuffles it then it reshapes it to match the shape of the original PAM.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fill</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">))</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="n">approx</span><span class="p">[:</span><span class="n">fill</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">approx</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="total_fill_percentage_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.total_fill_percentage_heuristic">[docs]</a><span class="k">def</span> <span class="nf">total_fill_percentage_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an approximation using the total fill percentage of the PAM.</span>
+
+<span class="sd">    Creates an approximation using the total matrix fill of the original PAM</span>
+<span class="sd">    as a weight threshold to compare with randomly generated numbers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fill</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">)</span>
+    <span class="n">fill_percentage</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">fill</span> <span class="o">/</span> <span class="n">orig_pam</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+            <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">)</span> <span class="o">&lt;=</span> <span class="n">fill_percentage</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">approx</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="max_col_or_row_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.max_col_or_row_heuristic">[docs]</a><span class="k">def</span> <span class="nf">max_col_or_row_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Weighting method using max weight between row and column.</span>
+
+<span class="sd">    This method returns a matrix of weights where the weight of each cell is</span>
+<span class="sd">    the maximum between the proportions of the row and col</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">row_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">col_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">row_weights</span> <span class="o">=</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">col_weights</span> <span class="o">=</span> <span class="n">col_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">col_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">row_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
+        <span class="n">row_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">col_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
+        <span class="n">col_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">col_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+            <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">)</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">row_weights</span><span class="p">,</span> <span class="n">col_weights</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="min_col_or_row_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.min_col_or_row_heuristic">[docs]</a><span class="k">def</span> <span class="nf">min_col_or_row_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Weighting method using max weight between row and column.</span>
+
+<span class="sd">    This method returns a matrix of weights where the weight of each cell is</span>
+<span class="sd">    the maximum between the proportions of the row and col</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">row_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+    <span class="n">col_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+    <span class="n">row_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
+        <span class="n">row_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">row_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">col_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
+        <span class="n">col_totals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">col_totals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+            <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">)</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">row_weights</span><span class="p">,</span> <span class="n">col_weights</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">single</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="all_zeros_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.all_zeros_heuristic">[docs]</a><span class="k">def</span> <span class="nf">all_zeros_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a two-dimensional approximation composed of all zeros.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="all_ones_heuristic"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.all_ones_heuristic">[docs]</a><span class="k">def</span> <span class="nf">all_ones_heuristic</span><span class="p">(</span><span class="n">orig_pam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a two-dimensional approximation composed of all ones.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        orig_pam (Matrix): The observed PAM to randomize.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: An approximate randomization of the PAM that is uncorrected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">orig_pam</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="grady_randomize"><a class="viewcode-back" href="../../../source/lmpy.randomize.html#lmpy.randomize.grady.grady_randomize">[docs]</a><span class="k">def</span> <span class="nf">grady_randomize</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">approximation_heuristic</span><span class="o">=</span><span class="n">total_fill_percentage_heuristic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Main function for creating a random matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mtx (Matrix): A Matrix object representation of a PAM</span>
+<span class="sd">        approximation_heuristic (function): A function that generates an</span>
+<span class="sd">            approximation of a final randomized matrix.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: A matrix of random presence absence values with the same</span>
+<span class="sd">            marginal totals as the input matrix &#39;mtx&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Step 0. Get marginal totals</span>
+    <span class="c1"># ...........................</span>
+    <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">row_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">col_totals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">))</span>
+    <span class="n">valid_rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
+    <span class="n">valid_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
+
+    <span class="c1"># Step 1. Get Initial random matrix</span>
+    <span class="c1"># ...........................</span>
+    <span class="c1"># Get approximation</span>
+    <span class="n">rand_mtx_data</span> <span class="o">=</span> <span class="n">approximation_heuristic</span><span class="p">(</span><span class="n">mtx</span><span class="p">)</span>
+
+    <span class="c1"># Step 2: Purge over-filled marginals</span>
+    <span class="c1"># ...................................</span>
+    <span class="c1"># For each row / column with more ones than the marginal total, remove</span>
+    <span class="c1">#    extra ones until within limit</span>
+    <span class="n">row_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">row_sums</span> <span class="o">&gt;</span> <span class="n">row_totals</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">row_choices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">change_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row_sums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">row_totals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">rand_mtx_data</span><span class="p">[</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">row_choices</span><span class="p">)[:</span><span class="n">change_count</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">col_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">col_sums</span> <span class="o">&gt;</span> <span class="n">col_totals</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">col_choices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">change_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">col_sums</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">col_totals</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="n">rand_mtx_data</span><span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">col_choices</span><span class="p">)[:</span><span class="n">change_count</span><span class="p">],</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Step 3: Fill</span>
+    <span class="c1"># ...........................</span>
+    <span class="n">problem_rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">problem_cols</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">row_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">col_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">unfilled_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">col_sums</span> <span class="o">&lt;</span> <span class="n">col_totals</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">row_idx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">row_sums</span> <span class="o">&lt;</span> <span class="n">row_totals</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]):</span>
+
+        <span class="n">possible_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">row_idx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">unfilled_cols</span><span class="p">,</span> <span class="n">assume_unique</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">num_to_fill</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row_totals</span><span class="p">[</span><span class="n">row_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">row_sums</span><span class="p">[</span><span class="n">row_idx</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">num_to_fill</span> <span class="o">&gt;</span> <span class="n">possible_cols</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="c1"># Add this row to problem rows because we can&#39;t fill it enough</span>
+            <span class="n">problem_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row_idx</span><span class="p">)</span>
+            <span class="c1"># Just fill what we can</span>
+            <span class="n">num_to_fill</span> <span class="o">=</span> <span class="n">possible_cols</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Fill cells</span>
+        <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">possible_cols</span><span class="p">[:</span><span class="n">num_to_fill</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Add to col_sums</span>
+        <span class="n">col_sums</span><span class="p">[</span><span class="n">possible_cols</span><span class="p">[:</span><span class="n">num_to_fill</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Check if we should remove these columns from the list</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">col_sums</span><span class="p">[</span><span class="n">possible_cols</span><span class="p">[:</span><span class="n">num_to_fill</span><span class="p">]]</span> <span class="o">==</span> <span class="n">col_totals</span><span class="p">[</span>
+                <span class="mi">0</span><span class="p">,</span> <span class="n">possible_cols</span><span class="p">[:</span><span class="n">num_to_fill</span><span class="p">]])[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">unfilled_cols</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">possible_cols</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+
+    <span class="n">problem_cols</span> <span class="o">=</span> <span class="n">unfilled_cols</span>
+
+    <span class="c1"># Step 4: Fix problems</span>
+    <span class="c1"># ...........................</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">problem_rows</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">problem_rows</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">problem_cols</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">valid_cols</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">rand_mtx_data</span><span class="p">[:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">valid_rows</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">num_tries</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">found</span> <span class="ow">and</span> <span class="n">num_tries</span> <span class="o">&lt;</span> <span class="n">SEARCH_THRESHOLD</span><span class="p">:</span>
+            <span class="n">r2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+            <span class="n">c2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+            <span class="n">num_tries</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r2</span><span class="p">,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r2</span><span class="p">,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r2</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="c1"># Can&#39;t fix row easily so randomly move a one</span>
+            <span class="n">prs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[:,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">update_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">prs</span><span class="p">)</span>
+            <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">update_row</span><span class="p">,</span> <span class="n">c2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Should we add update row to problem rows or is it already there?</span>
+            <span class="k">if</span> <span class="n">update_row</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">problem_rows</span><span class="p">:</span>
+                <span class="n">problem_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">update_row</span><span class="p">)</span>
+
+        <span class="n">r_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">:])</span>
+        <span class="n">c_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">[:,</span> <span class="n">c</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">r_sum</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">row_totals</span><span class="p">[</span><span class="n">r</span><span class="p">]):</span>
+            <span class="n">problem_rows</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">c_sum</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">col_totals</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">]):</span>
+            <span class="n">problem_cols</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="n">row_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">rand_mtx_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">())</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;all_ones_heuristic&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;all_zeros_heuristic&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fill_shuffle_reshape_heuristic&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;grady_randomize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;max_col_or_row_heuristic&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;min_col_or_row_heuristic&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;total_fill_percentage_heuristic&#39;</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

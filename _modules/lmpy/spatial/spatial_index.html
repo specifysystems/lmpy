@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.spatial.spatial_index &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">Module documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>lmpy.spatial.spatial_index</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lmpy.spatial.spatial_index</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing a class for working with a spatial index.</span>
+
+<span class="sd">Version 1: Store geometries in memory in table.  Save as wkt.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">ogr</span>
+<span class="kn">import</span> <span class="nn">rtree</span>
+
+
+<span class="c1"># .............................................................................</span>
+<span class="k">def</span> <span class="nf">create_geometry_from_bbox</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a geometry from a bounding box.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        min_x (numeric): The minimum x value for the bounding box.</span>
+<span class="sd">        min_y (numeric): The minimum y value for the bounding box.</span>
+<span class="sd">        max_x (numeric): The maximum x value for the bounding box.</span>
+<span class="sd">        max_y (numeric): The maximum y value for the bounding box.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: A well-known text representation of a bounding box geometry.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wkt</span> <span class="o">=</span> <span class="s1">&#39;POLYGON ((</span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1"> </span><span class="si">{3}</span><span class="s1">, </span><span class="si">{2}</span><span class="s1"> </span><span class="si">{3}</span><span class="s1">, </span><span class="si">{2}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1">))&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
+
+
+<span class="c1"># .............................................................................</span>
+<span class="k">def</span> <span class="nf">quadtree_index</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">min_size</span><span class="p">,</span> <span class="n">depth_left</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Use a quadtree approach to gather spatial index data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geom (ogr.Geometry): A geometry object to index.</span>
+<span class="sd">        bbox (tuple): The bounding box to intersect with the geometry.</span>
+<span class="sd">        min_size (float): The minimum intersection size to count as intersecting.</span>
+<span class="sd">        depth_left (int): The number of divisions left for intersecting smaller</span>
+<span class="sd">            bounding boxes with portions of the geometry.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list of tuple: A list of bounding box, geometry or true tuples used to create a</span>
+<span class="sd">            quadtree index of a geometry.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># min_x, min_y, max_x, max_y = bbox</span>
+    <span class="n">test_geom</span> <span class="o">=</span> <span class="n">create_geometry_from_bbox</span><span class="p">(</span><span class="o">*</span><span class="n">bbox</span><span class="p">)</span>
+    <span class="n">intersection</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">Intersection</span><span class="p">(</span><span class="n">test_geom</span><span class="p">)</span>
+    <span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">intersection</span><span class="o">.</span><span class="n">GetEnvelope</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">min_x</span> <span class="o">==</span> <span class="n">max_x</span> <span class="ow">or</span> <span class="n">min_y</span> <span class="o">==</span> <span class="n">max_y</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="c1"># if intersection.Equals(test_geom):</span>
+    <span class="k">if</span> <span class="n">intersection</span><span class="o">.</span><span class="n">Area</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">min_size</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">intersection</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">intersection</span><span class="o">.</span><span class="n">Area</span><span class="p">()</span> <span class="o">==</span> <span class="n">test_geom</span><span class="o">.</span><span class="n">Area</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">bbox</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">depth_left</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">half_x</span> <span class="o">=</span> <span class="n">min_x</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">half_y</span> <span class="o">=</span> <span class="n">min_y</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="n">quadtree_index</span><span class="p">(</span>
+                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">half_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span>
+                <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="n">quadtree_index</span><span class="p">(</span>
+                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">half_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span>
+                <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="n">quadtree_index</span><span class="p">(</span>
+                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">half_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span>
+                <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="n">quadtree_index</span><span class="p">(</span>
+                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">,</span> <span class="n">half_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span>
+                <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ret</span>
+
+
+<span class="c1"># .............................................................................</span>
+<div class="viewcode-block" id="SpatialIndex"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex">[docs]</a><span class="k">class</span> <span class="nc">SpatialIndex</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;This class provides an index for quickly performing intersects.&quot;&quot;&quot;</span>
+    <span class="c1"># ..........................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for the spatial index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index_name (str): A name to use for saving the index to a file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">rtree</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_att_filename</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geom_filename</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.geom_json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">att_lookup</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_att_filename</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_att_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_file</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">att_lookup</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_geom_filename</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_geom_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_file</span><span class="p">:</span>
+                <span class="n">tmp_geoms</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">wkt</span> <span class="ow">in</span> <span class="n">tmp_geoms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
+                <span class="c1"># self.geom_lookup = json.load(in_file)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_size</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">depth_left</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_geom</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="p">)</span>
+
+    <span class="c1"># ..........................</span>
+<div class="viewcode-block" id="SpatialIndex.add_feature"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex.add_feature">[docs]</a>    <span class="k">def</span> <span class="nf">add_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">geom</span><span class="p">,</span> <span class="n">att_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a feature to the index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            identifier (str): An identifier for this feature in the lookup table.</span>
+<span class="sd">            geom (ogr.Geometry): A geometry to spatially index.</span>
+<span class="sd">            att_dict (dict): A dictionary of attributes to store in the lookup table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">att_lookup</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">identifier</span><span class="p">)]</span> <span class="o">=</span> <span class="n">att_dict</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">geom</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+            <span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">GetEnvelope</span><span class="p">()</span>
+            <span class="n">idx_entries</span> <span class="o">=</span> <span class="n">quadtree_index</span><span class="p">(</span>
+                <span class="n">geom</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">min_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth_left</span><span class="p">)</span>
+            <span class="c1"># print(&#39;{} - Num idx entries: {}&#39;.format(</span>
+            <span class="c1">#     identifier, len(idx_entries)))</span>
+            <span class="k">for</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">idx_geom</span> <span class="ow">in</span> <span class="n">idx_entries</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx_geom</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">and</span> <span class="n">idx_geom</span><span class="p">:</span>
+                    <span class="c1"># Index as entire bbox</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Add geometry to lookup, increment counter</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">next_geom</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_geom</span><span class="p">)]</span> <span class="o">=</span> <span class="n">idx_geom</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">next_geom</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">att_dict</span><span class="p">)</span></div>
+
+    <span class="c1"># ..........................</span>
+<div class="viewcode-block" id="SpatialIndex.close"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Close the index.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+    <span class="c1"># ..........................</span>
+<div class="viewcode-block" id="SpatialIndex.save"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save the index attributes.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_att_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">att_lookup</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_geom_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+            <span class="n">out_geoms</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">out_geoms</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span></div>
+            <span class="c1"># json.dump(self.geom_lookup, out_file)</span>
+
+    <span class="c1"># ..........................</span>
+<div class="viewcode-block" id="SpatialIndex.search"><a class="viewcode-back" href="../../../source/lmpy.spatial.html#lmpy.spatial.spatial_index.SpatialIndex.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Search for x, y and return attributes in lookup if found.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (numeric): The x coordinate to search for.</span>
+<span class="sd">            y (numeric): The y coordinate to search for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary of index hits for the search.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hits</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">objects</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">hit</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_point_intersect</span><span class="p">(</span>
+                        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">object</span><span class="p">)]):</span>
+                    <span class="n">hits</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att_lookup</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">hits</span></div>
+
+    <span class="c1"># ..........................</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_point_intersect</span><span class="p">(</span><span class="n">pt_x</span><span class="p">,</span> <span class="n">pt_y</span><span class="p">,</span> <span class="n">geom</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform a point intersect.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pt_x (numeric): The x coordinate of the point.</span>
+<span class="sd">            pt_y (numeric): The y coordinate of the point.</span>
+<span class="sd">            geom (ogr.Geometry): The geometry to intersect.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Indication if the point is within the geometry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pt_geom</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="s1">&#39;POINT (</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pt_x</span><span class="p">,</span> <span class="n">pt_y</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">pt_geom</span><span class="o">.</span><span class="n">Within</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SpatialIndex&#39;</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,850 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>lmpy.matrix &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Lifemapper lmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">Module documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Lifemapper lmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>lmpy.matrix</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lmpy.matrix</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module that contains a Matrix class that has header information.</span>
+
+<span class="sd">Note:</span>
+<span class="sd">    * Subclassing based on</span>
+<span class="sd">        https://docs.scipy.org/doc/numpy/user/basics.subclassing.html</span>
+
+<span class="sd">Todo:</span>
+<span class="sd">    * Handle multiple rows / columns / etc of headers like:</span>
+<span class="sd">        (PAM x, y, site ids).</span>
+<span class="sd">    * Load should handle compressed and not compressed.</span>
+<span class="sd">    * Watch NEP-0018 for Numpy function overrides (ex. concatenate)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="k">import</span> <span class="n">KeysView</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">HEADERS_KEY</span> <span class="o">=</span> <span class="s1">&#39;headers&#39;</span>
+<span class="n">METADATA_KEY</span> <span class="o">=</span> <span class="s1">&#39;metadata&#39;</span>
+<span class="n">VERSION_KEY</span> <span class="o">=</span> <span class="s1">&#39;version&#39;</span>
+<span class="n">VERSION</span> <span class="o">=</span> <span class="s1">&#39;2.0.2&#39;</span>
+<span class="n">HEADERS_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;headers.json&#39;</span>
+<span class="n">DATA_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;data.npz&#39;</span>
+
+
+<span class="c1"># .............................................................................</span>
+<span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lifemapper wrapper for Numpy ndarrays that adds headers.&quot;&quot;&quot;</span>
+    <span class="c1"># ...........................</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new Matrix object from an existing ndarray.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_array (numpy.ndarray): An existing ndarray</span>
+<span class="sd">            headers (:obj:`dict` or :obj:`list` of :obj:`list` of :obj:`str`):</span>
+<span class="sd">                Optional headers for this matrix.  This may be either a list of</span>
+<span class="sd">                lists, where the index of a list in the lists will be treated</span>
+<span class="sd">                as the axis::</span>
+<span class="sd">                    (ex. [[&#39;Row 1&#39;, &#39;Row 2&#39;, &#39;Row 3&#39;],</span>
+<span class="sd">                          [&#39;Column 1&#39;, &#39;Column 2&#39;]])</span>
+<span class="sd">                Or this could be a dictionary where the key is used for the</span>
+<span class="sd">                axis.  (Ex:</span>
+<span class="sd">                    {</span>
+<span class="sd">                        &#39;1&#39; : [&#39;Column 1&#39;, &#39;Column 2&#39;],</span>
+<span class="sd">                        &#39;0&#39; : [&#39;Row 1&#39;, &#39;Row 2&#39;, &#39;Row 3&#39;]</span>
+<span class="sd">                    }</span>
+<span class="sd">            metadata (:obj:`dict`): Optional metadata about his matrix.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            * Triggers a call to Matrix.__array_finalize__.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: A converted numpy array to Matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># input_array is already formed ndarray instance, cast to our type</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">input_array</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+        <span class="c1"># Set the &#39;headers&#39; attribute to the value passed</span>
+        <span class="k">if</span> <span class="n">headers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="c1"># ...........................</span>
+    <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Overridden function from ndarray.</span>
+
+<span class="sd">        ``self`` is a new object resulting from ndarray.__new__(Matrix, ...),</span>
+<span class="sd">        therefore it only has the attributes that the ndarray.__new__</span>
+<span class="sd">        constructor gave it.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj (Matrix): If the object is a matrix, pull out headers and metadata.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We could have got to the ndarray.__new__ call in 3 ways:</span>
+        <span class="c1"># 1. From an explicit constructor - Matrix():</span>
+        <span class="c1">#    obj is None</span>
+        <span class="c1">#    We&#39;re in the middle of the Matrix.__new__ constructor, and</span>
+        <span class="c1">#        self.headers will be set when we return to Matrix.__new__</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">return</span>
+
+        <span class="c1"># 2. From casting - arr.view(Matrix):</span>
+        <span class="c1">#    obj is arr</span>
+        <span class="c1">#    type(obj) can be Matrix</span>
+        <span class="c1"># 3. From new-from-template - mtx[:3]</span>
+        <span class="c1">#    type(obj) is Matrix</span>
+
+        <span class="c1"># Note: It is is here, rather than the __new__ method, that we set the</span>
+        <span class="c1">#    default value for &#39;headers&#39;, because this method sees all creation</span>
+        <span class="c1">#    of default objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;headers&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.load"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a matrix from a filename.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): File location of matrix to load.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: The matrix read from the file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_file</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load_flo</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.load_csv"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flo</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_header_cols</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attempts to load a Matrix object from a CSV file-like object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            flo (File-like object): A file like object containing csv data.</span>
+<span class="sd">            dtype (:obj:`method`, optional): The data type for the data.  Will</span>
+<span class="sd">                be used to cast data when adding to matrix.</span>
+<span class="sd">            num_header_rows (:obj:`int`, optional): The number of header rows</span>
+<span class="sd">                in the CSV file.</span>
+<span class="sd">            num_header_cols (:obj:`int`, optional): The number of header</span>
+<span class="sd">                columns in the CSV file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: The newly loaded Matrix object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">col_headers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">row_headers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">header_lines</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Leading rows that are headers</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">flo</span><span class="p">:</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="c1"># If header row, add to header rows for processing</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_header_rows</span><span class="p">:</span>
+                <span class="c1"># Add the headers to header lines for processing</span>
+                <span class="n">header_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">num_header_cols</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">num_header_cols</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">row_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="k">elif</span> <span class="n">num_header_cols</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">row_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[:</span><span class="n">num_header_cols</span><span class="p">]])</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">dtype</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[</span><span class="n">num_header_cols</span><span class="p">:]])</span>
+
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Process header columns from header rows</span>
+        <span class="k">if</span> <span class="n">num_header_rows</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">col_headers</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">header_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">elif</span> <span class="n">num_header_rows</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">header_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+                <span class="n">hdr</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">hdr_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_header_rows</span><span class="p">):</span>
+                    <span class="n">hdr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header_lines</span><span class="p">[</span><span class="n">hdr_idx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="n">col_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hdr</span><span class="p">)</span>
+
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">row_headers</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">col_headers</span><span class="p">})</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.load_flo"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.load_flo">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_flo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flo</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attempts to load a Matrix object from a file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            flo (file-like): A file-like object with matrix data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: The newly loaded Matrix object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">flo</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_f</span><span class="p">:</span>
+            <span class="n">my_obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">zip_f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">HEADERS_FILENAME</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">data_bytes</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+            <span class="n">data_bytes</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">zip_f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">DATA_FILENAME</span><span class="p">))</span>
+            <span class="n">data_bytes</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_bytes</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="c1"># data = np.array(tmp[list(tmp.keys())[0]])</span>
+            <span class="n">data_bytes</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">my_obj</span><span class="p">[</span><span class="n">HEADERS_KEY</span><span class="p">])</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.concatenate"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.concatenate">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mtx_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Concatenates multiple Matrix objects together to form a new Matrix.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mtx_list (:obj:`list` of :obj:`Matrix`): A List of Matrix objects</span>
+<span class="sd">                to concatenate together.</span>
+<span class="sd">            axis (int, optional): The axis to concatenate these Matrix objects</span>
+<span class="sd">                on.  This should be an integer for the matrix axis of</span>
+<span class="sd">                concatenation.  This will be converted to a string where needed</span>
+<span class="sd">                for headers.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            * Assumes that headers for other axes are the same.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: The concatenated Matrix objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mtx_objs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">axis_headers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">first_mtx</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">mtx</span> <span class="ow">in</span> <span class="n">mtx_list</span><span class="p">:</span>
+            <span class="c1"># Make sure we reshape if necessary if adding new axis (stacking)</span>
+            <span class="k">if</span> <span class="n">mtx</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;</span> <span class="n">axis</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Add 1 since zero-based</span>
+                <span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">axis</span><span class="p">),</span>
+                    <span class="n">headers</span><span class="o">=</span><span class="n">mtx</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+                <span class="n">mtx</span><span class="o">.</span><span class="n">set_headers</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span>
+            <span class="c1"># Cast mtx to Matrix in case it is not</span>
+            <span class="n">mtx</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">Matrix</span><span class="p">)</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
+            <span class="n">axis_headers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">mtx_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mtx</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">first_mtx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">first_mtx</span> <span class="o">=</span> <span class="n">mtx</span>
+        <span class="c1"># Create a new Matrix, use the first matrix for base headers and</span>
+        <span class="c1">#    metadata</span>
+        <span class="n">new_mtx</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">mtx_objs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">),</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">first_mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(),</span> <span class="n">metadata</span><span class="o">=</span><span class="n">first_mtx</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">())</span>
+        <span class="c1"># Set the headers for the new axis</span>
+        <span class="n">new_mtx</span><span class="o">.</span><span class="n">set_headers</span><span class="p">(</span><span class="n">axis_headers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">new_mtx</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.flatten_2d"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.flatten_2d">[docs]</a>    <span class="k">def</span> <span class="nf">flatten_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Flattens a higher dimension Matrix object into a 2D matrix.</span>
+
+<span class="sd">        Todo:</span>
+<span class="sd">            * Modify this method to take an argument for the number of</span>
+<span class="sd">                dimensions that the matrix should be flattened to.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: A Matrix object flattened to only have two dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">flat_mtx</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">while</span> <span class="n">flat_mtx</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># More than two dimensions so we must flatten</span>
+            <span class="n">old_shape</span> <span class="o">=</span> <span class="n">flat_mtx</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">old_num_rows</span> <span class="o">=</span> <span class="n">old_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">new_shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">old_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">old_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                 <span class="n">old_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">old_shape</span><span class="p">[</span><span class="mi">3</span><span class="p">:]))</span>
+            <span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">new_shape</span><span class="p">))</span>
+
+            <span class="n">old_rh</span> <span class="o">=</span> <span class="n">flat_mtx</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">old_rh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">old_rh</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">new_rh</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Get old headers</span>
+            <span class="n">old_headers</span> <span class="o">=</span> <span class="n">flat_mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">old_headers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">old_headers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">old_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="c1"># Set data and headers</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">old_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="n">oh</span> <span class="o">=</span> <span class="n">old_headers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="c1"># Set data</span>
+                <span class="n">start_row</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">old_num_rows</span>
+                <span class="n">end_row</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">old_num_rows</span>
+                <span class="n">new_mtx</span><span class="p">[</span><span class="n">start_row</span><span class="p">:</span><span class="n">end_row</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">flat_mtx</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span>
+
+                <span class="c1"># Set row headers</span>
+                <span class="k">for</span> <span class="n">rh</span> <span class="ow">in</span> <span class="n">old_rh</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rh</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                        <span class="n">rh</span> <span class="o">=</span> <span class="p">[</span><span class="n">rh</span><span class="p">]</span>
+                    <span class="n">new_rh</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rh</span><span class="o">+</span><span class="p">[</span><span class="n">oh</span><span class="p">])</span>
+
+            <span class="c1"># Set the headers on the new matrix</span>
+            <span class="n">new_mtx</span><span class="o">.</span><span class="n">set_row_headers</span><span class="p">(</span><span class="n">new_rh</span><span class="p">)</span>
+            <span class="n">new_mtx</span><span class="o">.</span><span class="n">set_column_headers</span><span class="p">(</span><span class="n">flat_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">())</span>
+
+            <span class="c1"># Higher order headers</span>
+            <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">flat_mtx</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="c1"># Reduce the key of the axis by one and set headers on</span>
+                    <span class="c1">#   new matrix</span>
+                    <span class="n">new_mtx</span><span class="o">.</span><span class="n">set_headers</span><span class="p">(</span>
+                        <span class="n">flat_mtx</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">),</span>
+                        <span class="n">axis</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+            <span class="n">flat_mtx</span> <span class="o">=</span> <span class="n">new_mtx</span>
+
+        <span class="k">return</span> <span class="n">flat_mtx</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.get_column_headers"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.get_column_headers">[docs]</a>    <span class="k">def</span> <span class="nf">get_column_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shortcut to get column headers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of headers for each column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.get_headers"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.get_headers">[docs]</a>    <span class="k">def</span> <span class="nf">get_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the headers associated with this Matrix.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis (:obj:`int`, optional): If provided, return headers for this</span>
+<span class="sd">                axis, else, return all.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            If axis is None, a dictionary of all headers for the matrix.</span>
+<span class="sd">            If axis is int, A list of headers for the specified axis.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
+
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)]</span>
+
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">return</span> <span class="p">{}</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.get_metadata"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.get_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves matrix metadata.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary of metadata for the matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.get_row_headers"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.get_row_headers">[docs]</a>    <span class="k">def</span> <span class="nf">get_row_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shortcut to get row headers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of headers for the rows in the matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.save"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flo</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves the Matrix to a file-like object.</span>
+
+<span class="sd">        Saves the Matrix object in a JSON / Numpy zip file to the file-like</span>
+<span class="sd">        object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            flo (file-like): The file-like object to write to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">my_obj</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">my_obj</span><span class="p">[</span><span class="n">HEADERS_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
+        <span class="n">my_obj</span><span class="p">[</span><span class="n">METADATA_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span>
+        <span class="n">my_obj</span><span class="p">[</span><span class="n">VERSION_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">VERSION</span>
+
+        <span class="n">np_bytes</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="n">np_bytes</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">np_bytes</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">zip_np_str</span> <span class="o">=</span> <span class="n">np_bytes</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+        <span class="n">np_bytes</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span>
+            <span class="n">flo</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">,</span>
+                <span class="n">allowZip64</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_f</span><span class="p">:</span>
+
+            <span class="n">zip_f</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">HEADERS_FILENAME</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">my_obj</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+            <span class="n">zip_f</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">DATA_FILENAME</span><span class="p">,</span> <span class="n">zip_np_str</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.set_column_headers"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.set_column_headers">[docs]</a>    <span class="k">def</span> <span class="nf">set_column_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shortcut to set column headers.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            headers (:obj:`list` of :obj:`str`): A list of new column headers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_headers</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.set_headers"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.set_headers">[docs]</a>    <span class="k">def</span> <span class="nf">set_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the headers for this Matrix.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            headers (dict or list of list or list): Matrix headers.  Can be a list of</span>
+<span class="sd">                lists, a dictionary of lists, or if axis is provided, a single list.</span>
+<span class="sd">            axis (int): If provided, set the headers for a specific axis, else, process</span>
+<span class="sd">                as if it is for the entire Matrix.</span>
+
+<span class="sd">        Todo:</span>
+<span class="sd">            Validate input for single axis operation?</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Resets headers dictionary when setting values for all headers.</span>
+<span class="sd">            Duck types to use list of lists or dictionary to set values for different</span>
+<span class="sd">                axes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">KeysView</span><span class="p">):</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)]</span> <span class="o">=</span> <span class="n">headers</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">headers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span> <span class="o">=</span> <span class="n">headers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.set_row_headers"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.set_row_headers">[docs]</a>    <span class="k">def</span> <span class="nf">set_row_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shortcut to set row headers.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            headers (:obj:`list` of :obj:`str`): A list of new row headers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_headers</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.slice"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Subsets the matrix and returns a new instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: A variable length argument list of iterables for the indices</span>
+<span class="sd">                to retrieve for each axis.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            * The first parameter will be for axis 0, second for axis 1, etc.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: A new Matrix that is a subset of the original specified by</span>
+<span class="sd">                the slicing parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">new_headers</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="c1"># For each arg in the list</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)):</span>
+            <span class="c1"># Subset the data matrix</span>
+            <span class="n">new_data</span> <span class="o">=</span> <span class="n">new_data</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+            <span class="c1"># Subset the headers</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">in</span> <span class="n">new_headers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_headers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)][</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">new_headers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">new_headers</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.slice_by_header"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.slice_by_header">[docs]</a>    <span class="k">def</span> <span class="nf">slice_by_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets a slice of the Matrix matching the header provided.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            header (str): The name of a header to use for slicing</span>
+<span class="sd">            axis (int): The axis to find this header.</span>
+
+<span class="sd">        Todo:</span>
+<span class="sd">            Add capability to slice over multiple axes and multiple headers.</span>
+<span class="sd">                Maybe combine with other slice method and provide method to</span>
+<span class="sd">                search for header indices.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: A subset of the original Matrix specified by the header.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">new_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span>
+
+        <span class="c1"># Need to reshape the result.  Take the existing shape and change the</span>
+        <span class="c1">#    query axis to 1</span>
+        <span class="n">new_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">new_shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">new_data</span> <span class="o">=</span> <span class="n">new_data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">new_shape</span><span class="p">)</span>
+
+        <span class="c1"># Copy the headers and set the header for the axis to just be the</span>
+        <span class="c1">#    search header</span>
+        <span class="n">new_headers</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">new_headers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span>
+
+        <span class="c1"># Return a new Matrix</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">new_headers</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the transpose of the matrix.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: The matrix transpose.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.transpose"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.transpose">[docs]</a>    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">axes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transposes the Matrix.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axes (None, tuple of ints, n ints): The order of the axes in the</span>
+<span class="sd">                transposition. see: ndarray.transpose</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: A transposed version of the original matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">*</span><span class="n">axes</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dim_order</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">dim_order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dim_order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+        <span class="c1"># Set headers</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">old_dim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dim_order</span><span class="p">):</span>
+            <span class="n">old_dim</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_dim</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">old_dim</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">new_mtx</span><span class="o">.</span><span class="n">set_headers</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">old_dim</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">new_mtx</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.write"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write the matrix to the specified file location.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): The file location to save to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span></div>
+
+    <span class="c1"># ...........................</span>
+<div class="viewcode-block" id="Matrix.write_csv"><a class="viewcode-back" href="../../source/lmpy.html#lmpy.matrix.Matrix.write_csv">[docs]</a>    <span class="k">def</span> <span class="nf">write_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flo</span><span class="p">,</span> <span class="o">*</span><span class="n">slice_args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Writes the Matrix object to a CSV file-like object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            flo (file-like): The file-like object to write to.</span>
+<span class="sd">            *slice_args: A variable length argument list of iterables to use</span>
+<span class="sd">                for a slice operation prior to generating CSV content.</span>
+
+<span class="sd">        Todo:</span>
+<span class="sd">            Handle header overlap (where the header for one axis is for another</span>
+<span class="sd">                axis header.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Currently only works for 2-D tables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">slice_args</span><span class="p">):</span>
+            <span class="n">mtx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="o">*</span><span class="n">slice_args</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mtx</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="k">if</span> <span class="n">mtx</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">mtx</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">flatten_2d</span><span class="p">()</span>
+
+        <span class="c1"># .....................</span>
+        <span class="c1"># Inner functions</span>
+
+        <span class="c1"># .....................</span>
+        <span class="k">def</span> <span class="nf">already_lists</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Use this function for processing headers when they are lists.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                x (list): A list value to return.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                list: A list of data.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">x</span>
+
+        <span class="c1"># .....................</span>
+        <span class="k">def</span> <span class="nf">make_lists</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Use this function for processing non-list headers.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                x (object): A non-list value to modify.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                list: A list of data.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+        <span class="c1"># .....................</span>
+        <span class="k">def</span> <span class="nf">csv_generator</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;Generator that yields rows of values to be output as CSV.</span>
+
+<span class="sd">            Yields:</span>
+<span class="sd">                list: A list of data for a row.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">row_headers</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                <span class="c1"># No row headers</span>
+                <span class="n">row_headers</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">listify</span> <span class="o">=</span> <span class="n">already_lists</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">listify</span> <span class="o">=</span> <span class="n">make_lists</span>
+
+            <span class="c1"># Start with the header row, if we have one</span>
+            <span class="k">if</span> <span class="s1">&#39;1&#39;</span> <span class="ow">in</span> <span class="n">mtx</span><span class="o">.</span><span class="n">headers</span> <span class="ow">and</span> <span class="n">mtx</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">]:</span>
+                <span class="c1"># Make column headers lists of lists</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mtx</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                    <span class="n">header_row</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span>
+                        <span class="n">listify</span><span class="p">(</span><span class="n">row_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">row_headers</span> <span class="k">else</span> <span class="p">[])</span>
+                    <span class="n">header_row</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">mtx</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">])</span>
+                    <span class="k">yield</span> <span class="n">header_row</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mtx</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])):</span>
+                        <span class="n">header_row</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span>
+                            <span class="n">listify</span><span class="p">(</span><span class="n">row_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">row_headers</span> <span class="k">else</span> <span class="p">[])</span>
+                        <span class="n">header_row</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">mtx</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                                <span class="nb">len</span><span class="p">(</span><span class="n">mtx</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">]))])</span>
+                        <span class="k">yield</span> <span class="n">header_row</span>
+            <span class="c1"># For each row in the data set</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="c1"># Add the row headers if exists</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">listify</span><span class="p">(</span><span class="n">row_headers</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="c1"># Get the data from the data array</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">mtx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+                <span class="k">yield</span> <span class="n">row</span>
+
+        <span class="c1"># .....................</span>
+        <span class="c1"># Main write_csv function</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">csv_generator</span><span class="p">():</span>
+            <span class="n">flo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])))</span></div>
+
+
+<span class="c1"># .............................................................................</span>
+<span class="c1"># Set the module for Matrix to be lmpy</span>
+<span class="n">Matrix</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="s1">&#39;lmpy&#39;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Matrix&#39;</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Lifemapper Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
