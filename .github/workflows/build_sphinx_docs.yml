@@ -34,7 +34,7 @@ jobs:
         pip install -r requirements-docs.txt
     - name: Debugging
       run: |
-        export PYTHONPATH=lmpy; echo $PYTHONPATH; ls -lah
+        export PYTHONPATH=lmpy; echo $PYTHONPATH; ls -lah lmpy/
     - name: Build and Commit
       uses: sphinx-notes/pages@1.0
       with:
