@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Matrix Objects &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
+  <title>Data Cleaning &mdash; Lifemapper lmpy 3.0.0b1 documentation</title>
   
 
   
@@ -40,9 +40,7 @@
 
     
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Occurrence Filters" href="occurrence_filters.html" />
-    <link rel="prev" title="Layer Encoder" href="layer_encoder.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,51 +86,9 @@
             
             
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="build_grid.html">Build Shapegrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="layer_encoder.html">Layer Encoder</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Matrix Objects</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#creating-matrix-instances">Creating Matrix Instances</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#from-an-existing-numpy-ndarray">From an existing NumPy ndarray</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#reading-a-csv-file">Reading a CSV file</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#reading-a-saved-matrix">Reading a saved Matrix</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#concatenating-existing-matrix-objects">Concatenating existing Matrix objects</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#slicing-by-array-indices">Slicing by array indices</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#slicing-by-headers">Slicing by headers</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#writing-matrix-objects">Writing Matrix objects</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#saving-to-the-file-system">Saving to the file system</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#writing-to-a-csv-file">Writing to a CSV file</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#header-management">Header management</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#on-instantiation">On instantiation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#setting-headers">Setting headers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#getting-headers">Getting headers</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#metadata-management">Metadata management</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id2">On instantiation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#setting-metadata">Setting metadata</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#getting-metadata">Getting metadata</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html">Delimited to Points</a></li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#json-to-points">JSON to Points</a></li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html#convert-coordinate-systems">Convert Coordinate Systems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pam_statistics.html">PAM Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_stats.html">Running Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tree.html">TreeWrapper Objects</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../source/modules.html">Module documentation</a></li>
@@ -184,15 +140,13 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="tutorial.html">Tutorials</a> &raquo;</li>
-        
-      <li>Matrix Objects</li>
+      <li>Data Cleaning</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorial/matrix.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorial/data_cleaning.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -205,25 +159,82 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="matrix-objects">
-<h1>Matrix Objects<a class="headerlink" href="#matrix-objects" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="data-cleaning">
+<h1>Data Cleaning<a class="headerlink" href="#data-cleaning" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>We have found that, while easy to use and an efficient data structure, NumPy
-arrays do not really support metadata.  We had dealt with this in the past by
-passing a secondary data structure with metadata along with the array but we
-found that it was too easy for that metadata to get lost, out of date, or just
-ignored.  In response, we have sub-classed Numpy ndarray to create ‘Matrix’
-objects that extend the base functionality provided by ndarrays to include
-metadata and headers for the arrays without the needing a secondary data
-structure.  Additionally, we provide some convenience functions for
-manipulating these arrays as well as their metadata and headers so that they
-are more useful for our needs.  This additional functionality may be useful for
-you as well, so we have included it in the lmpy repository.  Note that if you
-are developing an extension for the
-<a class="reference external" href="https://github.com/biotaphy/BiotaPhyPy">BiotaPhy Python Repository</a>, you
-should utilize this class as arrays within a Lifemapper cluster use these
-Matrix objects.</p>
+<p>One of the first steps in creating species distribution models, let alone multi-species
+analyses, is acquiring and preparing specimen occurrence records.  There are multiple
+method for acquiring these raw specimen records such as aggregator downloads or API
+calls but once you have the raw data, you need to assemble your entire dataset, which
+involves converting records to a common format, grouping, and cleaning.  The lmpy
+library provides tools for performing these aggregation and cleaning steps to greatly
+simplify the process for the user.</p>
+</div>
+<div class="section" id="reading-data-files">
+<h2>Reading Data Files<a class="headerlink" href="#reading-data-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read-a-csv-file">
+<h3>Read a CSV File<a class="headerlink" href="#read-a-csv-file" title="Permalink to this headline">¶</a></h3>
+<p>Read a CSV file that has fields “decimalLongitude” and “decimalLatitude” for x and y
+and “speciesName” for the species binomial.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reader</span> <span class="o">=</span> <span class="n">PointCsvReader</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="s1">&#39;speciesName&#39;</span><span class="p">,</span> <span class="s1">&#39;decimalLongitude&#39;</span><span class="p">,</span> <span class="s1">&#39;decimalLatitude&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-a-darwin-core-archive-file">
+<h3>Read a Darwin Core Archive File<a class="headerlink" href="#read-a-darwin-core-archive-file" title="Permalink to this headline">¶</a></h3>
+<p>Read a Darwin Core Archive file.  The file is assumed to be valid and metadata will
+be pulled from the ‘meta.xml’ file contained within the zip file.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reader</span> <span class="o">=</span> <span class="n">PointDwcaReader</span><span class="p">(</span><span class="n">dwca_filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="filtering-records">
+<h2>Filtering Records<a class="headerlink" href="#filtering-records" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="built-in-filters">
+<h3>Built-in Filters<a class="headerlink" href="#built-in-filters" title="Permalink to this headline">¶</a></h3>
+<p>Filter a list of Point objects so that those with less than four (4) decimal places
+of precision are removed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Species A&#39;</span><span class="p">,</span> <span class="mf">10.3</span><span class="p">,</span> <span class="mf">23.1</span><span class="p">),</span>
+<span class="gp">... </span>   <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Species B&#39;</span><span class="p">,</span> <span class="mf">11.34123</span><span class="p">,</span> <span class="mf">12.2314</span><span class="p">),</span>
+<span class="gp">... </span>   <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Species C&#39;</span><span class="p">,</span> <span class="mf">13.23131</span><span class="p">,</span> <span class="mf">18.3123</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">precision_filter</span> <span class="o">=</span> <span class="n">get_decimal_precision_filter</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">flt_points</span> <span class="o">=</span> <span class="n">precision_filter</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">flt_points</span><span class="p">)</span>
+<span class="go">[Point(&#39;Species B&#39;, 11.34123, 12.2314), Point(&#39;Species C&#39;, 13.23131, 18.3123)]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-filters">
+<h3>Custom Filters<a class="headerlink" href="#custom-filters" title="Permalink to this headline">¶</a></h3>
+<p>Filter a list of points so that those without a species epithet are removed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">genus_filter_func</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">genus_filter</span> <span class="o">=</span> <span class="n">get_occurrence_filter</span><span class="p">(</span><span class="n">genus_filter_func</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Species A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Genus&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Genus&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Species B&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">flt_points</span> <span class="o">=</span> <span class="n">genus_filter</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">flt_points</span><span class="p">)</span>
+<span class="go">[Point(&#39;Species A&#39;, 1, 2), Point(&#39;Species B&#39;, 2, 1)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="modifying-records">
+<h2>Modifying Records<a class="headerlink" href="#modifying-records" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="built-in-modifiers">
+<h3>Built-in Modifiers<a class="headerlink" href="#built-in-modifiers" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="custom-modifiers">
+<h3>Custom Modifiers<a class="headerlink" href="#custom-modifiers" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="putting-it-all-together">
+<h2>Putting It All Together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="aggregate-and-clean-multiple-data-files">
+<h3>Aggregate and Clean Multiple Data Files<a class="headerlink" href="#aggregate-and-clean-multiple-data-files" title="Permalink to this headline">¶</a></h3>
+</div>
 </div>
 <div class="section" id="creating-matrix-instances">
 <h2>Creating Matrix Instances<a class="headerlink" href="#creating-matrix-instances" title="Permalink to this headline">¶</a></h2>
@@ -372,10 +383,6 @@ Matrix objects.</p>
            
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="occurrence_filters.html" class="btn btn-neutral float-right" title="Occurrence Filters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="layer_encoder.html" class="btn btn-neutral float-left" title="Layer Encoder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
 
   <hr/>
 
