@@ -3,12 +3,14 @@ import json
 import os
 from random import triangular
 import tempfile
+import zipfile
 
 import pytest
 
 from lmpy import Point
 from lmpy.point import (
-    none_getter, PointCsvReader, PointCsvWriter, PointJsonWriter)
+    none_getter, PointCsvReader, PointCsvWriter, PointDwcaReader, PointJsonWriter
+)
 
 
 # .............................................................................
@@ -178,6 +180,88 @@ class Test_PointCsvWriter:
                     Point('species', -30, -30)
                 ])
         os.remove(filename)
+
+
+# ............................................................................
+class Test_PointDwcaReader:
+    """Test PointDwcaReader class."""
+    # ..........................
+    def test_aggregator_dwca(self, dwca_filename):
+        """Test that an aggregator DWCA file can be processed correctly.
+
+        Args:
+            dwca_filename (str): A DWCA file to process.
+        """
+        for fn in dwca_filename:
+            with PointDwcaReader(fn) as reader:
+                for points in reader:
+                    for pt in points:
+                        assert isinstance(pt, Point)
+
+    # ..........................
+    def test_constants_dwca(self):
+        """Test that constant fields are added to point attributes."""
+        # Create zip file
+        dwca_filename = tempfile.NamedTemporaryFile(suffix='.zip', delete=False).name
+        constant_field = 'constant_field'
+        constant_value = 'test_default'
+        occ_data = '\n'.join(
+            [
+                'Some species,1,2',
+                'Some species,18,28',
+                'Some species,18,2',
+                'Some species,12,2',
+                'Some species2,1,22',
+                'Some species2,18,23',
+                'Some species2,13,2',
+            ]
+        )
+
+        meta_xml_data = '\n'.join(
+            [
+                '<archive xmlns="http://rs.tdwg.org/dwc/text/">',
+                '<core',
+                ' encoding="utf-8"',
+                ' fieldsTerminatedBy=","',
+                ' linesTerminatedBy="\n"',
+                ' ignoreHeaderLines="1"',
+                ' rowType="http://rs.tdwg.org/dwc/terms/Occurrence">',
+                '<files><location>occurrence.csv</location></files>',
+                '<field index="0"',
+                ' term="http://rs.tdwg.org/dwc/terms/scientificName"/>',
+                '<field index="1"',
+                ' term="http://rs.tdwg.org/dwc/terms/decimalLongitude"/>',
+                '<field index="2"',
+                ' term="http://rs.tdwg.org/dwc/terms/decimalLatitude"/>',
+                '<field term="{}" default="{}"/>'.format(
+                    constant_field,
+                    constant_value
+                ),
+                '</core>',
+                '</archive>'
+            ]
+        )
+
+        with zipfile.ZipFile(
+            dwca_filename,
+            mode='w',
+            compression=zipfile.ZIP_DEFLATED
+        ) as zip_file:
+            zip_file.writestr('occurrence.csv', occ_data)
+            zip_file.writestr('meta.xml', meta_xml_data)
+
+        # Set up reader
+        with PointDwcaReader(dwca_filename) as reader:
+            # For each point
+            for points in reader:
+                # Check that all records are points
+                for pt in points:
+                    assert isinstance(pt, Point)
+                    # Check for constant field
+                    assert pt.get_attribute(constant_field) == constant_value
+
+# Test that constants work
+# Test specific fields
 
 
 # ............................................................................

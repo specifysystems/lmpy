@@ -2,11 +2,36 @@
 
 Note: A namedtuple could replace this class for Python 3.7+
 """
+import copy
 import csv
+import io
 import json
+import xml.etree.ElementTree as ET
+import zipfile
+
+DEFAULT_META_FILENAME = 'meta.xml'
+# Metadata about occurrence records in DWCA with default values
+# From https://dwc.tdwg.org/text/tdwg_dwc_text.xsd
+DWCA_OCCURRENCE_PARAMS = {
+    # Key: Default
+    'linesTerminatedBy': '\n',
+    'fieldsTerminatedBy': ',',
+    'fieldsEnclosedBy': '"',
+    'ignoreHeaderLines': 0,
+    'rowType': None,  # Required
+    'encoding': 'UTF-8',
+    'dateFormat': 'YYY-MM-DD',
+}
+
+# DWCA Tag Constants
+CORE_TAG = '{http://rs.tdwg.org/dwc/text/}core'
+FIELD_TAG = '{http://rs.tdwg.org/dwc/text/}field'
+FILES_TAG = '{http://rs.tdwg.org/dwc/text/}files'
+ID_TAG = '{http://rs.tdwg.org/dwc/text/}id'
+LOCATION_TAG = '{http://rs.tdwg.org/dwc/text/}location'
 
 
-# .............................................................................
+# .....................................................................................
 class Point:
     """Class representing an occurrence data point."""
     # .......................
@@ -105,7 +130,7 @@ class Point:
         self.attributes[attribute_name] = value
 
 
-# .............................................................................
+# .....................................................................................
 class PointCsvReader:
     """Class for reading Points from a CSV file."""
     # .......................
@@ -203,6 +228,8 @@ class PointCsvReader:
                 pass
             except KeyError as ke:  # pragma: no cover
                 raise ke
+            except TypeError:  # pragma: no cover
+                pass
         if self._next_points:
             tmp = self._next_points
             self._next_points = []
@@ -224,21 +251,24 @@ class PointCsvReader:
         self.file.close()
 
 
-# .............................................................................
+# .....................................................................................
 class PointCsvWriter():
     """Class for writing Points to a CSV file."""
     # .......................
-    def __init__(self, filename, fields):
+    def __init__(self, filename, fields, **kwargs):
         """Constructor for writing points to csv file.
 
         Args:
             filename (str): A file location to write points to.
             fields (list): A list of fields to include in the csv headers.
+            **kwargs (dict): Keyword parameters that will be passed to the DictWriter
+                instance from the csv module.
         """
         self.filename = filename
         self.file = None
         self.writer = None
         self.field_names = fields
+        self.kwargs = kwargs
 
     # .......................
     def __enter__(self):
@@ -268,7 +298,7 @@ class PointCsvWriter():
     def open(self):
         """Open file for writing."""
         self.file = open(self.filename, 'w')
-        self.writer = csv.DictWriter(self.file, self.field_names)
+        self.writer = csv.DictWriter(self.file, self.field_names, **self.kwargs)
         self.writer.writeheader()
 
     # .......................
@@ -286,7 +316,256 @@ class PointCsvWriter():
             self.writer.writerow(point_dict)
 
 
-# .............................................................................
+# .....................................................................................
+class PointDwcaReader:
+    """Class for reading Darwin Core Archives."""
+    # .......................
+    def __init__(self, dwca_filename, meta_filename=DEFAULT_META_FILENAME):
+        """Constructor for reading Darwin Core Archives.
+
+        Args:
+            dwca_filename (str): File location of a DWCA zip file.
+            meta_filename (str): File within the archive containing metadata.  Defaults
+                to DEFAULT_META_FILENAME.
+        """
+        self.meta_filename = meta_filename
+        self.archive_filename = dwca_filename
+        self.occurrence_filename = None
+        self.fields = {}
+        self.occurrence_params = copy.deepcopy(DWCA_OCCURRENCE_PARAMS)
+        self._curr_val = None
+        self._next_points = []
+        self.species_term = 'scientificName'
+        self.x_term = 'decimalLongitude'
+        self.y_term = 'decimalLatitude'
+        self.geopoint_term = None
+        self.group_field = self.species_term
+
+    # .......................
+    def _get_species_name(self, point_dict):
+        """Get the species name from the attribute dictionary.
+
+        Args:
+            point_dict (dict): A dictionary of point attributes.
+
+        Returns:
+            str: A species name
+        """
+        return point_dict[self.species_term]
+
+    # .......................
+    def _get_x_value(self, point_dict):
+        """Get the x coordinate value from the attribute dictionary.
+
+        Args:
+            point_dict (dict): A dictionary of point attributes.
+
+        Returns:
+            numeric: The x coordinate retrieved.
+            None: Returned if there is no x value.
+        """
+        if self.geopoint_term is not None:
+            return point_dict[self.geopoint_term][self.x_term]
+        return point_dict[self.x_term]
+
+    # .......................
+    def _get_y_value(self, point_dict):
+        """Get the y coordinate value from the attribute dictionary.
+
+        Args:
+            point_dict (dict): A dictionary of point attributes.
+
+        Returns:
+            numeric: The y coordinate retrieved.
+            None: Returned if there is no y value.
+        """
+        if self.geopoint_term is not None:
+            return point_dict[self.geopoint_term][self.y_term]
+        return point_dict[self.y_term]
+
+    # .......................
+    def __enter__(self):
+        """Context manager magic method.
+
+        Returns:
+            PointDwcaReader: This instance.
+        """
+        self.open()
+        return self
+
+    # .......................
+    def __exit__(self, *args):
+        """Context manager magic method on exit.
+
+        Args:
+            *args: Positional arguments passed to the exit function.
+        """
+        self.close()
+
+    # .......................
+    def __iter__(self):
+        """Iterator magic method.
+
+        Returns:
+            PointDwcaReader: This instance.
+        """
+        return self
+
+    # .......................
+    def __next__(self):
+        """Get lists of consecutive points with the same attribute value.
+
+        Returns:
+            list: A list of point objects.
+
+        Raises:
+            StopIteration: Raised when there are no additional objects.
+        """
+        for point_row in self.reader:
+            point_dict = {
+                term: self.fields[term](point_row) for term in self.fields.keys()
+            }
+            try:
+                pt = Point(
+                    self._get_species_name(point_dict),
+                    self._get_x_value(point_dict),
+                    self._get_y_value(point_dict),
+                    attributes=point_dict
+                )
+                test_val = pt.get_attribute(self.group_field)
+                if test_val != self._curr_val:
+                    if self._curr_val is not None:
+                        self._curr_val = test_val
+                        tmp = self._next_points
+                        self._next_points = [pt]
+                        return tmp
+                    self._curr_val = test_val
+                self._next_points.append(pt)
+            except KeyError:
+                pass
+            except TypeError:
+                pass
+
+        if self._next_points:
+            tmp = self._next_points
+            self._next_points = []
+            return tmp
+        raise StopIteration
+
+    # .......................
+    def _process_metadata(self, meta_contents):
+        """Process the metadata file contained in the archive.
+
+        Args:
+            meta_contents (str): The string contents of the metadata file (meta.xml).
+        """
+        root_element = ET.fromstring(meta_contents)
+        core_element = root_element.find(CORE_TAG)
+
+        # Process core element
+        # - Look for parameters we use for processing
+        for core_att in self.occurrence_params.keys():
+            if core_att in core_element.attrib.keys():
+                self.occurrence_params[core_att] = core_element.attrib[core_att]
+
+        # Get the occurrence data file name in the zip file
+        self.occurrence_filename = core_element.find(FILES_TAG).findall(
+            LOCATION_TAG
+        )[0].text
+
+        # Get the CSV fields from the metadata
+        for field_element in core_element.findall(FIELD_TAG):
+            # Get field processing function
+            field_term = field_element.attrib['term']
+            # Remove namespace
+            if field_term.find('/') > 0:
+                field_term = field_term.split('/')[-1]
+            field_index = None
+            field_default = None
+            field_vocabulary = None
+            field_delimiter = None
+
+            if 'index' in field_element.attrib.keys():
+                field_index = int(field_element.attrib['index'])
+            if 'default' in field_element.attrib.keys():
+                field_default = field_element.attrib['default']
+            if 'vocabulary' in field_element.attrib.keys():
+                field_vocabulary = field_element.attrib['vocabulary']
+            if 'delimitedBy' in field_element.attrib.keys():
+                field_delimiter = field_element.attrib['delimitedBy']
+
+            self.fields[field_term] = get_field_process_func(
+                index=field_index,
+                default=field_default,
+                vocabulary=field_vocabulary,
+                delimiter=field_delimiter
+            )
+        # Check for id field
+        for id_element in core_element.findall(ID_TAG):
+            field_term = 'id'
+            field_index = None
+            field_default = None
+            field_vocabulary = None
+            field_delimiter = None
+
+            if 'index' in id_element.attrib.keys():
+                field_index = int(id_element.attrib['index'])
+            if 'default' in id_element.attrib.keys():
+                field_default = id_element.attrib['default']
+            if 'vocabulary' in id_element.attrib.keys():
+                field_vocabulary = id_element.attrib['vocabulary']
+            if 'delimitedBy' in id_element.attrib.keys():
+                field_delimiter = id_element.attrib['delimitedBy']
+
+            self.fields[field_term] = get_field_process_func(
+                index=field_index,
+                default=field_default,
+                vocabulary=field_vocabulary,
+                delimiter=field_delimiter
+            )
+
+    # .......................
+    def open(self):
+        """Open the file and initialize."""
+        # Open the zip file
+        self._zip_archive = zipfile.ZipFile(self.archive_filename, mode='r')
+        # self._zip_archive.open()
+        meta_contents = io.TextIOWrapper(
+            self._zip_archive.open(self.meta_filename)
+        ).read()
+        self._process_metadata(meta_contents)
+        # Read metadata
+        # Get occurrence file ready
+        self.file = io.TextIOWrapper(
+            self._zip_archive.open(self.occurrence_filename)
+        )
+
+        delimiter = self.occurrence_params['fieldsTerminatedBy']
+        if delimiter.find('t') > 0:
+            delimiter = '\t'
+
+        reader_params = {
+            'delimiter': delimiter,
+        }
+        if len(self.occurrence_params['linesTerminatedBy']) > 0:
+            reader_params[
+                'lineterminator'
+            ] = self.occurrence_params['linesTerminatedBy']
+        if len(self.occurrence_params['fieldsEnclosedBy']) > 0:
+            reader_params['quotechar'] = self.occurrence_params['fieldsEnclosedBy']
+
+        self.reader = csv.reader(self.file, **reader_params)
+        for _ in range(int(self.occurrence_params['ignoreHeaderLines'])):
+            next(self.reader)
+
+    # .......................
+    def close(self):
+        """Close the file."""
+        self.file.close()
+        self._zip_archive.close()
+
+
+# .....................................................................................
 class PointJsonWriter():
     """Class for writing Points to JSON."""
     # .......................
@@ -343,7 +622,78 @@ class PointJsonWriter():
             self.points.append(point.attributes)
 
 
-# .............................................................................
+# .....................................................................................
+def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=None):
+    """Get a function to process a field for a specimen record.
+
+    Args:
+        index (int, optional): The column index of the field value to process.  If
+            none, always return the default.
+        default (number or string, optional): An optional default value (optional if
+            index is not None) to return when the value of the field is empty.
+        vocabulary (str, optional): A URI that identifies a vocabulary used for this
+            field's possible values.
+        delimiter (str, optional): An optional delimiter to split the field value
+            with.
+
+    Returns:
+        Method: A method for getting the value of a field for a specimen row.
+    """
+    # .......................
+    def default_getter(row):
+        """Returns the default value, always.
+
+        Args:
+            row (list): A row of data for a specimen.
+
+        Returns:
+            object: Whatever the default value for the field is.
+        """
+        return default
+
+    # .......................
+    def list_getter(row):
+        """Returns a list of value for the field.
+
+        Args:
+            row (list): A row of data for a specimen.
+
+        Returns:
+            list: A list of values generated by splitting the row index.
+        """
+        raw_val = ''
+        if default is not None:
+            raw_val = default
+        if len(row[index]) > 0:
+            raw_val = row[index]
+        return raw_val.split(delimiter)
+
+    # .......................
+    def value_getter(row):
+        """Returns a value for the field.
+
+        Args:
+            row (list): A row of data for a specimen.
+
+        Returns:
+            object: Whatever value is retrieved from the field.
+        """
+        if len(row[index]) > 0:
+            return row[index]
+        return default
+
+    # Get the proper function
+    if index is None:
+        # Returned if there is no index to get data from, always return the default
+        return default_getter
+    if delimiter is not None:
+        # If there is an index and a delimiter, return a list generating function
+        return list_getter
+    # If there is an index but no delimiter, return a field getter
+    return value_getter
+
+
+# .....................................................................................
 def none_getter(obj):
     """Return None as a function.
 
