@@ -52,7 +52,7 @@ class TreeWrapper(dendropy.Tree):
         """Creates a TreeWrapper object from a base dendropy.Tree.
 
         Args:
-            tree (:obj:`dendropy.Tree`): A base dendropy tree object to wrap into a
+            tree (:obj:`Tree`): A base dendropy tree object to wrap into a
                 TreeWrapper.
 
         Returns:
@@ -539,7 +539,7 @@ class TreeWrapper(dendropy.Tree):
             """Get the label of a taxon.
 
             Args:
-                taxon (:obj:`dendropy.Taxon`): A taxon object to get the label for.
+                taxon (:obj:`Taxon`): A taxon object to get the label for.
 
             Returns:
                 str: The taxon's label.
@@ -553,7 +553,7 @@ class TreeWrapper(dendropy.Tree):
         """Annotates a node with the given value.
 
         Args:
-            node (:obj:`dendropy.Node`): A node to add an annotation to.
+            node (:obj:`Node`): A node to add an annotation to.
             annotation_attribute (:obj:`str`): The annotation attribute to add.  If
                 None or 'label', update the node label.
             annotation_value (:obj:`object`): The value of the annotation.
@@ -599,7 +599,7 @@ class TreeWrapper(dendropy.Tree):
         """Private function to do the work when labeling nodes.
 
         Args:
-            node (:obj:`dendropy.Node`): A node to label.
+            node (:obj:`Node`): A node to label.
             i (:obj:`int`): A count of the number of previously labeled nodes.
             prefix (:obj:`str`, optional): A prefix to use when labeling nodes
                 resulting in labels like 'prefix_0'.  Defaults to None and no prefix.
@@ -635,7 +635,7 @@ class TreeWrapper(dendropy.Tree):
         """Use the label of the node or taxon for the label.
 
         Args:
-            node (:obj:`dendropy.Node`): The node to get the label for.
+            node (:obj:`Node`): The node to get the label for.
 
         Returns:
             str: If the node or the node's taxon has a label, return it.
