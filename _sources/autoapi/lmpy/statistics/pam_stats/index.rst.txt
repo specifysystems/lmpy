@@ -63,10 +63,9 @@ Functions
 .. class:: PamStatsMetric(func)
 
 
-   Base class for PAM statistics metrics.
+   Constructor.
 
-   This wrapper is used to classify each statistic so that the arguments it
-   needs can be inferred.
+   :param func: The function to call.
 
    .. method:: __call__(self, *args, **kwargs)
 
@@ -85,7 +84,9 @@ Functions
 
    Bases: :py:obj:`PamStatsMetric`
 
-   A metric that produces a covariance matrix.
+   Constructor.
+
+   :param func: The function to call.
 
 
 .. class:: DiversityMetric(func)
@@ -93,7 +94,9 @@ Functions
 
    Bases: :py:obj:`PamStatsMetric`
 
-   A single-value diversity metric.
+   Constructor.
+
+   :param func: The function to call.
 
 
 .. class:: SpeciesMatrixMetric(func)
@@ -101,7 +104,9 @@ Functions
 
    Bases: :py:obj:`_SpeciesStatMetric`
 
-   A species-based statistic that is generated from a PAM.
+   Constructor.
+
+   :param func: The function to call.
 
 
 .. class:: SiteMatrixMetric(func)
@@ -109,7 +114,9 @@ Functions
 
    Bases: :py:obj:`_SiteStatMetric`
 
-   A site-based metric that takes the PAM as input.
+   Constructor.
+
+   :param func: The function to call.
 
 
 .. class:: PamDistMatrixMetric(func)
@@ -117,7 +124,9 @@ Functions
 
    Bases: :py:obj:`_SiteStatMetric`
 
-   A site-based metric computed from a PAM and Tree.
+   Constructor.
+
+   :param func: The function to call.
 
 
 .. class:: TreeMetric(func)
@@ -125,7 +134,9 @@ Functions
 
    Bases: :py:obj:`_SiteStatMetric`
 
-   A site-based metric that takes a Dendropy tree as an argument.
+   Constructor.
+
+   :param func: The function to call.
 
 
 .. class:: TreeDistanceMatrixMetric(func)
@@ -133,7 +144,9 @@ Functions
 
    Bases: :py:obj:`_SiteStatMetric`
 
-   A site-based metric that takes a distance matrix as an argument.
+   Constructor.
+
+   :param func: The function to call.
 
 
 .. function:: alpha(pam)
@@ -409,7 +422,12 @@ Functions
 .. class:: PamStats(pam, tree=None)
 
 
-   Class for managing metric computation for PAM statistics.
+   Constructor for PAM stats computations.
+
+   :param pam: A presence-absence matrix to use for computations.
+   :type pam: Matrix
+   :param tree: A tree to use for phylogenetic distance computations.
+   :type tree: TreeWrapper
 
    .. attribute:: covariance_stats
       :annotation: = [None, None]

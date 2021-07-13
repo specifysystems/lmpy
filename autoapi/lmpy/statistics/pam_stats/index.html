@@ -174,31 +174,31 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.PamStatsMetric" title="lmpy.statistics.pam_stats.PamStatsMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamStatsMetric</span></code></a></p></td>
-<td><p>Base class for PAM statistics metrics.</p></td>
+<td><p>Constructor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.CovarianceMatrixMetric" title="lmpy.statistics.pam_stats.CovarianceMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CovarianceMatrixMetric</span></code></a></p></td>
-<td><p>A metric that produces a covariance matrix.</p></td>
+<td><p>Constructor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.DiversityMetric" title="lmpy.statistics.pam_stats.DiversityMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiversityMetric</span></code></a></p></td>
-<td><p>A single-value diversity metric.</p></td>
+<td><p>Constructor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.SpeciesMatrixMetric" title="lmpy.statistics.pam_stats.SpeciesMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpeciesMatrixMetric</span></code></a></p></td>
-<td><p>A species-based statistic that is generated from a PAM.</p></td>
+<td><p>Constructor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.SiteMatrixMetric" title="lmpy.statistics.pam_stats.SiteMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SiteMatrixMetric</span></code></a></p></td>
-<td><p>A site-based metric that takes the PAM as input.</p></td>
+<td><p>Constructor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.PamDistMatrixMetric" title="lmpy.statistics.pam_stats.PamDistMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamDistMatrixMetric</span></code></a></p></td>
-<td><p>A site-based metric computed from a PAM and Tree.</p></td>
+<td><p>Constructor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.TreeMetric" title="lmpy.statistics.pam_stats.TreeMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeMetric</span></code></a></p></td>
-<td><p>A site-based metric that takes a Dendropy tree as an argument.</p></td>
+<td><p>Constructor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.TreeDistanceMatrixMetric" title="lmpy.statistics.pam_stats.TreeDistanceMatrixMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeDistanceMatrixMetric</span></code></a></p></td>
-<td><p>A site-based metric that takes a distance matrix as an argument.</p></td>
+<td><p>Constructor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.pam_stats.PamStats" title="lmpy.statistics.pam_stats.PamStats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamStats</span></code></a></p></td>
-<td><p>Class for managing metric computation for PAM statistics.</p></td>
+<td><p>Constructor for PAM stats computations.</p></td>
 </tr>
 </tbody>
 </table>
@@ -285,9 +285,12 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStatsMetric">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">PamStatsMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStatsMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStatsMetric" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class for PAM statistics metrics.</p>
-<p>This wrapper is used to classify each statistic so that the arguments it
-needs can be inferred.</p>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – The function to call.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStatsMetric.__call__">
 <span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStatsMetric.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStatsMetric.__call__" title="Permalink to this definition">¶</a></dt>
@@ -314,49 +317,84 @@ needs can be inferred.</p>
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.CovarianceMatrixMetric">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">CovarianceMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#CovarianceMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.CovarianceMatrixMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#lmpy.statistics.pam_stats.PamStatsMetric" title="lmpy.statistics.pam_stats.PamStatsMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamStatsMetric</span></code></a></p>
-<p>A metric that produces a covariance matrix.</p>
+<p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – The function to call.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.DiversityMetric">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">DiversityMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#DiversityMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.DiversityMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#lmpy.statistics.pam_stats.PamStatsMetric" title="lmpy.statistics.pam_stats.PamStatsMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PamStatsMetric</span></code></a></p>
-<p>A single-value diversity metric.</p>
+<p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – The function to call.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.SpeciesMatrixMetric">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">SpeciesMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#SpeciesMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.SpeciesMatrixMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SpeciesStatMetric</span></code></p>
-<p>A species-based statistic that is generated from a PAM.</p>
+<p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – The function to call.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.SiteMatrixMetric">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">SiteMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#SiteMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.SiteMatrixMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SiteStatMetric</span></code></p>
-<p>A site-based metric that takes the PAM as input.</p>
+<p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – The function to call.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamDistMatrixMetric">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">PamDistMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamDistMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamDistMatrixMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SiteStatMetric</span></code></p>
-<p>A site-based metric computed from a PAM and Tree.</p>
+<p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – The function to call.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.TreeMetric">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">TreeMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#TreeMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.TreeMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SiteStatMetric</span></code></p>
-<p>A site-based metric that takes a Dendropy tree as an argument.</p>
+<p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – The function to call.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.TreeDistanceMatrixMetric">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">TreeDistanceMatrixMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#TreeDistanceMatrixMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.TreeDistanceMatrixMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_SiteStatMetric</span></code></p>
-<p>A site-based metric that takes a distance matrix as an argument.</p>
+<p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – The function to call.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -775,7 +813,15 @@ site.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.pam_stats.</span></span><span class="sig-name descname"><span class="pre">PamStats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for managing metric computation for PAM statistics.</p>
+<dd><p>Constructor for PAM stats computations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pam</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A presence-absence matrix to use for computations.</p></li>
+<li><p><strong>tree</strong> (<a class="reference internal" href="../../tree/index.html#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper"><em>TreeWrapper</em></a>) – A tree to use for phylogenetic distance computations.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lmpy.statistics.pam_stats.PamStats.covariance_stats">
 <span class="sig-name descname"><span class="pre">covariance_stats</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[None,</span> <span class="pre">None]</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/pam_stats.html#PamStats.covariance_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.pam_stats.PamStats.covariance_stats" title="Permalink to this definition">¶</a></dt>

@@ -34,13 +34,18 @@ Classes
 
    Bases: :py:obj:`Exception`
 
-   Exception indicating there was a problem with encoding.
+   Initialize self.  See help(type(self)) for accurate signature.
 
 
 .. class:: TreeEncoder(tree, pam)
 
 
-   A class representing encoding of tree to match PAM.
+   Base constructor for tree encoder.
+
+   :param tree: A tree object to encode.
+   :type tree: TreeWrapper
+   :param pam: A PAM matrix object.
+   :type pam: Matrix
 
    .. method:: from_file(cls, tree_file_name, pam_file_name)
       :classmethod:

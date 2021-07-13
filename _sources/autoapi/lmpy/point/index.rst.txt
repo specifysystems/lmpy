@@ -89,7 +89,19 @@ Attributes
 .. class:: Point(species_name, x, y, attributes=None)
 
 
-   Class representing an occurrence data point.
+   Constructor.
+
+   :param species_name: The species name for this point.
+   :type species_name: :obj:`str`
+   :param x: The value of the x coordinate for this occurrence point.
+   :type x: :obj:`float`
+   :param y: The value of the y coordinate for this occurrence point.
+   :type y: :obj:`float`
+   :param attributes: A dictionary of attributes associated with this
+                      point.
+   :type attributes: :obj:`dict`
+
+   :raises ValueError: Raised if the species name is omitted.
 
    .. method:: __eq__(self, other)
 
@@ -150,7 +162,24 @@ Attributes
 .. class:: PointCsvReader(filename, species_field, x_field, y_field, geopoint=None, group_field='species_name')
 
 
-   Class for reading Points from a CSV file.
+   Constructor for a Point CSV retriever.
+
+   :param filename: A file path containing CSV occurrence data.
+   :type filename: :obj:`str`
+   :param species_field: The field name of the column containing species
+                         data.
+   :type species_field: :obj:`str`
+   :param x_field: The field name of the column containing x
+                   coordinates.
+   :type x_field: :obj:`str`
+   :param y_field: The field name of the column containing y
+                   coordinates.
+   :type y_field: :obj:`str`
+   :param geopoint: The field name of the column containing geopoint
+                    data.
+   :type geopoint: :obj:`str`
+   :param group_field: The name of the field to use for grouping points.
+   :type group_field: :obj:`str`
 
    .. method:: __enter__(self)
 
@@ -200,7 +229,15 @@ Attributes
 .. class:: PointCsvWriter(filename, fields, **kwargs)
 
 
-   Class for writing Points to a CSV file.
+   Constructor for writing points to csv file.
+
+   :param filename: A file location to write points to.
+   :type filename: :obj:`str`
+   :param fields: A list of fields to include in the csv headers.
+   :type fields: :obj:`list`
+   :param \*\*kwargs: Keyword parameters that will be passed to the
+                      DictWriter instance from the csv module.
+   :type \*\*kwargs: :obj:`dict`
 
    .. method:: __enter__(self)
 
@@ -239,7 +276,13 @@ Attributes
 .. class:: PointDwcaReader(dwca_filename, meta_filename=DEFAULT_META_FILENAME)
 
 
-   Class for reading Darwin Core Archives.
+   Constructor for reading Darwin Core Archives.
+
+   :param dwca_filename: File location of a DWCA zip file.
+   :type dwca_filename: :obj:`str`
+   :param meta_filename: File within the archive containing metadata.
+                         Defaults to DEFAULT_META_FILENAME.
+   :type meta_filename: :obj:`str`
 
    .. method:: _get_species_name(self, point_dict)
 
@@ -332,7 +375,10 @@ Attributes
 .. class:: PointJsonWriter(filename)
 
 
-   Class for writing Points to JSON.
+   Constructor for writing JSON points.
+
+   :param filename: A file location to write the points to.
+   :type filename: :obj:`str`
 
    .. method:: __enter__(self)
 

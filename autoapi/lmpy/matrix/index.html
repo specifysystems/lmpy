@@ -184,7 +184,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code></a></p></td>
-<td><p>Lifemapper wrapper for Numpy ndarrays that adds headers.</p></td>
+<td><p>Create a new Matrix object from an existing ndarray.</p></td>
 </tr>
 </tbody>
 </table>
@@ -192,7 +192,47 @@
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.matrix.</span></span><span class="sig-name descname"><span class="pre">Matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
-<p>Lifemapper wrapper for Numpy ndarrays that adds headers.</p>
+<p>Create a new Matrix object from an existing ndarray.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_array</strong> (<em>numpy.ndarray</em>) – An existing ndarray</p></li>
+<li><p><strong>headers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – <p>Optional headers for this matrix.  This may be either a list of
+lists, where the index of a list in the lists will be treated
+as the axis:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">ex</span><span class="o">.</span> <span class="p">[[</span><span class="s1">&#39;Row 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Row 2&#39;</span><span class="p">,</span> <span class="s1">&#39;Row 3&#39;</span><span class="p">],</span>
+      <span class="p">[</span><span class="s1">&#39;Column 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Column 2&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Or this could be a dictionary where the key is used for the
+axis.  (Ex:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>{</dt><dd><p>‘1’ : [‘Column 1’, ‘Column 2’],
+‘0’ : [‘Row 1’, ‘Row 2’, ‘Row 3’]</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>metadata</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Optional metadata about his matrix.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Triggers a call to Matrix.__array_finalize__.</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A converted numpy array to Matrix.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.__array_finalize__">
 <span class="sig-name descname"><span class="pre">__array_finalize__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.__array_finalize__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.__array_finalize__" title="Permalink to this definition">¶</a></dt>

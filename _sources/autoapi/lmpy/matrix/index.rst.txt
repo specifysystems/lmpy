@@ -39,7 +39,29 @@ Classes
 
    Bases: :py:obj:`numpy.ndarray`
 
-   Lifemapper wrapper for Numpy ndarrays that adds headers.
+   Create a new Matrix object from an existing ndarray.
+
+   :param input_array: An existing ndarray
+   :type input_array: numpy.ndarray
+   :param headers: Optional headers for this matrix.  This may be either a list of
+                   lists, where the index of a list in the lists will be treated
+                   as the axis::
+                       (ex. [['Row 1', 'Row 2', 'Row 3'],
+                             ['Column 1', 'Column 2']])
+                   Or this could be a dictionary where the key is used for the
+                   axis.  (Ex:
+                       {
+                           '1' : ['Column 1', 'Column 2'],
+                           '0' : ['Row 1', 'Row 2', 'Row 3']
+                       }
+   :type headers: :obj:`dict` or :obj:`list` of :obj:`list` of :obj:`str`
+   :param metadata: Optional metadata about his matrix.
+   :type metadata: :obj:`dict`
+
+   .. note:: * Triggers a call to Matrix.__array_finalize__.
+
+   :returns: A converted numpy array to Matrix.
+   :rtype: Matrix
 
    .. method:: __array_finalize__(self, obj)
 

@@ -27,7 +27,10 @@ Classes
 .. class:: SpatialIndex(index_name=None)
 
 
-   This class provides an index for quickly performing intersects.
+   Constructor for the spatial index.
+
+   :param index_name: A name to use for saving the index to a file.
+   :type index_name: str
 
    .. method:: add_feature(self, identifier, geom, att_dict)
 

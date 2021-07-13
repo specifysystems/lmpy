@@ -182,7 +182,7 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_preparation.tree_encoder.TreeEncoder" title="lmpy.data_preparation.tree_encoder.TreeEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeEncoder</span></code></a></p></td>
-<td><p>A class representing encoding of tree to match PAM.</p></td>
+<td><p>Base constructor for tree encoder.</p></td>
 </tr>
 </tbody>
 </table>
@@ -190,13 +190,21 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 <dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.EncodingException">
 <em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.tree_encoder.</span></span><span class="sig-name descname"><span class="pre">EncodingException</span></span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#EncodingException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.EncodingException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Exception</span></code></p>
-<p>Exception indicating there was a problem with encoding.</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.tree_encoder.</span></span><span class="sig-name descname"><span class="pre">TreeEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>A class representing encoding of tree to match PAM.</p>
+<dd><p>Base constructor for tree encoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../../tree/index.html#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper"><em>TreeWrapper</em></a>) – A tree object to encode.</p></li>
+<li><p><strong>pam</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A PAM matrix object.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.tree_encoder.TreeEncoder.from_file">
 <em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pam_file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/tree_encoder.html#TreeEncoder.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.tree_encoder.TreeEncoder.from_file" title="Permalink to this definition">¶</a></dt>

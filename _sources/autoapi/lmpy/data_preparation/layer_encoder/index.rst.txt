@@ -37,11 +37,10 @@ Classes
 .. class:: LayerEncoder(shapegrid_filename)
 
 
-   The LayerEncoder class encodes layers into matrix columns.
+   Constructor for the layer encoder.
 
-   .. attribute:: encoded_matrix
-
-      A Matrix object with encoded layers.
+   :param shapegrid_filename: A file path for the shapegrid.
+   :type shapegrid_filename: str
 
    .. method:: _encode_layer(self, window_func, encode_func, column_name, num_columns=1)
 

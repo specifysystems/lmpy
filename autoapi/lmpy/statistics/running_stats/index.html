@@ -184,7 +184,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.running_stats.RunningStats" title="lmpy.statistics.running_stats.RunningStats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RunningStats</span></code></a></p></td>
-<td><p>Keep track of running statistics to reduce required memory.</p></td>
+<td><p>Construct a RunningStats instance.</p></td>
 </tr>
 </tbody>
 </table>
@@ -253,7 +253,17 @@
 <dt class="sig sig-object py" id="lmpy.statistics.running_stats.RunningStats">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.statistics.running_stats.</span></span><span class="sig-name descname"><span class="pre">RunningStats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">compare_absolute_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#RunningStats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.RunningStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Keep track of running statistics to reduce required memory.</p>
+<p>Construct a RunningStats instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observed</strong> (<em>numeric</em>) – The observed value to be used when computing an
+F-statistic.  It can be a single value or an array-type.</p></li>
+<li><p><strong>(</strong> (<em>compare_fn</em>) – obj:method): A function used to compare pushed values
+to the observed statistic value.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.statistics.running_stats.RunningStats.push">
 <span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/running_stats.html#RunningStats.push"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.running_stats.RunningStats.push" title="Permalink to this definition">¶</a></dt>

@@ -177,7 +177,7 @@
 <td><p>Keys for phylogenetic trees.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TreeWrapper</span></code></a></p></td>
-<td><p>Dendropy Tree wrapper.</p></td>
+<td><p>The constructor can optionally construct a <a href="#id3"><span class="problematic" id="id4">|Tree|</span></a> object by</p></td>
 </tr>
 </tbody>
 </table>
@@ -225,16 +225,141 @@ taxon.</p>
 <dt class="sig sig-object py" id="lmpy.tree.LmTreeException">
 <em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.tree.</span></span><span class="sig-name descname"><span class="pre">LmTreeException</span></span><a class="reference internal" href="../../../_modules/lmpy/tree.html#LmTreeException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.LmTreeException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Exception</span></code></p>
-<p>Wrapper around the base Exception class for tree related errors.</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.tree.TreeWrapper">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">lmpy.tree.</span></span><span class="sig-name descname"><span class="pre">TreeWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dendropy.Tree</span></code></p>
-<p>Dendropy Tree wrapper.</p>
-<p>Dendropy tree wrapper that adds a little functionality and improves
-performance of some functions.</p>
+<p>The constructor can optionally construct a <a href="#id5"><span class="problematic" id="id6">|Tree|</span></a> object by
+cloning another <a href="#id7"><span class="problematic" id="id8">|Tree|</span></a> object passed as the first positional
+argument, or out of a data source if <code class="docutils literal notranslate"><span class="pre">stream</span></code> and <code class="docutils literal notranslate"><span class="pre">schema</span></code> keyword
+arguments are passed with a file-like object and a schema-specification
+string object values respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>positional argument</em><em>, </em><em>optional</em>) – If given, should be exactly one <a href="#id9"><span class="problematic" id="id10">|Tree|</span></a> object. The new
+<a href="#id11"><span class="problematic" id="id12">|Tree|</span></a> will then be a structural clone of this argument.</p></li>
+<li><p><strong>**kwargs</strong> (<em>keyword arguments</em><em>, </em><em>optional</em>) – <p>The following optional keyword arguments are recognized
+and handled by this constructor:</p>
+<blockquote>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">label</span></code></dt><dd><p>The label or description of the new <a href="#id13"><span class="problematic" id="id14">|Tree|</span></a> object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">taxon_namespace</span></code></dt><dd><p>Specifies the <a href="#id15"><span class="problematic" id="id16">|TaxonNamespace|</span></a> object to be
+that the new <a href="#id17"><span class="problematic" id="id18">|Tree|</span></a> object will reference.</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Tree objects can be instantiated in the following ways:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># /usr/bin/env python</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">StringIO</span> <span class="k">import</span> <span class="n">StringIO</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span> <span class="nn">dendropy</span> <span class="k">import</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">TaxonNamespace</span>
+
+<span class="c1"># empty tree</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">()</span>
+
+<span class="c1"># Tree objects can be instantiated from an external data source</span>
+<span class="c1"># using the &#39;get()&#39; factory class method</span>
+
+<span class="c1"># From a file-like object</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;treefile.tre&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">),</span>
+                <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;newick&quot;</span><span class="p">,</span>
+                <span class="n">tree_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># From a path</span>
+<span class="n">t3</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;sometrees.nexus&#39;</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;nexus&quot;</span><span class="p">,</span>
+        <span class="n">collection_offset</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">tree_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># From a string</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;((A,B),(C,D));((A,C),(B,D));&quot;</span>
+<span class="c1"># tree will be &#39;((A,B),(C,D))&#39;</span>
+<span class="n">t4</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">s</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;newick&quot;</span><span class="p">)</span>
+<span class="c1"># tree will be &#39;((A,C),(B,D))&#39;</span>
+<span class="n">t5</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">s</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;newick&quot;</span><span class="p">,</span>
+        <span class="n">tree_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># passing keywords to underlying tree parser</span>
+<span class="n">t7</span> <span class="o">=</span> <span class="n">dendropy</span><span class="o">.</span><span class="n">Tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="s2">&quot;((A,B),(C,D));&quot;</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;newick&quot;</span><span class="p">,</span>
+        <span class="n">taxon_namespace</span><span class="o">=</span><span class="n">t3</span><span class="o">.</span><span class="n">taxon_namespace</span><span class="p">,</span>
+        <span class="n">suppress_internal_node_taxa</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">preserve_underscores</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Tree objects can be written out using the &#39;write()&#39; method.</span>
+<span class="n">t1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;treefile.tre&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">),</span>
+        <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;newick&quot;</span><span class="p">)</span>
+<span class="n">t1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;treefile.nex&#39;</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;nexus&quot;</span><span class="p">)</span>
+
+<span class="c1"># Or returned as a string using the &#39;as_string()&#39; method.</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">as_string</span><span class="p">(</span><span class="s2">&quot;nexml&quot;</span><span class="p">)</span>
+
+<span class="c1"># tree structure deep-copied from another tree</span>
+<span class="n">t8</span> <span class="o">=</span> <span class="n">dendropy</span><span class="o">.</span><span class="n">Tree</span><span class="p">(</span><span class="n">t7</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">t8</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">t7</span>                             <span class="c1"># Trees are distinct</span>
+<span class="k">assert</span> <span class="n">t8</span><span class="o">.</span><span class="n">symmetric_difference</span><span class="p">(</span><span class="n">t7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>         <span class="c1"># and structure is identical</span>
+<span class="k">assert</span> <span class="n">t8</span><span class="o">.</span><span class="n">taxon_namespace</span> <span class="ow">is</span> <span class="n">t7</span><span class="o">.</span><span class="n">taxon_namespace</span>             <span class="c1"># BUT taxa are not cloned.</span>
+<span class="n">nds3</span> <span class="o">=</span> <span class="p">[</span><span class="n">nd</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">t7</span><span class="o">.</span><span class="n">postorder_node_iter</span><span class="p">()]</span>  <span class="c1"># Nodes in the two trees</span>
+<span class="n">nds4</span> <span class="o">=</span> <span class="p">[</span><span class="n">nd</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">t8</span><span class="o">.</span><span class="n">postorder_node_iter</span><span class="p">()]</span>  <span class="c1"># are distinct objects,</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nds3</span><span class="p">):</span>                    <span class="c1"># and can be manipulated</span>
+    <span class="k">assert</span> <span class="n">nds3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">nds4</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>               <span class="c1"># independentally.</span>
+<span class="n">egs3</span> <span class="o">=</span> <span class="p">[</span><span class="n">eg</span> <span class="k">for</span> <span class="n">eg</span> <span class="ow">in</span> <span class="n">t7</span><span class="o">.</span><span class="n">postorder_edge_iter</span><span class="p">()]</span>  <span class="c1"># Edges in the two trees</span>
+<span class="n">egs4</span> <span class="o">=</span> <span class="p">[</span><span class="n">eg</span> <span class="k">for</span> <span class="n">eg</span> <span class="ow">in</span> <span class="n">t8</span><span class="o">.</span><span class="n">postorder_edge_iter</span><span class="p">()]</span>  <span class="c1"># are also distinct objects,</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">egs3</span><span class="p">):</span>                    <span class="c1"># and can also be manipulated</span>
+    <span class="k">assert</span> <span class="n">egs3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">egs4</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>               <span class="c1"># independentally.</span>
+<span class="n">lves7</span> <span class="o">=</span> <span class="n">t7</span><span class="o">.</span><span class="n">leaf_nodes</span><span class="p">()</span>                         <span class="c1"># Leaf nodes in the two trees</span>
+<span class="n">lves8</span> <span class="o">=</span> <span class="n">t8</span><span class="o">.</span><span class="n">leaf_nodes</span><span class="p">()</span>                         <span class="c1"># are also distinct objects,</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">lf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lves3</span><span class="p">):</span>                  <span class="c1"># but order is the same,</span>
+    <span class="k">assert</span> <span class="n">lves7</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">lves8</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>             <span class="c1"># and associated Taxon objects</span>
+    <span class="k">assert</span> <span class="n">lves7</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">taxon</span> <span class="ow">is</span> <span class="n">lves8</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">taxon</span>     <span class="c1"># are the same.</span>
+
+<span class="c1"># To create deep copy of a tree with a different taxon namespace,</span>
+<span class="c1"># Use &#39;copy.deepcopy()&#39;</span>
+<span class="n">t9</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">t7</span><span class="p">)</span>
+
+<span class="c1"># Or explicitly pass in a new TaxonNamespace instance</span>
+<span class="n">taxa</span> <span class="o">=</span> <span class="n">TaxonNamespace</span><span class="p">()</span>
+<span class="n">t9</span> <span class="o">=</span> <span class="n">dendropy</span><span class="o">.</span><span class="n">Tree</span><span class="p">(</span><span class="n">t7</span><span class="p">,</span> <span class="n">taxon_namespace</span><span class="o">=</span><span class="n">taxa</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">t9</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">t7</span>                             <span class="c1"># As above, the trees are distinct</span>
+<span class="k">assert</span> <span class="n">t9</span><span class="o">.</span><span class="n">symmetric_difference</span><span class="p">(</span><span class="n">t7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>         <span class="c1"># and the structures are identical,</span>
+<span class="k">assert</span> <span class="n">t9</span><span class="o">.</span><span class="n">taxon_namespace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">t7</span><span class="o">.</span><span class="n">taxon_namespace</span>         <span class="c1"># but this time, the taxa *are* different</span>
+<span class="k">assert</span> <span class="n">t9</span><span class="o">.</span><span class="n">taxon_namespace</span> <span class="ow">is</span> <span class="n">taxa</span>                     <span class="c1"># as the given TaxonNamespace is used instead.</span>
+<span class="n">lves3</span> <span class="o">=</span> <span class="n">t7</span><span class="o">.</span><span class="n">leaf_nodes</span><span class="p">()</span>                         <span class="c1"># Leaf nodes (and, for that matter other nodes</span>
+<span class="n">lves5</span> <span class="o">=</span> <span class="n">t9</span><span class="o">.</span><span class="n">leaf_nodes</span><span class="p">()</span>                         <span class="c1"># as well as edges) are also distinct objects</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">lf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lves3</span><span class="p">):</span>                  <span class="c1"># and the order is the same, as above,</span>
+    <span class="k">assert</span> <span class="n">lves7</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">lves9</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>             <span class="c1"># but this time the associated Taxon</span>
+    <span class="k">assert</span> <span class="n">lves7</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">taxon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">lves9</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">taxon</span> <span class="c1"># objects are distinct though the taxon</span>
+    <span class="k">assert</span> <span class="n">lves7</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">lves9</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">label</span> <span class="c1"># labels are the same.</span>
+
+<span class="c1"># to &#39;switch out&#39; the TaxonNamespace of a tree, replace the reference and</span>
+<span class="c1"># reindex the taxa:</span>
+<span class="n">t11</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;((A,B),(C,D));&#39;</span><span class="p">,</span> <span class="s1">&#39;newick&#39;</span><span class="p">)</span>
+<span class="n">taxa</span> <span class="o">=</span> <span class="n">TaxonNamespace</span><span class="p">()</span>
+<span class="n">t11</span><span class="o">.</span><span class="n">taxon_namespace</span> <span class="o">=</span> <span class="n">taxa</span>
+<span class="n">t11</span><span class="o">.</span><span class="n">reindex_subcomponent_taxa</span><span class="p">()</span>
+
+<span class="c1"># You can also explicitly pass in a seed node:</span>
+<span class="n">seed</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
+<span class="n">t12</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">seed_node</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">t12</span><span class="o">.</span><span class="n">seed_node</span> <span class="ow">is</span> <span class="n">seed</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.tree.TreeWrapper.from_base_tree">
 <em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_base_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/tree.html#TreeWrapper.from_base_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tree.TreeWrapper.from_base_tree" title="Permalink to this definition">¶</a></dt>

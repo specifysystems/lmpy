@@ -70,7 +70,13 @@ Functions
 
    Bases: :py:obj:`object`
 
-   Keep track of running statistics to reduce required memory.
+   Construct a RunningStats instance.
+
+   :param observed: The observed value to be used when computing an
+                    F-statistic.  It can be a single value or an array-type.
+   :type observed: numeric
+   :param compare_fn (: obj:method): A function used to compare pushed values
+                        to the observed statistic value.
 
    .. method:: push(self, val)
 
