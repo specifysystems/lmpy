@@ -10,13 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@master
-      with:
-        fetch-depth: 0
+      uses: actions/checkout@v2
+      #with:
+      #  fetch-depth: 0
+    - name: Install library dependencies
+      run: |
+        pip install -r requirements.txt
     - name: Install documentation dependencies
-      uses: py-actions/py-dependency-install@v2
-      with:
-        path: "requirements-docs.txt"
+      #uses: py-actions/py-dependency-install@v2
+      #with:
+      #  path: "requirements-docs.txt"
+      run: |
+        pip install -r requirements-docs.txt
     - name: Build and Commit
       uses: sphinx-notes/pages@1.0
       with:
