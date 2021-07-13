@@ -41,9 +41,7 @@
 
     
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="lmpy.data_preparation package" href="lmpy.data_preparation.html" />
-    <link rel="prev" title="lmpy" href="modules.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,45 +87,11 @@
             
             
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">.. Module documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">lmpy package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="lmpy.data_preparation.html">lmpy.data_preparation package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="lmpy.randomize.html">lmpy.randomize package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="lmpy.statistics.html">lmpy.statistics package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-lmpy.matrix">lmpy.matrix module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-lmpy.point">lmpy.point module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-lmpy.tree">lmpy.tree module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-lmpy">Module contents</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.matrix.Matrix">Matrix</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.point.Point">Point</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.point.PointCsvReader">PointCsvReader</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.point.PointCsvWriter">PointCsvWriter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.point.PointDwcaReader">PointDwcaReader</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.point.PointJsonWriter">PointJsonWriter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.point.get_field_process_func">get_field_process_func</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.point.none_getter">none_getter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.tree.LmTreeException">LmTreeException</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.tree.PhyloTreeKeys">PhyloTreeKeys</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.tree.TreeWrapper">TreeWrapper</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.LmTreeException">LmTreeException</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.Matrix">Matrix</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.PhyloTreeKeys">PhyloTreeKeys</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#lmpy.TreeWrapper">TreeWrapper</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
 </ul>
 
@@ -176,8 +140,6 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="modules.html">lmpy</a> &raquo;</li>
         
       <li>lmpy package</li>
     
@@ -339,10 +301,9 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mtx_list</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – A List of Matrix objects
 to concatenate together.</p></li>
-<li><p><strong>axis</strong> (<em>int</em><em>, </em><em>optional</em>) – The axis to concatenate these Matrix objects
-on.  This should be an integer for the matrix axis of
-concatenation.  This will be converted to a string where needed
-for headers.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The axis to concatenate these Matrix objects
+on.  This should be an integer for the matrix axis of concatenation.
+This will be converted to a string where needed for headers.</p></li>
 </ul>
 </dd>
 </dl>
@@ -398,7 +359,10 @@ axis, else, return all.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>If axis is None, a dictionary of all headers for the matrix.
-If axis is int, A list of headers for the specified axis.</p>
+list: If axis is int, A list of headers for the specified axis.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -434,7 +398,7 @@ If axis is int, A list of headers for the specified axis.</p>
 <dd><p>Load a matrix from a filename.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – File location of matrix to load.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – File location of matrix to load.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The matrix read from the file.</p>
@@ -518,10 +482,11 @@ object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>headers</strong> (<em>dict</em><em> or </em><em>list of list</em><em> or </em><em>list</em>) – Matrix headers.  Can be a list of
-lists, a dictionary of lists, or if axis is provided, a single list.</p></li>
-<li><p><strong>axis</strong> (<em>int</em>) – If provided, set the headers for a specific axis, else, process
-as if it is for the entire Matrix.</p></li>
+<li><p><strong>headers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – Matrix
+headers.  Can be a list of lists, a dictionary of lists, or if axis is
+provided, a single list.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – If provided, set the headers for a specific axis, else,
+process  as if it is for the entire Matrix.</p></li>
 </ul>
 </dd>
 </dl>
@@ -583,8 +548,8 @@ to retrieve for each axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> (<em>str</em>) – The name of a header to use for slicing</p></li>
-<li><p><strong>axis</strong> (<em>int</em>) – The axis to find this header.</p></li>
+<li><p><strong>header</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The name of a header to use for slicing</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – The axis to find this header.</p></li>
 </ul>
 </dd>
 </dl>
@@ -604,8 +569,8 @@ to retrieve for each axis.</p>
 <dd><p>Transposes the Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>axes</strong> (<em>None</em><em>, </em><em>tuple of ints</em><em>, </em><em>n ints</em>) – The order of the axes in the
-transposition. see: ndarray.transpose</p>
+<dd class="field-odd"><p><strong>axes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, n :obj:<a href="#id5"><span class="problematic" id="id6">`</span></a>int`s) – The order of
+the axes in the transposition. see: ndarray.transpose</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A transposed version of the original matrix</p>
@@ -622,7 +587,7 @@ transposition. see: ndarray.transpose</p>
 <dd><p>Write the matrix to the specified file location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The file location to save to.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The file location to save to.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -879,8 +844,8 @@ taxon.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">SQUID</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'squid'</span></em><a class="reference internal" href="../_modules/lmpy/tree.html#PhyloTreeKeys.SQUID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">SQUID</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'squid'</span></em><a class="reference internal" href="../_modules/lmpy/tree.html#PhyloTreeKeys.SQUID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1263,10 +1228,9 @@ tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mtx_list</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#lmpy.Matrix" title="lmpy.Matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – A List of Matrix objects
 to concatenate together.</p></li>
-<li><p><strong>axis</strong> (<em>int</em><em>, </em><em>optional</em>) – The axis to concatenate these Matrix objects
-on.  This should be an integer for the matrix axis of
-concatenation.  This will be converted to a string where needed
-for headers.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The axis to concatenate these Matrix objects
+on.  This should be an integer for the matrix axis of concatenation.
+This will be converted to a string where needed for headers.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1322,7 +1286,10 @@ axis, else, return all.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>If axis is None, a dictionary of all headers for the matrix.
-If axis is int, A list of headers for the specified axis.</p>
+list: If axis is int, A list of headers for the specified axis.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1358,7 +1325,7 @@ If axis is int, A list of headers for the specified axis.</p>
 <dd><p>Load a matrix from a filename.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – File location of matrix to load.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – File location of matrix to load.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The matrix read from the file.</p>
@@ -1442,10 +1409,11 @@ object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>headers</strong> (<em>dict</em><em> or </em><em>list of list</em><em> or </em><em>list</em>) – Matrix headers.  Can be a list of
-lists, a dictionary of lists, or if axis is provided, a single list.</p></li>
-<li><p><strong>axis</strong> (<em>int</em>) – If provided, set the headers for a specific axis, else, process
-as if it is for the entire Matrix.</p></li>
+<li><p><strong>headers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – Matrix
+headers.  Can be a list of lists, a dictionary of lists, or if axis is
+provided, a single list.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – If provided, set the headers for a specific axis, else,
+process  as if it is for the entire Matrix.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1507,8 +1475,8 @@ to retrieve for each axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> (<em>str</em>) – The name of a header to use for slicing</p></li>
-<li><p><strong>axis</strong> (<em>int</em>) – The axis to find this header.</p></li>
+<li><p><strong>header</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The name of a header to use for slicing</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – The axis to find this header.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1528,8 +1496,8 @@ to retrieve for each axis.</p>
 <dd><p>Transposes the Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>axes</strong> (<em>None</em><em>, </em><em>tuple of ints</em><em>, </em><em>n ints</em>) – The order of the axes in the
-transposition. see: ndarray.transpose</p>
+<dd class="field-odd"><p><strong>axes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, n :obj:<a href="#id13"><span class="problematic" id="id14">`</span></a>int`s) – The order of
+the axes in the transposition. see: ndarray.transpose</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A transposed version of the original matrix</p>
@@ -1546,7 +1514,7 @@ transposition. see: ndarray.transpose</p>
 <dd><p>Write the matrix to the specified file location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The file location to save to.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The file location to save to.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1602,13 +1570,13 @@ taxon.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">MTX_IDX</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'mx'</span></em><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">MTX_IDX</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'mx'</span></em><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">SQUID</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'squid'</span></em><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">SQUID</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'squid'</span></em><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1960,10 +1928,6 @@ tips in the tree.  Defaults to PhyloTreeKeys.MTX_IDX.</p>
            
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="lmpy.data_preparation.html" class="btn btn-neutral float-right" title="lmpy.data_preparation package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="modules.html" class="btn btn-neutral float-left" title="lmpy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
 
   <hr/>
 

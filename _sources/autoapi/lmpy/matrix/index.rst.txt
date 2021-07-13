@@ -49,8 +49,8 @@ Classes
       therefore it only has the attributes that the ndarray.__new__
       constructor gave it.
 
-      :param obj: If the object is a matrix, pull out headers and metadata.
-      :type obj: Matrix
+      :param obj (: obj:`Matrix1): If the object is a matrix, pull out headers and
+                    metadata.
 
 
    .. method:: load(cls, filename)
@@ -59,7 +59,7 @@ Classes
       Load a matrix from a filename.
 
       :param filename: File location of matrix to load.
-      :type filename: str
+      :type filename: :obj:`str`
 
       :returns: The matrix read from the file.
       :rtype: Matrix
@@ -107,10 +107,9 @@ Classes
                        to concatenate together.
       :type mtx_list: :obj:`list` of :obj:`Matrix`
       :param axis: The axis to concatenate these Matrix objects
-                   on.  This should be an integer for the matrix axis of
-                   concatenation.  This will be converted to a string where needed
-                   for headers.
-      :type axis: int, optional
+                   on.  This should be an integer for the matrix axis of concatenation.
+                   This will be converted to a string where needed for headers.
+      :type axis: :obj:`int`, optional
 
       .. note:: * Assumes that headers for other axes are the same.
 
@@ -147,7 +146,8 @@ Classes
       :type axis: :obj:`int`, optional
 
       :returns: If axis is None, a dictionary of all headers for the matrix.
-                If axis is int, A list of headers for the specified axis.
+                list: If axis is int, A list of headers for the specified axis.
+      :rtype: dict
 
 
    .. method:: get_metadata(self)
@@ -188,12 +188,13 @@ Classes
 
       Sets the headers for this Matrix.
 
-      :param headers: Matrix headers.  Can be a list of
-                      lists, a dictionary of lists, or if axis is provided, a single list.
-      :type headers: dict or list of list or list
-      :param axis: If provided, set the headers for a specific axis, else, process
-                   as if it is for the entire Matrix.
-      :type axis: int
+      :param headers: Matrix
+                      headers.  Can be a list of lists, a dictionary of lists, or if axis is
+                      provided, a single list.
+      :type headers: :obj:`dict` or :obj:`list` of :obj:`list` or :obj:`list`
+      :param axis: If provided, set the headers for a specific axis, else,
+                   process  as if it is for the entire Matrix.
+      :type axis: :obj:`int`
 
       .. todo:: Validate input for single axis operation?
 
@@ -233,9 +234,9 @@ Classes
       Gets a slice of the Matrix matching the header provided.
 
       :param header: The name of a header to use for slicing
-      :type header: str
+      :type header: :obj:`str`
       :param axis: The axis to find this header.
-      :type axis: int
+      :type axis: :obj:`int`
 
       .. todo::
 
@@ -260,9 +261,9 @@ Classes
 
       Transposes the Matrix.
 
-      :param axes: The order of the axes in the
-                   transposition. see: ndarray.transpose
-      :type axes: None, tuple of ints, n ints
+      :param axes: The order of
+                   the axes in the transposition. see: ndarray.transpose
+      :type axes: :obj:`None`, :obj:`tuple` of :obj:`int`, n :obj:`int`s
 
       :returns: A transposed version of the original matrix
       :rtype: Matrix
@@ -273,7 +274,7 @@ Classes
       Write the matrix to the specified file location.
 
       :param filename: The file location to save to.
-      :type filename: str
+      :type filename: :obj:`str`
 
 
    .. method:: write_csv(self, flo, *slice_args)

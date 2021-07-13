@@ -92,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pages/references.html">References</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">.. Module documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
 </ul>
 
@@ -239,7 +238,8 @@
 <span class="sd">        constructor gave it.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            obj (Matrix): If the object is a matrix, pull out headers and metadata.</span>
+<span class="sd">            obj (:obj:`Matrix1): If the object is a matrix, pull out headers and</span>
+<span class="sd">                metadata.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># We could have got to the ndarray.__new__ call in 3 ways:</span>
         <span class="c1"># 1. From an explicit constructor - Matrix():</span>
@@ -267,7 +267,7 @@
         <span class="sd">&quot;&quot;&quot;Load a matrix from a filename.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            filename (str): File location of matrix to load.</span>
+<span class="sd">            filename (:obj:`str`): File location of matrix to load.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Matrix: The matrix read from the file.</span>
@@ -358,10 +358,9 @@
 <span class="sd">        Args:</span>
 <span class="sd">            mtx_list (:obj:`list` of :obj:`Matrix`): A List of Matrix objects</span>
 <span class="sd">                to concatenate together.</span>
-<span class="sd">            axis (int, optional): The axis to concatenate these Matrix objects</span>
-<span class="sd">                on.  This should be an integer for the matrix axis of</span>
-<span class="sd">                concatenation.  This will be converted to a string where needed</span>
-<span class="sd">                for headers.</span>
+<span class="sd">            axis (:obj:`int`, optional): The axis to concatenate these Matrix objects</span>
+<span class="sd">                on.  This should be an integer for the matrix axis of concatenation.</span>
+<span class="sd">                This will be converted to a string where needed for headers.</span>
 
 <span class="sd">        Note:</span>
 <span class="sd">            * Assumes that headers for other axes are the same.</span>
@@ -477,8 +476,8 @@
 <span class="sd">                axis, else, return all.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            If axis is None, a dictionary of all headers for the matrix.</span>
-<span class="sd">            If axis is int, A list of headers for the specified axis.</span>
+<span class="sd">            dict: If axis is None, a dictionary of all headers for the matrix.</span>
+<span class="sd">            list: If axis is int, A list of headers for the specified axis.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -551,10 +550,11 @@
         <span class="sd">&quot;&quot;&quot;Sets the headers for this Matrix.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            headers (dict or list of list or list): Matrix headers.  Can be a list of</span>
-<span class="sd">                lists, a dictionary of lists, or if axis is provided, a single list.</span>
-<span class="sd">            axis (int): If provided, set the headers for a specific axis, else, process</span>
-<span class="sd">                as if it is for the entire Matrix.</span>
+<span class="sd">            headers (:obj:`dict` or :obj:`list` of :obj:`list` or :obj:`list`): Matrix</span>
+<span class="sd">                headers.  Can be a list of lists, a dictionary of lists, or if axis is</span>
+<span class="sd">                provided, a single list.</span>
+<span class="sd">            axis (:obj:`int`): If provided, set the headers for a specific axis, else,</span>
+<span class="sd">                process  as if it is for the entire Matrix.</span>
 
 <span class="sd">        Todo:</span>
 <span class="sd">            Validate input for single axis operation?</span>
@@ -618,8 +618,8 @@
         <span class="sd">&quot;&quot;&quot;Gets a slice of the Matrix matching the header provided.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            header (str): The name of a header to use for slicing</span>
-<span class="sd">            axis (int): The axis to find this header.</span>
+<span class="sd">            header (:obj:`str`): The name of a header to use for slicing</span>
+<span class="sd">            axis (:obj:`int`): The axis to find this header.</span>
 
 <span class="sd">        Todo:</span>
 <span class="sd">            Add capability to slice over multiple axes and multiple headers.</span>
@@ -664,8 +664,8 @@
         <span class="sd">&quot;&quot;&quot;Transposes the Matrix.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            axes (None, tuple of ints, n ints): The order of the axes in the</span>
-<span class="sd">                transposition. see: ndarray.transpose</span>
+<span class="sd">            axes (:obj:`None`, :obj:`tuple` of :obj:`int`, n :obj:`int`s): The order of</span>
+<span class="sd">                the axes in the transposition. see: ndarray.transpose</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Matrix: A transposed version of the original matrix</span>
@@ -694,7 +694,7 @@
         <span class="sd">&quot;&quot;&quot;Write the matrix to the specified file location.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            filename (str): The file location to save to.</span>
+<span class="sd">            filename (:obj:`str`): The file location to save to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span></div>
@@ -731,7 +731,7 @@
             <span class="sd">&quot;&quot;&quot;Use this function for processing headers when they are lists.</span>
 
 <span class="sd">            Args:</span>
-<span class="sd">                x (list): A list value to return.</span>
+<span class="sd">                x (:obj:`list`): A list value to return.</span>
 
 <span class="sd">            Returns:</span>
 <span class="sd">                list: A list of data.</span>
@@ -743,7 +743,7 @@
             <span class="sd">&quot;&quot;&quot;Use this function for processing non-list headers.</span>
 
 <span class="sd">            Args:</span>
-<span class="sd">                x (object): A non-list value to modify.</span>
+<span class="sd">                x (:obj:`object`): A non-list value to modify.</span>
 
 <span class="sd">            Returns:</span>
 <span class="sd">                list: A list of data.</span>
