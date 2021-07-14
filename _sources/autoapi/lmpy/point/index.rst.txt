@@ -44,6 +44,9 @@ Attributes
 
    lmpy.point.CORE_TAG
    lmpy.point.DEFAULT_META_FILENAME
+   lmpy.point.DEFAULT_SPECIES_TERM
+   lmpy.point.DEFAULT_X_TERM
+   lmpy.point.DEFAULT_Y_TERM
    lmpy.point.DWCA_OCCURRENCE_PARAMS
    lmpy.point.FIELD_TAG
    lmpy.point.FILES_TAG
@@ -58,6 +61,21 @@ Attributes
 
 .. data:: DEFAULT_META_FILENAME
    :annotation: = meta.xml
+
+   
+
+.. data:: DEFAULT_SPECIES_TERM
+   :annotation: = scientificName
+
+   
+
+.. data:: DEFAULT_X_TERM
+   :annotation: = decimalLongitude
+
+   
+
+.. data:: DEFAULT_Y_TERM
+   :annotation: = decimalLatitude
 
    
 
@@ -273,7 +291,7 @@ Attributes
 
 
 
-.. class:: PointDwcaReader(dwca_filename, meta_filename=DEFAULT_META_FILENAME)
+.. class:: PointDwcaReader(dwca_filename, meta_filename=DEFAULT_META_FILENAME, species_term=DEFAULT_SPECIES_TERM, x_term=DEFAULT_X_TERM, y_term=DEFAULT_Y_TERM)
 
 
    Constructor for reading Darwin Core Archives.
@@ -283,6 +301,13 @@ Attributes
    :param meta_filename: File within the archive containing metadata.
                          Defaults to DEFAULT_META_FILENAME.
    :type meta_filename: :obj:`str`
+   :param species_term: Species term in the DWCA file.  Defaults to
+                        DEFAULT_SPECIES_TERM.
+   :type species_term: :obj:`str`
+   :param x_term: X term in the DWCA file.  Defaults to DEFAULT_X_TERM.
+   :type x_term: :obj:`str`
+   :param y_term: Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.
+   :type y_term: :obj:`str`
 
    .. method:: __enter__(self)
 

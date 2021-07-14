@@ -186,6 +186,10 @@
     <span class="s1">&#39;dateFormat&#39;</span><span class="p">:</span> <span class="s1">&#39;YYY-MM-DD&#39;</span><span class="p">,</span></div>
 <span class="p">}</span>
 
+<div class="viewcode-block" id="DEFAULT_SPECIES_TERM"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.DEFAULT_SPECIES_TERM">[docs]</a><span class="n">DEFAULT_SPECIES_TERM</span> <span class="o">=</span> <span class="s1">&#39;scientificName&#39;</span></div>
+<div class="viewcode-block" id="DEFAULT_X_TERM"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.DEFAULT_X_TERM">[docs]</a><span class="n">DEFAULT_X_TERM</span> <span class="o">=</span> <span class="s1">&#39;decimalLongitude&#39;</span></div>
+<div class="viewcode-block" id="DEFAULT_Y_TERM"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.DEFAULT_Y_TERM">[docs]</a><span class="n">DEFAULT_Y_TERM</span> <span class="o">=</span> <span class="s1">&#39;decimalLatitude&#39;</span></div>
+
 <span class="c1"># DWCA Tag Constants</span>
 <div class="viewcode-block" id="CORE_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.CORE_TAG">[docs]</a><span class="n">CORE_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}core&#39;</span></div>
 <div class="viewcode-block" id="FIELD_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.FIELD_TAG">[docs]</a><span class="n">FIELD_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}field&#39;</span></div>
@@ -488,13 +492,24 @@
 <div class="viewcode-block" id="PointDwcaReader"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader">[docs]</a><span class="k">class</span> <span class="nc">PointDwcaReader</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for reading Darwin Core Archives.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dwca_filename</span><span class="p">,</span> <span class="n">meta_filename</span><span class="o">=</span><span class="n">DEFAULT_META_FILENAME</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dwca_filename</span><span class="p">,</span>
+        <span class="n">meta_filename</span><span class="o">=</span><span class="n">DEFAULT_META_FILENAME</span><span class="p">,</span>
+        <span class="n">species_term</span><span class="o">=</span><span class="n">DEFAULT_SPECIES_TERM</span><span class="p">,</span>
+        <span class="n">x_term</span><span class="o">=</span><span class="n">DEFAULT_X_TERM</span><span class="p">,</span>
+        <span class="n">y_term</span><span class="o">=</span><span class="n">DEFAULT_Y_TERM</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for reading Darwin Core Archives.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            dwca_filename (:obj:`str`): File location of a DWCA zip file.</span>
 <span class="sd">            meta_filename (:obj:`str`): File within the archive containing metadata.</span>
 <span class="sd">                Defaults to DEFAULT_META_FILENAME.</span>
+<span class="sd">            species_term (:obj:`str`): Species term in the DWCA file.  Defaults to</span>
+<span class="sd">                DEFAULT_SPECIES_TERM.</span>
+<span class="sd">            x_term (:obj:`str`): X term in the DWCA file.  Defaults to DEFAULT_X_TERM.</span>
+<span class="sd">            y_term (:obj:`str`): Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">meta_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span> <span class="o">=</span> <span class="n">dwca_filename</span>
@@ -503,9 +518,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">DWCA_OCCURRENCE_PARAMS</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_curr_val</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_next_points</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">species_term</span> <span class="o">=</span> <span class="s1">&#39;scientificName&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_term</span> <span class="o">=</span> <span class="s1">&#39;decimalLongitude&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_term</span> <span class="o">=</span> <span class="s1">&#39;decimalLatitude&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">species_term</span> <span class="o">=</span> <span class="n">species_term</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_term</span> <span class="o">=</span> <span class="n">x_term</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_term</span> <span class="o">=</span> <span class="n">y_term</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">group_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_term</span>
 
