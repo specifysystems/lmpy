@@ -16,34 +16,15 @@ Bounding Box Filter
 A bounding box filter simply checks to see if the X,Y coordinates of a point
 fall within the specified bounding box.
 
-See: `get_bounding_box_filter <../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_bounding_box_filter>`_
+See: `get_bounding_box_filter <../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_bounding_box_filter>`_
 
     >>> point_1 = Point('Test species', -10, 10)
     >>> point_2 = Point('Test species', 20, 20)
     >>> bbox_filter = get_bounding_box_filter(0, 0, 30, 30)
     >>> print(bbox_filter(point_1))
-    False
+    []
     >>> print(bbox_filter(point_2))
-    True
-
-----
-
-Data Flag Filter
-================
-Data flag filters can be used to determine if a point should be kept based on
-any flags attached to it.  For example, you may want to remove any points that
-have the flag 'invalid' but otherwise you would keep them, retaining points
-with acceptable flags.
-
-See: `get_data_flag_filter <../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_data_flag_filter>`_
-
-    >>> point_1 = Point('Test species', -10, 10, flags=['invalid'])
-    >>> point_2 = Point('Test species', 20, 20, flags=['added species'])
-    >>> flag_filter = get_data_flag_filter(['invalid'])
-    >>> print(flag_filter(point_1))
-    False
-    >>> print(flag_filter(point_2))
-    True
+    [Point('Test species', 20, 20)]
 
 ----
 
@@ -54,7 +35,7 @@ of geometries.  This is useful if you want to do something like remove points
 that are found in herbaria.  You would create a set of bufferred point
 geometries around herbarium locations and use those to configure the filter.
 
-See `get_disjoint_geometries_filter <../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_disjoint_geometries_filter>`_
+See `get_disjoint_geometries_filter <../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_disjoint_geometries_filter>`_
 
     >>> # Filter points not within bounding box (0, 0, 40, 40)
     >>> test_geometries = ['POLYGON ((0 0, 40 0, 40 40, 0 40, 0 0))']
@@ -62,9 +43,9 @@ See `get_disjoint_geometries_filter <../source/lmpy.data_preparation.html#lmpy.d
     >>> point_2 = Point('Test species', 20, 20)
     >>> disjoint_filter = get_disjoint_geometries_filter(test_geometries)
     >>> print(disjoint_filter(point_1))
-    True
+    [Point('Test species', -10, 10)]
     >>> print(disjoint_filter(point_2))
-    False
+    []
 
 ----
 
@@ -73,7 +54,7 @@ Intersect Geometries Filter
 The intersect geometries filter is the inverse of the disjoint geometries
 filter.  It only passes points found within the specified test geometries.
 
-See `get_intersect_geometries_filter <../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_intersect_geometries_filter>`_
+See `get_intersect_geometries_filter <../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_intersect_geometries_filter>`_
 
     >>> # Filter points within bounding box (0, 0, 40, 40)
     >>> test_geometries = ['POLYGON ((0 0, 40 0, 40 40, 0 40, 0 0))']
@@ -81,9 +62,9 @@ See `get_intersect_geometries_filter <../source/lmpy.data_preparation.html#lmpy.
     >>> point_2 = Point('Test species', 20, 20)
     >>> intersect_filter = get_intersect_geometries_filter(test_geometries)
     >>> print(intersect_filter(point_1))
-    False
+    []
     >>> print(intersect_filter(point_2))
-    True
+    [Point('Test species', 20, 20)]
 
 ----
 
@@ -93,13 +74,13 @@ The unique localities filter is used to filter out points with identical
 localities.  This is used by Lifemapper to ensure that models are only produced
 for species with a minimum number of unique localites.
 
-See `get_unique_localities_filter <../source/lmpy.data_preparation.html#lmpy.data_preparation.occurrence_filters.get_unique_localities_filter>`_
+See `get_unique_localities_filter <../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_unique_localities_filter>`_
 
     >>> point_1 = Point('Test species', -10, 10)
     >>> unique_loc_filter = get_unique_localities_filter()
     >>> # Should pass the first time
     >>> print(unique_loc_filter(point_1))
-    True
+    [Point('Test species', -10, 10)]
     >>> # Try a second time, should fail
     >>> print(unique_loc_filter(point_1))
-    False
+    []

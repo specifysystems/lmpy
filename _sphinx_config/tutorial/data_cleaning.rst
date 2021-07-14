@@ -186,4 +186,3 @@ That's it!  We have now processed data from three sources, ensured that all reco
 have an accepted taxon name, filtered records that have low coordinate decimal
 precision, unique localities, and a minimum number of point so that we can use these
 data for creating species distribution models.
-

@@ -145,7 +145,7 @@ is fairly easy to utilize Python multi-processing to utilize multiple CPU cores
 on a single machine but we will keep this example as simple as possible.  For
 this null model, we'll assume that the "calculate_c_score" function exists.  We
 will use the
-`RunningStats <../source/lmpy.statistics.html#module-lmpy.statistics.running_stats>`_
+`RunningStats <../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.RunningStats>`_
 class to keep track of mean, standard deviation, and p-values for our null
 model.  Note that the RunningStats class can handle either single values or
 Matrix objects for each index calculated.
