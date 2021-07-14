@@ -40,7 +40,7 @@ input and we would produce a single value for each site.  This maps to
 `TreeMetric` and so we can define our function with a tree as input and add the
 `TreeMetric` decorator.
 
-See: `register_metric <../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.register_metric>`_
+See: `register_metric <../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.register_metric>`_
 
 .. code-block:: python
 

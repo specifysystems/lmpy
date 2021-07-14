@@ -29,28 +29,48 @@ present if any part of the cell is present, so you would set the value to
 something small, like 1 percent, or you may want more substantial coverage, so
 you would set the value to 10 or 25 percent.
 
-See: `encode_presence_absence <../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence>`_
+See: `encode_presence_absence <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence>`_
 
     >>> grid_filename = 'my_grid.shp'
     >>> min_x, min_y, max_x, max_y = (0, 0, 90, 90)
     >>> cell_size = 1.0  # Decimal degrees
     >>> grid_epsg = 4326
     >>> cell_sides = 4  # Squares
-    >>> build_shapegrid(grid_filename, min_x, min_y, max_x, max_y, cell_size,
-                        grid_epsg, cell_sides)
+    >>> build_shapegrid(
+    ...     grid_filename,
+    ...     min_x,
+    ...     min_y,
+    ...     max_x,
+    ...     max_y,
+    ...     cell_size,
+    ...     grid_epsg,
+    ...     cell_sides
+    ... )
     >>> encoder = LayerEncoder(grid_filename)
     >>> min_presence = 1
     >>> max_presence = 254
     >>> min_coverage = 25  # Percent
     >>> encoder.encode_presence_absence(
-    ...     species_raster_1, 'Species 1', min_presence, max_presence,
-    ...     min_coverage)
+    ...     species_raster_1,
+    ...     'Species 1',
+    ...     min_presence,
+    ...     max_presence,
+    ...     min_coverage
+    ... )
     >>> encoder.encode_presence_absence(
-    ...     species_raster_2, 'Species 2', min_presence, max_presence,
-    ...     min_coverage)
+    ...     species_raster_2,
+    ...     'Species 2',
+    ...     min_presence,
+    ...     max_presence,
+    ...     min_coverage
+    ... )
     >>> encoder.encode_presence_absence(
-    ...     species_raster_3, 'Species 3', min_presence, max_presence,
-    ...     min_coverage)
+    ...     species_raster_3,
+    ...     'Species 3',
+    ...     min_presence,
+    ...     max_presence,
+    ...     min_coverage
+    ... )
     >>> pam = encoder.get_encoded_matrix()
     >>> pam_geojson = encoder.get_geojson()
 
@@ -63,16 +83,24 @@ PAM.  To do so, you can use teh encode_mean_value and encode_largest_class
 methods to store either the average non-NODATA value for continuous values or
 the most prevalent non-NODATA value for categorical data respectively.
 
-See: `encode_mean_value <../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value>`_
-See: `encode_largest_class <../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class>`_
+See: `encode_mean_value <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value`_
+See: `encode_largest_class <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class>`_
 
     >>> grid_filename = 'my_grid.shp'
     >>> min_x, min_y, max_x, max_y = (0, 0, 90, 90)
     >>> cell_size = 1.0  # Decimal degrees
     >>> grid_epsg = 4326
     >>> cell_sides = 4  # Squares
-    >>> build_shapegrid(grid_filename, min_x, min_y, max_x, max_y, cell_size,
-                        grid_epsg, cell_sides)
+    >>> build_shapegrid(
+    ...     grid_filename,
+    ...     min_x,
+    ...     min_y,
+    ...     max_x,
+    ...     max_y,
+    ...     cell_size,
+    ...     grid_epsg,
+    ...     cell_sides
+    ... )
     >>> encoder = LayerEncoder(grid_filename)
     >>> min_presence = 1
     >>> max_presence = 127
@@ -80,11 +108,17 @@ See: `encode_largest_class <../source/lmpy.data_preparation.html#lmpy.data_prepa
     >>> encoder.encode_mean_value(env_raster_1, 'ENV Raster 1', nodata=-999)
     >>> encoder.encode_mean_value(env_raster_2, 'ENV Raster 2')
     >>> encoder.encode_largest_class(
-    ...     env_vector_3, 'ENV Vector 3', min_coverage,
-    ...     attribute_name='category')
+    ...     env_vector_3,
+    ...     'ENV Vector 3',
+    ...     min_coverage,
+    ...     attribute_name='category'
+    ... )
     >>> encoder.encode_largest_class(
-    ...     env_vector_4, 'ENV Vector 4', min_coverage,
-    ...     attribute_name='ecozone')
+    ...     env_vector_4,
+    ...     'ENV Vector 4',
+    ...     min_coverage,
+    ...     attribute_name='ecozone'
+    ... )
     >>> env_mtx = encoder.get_encoded_matrix()
     >>> env_geojson = encoder.get_geojson()
 
@@ -99,26 +133,39 @@ You can encode biogeographic hypothesis layers as binary (0, 1) or tertiary
 inside or outside of single-sided hypotheses or inside one side, the other, or
 neither for two-sided hypotheses.
 
-See `encode_biogeographic_hypothesis <../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis`>_
+See `encode_biogeographic_hypothesis <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis`>_
 
     >>> grid_filename = 'my_grid.shp'
     >>> min_x, min_y, max_x, max_y = (0, 0, 90, 90)
     >>> cell_size = 1.0  # Decimal degrees
     >>> grid_epsg = 4326
     >>> cell_sides = 4  # Squares
-    >>> build_shapegrid(grid_filename, min_x, min_y, max_x, max_y, cell_size,
-                        grid_epsg, cell_sides)
+    >>> build_shapegrid(
+    ...     grid_filename,
+    ...     min_x,
+    ...     min_y,
+    ...     max_x,
+    ...     max_y,
+    ...     cell_size,
+    ...     grid_epsg,
+    ...     cell_sides
+    ... )
     >>> encoder = LayerEncoder(grid_filename)
     >>> min_presence = 1
     >>> max_presence = 127
     >>> min_coverage = 25  # Percent
     >>> encoder.encode_biogeographic_hypothesis(
-    ...     hypothesis_1, 'Hypothesis 1', min_coverage)
+    ...     hypothesis_1,
+    ...     'Hypothesis 1',
+    ...     min_coverage
+    ... )
     >>> # Encode a hypothesis shapefile with multiple features using the 'zone'
     >>> #  attribute of each feature.
     >>> encoder.encode_biogeographic_hypothesis(
-    ...     hypothesis_2, 'Hypothesis 2', min_coverage, event_field='zone')
+    ...     hypothesis_2,
+    ...     'Hypothesis 2',
+    ...     min_coverage,
+    ...     event_field='zone'
+    ... )
     >>> bg_mtx = encoder.get_encoded_matrix()
     >>> bg_geojson = encoder.get_geojson()
-
-----

@@ -106,7 +106,6 @@
 <li class="toctree-l2"><a class="reference internal" href="matrix.html">Matrix Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcpa.html">Metacommunity Phylogenetics Analysis (MCPA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html">Occurrence Transformations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_statistics.html">PAM Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running_stats.html">Running Statistics</a></li>
@@ -212,27 +211,47 @@ to call that cell present.  For instance, you may want to call grid cells
 present if any part of the cell is present, so you would set the value to
 something small, like 1 percent, or you may want more substantial coverage, so
 you would set the value to 10 or 25 percent.</p>
-<p>See: <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence">encode_presence_absence</a></p>
+<p>See: <a class="reference external" href="../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence">encode_presence_absence</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_filename</span> <span class="o">=</span> <span class="s1">&#39;my_grid.shp&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span>
-<span class="go">                    grid_epsg, cell_sides)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">grid_filename</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_x</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_y</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_x</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_y</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cell_size</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">grid_epsg</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cell_sides</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_presence</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">max_presence</span> <span class="o">=</span> <span class="mi">254</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_coverage</span> <span class="o">=</span> <span class="mi">25</span>  <span class="c1"># Percent</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">species_raster_1</span><span class="p">,</span> <span class="s1">&#39;Species 1&#39;</span><span class="p">,</span> <span class="n">min_presence</span><span class="p">,</span> <span class="n">max_presence</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">species_raster_1</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Species 1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">species_raster_2</span><span class="p">,</span> <span class="s1">&#39;Species 2&#39;</span><span class="p">,</span> <span class="n">min_presence</span><span class="p">,</span> <span class="n">max_presence</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">species_raster_2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Species 2&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">species_raster_3</span><span class="p">,</span> <span class="s1">&#39;Species 3&#39;</span><span class="p">,</span> <span class="n">min_presence</span><span class="p">,</span> <span class="n">max_presence</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">species_raster_3</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Species 3&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_presence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pam</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_encoded_matrix</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pam_geojson</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_geojson</span><span class="p">()</span>
 </pre></div>
@@ -245,15 +264,23 @@ you would set the value to 10 or 25 percent.</p>
 PAM.  To do so, you can use teh encode_mean_value and encode_largest_class
 methods to store either the average non-NODATA value for continuous values or
 the most prevalent non-NODATA value for categorical data respectively.</p>
-<p>See: <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value">encode_mean_value</a>
-See: <a class="reference external" href="../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class">encode_largest_class</a></p>
+<p>See: <a href="#id1"><span class="problematic" id="id2">`encode_mean_value &lt;../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value`_</span></a>
+See: <a class="reference external" href="../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class">encode_largest_class</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_filename</span> <span class="o">=</span> <span class="s1">&#39;my_grid.shp&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span>
-<span class="go">                    grid_epsg, cell_sides)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">grid_filename</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_x</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_y</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_x</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_y</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cell_size</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">grid_epsg</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cell_sides</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_presence</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">max_presence</span> <span class="o">=</span> <span class="mi">127</span>
@@ -261,11 +288,17 @@ See: <a class="reference external" href="../source/lmpy.data_preparation.html#lm
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_mean_value</span><span class="p">(</span><span class="n">env_raster_1</span><span class="p">,</span> <span class="s1">&#39;ENV Raster 1&#39;</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=-</span><span class="mi">999</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_mean_value</span><span class="p">(</span><span class="n">env_raster_2</span><span class="p">,</span> <span class="s1">&#39;ENV Raster 2&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_largest_class</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">env_vector_3</span><span class="p">,</span> <span class="s1">&#39;ENV Vector 3&#39;</span><span class="p">,</span> <span class="n">min_coverage</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">attribute_name</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">env_vector_3</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;ENV Vector 3&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">attribute_name</span><span class="o">=</span><span class="s1">&#39;category&#39;</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_largest_class</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">env_vector_4</span><span class="p">,</span> <span class="s1">&#39;ENV Vector 4&#39;</span><span class="p">,</span> <span class="n">min_coverage</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">attribute_name</span><span class="o">=</span><span class="s1">&#39;ecozone&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">env_vector_4</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;ENV Vector 4&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">attribute_name</span><span class="o">=</span><span class="s1">&#39;ecozone&#39;</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">env_mtx</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_encoded_matrix</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">env_geojson</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_geojson</span><span class="p">()</span>
 </pre></div>
@@ -279,29 +312,43 @@ See: <a class="reference external" href="../source/lmpy.data_preparation.html#lm
 (Metacommunity Phylogenetic Analysis) for determining if presences are found
 inside or outside of single-sided hypotheses or inside one side, the other, or
 neither for two-sided hypotheses.</p>
-<p>See <cite>encode_biogeographic_hypothesis &lt;../source/lmpy.data_preparation.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis</cite>&gt;_</p>
+<p>See <cite>encode_biogeographic_hypothesis &lt;../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis</cite>&gt;_</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_filename</span> <span class="o">=</span> <span class="s1">&#39;my_grid.shp&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span>
-<span class="go">                    grid_epsg, cell_sides)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">grid_filename</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_x</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_y</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_x</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_y</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cell_size</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">grid_epsg</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cell_sides</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_presence</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">max_presence</span> <span class="o">=</span> <span class="mi">127</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_coverage</span> <span class="o">=</span> <span class="mi">25</span>  <span class="c1"># Percent</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_biogeographic_hypothesis</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">hypothesis_1</span><span class="p">,</span> <span class="s1">&#39;Hypothesis 1&#39;</span><span class="p">,</span> <span class="n">min_coverage</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">hypothesis_1</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Hypothesis 1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Encode a hypothesis shapefile with multiple features using the &#39;zone&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#  attribute of each feature.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">encoder</span><span class="o">.</span><span class="n">encode_biogeographic_hypothesis</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">hypothesis_2</span><span class="p">,</span> <span class="s1">&#39;Hypothesis 2&#39;</span><span class="p">,</span> <span class="n">min_coverage</span><span class="p">,</span> <span class="n">event_field</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">hypothesis_2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Hypothesis 2&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">event_field</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bg_mtx</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_encoded_matrix</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bg_geojson</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_geojson</span><span class="p">()</span>
 </pre></div>
 </div>
-<hr class="docutils" />
 </div>
 </div>
 

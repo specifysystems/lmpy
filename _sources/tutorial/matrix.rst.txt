@@ -17,7 +17,7 @@ are more useful for our needs.  This additional functionality may be useful for
 you as well, so we have included it in the lmpy repository.  Note that if you
 are developing an extension for the
 `BiotaPhy Python Repository <https://github.com/biotaphy/BiotaPhyPy>`_, you
-should utilize this class as arrays within a Lifemapper cluster use these
+should utilize this class as arrays within a Lifemapper installation use these
 Matrix objects.
 
 
@@ -26,28 +26,28 @@ Creating Matrix Instances
 
 From an existing NumPy ndarray
 ------------------------------
-See: `Matrix <../source/lmpy.html#lmpy.matrix.Matrix>`_
+See: `Matrix <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix>`_
 
     >>> np_arr = numpy.ones((5, 5))
     >>> new_mtx = Matrix(np_arr)
 
 Reading a CSV file
 ------------------
-See: `Matrix.load_csv <../source/lmpy.html#lmpy.matrix.Matrix.load_csv>`_
+See: `Matrix.load_csv <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.load_csv>`_
 
     >>> csv_fn = 'my_csv_file.csv'
     >>> new_mtx = Matrix.load(csv_fn, num_header_rows=1)
 
 Reading a saved Matrix
 ----------------------
-See: `Matrix.load <../source/lmpy.html#lmpy.matrix.Matrix.load>`_
+See: `Matrix.load <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.load>`_
 
     >>> mtx_fn = 'my_mtx_file.lmm'
     >>> new_mtx = Matrix.load(mtx_fn)
 
 Concatenating existing Matrix objects
 -------------------------------------
-See: `Matrix.concatenate <../source/lmpy.html#lmpy.matrix.Matrix.concatenate>`_
+See: `Matrix.concatenate <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.concatenate>`_
 
     >>> mtx_a = Matrix(np.ones((3, 3)))
     >>> mtx_b = Matrix(np.zeros((3, 10)))
@@ -55,7 +55,7 @@ See: `Matrix.concatenate <../source/lmpy.html#lmpy.matrix.Matrix.concatenate>`_
 
 Slicing by array indices
 ------------------------
-See: `Matrix.slice <../source/lmpy.html#lmpy.matrix.Matrix.slice>`_
+See: `Matrix.slice <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.slice>`_
 
     >>> np_mtx = numpy.arange(15).reshape((3, 5))
     >>> mtx = Matrix(np_mtx)
@@ -63,7 +63,7 @@ See: `Matrix.slice <../source/lmpy.html#lmpy.matrix.Matrix.slice>`_
 
 Slicing by headers
 ------------------
-See: `Matrix.slice_by_header <../source/lmpy.html#lmpy.matrix.Matrix.slice_by_header>`_
+See: `Matrix.slice_by_header <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.slice_by_header>`_
 
     >>> np_mtx = numpy.arange(15).reshape((3, 5))
     >>> mtx = Matrix(np_mtx, headers={'0': ['A', 'B', 'C'], '1': [0, 1, 2, 3, 4]})
@@ -77,13 +77,13 @@ Writing Matrix objects
 
 Saving to the file system
 -------------------------
-See: `Matrix.save <../source/lmpy.html#lmpy.matrix.Matrix.write>`_
+See: `Matrix.save <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.write>`_
 
     >>> mtx.write('path_to_new_file.lmm')
 
 Writing to a CSV file
 ---------------------
-See: `Matrix.write_csv <../source/lmpy.html#lmpy.matrix.Matrix.write_csv>`_
+See: `Matrix.write_csv <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.write_csv>`_
 
     >>> mtx.write_csv('path_to_new_csv_file.csv')
 
@@ -94,15 +94,15 @@ Header management
 
 On instantiation
 ----------------
-See: `Matrix <../source/lmpy.html#lmpy.matrix.Matrix>`_
+See: `Matrix <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix>`_
 
     >>> mtx = Matrix(np.ones((3, 3)), headers={'0': [1, 2, 3], '1': ['A', 'B', 'C']})
 
 Setting headers
 ---------------
-See: `Matrix.set_headers <../source/lmpy.html#lmpy.matrix.Matrix.set_headers>`_,
-`Matrix.set_column_headers <../source/lmpy.html#lmpy.matrix.Matrix.set_column_headers>`_,
-`Matrix.set_row_headers <../source/lmpy.html#lmpy.matrix.Matrix.set_row_headers>`_
+See: `Matrix.set_headers <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.set_headers>`_,
+`Matrix.set_column_headers <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.set_column_headers>`_,
+`Matrix.set_row_headers <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.set_row_headers>`_
 
     >>> # Each method sets row headers to 0, 1, 2
     >>> mtx.set_headers([0, 1, 2], axis=0)
@@ -116,9 +116,9 @@ See: `Matrix.set_headers <../source/lmpy.html#lmpy.matrix.Matrix.set_headers>`_,
 
 Getting headers
 ---------------
-See: `Matrix.get_headers <../source/lmpy.html#lmpy.matrix.Matrix.get_headers>`_,
-`Matrix.get_column_headers <../source/lmpy.html#lmpy.matrix.Matrix.get_column_headers>`_,
-`Matrix.get_row_headers <../source/lmpy.html#lmpy.matrix.Matrix.get_row_headers>`_
+See: `Matrix.get_headers <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.get_headers>`_,
+`Matrix.get_column_headers <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.get_column_headers>`_,
+`Matrix.get_row_headers <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.get_row_headers>`_
 
     >>> mtx.get_headers()
     >>> mtx.get_column_headers()
@@ -133,7 +133,7 @@ Metadata management
 
 On instantiation
 ----------------
-See: `Matrix <../source/lmpy.html#lmpy.matrix.Matrix>`_
+See: `Matrix <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix>`_
 
     >>> mtx = Matrix(np.ones((3, 3)), metadata={'description': 'A 3x3 matrix of ones'})
 
@@ -144,7 +144,7 @@ Setting metadata
 
 Getting metadata
 ----------------
-See: `Matrix.get_metadata <../source/lmpy.html#lmpy.matrix.Matrix.get_metadata>`_
+See: `Matrix.get_metadata <../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.get_metadata>`_
 
     >>> mtx.metadata
     >>> mtx.get_metadata()

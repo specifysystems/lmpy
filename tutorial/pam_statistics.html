@@ -101,7 +101,6 @@
 <li class="toctree-l2"><a class="reference internal" href="matrix.html">Matrix Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcpa.html">Metacommunity Phylogenetics Analysis (MCPA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="occurrence_filters.html">Occurrence Filters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="occurrence_transformation.html">Occurrence Transformations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pam_randomization.html">PAM Randomization and Null Models</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">PAM Statistics</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
@@ -264,7 +263,7 @@ for the species present at a site, we would need the tree of those species as
 input and we would produce a single value for each site.  This maps to
 <cite>TreeMetric</cite> and so we can define our function with a tree as input and add the
 <cite>TreeMetric</cite> decorator.</p>
-<p>See: <a class="reference external" href="../source/lmpy.statistics.html#lmpy.statistics.pam_stats.PamStats.register_metric">register_metric</a></p>
+<p>See: <a class="reference external" href="../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.register_metric">register_metric</a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@TreeMetric</span>
 <span class="k">def</span> <span class="nf">sum_tip_lengths</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
     <span class="n">tip_length_sum</span> <span class="o">=</span> <span class="mi">0</span>
