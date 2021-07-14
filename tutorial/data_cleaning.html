@@ -106,7 +106,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#modifying-records">Modifying Records</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#built-in-modifiers">Built-in Modifiers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#custom-modifiers">Custom Modifiers</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#putting-it-all-together">Putting It All Together</a><ul>
@@ -214,6 +213,7 @@ simplify the process for the user.</p>
 <h2>Reading a CSV File<a class="headerlink" href="#reading-a-csv-file" title="Permalink to this headline">¶</a></h2>
 <p>Read a CSV file that has fields “decimalLongitude” and “decimalLatitude” for x and y
 and “speciesName” for the species binomial.</p>
+<p>See: <a class="reference external" href="../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader">PointCsvReader</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reader</span> <span class="o">=</span> <span class="n">PointCsvReader</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="s1">&#39;speciesName&#39;</span><span class="p">,</span> <span class="s1">&#39;decimalLongitude&#39;</span><span class="p">,</span> <span class="s1">&#39;decimalLatitude&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -222,6 +222,7 @@ and “speciesName” for the species binomial.</p>
 <h2>Reading a Darwin Core Archive File<a class="headerlink" href="#reading-a-darwin-core-archive-file" title="Permalink to this headline">¶</a></h2>
 <p>Read a Darwin Core Archive file.  The file is assumed to be valid and metadata will
 be pulled from the ‘meta.xml’ file contained within the zip file.</p>
+<p>See: <a class="reference external" href="../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader">PointDwcaReader</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reader</span> <span class="o">=</span> <span class="n">PointDwcaReader</span><span class="p">(</span><span class="n">dwca_filename</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -261,18 +262,122 @@ of precision are removed.</p>
 <h2>Modifying Records<a class="headerlink" href="#modifying-records" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="built-in-modifiers">
 <h3>Built-in Modifiers<a class="headerlink" href="#built-in-modifiers" title="Permalink to this headline">¶</a></h3>
+<p>Use the accepted name modifier with a file, ACCEPTED_TAXA_FILENAME, containing accepted
+name mappings.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">accepted_name_modifier</span> <span class="o">=</span> <span class="n">get_accepted_name_modifier</span><span class="p">(</span><span class="n">ACCEPTED_TAXA_FILENAME</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Accepted species&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Synonym species&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Another synonym&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod_points</span> <span class="o">=</span> <span class="n">accepted_name_modifier</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mod_points</span><span class="p">)</span>
+<span class="go">[Point(&#39;Accepted species&#39;, 1, 2), Point(&#39;Accepted species&#39;, 5, 3),</span>
+<span class="go">Point(&#39;Accepted species&#39;, 4, 4)]</span>
+</pre></div>
 </div>
-<div class="section" id="custom-modifiers">
-<h3>Custom Modifiers<a class="headerlink" href="#custom-modifiers" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="putting-it-all-together">
 <h2>Putting It All Together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="aggregate-and-clean-multiple-data-files">
 <h3>Aggregate and Clean Multiple Data Files<a class="headerlink" href="#aggregate-and-clean-multiple-data-files" title="Permalink to this headline">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_data_from_aggregator</span>
+<p>For this example, we will process occurrence data from three sources, a Darwin Core
+Archive, a JSON file, and a CSV file.  The Darwin Core Archive file is at
+DWCA_FILENAME, the JSON data is at JSON_FILENAME and the records are under the ‘items’
+key with ‘scientificName’ as the species key and ‘lon’ and ‘lat’ as the x and y keys
+under the ‘geopoint’ key.  For the CSV file, CSV_FILENAME, the fields are ‘taxonName’,
+‘decimalLongitude’, and ‘decimalLatitude’ for the species, x, and y fields
+respectively.</p>
+<p>First, define a modifier function that will ensure points from each source are in the
+same format and only include species name, x, and y.  We can do this by only keeping
+the attributes ‘species_name’, ‘x’, and ‘y’.  We will also send the points through an
+accepted name modifier, with a mapping file at ACCEPTED_NAMES_FILENAME, to ensure that
+the species name for each point is an accepted name.  We will define a chained modifier
+function that we will utilize to apply both the accepted name modifier and the common
+format modifier.  It is defined in the ‘get_chained_modifier’ function.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">accepted_name_modifier</span> <span class="o">=</span> <span class="n">get_accepted_name_modifier</span><span class="p">(</span><span class="n">ACCEPTED_NAMES_FILENAME</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">common_format_modifier</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">species_name</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">points</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">get_chained_modifier</span><span class="p">(</span><span class="o">*</span><span class="n">modifiers</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">chained_modifier</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">modifier</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">modifiers</span><span class="p">):</span>
+<span class="gp">... </span>            <span class="n">points</span> <span class="o">=</span> <span class="n">modifier</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">points</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">chained_modifier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chained_modifier</span> <span class="o">=</span> <span class="n">get_chained_modifier</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">accepted_name_modifier</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">common_format_modifier</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">all_points</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Process the Darwin Core Archive</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">PointDwcaReader</span><span class="p">(</span><span class="n">DWCA_FILENAME</span><span class="p">)</span> <span class="k">as</span> <span class="n">dwca_reader</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">dwca_reader</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">all_points</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">chained_modifier</span><span class="p">(</span><span class="n">points</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Process the JSON file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">JSON_FILENAME</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">json_point_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">raw_json_points</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">json_point_data</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="n">raw_json_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">Point</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="n">item</span><span class="p">[</span><span class="s1">&#39;scientificName&#39;</span><span class="p">],</span>
+<span class="gp">... </span>            <span class="n">item</span><span class="p">[</span><span class="s1">&#39;geopoint&#39;</span><span class="p">][</span><span class="s1">&#39;lon&#39;</span><span class="p">],</span>
+<span class="gp">... </span>            <span class="n">item</span><span class="p">[</span><span class="s1">&#39;geopoint&#39;</span><span class="p">][</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># For consistency, common format json points</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">all_points</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">chained_modifier</span><span class="p">(</span><span class="n">raw_json_points</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Process the CSV file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">PointCsvReader</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">CSV_FILENAME</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;taxonName&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;decimalLongitude&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;decimalLatitude&#39;</span>
+<span class="gp">... </span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_reader</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">csv_reader</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">all_points</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">chained_modifier</span><span class="p">(</span><span class="n">points</span><span class="p">))</span>
 </pre></div>
 </div>
+<p>In this example, we assume that there are a reasonable number of points that can be
+sorted at once.  For large datasets, it may be necessary to split the data first
+before attempting to sort.  We will sort the points and write to a temporary file
+because, when we read them from it, each group will contain all of the points for a
+single species.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sort points and write to a temporary file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">temp_filename</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">PointCsvWriter</span><span class="p">(</span><span class="n">temp_filename</span><span class="p">,</span> <span class="s1">&#39;species_name&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_writer</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">all_points</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">csv_writer</span><span class="o">.</span><span class="n">write_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we have an aggregated CSV file containing all of the specimen records from each of
+the three sources that is grouped and sorted by species name.  Next, we will filter
+the specimen records so that we only keep those with at least four decimal places of
+precision, only unique localities, and only keep species with at least 12 points.
+Write the cleaned data points to OUTPUT_POINTS_FILENAME.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Set up filters (except for duplicate localities)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chain_filters</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="n">get_decimal_precision_filter</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">get_minimum_points_filter</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">PointCsvWriter</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">OUTPUT_POINTS_FILENAME</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;species_name, &#39;</span><span class="n">x</span><span class="s1">&#39;, &#39;</span><span class="n">y</span><span class="s1">&#39;]</span>
+<span class="gp">... </span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_writer</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">with</span> <span class="n">PointCsvReader</span><span class="p">(</span><span class="n">temp_filename</span><span class="p">,</span> <span class="s1">&#39;species_name&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_reader</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">csv_reader</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">dup_filter</span> <span class="o">=</span> <span class="n">get_unique_localities_filter</span><span class="p">()</span>
+<span class="gp">... </span>            <span class="n">points</span> <span class="o">=</span> <span class="n">dup_filter</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="k">for</span> <span class="n">flt</span> <span class="ow">in</span> <span class="n">chain_filters</span><span class="p">:</span>
+<span class="gp">... </span>                <span class="k">if</span> <span class="n">points</span><span class="p">:</span>  <span class="c1"># Stop trying to filter if there are no points</span>
+<span class="gp">... </span>                    <span class="n">points</span> <span class="o">=</span> <span class="n">flt</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="n">dup_filter</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Reset to preserve memory</span>
+<span class="gp">... </span>            <span class="k">if</span> <span class="n">points</span><span class="p">:</span>  <span class="c1"># If any points remain, write them</span>
+<span class="gp">... </span>                <span class="n">csv_writer</span><span class="o">.</span><span class="n">write_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That’s it!  We have now processed data from three sources, ensured that all records
+have an accepted taxon name, filtered records that have low coordinate decimal
+precision, unique localities, and a minimum number of point so that we can use these
+data for creating species distribution models.</p>
 </div>
 </div>
 </div>
