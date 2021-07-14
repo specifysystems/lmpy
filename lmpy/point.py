@@ -23,6 +23,10 @@ DWCA_OCCURRENCE_PARAMS = {
     'dateFormat': 'YYY-MM-DD',
 }
 
+DEFAULT_SPECIES_TERM = 'scientificName'
+DEFAULT_X_TERM = 'decimalLongitude'
+DEFAULT_Y_TERM = 'decimalLatitude'
+
 # DWCA Tag Constants
 CORE_TAG = '{http://rs.tdwg.org/dwc/text/}core'
 FIELD_TAG = '{http://rs.tdwg.org/dwc/text/}field'
@@ -325,13 +329,24 @@ class PointCsvWriter():
 class PointDwcaReader:
     """Class for reading Darwin Core Archives."""
     # .......................
-    def __init__(self, dwca_filename, meta_filename=DEFAULT_META_FILENAME):
+    def __init__(
+        self,
+        dwca_filename,
+        meta_filename=DEFAULT_META_FILENAME,
+        species_term=DEFAULT_SPECIES_TERM,
+        x_term=DEFAULT_X_TERM,
+        y_term=DEFAULT_Y_TERM
+    ):
         """Constructor for reading Darwin Core Archives.
 
         Args:
             dwca_filename (:obj:`str`): File location of a DWCA zip file.
             meta_filename (:obj:`str`): File within the archive containing metadata.
                 Defaults to DEFAULT_META_FILENAME.
+            species_term (:obj:`str`): Species term in the DWCA file.  Defaults to
+                DEFAULT_SPECIES_TERM.
+            x_term (:obj:`str`): X term in the DWCA file.  Defaults to DEFAULT_X_TERM.
+            y_term (:obj:`str`): Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.
         """
         self.meta_filename = meta_filename
         self.archive_filename = dwca_filename
@@ -340,9 +355,9 @@ class PointDwcaReader:
         self.occurrence_params = copy.deepcopy(DWCA_OCCURRENCE_PARAMS)
         self._curr_val = None
         self._next_points = []
-        self.species_term = 'scientificName'
-        self.x_term = 'decimalLongitude'
-        self.y_term = 'decimalLatitude'
+        self.species_term = species_term
+        self.x_term = x_term
+        self.y_term = y_term
         self.geopoint_term = None
         self.group_field = self.species_term
 
