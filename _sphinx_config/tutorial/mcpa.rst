@@ -83,7 +83,3 @@ components.
     bg_mtx = bg_encoder.encode_layers()
 
     mcpa(pam, phyl_mtx, env_mtx, bg_mtx)
-
-
-More soup to nuts tutorial
-Interpretation
