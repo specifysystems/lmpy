@@ -23,7 +23,7 @@ copyright = '2021, Lifemapper Team'
 author = 'Lifemapper Team'
 
 # The full version, including alpha/beta/rc tags
-release = '3.0.0b1'
+release = '3.0.0'
 
 
 # -- General configuration ---------------------------------------------------
