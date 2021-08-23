@@ -33,6 +33,10 @@ FIELD_TAG = '{http://rs.tdwg.org/dwc/text/}field'
 FILES_TAG = '{http://rs.tdwg.org/dwc/text/}files'
 ID_TAG = '{http://rs.tdwg.org/dwc/text/}id'
 LOCATION_TAG = '{http://rs.tdwg.org/dwc/text/}location'
+EXTENSION_TAG = '{http://rs.tdwg.org/dwc/text/}extension'
+
+ROW_TYPE_ATT = 'rowType'
+OCCURRENCE_ROW_TYPE = 'http://rs.tdwg.org/dwc/terms/Occurrence'
 
 
 # .....................................................................................
@@ -335,7 +339,8 @@ class PointDwcaReader:
         meta_filename=DEFAULT_META_FILENAME,
         species_term=DEFAULT_SPECIES_TERM,
         x_term=DEFAULT_X_TERM,
-        y_term=DEFAULT_Y_TERM
+        y_term=DEFAULT_Y_TERM,
+        geopoint_term=None
     ):
         """Constructor for reading Darwin Core Archives.
 
@@ -347,6 +352,7 @@ class PointDwcaReader:
                 DEFAULT_SPECIES_TERM.
             x_term (:obj:`str`): X term in the DWCA file.  Defaults to DEFAULT_X_TERM.
             y_term (:obj:`str`): Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.
+            geopoint_term (:obj:`str`): Geopoint term in the DWCA file.  Default is None.
         """
         self.meta_filename = meta_filename
         self.archive_filename = dwca_filename
@@ -358,7 +364,7 @@ class PointDwcaReader:
         self.species_term = species_term
         self.x_term = x_term
         self.y_term = y_term
-        self.geopoint_term = None
+        self.geopoint_term = geopoint_term
         self.group_field = self.species_term
 
     # .......................
@@ -385,7 +391,10 @@ class PointDwcaReader:
             None: Returned if there is no x value.
         """
         if self.geopoint_term is not None:
-            return point_dict[self.geopoint_term][self.x_term]
+            try:
+                return json.loads(point_dict[self.geopoint_term].replace("'", '"'))[self.x_term]
+            except:
+                return None
         return point_dict[self.x_term]
 
     # .......................
@@ -400,7 +409,10 @@ class PointDwcaReader:
             None: Returned if there is no y value.
         """
         if self.geopoint_term is not None:
-            return point_dict[self.geopoint_term][self.y_term]
+            try:
+                return json.loads(point_dict[self.geopoint_term].replace("'", '"'))[self.y_term]
+            except:
+                return None
         return point_dict[self.y_term]
 
     # .......................
@@ -442,10 +454,10 @@ class PointDwcaReader:
             StopIteration: Raised when there are no additional objects.
         """
         for point_row in self.reader:
-            point_dict = {
-                term: self.fields[term](point_row) for term in self.fields.keys()
-            }
             try:
+                point_dict = {
+                    term: self.fields[term](point_row) for term in self.fields.keys()
+                }
                 pt = Point(
                     self._get_species_name(point_dict),
                     self._get_x_value(point_dict),
@@ -465,6 +477,10 @@ class PointDwcaReader:
                 pass
             except TypeError:
                 pass
+            except Exception as err:
+                #print('Value error: {}'.format(point_dict))
+                #raise err
+                pass
 
         if self._next_points:
             tmp = self._next_points
@@ -482,6 +498,12 @@ class PointDwcaReader:
         """
         root_element = ET.fromstring(meta_contents)
         core_element = root_element.find(CORE_TAG)
+
+        ## If core element is missing (iDigBio) look in extensions
+        #if core_element is None:
+        #    for extension_el in root_element.findall(EXTENSION_TAG):
+        #        if core_element is None and extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:
+        #            core_element = extension_el
 
         # Process core element
         # - Look for parameters we use for processing
@@ -574,6 +596,8 @@ class PointDwcaReader:
             ] = self.occurrence_params['linesTerminatedBy']
         if len(self.occurrence_params['fieldsEnclosedBy']) > 0:
             reader_params['quotechar'] = self.occurrence_params['fieldsEnclosedBy']
+        #raise Exception(reader_params['quotechar'])
+        #reader_params['quotechar'] = None
 
         self.reader = csv.reader(self.file, **reader_params)
         for _ in range(int(self.occurrence_params['ignoreHeaderLines'])):
@@ -687,7 +711,9 @@ def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=
             raw_val = default
         if len(row[index]) > 0:
             raw_val = row[index]
-        return raw_val.split(delimiter)
+        if len(raw_val) > 0:
+            return raw_val.split(delimiter)
+        return []
 
     # .......................
     def value_getter(row):
