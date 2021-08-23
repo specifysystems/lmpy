@@ -1,5 +1,5 @@
-:mod:`lmpy.statistics.mcpa`
-===========================
+:py:mod:`lmpy.statistics.mcpa`
+==============================
 
 .. py:module:: lmpy.statistics.mcpa
 
@@ -45,12 +45,12 @@ Attributes
    lmpy.statistics.mcpa.lock
 
 
-.. data:: CONCURRENCY_FACTOR
+.. py:data:: CONCURRENCY_FACTOR
    :annotation: = 5
 
    
 
-.. function:: _beta_helper(mtx1, mtx2, weights)
+.. py:function:: _beta_helper(mtx1, mtx2, weights)
 
    This helper function avoids creating large temporary matrices.
 
@@ -65,7 +65,7 @@ Attributes
    :rtype: Matrix
 
 
-.. function:: _calculate_beta(pred_std, weights, phylo_std, use_lock=True)
+.. py:function:: _calculate_beta(pred_std, weights, phylo_std, use_lock=True)
 
    Calculates the regression model (beta) for the provided inputs.
 
@@ -104,7 +104,7 @@ Attributes
    :rtype: Matrix
 
 
-.. function:: _calculate_r_squared(y_hat, phylo_std)
+.. py:function:: _calculate_r_squared(y_hat, phylo_std)
 
    Calculates the R-squared value for the inputs.
 
@@ -125,7 +125,7 @@ Attributes
    :rtype: Matrix
 
 
-.. function:: _calculate_y_hat(pred_std, beta)
+.. py:function:: _calculate_y_hat(pred_std, beta)
 
    Calculates the predicted value for a regression (Y hat).
 
@@ -140,7 +140,7 @@ Attributes
    :rtype: Matrix
 
 
-.. function:: _mcpa_for_node(incidence_mtx, env_mtx, bg_mtx, phylo_col, use_locks=False)
+.. py:function:: _mcpa_for_node(incidence_mtx, env_mtx, bg_mtx, phylo_col, use_locks=False)
 
    Runs MCPA computations for a single tree node.
 
@@ -161,7 +161,7 @@ Attributes
    :rtype: tuple
 
 
-.. function:: _standardize_matrix(mtx, weights)
+.. py:function:: _standardize_matrix(mtx, weights)
 
    Standardizes a phylogenetic or predictor matrix.
 
@@ -192,7 +192,7 @@ Attributes
    :rtype: Matrix
 
 
-.. function:: _trace_mtx_by_transverse(mtx)
+.. py:function:: _trace_mtx_by_transverse(mtx)
 
    Prevent a memory bomb by performing trace(mtx . mtx.T) in a smarter way.
 
@@ -214,7 +214,7 @@ Attributes
    :rtype: Matrix
 
 
-.. function:: get_p_values(observed_value, test_values, num_permutations=None)
+.. py:function:: get_p_values(observed_value, test_values, num_permutations=None)
 
    Gets an array of P-Values.
 
@@ -238,12 +238,12 @@ Attributes
    :rtype: Matrix
 
 
-.. data:: lock
+.. py:data:: lock
    
 
    
 
-.. function:: mcpa(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)
+.. py:function:: mcpa(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)
 
    Runs MCPA for a set of matrices.
 
@@ -268,7 +268,7 @@ Attributes
    :rtype: tuple
 
 
-.. function:: mcpa_parallel(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)
+.. py:function:: mcpa_parallel(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)
 
    Run MCPA for a set of matrices using parallelism.
 

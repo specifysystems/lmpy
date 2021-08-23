@@ -1,5 +1,5 @@
-:mod:`lmpy.statistics.running_stats`
-====================================
+:py:mod:`lmpy.statistics.running_stats`
+=======================================
 
 .. py:module:: lmpy.statistics.running_stats
 
@@ -36,8 +36,7 @@ Functions
 
 
 
-.. class:: RunningStats(observed=None, compare_fn=compare_absolute_values)
-
+.. py:class:: RunningStats(observed=None, compare_fn=compare_absolute_values)
 
    Bases: :py:obj:`object`
 
@@ -49,7 +48,7 @@ Functions
    :param compare_fn (: obj:method): A function used to compare pushed values
                         to the observed statistic value.
 
-   .. method:: p_values(self)
+   .. py:method:: p_values(self)
       :property:
 
       Retrieve p-values from the test values greater than the f-statistic.
@@ -60,7 +59,7 @@ Functions
       :raises Exception: Raised if there are no observed values.
 
 
-   .. method:: push(self, val)
+   .. py:method:: push(self, val)
 
       Add a test value to the running totals.
 
@@ -69,7 +68,7 @@ Functions
       :type val: Matrix, Numpy array, or numeric
 
 
-   .. method:: standard_deviation(self)
+   .. py:method:: standard_deviation(self)
       :property:
 
       Retrieve the standard deviation of the test values.
@@ -78,7 +77,7 @@ Functions
       :rtype: float
 
 
-   .. method:: variance(self)
+   .. py:method:: variance(self)
       :property:
 
       Retrieve the variance of the test values.
@@ -88,7 +87,7 @@ Functions
 
 
 
-.. function:: compare_absolute_values(observed, test_data)
+.. py:function:: compare_absolute_values(observed, test_data)
 
    Compares the absolute values of the observed and random data.
 
@@ -104,7 +103,7 @@ Functions
    :rtype: bool
 
 
-.. function:: compare_signed_values(observed, test_data)
+.. py:function:: compare_signed_values(observed, test_data)
 
    Compares the signed values of the observed and random data.
 

@@ -1,5 +1,5 @@
-:mod:`lmpy.randomize.grady`
-===========================
+:py:mod:`lmpy.randomize.grady`
+==============================
 
 .. py:module:: lmpy.randomize.grady
 
@@ -33,7 +33,7 @@ Functions
 
 
 
-.. function:: all_ones_heuristic(orig_pam)
+.. py:function:: all_ones_heuristic(orig_pam)
 
    Creates a two-dimensional approximation composed of all ones.
 
@@ -44,7 +44,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: all_zeros_heuristic(orig_pam)
+.. py:function:: all_zeros_heuristic(orig_pam)
 
    Creates a two-dimensional approximation composed of all zeros.
 
@@ -55,7 +55,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: fill_shuffle_reshape_heuristic(orig_pam)
+.. py:function:: fill_shuffle_reshape_heuristic(orig_pam)
 
    Create an approximation with the correct number of 1s randomly placed.
 
@@ -69,7 +69,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic)
+.. py:function:: grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic)
 
    Main function for creating a random matrix.
 
@@ -86,7 +86,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: max_col_or_row_heuristic(orig_pam)
+.. py:function:: max_col_or_row_heuristic(orig_pam)
 
    Weighting method using max weight between row and column.
 
@@ -100,7 +100,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: min_col_or_row_heuristic(orig_pam)
+.. py:function:: min_col_or_row_heuristic(orig_pam)
 
    Weighting method using max weight between row and column.
 
@@ -114,7 +114,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: total_fill_percentage_heuristic(orig_pam)
+.. py:function:: total_fill_percentage_heuristic(orig_pam)
 
    Create an approximation using the total fill percentage of the PAM.
 

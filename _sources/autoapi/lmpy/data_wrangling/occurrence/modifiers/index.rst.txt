@@ -1,5 +1,5 @@
-:mod:`lmpy.data_wrangling.occurrence.modifiers`
-===============================================
+:py:mod:`lmpy.data_wrangling.occurrence.modifiers`
+==================================================
 
 .. py:module:: lmpy.data_wrangling.occurrence.modifiers
 
@@ -25,7 +25,7 @@ Functions
 
 
 
-.. function:: get_accepted_name_modifier(accepted_taxa_filename)
+.. py:function:: get_accepted_name_modifier(accepted_taxa_filename)
 
    Get a data wrangler for populating accepted taxon name for points.
 
@@ -36,7 +36,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_attribute_modifier(att_name, replace_func)
+.. py:function:: get_attribute_modifier(att_name, replace_func)
 
    Get a function that replaces an Point attribute using a replace func.
 
@@ -52,7 +52,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_common_format_modifier(attribute_map)
+.. py:function:: get_common_format_modifier(attribute_map)
 
    Get a function to convert points to a common format (common attributes).
 
@@ -67,7 +67,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_coordinate_converter_modifier(in_epsg, out_epsg)
+.. py:function:: get_coordinate_converter_modifier(in_epsg, out_epsg)
 
    Get a function to convert points from one coordinate system to another.
 

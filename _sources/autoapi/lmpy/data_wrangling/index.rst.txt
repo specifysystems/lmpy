@@ -1,5 +1,5 @@
-:mod:`lmpy.data_wrangling`
-==========================
+:py:mod:`lmpy.data_wrangling`
+=============================
 
 .. py:module:: lmpy.data_wrangling
 

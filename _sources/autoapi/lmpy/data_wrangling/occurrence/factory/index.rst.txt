@@ -1,5 +1,5 @@
-:mod:`lmpy.data_wrangling.occurrence.factory`
-=============================================
+:py:mod:`lmpy.data_wrangling.occurrence.factory`
+================================================
 
 .. py:module:: lmpy.data_wrangling.occurrence.factory
 
@@ -30,72 +30,72 @@ Functions
 
 
 
-.. class:: WRANGLER_TYPES
+.. py:class:: WRANGLER_TYPES
 
    Constants class for occurrence data wrangler types.
 
-   .. attribute:: ACCEPTED_NAME_MODIFIER
+   .. py:attribute:: ACCEPTED_NAME_MODIFIER
       :annotation: = accepted_name_modifier
 
       
 
-   .. attribute:: ATTRIBUTE_FILTER
+   .. py:attribute:: ATTRIBUTE_FILTER
       :annotation: = attribute_filter
 
       
 
-   .. attribute:: ATTRIBUTE_MAP_MODIFIER
+   .. py:attribute:: ATTRIBUTE_MAP_MODIFIER
       :annotation: = attribute_map_modifier
 
       
 
-   .. attribute:: ATTRIBUTE_MODIFIER
+   .. py:attribute:: ATTRIBUTE_MODIFIER
       :annotation: = attribute_modifier
 
       
 
-   .. attribute:: BBOX_FILTER
+   .. py:attribute:: BBOX_FILTER
       :annotation: = bbox_filter
 
       
 
-   .. attribute:: CORDINATE_CONVERTER_MODIFIER
+   .. py:attribute:: CORDINATE_CONVERTER_MODIFIER
       :annotation: = coordinate_converter_modifier
 
       
 
-   .. attribute:: DECIMAL_PRECISION_FILTER
+   .. py:attribute:: DECIMAL_PRECISION_FILTER
       :annotation: = decimal_precision_filter
 
       
 
-   .. attribute:: DISJOINT_GEOMETRIES_FILTER
+   .. py:attribute:: DISJOINT_GEOMETRIES_FILTER
       :annotation: = disjoint_geometries_filter
 
       
 
-   .. attribute:: INTERSECT_GEOMETRIES_FILTER
+   .. py:attribute:: INTERSECT_GEOMETRIES_FILTER
       :annotation: = intersect_geometries_filter
 
       
 
-   .. attribute:: MINIMUM_POINTS_FILTER
+   .. py:attribute:: MINIMUM_POINTS_FILTER
       :annotation: = minimum_points_filter
 
       
 
-   .. attribute:: SPATIAL_INDEX_FILTER
+   .. py:attribute:: SPATIAL_INDEX_FILTER
       :annotation: = spatial_index_filter
 
       
 
-   .. attribute:: UNIQUE_LOCALITIES_FILTER
+   .. py:attribute:: UNIQUE_LOCALITIES_FILTER
       :annotation: = unique_localities_filter
 
       
 
 
-.. function:: wrangler_factory(wrangler_config)
+.. py:function:: wrangler_factory(wrangler_config)
 
    Get an occurrence data wrangler from the wrangler configuration.
 

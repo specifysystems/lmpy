@@ -1,5 +1,5 @@
-:mod:`lmpy.statistics`
-======================
+:py:mod:`lmpy.statistics`
+=========================
 
 .. py:module:: lmpy.statistics
 

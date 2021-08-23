@@ -1,5 +1,5 @@
-:mod:`lmpy.spatial`
-===================
+:py:mod:`lmpy.spatial`
+======================
 
 .. py:module:: lmpy.spatial
 

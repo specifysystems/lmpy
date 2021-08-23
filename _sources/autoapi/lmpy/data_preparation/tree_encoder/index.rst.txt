@@ -1,5 +1,5 @@
-:mod:`lmpy.data_preparation.tree_encoder`
-=========================================
+:py:mod:`lmpy.data_preparation.tree_encoder`
+============================================
 
 .. py:module:: lmpy.data_preparation.tree_encoder
 
@@ -29,16 +29,14 @@ Classes
 
 
 
-.. exception:: EncodingException
-
+.. py:exception:: EncodingException
 
    Bases: :py:obj:`Exception`
 
    Initialize self.  See help(type(self)) for accurate signature.
 
 
-.. class:: TreeEncoder(tree, pam)
-
+.. py:class:: TreeEncoder(tree, pam)
 
    Base constructor for tree encoder.
 
@@ -47,7 +45,7 @@ Classes
    :param pam: A PAM matrix object.
    :type pam: Matrix
 
-   .. method:: _build_p_branch_length_values(self, node)
+   .. py:method:: _build_p_branch_length_values(self, node)
 
       Recurse through the tree to get P matrix values for node / tips.
 
@@ -61,7 +59,7 @@ Classes
       :rtype: tuple
 
 
-   .. method:: _build_p_matrix_no_branch_lengths(self)
+   .. py:method:: _build_p_matrix_no_branch_lengths(self)
 
       Creates a P matrix when no branch lengths are present.
 
@@ -130,7 +128,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: _build_p_matrix_tip_proportion_list(self, node, visited=None)
+   .. py:method:: _build_p_matrix_tip_proportion_list(self, node, visited=None)
 
       Builds a list of tip proportions for the p matrix w/o branch lengths.
 
@@ -149,7 +147,7 @@ Classes
       :rtype: list
 
 
-   .. method:: _build_p_matrix_with_branch_lengths(self)
+   .. py:method:: _build_p_matrix_with_branch_lengths(self)
 
       Creates a P matrix when branch lengths are present.
 
@@ -211,7 +209,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: encode_phylogeny(self)
+   .. py:method:: encode_phylogeny(self)
 
       Encode the phylogenetic tree into a matrix.
 
@@ -228,7 +226,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: from_file(cls, tree_file_name, pam_file_name)
+   .. py:method:: from_file(cls, tree_file_name, pam_file_name)
       :classmethod:
 
       Creates an instance of the PhyloEncoding class from tree and pam.
@@ -242,7 +240,7 @@ Classes
       :rtype: TreeEncoder
 
 
-   .. method:: validate(self)
+   .. py:method:: validate(self)
 
       Validates the tree / PAM combination.
 

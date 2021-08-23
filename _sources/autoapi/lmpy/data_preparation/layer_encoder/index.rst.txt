@@ -1,5 +1,5 @@
-:mod:`lmpy.data_preparation.layer_encoder`
-==========================================
+:py:mod:`lmpy.data_preparation.layer_encoder`
+=============================================
 
 .. py:module:: lmpy.data_preparation.layer_encoder
 
@@ -34,15 +34,14 @@ Classes
 
 
 
-.. class:: LayerEncoder(shapegrid_filename)
-
+.. py:class:: LayerEncoder(shapegrid_filename)
 
    Constructor for the layer encoder.
 
    :param shapegrid_filename: A file path for the shapegrid.
    :type shapegrid_filename: str
 
-   .. method:: _encode_layer(self, window_func, encode_func, column_name, num_columns=1)
+   .. py:method:: _encode_layer(self, window_func, encode_func, column_name, num_columns=1)
 
       Encodes the layer using the provided encoding function.
 
@@ -60,7 +59,7 @@ Classes
       :rtype: list
 
 
-   .. method:: _get_window_function(data, layer_bbox, cell_size, num_cell_sides=4)
+   .. py:method:: _get_window_function(data, layer_bbox, cell_size, num_cell_sides=4)
       :staticmethod:
 
       Gets a windowing function for the data.
@@ -92,7 +91,7 @@ Classes
       .. todo:: CJ - Enable hexagonal windows by masking data.
 
 
-   .. method:: _read_layer(self, layer_filename, resolution=None, bbox=None, nodata=DEFAULT_NODATA, event_field=None)
+   .. py:method:: _read_layer(self, layer_filename, resolution=None, bbox=None, nodata=DEFAULT_NODATA, event_field=None)
 
       Reads a layer for processing.
 
@@ -119,7 +118,7 @@ Classes
       :rtype: tuple
 
 
-   .. method:: _read_raster_layer(self, raster_filename)
+   .. py:method:: _read_raster_layer(self, raster_filename)
 
       Reads a raster layer for processing.
 
@@ -133,14 +132,14 @@ Classes
       :rtype: tuple
 
 
-   .. method:: _read_shapegrid(self, shapegrid_filename)
+   .. py:method:: _read_shapegrid(self, shapegrid_filename)
 
       Read the shapegrid.
 
       :param shapegrid_filename: The file location of the shapegrid.
 
 
-   .. method:: _read_vector_layer(self, vector_filename, resolution=None, bbox=None, nodata=DEFAULT_NODATA, event_field=None)
+   .. py:method:: _read_vector_layer(self, vector_filename, resolution=None, bbox=None, nodata=DEFAULT_NODATA, event_field=None)
 
       Reads a vector layer for processing.
 
@@ -163,7 +162,7 @@ Classes
       :rtype: tuple
 
 
-   .. method:: encode_biogeographic_hypothesis(self, layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, event_field=None)
+   .. py:method:: encode_biogeographic_hypothesis(self, layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, event_field=None)
 
       Encodes a biogeographic hypothesis layer.
 
@@ -187,7 +186,7 @@ Classes
       :rtype: list of str
 
 
-   .. method:: encode_largest_class(self, layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_largest_class(self, layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
 
       Encodes a layer based on the largest class in each data window.
 
@@ -208,7 +207,7 @@ Classes
       :rtype: list of str
 
 
-   .. method:: encode_mean_value(self, layer_filename, column_name, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_mean_value(self, layer_filename, column_name, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
 
       Encodes a layer based on the mean value for each data window.
 
@@ -227,7 +226,7 @@ Classes
       :rtype: list of str
 
 
-   .. method:: encode_presence_absence(self, layer_filename, column_name, min_presence, max_presence, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_presence_absence(self, layer_filename, column_name, min_presence, max_presence, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
 
       Encodes a distribution layer into a presence absence column.
 
@@ -250,7 +249,7 @@ Classes
       :rtype: list of str
 
 
-   .. method:: get_encoded_matrix(self)
+   .. py:method:: get_encoded_matrix(self)
 
       Returns the encoded matrix.
 
@@ -258,7 +257,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: get_geojson(self)
+   .. py:method:: get_geojson(self)
 
       Formats the encoded matrix as GeoJSON.
 

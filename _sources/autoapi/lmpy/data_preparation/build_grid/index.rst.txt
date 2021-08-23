@@ -1,5 +1,5 @@
-:mod:`lmpy.data_preparation.build_grid`
-=======================================
+:py:mod:`lmpy.data_preparation.build_grid`
+==========================================
 
 .. py:module:: lmpy.data_preparation.build_grid
 
@@ -25,7 +25,7 @@ Functions
 
 
 
-.. function:: build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)
+.. py:function:: build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)
 
    Build a shapegrid with an optional cutout.
 
@@ -63,7 +63,7 @@ Functions
    :raises ValueError: Raised if an invalid number of cell sides is specified.
 
 
-.. function:: hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
+.. py:function:: hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
 
    Generator producing hexagonal WKT for cells of the shapegrid.
 
@@ -83,7 +83,7 @@ Functions
    :Yields: *str* -- Well-known text polygons for the cells.
 
 
-.. function:: make_polygon_wkt_from_points(points)
+.. py:function:: make_polygon_wkt_from_points(points)
 
    Create a polygon WKT string from a list of points.
 
@@ -96,7 +96,7 @@ Functions
    :rtype: str
 
 
-.. function:: square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
+.. py:function:: square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
 
    Generator producing square WKT for cells of the shapegrid.
 

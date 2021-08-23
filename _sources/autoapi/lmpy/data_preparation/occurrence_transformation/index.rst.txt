@@ -1,5 +1,5 @@
-:mod:`lmpy.data_preparation.occurrence_transformation`
-======================================================
+:py:mod:`lmpy.data_preparation.occurrence_transformation`
+=========================================================
 
 .. py:module:: lmpy.data_preparation.occurrence_transformation
 
@@ -25,7 +25,7 @@ Functions
 
 
 
-.. function:: get_chunk_key(value, group_position, group_size, filler_char='a')
+.. py:function:: get_chunk_key(value, group_position, group_size, filler_char='a')
 
    Get the chunk key from the value.
 
@@ -43,7 +43,7 @@ Functions
    :rtype: str
 
 
-.. function:: sort_points(readers, writer, wranglers=None)
+.. py:function:: sort_points(readers, writer, wranglers=None)
 
    Sort and clean occurrence points.
 
@@ -55,7 +55,7 @@ Functions
    :type wranglers: list of DataWranglers
 
 
-.. function:: split_points(readers, writers, group_attribute, group_size, group_position, wranglers=None)
+.. py:function:: split_points(readers, writers, group_attribute, group_size, group_position, wranglers=None)
 
    Split points in the readers into smaller chunks for easier processing.
 
@@ -78,7 +78,7 @@ Functions
    .. note:: group_attribute should be used when instantiating the Point readers.
 
 
-.. function:: wrangle_points(readers, writer, wranglers=None)
+.. py:function:: wrangle_points(readers, writer, wranglers=None)
 
    Wrangle input points and write output points.
 

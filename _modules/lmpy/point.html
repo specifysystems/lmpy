@@ -196,6 +196,10 @@
 <div class="viewcode-block" id="FILES_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.FILES_TAG">[docs]</a><span class="n">FILES_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}files&#39;</span></div>
 <div class="viewcode-block" id="ID_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.ID_TAG">[docs]</a><span class="n">ID_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}id&#39;</span></div>
 <div class="viewcode-block" id="LOCATION_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.LOCATION_TAG">[docs]</a><span class="n">LOCATION_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}location&#39;</span></div>
+<div class="viewcode-block" id="EXTENSION_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.EXTENSION_TAG">[docs]</a><span class="n">EXTENSION_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}extension&#39;</span></div>
+
+<div class="viewcode-block" id="ROW_TYPE_ATT"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.ROW_TYPE_ATT">[docs]</a><span class="n">ROW_TYPE_ATT</span> <span class="o">=</span> <span class="s1">&#39;rowType&#39;</span></div>
+<div class="viewcode-block" id="OCCURRENCE_ROW_TYPE"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.OCCURRENCE_ROW_TYPE">[docs]</a><span class="n">OCCURRENCE_ROW_TYPE</span> <span class="o">=</span> <span class="s1">&#39;http://rs.tdwg.org/dwc/terms/Occurrence&#39;</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -498,7 +502,8 @@
         <span class="n">meta_filename</span><span class="o">=</span><span class="n">DEFAULT_META_FILENAME</span><span class="p">,</span>
         <span class="n">species_term</span><span class="o">=</span><span class="n">DEFAULT_SPECIES_TERM</span><span class="p">,</span>
         <span class="n">x_term</span><span class="o">=</span><span class="n">DEFAULT_X_TERM</span><span class="p">,</span>
-        <span class="n">y_term</span><span class="o">=</span><span class="n">DEFAULT_Y_TERM</span>
+        <span class="n">y_term</span><span class="o">=</span><span class="n">DEFAULT_Y_TERM</span><span class="p">,</span>
+        <span class="n">geopoint_term</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for reading Darwin Core Archives.</span>
 
@@ -510,6 +515,7 @@
 <span class="sd">                DEFAULT_SPECIES_TERM.</span>
 <span class="sd">            x_term (:obj:`str`): X term in the DWCA file.  Defaults to DEFAULT_X_TERM.</span>
 <span class="sd">            y_term (:obj:`str`): Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.</span>
+<span class="sd">            geopoint_term (:obj:`str`): Geopoint term in the DWCA file.  Default is None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">meta_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span> <span class="o">=</span> <span class="n">dwca_filename</span>
@@ -521,7 +527,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">species_term</span> <span class="o">=</span> <span class="n">species_term</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x_term</span> <span class="o">=</span> <span class="n">x_term</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_term</span> <span class="o">=</span> <span class="n">y_term</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="o">=</span> <span class="n">geopoint_term</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">group_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_term</span>
 
     <span class="c1"># .......................</span>
@@ -548,7 +554,10 @@
 <span class="sd">            None: Returned if there is no x value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">x_term</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_term</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_term</span><span class="p">]</span></div>
 
     <span class="c1"># .......................</span>
@@ -563,7 +572,10 @@
 <span class="sd">            None: Returned if there is no y value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span></div>
 
     <span class="c1"># .......................</span>
@@ -605,10 +617,10 @@
 <span class="sd">            StopIteration: Raised when there are no additional objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">point_row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">:</span>
-            <span class="n">point_dict</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">term</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">term</span><span class="p">](</span><span class="n">point_row</span><span class="p">)</span> <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-            <span class="p">}</span>
             <span class="k">try</span><span class="p">:</span>
+                <span class="n">point_dict</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">term</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">term</span><span class="p">](</span><span class="n">point_row</span><span class="p">)</span> <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                <span class="p">}</span>
                 <span class="n">pt</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_get_species_name</span><span class="p">(</span><span class="n">point_dict</span><span class="p">),</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_get_x_value</span><span class="p">(</span><span class="n">point_dict</span><span class="p">),</span>
@@ -628,6 +640,10 @@
                 <span class="k">pass</span>
             <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                 <span class="k">pass</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="c1">#print(&#39;Value error: {}&#39;.format(point_dict))</span>
+                <span class="c1">#raise err</span>
+                <span class="k">pass</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_points</span><span class="p">:</span>
             <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_points</span>
@@ -645,6 +661,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">root_element</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">meta_contents</span><span class="p">)</span>
         <span class="n">core_element</span> <span class="o">=</span> <span class="n">root_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">CORE_TAG</span><span class="p">)</span>
+
+        <span class="c1">## If core element is missing (iDigBio) look in extensions</span>
+        <span class="c1">#if core_element is None:</span>
+        <span class="c1">#    for extension_el in root_element.findall(EXTENSION_TAG):</span>
+        <span class="c1">#        if core_element is None and extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:</span>
+        <span class="c1">#            core_element = extension_el</span>
 
         <span class="c1"># Process core element</span>
         <span class="c1"># - Look for parameters we use for processing</span>
@@ -737,6 +759,8 @@
             <span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;linesTerminatedBy&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">reader_params</span><span class="p">[</span><span class="s1">&#39;quotechar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">]</span>
+        <span class="c1">#raise Exception(reader_params[&#39;quotechar&#39;])</span>
+        <span class="c1">#reader_params[&#39;quotechar&#39;] = None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">reader_params</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;ignoreHeaderLines&#39;</span><span class="p">])):</span>
@@ -850,7 +874,9 @@
             <span class="n">raw_val</span> <span class="o">=</span> <span class="n">default</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">raw_val</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">raw_val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">raw_val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[]</span>
 
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">value_getter</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>

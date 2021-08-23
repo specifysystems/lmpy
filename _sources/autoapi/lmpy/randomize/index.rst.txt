@@ -1,5 +1,5 @@
-:mod:`lmpy.randomize`
-=====================
+:py:mod:`lmpy.randomize`
+========================
 
 .. py:module:: lmpy.randomize
 

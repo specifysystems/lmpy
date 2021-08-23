@@ -1,5 +1,5 @@
-:mod:`lmpy.spatial.spatial_index`
-=================================
+:py:mod:`lmpy.spatial.spatial_index`
+====================================
 
 .. py:module:: lmpy.spatial.spatial_index
 
@@ -24,15 +24,14 @@ Classes
 
 
 
-.. class:: SpatialIndex(index_name=None)
-
+.. py:class:: SpatialIndex(index_name=None)
 
    Constructor for the spatial index.
 
    :param index_name: A name to use for saving the index to a file.
    :type index_name: str
 
-   .. method:: _point_intersect(pt_x, pt_y, geom)
+   .. py:method:: _point_intersect(pt_x, pt_y, geom)
       :staticmethod:
 
       Perform a point intersect.
@@ -48,7 +47,7 @@ Classes
       :rtype: bool
 
 
-   .. method:: add_feature(self, identifier, geom, att_dict)
+   .. py:method:: add_feature(self, identifier, geom, att_dict)
 
       Add a feature to the index.
 
@@ -60,17 +59,17 @@ Classes
       :type att_dict: dict
 
 
-   .. method:: close(self)
+   .. py:method:: close(self)
 
       Close the index.
 
 
-   .. method:: save(self)
+   .. py:method:: save(self)
 
       Save the index attributes.
 
 
-   .. method:: search(self, x, y)
+   .. py:method:: search(self, x, y)
 
       Search for x, y and return attributes in lookup if found.
 

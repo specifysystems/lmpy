@@ -1,5 +1,5 @@
-:mod:`lmpy.data_preparation`
-============================
+:py:mod:`lmpy.data_preparation`
+===============================
 
 .. py:module:: lmpy.data_preparation
 

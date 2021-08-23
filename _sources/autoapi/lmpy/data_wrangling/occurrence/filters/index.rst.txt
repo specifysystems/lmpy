@@ -1,5 +1,5 @@
-:mod:`lmpy.data_wrangling.occurrence.filters`
-=============================================
+:py:mod:`lmpy.data_wrangling.occurrence.filters`
+================================================
 
 .. py:module:: lmpy.data_wrangling.occurrence.filters
 
@@ -29,7 +29,7 @@ Functions
 
 
 
-.. function:: get_attribute_filter(att_name, pass_condition)
+.. py:function:: get_attribute_filter(att_name, pass_condition)
 
    Get a filter function for checking a point attribute.
 
@@ -46,7 +46,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_bounding_box_filter(min_x, min_y, max_x, max_y)
+.. py:function:: get_bounding_box_filter(min_x, min_y, max_x, max_y)
 
    Get a filter function for the specified bounding box.
 
@@ -66,7 +66,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_decimal_precision_filter(decimal_places)
+.. py:function:: get_decimal_precision_filter(decimal_places)
 
    Get a filter function to remove points with inadequate precision.
 
@@ -81,7 +81,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_disjoint_geometries_filter(geometry_wkts)
+.. py:function:: get_disjoint_geometries_filter(geometry_wkts)
 
    Get a filter function for finding disjoint geometries.
 
@@ -96,7 +96,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_intersect_geometries_filter(geometry_wkts)
+.. py:function:: get_intersect_geometries_filter(geometry_wkts)
 
    Get a filter function for intersecting the provided geometries.
 
@@ -111,7 +111,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_minimum_points_filter(minimum_count)
+.. py:function:: get_minimum_points_filter(minimum_count)
 
    Get a filter that returns all points if a minimum number, else none.
 
@@ -125,7 +125,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_spatial_index_filter(spatial_index, get_species_intersections_func, check_hit_func)
+.. py:function:: get_spatial_index_filter(spatial_index, get_species_intersections_func, check_hit_func)
 
    Get a filter that uses a spatial index and logic to intersect hits.
 
@@ -146,7 +146,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_unique_localities_filter()
+.. py:function:: get_unique_localities_filter()
 
    Get a filter that only retains points with unique localities.
 

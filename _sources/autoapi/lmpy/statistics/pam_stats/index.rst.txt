@@ -1,5 +1,5 @@
-:mod:`lmpy.statistics.pam_stats`
-================================
+:py:mod:`lmpy.statistics.pam_stats`
+===================================
 
 .. py:module:: lmpy.statistics.pam_stats
 
@@ -60,18 +60,7 @@ Functions
 
 
 
-.. class:: CovarianceMatrixMetric(func)
-
-
-   Bases: :py:obj:`PamStatsMetric`
-
-   Constructor.
-
-   :param func: The function to call.
-
-
-.. class:: DiversityMetric(func)
-
+.. py:class:: CovarianceMatrixMetric(func)
 
    Bases: :py:obj:`PamStatsMetric`
 
@@ -80,8 +69,16 @@ Functions
    :param func: The function to call.
 
 
-.. class:: PamDistMatrixMetric(func)
+.. py:class:: DiversityMetric(func)
 
+   Bases: :py:obj:`PamStatsMetric`
+
+   Constructor.
+
+   :param func: The function to call.
+
+
+.. py:class:: PamDistMatrixMetric(func)
 
    Bases: :py:obj:`_SiteStatMetric`
 
@@ -90,8 +87,7 @@ Functions
    :param func: The function to call.
 
 
-.. class:: PamStats(pam, tree=None)
-
+.. py:class:: PamStats(pam, tree=None)
 
    Constructor for PAM stats computations.
 
@@ -100,42 +96,42 @@ Functions
    :param tree: A tree to use for phylogenetic distance computations.
    :type tree: TreeWrapper
 
-   .. attribute:: covariance_stats
+   .. py:attribute:: covariance_stats
       :annotation: = [None, None]
 
       
 
-   .. attribute:: diversity_stats
+   .. py:attribute:: diversity_stats
       :annotation: = [None, None, None, None, None, None]
 
       
 
-   .. attribute:: site_matrix_stats
+   .. py:attribute:: site_matrix_stats
       :annotation: = [None, None, None, None]
 
       
 
-   .. attribute:: site_pam_dist_mtx_stats
+   .. py:attribute:: site_pam_dist_mtx_stats
       :annotation: = [None]
 
       
 
-   .. attribute:: site_tree_distance_matrix_stats
+   .. py:attribute:: site_tree_distance_matrix_stats
       :annotation: = [None, None, None]
 
       
 
-   .. attribute:: site_tree_stats
+   .. py:attribute:: site_tree_stats
       :annotation: = [None]
 
       
 
-   .. attribute:: species_matrix_stats
+   .. py:attribute:: species_matrix_stats
       :annotation: = [None, None, None, None]
 
       
 
-   .. method:: calculate_covariance_statistics(self)
+   .. py:method:: calculate_covariance_statistics(self)
 
       Calculate covariance statistics matrices.
 
@@ -143,7 +139,7 @@ Functions
       :rtype: list of tuple
 
 
-   .. method:: calculate_diversity_statistics(self)
+   .. py:method:: calculate_diversity_statistics(self)
 
       Calculate diversity statistics.
 
@@ -151,7 +147,7 @@ Functions
       :rtype: list of tuple
 
 
-   .. method:: calculate_site_statistics(self)
+   .. py:method:: calculate_site_statistics(self)
 
       Calculate site-based statistics.
 
@@ -159,7 +155,7 @@ Functions
       :rtype: Matrix
 
 
-   .. method:: calculate_species_statistics(self)
+   .. py:method:: calculate_species_statistics(self)
 
       Calculate species-based statistics.
 
@@ -167,7 +163,7 @@ Functions
       :rtype: Matrix
 
 
-   .. method:: register_metric(self, name, metric_function)
+   .. py:method:: register_metric(self, name, metric_function)
 
       Register a new metric.
 
@@ -180,14 +176,13 @@ Functions
 
 
 
-.. class:: PamStatsMetric(func)
-
+.. py:class:: PamStatsMetric(func)
 
    Constructor.
 
    :param func: The function to call.
 
-   .. method:: __call__(self, *args, **kwargs)
+   .. py:method:: __call__(self, *args, **kwargs)
 
       Call the wrapped function.
 
@@ -199,8 +194,7 @@ Functions
 
 
 
-.. class:: SiteMatrixMetric(func)
-
+.. py:class:: SiteMatrixMetric(func)
 
    Bases: :py:obj:`_SiteStatMetric`
 
@@ -209,8 +203,7 @@ Functions
    :param func: The function to call.
 
 
-.. class:: SpeciesMatrixMetric(func)
-
+.. py:class:: SpeciesMatrixMetric(func)
 
    Bases: :py:obj:`_SpeciesStatMetric`
 
@@ -219,18 +212,7 @@ Functions
    :param func: The function to call.
 
 
-.. class:: TreeDistanceMatrixMetric(func)
-
-
-   Bases: :py:obj:`_SiteStatMetric`
-
-   Constructor.
-
-   :param func: The function to call.
-
-
-.. class:: TreeMetric(func)
-
+.. py:class:: TreeDistanceMatrixMetric(func)
 
    Bases: :py:obj:`_SiteStatMetric`
 
@@ -239,7 +221,16 @@ Functions
    :param func: The function to call.
 
 
-.. function:: alpha(pam)
+.. py:class:: TreeMetric(func)
+
+   Bases: :py:obj:`_SiteStatMetric`
+
+   Constructor.
+
+   :param func: The function to call.
+
+
+.. py:function:: alpha(pam)
 
    Calculate alpha diversity, the number of species in each site.
 
@@ -250,7 +241,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: alpha_proportional(pam)
+.. py:function:: alpha_proportional(pam)
 
    Calculate proportional alpha diversity.
 
@@ -264,7 +255,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: c_score(pam)
+.. py:function:: c_score(pam)
 
    Calculate the checker board score for the PAM.
 
@@ -275,7 +266,7 @@ Functions
    :rtype: float
 
 
-.. function:: lande(pam)
+.. py:function:: lande(pam)
 
    Calculate Lande's beta diversity metric for a PAM.
 
@@ -286,7 +277,7 @@ Functions
    :rtype: float
 
 
-.. function:: legendre(pam)
+.. py:function:: legendre(pam)
 
    Calculate Legendre's beta diversity metric for a PAM.
 
@@ -297,7 +288,7 @@ Functions
    :rtype: float
 
 
-.. function:: mean_nearest_taxon_distance(phylo_dist_mtx)
+.. py:function:: mean_nearest_taxon_distance(phylo_dist_mtx)
 
    Calculates the nearest neighbor distance.
 
@@ -309,7 +300,7 @@ Functions
    :rtype: float
 
 
-.. function:: mean_pairwise_distance(phylo_dist_mtx)
+.. py:function:: mean_pairwise_distance(phylo_dist_mtx)
 
    Calculates mean pairwise distance between species present at a site.
 
@@ -321,7 +312,7 @@ Functions
    :rtype: float
 
 
-.. function:: num_sites(pam)
+.. py:function:: num_sites(pam)
 
    Get the number of sites with presences.
 
@@ -332,7 +323,7 @@ Functions
    :rtype: int
 
 
-.. function:: num_species(pam)
+.. py:function:: num_species(pam)
 
    Get the number of species with presences.
 
@@ -343,7 +334,7 @@ Functions
    :rtype: int
 
 
-.. function:: omega(pam)
+.. py:function:: omega(pam)
 
    Calculate the range size per species.
 
@@ -354,7 +345,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: omega_proportional(pam)
+.. py:function:: omega_proportional(pam)
 
    Calculate the mean proportional range size of each species.
 
@@ -365,7 +356,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: pearson_correlation(pam, phylo_dist_mtx)
+.. py:function:: pearson_correlation(pam, phylo_dist_mtx)
 
    Calculates the Pearson correlation coefficient for each site.
 
@@ -378,7 +369,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: phi(pam)
+.. py:function:: phi(pam)
 
    Calculate phi, the range size per site.
 
@@ -392,7 +383,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: phi_average_proportional(pam)
+.. py:function:: phi_average_proportional(pam)
 
    Calculate proportional range size per site.
 
@@ -406,7 +397,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: phylogenetic_diversity(tree)
+.. py:function:: phylogenetic_diversity(tree)
 
    Calculate phylogenetic diversity of a tree.
 
@@ -417,7 +408,7 @@ Functions
    :rtype: float
 
 
-.. function:: psi(pam)
+.. py:function:: psi(pam)
 
    Calculate the range richness of each species.
 
@@ -428,7 +419,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: psi_average_proportional(pam)
+.. py:function:: psi_average_proportional(pam)
 
    Calculate the mean proportional species diversity.
 
@@ -442,7 +433,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: schluter_site_variance_ratio(pam)
+.. py:function:: schluter_site_variance_ratio(pam)
 
    Calculate Schluter's site variance ratio.
 
@@ -453,7 +444,7 @@ Functions
    :rtype: float
 
 
-.. function:: schluter_species_variance_ratio(pam)
+.. py:function:: schluter_species_variance_ratio(pam)
 
    Calculate Schluter's species variance ratio.
 
@@ -464,7 +455,7 @@ Functions
    :rtype: float
 
 
-.. function:: sigma_sites(pam)
+.. py:function:: sigma_sites(pam)
 
    Compute the site sigma metric for a PAM.
 
@@ -475,7 +466,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: sigma_species(pam)
+.. py:function:: sigma_species(pam)
 
    Compute the species sigma metric for a PAM.
 
@@ -486,7 +477,7 @@ Functions
    :rtype: Matrix
 
 
-.. function:: sum_pairwise_distance(phylo_dist_mtx)
+.. py:function:: sum_pairwise_distance(phylo_dist_mtx)
 
    Calculates the sum pairwise distance for all species present at a site.
 
@@ -498,7 +489,7 @@ Functions
    :rtype: float
 
 
-.. function:: whittaker(pam)
+.. py:function:: whittaker(pam)
 
    Calculate Whittaker's beta diversity metric for a PAM.
 

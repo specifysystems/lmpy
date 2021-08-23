@@ -1,5 +1,5 @@
-:mod:`lmpy.matrix`
-==================
+:py:mod:`lmpy.matrix`
+=====================
 
 .. py:module:: lmpy.matrix
 
@@ -34,8 +34,7 @@ Classes
 
 
 
-.. class:: Matrix(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)
-
+.. py:class:: Matrix(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)
 
    Bases: :py:obj:`numpy.ndarray`
 
@@ -63,7 +62,7 @@ Classes
    :returns: A converted numpy array to Matrix.
    :rtype: Matrix
 
-   .. method:: T(self)
+   .. py:method:: T(self)
       :property:
 
       Get the transpose of the matrix.
@@ -72,7 +71,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: __array_finalize__(self, obj)
+   .. py:method:: __array_finalize__(self, obj)
 
       Overridden function from ndarray.
 
@@ -84,7 +83,7 @@ Classes
                     metadata.
 
 
-   .. method:: concatenate(cls, mtx_list, axis=0)
+   .. py:method:: concatenate(cls, mtx_list, axis=0)
       :classmethod:
 
       Concatenates multiple Matrix objects together to form a new Matrix.
@@ -103,7 +102,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: flatten_2d(self)
+   .. py:method:: flatten_2d(self)
 
       Flattens a higher dimension Matrix object into a 2D matrix.
 
@@ -116,14 +115,14 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: get_column_headers(self)
+   .. py:method:: get_column_headers(self)
 
       Shortcut to get column headers.
 
       :returns: A list of headers for each column.
 
 
-   .. method:: get_headers(self, axis=None)
+   .. py:method:: get_headers(self, axis=None)
 
       Gets the headers associated with this Matrix.
 
@@ -136,7 +135,7 @@ Classes
       :rtype: dict
 
 
-   .. method:: get_metadata(self)
+   .. py:method:: get_metadata(self)
 
       Retrieves matrix metadata.
 
@@ -144,14 +143,14 @@ Classes
       :rtype: dict
 
 
-   .. method:: get_row_headers(self)
+   .. py:method:: get_row_headers(self)
 
       Shortcut to get row headers.
 
       :returns: A list of headers for the rows in the matrix.
 
 
-   .. method:: load(cls, filename)
+   .. py:method:: load(cls, filename)
       :classmethod:
 
       Load a matrix from a filename.
@@ -163,7 +162,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: load_csv(cls, flo, dtype=np.float, num_header_rows=0, num_header_cols=0)
+   .. py:method:: load_csv(cls, flo, dtype=np.float, num_header_rows=0, num_header_cols=0)
       :classmethod:
 
       Attempts to load a Matrix object from a CSV file-like object.
@@ -184,7 +183,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: load_flo(cls, flo)
+   .. py:method:: load_flo(cls, flo)
       :classmethod:
 
       Attempts to load a Matrix object from a file.
@@ -196,7 +195,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: save(self, flo)
+   .. py:method:: save(self, flo)
 
       Saves the Matrix to a file-like object.
 
@@ -207,7 +206,7 @@ Classes
       :type flo: file-like
 
 
-   .. method:: set_column_headers(self, headers)
+   .. py:method:: set_column_headers(self, headers)
 
       Shortcut to set column headers.
 
@@ -215,7 +214,7 @@ Classes
       :type headers: :obj:`list` of :obj:`str`
 
 
-   .. method:: set_headers(self, headers, axis=None)
+   .. py:method:: set_headers(self, headers, axis=None)
 
       Sets the headers for this Matrix.
 
@@ -236,7 +235,7 @@ Classes
              axes.
 
 
-   .. method:: set_row_headers(self, headers)
+   .. py:method:: set_row_headers(self, headers)
 
       Shortcut to set row headers.
 
@@ -244,7 +243,7 @@ Classes
       :type headers: :obj:`list` of :obj:`str`
 
 
-   .. method:: slice(self, *args)
+   .. py:method:: slice(self, *args)
 
       Subsets the matrix and returns a new instance.
 
@@ -260,7 +259,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: slice_by_header(self, header, axis)
+   .. py:method:: slice_by_header(self, header, axis)
 
       Gets a slice of the Matrix matching the header provided.
 
@@ -279,7 +278,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: transpose(self, *axes)
+   .. py:method:: transpose(self, *axes)
 
       Transposes the Matrix.
 
@@ -291,7 +290,7 @@ Classes
       :rtype: Matrix
 
 
-   .. method:: write(self, filename)
+   .. py:method:: write(self, filename)
 
       Write the matrix to the specified file location.
 
@@ -299,7 +298,7 @@ Classes
       :type filename: :obj:`str`
 
 
-   .. method:: write_csv(self, flo, *slice_args)
+   .. py:method:: write_csv(self, flo, *slice_args)
 
       Writes the Matrix object to a CSV file-like object.
 

@@ -1,5 +1,5 @@
-:mod:`lmpy.data_wrangling.occurrence`
-=====================================
+:py:mod:`lmpy.data_wrangling.occurrence`
+========================================
 
 .. py:module:: lmpy.data_wrangling.occurrence
 

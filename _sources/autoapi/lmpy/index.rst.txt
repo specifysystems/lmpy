@@ -1,5 +1,5 @@
-:mod:`lmpy`
-===========
+:py:mod:`lmpy`
+==============
 
 .. py:module:: lmpy
 

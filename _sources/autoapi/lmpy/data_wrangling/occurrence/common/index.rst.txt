@@ -1,5 +1,5 @@
-:mod:`lmpy.data_wrangling.occurrence.common`
-============================================
+:py:mod:`lmpy.data_wrangling.occurrence.common`
+===============================================
 
 .. py:module:: lmpy.data_wrangling.occurrence.common
 
@@ -24,7 +24,7 @@ Functions
 
 
 
-.. function:: get_occurrence_filter(pass_condition_func)
+.. py:function:: get_occurrence_filter(pass_condition_func)
 
    Function to get a filter from a pass condition function.
 
@@ -36,7 +36,7 @@ Functions
    :rtype: Method
 
 
-.. function:: get_occurrence_map(map_func)
+.. py:function:: get_occurrence_map(map_func)
 
    Function to get a mapper to apply a function to all points.
 
@@ -47,7 +47,7 @@ Functions
    :rtype: Method
 
 
-.. function:: make_list(points)
+.. py:function:: make_list(points)
 
    Make sure that 'points' is a list.
 
