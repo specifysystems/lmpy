@@ -1,76 +1,36 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Data Cleaning &mdash; Lifemapper lmpy 3.0.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-
-  
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Layer Encoder" href="layer_encoder.html" />
     <link rel="prev" title="Build Shapegrid" href="build_grid.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> Lifemapper lmpy
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -78,18 +38,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
@@ -129,77 +78,35 @@
 <li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Lifemapper lmpy</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="tutorial.html">Tutorials</a> &raquo;</li>
-        
       <li>Data Cleaning</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/tutorial/data_cleaning.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="data-cleaning">
-<h1>Data Cleaning<a class="headerlink" href="#data-cleaning" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="data-cleaning">
+<h1>Data Cleaning<a class="headerlink" href="#data-cleaning" title="Permalink to this headline"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
 <p>One of the first steps in creating species distribution models, let alone multi-species
 analyses, is acquiring and preparing specimen occurrence records.  There are multiple
 method for acquiring these raw specimen records such as aggregator downloads or API
@@ -207,29 +114,29 @@ calls but once you have the raw data, you need to assemble your entire dataset, 
 involves converting records to a common format, grouping, and cleaning.  The lmpy
 library provides tools for performing these aggregation and cleaning steps to greatly
 simplify the process for the user.</p>
-</div>
-<div class="section" id="reading-a-csv-file">
-<h2>Reading a CSV File<a class="headerlink" href="#reading-a-csv-file" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="reading-a-csv-file">
+<h2>Reading a CSV File<a class="headerlink" href="#reading-a-csv-file" title="Permalink to this headline"></a></h2>
 <p>Read a CSV file that has fields “decimalLongitude” and “decimalLatitude” for x and y
 and “speciesName” for the species binomial.</p>
 <p>See: <a class="reference external" href="../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader">PointCsvReader</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reader</span> <span class="o">=</span> <span class="n">PointCsvReader</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="s1">&#39;speciesName&#39;</span><span class="p">,</span> <span class="s1">&#39;decimalLongitude&#39;</span><span class="p">,</span> <span class="s1">&#39;decimalLatitude&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="reading-a-darwin-core-archive-file">
-<h2>Reading a Darwin Core Archive File<a class="headerlink" href="#reading-a-darwin-core-archive-file" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="reading-a-darwin-core-archive-file">
+<h2>Reading a Darwin Core Archive File<a class="headerlink" href="#reading-a-darwin-core-archive-file" title="Permalink to this headline"></a></h2>
 <p>Read a Darwin Core Archive file.  The file is assumed to be valid and metadata will
 be pulled from the ‘meta.xml’ file contained within the zip file.</p>
 <p>See: <a class="reference external" href="../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader">PointDwcaReader</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reader</span> <span class="o">=</span> <span class="n">PointDwcaReader</span><span class="p">(</span><span class="n">dwca_filename</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="filtering-records">
-<h2>Filtering Records<a class="headerlink" href="#filtering-records" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="built-in-filters">
-<h3>Built-in Filters<a class="headerlink" href="#built-in-filters" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="filtering-records">
+<h2>Filtering Records<a class="headerlink" href="#filtering-records" title="Permalink to this headline"></a></h2>
+<section id="built-in-filters">
+<h3>Built-in Filters<a class="headerlink" href="#built-in-filters" title="Permalink to this headline"></a></h3>
 <p>Filter a list of Point objects so that those with less than four (4) decimal places
 of precision are removed.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Species A&#39;</span><span class="p">,</span> <span class="mf">10.3</span><span class="p">,</span> <span class="mf">23.1</span><span class="p">),</span>
@@ -241,9 +148,9 @@ of precision are removed.</p>
 <span class="go">[Point(&#39;Species B&#39;, 11.34123, 12.2314), Point(&#39;Species C&#39;, 13.23131, 18.3123)]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="custom-filters">
-<h3>Custom Filters<a class="headerlink" href="#custom-filters" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="custom-filters">
+<h3>Custom Filters<a class="headerlink" href="#custom-filters" title="Permalink to this headline"></a></h3>
 <p>Filter a list of points so that those without a species epithet are removed.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">genus_filter_func</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span>
@@ -255,12 +162,12 @@ of precision are removed.</p>
 <span class="go">[Point(&#39;Species A&#39;, 1, 2), Point(&#39;Species B&#39;, 2, 1)]</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="modifying-records">
-<h2>Modifying Records<a class="headerlink" href="#modifying-records" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="built-in-modifiers">
-<h3>Built-in Modifiers<a class="headerlink" href="#built-in-modifiers" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="modifying-records">
+<h2>Modifying Records<a class="headerlink" href="#modifying-records" title="Permalink to this headline"></a></h2>
+<section id="built-in-modifiers">
+<h3>Built-in Modifiers<a class="headerlink" href="#built-in-modifiers" title="Permalink to this headline"></a></h3>
 <p>Use the accepted name modifier with a file, ACCEPTED_TAXA_FILENAME, containing accepted
 name mappings.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">accepted_name_modifier</span> <span class="o">=</span> <span class="n">get_accepted_name_modifier</span><span class="p">(</span><span class="n">ACCEPTED_TAXA_FILENAME</span><span class="p">)</span>
@@ -272,12 +179,12 @@ name mappings.</p>
 <span class="go">Point(&#39;Accepted species&#39;, 4, 4)]</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="putting-it-all-together">
-<h2>Putting It All Together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="aggregate-and-clean-multiple-data-files">
-<h3>Aggregate and Clean Multiple Data Files<a class="headerlink" href="#aggregate-and-clean-multiple-data-files" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="putting-it-all-together">
+<h2>Putting It All Together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline"></a></h2>
+<section id="aggregate-and-clean-multiple-data-files">
+<h3>Aggregate and Clean Multiple Data Files<a class="headerlink" href="#aggregate-and-clean-multiple-data-files" title="Permalink to this headline"></a></h3>
 <p>For this example, we will process occurrence data from three sources, a Darwin Core
 Archive, a JSON file, and a CSV file.  The Darwin Core Archive file is at
 DWCA_FILENAME, the JSON data is at JSON_FILENAME and the records are under the ‘items’
@@ -377,56 +284,39 @@ Write the cleaned data points to OUTPUT_POINTS_FILENAME.</p>
 have an accepted taxon name, filtered records that have low coordinate decimal
 precision, unique localities, and a minimum number of point so that we can use these
 data for creating species distribution models.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="layer_encoder.html" class="btn btn-neutral float-right" title="Layer Encoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="build_grid.html" class="btn btn-neutral float-left" title="Build Shapegrid" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="layer_encoder.html" class="btn btn-neutral float-right" title="Layer Encoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Lifemapper Team.
-
-    </p>
+    <p>&#169; Copyright 2021, Lifemapper Team.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,76 +1,36 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>PAM Randomization and Null Models &mdash; Lifemapper lmpy 3.0.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-
-  
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="PAM Statistics" href="pam_statistics.html" />
     <link rel="prev" title="Occurrence Filters" href="occurrence_filters.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> Lifemapper lmpy
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -78,18 +38,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
@@ -123,77 +72,35 @@
 <li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Lifemapper lmpy</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="tutorial.html">Tutorials</a> &raquo;</li>
-        
       <li>PAM Randomization and Null Models</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/tutorial/pam_randomization.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="pam-randomization-and-null-models">
-<h1>PAM Randomization and Null Models<a class="headerlink" href="#pam-randomization-and-null-models" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="pam-randomization-and-null-models">
+<h1>PAM Randomization and Null Models<a class="headerlink" href="#pam-randomization-and-null-models" title="Permalink to this headline"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
 <p>Researchers and users generally want to explore various indices that can be
 derived from presence-absence matrices (PAMs).  These indices may be based on
 sites or species and can utilize additional data structures, such as
@@ -217,11 +124,11 @@ each species (column).  These randomization properties limit the number of
 possible methods for generating our randomizations and the methods that do meet
 that criteria are often computationally complex.  Each of the methods that
 Lifemapper exposes is described below.</p>
-</div>
-<div class="section" id="randomization-algorithms">
-<h2>Randomization algorithms<a class="headerlink" href="#randomization-algorithms" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="swap">
-<h3>Swap<a class="headerlink" href="#swap" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="randomization-algorithms">
+<h2>Randomization algorithms<a class="headerlink" href="#randomization-algorithms" title="Permalink to this headline"></a></h2>
+<section id="swap">
+<h3>Swap<a class="headerlink" href="#swap" title="Permalink to this headline"></a></h3>
 <p>The swap method, or Gotelli swap as it is sometimes called, looks for row and
 column combinations that have diagonal or anti-diagonal patterns of zeros and
 ones like
@@ -246,9 +153,9 @@ algorithm for use and study because it is so commonly used.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rand_pam</span> <span class="o">=</span> <span class="n">swap_randomize</span><span class="p">(</span><span class="n">my_pam</span><span class="p">,</span> <span class="n">NUM_SWAPS</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="trial-swap">
-<h3>Trial Swap<a class="headerlink" href="#trial-swap" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="trial-swap">
+<h3>Trial Swap<a class="headerlink" href="#trial-swap" title="Permalink to this headline"></a></h3>
 <p>The Trial Swap method is very similar to the regular swap method, with the
 primary difference being the iteration control method.  Where swap counts the
 number of swaps performed, trial swap counts the number of row and column
@@ -261,9 +168,9 @@ is also commonly used in other tools and by researchers.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rand_pam</span> <span class="o">=</span> <span class="n">trial_swap</span><span class="p">(</span><span class="n">my_pam</span><span class="p">,</span> <span class="n">num_trials</span><span class="o">=</span><span class="n">NUM_TRIALS</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="grady-s-heuristic-fill">
-<h3>Grady’s Heuristic Fill<a class="headerlink" href="#grady-s-heuristic-fill" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="grady-s-heuristic-fill">
+<h3>Grady’s Heuristic Fill<a class="headerlink" href="#grady-s-heuristic-fill" title="Permalink to this headline"></a></h3>
 <p>Lifemapper is designed to operate on very large PAMs, far larger than those
 possible with any other software that we know of.  We have found in testing
 that other PAM randomization methods are far too slow to operate on these large
@@ -298,9 +205,9 @@ of time.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rand_pam</span> <span class="o">=</span> <span class="n">grady_randomize</span><span class="p">(</span><span class="n">my_pam</span><span class="p">,</span> <span class="n">approximation_heuristic</span><span class="o">=</span><span class="n">total_fill_percentage_heuristic</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="strona-s-curveball-method">
-<h3>Strona’s Curveball Method<a class="headerlink" href="#strona-s-curveball-method" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="strona-s-curveball-method">
+<h3>Strona’s Curveball Method<a class="headerlink" href="#strona-s-curveball-method" title="Permalink to this headline"></a></h3>
 <p>Another method of note is the “curve ball” method presented by
 <a class="reference external" href="https://www.nature.com/articles/ncomms5114">Strona et al. (2014)</a>.  This
 method uses pair extractions to perform several swaps at once between a pair of
@@ -313,11 +220,11 @@ provide an implementation of this approach because we have just used the
 published implementation for testing and not our own version.  Please contact
 us if you wish to use this method and we would be happy to help you get
 started.</p>
-</div>
-</div>
+</section>
+</section>
 <hr class="docutils" />
-<div class="section" id="generating-a-null-model">
-<h2>Generating a null model<a class="headerlink" href="#generating-a-null-model" title="Permalink to this headline">¶</a></h2>
+<section id="generating-a-null-model">
+<h2>Generating a null model<a class="headerlink" href="#generating-a-null-model" title="Permalink to this headline"></a></h2>
 <p>There are a couple of ways to organize computations to generate a null model.
 Lifemapper utilizes a workflow management system called Makeflow to manage
 dependent computations and spread them across computational units in a cluster.
@@ -343,65 +250,48 @@ Matrix objects for each index calculated.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rs</span><span class="o">.</span><span class="n">p_values</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
+</section>
 <hr class="docutils" />
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Grady (in preparation). A parallel, heuristic-based fill method for creating presence-absence matrix randomizations.</p></li>
 <li><p><a class="reference external" href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/0012-9658(2000)081%5B2606:NMAOSC%5D2.0.CO%3B2">Gotelli, N. J. (2000). Null model analysis of species co‐occurrence patterns. Ecology, 81(9), 2606-2621.</a></p></li>
 <li><p><a class="reference external" href="https://link.springer.com/article/10.1007/s004420100717">Gotelli, N. J., &amp; Entsminger, G. L. (2001). Swap and fill algorithms in null model analysis: rethinking the knight’s tour. Oecologia, 129(2), 281-291.</a></p></li>
 <li><p><a class="reference external" href="https://www.nature.com/articles/ncomms5114">Strona, G., Nappo, D., Boccacci, F., Fattorini, S., &amp; San-Miguel-Ayanz, J. (2014). A fast and unbiased procedure to randomize ecological binary matrices with fixed row and column totals. Nature communications, 5, 4114.</a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="pam_statistics.html" class="btn btn-neutral float-right" title="PAM Statistics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="occurrence_filters.html" class="btn btn-neutral float-left" title="Occurrence Filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pam_statistics.html" class="btn btn-neutral float-right" title="PAM Statistics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Lifemapper Team.
-
-    </p>
+    <p>&#169; Copyright 2021, Lifemapper Team.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

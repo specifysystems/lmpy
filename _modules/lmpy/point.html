@@ -1,74 +1,33 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>lmpy.point &mdash; Lifemapper lmpy 3.0.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-
-  
-  
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../../index.html" class="icon icon-home"> Lifemapper lmpy
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,18 +35,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../pages/installation.html">Installation</a></li>
@@ -97,69 +45,30 @@
 <li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">Lifemapper lmpy</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../index.html">Module code</a> &raquo;</li>
-        
       <li>lmpy.point</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for lmpy.point</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing Point class.</span>
 
@@ -515,7 +424,8 @@
 <span class="sd">                DEFAULT_SPECIES_TERM.</span>
 <span class="sd">            x_term (:obj:`str`): X term in the DWCA file.  Defaults to DEFAULT_X_TERM.</span>
 <span class="sd">            y_term (:obj:`str`): Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.</span>
-<span class="sd">            geopoint_term (:obj:`str`): Geopoint term in the DWCA file.  Default is None.</span>
+<span class="sd">            geopoint_term (:obj:`str`): Geopoint term in the DWCA file.</span>
+<span class="sd">                Default is None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">meta_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span> <span class="o">=</span> <span class="n">dwca_filename</span>
@@ -555,8 +465,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_term</span><span class="p">]</span>
-            <span class="k">except</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                    <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+                <span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_term</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_term</span><span class="p">]</span></div>
 
@@ -573,8 +485,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span>
-            <span class="k">except</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                    <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+                <span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span></div>
 
@@ -640,9 +554,7 @@
                 <span class="k">pass</span>
             <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                 <span class="k">pass</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                <span class="c1">#print(&#39;Value error: {}&#39;.format(point_dict))</span>
-                <span class="c1">#raise err</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="k">pass</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_points</span><span class="p">:</span>
@@ -662,10 +574,11 @@
         <span class="n">root_element</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">meta_contents</span><span class="p">)</span>
         <span class="n">core_element</span> <span class="o">=</span> <span class="n">root_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">CORE_TAG</span><span class="p">)</span>
 
-        <span class="c1">## If core element is missing (iDigBio) look in extensions</span>
-        <span class="c1">#if core_element is None:</span>
+        <span class="c1"># If core element is missing (iDigBio) look in extensions</span>
+        <span class="c1"># if core_element is None:</span>
         <span class="c1">#    for extension_el in root_element.findall(EXTENSION_TAG):</span>
-        <span class="c1">#        if core_element is None and extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:</span>
+        <span class="c1">#        if core_element is None and \</span>
+        <span class="c1">#           extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:</span>
         <span class="c1">#            core_element = extension_el</span>
 
         <span class="c1"># Process core element</span>
@@ -759,8 +672,7 @@
             <span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;linesTerminatedBy&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">reader_params</span><span class="p">[</span><span class="s1">&#39;quotechar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">]</span>
-        <span class="c1">#raise Exception(reader_params[&#39;quotechar&#39;])</span>
-        <span class="c1">#reader_params[&#39;quotechar&#39;] = None</span>
+        <span class="c1"># reader_params[&#39;quotechar&#39;] = None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">reader_params</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;ignoreHeaderLines&#39;</span><span class="p">])):</span>
@@ -917,46 +829,30 @@
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Lifemapper Team.
-
-    </p>
+    <p>&#169; Copyright 2021, Lifemapper Team.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,74 +1,34 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>lmpy.statistics.mcpa &mdash; Lifemapper lmpy 3.0.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
-
-  
-  
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../../../../index.html" class="icon icon-home"> Lifemapper lmpy
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,18 +36,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
@@ -97,73 +46,32 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../../index.html">Lifemapper lmpy</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.mcpa</span></code></li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../../../../_sources/autoapi/lmpy/statistics/mcpa/index.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-lmpy.statistics.mcpa">
-<span id="lmpy-statistics-mcpa"></span><h1><a class="reference internal" href="#module-lmpy.statistics.mcpa" title="lmpy.statistics.mcpa"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.mcpa</span></code></a><a class="headerlink" href="#module-lmpy.statistics.mcpa" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="module-lmpy.statistics.mcpa">
+<span id="lmpy-statistics-mcpa"></span><h1><a class="reference internal" href="#module-lmpy.statistics.mcpa" title="lmpy.statistics.mcpa"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.statistics.mcpa</span></code></a><a class="headerlink" href="#module-lmpy.statistics.mcpa" title="Permalink to this headline"></a></h1>
 <p>Module for performing a MetaCommunity Phylogenetics Analysis.</p>
 <dl class="simple">
 <dt>See:</dt><dd><dl class="simple">
@@ -173,10 +81,10 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 </dl>
 </dd>
 </dl>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -215,9 +123,9 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="attributes">
-<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline"></a></h3>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -234,12 +142,12 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 </table>
 <dl class="py data">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa.CONCURRENCY_FACTOR">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">CONCURRENCY_FACTOR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#CONCURRENCY_FACTOR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.CONCURRENCY_FACTOR" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">CONCURRENCY_FACTOR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#CONCURRENCY_FACTOR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.CONCURRENCY_FACTOR" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa._beta_helper">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_beta_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mtx2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_beta_helper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._beta_helper" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_beta_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mtx2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_beta_helper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._beta_helper" title="Permalink to this definition"></a></dt>
 <dd><p>This helper function avoids creating large temporary matrices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -260,7 +168,7 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa._calculate_beta">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_lock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_beta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_beta" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_lock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_beta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_beta" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates the regression model (beta) for the provided inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -313,7 +221,7 @@ overwhelming the system.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa._calculate_r_squared">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_r_squared</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_hat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_std</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_r_squared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_r_squared" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_r_squared</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_hat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_std</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_r_squared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_r_squared" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates the R-squared value for the inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -345,7 +253,7 @@ overwhelming the system.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa._calculate_y_hat">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_y_hat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_y_hat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_y_hat" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_calculate_y_hat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_calculate_y_hat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._calculate_y_hat" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates the predicted value for a regression (Y hat).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -367,7 +275,7 @@ overwhelming the system.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa._mcpa_for_node">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_mcpa_for_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_locks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_mcpa_for_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._mcpa_for_node" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_mcpa_for_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_locks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_mcpa_for_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._mcpa_for_node" title="Permalink to this definition"></a></dt>
 <dd><p>Runs MCPA computations for a single tree node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -392,7 +300,7 @@ computations.  This is probably only true for parallel runs.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa._standardize_matrix">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_standardize_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_standardize_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._standardize_matrix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_standardize_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_standardize_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._standardize_matrix" title="Permalink to this definition"></a></dt>
 <dd><p>Standardizes a phylogenetic or predictor matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -445,7 +353,7 @@ computations.  This is probably only true for parallel runs.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa._trace_mtx_by_transverse">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_trace_mtx_by_transverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_trace_mtx_by_transverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._trace_mtx_by_transverse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">_trace_mtx_by_transverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#_trace_mtx_by_transverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa._trace_mtx_by_transverse" title="Permalink to this definition"></a></dt>
 <dd><p>Prevent a memory bomb by performing trace(mtx . mtx.T) in a smarter way.</p>
 <dl class="simple">
 <dt>This method takes advantage of the fact that we are really only interested</dt><dd><p>in the diagonal matrix created by performing a dot product of a matrix
@@ -481,7 +389,7 @@ only work with square matrices.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa.get_p_values">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">get_p_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_permutations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#get_p_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.get_p_values" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">get_p_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_permutations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#get_p_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.get_p_values" title="Permalink to this definition"></a></dt>
 <dd><p>Gets an array of P-Values.</p>
 <dl class="simple">
 <dt>Gets an (1 or 2 dimension) array of P values where the P value for an array</dt><dd><p>location is determined by finding the number of test values at
@@ -513,12 +421,12 @@ performed.  Divide the P-values by this if provided.</p></li>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa.lock">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">lock</span></span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.lock" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">lock</span></span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.lock" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa.mcpa">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">mcpa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#mcpa"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.mcpa" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">mcpa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#mcpa"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.mcpa" title="Permalink to this definition"></a></dt>
 <dd><p>Runs MCPA for a set of matrices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -548,7 +456,7 @@ predictors]).</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.statistics.mcpa.mcpa_parallel">
-<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">mcpa_parallel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#mcpa_parallel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.mcpa_parallel" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.statistics.mcpa.</span></span><span class="sig-name descname"><span class="pre">mcpa_parallel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incidence_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phylo_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mtx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/mcpa.html#mcpa_parallel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.mcpa.mcpa_parallel" title="Permalink to this definition"></a></dt>
 <dd><p>Run MCPA for a set of matrices using parallelism.</p>
 <p>Performs MCPA across each of the tree nodes in parallel.</p>
 <dl class="field-list simple">
@@ -577,52 +485,36 @@ predictors]).</p></li>
 </dl>
 </dd></dl>
 
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Lifemapper Team.
-
-    </p>
+    <p>&#169; Copyright 2021, Lifemapper Team.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

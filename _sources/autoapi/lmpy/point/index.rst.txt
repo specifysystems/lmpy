@@ -317,7 +317,8 @@ Attributes
    :type x_term: :obj:`str`
    :param y_term: Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.
    :type y_term: :obj:`str`
-   :param geopoint_term: Geopoint term in the DWCA file.  Default is None.
+   :param geopoint_term: Geopoint term in the DWCA file.
+                         Default is None.
    :type geopoint_term: :obj:`str`
 
    .. py:method:: __enter__(self)
