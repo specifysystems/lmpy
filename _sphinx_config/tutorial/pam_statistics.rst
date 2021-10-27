@@ -176,7 +176,7 @@ Phi is the sum of the range size of the species present at each site.
 
 phi_average_proportional
 ------------------------
-Phy average proportional is the mean proportional range size of the species
+Phi average proportional is the mean proportional range size of the species
 present at each site.
 
 ----
