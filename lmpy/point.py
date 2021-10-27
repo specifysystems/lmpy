@@ -352,7 +352,8 @@ class PointDwcaReader:
                 DEFAULT_SPECIES_TERM.
             x_term (:obj:`str`): X term in the DWCA file.  Defaults to DEFAULT_X_TERM.
             y_term (:obj:`str`): Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.
-            geopoint_term (:obj:`str`): Geopoint term in the DWCA file.  Default is None.
+            geopoint_term (:obj:`str`): Geopoint term in the DWCA file.
+                Default is None.
         """
         self.meta_filename = meta_filename
         self.archive_filename = dwca_filename
@@ -392,8 +393,10 @@ class PointDwcaReader:
         """
         if self.geopoint_term is not None:
             try:
-                return json.loads(point_dict[self.geopoint_term].replace("'", '"'))[self.x_term]
-            except:
+                return json.loads(
+                    point_dict[self.geopoint_term].replace("'", '"')
+                )[self.x_term]
+            except Exception:
                 return None
         return point_dict[self.x_term]
 
@@ -410,8 +413,10 @@ class PointDwcaReader:
         """
         if self.geopoint_term is not None:
             try:
-                return json.loads(point_dict[self.geopoint_term].replace("'", '"'))[self.y_term]
-            except:
+                return json.loads(
+                    point_dict[self.geopoint_term].replace("'", '"')
+                )[self.y_term]
+            except Exception:
                 return None
         return point_dict[self.y_term]
 
@@ -477,9 +482,7 @@ class PointDwcaReader:
                 pass
             except TypeError:
                 pass
-            except Exception as err:
-                #print('Value error: {}'.format(point_dict))
-                #raise err
+            except Exception:
                 pass
 
         if self._next_points:
@@ -499,10 +502,11 @@ class PointDwcaReader:
         root_element = ET.fromstring(meta_contents)
         core_element = root_element.find(CORE_TAG)
 
-        ## If core element is missing (iDigBio) look in extensions
-        #if core_element is None:
+        # If core element is missing (iDigBio) look in extensions
+        # if core_element is None:
         #    for extension_el in root_element.findall(EXTENSION_TAG):
-        #        if core_element is None and extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:
+        #        if core_element is None and \
+        #           extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:
         #            core_element = extension_el
 
         # Process core element
@@ -596,8 +600,7 @@ class PointDwcaReader:
             ] = self.occurrence_params['linesTerminatedBy']
         if len(self.occurrence_params['fieldsEnclosedBy']) > 0:
             reader_params['quotechar'] = self.occurrence_params['fieldsEnclosedBy']
-        #raise Exception(reader_params['quotechar'])
-        #reader_params['quotechar'] = None
+        # reader_params['quotechar'] = None
 
         self.reader = csv.reader(self.file, **reader_params)
         for _ in range(int(self.occurrence_params['ignoreHeaderLines'])):

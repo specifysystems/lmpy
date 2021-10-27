@@ -1,12 +1,21 @@
 """Encode a tree into matrix for faster statistics computations."""
 import argparse
 
+import numpy as np
+
 from lmpy import Matrix, TreeWrapper
 
 
 # .....................................................................................
 def encode_tree(tree):
-    """Encode a tree into a binary matrix and two data arrays for node and tips."""
+    """Encode a tree into a binary matrix and two data arrays for node and tips.
+
+    Args:
+        tree (TreeWrapper): A tree object to encode.
+
+    Returns:
+        (Matrix, Matrix, Matrix): The encoded tree matrix, node heights, tip lengths.
+    """
     num_tips = len(tree.taxon_namespace)
     num_nodes = len(tree.nodes()) - num_tips
 
@@ -24,7 +33,6 @@ def encode_tree(tree):
         np.zeros((num_tips, num_nodes), dtype=np.bool),
         headers={'0': ordered_taxa, '1': node_labels}
     )
-
 
     def process_node(node, node_idx):
         node_taxa = []
@@ -99,7 +107,7 @@ def main():
         help='File path to write tip lengths matrix.'
     )
     args = parser.parse_args()
-    
+
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
     tree_mtx, node_heights, tip_lengths = encode_tree(tree)
     tree_mtx.write(args.out_tree_matrix_filename)
