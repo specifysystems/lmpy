@@ -6,12 +6,11 @@ authors:
   orcid: "https://orcid.org/0000-0002-0915-7130"
 - family-names: "Stewart"
   given-names: "Aimee"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
+  orcid: "https://orcid.org/0000-0002-8470-9118"
 - family-names: "Beach"
   given-names: "James"
   orcid: "https://orcid.org/0000-0001-8684-1764"
-title: "lmpy"
+title: "Lifemapper Python Library (lmpy)"
 version: 3.0.0
-doi: 10.5281/zenodo.1234
 date-released: 2022-01-14
 url: "https://github.com/lifemapper/lmpy"
