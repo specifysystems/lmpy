@@ -25,6 +25,7 @@ repos:
     rev: pylint-2.7.3
     hooks:
     - id: pylint
+      exclude: versioneer.py|lmpy/_version.py
       args: [--rcfile=.github/linters/.python-lint]
 -   repo: https://github.com/PyCQA/pydocstyle
     rev: 6.0.0
@@ -35,6 +36,7 @@ repos:
     rev: v1.8.0
     hooks:
     - id: darglint
+      exclude: versioneer.py|lmpy/_version.py
       args: ['-v2', '-sgoogle']
 #-   repo: https://github.com/PyCQA/bandit
 #    rev: 1.7.0
