@@ -15,3 +15,6 @@ __all__ = ['data_preparation', 'data_wrangling', 'randomize', 'spatial',
            'statistics']
 __all__.extend(matrix.__all__)
 __all__.extend(tree.__all__)
+
+from . import _version
+__version__ = _version.get_versions()['version']
