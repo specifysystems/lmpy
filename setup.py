@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Setup module for lmpy."""
 from setuptools import setup, find_packages
+import versioneer
+
 
 with open('README.md') as f:
     readme = f.read()
@@ -10,7 +12,8 @@ with open('LICENSE') as f:
 
 setup(
     name='lmpy',
-    version='3.0.0b1',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description='Package of commonly used and shared Lifemapper objects and tools',
     long_description=readme,
     author='Lifemapper Team',
@@ -20,5 +23,6 @@ setup(
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
         'dendropy>=4.0.0',
-        'numpy>=1.11.0']
+        'numpy>=1.11.0'
+    ],
 )
