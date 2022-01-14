@@ -5,9 +5,9 @@
 * Check that it hasn't already be reported by searching our GitHub issues
 [Issues](https://github.com/specifysystems/lmpy/issues).
 
-* If you're unable to find an open issue addressing the problem, 
+* If you're unable to find an open issue addressing the problem,
 * [open a new one](https://github.com/specifysystems/lmpy/issues/new?assignees=cjgrady&template=bug_report.md).
-* Be sure to include a **title and clear description**, as much relevant information as possible, and a 
+* Be sure to include a **title and clear description**, as much relevant information as possible, and a
   **code sample** or an **executable test case** demonstrating the expected behavior that is not occurring.
 
 
@@ -22,7 +22,7 @@
 
 #### You want to add a new analysis
 
-* [Submit a new GitHub issue](https://github.com/specifysystems/lmpy/issues/new?assignees=&template=feature_request.md) and suggest 
+* [Submit a new GitHub issue](https://github.com/specifysystems/lmpy/issues/new?assignees=&template=feature_request.md) and suggest
   your analysis.  We want to make sure that it fits before you spend time coding it.
 
 * Write your code and tests following our coding and testing conventions.
@@ -34,8 +34,8 @@
 
 * We utilize [pre-commit](https://pre-commit.com/) to ensure that we have consistent coding style and practices throughout the project.
 
-* Our pre-commit hooks use [black](https://pypi.org/project/black/), [flake8](https://flake8.pycqa.org/en/latest/) and others.  You 
-  can see all of the enabled pre-commit hooks at [.pre-commit.yml](.pre-commit.yml) and any exceptions for various linters at 
+* Our pre-commit hooks use [black](https://pypi.org/project/black/), [flake8](https://flake8.pycqa.org/en/latest/) and others.  You
+  can see all of the enabled pre-commit hooks at [.pre-commit.yml](.pre-commit.yml) and any exceptions for various linters at
   [linter configuration](.github/linters/).
 
 * Doc strings should follow [Google Style Guidelines](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)
