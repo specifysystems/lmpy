@@ -28,6 +28,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   _version/index.rst
    matrix/index.rst
    point/index.rst
    tree/index.rst
