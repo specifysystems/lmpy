@@ -42,7 +42,7 @@ repos:
     rev: 1.7.0
     hooks:
     - id: bandit
-      args: [--ini, .github/linters/.bandit]
+      args: [-c, .github/linters/.bandit]
 -   repo: https://github.com/jendrikseipp/vulture
     rev: 'v2.3'
     hooks:
