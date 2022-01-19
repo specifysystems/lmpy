@@ -1,7 +1,6 @@
 """This module tests the analyses/lm_objects/matrix.py module."""
 import io
 import os
-import random
 import tempfile
 
 import numpy as np
@@ -359,12 +358,12 @@ class Test_Matrix:
     def test_slice(self):
         """Test the slice method."""
         # Randomly generate size of matrix
-        n_dim = random.randint(2, 4)
+        n_dim = np.random.randint(2, 4)
         dims = []
         for _ in range(n_dim):
-            d_size = random.randint(1, 20)
-            d_lower = random.randint(0, d_size - 1)
-            d_upper = random.randint(d_lower + 1, d_size)
+            d_size = np.random.randint(1, 20)
+            d_lower = np.random.randint(0, d_size - 1)
+            d_upper = np.random.randint(d_lower + 1, d_size)
             dims.append((d_size, d_lower, d_upper))
 
         # Generate the matrix and get original headers

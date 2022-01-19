@@ -1,5 +1,5 @@
 """Module containing Gotelli swap method for randomizing a PAM."""
-from random import randrange
+import numpy as np
 
 from lmpy.matrix import Matrix
 
@@ -33,16 +33,16 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
     #  num_tries is a safety to kill the loop if nothing is ever found
     while counter < num_swaps and num_tries < max_tries:
         num_tries += 1
-        column1 = randrange(0, col_len)
-        column2 = randrange(0, col_len)
-        row1 = randrange(0, row_len)
+        column1 = np.random.randrange(0, col_len)
+        column2 = np.random.randrange(0, col_len)
+        row1 = np.random.randrange(0, row_len)
         while column2 == column1:
-            column2 = randrange(0, col_len)
+            column2 = np.random.randrange(0, col_len)
         first_corner = swapped_mtx[row1][column1]
         if first_corner ^ swapped_mtx[row1][column2]:
-            row2 = randrange(0, row_len)
+            row2 = np.random.randrange(0, row_len)
             while row2 == row1:
-                row2 = randrange(0, row_len)
+                row2 = np.random.randrange(0, row_len)
             if ((first_corner ^ swapped_mtx[row2][column1]) and
                     (not(first_corner) ^ swapped_mtx[row2][column2])):
                 swapped_mtx[row1][column2] = first_corner
@@ -81,16 +81,16 @@ def trial_swap(matrix, num_trials=None):
         num_trials = matrix.size
 
     for _ in range(num_trials):
-        column1 = randrange(0, col_len)
-        column2 = randrange(0, col_len)
-        row1 = randrange(0, row_len)
+        column1 = np.random.randrange(0, col_len)
+        column2 = np.random.randrange(0, col_len)
+        row1 = np.random.randrange(0, row_len)
         while column2 == column1:
-            column2 = randrange(0, col_len)
+            column2 = np.random.randrange(0, col_len)
         first_corner = swapped_mtx[row1][column1]
         if first_corner ^ swapped_mtx[row1][column2]:
-            row2 = randrange(0, row_len)
+            row2 = np.random.randrange(0, row_len)
             while row2 == row1:
-                row2 = randrange(0, row_len)
+                row2 = np.random.randrange(0, row_len)
             if ((first_corner ^ swapped_mtx[row2][column1]) and
                     (not(first_corner) ^ swapped_mtx[row2][column2])):
                 swapped_mtx[row1][column2] = first_corner
