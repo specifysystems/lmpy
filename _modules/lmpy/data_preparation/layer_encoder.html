@@ -377,12 +377,17 @@
 <span class="sd">            The origin (0, 0) of the data array should represent (min x, max y)</span>
 <span class="sd">                for the layer.</span>
 
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: Raised if cell sides does note equal 4.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            Method: A function for processing a window of data.</span>
 
 <span class="sd">        Todo:</span>
 <span class="sd">            CJ - Enable hexagonal windows by masking data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">num_cell_sides</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Only rectangular cells are currently supported&#39;</span><span class="p">)</span>
         <span class="c1"># Compute bounds here to save compute time</span>
         <span class="n">y_size</span><span class="p">,</span> <span class="n">x_size</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">layer_bbox</span>

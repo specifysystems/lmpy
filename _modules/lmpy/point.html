@@ -78,8 +78,10 @@
 <span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
 <span class="kn">import</span> <span class="nn">zipfile</span>
+
+<span class="kn">import</span> <span class="nn">defusedxml.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+
 
 <div class="viewcode-block" id="DEFAULT_META_FILENAME"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.DEFAULT_META_FILENAME">[docs]</a><span class="n">DEFAULT_META_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;meta.xml&#39;</span></div>
 <span class="c1"># Metadata about occurrence records in DWCA with default values</span>
@@ -105,9 +107,9 @@
 <div class="viewcode-block" id="FILES_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.FILES_TAG">[docs]</a><span class="n">FILES_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}files&#39;</span></div>
 <div class="viewcode-block" id="ID_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.ID_TAG">[docs]</a><span class="n">ID_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}id&#39;</span></div>
 <div class="viewcode-block" id="LOCATION_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.LOCATION_TAG">[docs]</a><span class="n">LOCATION_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}location&#39;</span></div>
-<div class="viewcode-block" id="EXTENSION_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.EXTENSION_TAG">[docs]</a><span class="n">EXTENSION_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}extension&#39;</span></div>
+<span class="c1"># EXTENSION_TAG = &#39;{http://rs.tdwg.org/dwc/text/}extension&#39;</span>
 
-<div class="viewcode-block" id="ROW_TYPE_ATT"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.ROW_TYPE_ATT">[docs]</a><span class="n">ROW_TYPE_ATT</span> <span class="o">=</span> <span class="s1">&#39;rowType&#39;</span></div>
+<span class="c1"># ROW_TYPE_ATT = &#39;rowType&#39;</span>
 <div class="viewcode-block" id="OCCURRENCE_ROW_TYPE"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.OCCURRENCE_ROW_TYPE">[docs]</a><span class="n">OCCURRENCE_ROW_TYPE</span> <span class="o">=</span> <span class="s1">&#39;http://rs.tdwg.org/dwc/terms/Occurrence&#39;</span></div>
 
 
@@ -554,8 +556,6 @@
                 <span class="k">pass</span>
             <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                 <span class="k">pass</span>
-            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                <span class="k">pass</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_points</span><span class="p">:</span>
             <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_points</span>
@@ -801,7 +801,8 @@
 <span class="sd">            object: Whatever value is retrieved from the field.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">vocabulary</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="ow">in</span> <span class="n">vocabulary</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">default</span>
 
     <span class="c1"># Get the proper function</span>

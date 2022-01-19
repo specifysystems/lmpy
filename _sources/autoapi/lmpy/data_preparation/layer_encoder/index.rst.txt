@@ -85,6 +85,8 @@ Classes
          The origin (0, 0) of the data array should represent (min x, max y)
              for the layer.
 
+      :raises NotImplementedError: Raised if cell sides does note equal 4.
+
       :returns: A function for processing a window of data.
       :rtype: Method
 

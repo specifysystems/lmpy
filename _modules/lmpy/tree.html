@@ -85,12 +85,6 @@
 <span class="kn">from</span> <span class="nn">.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
 
 
-<span class="c1"># .............................................................................</span>
-<span class="c1"># .                     Phylogenetic Tree Module Constants                    .</span>
-<span class="c1"># .............................................................................</span>
-<span class="n">DEFAULT_TREE_SCHEMA</span> <span class="o">=</span> <span class="s1">&#39;nexus&#39;</span>
-
-
 <span class="c1"># .............................</span>
 <div class="viewcode-block" id="PhyloTreeKeys"><a class="viewcode-back" href="../../autoapi/lmpy/tree/index.html#lmpy.tree.PhyloTreeKeys">[docs]</a><span class="k">class</span> <span class="nc">PhyloTreeKeys</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Keys for phylogenetic trees.</span>
@@ -576,7 +570,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">min_bl</span><span class="p">,</span> <span class="n">max_bl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minmax_leaf_distance_from_root</span><span class="p">()</span>
             <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">min_bl</span><span class="p">,</span> <span class="n">max_bl</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rel_tol</span><span class="p">))</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
