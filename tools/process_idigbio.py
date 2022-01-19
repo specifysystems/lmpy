@@ -1,8 +1,9 @@
 """Test script to process an iDigBio DWCA into something we can parse."""
 import argparse
 import io
-import xml.etree.ElementTree as ET
 import zipfile
+
+import defusedxml.ElementTree as ET
 
 from lmpy.point import PointDwcaReader
 
