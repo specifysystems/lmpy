@@ -6,8 +6,10 @@ import copy
 import csv
 import io
 import json
-import xml.etree.ElementTree as ET
 import zipfile
+
+import defusexml.ElementTree as ET
+
 
 DEFAULT_META_FILENAME = 'meta.xml'
 # Metadata about occurrence records in DWCA with default values

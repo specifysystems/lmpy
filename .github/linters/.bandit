@@ -1,2 +1,3 @@
+[bandit]
 assert_used:
-  skips: ['test_*.py']
+  skips: ['tests/*test_*.py']
