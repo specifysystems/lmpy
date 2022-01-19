@@ -26,7 +26,10 @@ def _make_ultrametric_helper(species, max_branch_length):
         node_height = 0.0
     else:
         # Split and recurse
-        split_pos = np.random.randint(1, len(species) - 1)
+        if len(species) > 2:
+            split_pos = np.random.randint(1, len(species) - 1)
+        else:
+            split_pos = 1
         node_a, node_height_a = _make_ultrametric_helper(
             species[:split_pos], max_branch_length)
         node_b, node_height_b = _make_ultrametric_helper(
