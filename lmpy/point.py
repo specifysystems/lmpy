@@ -8,7 +8,7 @@ import io
 import json
 import zipfile
 
-import defusexml.ElementTree as ET
+import defusedxml.ElementTree as ET
 
 
 DEFAULT_META_FILENAME = 'meta.xml'
