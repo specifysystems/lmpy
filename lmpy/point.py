@@ -6,8 +6,10 @@ import copy
 import csv
 import io
 import json
-import xml.etree.ElementTree as ET
 import zipfile
+
+import defusedxml.ElementTree as ET
+
 
 DEFAULT_META_FILENAME = 'meta.xml'
 # Metadata about occurrence records in DWCA with default values
@@ -33,9 +35,9 @@ FIELD_TAG = '{http://rs.tdwg.org/dwc/text/}field'
 FILES_TAG = '{http://rs.tdwg.org/dwc/text/}files'
 ID_TAG = '{http://rs.tdwg.org/dwc/text/}id'
 LOCATION_TAG = '{http://rs.tdwg.org/dwc/text/}location'
-EXTENSION_TAG = '{http://rs.tdwg.org/dwc/text/}extension'
+# EXTENSION_TAG = '{http://rs.tdwg.org/dwc/text/}extension'
 
-ROW_TYPE_ATT = 'rowType'
+# ROW_TYPE_ATT = 'rowType'
 OCCURRENCE_ROW_TYPE = 'http://rs.tdwg.org/dwc/terms/Occurrence'
 
 
@@ -482,8 +484,6 @@ class PointDwcaReader:
                 pass
             except TypeError:
                 pass
-            except Exception:
-                pass
 
         if self._next_points:
             tmp = self._next_points
@@ -729,7 +729,8 @@ def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=
             object: Whatever value is retrieved from the field.
         """
         if len(row[index]) > 0:
-            return row[index]
+            if vocabulary is None or row[index] in vocabulary:
+                return row[index]
         return default
 
     # Get the proper function
