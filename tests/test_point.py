@@ -132,10 +132,10 @@ class Test_PointCsvReader:
         out_file.write('{}\n'.format(','.join(headers)))
         while i < num_species:
             pt = Point(
-                'Species {}'.format(i), np.random.triangular(-180.0, 180.0),
-                np.random.triangular(-90.0, 90.0))
+                'Species {}'.format(i), np.random.triangular(-180.0, 0.0, 180.0),
+                np.random.triangular(-90.0, 0.0, 90.0))
             out_file.write(string_point(pt))
-            if np.random.triangular(0.0, 1.0) > 0.92:
+            if np.random.triangular(0.0, 0.5, 1.0) > 0.92:
                 i += 1
         out_file.close()
         return out_file.name
