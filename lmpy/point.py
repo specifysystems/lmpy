@@ -729,7 +729,8 @@ def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=
             object: Whatever value is retrieved from the field.
         """
         if len(row[index]) > 0:
-            return row[index]
+            if vocabulary is None or row[index] in vocabulary:
+                return row[index]
         return default
 
     # Get the proper function
