@@ -305,12 +305,17 @@ class LayerEncoder:
             The origin (0, 0) of the data array should represent (min x, max y)
                 for the layer.
 
+        Raises:
+            NotImplementedError: Raised if cell sides does note equal 4.
+
         Returns:
             Method: A function for processing a window of data.
 
         Todo:
             CJ - Enable hexagonal windows by masking data.
         """
+        if num_cell_sides != 4:
+            raise NotImplementedError('Only rectangular cells are currently supported')
         # Compute bounds here to save compute time
         y_size, x_size = data.shape
         min_x, min_y, max_x, max_y = layer_bbox
