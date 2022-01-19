@@ -13,12 +13,6 @@ import numpy as np
 from .matrix import Matrix
 
 
-# .............................................................................
-# .                     Phylogenetic Tree Module Constants                    .
-# .............................................................................
-DEFAULT_TREE_SCHEMA = 'nexus'
-
-
 # .............................
 class PhyloTreeKeys:
     """Keys for phylogenetic trees.

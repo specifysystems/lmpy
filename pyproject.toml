@@ -1,2 +1,6 @@
 [build-system]
 requires = ["setuptools", "wheel"]  # PEP 508 specifications.
+
+[tool.vulture]
+exclude = ["_version.py"]
+paths = ["lmpy", "tests", "tools"]

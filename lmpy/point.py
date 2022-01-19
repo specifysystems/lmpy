@@ -35,9 +35,9 @@ FIELD_TAG = '{http://rs.tdwg.org/dwc/text/}field'
 FILES_TAG = '{http://rs.tdwg.org/dwc/text/}files'
 ID_TAG = '{http://rs.tdwg.org/dwc/text/}id'
 LOCATION_TAG = '{http://rs.tdwg.org/dwc/text/}location'
-EXTENSION_TAG = '{http://rs.tdwg.org/dwc/text/}extension'
+# EXTENSION_TAG = '{http://rs.tdwg.org/dwc/text/}extension'
 
-ROW_TYPE_ATT = 'rowType'
+# ROW_TYPE_ATT = 'rowType'
 OCCURRENCE_ROW_TYPE = 'http://rs.tdwg.org/dwc/terms/Occurrence'
 
 

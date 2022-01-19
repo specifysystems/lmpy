@@ -75,7 +75,6 @@ def trial_swap(matrix, num_trials=None):
     """
     mtx_headers = matrix.get_headers()
     swapped_mtx = matrix.copy().astype(int)
-    num_success = 0
     row_len, col_len = matrix.shape
     if num_trials is None:
         num_trials = matrix.size
@@ -97,7 +96,6 @@ def trial_swap(matrix, num_trials=None):
                 swapped_mtx[row2][column1] = first_corner
                 swapped_mtx[row2][column2] = not first_corner
                 swapped_mtx[row1][column1] = not first_corner
-                num_success += 1
 
     return Matrix(swapped_mtx, headers=mtx_headers)
 
