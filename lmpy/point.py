@@ -484,8 +484,6 @@ class PointDwcaReader:
                 pass
             except TypeError:
                 pass
-            except Exception:
-                pass
 
         if self._next_points:
             tmp = self._next_points

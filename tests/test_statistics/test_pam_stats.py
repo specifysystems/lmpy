@@ -1,6 +1,4 @@
 """This module tests the lmpy.statistics.pam_stats.py module."""
-from random import randint, random, shuffle
-
 import numpy as np
 import pytest
 
@@ -28,7 +26,7 @@ def _make_ultrametric_helper(species, max_branch_length):
         node_height = 0.0
     else:
         # Split and recurse
-        split_pos = randint(1, len(species) - 1)
+        split_pos = np.random.randint(1, len(species) - 1)
         node_a, node_height_a = _make_ultrametric_helper(
             species[:split_pos], max_branch_length
         )
@@ -38,7 +36,7 @@ def _make_ultrametric_helper(species, max_branch_length):
         # Get the maximum node height and add this branch length
         node_height = round(
             max(node_height_a, node_height_b) +
-            (max_branch_length * random()), ROUND_POSITION
+            (max_branch_length * np.random.random()), ROUND_POSITION
         )
         # Make sure node heights are equal for each branch by subtracting
         #    from node height
@@ -89,8 +87,8 @@ def get_random_pam_and_tree(
         pam_species.append('PamSpecies {}'.format(sp_idx))
         tree_species.append('TreeSpecies {}'.format(sp_idx))
 
-    shuffle(pam_species)
-    shuffle(tree_species)
+    np.random.shuffle(pam_species)
+    np.random.shuffle(tree_species)
 
     pam = Matrix(
         (np.random.random((num_sites, num_species)) < fill_percentage
