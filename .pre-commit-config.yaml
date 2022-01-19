@@ -1,45 +1,45 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0
+    rev: v4.1.0
     hooks:
     -   id: check-yaml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
 -   repo: https://github.com/psf/black
-    rev: 20.8b1
+    rev: 21.12b0
     hooks:
     -   id: black
         args: [--config=.github/linters/.python-black, --diff]
 -   repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.0
+    rev: 3.9.2
     hooks:
     - id: flake8
       args: [--config=.github/linters/.flake8]
       additional_dependencies: [flake8-bugbear]
 -   repo: https://github.com/PyCQA/isort
-    rev: 5.8.0
+    rev: 5.10.1
     hooks:
     - id: isort
       args: [--sp=.github/linters/.isort.cfg, --diff]
 -   repo: https://github.com/PyCQA/pylint
-    rev: pylint-2.7.3
+    rev: v2.12.2
     hooks:
     - id: pylint
       exclude: versioneer.py|lmpy/_version.py
       args: [--rcfile=.github/linters/.python-lint]
 -   repo: https://github.com/PyCQA/pydocstyle
-    rev: 6.0.0
+    rev: 6.1.1
     hooks:
     - id: pydocstyle
       args: ['--convention=google']
 -   repo: https://github.com/terrencepreilly/darglint
-    rev: v1.8.0
+    rev: v1.8.1
     hooks:
     - id: darglint
       exclude: versioneer.py|lmpy/_version.py
       args: ['-v2', '-sgoogle']
 -   repo: https://github.com/PyCQA/bandit
-    rev: 1.7.0
+    rev: 1.7.1
     hooks:
     - id: bandit
       args: [-c, .github/linters/.bandit]
