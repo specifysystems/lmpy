@@ -20,17 +20,37 @@ def convert_csv_to_lmm(csv_filename, num_header_rows, num_header_cols):
         Matrix: A matrix from the converted csv file.
     """
     with open(csv_filename, mode='rt') as csv_in:
-        mtx = Matrix.load_csv(csv_in, num_header_rows=num_header_rows, num_header_cols=num_header_cols)
+        mtx = Matrix.load_csv(
+            csv_in,
+            num_header_rows=num_header_rows,
+            num_header_cols=num_header_cols
+        )
     return mtx
 
 
 # .....................................................................................
 def cli():
     """Provide a command-line tool for converting csvs to lmms."""
-    parser = argpare.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument('--header_rows', '-r', type=int, help='The number of header rows in the CSV.', default=0)
-    parser.add_argument('--header_cols', '-c', type=int, help='The number of header columns in the CSV.', default=0)
-    parser.add_argument('in_csv_filename', type=str, help='CSV filename to convert to lmm Matrix.')
+    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument(
+        '--header_rows',
+        '-r',
+        type=int,
+        default=0,
+        help='The number of header rows in the CSV.'
+    )
+    parser.add_argument(
+        '--header_cols',
+        '-c',
+        type=int,
+        default=0,
+        help='The number of header columns in the CSV.'
+    )
+    parser.add_argument(
+        'in_csv_filename',
+        type=str,
+        help='CSV filename to convert to lmm Matrix.'
+    )
     parser.add_argument('out_lmm_filename', type=str, help='Filename for .lmm Matrix.')
     args = parser.parse_args()
     mtx = convert_csv_to_lmm(args.in_csv_filename, args.header_rows, args.header_cols)
@@ -40,4 +60,3 @@ def cli():
 # .....................................................................................
 if __name__ == '__main__':
     cli()
-

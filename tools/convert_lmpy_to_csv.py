@@ -22,9 +22,17 @@ def convert_lmm_to_csv(mtx, csv_filename):
 # .....................................................................................
 def cli():
     """Provide a command-line tool for converting lmms to csvs."""
-    parser = argpare.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument('in_lmm_filename', type=str, help='Lmpy LMM filename to convert to CSV.')
-    parser.add_argument('out_csv_filename', type=str, help='Location to write the converted matrix CSV.')
+    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument(
+        'in_lmm_filename',
+        type=str,
+        help='Lmpy LMM filename to convert to CSV.'
+    )
+    parser.add_argument(
+        'out_csv_filename',
+        type=str,
+        help='Location to write the converted matrix CSV.'
+    )
     args = parser.parse_args()
     mtx = Matrix.load(args.in_lmm_filename)
     convert_lmm_to_csv(mtx, args.out_csv_filename)
@@ -33,4 +41,3 @@ def cli():
 # .....................................................................................
 if __name__ == '__main__':
     cli()
-
