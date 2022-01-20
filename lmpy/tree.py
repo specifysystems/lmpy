@@ -13,12 +13,6 @@ import numpy as np
 from .matrix import Matrix
 
 
-# .............................................................................
-# .                     Phylogenetic Tree Module Constants                    .
-# .............................................................................
-DEFAULT_TREE_SCHEMA = 'nexus'
-
-
 # .............................
 class PhyloTreeKeys:
     """Keys for phylogenetic trees.
@@ -504,7 +498,7 @@ class TreeWrapper(dendropy.Tree):
         try:
             min_bl, max_bl = self.minmax_leaf_distance_from_root()
             return bool(np.isclose(min_bl, max_bl, rtol=rel_tol))
-        except Exception:
+        except TypeError:
             pass
         return False
 
