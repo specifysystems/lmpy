@@ -16,12 +16,13 @@ setup(
     cmdclass=versioneer.get_cmdclass(),
     description='Package of commonly used and shared Lifemapper objects and tools',
     long_description=readme,
-    author='Lifemapper Team',
+    author='Specify Systems Lifemapper Team',
     author_email='cjgrady@ku.edu',
-    url='https://github.com/lifemapper/lmpy',
+    url='https://github.com/specifysystems/lmpy',
     license=license,
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
+        'defusedxml',
         'dendropy>=4.0.0',
         'numpy>=1.11.0'
     ],
