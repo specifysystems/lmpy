@@ -1,9 +1,15 @@
-[![Latest release](https://img.shields.io/github/release/lifemapper/lmpy.svg)](https://github.com/lifemapper/lmpy/releases/latest)
-[![Build Status](https://travis-ci.com/lifemapper/lmpy.svg?branch=master)](https://travis-ci.com/lifemapper/lmpy) [![Coverage Status](https://coveralls.io/repos/github/lifemapper/lmpy/badge.svg)](https://coveralls.io/github/lifemapper/lmpy)
-[![License Badge](https://img.shields.io/github/license/lifemapper/lmpy.svg)](https://github.com/lifemapper/lmpy/blob/master/LICENSE)
-
 # lmpy
-The Lifemapper lmpy repository houses objects and common tools used within a
+
+[![Latest release](https://img.shields.io/github/release/lifemapper/lmpy.svg)](
+https://github.com/specifysystems/lmpy/releases/latest)
+[![Build Status](https://travis-ci.com/lifemapper/lmpy.svg?branch=master)](
+https://travis-ci.com/specifysystems/lmpy)
+[![Coverage Status](https://coveralls.io/repos/github/lifemapper/lmpy/badge.svg)](
+https://coveralls.io/github/lifemapper/lmpy)
+[![License Badge](https://img.shields.io/github/license/lifemapper/lmpy.svg)](
+https://github.com/specifysystems/lmpy/blob/master/LICENSE)
+
+The Lifemapper lmpy repository houses objects and common tools used within the
 Lifemapper installation that may also be useful for outside contributors and
 the community as a whole.
 
@@ -19,13 +25,12 @@ with other existing software pacakges.  This repository will serve as the
 reference end-point for citations to our randomization method and the latest
 version of this code will live in this repository.
 
-
 Please use the following with citing our randomization algorithm:
 
-    Grady, C. J., Beach, J. H., and Stewart, A. M. (in preparation). A parallel, heuristic-based fill method for creating presence-absence matrix randomizations.
-
+    Grady, C. J., Beach, J. H., and Stewart, A. M. (in preparation). A parallel,
+    heuristic-based fill method for creating presence-absence matrix randomizations.
 
 Tutorials and additional documentation can be found on
-[The lmpy GitHub pages](https://lifemapper.github.io/lmpy/).
+[The lmpy GitHub pages](https://specifysystems.github.io/lmpy/).
 
-This work has been supported by NSF  Awards NSF BIO-1458422, OCI-1234983.
+This work has been supported by NSF  Awards NSF BIO-1458422, OCI-1234983. BIO/CIBR-1930005

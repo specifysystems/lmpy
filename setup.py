@@ -11,7 +11,7 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='lmpy',
+    name='specify-lmpy',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     description='Package of commonly used and shared Lifemapper objects and tools',

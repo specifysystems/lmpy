@@ -27,7 +27,7 @@ def fill_shuffle_reshape_heuristic(orig_pam):
         Matrix: An approximate randomization of the PAM that is uncorrected.
     """
     fill = int(np.sum(orig_pam))
-    approx = np.zeros((orig_pam.shape), dtype=np.int8)
+    approx = np.zeros((orig_pam.shape), dtype=int)
     approx[:fill] = 1
     np.random.shuffle(approx)
     return approx.reshape(orig_pam.shape)
@@ -52,7 +52,7 @@ def total_fill_percentage_heuristic(orig_pam):
         np.random.uniform(
             low=0.0, high=1.0, size=orig_pam.shape
         ) <= fill_percentage
-    ).astype(np.int8)
+    ).astype(int)
     return approx
 
 
@@ -72,18 +72,18 @@ def max_col_or_row_heuristic(orig_pam):
     row_totals = np.sum(orig_pam, axis=1)
     col_totals = np.sum(orig_pam, axis=0)
 
-    row_weights = row_totals.astype(np.float) / row_totals.shape[0]
-    col_weights = col_totals.astype(np.float) / col_totals.shape[0]
+    row_weights = row_totals.astype(float) / row_totals.shape[0]
+    col_weights = col_totals.astype(float) / col_totals.shape[0]
 
     row_weights = np.expand_dims(
-        row_totals.astype(np.float) / row_totals.shape[0], 1)
+        row_totals.astype(float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
-        col_totals.astype(np.float) / col_totals.shape[0], 0)
+        col_totals.astype(float) / col_totals.shape[0], 0)
     return (
         np.random.uniform(
             low=0.0, high=1.0, size=orig_pam.shape
         ) <= np.maximum(row_weights, col_weights)
-    ).astype(np.int8)
+    ).astype(int)
 
 
 # .............................................................................
@@ -99,18 +99,18 @@ def min_col_or_row_heuristic(orig_pam):
     Returns:
         Matrix: An approximate randomization of the PAM that is uncorrected.
     """
-    row_totals = np.sum(orig_pam, axis=1, dtype=np.int)
-    col_totals = np.sum(orig_pam, axis=0, dtype=np.int)
+    row_totals = np.sum(orig_pam, axis=1, dtype=int)
+    col_totals = np.sum(orig_pam, axis=0, dtype=int)
 
     row_weights = np.expand_dims(
-        row_totals.astype(np.float) / row_totals.shape[0], 1)
+        row_totals.astype(float) / row_totals.shape[0], 1)
     col_weights = np.expand_dims(
-        col_totals.astype(np.float) / col_totals.shape[0], 0)
+        col_totals.astype(float) / col_totals.shape[0], 0)
     return (
         np.random.uniform(
             low=0.0, high=1.0, size=orig_pam.shape
         ) <= np.minimum(row_weights, col_weights, dtype=np.single)
-    ).astype(np.int8)
+    ).astype(int)
 
 
 # .............................................................................
@@ -123,7 +123,7 @@ def all_zeros_heuristic(orig_pam):
     Returns:
         Matrix: An approximate randomization of the PAM that is uncorrected.
     """
-    return np.zeros(orig_pam.shape, dtype=np.int8)
+    return np.zeros(orig_pam.shape, dtype=int)
 
 
 # .............................................................................
@@ -136,7 +136,7 @@ def all_ones_heuristic(orig_pam):
     Returns:
         Matrix: An approximate randomization of the PAM that is uncorrected.
     """
-    return np.ones(orig_pam.shape, dtype=np.int8)
+    return np.ones(orig_pam.shape, dtype=int)
 
 
 # .............................................................................

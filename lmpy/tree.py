@@ -229,8 +229,8 @@ class TreeWrapper(dendropy.Tree):
             for taxon in self.taxon_namespace:
                 ordered_labels.append(label_method(taxon))
 
-        label_lookup = dict([(
-                ordered_labels[i], i) for i in range(len(ordered_labels))])
+        label_lookup = {
+                ordered_labels[i]: i for i in range(len(ordered_labels))}
 
         dist_mtx = np.zeros((len(ordered_labels), len(ordered_labels)),
                             dtype=float)
@@ -324,8 +324,8 @@ class TreeWrapper(dendropy.Tree):
             for taxon in self.taxon_namespace:
                 ordered_labels.append(label_method(taxon))
 
-        label_lookup = dict([(
-                ordered_labels[i], i) for i in range(len(ordered_labels))])
+        label_lookup = {
+                ordered_labels[i]: i for i in range(len(ordered_labels))}
 
         dist_mtx = np.zeros((len(ordered_labels), len(ordered_labels)),
                             dtype=float)
@@ -396,8 +396,8 @@ class TreeWrapper(dendropy.Tree):
             for taxon in self.taxon_namespace:
                 ordered_labels.append(label_method(taxon))
 
-        label_lookup = dict([(
-                ordered_labels[i], i) for i in range(len(ordered_labels))])
+        label_lookup = {
+                ordered_labels[i]: i for i in range(len(ordered_labels))}
 
         n = len(ordered_labels)
         vcv = np.zeros((n, n), dtype=float)

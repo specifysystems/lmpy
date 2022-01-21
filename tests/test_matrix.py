@@ -361,18 +361,18 @@ class Test_Matrix:
         n_dim = np.random.randint(2, 4)
         dims = []
         for _ in range(n_dim):
-            d_size = np.random.randint(1, 20)
+            d_size = np.random.randint(2, 30)
             d_lower = np.random.randint(0, d_size - 1)
             d_upper = np.random.randint(d_lower + 1, d_size)
             dims.append((d_size, d_lower, d_upper))
 
         # Generate the matrix and get original headers
-        mtx = get_random_matrix(*tuple([j[0] for j in dims]))
+        mtx = get_random_matrix(*tuple(j[0] for j in dims))
         orig_headers = mtx.get_headers()
         assert orig_headers
 
         # Get slice parameters and slice matrix
-        slice_params = tuple([range(j[1], j[2]) for j in dims])
+        slice_params = tuple(range(j[1], j[2]) for j in dims)
         sliced_mtx = mtx.slice(*slice_params)
 
         # Test data matrix

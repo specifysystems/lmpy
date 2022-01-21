@@ -57,8 +57,8 @@ class Test_get_attribute_modifier:
 
         modifier = get_attribute_modifier('val', val_modify_func)
         new_points = modifier(points)
-        test_orig = sorted([p.get_attribute('val')+1 for p in points])
-        test_new = sorted([p.get_attribute('val') for p in new_points])
+        test_orig = sorted(p.get_attribute('val')+1 for p in points)
+        test_new = sorted(p.get_attribute('val') for p in new_points)
         assert test_orig == test_new
 
 

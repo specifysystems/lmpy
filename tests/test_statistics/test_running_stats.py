@@ -130,7 +130,7 @@ class Test_RunningStats(object):
         num_greater = Matrix(np.zeros((10, 10)))
         for i in range(v_stack.shape[0]):
             num_greater += np.abs(v_stack[i, ...]) > np.abs(obs)
-        assert np.all(rs.p_values == num_greater.astype(np.float) / len(vals))
+        assert np.all(rs.p_values == num_greater.astype(float) / len(vals))
 
     # .....................................
     def test_matrix_with_p_values_signed(self):
@@ -156,7 +156,7 @@ class Test_RunningStats(object):
         num_greater = Matrix(np.zeros((10, 10)))
         for i in range(v_stack.shape[0]):
             num_greater += v_stack[i, ...] > obs
-        assert np.all(rs.p_values == num_greater.astype(np.float) / len(vals))
+        assert np.all(rs.p_values == num_greater.astype(float) / len(vals))
 
     # .....................................
     def test_numpy_arrays_with_no_p_values(self):
@@ -202,7 +202,7 @@ class Test_RunningStats(object):
         num_greater = np.zeros((10, 10))
         for i in range(v_stack.shape[0]):
             num_greater += np.abs(v_stack[i, ...]) > np.abs(obs)
-        assert np.all(rs.p_values == num_greater.astype(np.float) / len(vals))
+        assert np.all(rs.p_values == num_greater.astype(float) / len(vals))
 
     # .....................................
     def test_numpy_arrays_with_p_values_signed(self):
@@ -226,4 +226,4 @@ class Test_RunningStats(object):
         num_greater = np.zeros((10, 10))
         for i in range(v_stack.shape[0]):
             num_greater += v_stack[i, ...] > obs
-        assert np.all(rs.p_values == num_greater.astype(np.float) / len(vals))
+        assert np.all(rs.p_values == num_greater.astype(float) / len(vals))

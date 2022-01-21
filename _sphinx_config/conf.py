@@ -16,14 +16,15 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.insert(0, os.path.abspath('../..'))
 
-# -- Project information -----------------------------------------------------
+import lmpy  # noqa: E402
 
-project = 'Lifemapper lmpy'
-copyright = '2021, Lifemapper Team'
-author = 'Lifemapper Team'
+# -- Project information -----------------------------------------------------
+project = 'Specify lmpy'
+copyright = '2022, Specify Lifemapper Team'
+author = 'Specify Lifemapper Team'
 
 # The full version, including alpha/beta/rc tags
-release = '3.0.0'
+release = lmpy.__version__
 
 
 # -- General configuration ---------------------------------------------------
