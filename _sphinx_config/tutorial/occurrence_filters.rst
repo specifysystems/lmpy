@@ -31,9 +31,9 @@ See: `get_bounding_box_filter <../autoapi/lmpy/data_wrangling/occurrence/filters
 Disjoint Geometries Filter
 ==========================
 A disjoint geometries filter will only pass points that fall outside of a set
-of geometries.  This is useful if you want to do something like remove points
-that are found in herbaria.  You would create a set of bufferred point
-geometries around herbarium locations and use those to configure the filter.
+of geometries.  This is useful if you want to do something like remove species occurrence points
+that are from specimens from living research collections.  For example, you would create a set of bufferred point
+geometries around each garden locations and use those to configure the filter.
 
 See `get_disjoint_geometries_filter <../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_disjoint_geometries_filter>`_
 
@@ -71,7 +71,7 @@ See `get_intersect_geometries_filter <../autoapi/lmpy/data_wrangling/occurrence/
 Unique Localities Filter
 ========================
 The unique localities filter is used to filter out points with identical
-localities.  This is used by Lifemapper to ensure that models are only produced
+localities.  This is used to ensure that models are only produced
 for species with a minimum number of unique localites.
 
 See `get_unique_localities_filter <../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_unique_localities_filter>`_
