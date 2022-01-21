@@ -17,13 +17,14 @@ sys.path.insert(0, os.path.abspath('..'))
 sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
+import lmpy
 
-project = 'Lifemapper lmpy'
-copyright = '2021, Lifemapper Team'
-author = 'Lifemapper Team'
+project = 'Specify lmpy'
+copyright = '2022, Specify Lifemapper Team'
+author = 'Specify Lifemapper Team'
 
 # The full version, including alpha/beta/rc tags
-release = '3.0.0'
+release = lmpy.__version__
 
 
 # -- General configuration ---------------------------------------------------
