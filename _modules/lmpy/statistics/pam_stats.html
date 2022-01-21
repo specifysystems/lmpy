@@ -184,7 +184,7 @@
 <span class="sd">        Matrix: A column of proportional alpha diversity values for each site in the</span>
 <span class="sd">            PAM.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pam</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">pam</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -214,7 +214,7 @@
 <span class="sd">        Matrix: A column of the proportional value of the sum of the range sizes for</span>
 <span class="sd">            the species present at each site in the PAM.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pam</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">pam</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -274,7 +274,7 @@
 <span class="sd">            the PAM is present.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">alpha</span><span class="p">(</span>
-        <span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span></div>
+        <span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -419,7 +419,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: Matrix of covariance of composition of sites.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">site_by_site</span> <span class="o">=</span> <span class="n">pam</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">site_by_site</span> <span class="o">=</span> <span class="n">pam</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">alpha_prop</span> <span class="o">=</span> <span class="n">alpha_proportional</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">site_by_site</span> <span class="o">/</span> <span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">alpha_prop</span><span class="p">,</span> <span class="n">alpha_prop</span><span class="p">)</span></div>
 
@@ -435,7 +435,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: Matrix of covariance of composition of species.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">species_by_site</span> <span class="o">=</span> <span class="n">pam</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">species_by_site</span> <span class="o">=</span> <span class="n">pam</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">omega_prop</span> <span class="o">=</span> <span class="n">omega_proportional</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">species_by_site</span> <span class="o">/</span> <span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
             <span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">omega_prop</span><span class="p">,</span> <span class="n">omega_prop</span><span class="p">)</span></div>

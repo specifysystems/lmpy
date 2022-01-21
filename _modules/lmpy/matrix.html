@@ -188,7 +188,7 @@
 
     <span class="c1"># ...........................</span>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Matrix.load_csv"><a class="viewcode-back" href="../../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.load_csv">[docs]</a>    <span class="k">def</span> <span class="nf">load_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flo</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_header_cols</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix.load_csv"><a class="viewcode-back" href="../../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.load_csv">[docs]</a>    <span class="k">def</span> <span class="nf">load_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">flo</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_header_cols</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Attempts to load a Matrix object from a CSV file-like object.</span>
 
 <span class="sd">        Args:</span>
@@ -707,7 +707,7 @@
         <span class="c1"># .....................</span>
         <span class="c1"># Main write_csv function</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">csv_generator</span><span class="p">():</span>
-            <span class="n">flo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])))</span></div></div>
+            <span class="n">flo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])))</span></div></div>
 
 
 <span class="c1"># .............................................................................</span>

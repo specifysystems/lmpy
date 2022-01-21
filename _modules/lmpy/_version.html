@@ -70,8 +70,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lmpy._version</h1><div class="highlight"><pre>
-<span></span>
-<span class="c1"># This file helps to compute a version number in source trees obtained from</span>
+<span></span><span class="c1"># This file helps to compute a version number in source trees obtained from</span>
 <span class="c1"># git-archive tarball (such as those provided by githubs download-from-tag</span>
 <span class="c1"># feature). Distribution tarballs (built by setup.py sdist) and build</span>
 <span class="c1"># directories (produced by setup.py build) will contain a much shorter file</span>
@@ -164,7 +163,7 @@
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unable to find command, tried </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">commands</span><span class="p">,))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unable to find command, tried </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
     <span class="n">stdout</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">process</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
@@ -317,7 +316,7 @@
     <span class="n">describe_out</span><span class="p">,</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">runner</span><span class="p">(</span><span class="n">GITS</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;describe&quot;</span><span class="p">,</span> <span class="s2">&quot;--tags&quot;</span><span class="p">,</span> <span class="s2">&quot;--dirty&quot;</span><span class="p">,</span>
                                      <span class="s2">&quot;--always&quot;</span><span class="p">,</span> <span class="s2">&quot;--long&quot;</span><span class="p">,</span>
                                      <span class="s2">&quot;--match&quot;</span><span class="p">,</span>
-                                     <span class="s2">&quot;</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tag_prefix</span><span class="p">,</span> <span class="n">TAG_PREFIX_REGEX</span><span class="p">)],</span>
+                                     <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">,</span> <span class="n">TAG_PREFIX_REGEX</span><span class="p">)],</span>
                               <span class="n">cwd</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
     <span class="c1"># --long was added in git-1.5.5</span>
     <span class="k">if</span> <span class="n">describe_out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

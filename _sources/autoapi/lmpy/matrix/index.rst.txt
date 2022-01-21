@@ -162,7 +162,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: load_csv(cls, flo, dtype=np.float, num_header_rows=0, num_header_cols=0)
+   .. py:method:: load_csv(cls, flo, dtype=float, num_header_rows=0, num_header_cols=0)
       :classmethod:
 
       Attempts to load a Matrix object from a CSV file-like object.
