@@ -95,7 +95,7 @@ def get_random_pam_and_tree(
 
     pam = Matrix(
         (np.random.random((num_sites, num_species)) < fill_percentage
-         ).astype(np.int),
+         ).astype(int),
         headers={'0': site_headers, '1': pam_species})
 
     tree_data = '({});'.format(
