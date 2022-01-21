@@ -5,7 +5,7 @@ Metacommunity Phylogenetics Analysis (MCPA)
 Introduction
 ============
 We provide an implementation of the metacommunity phylogenetics analysis (MCPA)
-from Liebold et al, 2010 that allows a researcher to study the effects of
+from Liebold et al. 2010 that allows a researcher to study the effects of
 environment and historical biogeography on the distributions of sister clades
 in a phylogeny.  This analysis can be used to find significant correlations
 between clade distributions and various environmental and biogeographic
@@ -19,9 +19,9 @@ a site by environmental predictor matrix of environmental data, and a site by
 biogeographic predictor matrix of Helmert contrasts for each biogeographic
 hypothesis.
 
-Leibold, M.A., E.P. Economo and P.R. Peres-Neto. 2010. Metacommunity
-    phylogenetics: separating the roles of environmental filters and
-    historical biogeography. Ecology letters 13: 1290-1299.
+Leibold, M.A., E.P. Economo and P.R. Peres-Neto. 2010.
+    Metacommunity phylogenetics: separating the roles of environmental filters and
+    historical biogeography. Ecology Letters 13: 1290-1299.
 
 ----
 

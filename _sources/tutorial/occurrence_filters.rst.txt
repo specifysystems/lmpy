@@ -4,7 +4,7 @@ Occurrence Filters
 
 Introduction
 ============
-Occurrence filters are methods that take a Point as input and return a binary
+Occurrence filters are methods that take an occurrence point as input and return a binary
 value indicating if that point passes that particular filter.  These filter
 functions are exposed via 'get' methods that allow you to configure a
 particular filter to fit your needs and then provide a reusable function that
