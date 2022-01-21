@@ -112,7 +112,7 @@ def alpha_proportional(pam):
         Matrix: A column of proportional alpha diversity values for each site in the
             PAM.
     """
-    return pam.sum(axis=1).astype(np.float) / num_species(pam)
+    return pam.sum(axis=1).astype(float) / num_species(pam)
 
 
 # .............................................................................
@@ -142,7 +142,7 @@ def phi_average_proportional(pam):
         Matrix: A column of the proportional value of the sum of the range sizes for
             the species present at each site in the PAM.
     """
-    return pam.dot(omega(pam)).astype(np.float) / (num_sites(pam) * alpha(pam))
+    return pam.dot(omega(pam)).astype(float) / (num_sites(pam) * alpha(pam))
 
 
 # .............................................................................
@@ -202,7 +202,7 @@ def psi_average_proportional(pam):
             the PAM is present.
     """
     return alpha(
-        pam).dot(pam).astype(np.float) / (num_species(pam) * omega(pam))
+        pam).dot(pam).astype(float) / (num_species(pam) * omega(pam))
 
 
 # .............................................................................
@@ -347,7 +347,7 @@ def sigma_sites(pam):
     Returns:
         Matrix: Matrix of covariance of composition of sites.
     """
-    site_by_site = pam.dot(pam.T).astype(np.float)
+    site_by_site = pam.dot(pam.T).astype(float)
     alpha_prop = alpha_proportional(pam)
     return (site_by_site / num_species(pam)) - np.outer(alpha_prop, alpha_prop)
 
@@ -363,7 +363,7 @@ def sigma_species(pam):
     Returns:
         Matrix: Matrix of covariance of composition of species.
     """
-    species_by_site = pam.T.dot(pam).astype(np.float)
+    species_by_site = pam.T.dot(pam).astype(float)
     omega_prop = omega_proportional(pam)
     return (species_by_site / num_sites(pam)
             ) - np.outer(omega_prop, omega_prop)
