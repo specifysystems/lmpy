@@ -27,9 +27,7 @@ def cli():
         '--min_coverage',
         type=float,
         default=25,
-        help=('Minimum percentage of a cell that has to be covered to encode it.'
-              ' [0.0-1) or [1-100].'
-        )
+        help='Minimum percentage of a cell that has to be covered to encode it.'
     )
     parser.add_argument(
         '--min_presence',
@@ -107,7 +105,7 @@ def cli():
     enc_mtx = encoder.get_encoded_matrix()
     enc_mtx.write(args.out_matrix_filename)
 
-    
+
 # .....................................................................................
 if __name__ == '__main__':
     cli()
