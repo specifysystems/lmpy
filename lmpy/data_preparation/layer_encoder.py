@@ -188,7 +188,7 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
         # Note: This will cause last one to win if they are equal, change to
         #     '>' below and set this to * (min_vals - 1) to have first one win
         counts = np.zeros((i), dtype=int) * min_vals
-        ret = np.zeros((i))
+        ret = np.zeros(i)
 
         unique_values = np.column_stack(np.unique(window, return_counts=True))
 
@@ -415,7 +415,7 @@ class LayerEncoder:
                 nodata=nodata, event_field=event_field)
         else:
             window_func, nodata_value = self._read_raster_layer(layer_filename)
-            events = set([])
+            events = set()
 
         return (window_func, nodata_value, events)
 

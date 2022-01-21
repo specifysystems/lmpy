@@ -635,7 +635,7 @@ class Matrix(np.ndarray):
         # .....................
         # Main write_csv function
         for row in csv_generator():
-            flo.write(u"{0}\n".format(','.join([str(v) for v in row])))
+            flo.write(u"{}\n".format(','.join([str(v) for v in row])))
 
 
 # .............................................................................

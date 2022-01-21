@@ -1,4 +1,3 @@
-
 # This file helps to compute a version number in source trees obtained from
 # git-archive tarball (such as those provided by githubs download-from-tag
 # feature). Distribution tarballs (built by setup.py sdist) and build
@@ -92,7 +91,7 @@ def run_command(commands, args, cwd=None, verbose=False, hide_stderr=False,
             return None, None
     else:
         if verbose:
-            print("unable to find command, tried %s" % (commands,))
+            print("unable to find command, tried {}".format(commands))
         return None, None
     stdout = process.communicate()[0].strip().decode()
     if process.returncode != 0:
@@ -245,7 +244,7 @@ def git_pieces_from_vcs(tag_prefix, root, verbose, runner=run_command):
     describe_out, rc = runner(GITS, ["describe", "--tags", "--dirty",
                                      "--always", "--long",
                                      "--match",
-                                     "%s%s" % (tag_prefix, TAG_PREFIX_REGEX)],
+                                     "{}{}".format(tag_prefix, TAG_PREFIX_REGEX)],
                               cwd=root)
     # --long was added in git-1.5.5
     if describe_out is None:

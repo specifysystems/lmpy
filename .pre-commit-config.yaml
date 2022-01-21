@@ -5,6 +5,7 @@ repos:
     -   id: check-yaml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
+    -   id: check-toml
 -   repo: https://github.com/psf/black
     rev: 21.12b0
     hooks:
@@ -47,3 +48,16 @@ repos:
     rev: 'v2.3'
     hooks:
     - id: vulture
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v2.31.0
+    hooks:
+    -   id: pyupgrade
+-   repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.1.10
+    hooks:
+    -   id: forbid-tabs
+-   repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.30.0
+    hooks:
+    - id: markdownlint
+      args: [--config=.github/linters/.markdownlint]
