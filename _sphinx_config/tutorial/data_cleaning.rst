@@ -182,7 +182,7 @@ Write the cleaned data points to OUTPUT_POINTS_FILENAME.
     ...             if points:  # If any points remain, write them
     ...                 csv_writer.write_points(points)
 
-That's it!  We have now processed data from three sources, ensured that all records
-have an accepted taxon name, filtered records that have low coordinate decimal
-precision, unique localities, and a minimum number of point so that we can use these
-data for creating species distribution models.
+That's it!  We have processed data from three sources, ensured that all records
+have an accepted taxon name, filtered out records that have low coordinate decimal
+precision, identified taxa with a minimum number of unique localities, to be able to use all of the resulting
+data for computing species distribution models.
