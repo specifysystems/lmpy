@@ -13,12 +13,12 @@
 import os
 import sys
 
+import lmpy
+
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
-import lmpy
-
 project = 'Specify lmpy'
 copyright = '2022, Specify Lifemapper Team'
 author = 'Specify Lifemapper Team'
