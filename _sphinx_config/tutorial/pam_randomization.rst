@@ -33,7 +33,7 @@ Randomization algorithms
 ========================
 Swap
 ----
-The swap method, or Gotelli swap as it is sometimes called, looks for row and
+The swap method, or "Gotelli Swap" as it is sometimes called, looks for row and
 column combinations that have diagonal or anti-diagonal patterns of zeros and
 ones like
 `(Gotelli & Ensminger 2001) <https://link.springer.com/article/10.1007/s004420100717>`_:
@@ -118,7 +118,7 @@ of time.
 
 Strona's Curveball Method
 -------------------------
-Another method of note is the "curve ball" method presented by
+Another method of note is the "Curve Ball" method presented by
 `Strona et al. (2014) <https://www.nature.com/articles/ncomms5114>`_.  This
 method uses pair extractions to perform several swaps at once between a pair of
 rows or columns.  Python code for this method is available with the
