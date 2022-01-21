@@ -5,7 +5,7 @@ PAM Statistics
 Introduction
 ============
 The PAM data structure can be used to generate many diversity statistics.  By
-default, many of the statistics presented in Soberon and Cavner, 2015 are
+default, many of the statistics presented in Soberon and Cavner (2015) are
 generated as well as some phylogenetic diversity metrics if a tree is provided.
 Additionally, new statistics can be created by decorating functions with the
 appropriate statistic type and adding them to the stats instance.
