@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Occurrence Filters &mdash; Specify lmpy 3.0.0a7+7.g7464386 documentation</title>
+  <title>Occurrence Filters &mdash; Specify lmpy 3.0.0a7+8.g3057bea documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -122,9 +122,9 @@ fall within the specified bounding box.</p>
 <section id="disjoint-geometries-filter">
 <h2>Disjoint Geometries Filter<a class="headerlink" href="#disjoint-geometries-filter" title="Permalink to this headline"></a></h2>
 <p>A disjoint geometries filter will only pass points that fall outside of a set
-of geometries.  This is useful if you want to do something like remove points
-that are found in herbaria.  You would create a set of bufferred point
-geometries around herbarium locations and use those to configure the filter.</p>
+of geometries.  This is useful if you want to do something like remove species occurrence points
+that are from specimens from living research collections.  For example, you would create a set of bufferred point
+geometries around each garden locations and use those to configure the filter.</p>
 <p>See <a class="reference external" href="../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_disjoint_geometries_filter">get_disjoint_geometries_filter</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Filter points not within bounding box (0, 0, 40, 40)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">test_geometries</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;POLYGON ((0 0, 40 0, 40 40, 0 40, 0 0))&#39;</span><span class="p">]</span>
@@ -160,7 +160,7 @@ filter.  It only passes points found within the specified test geometries.</p>
 <section id="unique-localities-filter">
 <h2>Unique Localities Filter<a class="headerlink" href="#unique-localities-filter" title="Permalink to this headline"></a></h2>
 <p>The unique localities filter is used to filter out points with identical
-localities.  This is used by Lifemapper to ensure that models are only produced
+localities.  This is used to ensure that models are only produced
 for species with a minimum number of unique localites.</p>
 <p>See <a class="reference external" href="../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_unique_localities_filter">get_unique_localities_filter</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">point_1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Test species&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
