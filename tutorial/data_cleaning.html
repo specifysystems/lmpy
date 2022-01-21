@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Cleaning &mdash; Specify lmpy 3.0.0a7+12.g79427dd documentation</title>
+  <title>Data Cleaning &mdash; Specify lmpy 3.0.0a7+13.ga8d5cb9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -280,10 +280,10 @@ Write the cleaned data points to OUTPUT_POINTS_FILENAME.</p>
 <span class="gp">... </span>                <span class="n">csv_writer</span><span class="o">.</span><span class="n">write_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>That’s it!  We have now processed data from three sources, ensured that all records
-have an accepted taxon name, filtered records that have low coordinate decimal
-precision, unique localities, and a minimum number of point so that we can use these
-data for creating species distribution models.</p>
+<p>That’s it!  We have processed data from three sources, ensured that all records
+have an accepted taxon name, filtered out records that have low coordinate decimal
+precision, identified taxa with a minimum number of unique localities, to be able to use all of the resulting
+data for computing species distribution models.</p>
 </section>
 </section>
 </section>
