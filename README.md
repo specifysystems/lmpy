@@ -9,7 +9,7 @@ https://coveralls.io/github/lifemapper/lmpy)
 [![License Badge](https://img.shields.io/github/license/lifemapper/lmpy.svg)](
 https://github.com/specifysystems/lmpy/blob/master/LICENSE)
 
-The Lifemapper lmpy repository houses objects and common tools used within a
+The Lifemapper lmpy repository houses objects and common tools used within the
 Lifemapper installation that may also be useful for outside contributors and
 the community as a whole.
 
@@ -33,4 +33,4 @@ Please use the following with citing our randomization algorithm:
 Tutorials and additional documentation can be found on
 [The lmpy GitHub pages](https://specifysystems.github.io/lmpy/).
 
-This work has been supported by NSF  Awards NSF BIO-1458422, OCI-1234983.
+This work has been supported by NSF  Awards NSF BIO-1458422, OCI-1234983. BIO/CIBR-1930005
