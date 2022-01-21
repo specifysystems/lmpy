@@ -367,12 +367,12 @@ class Test_Matrix:
             dims.append((d_size, d_lower, d_upper))
 
         # Generate the matrix and get original headers
-        mtx = get_random_matrix(*tuple([j[0] for j in dims]))
+        mtx = get_random_matrix(*tuple(j[0] for j in dims))
         orig_headers = mtx.get_headers()
         assert orig_headers
 
         # Get slice parameters and slice matrix
-        slice_params = tuple([range(j[1], j[2]) for j in dims])
+        slice_params = tuple(range(j[1], j[2]) for j in dims)
         sliced_mtx = mtx.slice(*slice_params)
 
         # Test data matrix
