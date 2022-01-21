@@ -1,6 +1,10 @@
 name: Publish Python distribution to Test PyPI
 
-on: push
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - '*.*.*' # Push events to matching {major}.{minor}.{patch}{whatever}
 
 jobs:
   build-n-publish:
