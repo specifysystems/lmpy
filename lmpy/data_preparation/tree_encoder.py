@@ -267,7 +267,7 @@ class TreeEncoder:
             zip(internal_node_labels, range(len(internal_node_labels))))
 
         mtx = Matrix(
-            np.zeros((len(labels), len(internal_node_labels)), dtype=np.float),
+            np.zeros((len(labels), len(internal_node_labels)), dtype=float),
             headers={'0': labels, '1': internal_node_labels})
 
         # Get the list of tip proportion lists
@@ -391,7 +391,7 @@ class TreeEncoder:
         # Initialize the matrix
         labels = self.pam.get_column_headers()
         mtx = Matrix(
-            np.zeros((len(labels), len(p_val_dict)), dtype=np.float),
+            np.zeros((len(labels), len(p_val_dict)), dtype=float),
             headers={'0': labels, '1': list(p_val_dict.keys())})
 
         # We need a mapping of node path id to matrix column.  I don't think

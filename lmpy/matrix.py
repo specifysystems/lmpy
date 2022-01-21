@@ -116,7 +116,7 @@ class Matrix(np.ndarray):
 
     # ...........................
     @classmethod
-    def load_csv(cls, flo, dtype=np.float, num_header_rows=0, num_header_cols=0):
+    def load_csv(cls, flo, dtype=float, num_header_rows=0, num_header_cols=0):
         """Attempts to load a Matrix object from a CSV file-like object.
 
         Args:

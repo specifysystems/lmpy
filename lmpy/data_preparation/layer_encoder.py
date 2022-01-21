@@ -433,7 +433,7 @@ class LayerEncoder:
         """
         dataset = gdal.Open(raster_filename)
         band = dataset.GetRasterBand(1)
-        layer_array = band.ReadAsArray().astype(np.float)
+        layer_array = band.ReadAsArray().astype(float)
         nodata = band.GetNoDataValue()
         layer_array[np.where(layer_array == nodata)] = np.nan
 
