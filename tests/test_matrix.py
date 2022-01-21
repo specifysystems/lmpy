@@ -362,7 +362,7 @@ class Test_Matrix:
         dims = []
         for _ in range(n_dim):
             d_size = np.random.randint(1, 20)
-            d_lower = np.random.randint(0, d_size)
+            d_lower = np.random.randint(0, d_size -1)
             d_upper = np.random.randint(d_lower + 1, d_size)
             dims.append((d_size, d_lower, d_upper))
 
