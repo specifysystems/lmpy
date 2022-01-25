@@ -585,7 +585,8 @@ class PointDwcaReader:
         # Read metadata
         # Get occurrence file ready
         self.file = io.TextIOWrapper(
-            self._zip_archive.open(self.occurrence_filename)
+            self._zip_archive.open(self.occurrence_filename),
+            encoding='utf8'
         )
 
         delimiter = self.occurrence_params['fieldsTerminatedBy']
