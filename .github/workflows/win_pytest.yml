@@ -4,20 +4,32 @@ on: [push]
 # Update to only push on main branch push
 
 jobs:
-  mac:
+  windows:
     runs-on: windows-latest
     strategy:
       matrix:
         python-version: [3.9]
     steps:
-      - name: Install requirements
-        run: |
-          choco install miniconda
-          conda update -n base -c conda-forge conda
-          conda install -y -c conda-forge gdal libspatialindex rtree
-
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Conda
+        uses: conda-incubator/setup-minconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+          channels: conda-forge
+
+      - name: Conda info
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+
+      - name: Install requirements
+        shell: bash -l {0}
+        run: |
+          conda install -y -c conda-forge gdal libspatialindex rtree
 
       # Set up Python
       - name: Set up Python ${{ matrix.python-version }}
