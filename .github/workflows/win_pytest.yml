@@ -1,0 +1,63 @@
+name: Windows - PyTest
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: [3.7,3.8,3.9]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Conda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+          channels: conda-forge
+
+      - name: Conda info
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+
+      - name: Install requirements
+        shell: bash -l {0}
+        run: |
+          conda install -y -c conda-forge gdal libspatialindex rtree
+
+      # Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      # Install GDAL
+      # Install python dependencies
+      - name: Install python dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # Install testing dependencies
+      - name: Install testing dependencies
+        run: |
+          pip install -r requirements-test.txt
+
+      # Run pytest
+      - name: Test with Pytest
+        run: |
+          pytest tests/ -v --cov lmpy --cov-report term-missing
