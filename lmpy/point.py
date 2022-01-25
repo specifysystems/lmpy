@@ -578,7 +578,8 @@ class PointDwcaReader:
         self._zip_archive = zipfile.ZipFile(self.archive_filename, mode='r')
         # self._zip_archive.open()
         meta_contents = io.TextIOWrapper(
-            self._zip_archive.open(self.meta_filename)
+            self._zip_archive.open(self.meta_filename),
+            encoding='utf8'
         ).read()
         self._process_metadata(meta_contents)
         # Read metadata
