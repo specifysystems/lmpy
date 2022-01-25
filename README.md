@@ -2,11 +2,12 @@
 
 [![Latest release](https://img.shields.io/github/release/lifemapper/lmpy.svg)](
 https://github.com/specifysystems/lmpy/releases/latest)
-[![PyPI version](https://badge.fury.io/py/specify-lmpy.svg)](https://badge.fury.io/py/specify-lmpy)
-[![Python Versions](https://img.shields.io/pypi/pyversions/specify-lmpy)](https://img.shields.io/pypi/pyversions/specify-lmpy)
+[![PyPI version](https://badge.fury.io/py/specify-lmpy.svg)](
+https://badge.fury.io/py/specify-lmpy)
+[![Python Versions](https://img.shields.io/pypi/pyversions/specify-lmpy)](
+https://img.shields.io/pypi/pyversions/specify-lmpy)
 [![License Badge](https://img.shields.io/github/license/lifemapper/lmpy.svg)](
 https://github.com/specifysystems/lmpy/blob/master/LICENSE)
-
 
 The Lifemapper lmpy repository houses objects and common tools used within the
 Lifemapper installation that may also be useful for outside contributors and
@@ -29,8 +30,8 @@ Please use the following with citing our randomization algorithm:
     Grady, C. J., Beach, J. H., and Stewart, A. M. (in preparation). A parallel,
     heuristic-based fill method for creating presence-absence matrix randomizations.
 
-Please see the repository [CITATION.cff](./CITATION.cff) for citing the repository or specify-lmpy tool itself.
-
+Please see [CITATION.cff](./CITATION.cff) for citing the repository or the
+specify-lmpy tool itself.
 
 Tutorials and additional documentation can be found on
 [The lmpy GitHub pages](https://specifysystems.github.io/lmpy/).
