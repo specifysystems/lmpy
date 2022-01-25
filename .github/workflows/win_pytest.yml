@@ -1,14 +1,20 @@
 name: Windows - PyTest
 
-on: [push]
-# Update to only push on main branch push
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
 
 jobs:
   windows:
     runs-on: windows-latest
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: [3.7,3.8,3.9]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
