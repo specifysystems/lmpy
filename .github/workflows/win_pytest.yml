@@ -54,4 +54,4 @@ jobs:
       # Run pytest
       - name: Test with Pytest
         run: |
-          PYTHONPATH=. pytest tests/ -v --cov lmpy --cov-report term-missing
+          pytest tests/ -v --cov lmpy --cov-report term-missing
