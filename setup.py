@@ -24,6 +24,8 @@ setup(
     install_requires=[
         'defusedxml',
         'dendropy>=4.0.0',
-        'numpy>=1.11.0'
+        'numpy>=1.11.0',
+        'gdal',
+        'rtree'
     ],
 )
