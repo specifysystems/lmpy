@@ -2,7 +2,7 @@
 import argparse
 import json
 
-from lmpy.data_wrangling.factory import wrangler_factory
+from lmpy.data_wrangling.occurrence.factory import wrangler_factory
 from lmpy.point import PointCsvReader, PointCsvWriter
 
 
