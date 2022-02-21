@@ -131,6 +131,15 @@ class Point:
         return None
 
     # .......................
+    def get_attribute_names(self):
+        """Get the point's attributes.
+
+        Returns:
+            list of str: A list of the attributes for the point.
+        """
+        return list(self.attributes.keys())
+
+    # .......................
     def set_attribute(self, attribute_name, value):
         """Set an attribute for the point.
 
