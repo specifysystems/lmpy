@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.factory &mdash; Specify lmpy 3.0.0+4.g45d2896 documentation</title>
+  <title>lmpy.data_wrangling.occurrence.factory &mdash; Specify lmpy 3.0.0+6.g25a0ce2 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -102,96 +102,100 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="wrangler_factory"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/factory/index.html#lmpy.data_wrangling.occurrence.factory.wrangler_factory">[docs]</a><span class="k">def</span> <span class="nf">wrangler_factory</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">):</span>
+<div class="viewcode-block" id="wrangler_factory"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/factory/index.html#lmpy.data_wrangling.occurrence.factory.wrangler_factory">[docs]</a><span class="k">def</span> <span class="nf">wrangler_factory</span><span class="p">(</span><span class="n">wrangler_config_list</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get an occurrence data wrangler from the wrangler configuration.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        wrangler_config (dict): A dictionary of wrangler configuration parameters.</span>
+<span class="sd">        wrangler_config_list (list of dict): A list of dictionaries of wrangler</span>
+<span class="sd">            configuration parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Method: An occurrence data wrangler.</span>
+<span class="sd">        List of Method: A list of occurrence data wranglers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">wrangler_type</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;wrangler_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">ATTRIBUTE_FILTER</span><span class="p">:</span>
-        <span class="n">att_name</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;attribute_name&#39;</span><span class="p">]</span>
-        <span class="n">list_delimiter</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;field_delimiter&#39;</span><span class="p">]</span>
-        <span class="n">bad_values</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;condition&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">][</span><span class="s1">&#39;not_in&#39;</span><span class="p">]</span>
+    <span class="n">wranglers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">wrangler_config</span> <span class="ow">in</span> <span class="n">wrangler_config_list</span><span class="p">:</span>
+        <span class="n">wrangler_type</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;wrangler_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">ATTRIBUTE_FILTER</span><span class="p">:</span>
+            <span class="n">att_name</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;attribute_name&#39;</span><span class="p">]</span>
+            <span class="n">list_delimiter</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;field_delimiter&#39;</span><span class="p">]</span>
+            <span class="n">bad_values</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;condition&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">][</span><span class="s1">&#39;not_in&#39;</span><span class="p">]</span>
 
-        <span class="c1"># Not in list</span>
-        <span class="k">def</span> <span class="nf">all_not_in</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-            <span class="n">field_values</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">list_delimiter</span><span class="p">)</span>
-            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span>
-                    <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bad_values</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">field_values</span><span class="p">])</span>
+            <span class="c1"># Not in list</span>
+            <span class="k">def</span> <span class="nf">all_not_in</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">field_values</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">list_delimiter</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span>
+                        <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bad_values</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">field_values</span><span class="p">])</span>
 
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_attribute_filter</span><span class="p">(</span><span class="n">att_name</span><span class="p">,</span> <span class="n">all_not_in</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">DECIMAL_PRECISION_FILTER</span><span class="p">:</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_decimal_precision_filter</span><span class="p">(</span>
-            <span class="nb">int</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;decimal_precision&#39;</span><span class="p">]))</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">DISJOINT_GEOMETRIES_FILTER</span><span class="p">:</span>
-        <span class="c1"># Get geometries (wkts)</span>
-        <span class="n">wkts</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;geometry_wkts&#39;</span><span class="p">]</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_disjoint_geometries_filter</span><span class="p">(</span><span class="n">wkts</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">INTERSECT_GEOMETRIES_FILTER</span><span class="p">:</span>
-        <span class="n">wkts</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;geometry_wkts&#39;</span><span class="p">]</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_intersect_geometries_filter</span><span class="p">(</span><span class="n">wkts</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">UNIQUE_LOCALITIES_FILTER</span><span class="p">:</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_unique_localities_filter</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">BBOX_FILTER</span><span class="p">:</span>
-        <span class="n">min_x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;min_x&#39;</span><span class="p">])</span>
-        <span class="n">min_y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;min_y&#39;</span><span class="p">])</span>
-        <span class="n">max_x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;max_x&#39;</span><span class="p">])</span>
-        <span class="n">max_y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;max_y&#39;</span><span class="p">])</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_bounding_box_filter</span><span class="p">(</span>
-            <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">MINIMUM_POINTS_FILTER</span><span class="p">:</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_minimum_points_filter</span><span class="p">(</span>
-            <span class="nb">int</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;minimum_points&#39;</span><span class="p">]))</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">SPATIAL_INDEX_FILTER</span><span class="p">:</span>
-        <span class="n">spatial_index</span> <span class="o">=</span> <span class="n">SpatialIndex</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;index_file&#39;</span><span class="p">])</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_attribute_filter</span><span class="p">(</span><span class="n">att_name</span><span class="p">,</span> <span class="n">all_not_in</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">DECIMAL_PRECISION_FILTER</span><span class="p">:</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_decimal_precision_filter</span><span class="p">(</span>
+               <span class="nb">int</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;decimal_precision&#39;</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">DISJOINT_GEOMETRIES_FILTER</span><span class="p">:</span>
+            <span class="c1"># Get geometries (wkts)</span>
+            <span class="n">wkts</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;geometry_wkts&#39;</span><span class="p">]</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_disjoint_geometries_filter</span><span class="p">(</span><span class="n">wkts</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">INTERSECT_GEOMETRIES_FILTER</span><span class="p">:</span>
+            <span class="n">wkts</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;geometry_wkts&#39;</span><span class="p">]</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_intersect_geometries_filter</span><span class="p">(</span><span class="n">wkts</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">UNIQUE_LOCALITIES_FILTER</span><span class="p">:</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_unique_localities_filter</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">BBOX_FILTER</span><span class="p">:</span>
+            <span class="n">min_x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;min_x&#39;</span><span class="p">])</span>
+            <span class="n">min_y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;min_y&#39;</span><span class="p">])</span>
+            <span class="n">max_x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;max_x&#39;</span><span class="p">])</span>
+            <span class="n">max_y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;max_y&#39;</span><span class="p">])</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_bounding_box_filter</span><span class="p">(</span>
+                <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">MINIMUM_POINTS_FILTER</span><span class="p">:</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_minimum_points_filter</span><span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;minimum_points&#39;</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">SPATIAL_INDEX_FILTER</span><span class="p">:</span>
+            <span class="n">spatial_index</span> <span class="o">=</span> <span class="n">SpatialIndex</span><span class="p">(</span><span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;index_file&#39;</span><span class="p">])</span>
 
-        <span class="k">def</span> <span class="nf">check_hit_func</span><span class="p">(</span><span class="n">hit</span><span class="p">,</span> <span class="n">check_vals</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-            <span class="k">for</span> <span class="n">check_key</span><span class="p">,</span> <span class="n">check_val</span> <span class="ow">in</span> <span class="n">check_vals</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">check_key</span> <span class="ow">in</span> <span class="n">hit</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">hit</span><span class="p">[</span><span class="n">check_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">check_val</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">def</span> <span class="nf">check_hit_func</span><span class="p">(</span><span class="n">hit</span><span class="p">,</span> <span class="n">check_vals</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+                <span class="k">for</span> <span class="n">check_key</span><span class="p">,</span> <span class="n">check_val</span> <span class="ow">in</span> <span class="n">check_vals</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">check_key</span> <span class="ow">in</span> <span class="n">hit</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">hit</span><span class="p">[</span><span class="n">check_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">check_val</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">return</span> <span class="kc">False</span>
 
-        <span class="k">def</span> <span class="nf">get_valid_intersections_func</span><span class="p">(</span><span class="n">species_name</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-            <span class="n">ret_vals</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="n">species_name</span> <span class="ow">in</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]:</span>
-                <span class="k">for</span> <span class="n">level</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">][</span><span class="n">species_name</span><span class="p">]:</span>
-                    <span class="n">level_key</span> <span class="o">=</span> <span class="s1">&#39;Level_</span><span class="si">{}</span><span class="s1">_cod&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
-                        <span class="n">level_key</span> <span class="o">=</span> <span class="n">level_key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-                    <span class="n">ret_vals</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">level_key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">ret_vals</span>
+            <span class="k">def</span> <span class="nf">get_valid_intersections_func</span><span class="p">(</span><span class="n">species_name</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">ret_vals</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="n">species_name</span> <span class="ow">in</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">level</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">][</span><span class="n">species_name</span><span class="p">]:</span>
+                        <span class="n">level_key</span> <span class="o">=</span> <span class="s1">&#39;Level_</span><span class="si">{}</span><span class="s1">_cod&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+                            <span class="n">level_key</span> <span class="o">=</span> <span class="n">level_key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                        <span class="n">ret_vals</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">level_key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">ret_vals</span>
 
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_spatial_index_filter</span><span class="p">(</span>
-            <span class="n">spatial_index</span><span class="p">,</span> <span class="n">get_valid_intersections_func</span><span class="p">,</span> <span class="n">check_hit_func</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">ATTRIBUTE_MODIFIER</span><span class="p">:</span>
-        <span class="n">att_name</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;attribute_name&#39;</span><span class="p">]</span>
-        <span class="n">map_dict</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;map_values&#39;</span><span class="p">]</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_spatial_index_filter</span><span class="p">(</span>
+                <span class="n">spatial_index</span><span class="p">,</span> <span class="n">get_valid_intersections_func</span><span class="p">,</span> <span class="n">check_hit_func</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">ATTRIBUTE_MODIFIER</span><span class="p">:</span>
+            <span class="n">att_name</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;attribute_name&#39;</span><span class="p">]</span>
+            <span class="n">map_dict</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;map_values&#39;</span><span class="p">]</span>
 
-        <span class="k">def</span> <span class="nf">replace_func</span><span class="p">(</span><span class="n">in_value</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-            <span class="k">if</span> <span class="n">in_value</span> <span class="ow">in</span> <span class="n">map_dict</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">map_dict</span><span class="p">[</span><span class="n">in_value</span><span class="p">]</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">def</span> <span class="nf">replace_func</span><span class="p">(</span><span class="n">in_value</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+                <span class="k">if</span> <span class="n">in_value</span> <span class="ow">in</span> <span class="n">map_dict</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">map_dict</span><span class="p">[</span><span class="n">in_value</span><span class="p">]</span>
+                <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_attribute_modifier</span><span class="p">(</span><span class="n">att_name</span><span class="p">,</span> <span class="n">replace_func</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">ATTRIBUTE_MAP_MODIFIER</span><span class="p">:</span>
-        <span class="n">mapping</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;attribute_mapping&#39;</span><span class="p">]</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_common_format_modifier</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">ACCEPTED_NAME_MODIFIER</span><span class="p">:</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_accepted_name_modifier</span><span class="p">(</span>
-            <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">CORDINATE_CONVERTER_MODIFIER</span><span class="p">:</span>
-        <span class="n">in_epsg</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;in_epsg&#39;</span><span class="p">]</span>
-        <span class="n">out_epsg</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;out_epsg&#39;</span><span class="p">]</span>
-        <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_coordinate_converter_modifier</span><span class="p">(</span>
-            <span class="n">in_epsg</span><span class="p">,</span> <span class="n">out_epsg</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">occurrence_wrangler</span></div>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_attribute_modifier</span><span class="p">(</span><span class="n">att_name</span><span class="p">,</span> <span class="n">replace_func</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">ATTRIBUTE_MAP_MODIFIER</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;attribute_mapping&#39;</span><span class="p">]</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_common_format_modifier</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">ACCEPTED_NAME_MODIFIER</span><span class="p">:</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_accepted_name_modifier</span><span class="p">(</span>
+                <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">wrangler_type</span> <span class="o">==</span> <span class="n">WRANGLER_TYPES</span><span class="o">.</span><span class="n">CORDINATE_CONVERTER_MODIFIER</span><span class="p">:</span>
+            <span class="n">in_epsg</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;in_epsg&#39;</span><span class="p">]</span>
+            <span class="n">out_epsg</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;out_epsg&#39;</span><span class="p">]</span>
+            <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_coordinate_converter_modifier</span><span class="p">(</span>
+                <span class="n">in_epsg</span><span class="p">,</span> <span class="n">out_epsg</span><span class="p">)</span>
+        <span class="n">wranglers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">occurrence_wrangler</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wranglers</span></div>
 </pre></div>
 
            </div>

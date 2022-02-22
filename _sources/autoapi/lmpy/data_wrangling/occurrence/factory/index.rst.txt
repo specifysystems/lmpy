@@ -95,14 +95,15 @@ Functions
       
 
 
-.. py:function:: wrangler_factory(wrangler_config)
+.. py:function:: wrangler_factory(wrangler_config_list)
 
    Get an occurrence data wrangler from the wrangler configuration.
 
-   :param wrangler_config: A dictionary of wrangler configuration parameters.
-   :type wrangler_config: dict
+   :param wrangler_config_list: A list of dictionaries of wrangler
+                                configuration parameters.
+   :type wrangler_config_list: list of dict
 
-   :returns: An occurrence data wrangler.
-   :rtype: Method
+   :returns: A list of occurrence data wranglers.
+   :rtype: List of Method
 
 
