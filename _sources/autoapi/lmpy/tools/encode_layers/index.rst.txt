@@ -1,0 +1,31 @@
+:py:mod:`lmpy.tools.encode_layers`
+==================================
+
+.. py:module:: lmpy.tools.encode_layers
+
+.. autoapi-nested-parse::
+
+   Script to encode layers into a Matrix.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.encode_layers.cli
+
+
+
+.. py:function:: cli()
+
+   Command line interface for layer encoding.
+
+   :raises ValueError: Raised if an unknown encoding method is provided.
+
+

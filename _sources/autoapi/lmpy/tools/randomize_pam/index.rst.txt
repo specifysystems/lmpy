@@ -1,0 +1,41 @@
+:py:mod:`lmpy.tools.randomize_pam`
+==================================
+
+.. py:module:: lmpy.tools.randomize_pam
+
+.. autoapi-nested-parse::
+
+   This script will randomize a PAM while maintaining marginal totals.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.randomize_pam.cli
+   lmpy.tools.randomize_pam.randomize_pam
+
+
+
+.. py:function:: cli()
+
+   Function providing a command line interface to the tool.
+
+
+.. py:function:: randomize_pam(in_pam)
+
+   Randomize a PAM.
+
+   :param in_pam: The input PAM to be randomized.
+   :type in_pam: Matrix
+
+   :returns: A randomized PAM that maintains marginal totals.
+   :rtype: Matrix
+
+

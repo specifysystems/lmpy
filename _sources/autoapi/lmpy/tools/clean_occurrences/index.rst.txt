@@ -1,0 +1,46 @@
+:py:mod:`lmpy.tools.clean_occurrences`
+======================================
+
+.. py:module:: lmpy.tools.clean_occurrences
+
+.. autoapi-nested-parse::
+
+   This tool cleans occurrence records according to the wranglers specified.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.clean_occurrences.clean_data
+   lmpy.tools.clean_occurrences.cli
+
+
+
+.. py:function:: clean_data(reader, writer_filename, wranglers, write_fields=None)
+
+   Clean occurrence data.
+
+   :param reader: A reader object that generates Point objects.
+   :type reader: PointCsvReader
+   :param writer_filename: A file location to write cleaned points.
+   :type writer_filename: str
+   :param wranglers: A list of data wranglers that manipulate
+                     and / or filter Points for cleaning.
+   :type wranglers: list of Wranglers
+   :param write_fields: A list of Point attributes to write to output CSV.
+                        If None, determine from first cleaned Point.
+   :type write_fields: list or None
+
+
+.. py:function:: cli()
+
+   A command-line interface to the tool.
+
+

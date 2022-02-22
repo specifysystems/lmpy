@@ -1,0 +1,26 @@
+:py:mod:`lmpy.tools`
+====================
+
+.. py:module:: lmpy.tools
+
+.. autoapi-nested-parse::
+
+   Tools module.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   clean_occurrences/index.rst
+   convert_csv_to_lmm/index.rst
+   convert_lmm_to_csv/index.rst
+   encode_layers/index.rst
+   encode_tree/index.rst
+   process_idigbio/index.rst
+   randomize_pam/index.rst
+
+

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.tools.process_idigbio &mdash; Specify lmpy 3.0.1+4.g5aa0318 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.tools.process_idigbio</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.tools.process_idigbio</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Test script to process an iDigBio DWCA into something we can parse.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+
+<span class="kn">import</span> <span class="nn">defusedxml.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointDwcaReader</span>
+
+
+<span class="c1"># DWCA Tag Constants</span>
+<div class="viewcode-block" id="CORE_TAG"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.CORE_TAG">[docs]</a><span class="n">CORE_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}core&#39;</span></div>
+<div class="viewcode-block" id="FIELD_TAG"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.FIELD_TAG">[docs]</a><span class="n">FIELD_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}field&#39;</span></div>
+<div class="viewcode-block" id="FILES_TAG"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.FILES_TAG">[docs]</a><span class="n">FILES_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}files&#39;</span></div>
+<div class="viewcode-block" id="ID_TAG"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.ID_TAG">[docs]</a><span class="n">ID_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}id&#39;</span></div>
+<div class="viewcode-block" id="LOCATION_TAG"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.LOCATION_TAG">[docs]</a><span class="n">LOCATION_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}location&#39;</span></div>
+<div class="viewcode-block" id="EXTENSION_TAG"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.EXTENSION_TAG">[docs]</a><span class="n">EXTENSION_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}extension&#39;</span></div>
+
+<div class="viewcode-block" id="ROW_TYPE_ATT"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.ROW_TYPE_ATT">[docs]</a><span class="n">ROW_TYPE_ATT</span> <span class="o">=</span> <span class="s1">&#39;rowType&#39;</span></div>
+<div class="viewcode-block" id="OCCURRENCE_ROW_TYPE"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.OCCURRENCE_ROW_TYPE">[docs]</a><span class="n">OCCURRENCE_ROW_TYPE</span> <span class="o">=</span> <span class="s1">&#39;http://rs.tdwg.org/dwc/terms/Occurrence&#39;</span></div>
+
+<div class="viewcode-block" id="TERM_TYPE_ATT"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.TERM_TYPE_ATT">[docs]</a><span class="n">TERM_TYPE_ATT</span> <span class="o">=</span> <span class="s1">&#39;term&#39;</span></div>
+<div class="viewcode-block" id="DELIMITED_TERMS"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.DELIMITED_TERMS">[docs]</a><span class="n">DELIMITED_TERMS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;http://portal.idigbio.org/terms/flags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;http://portal.idigbio.org/terms/recordIds&#39;</span></div>
+<span class="p">]</span>
+<div class="viewcode-block" id="DELIMITED_BY_ATT"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.DELIMITED_BY_ATT">[docs]</a><span class="n">DELIMITED_BY_ATT</span> <span class="o">=</span> <span class="s1">&#39;delimitedBy&#39;</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="process_meta_xml"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.process_meta_xml">[docs]</a><span class="k">def</span> <span class="nf">process_meta_xml</span><span class="p">(</span><span class="n">meta_xml_contents</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Process the contents of the meta.xml file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        meta_xml_contents (str): String containing XML metadata information for a DWCA.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The processed metadata XML as a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">meta_xml_root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">meta_xml_contents</span><span class="p">)</span>
+    <span class="n">core_element</span> <span class="o">=</span> <span class="n">meta_xml_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">CORE_TAG</span><span class="p">)</span>
+
+    <span class="c1"># If core element is missing (iDigBio) look in extensions</span>
+    <span class="k">if</span> <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">extension_el</span> <span class="ow">in</span> <span class="n">meta_xml_root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">EXTENSION_TAG</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> \
+                    <span class="n">extension_el</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">ROW_TYPE_ATT</span><span class="p">]</span> <span class="o">==</span> <span class="n">OCCURRENCE_ROW_TYPE</span><span class="p">:</span>
+                <span class="n">core_element</span> <span class="o">=</span> <span class="n">extension_el</span>
+                <span class="n">extension_el</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">CORE_TAG</span>
+
+    <span class="c1"># Add attribute for delimited fields</span>
+    <span class="k">for</span> <span class="n">field_element</span> <span class="ow">in</span> <span class="n">core_element</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">FIELD_TAG</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">field_element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">TERM_TYPE_ATT</span><span class="p">]</span> <span class="ow">in</span> <span class="n">DELIMITED_TERMS</span><span class="p">:</span>
+            <span class="n">field_element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">DELIMITED_BY_ATT</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;;&#39;</span>
+
+    <span class="k">return</span> <span class="n">ET</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">meta_xml_root</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="process_idb_dwca"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.process_idb_dwca">[docs]</a><span class="k">def</span> <span class="nf">process_idb_dwca</span><span class="p">(</span><span class="n">in_zipfile</span><span class="p">,</span> <span class="n">out_zipfile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Process an idigbio zipfile.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        in_zipfile (str): File path to an input DWCA zip file.</span>
+<span class="sd">        out_zipfile (str): File path to write the output DWCA zip file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Open zip files</span>
+    <span class="n">dwca_in</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">in_zipfile</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">dwca_out</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">out_zipfile</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Read and prcoess meta.xml</span>
+    <span class="n">meta_xml_contents</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span><span class="n">dwca_in</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;meta.xml&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">new_meta_xml_contents</span> <span class="o">=</span> <span class="n">process_meta_xml</span><span class="p">(</span><span class="n">meta_xml_contents</span><span class="p">)</span>
+    <span class="n">dwca_out</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="s1">&#39;meta.xml&#39;</span><span class="p">,</span> <span class="n">new_meta_xml_contents</span><span class="p">)</span>
+
+    <span class="c1"># Read meta.xml</span>
+    <span class="c1">#   Correct element tag</span>
+    <span class="c1">#   Add delimiter to fields?</span>
+
+    <span class="c1"># Open occurrence.csv</span>
+    <span class="n">in_occ</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span><span class="n">dwca_in</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;occurrence.csv&#39;</span><span class="p">))</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">trip_quote</span> <span class="o">=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&quot;&#39;</span>  <span class="c1"># So python doesn&#39;t interpret as block comment</span>
+    <span class="n">quad_quote</span> <span class="o">=</span> <span class="s1">&#39;&quot;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&quot;&#39;</span>
+    <span class="n">trip_quote_replace</span> <span class="o">=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;temp_occ.csv&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">temp_occ</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">in_occ</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># Remove double-double-quotes</span>
+            <span class="n">mod_line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">quad_quote</span><span class="p">,</span> <span class="s1">&#39;&quot;&quot;&#39;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">trip_quote</span><span class="p">,</span> <span class="n">trip_quote_replace</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+
+            <span class="n">quote_chunks</span> <span class="o">=</span> <span class="n">mod_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+            <span class="n">write_line</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+            <span class="n">inside</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">quote_chunks</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">chunk</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chunk</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">):</span>
+                    <span class="n">write_line</span> <span class="o">+=</span> <span class="n">chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                        <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">chunk</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chunk</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">):</span>  <span class="c1"># JSON</span>
+                    <span class="n">write_line</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">chunk</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Quoted section</span>
+                    <span class="k">if</span> <span class="n">inside</span><span class="p">:</span>
+                        <span class="n">write_line</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">chunk</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">write_line</span> <span class="o">+=</span> <span class="n">chunk</span>
+                <span class="n">inside</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">inside</span>
+
+            <span class="c1"># Process lists</span>
+            <span class="c1"># while mod_line.find(&#39;&quot;[&#39;) &gt;= 0:</span>
+            <span class="c1">#    pre_idx = mod_line.find(&#39;&quot;[&#39;)</span>
+            <span class="c1">#    post_idx = mod_line[pre_idx:].find(&#39;]&quot;&#39;) + pre_idx</span>
+
+            <span class="c1">#    pre_chunk = mod_line[:pre_idx]</span>
+            <span class="c1">#    list_chunk = mod_line[pre_idx+2:post_idx].replace(&#39;,&#39;, &#39;;&#39;)</span>
+            <span class="c1">#        .replace(&quot;&#39;&quot;, &#39;&#39;).replace(&#39; &#39;, &#39;&#39;)</span>
+            <span class="c1">#    post_chunk = mod_line[post_idx+2:]</span>
+
+            <span class="c1">#    mod_line = pre_chunk + list_chunk + post_chunk</span>
+
+            <span class="c1">#    #mod_line = parts_0[0] + parts_1[0].replace(&#39;,&#39;, &#39;;&#39;)</span>
+            <span class="c1">#        .replace(&quot;&#39;&quot;, &#39;&#39;).replace(&#39; &#39;, &#39;&#39;) + &#39;]&quot;&#39;.join(parts_1[1:])</span>
+
+            <span class="c1"># Process json sections (geopoints)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">write_line</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                <span class="n">write_line</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">temp_occ</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">write_line</span><span class="p">)</span>
+
+    <span class="n">dwca_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;temp_occ.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;occurrence.csv&#39;</span><span class="p">)</span>
+
+    <span class="n">in_occ</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># Close zip files</span>
+    <span class="n">dwca_in</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">dwca_out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="test_dwca"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.test_dwca">[docs]</a><span class="k">def</span> <span class="nf">test_dwca</span><span class="p">(</span><span class="n">dwca_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test that a DWCA file can be processed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dwca_filename (str): The file path of a DarwinCore Archive to test.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Raised if points returned is None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">PointDwcaReader</span><span class="p">(</span>
+        <span class="n">dwca_filename</span><span class="p">,</span>
+        <span class="n">geopoint_term</span><span class="o">=</span><span class="s1">&#39;geoPoint&#39;</span><span class="p">,</span>
+        <span class="n">x_term</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span>
+        <span class="n">y_term</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Points is None&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main method for script.&quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;in_dwca&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Input DWCA zip file.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;out_dwca&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Output processed DWCA zip file.&#39;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">process_idb_dwca</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">in_dwca</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">out_dwca</span><span class="p">)</span>
+    <span class="n">test_dwca</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_dwca</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

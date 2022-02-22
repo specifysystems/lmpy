@@ -1,0 +1,45 @@
+:py:mod:`lmpy.tools.convert_csv_to_lmm`
+=======================================
+
+.. py:module:: lmpy.tools.convert_csv_to_lmm
+
+.. autoapi-nested-parse::
+
+   Convert a numeric (.csv) file to a lmpy Matrix (.lmm) file.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.convert_csv_to_lmm.cli
+   lmpy.tools.convert_csv_to_lmm.convert_csv_to_lmm
+
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for converting csvs to lmms.
+
+
+.. py:function:: convert_csv_to_lmm(csv_filename, num_header_rows, num_header_cols)
+
+   Convert a CSV file to a lmpy lmm Matrix.
+
+   :param csv_filename: The file location of the csv to convert.
+   :type csv_filename: str
+   :param num_header_rows: The number of header rows in the csv.
+   :type num_header_rows: int
+   :param num_header_cols: The number of header columns in the csv.
+   :type num_header_cols: int
+
+   :returns: A matrix from the converted csv file.
+   :rtype: Matrix
+
+

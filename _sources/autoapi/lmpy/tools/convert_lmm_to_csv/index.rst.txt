@@ -1,0 +1,40 @@
+:py:mod:`lmpy.tools.convert_lmm_to_csv`
+=======================================
+
+.. py:module:: lmpy.tools.convert_lmm_to_csv
+
+.. autoapi-nested-parse::
+
+   Convert a lmpy Matrix to a (.csv) file.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.convert_lmm_to_csv.cli
+   lmpy.tools.convert_lmm_to_csv.convert_lmm_to_csv
+
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for converting lmms to csvs.
+
+
+.. py:function:: convert_lmm_to_csv(mtx, csv_filename)
+
+   Convert a lmpy Matrix to a csv file.
+
+   :param mtx: A lmpy matrix to convert to csv.
+   :type mtx: Matrix
+   :param csv_filename: The file location of the csv to convert.
+   :type csv_filename: str
+
+

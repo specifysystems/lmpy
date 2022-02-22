@@ -20,6 +20,7 @@ Subpackages
    randomize/index.rst
    spatial/index.rst
    statistics/index.rst
+   tools/index.rst
 
 
 Submodules
