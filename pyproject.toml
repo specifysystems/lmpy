@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]  # PEP 508 specifications.
 
 [tool.vulture]
 exclude = ["_version.py"]
-paths = ["lmpy", "tests", "tools"]
+paths = ["lmpy", "tests"]
 ignore_names = ["__module__", "__new__"]
 # make_whitelist = true
 min_confidence = 80
