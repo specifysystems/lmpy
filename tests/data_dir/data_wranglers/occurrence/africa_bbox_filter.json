@@ -1,7 +1,9 @@
-{
-    "wrangler_type": "bbox_filter",
-    "min_x": -18.0,
-    "min_y": -36.0,
-    "max_x": 52.0,
-    "max_y": 15.0
-}
+[
+    {
+        "wrangler_type": "bbox_filter",
+        "min_x": -18.0,
+        "min_y": -36.0,
+        "max_x": 52.0,
+        "max_y": 15.0
+    }
+]
