@@ -171,6 +171,14 @@ Attributes
       :rtype: object
 
 
+   .. py:method:: get_attribute_names(self)
+
+      Get the point's attributes.
+
+      :returns: A list of the attributes for the point.
+      :rtype: list of str
+
+
    .. py:method:: set_attribute(self, attribute_name, value)
 
       Set an attribute for the point.
