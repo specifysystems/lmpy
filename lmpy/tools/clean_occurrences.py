@@ -17,17 +17,29 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None):
             and / or filter Points for cleaning.
         write_fields (list or None): A list of Point attributes to write to output CSV.
             If None, determine from first cleaned Point.
+
+    Returns:
+        dict: Output report from data wrangling.
     """
+    report = {
+        'input_records': 0,
+        'output_records': 0,
+        'wranglers': {type(wrangler) : {'removed': 0} for wrangler in wranglers}
+    }
     # Open reader
     reader.open()
     writer = None
     for points in reader:
+        report['intput_records'] += len(points)
         for wrangler in wranglers:
             # If there are points, wrangle them
             if points:
+                tmp = len(points)
                 points = wrangler(points)
+                report['wranglers'][type(wrangler)]['removed'] += tmp - len(points)
         # If any points are left, write them
         if points:
+            report['output_records'] += len(points)
             if writer is None:
                 if write_fields is None:
                     write_fields = points[0].get_attribute_names()
@@ -38,6 +50,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None):
     reader.close()
     if writer:
         writer.close()
+    return report
 
 
 # .....................................................................................
@@ -55,6 +68,10 @@ def cli():
     parser.add_argument(
         '-y', '--y_key', type=str, default='y',
         help='The CSV column header for the Y (latitude) field.'
+    )
+    parser.add_argument(
+        '-r', '--report_filename', type=str,
+        help='File location to write optional output report JSON.'
     )
     parser.add_argument(
         'reader_filename', type=str, help='Input occurrence CSV filename.'
@@ -78,7 +95,12 @@ def cli():
     )
 
     # Clean data
-    clean_data(reader, args.writer_filename, wranglers)
+    report = clean_data(reader, args.writer_filename, wranglers)
+
+    # If the output report was requested, write it
+    if args.report_filename:
+        with open(args.report_filename, mode='wt') as out_file:
+            json.dump(report, out_file)
 
 
 # .....................................................................................
