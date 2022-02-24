@@ -8,6 +8,9 @@ https://badge.fury.io/py/specify-lmpy)
 https://img.shields.io/pypi/pyversions/specify-lmpy)
 [![License Badge](https://img.shields.io/github/license/lifemapper/lmpy.svg)](
 https://github.com/specifysystems/lmpy/blob/master/LICENSE)
+[![Coverage Status](
+https://coveralls.io/repos/github/specifysystems/lmpy/badge.svg?branch=main)](
+https://coveralls.io/github/specifysystems/lmpy?branch=main)
 
 The Lifemapper lmpy repository houses objects and common tools used within the
 Lifemapper installation that may also be useful for outside contributors and
