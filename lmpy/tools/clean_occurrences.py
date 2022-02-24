@@ -100,7 +100,7 @@ def cli():
     # If the output report was requested, write it
     if args.report_filename:
         with open(args.report_filename, mode='wt') as out_file:
-            json.dump(report, out_file)
+            json.dump(report, out_file, indent=4)
 
 
 # .....................................................................................
