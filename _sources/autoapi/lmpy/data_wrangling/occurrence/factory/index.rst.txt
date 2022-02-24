@@ -104,6 +104,6 @@ Functions
    :type wrangler_config_list: list of dict
 
    :returns: A list of occurrence data wranglers.
-   :rtype: List of Method
+   :rtype: List of (str, Method) tuples
 
 

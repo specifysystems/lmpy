@@ -38,6 +38,9 @@ Functions
                         If None, determine from first cleaned Point.
    :type write_fields: list or None
 
+   :returns: Output report from data wrangling.
+   :rtype: dict
+
 
 .. py:function:: cli()
 

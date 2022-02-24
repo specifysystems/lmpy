@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.factory &mdash; Specify lmpy 3.0.2 documentation</title>
+  <title>lmpy.data_wrangling.occurrence.factory &mdash; Specify lmpy 3.0.2+4.g0a38b16 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -110,7 +110,7 @@
 <span class="sd">            configuration parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        List of Method: A list of occurrence data wranglers.</span>
+<span class="sd">        List of (str, Method) tuples: A list of occurrence data wranglers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">wranglers</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">wrangler_config</span> <span class="ow">in</span> <span class="n">wrangler_config_list</span><span class="p">:</span>
@@ -194,7 +194,7 @@
             <span class="n">out_epsg</span> <span class="o">=</span> <span class="n">wrangler_config</span><span class="p">[</span><span class="s1">&#39;out_epsg&#39;</span><span class="p">]</span>
             <span class="n">occurrence_wrangler</span> <span class="o">=</span> <span class="n">get_coordinate_converter_modifier</span><span class="p">(</span>
                 <span class="n">in_epsg</span><span class="p">,</span> <span class="n">out_epsg</span><span class="p">)</span>
-        <span class="n">wranglers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">occurrence_wrangler</span><span class="p">)</span>
+        <span class="n">wranglers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">wrangler_type</span><span class="p">,</span> <span class="n">occurrence_wrangler</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">wranglers</span></div>
 </pre></div>
 
