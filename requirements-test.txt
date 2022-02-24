@@ -1,4 +1,4 @@
 coverage>=5.0
-python-coveralls
+coveralls
 pytest
 pytest-cov

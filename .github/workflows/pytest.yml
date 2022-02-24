@@ -55,23 +55,23 @@ jobs:
       # Run pytest
       - name: Test with Pytest
         run: |
-          PYTHONPATH=. pytest tests/ -v --cov lmpy --cov-report term-missing
-
-      # Coveralls
-      - name: Coveralls Parallel
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          flag-name: run-${{ matrix.python-version }}
-          parallel: true
-          path-to-lcov: .coverage
+          PYTHONPATH=. coverage run --source=lmpy -m pytest tests/
+          #PYTHONPATH=. pytest tests/ -v --cov lmpy --cov-report term-missing
+      - name: Upload coverage data to coveralls.io
+        run: coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GETHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: ${{ matrix.python-version }}
+          COVERALLS_PARALLEL: true
 
   coveralls_finish:
     needs: pytest
     runs-on: ubuntu-latest
+    container: python:3-slim
     steps:
     - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
+      run: |
+        pip3 install --upgrade coveralls
+        coveralls --service=github --finish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
