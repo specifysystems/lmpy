@@ -38,7 +38,7 @@ def wrangler_factory(wrangler_config_list):
             configuration parameters.
 
     Returns:
-        List of Method: A list of occurrence data wranglers.
+        List of (str, Method) tuples: A list of occurrence data wranglers.
     """
     wranglers = []
     for wrangler_config in wrangler_config_list:
@@ -122,5 +122,5 @@ def wrangler_factory(wrangler_config_list):
             out_epsg = wrangler_config['out_epsg']
             occurrence_wrangler = get_coordinate_converter_modifier(
                 in_epsg, out_epsg)
-        wranglers.append(occurrence_wrangler)
+        wranglers.append((wrangler_type, occurrence_wrangler))
     return wranglers

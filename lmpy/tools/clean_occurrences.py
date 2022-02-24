@@ -24,19 +24,19 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None):
     report = {
         'input_records': 0,
         'output_records': 0,
-        'wranglers': {type(wrangler) : {'removed': 0} for wrangler in wranglers}
+        'wranglers': {wrangler_name: {'removed': 0} for wrangler_name, _ in wranglers}
     }
     # Open reader
     reader.open()
     writer = None
     for points in reader:
-        report['intput_records'] += len(points)
-        for wrangler in wranglers:
+        report['input_records'] += len(points)
+        for wrangler_name, wrangler in wranglers:
             # If there are points, wrangle them
             if points:
                 tmp = len(points)
                 points = wrangler(points)
-                report['wranglers'][type(wrangler)]['removed'] += tmp - len(points)
+                report['wranglers'][wrangler_name]['removed'] += tmp - len(points)
         # If any points are left, write them
         if points:
             report['output_records'] += len(points)
