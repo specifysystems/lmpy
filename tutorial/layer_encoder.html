@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Layer Encoder &mdash; Specify lmpy 3.0.3+5.gf87b214 documentation</title>
+  <title>Layer Encoder &mdash; Specify lmpy 3.0.3+6.gbe814bb documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -168,11 +168,11 @@ you would set the value to 10 or 25 percent.</p>
 <section id="encoding-environmental-data">
 <h2>Encoding Environmental Data<a class="headerlink" href="#encoding-environmental-data" title="Permalink to this headline"></a></h2>
 <p>You may want to encode environmental data using the same grid used to create a
-PAM.  To do so, you can use teh encode_mean_value and encode_largest_class
+PAM.  To do so, you can use the encode_mean_value and encode_largest_class
 methods to store either the average non-NODATA value for continuous values or
 the most prevalent non-NODATA value for categorical data respectively.</p>
-<p>See: <a href="#id1"><span class="problematic" id="id2">`encode_mean_value &lt;../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value`_</span></a>
-See: <a class="reference external" href="../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class">encode_largest_class</a></p>
+<p>See: <a href="#id1"><span class="problematic" id="id2">`encode_mean_value &lt;../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value`_</span></a></p>
+<p>See: <a class="reference external" href="../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class">encode_largest_class</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_filename</span> <span class="o">=</span> <span class="s1">&#39;my_grid.shp&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
