@@ -79,11 +79,12 @@ See: `encode_presence_absence <../autoapi/lmpy/data_preparation/layer_encoder/in
 Encoding Environmental Data
 ===========================
 You may want to encode environmental data using the same grid used to create a
-PAM.  To do so, you can use teh encode_mean_value and encode_largest_class
+PAM.  To do so, you can use the encode_mean_value and encode_largest_class
 methods to store either the average non-NODATA value for continuous values or
 the most prevalent non-NODATA value for categorical data respectively.
 
-See: `encode_mean_value <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value`_
+See: `encode_mean_value <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value>`_
+
 See: `encode_largest_class <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class>`_
 
     >>> grid_filename = 'my_grid.shp'

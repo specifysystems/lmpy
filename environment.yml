@@ -1,0 +1,14 @@
+name: lmpy
+channels:
+  - conda-forge
+dependencies:
+  - gdal
+  - libspatialindex
+  - rtree
+  - sphinx-autoapi
+  - numpy
+  - defusedxml
+  - pip>=20.1
+  - pip:
+    - sphinx-rtd-theme
+    - dendropy
