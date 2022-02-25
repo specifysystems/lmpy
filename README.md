@@ -8,9 +8,22 @@ https://badge.fury.io/py/specify-lmpy)
 https://img.shields.io/pypi/pyversions/specify-lmpy)
 [![License Badge](https://img.shields.io/github/license/lifemapper/lmpy.svg)](
 https://github.com/specifysystems/lmpy/blob/master/LICENSE)
+
+[![PyPI download month](https://img.shields.io/pypi/dm/specify-lmpy.svg)](
+https://pypi.python.org/pypi/specify-lmpy/)
+
+[![GitHub issues](https://badgen.net/github/issues/specifysystems/lmpy/)](
+https://GitHub.com/specifysystems/lmpy/issues/)
+[![Average time to resolve an issue](
+http://isitmaintained.com/badge/resolution/specifysystems/lmpy.svg)](
+http://isitmaintained.com/project/specifysystems/lmpy "Average time to resolve an issue")
 [![Coverage Status](
 https://coveralls.io/repos/github/specifysystems/lmpy/badge.svg?branch=main)](
 https://coveralls.io/github/specifysystems/lmpy?branch=main)
+
+[![Documentation Status](https://readthedocs.org/projects/specify-lmpy/badge/?version=latest)](http://specify-lmpy.readthedocs.io/?badge=latest)
+
+[![Open Source Love svg3](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 The Lifemapper lmpy repository houses objects and common tools used within the
 Lifemapper installation that may also be useful for outside contributors and
