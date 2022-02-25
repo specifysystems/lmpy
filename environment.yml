@@ -1,0 +1,8 @@
+name: lmpy
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - gdal
+  - libspatialindex
+  - rtree
