@@ -1,12 +1,14 @@
 name: lmpy
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - gdal
   - libspatialindex
   - rtree
   - sphinx-autoapi
   - numpy
-  - sphinx-rtd-theme
-  - dendropy
+  - defusedxml
+  - pip>=20.1
+  - pip:
+    - sphinx-rtd-theme
+    - dendropy
