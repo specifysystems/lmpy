@@ -14,7 +14,7 @@ https://pypi.python.org/pypi/specify-lmpy/)
 
 [![Build Status](https://github.com/specifysystems/lmpy/workflows/PyTest/badge.svg)](
 https://github.com/specifysystems/lmpy/actions)
-[![GitHub issues](https://badgen.net/github/issues/specifysystems/lmpy/)](
+[![GitHub issues](https://img.shields.io/github/issues/specifysystems/lmpy.svg)](
 https://GitHub.com/specifysystems/lmpy/issues/)
 [![Average time to resolve an issue](
 http://isitmaintained.com/badge/resolution/specifysystems/lmpy.svg)](
