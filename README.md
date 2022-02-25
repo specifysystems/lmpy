@@ -12,6 +12,8 @@ https://github.com/specifysystems/lmpy/blob/master/LICENSE)
 [![PyPI download month](https://img.shields.io/pypi/dm/specify-lmpy.svg)](
 https://pypi.python.org/pypi/specify-lmpy/)
 
+[![Build Status](https://github.com/specifysystems/lmpy/workflows/PyTest/badge.svg)](
+https://github.com/specifysystems/lmpy/actions)
 [![GitHub issues](https://badgen.net/github/issues/specifysystems/lmpy/)](
 https://GitHub.com/specifysystems/lmpy/issues/)
 [![Average time to resolve an issue](
