@@ -83,7 +83,7 @@ PAM.  To do so, you can use the encode_mean_value and encode_largest_class
 methods to store either the average non-NODATA value for continuous values or
 the most prevalent non-NODATA value for categorical data respectively.
 
-See: `encode_mean_value <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value`_
+See: `encode_mean_value <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value>`_
 
 See: `encode_largest_class <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class>`_
 
