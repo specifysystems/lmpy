@@ -7,7 +7,9 @@ from lmpy.point import PointCsvReader, PointCsvWriter
 
 
 # .....................................................................................
-def clean_data(reader, writer_filename, wranglers, write_fields=None):
+def clean_data(
+    reader, writer_filename, wranglers, write_fields=None, log_output=False
+):
     """Clean occurrence data.
 
     Args:
@@ -17,10 +19,17 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None):
             and / or filter Points for cleaning.
         write_fields (list or None): A list of Point attributes to write to output CSV.
             If None, determine from first cleaned Point.
+        log_output (bool): Should output be logged to console.
 
     Returns:
         dict: Output report from data wrangling.
     """
+    if log_output:
+        def log_msg(msg):
+            print(msg)
+    else:
+        def log_msg(msg):
+            pass
     report = {
         'input_records': 0,
         'output_records': 0,
@@ -35,8 +44,10 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None):
             # If there are points, wrangle them
             if points:
                 tmp = len(points)
+                sp_name = points[0].species_name
                 points = wrangler(points)
                 report['wranglers'][wrangler_name]['removed'] += tmp - len(points)
+                log_msg(f'{wrangler_name} removed {tmp - len(points)} {sp_name} points')
         # If any points are left, write them
         if points:
             report['output_records'] += len(points)
@@ -74,6 +85,10 @@ def cli():
         help='File location to write optional output report JSON.'
     )
     parser.add_argument(
+        '-l', '--log_output', action='store_true', default=False,
+        help='Should output messages be written to console.'
+    )
+    parser.add_argument(
         'reader_filename', type=str, help='Input occurrence CSV filename.'
     )
     parser.add_argument(
@@ -95,7 +110,9 @@ def cli():
     )
 
     # Clean data
-    report = clean_data(reader, args.writer_filename, wranglers)
+    report = clean_data(
+        reader, args.writer_filename, wranglers, log_output=args.log_output
+    )
 
     # If the output report was requested, write it
     if args.report_filename:
