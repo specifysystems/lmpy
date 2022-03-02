@@ -23,7 +23,7 @@ Functions
 
 
 
-.. py:function:: clean_data(reader, writer_filename, wranglers, write_fields=None)
+.. py:function:: clean_data(reader, writer_filename, wranglers, write_fields=None, log_output=False)
 
    Clean occurrence data.
 
@@ -37,6 +37,8 @@ Functions
    :param write_fields: A list of Point attributes to write to output CSV.
                         If None, determine from first cleaned Point.
    :type write_fields: list or None
+   :param log_output: Should output be logged to console.
+   :type log_output: bool
 
    :returns: Output report from data wrangling.
    :rtype: dict
