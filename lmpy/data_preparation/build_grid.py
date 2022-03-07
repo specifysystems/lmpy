@@ -125,8 +125,10 @@ def build_shapegrid(
         int: The number of cells in the new shapegrid.
 
     Raises:
-        ValueError: Raised if an invalid number of cell sides is specified.
+        ValueError: Raised if invalid bbox or cell sides.
     """
+    if min_x >= max_x or min_y >= max_y:
+        raise ValueError(f'Illegal bounds: ({min_x}, {min_y}, {max_x}, {max_y})')
     # We'll always check for intersection to reduce amount of work
     if cutout_wkt is None:
         cutout_wkt = make_polygon_wkt_from_points([
