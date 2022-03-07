@@ -74,7 +74,5 @@ def test_invalid(monkeypatch, shapegrid_filename, invalid_shapegrid_parameters):
     params = ['build_shapegrid.py', shapegrid_filename]
     params.extend([str(i) for i in invalid_shapegrid_parameters])
     monkeypatch.setattr('sys.argv', params)
-    with pytest.raises(SystemExit) as pytest_wrapped_exit:
+    with pytest.raises(ValueError):
         cli()
-    assert pytest_wrapped_exit.type == SystemExit
-    assert pytest_wrapped_exit.value.code == 2
