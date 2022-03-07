@@ -1,5 +1,6 @@
 """Test the clean_occurrences tool."""
 from copy import deepcopy
+import json
 import os
 import sys
 import tempfile
