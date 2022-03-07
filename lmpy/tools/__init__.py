@@ -10,7 +10,7 @@ from . import encode_layers
 from . import randomize_pam
 from . import split_occurrence_data
 from . import wrangle_matrix
-from . import wrnagle_tree
+from . import wrangle_tree
 
 __all__ = []
 __all__.extend(build_shapegrid.__all__)
@@ -24,4 +24,4 @@ __all__.extend(encode_layers.__all__)
 __all__.extend(randomize_pam.__all__)
 __all__.extend(split_occurrence_data.__all__)
 __all__.extend(wrangle_matrix.__all__)
-__all__.extend(wrnagle_tree.__all__)
+__all__.extend(wrangle_tree.__all__)

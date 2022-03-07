@@ -40,7 +40,7 @@ def get_occurrences(csv_filename, species_key, x_key, y_key):
     return model_records
 
 
-def get_ecoregions_array(ecoregions_filename)
+def get_ecoregions_array(ecoregions_filename):
     """Get ecoregions data array.
 
     Args:
@@ -92,7 +92,6 @@ def create_convex_hull_intersect_model(points, out_filename):
 
 
 
-def get_convex_hull(points)
 # .....................................................................................
 def get_convex_hull_array(convex_hull_geom, buffer_distance=0.5, num_quad_segs=30):
     """Create a convex hull array."""
@@ -296,6 +295,10 @@ def cli():
         help='File location to write the model raster file.'
     )
     args = parser.parse_args()
+
+
+# .....................................................................................
+__all__ = []
 
 
 # .....................................................................................
