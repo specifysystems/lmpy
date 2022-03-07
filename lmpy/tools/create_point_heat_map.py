@@ -38,7 +38,7 @@ def get_point_to_xy_func(point_epsg, map_epsg, bbox, resolution):
             return (int((y - bbox[1]) / resolution), int((x - bbox[0]) / resolution))
         return None, None
     return pt_to_xy
-            
+
 
 # .....................................................................................
 def create_heat_map(
@@ -152,4 +152,3 @@ __all__ = ['cli', 'create_heat_map', 'get_point_to_xy_func']
 # .....................................................................................
 if __name__ == '__main__':
     cli()
-
