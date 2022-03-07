@@ -5,6 +5,7 @@ import os
 import sys
 import tempfile
 
+import numpy as np
 import pytest
 
 from lmpy.point import Point, PointCsvReader, PointCsvWriter
@@ -104,9 +105,13 @@ def test_valid(monkeypatch, filenames, data_keys):
         filenames (pytest.Fixture): Fixture providing test filenames.
         data_keys (pytest.Fixture): Fixture providing configuration parameters.
     """
+    target_precision = 4
     # Write wrangler configuration file
     wrangler_config = [
-        {'wrangler_type': 'decimal_precision_filter', 'decimal_precision': 4},
+        {
+            'wrangler_type': 'decimal_precision_filter',
+            'decimal_precision': target_precision
+        },
         {'wrangler_type': 'unique_localities_filter'}
     ]
     with open(filenames[2], mode='wt') as json_out:
@@ -117,15 +122,15 @@ def test_valid(monkeypatch, filenames, data_keys):
     valid_points = set()
     for pt in points:
         if all([
-            len(pt.x.split('.')[1]) >= min_precision,
-            len(pt.y.split('.')[1]) >= min_precision
+            len(str(pt.x).split('.')[1]) >= target_precision,
+            len(str(pt.y).split('.')[1]) >= target_precision
         ]):
             valid_points.add((pt.species_name, pt.x, pt.y))
     # Create some duplicates
     for _ in range(np.random.randint(len(points))):
         points.append(deepcopy(points[np.random.randint(len(points))]))
     # Write points
-    with PointCsvWriter(filenames[1], data_keys[:-1]) as writer:
+    with PointCsvWriter(filenames[0], data_keys[:-1]) as writer:
         writer.write_points(points)
     # Run data cleaner
     args = ['clean_occurrences.py']
@@ -138,11 +143,13 @@ def test_valid(monkeypatch, filenames, data_keys):
     monkeypatch.setattr('sys.argv', args)
     cli()
     # Read points
-    with PointCsvReader(filenames[0], *data_keys) as reader:
+    with PointCsvReader(filenames[1], *data_keys[:-1]) as reader:
         cleaned_points = []
         for clean_points in reader:
             cleaned_points.extend(clean_points)
     # Check count
+    print(f'Cleaned points: {len(cleaned_points)}')
+    print(f'Valid points: {len(valid_points)}')
     assert len(cleaned_points) == len(valid_points)
 
     # If report, check it
