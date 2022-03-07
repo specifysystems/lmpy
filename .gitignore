@@ -72,3 +72,6 @@ venv.bak/
 
 # Editor temp files
 *.swp
+
+# Spatial index test files
+tdwg_spatial_index.*
