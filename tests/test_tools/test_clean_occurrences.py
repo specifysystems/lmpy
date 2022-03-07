@@ -26,7 +26,10 @@ from lmpy.tools.clean_occurrences import cli
 def data_keys(request):
     """Get a set of csv header keys for testing.
 
-    Returns:
+    Args:
+        request (pytest.Fixture): Pytest request fixture.
+
+    Yields:
         tuple of (str, str, str, bool): Species key, x key, y key, should report
     """
     yield request.param
@@ -37,7 +40,7 @@ def data_keys(request):
 def filenames():
     """Get a group of filenames for use in tests (in, out, wrangler config).
 
-    Returns:
+    Yields:
         tuple of (str, str, str, str): A tuple containing file paths to use in test.
     """
     base_fn = tempfile.NamedTemporaryFile().name
@@ -94,7 +97,13 @@ def generate_points(
 
 # .....................................................................................
 def test_valid(monkeypatch, filenames, data_keys):
-    """Perform tests on valid data and validate the results."""
+    """Perform tests on valid data and validate the results.
+
+    Args:
+        monkeypatch (pytest.Fixture): Pytest monkeypatch fixture.
+        filenames (pytest.Fixture): Fixture providing test filenames.
+        data_keys (pytest.Fixture): Fixture providing configuration parameters.
+    """
     # Write wrangler configuration file
     wrangler_config = [
         {'wrangler_type': 'decimal_precision_filter', 'decimal_precision': 4},
