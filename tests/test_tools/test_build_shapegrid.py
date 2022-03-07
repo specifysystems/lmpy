@@ -1,7 +1,6 @@
 """Test the Build Shapegrid tool."""
 import glob
 import os
-import sys
 import tempfile
 
 import pytest
@@ -31,7 +30,11 @@ def shapegrid_filename():
     ]
 )
 def invalid_shapegrid_parameters(request):
-    """Get a list of invalid shapegrid parameter sets."""
+    """Get a list of invalid shapegrid parameter sets.
+
+    Yields:
+        tuple: A tuple of shapegrid parameters.
+    """
     yield request.param
 
 
@@ -45,7 +48,11 @@ def invalid_shapegrid_parameters(request):
     ]
 )
 def shapegrid_parameters(request):
-    """Get a list of valid shapegrid parameter sets."""
+    """Get a list of valid shapegrid parameter sets.
+
+    Yields:
+        tuple: A tuple of shapegrid parameters.
+    """
     yield request.param
 
 
@@ -54,6 +61,7 @@ def test_valid(monkeypatch, shapegrid_filename, shapegrid_parameters):
     """Test with valid parameters.
 
     Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
         shapegrid_filename (pytest.Fixture): A temporary filename to use for test.
         shapegrid_parameters (pytest.Fixture): A set of shapegrid parameters.
     """
@@ -68,6 +76,7 @@ def test_invalid(monkeypatch, shapegrid_filename, invalid_shapegrid_parameters):
     """Test with invalid parameters.
 
     Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
         shapegrid_filename (pytest.Fixture): A temporary filename to use for test.
         invalid_shapegrid_parameters (pytest.Fixture): A set of shapegrid parameters.
     """
