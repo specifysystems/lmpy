@@ -11,7 +11,11 @@ from lmpy.tools.build_shapegrid import cli
 # .....................................................................................
 @pytest.fixture(scope='module')
 def shapegrid_filename():
-    """Get a temporary file location to write shapegrid data and clean it up."""
+    """Get a temporary file location to write shapegrid data and clean it up.
+
+    Yields:
+        str: A temporary filename that can be used for creating a shapegrid.
+    """
     # Get a temporary file path
     base_filename = tempfile.NamedTemporaryFile().name
     # Return a temporary shapefile file path
@@ -32,6 +36,9 @@ def shapegrid_filename():
 def invalid_shapegrid_parameters(request):
     """Get a list of invalid shapegrid parameter sets.
 
+    Args:
+        request (pytest.Fixture): A pytest fixture requesting invalid parameters.
+
     Yields:
         tuple: A tuple of shapegrid parameters.
     """
@@ -49,6 +56,9 @@ def invalid_shapegrid_parameters(request):
 )
 def shapegrid_parameters(request):
     """Get a list of valid shapegrid parameter sets.
+
+    Args:
+        request (pytest.Fixture): A pytest fixture requesting valid parameters.
 
     Yields:
         tuple: A tuple of shapegrid parameters.

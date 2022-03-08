@@ -21,50 +21,31 @@ TIF_FORMAT = 'GTiff'
 
 
 # .....................................................................................
-def get_occurrences(csv_filename, species_key, x_key, y_key):
-    """Get species occurrences to be used to generate the model.
+def create_rare_species_model(
+    points,
+    ecoregions_filename,
+    model_raster_filename,
+    raster_format=AUTO_FORMAT,
+    nodata_value=-9999,
+    burn_value=50
+):
+    """Create a rare species model from a convex hull intersected with ecoregions.
 
     Args:
-        csv_filename (str): The file location containing occurrence data in CSV format.
-        species_key (str): The CSV header for species or group information.
-        x_key (str): The CSV header for the occurrence X coordinate.
-        y_key (str): The CSV header for the occurrence Y coordinate.
-
-    Returns:
-       list of Point: A list of Point objects for each record.
+        points (list of Point): A list of occurrence points to use for model.
+        ecoregions_filename (str): The file location for the ecoregions data.
+        model_raster_filename (str): The file location to write the model raster.
+        raster_format (str): The output raster format (default: auto - use filename).
+        nodata_value (int): The value to use for nodata in the model raster.
+        burn_value (int): The burn value to use for model presence.
     """
-    model_records = []
-    with PointCsvReader(csv_filename, species_key, x_key, y_key) as reader:
-        for points in reader:
-            model_records.extend(points)
-    return model_records
+    # Get the desired output raster format, either provided or determine
+    raster_format = get_raster_format(raster_format, model_raster_format)
 
+    # Get ecoregions array
+    ecoregion_data = get_ecoregions_array(ecoregions_filename)
 
-def get_ecoregions_array(ecoregions_filename):
-    """Get ecoregions data array.
-
-    Args:
-        ecoregions_filename (str): File location of ecoregions data.
-
-    Returns:
-        ndarray: Numpy array of ecoregions data.
-    """
-    region_ds = gdal.Open(ecoregions_filename)
-    reg_band = region_ds.GetRasterBand(1)
-    num_cols = region_ds.RasterXSize
-    num_rows = region_ds.RasterYSize
-    min_x, cell_size, _, max_y, _, _ = region_ds.GetGeoTransform()
-    min_y = max_y - (cell_size * num_rows)
-
-    ecoregion_data = reg_band.ReadAsArray(0, 0, num_cols, num_rows)
-    region_ds = None
-
-    return ecoregion_data
-
-
-# .....................................................................................
-def create_convex_hull_intersect_model(points, out_filename):
-    """Create a convex hull intersect model for a rare species."""
+    # Get convex hull array
     val_set = set()
     geom_collection = ogr.Geometry(ogr.wkbGeometryCollection)
     # Process points
@@ -81,15 +62,20 @@ def create_convex_hull_intersect_model(points, out_filename):
     convex_hull_raw = geom_collection.ConvexHull()
     buffered_convex_hull = convex_hull_raw.Buffer(buffer_distance, num_quad_segs)
 
-    convex_hull_data = get_convex_hull_array(buffered_convex_hull)
+    convex_hull_data = get_convex_hull_array(buffered_convex_hull, burn_value)
 
     # Create model
-    model_data = nodata * np.ones(ecoregion_data.shape, dtype=int)
-    for i in range(ECOREGION_DATA.shape[0]):
-        for j in range(ECOREGION_DATA.shape[1]):
-            if ECOREGION_DATA[i, j] in point_vals and convex_hull_data[i, j] == BURN_VALUE:
-                model_data[i, j] = BURN_VALUE
+    model_data = nodata_value * np.ones(ecoregion_data.shape, dtype=int)
+    for i in range(ecoregion_data.shape[0]):
+        for j in range(ecoregion_data.shape[1]):
+            if ecoregion_data[i, j] in val_set and convex_hull_data[i, j] == burn_value:
+                model_data[i, j] = burn_value
 
+    # Write model
+    if raster_format == ASC_FORMAT:
+        write_ascii(out_filename, model_data, cell_size, min_x, min_y, nodata_value)
+    else:
+        write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_value)
 
 
 # .....................................................................................
@@ -127,7 +113,7 @@ def get_convex_hull_array(convex_hull_geom, buffer_distance=0.5, num_quad_segs=3
     srs.ImportFromEPSG(EPSG)
     rst_ds.SetProjection(srs.ExportToWkt())
 
-    gdal.RasterizeLayer(rst_ds, [1], out_lyr, burn_values=[BURN_VALUE])
+    gdal.RasterizeLayer(rst_ds, [1], out_lyr, burn_values=[burn_value])
 
     rst_ds.FlushCache()
 
@@ -140,6 +126,69 @@ def get_convex_hull_array(convex_hull_geom, buffer_distance=0.5, num_quad_segs=3
     data = np.array(band.ReadAsArray())
 
     return data
+
+
+# .....................................................................................
+def get_ecoregions_array(ecoregions_filename):
+    """Get ecoregions data array.
+
+    Args:
+        ecoregions_filename (str): File location of ecoregions data.
+
+    Returns:
+        ndarray: Numpy array of ecoregions data.
+    """
+    region_ds = gdal.Open(ecoregions_filename)
+    reg_band = region_ds.GetRasterBand(1)
+    num_cols = region_ds.RasterXSize
+    num_rows = region_ds.RasterYSize
+    min_x, cell_size, _, max_y, _, _ = region_ds.GetGeoTransform()
+    min_y = max_y - (cell_size * num_rows)
+
+    ecoregion_data = reg_band.ReadAsArray(0, 0, num_cols, num_rows)
+    region_ds = None
+
+    return ecoregion_data
+
+
+# .....................................................................................
+def get_raster_format(provided_format, model_raster_filename):
+    """Get the output raster format.
+
+    Args:
+        provided_format (str): The user provided raster format.
+        model_raster_format (str): The model raster output filename.
+
+    Returns:
+        str: The output raster format string (ASC_FORMAT or TIF_FORMAT).
+    """
+    if provided_format in [ASC_FORMAT, TIF_FORMAT]:
+        # If provided format is known, use it, else we'll determine it
+        return provided_format
+    elif os.path.splitext(model_raster_format)[1].lower() == '.asc':
+        # If model filename ends in .asc, use ASCII format
+        return ASC_FORMAT
+    return TIF_FORMAT
+
+
+# .....................................................................................
+def read_points(csv_filename, sp_key, x_key, y_key):
+    """Read points from a csv file.
+
+    Args:
+        csv_filename (str): Path to CSV file containing occurrence records.
+        sp_key (str): The CSV column header containing species information.
+        x_key (str): The CSV column header containing X values.
+        y_key (str): The CSV column header containing Y values.
+
+    Returns:
+        list of (float, float) tuples: A list of (x, y) tuples for occurrences.
+    """
+    point_set = {}
+    with PointCsvReader(csv_filename, sp_key, x_key, y_key) as reader:
+        for points in reader:
+            point_set.union({(pt.x, pt.y) for pt in points})
+    return list(point_set)
 
 
 # .....................................................................................
@@ -176,58 +225,6 @@ def write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_v
     out_band.WriteArray(model_data)
     out_band.FlushCache()
     out_band.SetNoDataValue(nodata_value)
-
-
-# .....................................................................................
-def get_raster_format(provided_format, model_raster_filename):
-    """Get the output raster format.
-
-    Args:
-        provided_format (str): The user provided raster format.
-        model_raster_format (str): The model raster output filename.
-
-    Returns:
-        str: The output raster format string (ASC_FORMAT or TIF_FORMAT).
-    """
-    if provided_format in [ASC_FORMAT, TIF_FORMAT]:
-        # If provided format is known, use it, else we'll determine it
-        return provided_format
-    elif os.path.splitext(model_raster_format)[1].lower() == '.asc':
-        # If model filename ends in .asc, use ASCII format
-        return ASC_FORMAT
-    return TIF_FORMAT
-
-
-# .....................................................................................
-def create_rare_species_model(
-    points,
-    ecoregions_filename,
-    model_raster_filename,
-    raster_format=AUTO_FORMAT,
-    nodata_value=-9999,
-    burn_value=50
-):
-    """Create a rare species model from a convex hull intersected with ecoregions.
-
-    Args:
-        points (list of Point): A list of occurrence points to use for model.
-        ecoregions_filename (str): The file location for the ecoregions data.
-        model_raster_filename (str): The file location to write the model raster.
-        raster_format (str): The output raster format (default: auto - use filename).
-        nodata_value (int): The value to use for nodata in the model raster.
-        burn_value (int): The burn value to use for model presence.
-    """
-    # Get the desired output raster format, either provided or determine
-    raster_format = get_raster_format(raster_format, model_raster_format)
-
-    # Get convex hull array
-    # Get ecoregions array
-    # Create model
-    # Write model
-    if raster_format == ASC_FORMAT:
-        write_ascii(out_filename, model_data, cell_size, min_x, min_y, nodata_value)
-    else:
-        write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_value)
 
 
 # .....................................................................................
@@ -277,7 +274,8 @@ def cli():
         default='auto',
         help=(
             'The output format for the model raster. '
-            '(AAIGrid -> Ascii Grid, GTiff -> GeoTiff, auto -> Choose by filename.')
+            '(AAIGrid -> Ascii Grid, GTiff -> GeoTiff, auto -> Choose by filename.'
+        )
     )
     parser.add_argument(
         'point_csv_filename',
@@ -298,7 +296,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = []
+__all__ = ['cli', 'create_rare_species_model', 'write_tiff']
 
 
 # .....................................................................................
