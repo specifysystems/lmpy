@@ -40,10 +40,12 @@ def create_rare_species_model(
         burn_value (int): The burn value to use for model presence.
     """
     # Get the desired output raster format, either provided or determine
-    raster_format = get_raster_format(raster_format, model_raster_format)
+    raster_format = get_raster_format(raster_format, model_raster_filename)
 
     # Get ecoregions array
-    ecoregion_data = get_ecoregions_array(ecoregions_filename)
+    (
+        ecoregion_data, min_x, min_y, max_x, max_y, cell_size, epsg
+    ) = get_ecoregions_array(ecoregions_filename)
     num_rows, num_cols = ecoregion_data.shape
 
     # Get convex hull array
@@ -61,10 +63,9 @@ def create_rare_species_model(
         val_set.add(ecoregion_data[row, col])
     # Convex hull
     convex_hull_raw = geom_collection.ConvexHull()
-    buffered_convex_hull = convex_hull_raw.Buffer(buffer_distance, num_quad_segs)
 
     convex_hull_data = get_convex_hull_array(
-        buffered_convex_hull, num_cols, num_rows, cell_size, min_x, max_y, burn_value
+        convex_hull_raw, num_cols, num_rows, cell_size, min_x, max_y, epsg, burn_value
     )
 
     # Create model
@@ -76,9 +77,24 @@ def create_rare_species_model(
 
     # Write model
     if raster_format == ASC_FORMAT:
-        write_ascii(out_filename, model_data, cell_size, min_x, min_y, nodata_value)
+        write_ascii(
+            model_raster_filename,
+            model_data,
+            cell_size,
+            min_x,
+            min_y,
+            nodata_value
+        )
     else:
-        write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_value)
+        write_tiff(
+            model_raster_filename,
+            model_data,
+            cell_size,
+            min_x,
+            max_y,
+            epsg,
+            nodata_value
+        )
 
 
 # .....................................................................................
@@ -89,6 +105,7 @@ def get_convex_hull_array(
     cell_size,
     min_x,
     max_y,
+    epsg,
     burn_value,
     buffer_distance=0.5,
     num_quad_segs=30
@@ -102,12 +119,14 @@ def get_convex_hull_array(
         cell_size (number): The size of each cell in map units.
         min_x (number): The minimum x value in the raster.
         max_y (number): The maximum y value in the raster.
+        epsg (int): The EPSG code of the map projection to use.
         buffer_distance (number): A buffer distance to add to the convex hull.
         num_quad_segs (int): The number of segments to use for buffering.
 
     Returns:
         numpy.ndarray: Convex hull data converted to an array.
     """
+    buffered_convex_hull = convex_hull_geom.Buffer(buffer_distance, num_quad_segs)
     tmp_shp_filename = tempfile.NamedTemporaryFile(suffix='.shp', delete=True).name
     tmp_tif_filename = tempfile.NamedTemporaryFile(suffix='.tif', delete=True).name
 
@@ -124,7 +143,7 @@ def get_convex_hull_array(
     # Create the feature
     feat_defn = out_lyr.GetLayerDefn()
     feat = ogr.Feature(feat_defn)
-    feat.SetGeometry(convex_hull_geom)
+    feat.SetGeometry(buffered_convex_hull)
     feat.SetField('id', 1)
     out_lyr.CreateFeature(feat)
     feat = None
@@ -137,7 +156,7 @@ def get_convex_hull_array(
     rst_ds.SetGeoTransform([min_x, cell_size, 0, max_y, 0, -cell_size])
 
     srs = osr.SpatialReference()
-    srs.ImportFromEPSG(EPSG)
+    srs.ImportFromEPSG(epsg)
     rst_ds.SetProjection(srs.ExportToWkt())
 
     gdal.RasterizeLayer(rst_ds, [1], out_lyr, burn_values=[burn_value])
@@ -163,7 +182,7 @@ def get_ecoregions_array(ecoregions_filename):
         ecoregions_filename (str): File location of ecoregions data.
 
     Returns:
-        ndarray: Numpy array of ecoregions data.
+        tuple: (Ecoregion data as numpy array, min x, min y, max x, max y, cell size)
     """
     region_ds = gdal.Open(ecoregions_filename)
     reg_band = region_ds.GetRasterBand(1)
@@ -171,11 +190,15 @@ def get_ecoregions_array(ecoregions_filename):
     num_rows = region_ds.RasterYSize
     min_x, cell_size, _, max_y, _, _ = region_ds.GetGeoTransform()
     min_y = max_y - (cell_size * num_rows)
+    max_x = min_x + (num_cols * cell_size)
+
+    proj = osr.SpatialReference(wkt=region_ds.GetProjection())
+    epsg = int(proj.GetAttrValue('AUTHORITY', 1))
 
     ecoregion_data = reg_band.ReadAsArray(0, 0, num_cols, num_rows)
     region_ds = None
 
-    return ecoregion_data
+    return ecoregion_data, min_x, min_y, max_x, max_y, cell_size, epsg
 
 
 # .....................................................................................
@@ -192,7 +215,7 @@ def get_raster_format(provided_format, model_raster_filename):
     if provided_format in [ASC_FORMAT, TIF_FORMAT]:
         # If provided format is known, use it, else we'll determine it
         return provided_format
-    elif os.path.splitext(model_raster_format)[1].lower() == '.asc':
+    elif os.path.splitext(model_raster_filename)[1].lower() == '.asc':
         # If model filename ends in .asc, use ASCII format
         return ASC_FORMAT
     return TIF_FORMAT
@@ -211,7 +234,7 @@ def read_points(csv_filename, sp_key, x_key, y_key):
     Returns:
         list of (float, float) tuples: A list of (x, y) tuples for occurrences.
     """
-    point_set = {}
+    point_set = set()
     with PointCsvReader(csv_filename, sp_key, x_key, y_key) as reader:
         for points in reader:
             point_set.union({(pt.x, pt.y) for pt in points})

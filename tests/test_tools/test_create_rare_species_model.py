@@ -1,5 +1,4 @@
 """Test the create rare species model tool."""
-import glob
 import os
 import tempfile
 
