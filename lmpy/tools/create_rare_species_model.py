@@ -44,6 +44,7 @@ def create_rare_species_model(
 
     # Get ecoregions array
     ecoregion_data = get_ecoregions_array(ecoregions_filename)
+    num_rows, num_cols = ecoregion_data.shape
 
     # Get convex hull array
     val_set = set()
@@ -62,7 +63,9 @@ def create_rare_species_model(
     convex_hull_raw = geom_collection.ConvexHull()
     buffered_convex_hull = convex_hull_raw.Buffer(buffer_distance, num_quad_segs)
 
-    convex_hull_data = get_convex_hull_array(buffered_convex_hull, burn_value)
+    convex_hull_data = get_convex_hull_array(
+        buffered_convex_hull, num_cols, num_rows, cell_size, min_x, max_y, burn_value
+    )
 
     # Create model
     model_data = nodata_value * np.ones(ecoregion_data.shape, dtype=int)
@@ -79,8 +82,32 @@ def create_rare_species_model(
 
 
 # .....................................................................................
-def get_convex_hull_array(convex_hull_geom, buffer_distance=0.5, num_quad_segs=30):
-    """Create a convex hull array."""
+def get_convex_hull_array(
+    convex_hull_geom,
+    num_cols,
+    num_rows,
+    cell_size,
+    min_x,
+    max_y,
+    burn_value,
+    buffer_distance=0.5,
+    num_quad_segs=30
+):
+    """Create a convex hull array.
+
+    Args:
+        convex_hull_geom (geometry): Convex hull geometry for a set of points.
+        num_cols (int): The number of columns in the array.
+        num_rows (int): The number of rows in the array.
+        cell_size (number): The size of each cell in map units.
+        min_x (number): The minimum x value in the raster.
+        max_y (number): The maximum y value in the raster.
+        buffer_distance (number): A buffer distance to add to the convex hull.
+        num_quad_segs (int): The number of segments to use for buffering.
+
+    Returns:
+        numpy.ndarray: Convex hull data converted to an array.
+    """
     tmp_shp_filename = tempfile.NamedTemporaryFile(suffix='.shp', delete=True).name
     tmp_tif_filename = tempfile.NamedTemporaryFile(suffix='.tif', delete=True).name
 
@@ -105,9 +132,9 @@ def get_convex_hull_array(convex_hull_geom, buffer_distance=0.5, num_quad_segs=3
     # Rasterize the shapefile
     tiff_drv = gdal.GetDriverByName('GTiff')
     rst_ds = tiff_drv.Create(
-        tmp_tif_filename, NUM_COLS, NUM_ROWS, 1, gdalconst.GDT_Int16
+        tmp_tif_filename, num_cols, num_rows, 1, gdalconst.GDT_Int16
     )
-    rst_ds.SetGeoTransform([MIN_X, CELL_SIZE, 0, MAX_Y, 0, -CELL_SIZE])
+    rst_ds.SetGeoTransform([min_x, cell_size, 0, max_y, 0, -cell_size])
 
     srs = osr.SpatialReference()
     srs.ImportFromEPSG(EPSG)
@@ -157,7 +184,7 @@ def get_raster_format(provided_format, model_raster_filename):
 
     Args:
         provided_format (str): The user provided raster format.
-        model_raster_format (str): The model raster output filename.
+        model_raster_filename (str): The model raster output filename.
 
     Returns:
         str: The output raster format string (ASC_FORMAT or TIF_FORMAT).
@@ -193,20 +220,40 @@ def read_points(csv_filename, sp_key, x_key, y_key):
 
 # .....................................................................................
 def write_ascii(out_filename, model_data, cell_size, min_x, min_y, nodata_value):
-    """Write model data to ascii file."""
+    """Write model data to ascii file.
+
+    Args:
+        out_filename (str): The file location to write the raster.
+        model_data (numpy.ndarray): Raster data in the form of a matrix or array.
+        cell_size (number): The desired size of each raster cell in map units.
+        min_x (number): The minimum x value for the raster in map units.
+        min_y (number): The minimum y value for the raster in map units.
+        epsg (int): The EPSG code to use to define the map projection.
+        nodata_value (number): The value to be considered "nodata" in the raster.
+    """
     with open(out_filename, mode='wt') as out_f:
-        out_f.write('ncols	{}\n'.format(model_data.shape[1]))
-        out_f.write('nrows	{}\n'.format(model_data.shape[0]))
-        out_f.write('xllcorner	{}\n'.format(min_x))
-        out_f.write('yllcorner	{}\n'.format(min_y))
-        out_f.write('cellsize	{}\n'.format(cell_size))
-        out_f.write('NODATA_value	{}\n'.format(nodata_value))
+        out_f.write('ncols      {}\n'.format(model_data.shape[1]))
+        out_f.write('nrows      {}\n'.format(model_data.shape[0]))
+        out_f.write('xllcorner  {}\n'.format(min_x))
+        out_f.write('yllcorner  {}\n'.format(min_y))
+        out_f.write('cellsize   {}\n'.format(cell_size))
+        out_f.write('NODATA_value       {}\n'.format(nodata_value))
         np.savetxt(out_f, model_data, fmt='%i')
 
 
 # .....................................................................................
 def write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_value):
-    """Write model data to tiff file."""
+    """Write model data to tiff file.
+
+    Args:
+        out_filename (str): The file location to write the raster.
+        model_data (numpy.ndarray): Raster data in the form of a matrix or array.
+        cell_size (number): The desired size of each raster cell in map units.
+        min_x (number): The minimum x value for the raster in map units.
+        max_y (number): The maximum y value for the raster in map units.
+        epsg (int): The EPSG code to use to define the map projection.
+        nodata_value (number): The value to be considered "nodata" in the raster.
+    """
     drv = gdal.GetDriverByName('GTiff')
     dataset = drv.Create(
         out_filename,
@@ -293,6 +340,20 @@ def cli():
         help='File location to write the model raster file.'
     )
     args = parser.parse_args()
+
+    # Read points
+    points = read_points(
+        args.point_csv_filename, args.species_column, args.x_column, args.y_column
+    )
+    # Create model
+    create_rare_species_model(
+        points,
+        args.ecoregions_filename,
+        args.model_raster_filename,
+        raster_format=args.output_format,
+        nodata_value=args.nodata_value,
+        burn_value=args.burn_value
+    )
 
 
 # .....................................................................................
