@@ -120,6 +120,7 @@ def get_convex_hull_array(
         min_x (number): The minimum x value in the raster.
         max_y (number): The maximum y value in the raster.
         epsg (int): The EPSG code of the map projection to use.
+        burn_value (number): A value to burn into the raster for the convex hull.
         buffer_distance (number): A buffer distance to add to the convex hull.
         num_quad_segs (int): The number of segments to use for buffering.
 
@@ -251,7 +252,6 @@ def write_ascii(out_filename, model_data, cell_size, min_x, min_y, nodata_value)
         cell_size (number): The desired size of each raster cell in map units.
         min_x (number): The minimum x value for the raster in map units.
         min_y (number): The minimum y value for the raster in map units.
-        epsg (int): The EPSG code to use to define the map projection.
         nodata_value (number): The value to be considered "nodata" in the raster.
     """
     with open(out_filename, mode='wt') as out_f:
