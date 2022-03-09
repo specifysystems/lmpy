@@ -16,23 +16,51 @@ def get_point_to_xy_func(point_epsg, map_epsg, bbox, resolution):
         point_epsg (int): The EPSG code (map projection) to convert from.
         map_epsg (int): The EPSG code (map projection) to convert to.
         bbox (tuple of 4 numbers): A bounding box for the map raster.
-        resolution (number) The cell size of the map raster cells in map units.
+        resolution (number): The cell size of the map raster cells in map units.
 
     Returns:
         Method: A function taking a Point as an argument and returning an x,y tuple.
     """
     if point_epsg == map_epsg:
-        # If no translation, just get the x,y values of the point
-        convert_func = lambda pt: (pt.x, pt.y, 0)
+        def convert_func(point):
+            """Just get the x,y values of the point.
+
+            Args:
+                point (Point): A point object to convert.
+
+            Returns:
+                tuple: A tuple of (x, y, 0).
+            """
+            return (point.x, point.y, 0)
+
     else:
         pt_epsg_sr = SpatialReference()
         pt_epsg_sr.ImportFromEPSG(point_epsg)
         map_epsg_sr = SpatialReference()
         map_epsg_sr.ImportFromEPSG(map_epsg)
         coordinate_transform = CoordinateTransformation(pt_epsg_sr, map_epsg_sr)
-        convert_func = lambda pt: coordinate_transform.TransformPoint(pt.x, pt.y)
 
+        def convert_func(point):
+            """Transform the point from one coordinate system to another.
+
+            Args:
+                point (Point): A point object to convert.
+
+            Returns:
+                tuple: A tuple of (x, y, 0).
+            """
+            return coordinate_transform.TransformPoint(point.x, point.y)
+
+    # ................................
     def pt_to_xy(point):
+        """Convert Point to (x, y).
+
+        Args:
+            point (Point): A point object to convert.
+
+        Returns:
+            tuple: A tuple of (x, y) or (None, None).
+        """
         x, y = convert_func(point)
         if bbox[0] <= x <= bbox[2] and bbox[1] <= y <= bbox[3]:
             return (int((y - bbox[1]) / resolution), int((x - bbox[0]) / resolution))
@@ -61,7 +89,7 @@ def create_heat_map(
     data = np.zeros((num_rows, num_cols), dtype=int) * nodata_val
 
     # Get point to cell function
-    pt_to_xy = get_point_to_xy_func(oint_epsg, map_epsg, bbox, resolution)
+    pt_to_xy = get_point_to_xy_func(point_epsg, map_epsg, bbox, resolution)
 
     # Process points
     for point in points:
@@ -78,8 +106,10 @@ def create_heat_map(
     out_band.WriteArray(data)
     out_band.FlushCache()
     out_band.SetNoDataValue(nodata_val)
-    dataset.SetGeoTransform(map_transform)
-    dataset.SetProjection(map_projection)
+    # dataset.SetGeoTransform(map_transform)
+    srs = SpatialReference()
+    srs.ImportFromEPSG(map_epsg)
+    dataset.SetProjection(srs.ExportToWkt())
     dataset = None
 
 

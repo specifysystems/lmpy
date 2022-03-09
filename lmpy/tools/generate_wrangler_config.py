@@ -1,9 +1,10 @@
 """Tool to generate a wrangler factory configuration file."""
-import argparse
+# import argparse
 
 
 # .....................................................................................
 def cli():
+    """Provide a command-line interface to the tool."""
     pass
 
 
