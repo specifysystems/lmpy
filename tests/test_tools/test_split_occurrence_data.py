@@ -1,3 +1,5 @@
+"""Test the split occurrence data tool."""
+
 """
 DWCA
 CSV
