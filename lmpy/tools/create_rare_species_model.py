@@ -285,7 +285,7 @@ def write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_v
         1,
         gdalconst.GDT_Byte
     )
-    dataset.SetGeomTransform([min_x, cell_size, 0, max_y, 0, -cell_size])
+    dataset.SetGeoTransform([min_x, cell_size, 0, max_y, 0, -cell_size])
 
     srs = osr.SpatialReference()
     srs.ImportFromEPSG(epsg)
@@ -339,11 +339,11 @@ def cli():
     parser.add_argument(
         '--output_format',
         '-of',
-        type='str',
+        type=str,
         choices=['auto', 'AAIGrid', 'GTiff'],
         default='auto',
         help=(
-            'The output format for the model raster. '
+            'The output format for the model raster.'
             '(AAIGrid -> Ascii Grid, GTiff -> GeoTiff, auto -> Choose by filename.'
         )
     )
