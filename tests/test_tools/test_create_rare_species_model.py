@@ -112,6 +112,7 @@ def test_valid(monkeypatch, filenames_for_test, model_parameters):
     Args:
         monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
         filenames_for_test (pytest.Fixture): Temporary filenames to use for test.
+        model_parameters (tuple): Parameters for creating a test model.
     """
     # Model parameters
     count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
