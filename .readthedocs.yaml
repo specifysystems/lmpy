@@ -6,7 +6,7 @@
 version: 2
 
 conda:
-  environment: environment.yml
+  environment: _sphinx_config/environment.yml
 
 # Set the version of Python and other tools you might need
 build:
