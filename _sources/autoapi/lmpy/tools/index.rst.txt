@@ -15,12 +15,19 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   build_shapegrid/index.rst
    clean_occurrences/index.rst
    convert_csv_to_lmm/index.rst
    convert_lmm_to_csv/index.rst
+   create_point_heat_map/index.rst
+   create_rare_species_model/index.rst
+   create_tree_matrix/index.rst
    encode_layers/index.rst
-   encode_tree/index.rst
+   generate_wrangler_config/index.rst
    process_idigbio/index.rst
    randomize_pam/index.rst
+   split_occurrence_data/index.rst
+   wrangle_matrix/index.rst
+   wrangle_tree/index.rst
 
 

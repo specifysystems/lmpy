@@ -1,0 +1,11 @@
+:py:mod:`lmpy.tools.create_tree_matrix`
+=======================================
+
+.. py:module:: lmpy.tools.create_tree_matrix
+
+.. autoapi-nested-parse::
+
+   Encode a tree into matrix for faster statistics computations.
+
+
+

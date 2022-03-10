@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.encode_tree &mdash; Specify lmpy 3.0.4 documentation</title>
+  <title>lmpy.data_wrangling.factory &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -60,9 +60,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.encode_tree</span></code></li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_wrangling.factory</span></code></li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../../_sources/autoapi/lmpy/tools/encode_tree/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/autoapi/lmpy/data_wrangling/factory/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -70,9 +70,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-lmpy.tools.encode_tree">
-<span id="lmpy-tools-encode-tree"></span><h1><a class="reference internal" href="#module-lmpy.tools.encode_tree" title="lmpy.tools.encode_tree"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.encode_tree</span></code></a><a class="headerlink" href="#module-lmpy.tools.encode_tree" title="Permalink to this headline"></a></h1>
-<p>Encode a tree into matrix for faster statistics computations.</p>
+  <section id="module-lmpy.data_wrangling.factory">
+<span id="lmpy-data-wrangling-factory"></span><h1><a class="reference internal" href="#module-lmpy.data_wrangling.factory" title="lmpy.data_wrangling.factory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_wrangling.factory</span></code></a><a class="headerlink" href="#module-lmpy.data_wrangling.factory" title="Permalink to this headline"></a></h1>
+<p>Data wrangler factory.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
 <section id="functions">
@@ -83,35 +83,26 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tools.encode_tree.encode_tree" title="lmpy.tools.encode_tree.encode_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encode_tree</span></code></a>(tree)</p></td>
-<td><p>Encode a tree into a binary matrix and two data arrays for node and tips.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.tools.encode_tree.main" title="lmpy.tools.encode_tree.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>()</p></td>
-<td><p>Main controlling method for script.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.factory.wrangler_factory" title="lmpy.data_wrangling.factory.wrangler_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wrangler_factory</span></code></a>(wrangler_configs)</p></td>
+<td><p>Factory for instantiating data wranglers.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt class="sig sig-object py" id="lmpy.tools.encode_tree.encode_tree">
-<span class="sig-prename descclassname"><span class="pre">lmpy.tools.encode_tree.</span></span><span class="sig-name descname"><span class="pre">encode_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/encode_tree.html#encode_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.encode_tree.encode_tree" title="Permalink to this definition"></a></dt>
-<dd><p>Encode a tree into a binary matrix and two data arrays for node and tips.</p>
+<dt class="sig sig-object py" id="lmpy.data_wrangling.factory.wrangler_factory">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.factory.</span></span><span class="sig-name descname"><span class="pre">wrangler_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrangler_configs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_wrangling/factory.html#wrangler_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.factory.wrangler_factory" title="Permalink to this definition"></a></dt>
+<dd><p>Factory for instantiating data wranglers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tree</strong> (<a class="reference internal" href="../../tree/index.html#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper"><em>TreeWrapper</em></a>) – A tree object to encode.</p>
+<dd class="field-odd"><p><strong>wrangler_configs</strong> (<em>list of dict</em>) – A list of wrangler configuration dictionaries.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The encoded tree matrix, node heights, tip lengths.</p>
+<dd class="field-even"><p>A list of data wranglers.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>(<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a>, <a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a>, <a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a>)</p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lmpy.tools.encode_tree.main">
-<span class="sig-prename descclassname"><span class="pre">lmpy.tools.encode_tree.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/encode_tree.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.encode_tree.main" title="Permalink to this definition"></a></dt>
-<dd><p>Main controlling method for script.</p>
 </dd></dl>
 
 </section>

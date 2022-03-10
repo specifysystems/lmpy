@@ -1,0 +1,43 @@
+:py:mod:`lmpy.tools.wrangle_matrix`
+===================================
+
+.. py:module:: lmpy.tools.wrangle_matrix
+
+.. autoapi-nested-parse::
+
+   Tool for wrangling a Matrix.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.wrangle_matrix.cli
+   lmpy.tools.wrangle_matrix.wrangle_matrix
+
+
+
+.. py:function:: cli()
+
+   Provice a command-line interface to the wrangle matrix tool.
+
+
+.. py:function:: wrangle_matrix(mtx, wranglers)
+
+   Wrangle the Matrix as configured.
+
+   :param mtx: A Matrix to wrangle.
+   :type mtx: Matrix
+   :param wranglers: A list of tree data wranglers.
+   :type wranglers: list
+
+   :returns: The modified Matrix object.
+   :rtype: Matrix
+
+

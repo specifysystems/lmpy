@@ -1,0 +1,35 @@
+:py:mod:`lmpy.data_wrangling.factory`
+=====================================
+
+.. py:module:: lmpy.data_wrangling.factory
+
+.. autoapi-nested-parse::
+
+   Data wrangler factory.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.factory.wrangler_factory
+
+
+
+.. py:function:: wrangler_factory(wrangler_configs)
+
+   Factory for instantiating data wranglers.
+
+   :param wrangler_configs: A list of wrangler configuration dictionaries.
+   :type wrangler_configs: list of dict
+
+   :returns: A list of data wranglers.
+   :rtype: list
+
+

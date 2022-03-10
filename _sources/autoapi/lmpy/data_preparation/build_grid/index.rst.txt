@@ -60,7 +60,7 @@ Functions
    :returns: The number of cells in the new shapegrid.
    :rtype: int
 
-   :raises ValueError: Raised if an invalid number of cell sides is specified.
+   :raises ValueError: Raised if invalid bbox or cell sides.
 
 
 .. py:function:: hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)

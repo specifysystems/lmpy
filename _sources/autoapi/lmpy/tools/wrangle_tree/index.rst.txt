@@ -1,0 +1,43 @@
+:py:mod:`lmpy.tools.wrangle_tree`
+=================================
+
+.. py:module:: lmpy.tools.wrangle_tree
+
+.. autoapi-nested-parse::
+
+   A tool for wrangling phylogenetic trees.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.wrangle_tree.cli
+   lmpy.tools.wrangle_tree.wrangle_tree
+
+
+
+.. py:function:: cli()
+
+   Command-line interface for the tool.
+
+
+.. py:function:: wrangle_tree(tree, wranglers)
+
+   Wrangle the tree as configured.
+
+   :param tree: A phylogenetic tree to wrangle.
+   :type tree: TreeWrapper
+   :param wranglers: A list of tree data wranglers.
+   :type wranglers: list
+
+   :returns: The modified tree object.
+   :rtype: TreeWrapper
+
+

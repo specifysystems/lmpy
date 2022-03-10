@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.tools.create_rare_species_model &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.tools.create_rare_species_model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.tools.create_rare_species_model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Create a rare species model by intersecting convex hull and ecoregions.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">gdalconst</span><span class="p">,</span> <span class="n">ogr</span><span class="p">,</span> <span class="n">osr</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointCsvReader</span>
+
+
+<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
+<span class="s1">Create a &quot;rare species&quot; model by intersecting the convex hull for a group of</span>
+<span class="s1">occurrences with the ecoregions those points fall within and then rasterizing the</span>
+<span class="s1">result.&#39;&#39;&#39;</span>
+
+<span class="c1"># Raster formats</span>
+<span class="n">AUTO_FORMAT</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+<span class="n">ASC_FORMAT</span> <span class="o">=</span> <span class="s1">&#39;AAIGrid&#39;</span>
+<span class="n">TIF_FORMAT</span> <span class="o">=</span> <span class="s1">&#39;GTiff&#39;</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="create_rare_species_model"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_rare_species_model/index.html#lmpy.tools.create_rare_species_model.create_rare_species_model">[docs]</a><span class="k">def</span> <span class="nf">create_rare_species_model</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">ecoregions_filename</span><span class="p">,</span>
+    <span class="n">model_raster_filename</span><span class="p">,</span>
+    <span class="n">raster_format</span><span class="o">=</span><span class="n">AUTO_FORMAT</span><span class="p">,</span>
+    <span class="n">nodata_value</span><span class="o">=-</span><span class="mi">9999</span><span class="p">,</span>
+    <span class="n">burn_value</span><span class="o">=</span><span class="mi">50</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a rare species model from a convex hull intersected with ecoregions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        points (list of Point): A list of occurrence points to use for model.</span>
+<span class="sd">        ecoregions_filename (str): The file location for the ecoregions data.</span>
+<span class="sd">        model_raster_filename (str): The file location to write the model raster.</span>
+<span class="sd">        raster_format (str): The output raster format (default: auto - use filename).</span>
+<span class="sd">        nodata_value (int): The value to use for nodata in the model raster.</span>
+<span class="sd">        burn_value (int): The burn value to use for model presence.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the desired output raster format, either provided or determine</span>
+    <span class="n">raster_format</span> <span class="o">=</span> <span class="n">get_raster_format</span><span class="p">(</span><span class="n">raster_format</span><span class="p">,</span> <span class="n">model_raster_filename</span><span class="p">)</span>
+
+    <span class="c1"># Get ecoregions array</span>
+    <span class="p">(</span>
+        <span class="n">ecoregion_data</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">epsg</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="n">get_ecoregions_array</span><span class="p">(</span><span class="n">ecoregions_filename</span><span class="p">)</span>
+    <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="n">ecoregion_data</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Get convex hull array</span>
+    <span class="n">val_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">geom_collection</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbGeometryCollection</span><span class="p">)</span>
+    <span class="c1"># Process points</span>
+    <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="c1"># Add geometry to collection</span>
+        <span class="n">pt_geom</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPoint</span><span class="p">)</span>
+        <span class="n">pt_geom</span><span class="o">.</span><span class="n">addPoint</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">geom_collection</span><span class="o">.</span><span class="n">AddGeometry</span><span class="p">(</span><span class="n">pt_geom</span><span class="p">)</span>
+        <span class="c1"># Add to value set</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">pt</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">/</span> <span class="n">cell_size</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">pt</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">cell_size</span><span class="p">)</span>
+        <span class="n">val_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ecoregion_data</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">])</span>
+    <span class="c1"># Convex hull</span>
+    <span class="n">convex_hull_raw</span> <span class="o">=</span> <span class="n">geom_collection</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">()</span>
+
+    <span class="n">convex_hull_data</span> <span class="o">=</span> <span class="n">get_convex_hull_array</span><span class="p">(</span>
+        <span class="n">convex_hull_raw</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">epsg</span><span class="p">,</span> <span class="n">burn_value</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create model</span>
+    <span class="n">model_data</span> <span class="o">=</span> <span class="n">nodata_value</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">ecoregion_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ecoregion_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ecoregion_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">ecoregion_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="ow">in</span> <span class="n">val_set</span> <span class="ow">and</span> <span class="n">convex_hull_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">burn_value</span><span class="p">:</span>
+                <span class="n">model_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">burn_value</span>
+
+    <span class="c1"># Write model</span>
+    <span class="k">if</span> <span class="n">raster_format</span> <span class="o">==</span> <span class="n">ASC_FORMAT</span><span class="p">:</span>
+        <span class="n">write_ascii</span><span class="p">(</span>
+            <span class="n">model_raster_filename</span><span class="p">,</span>
+            <span class="n">model_data</span><span class="p">,</span>
+            <span class="n">cell_size</span><span class="p">,</span>
+            <span class="n">min_x</span><span class="p">,</span>
+            <span class="n">min_y</span><span class="p">,</span>
+            <span class="n">nodata_value</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">write_tiff</span><span class="p">(</span>
+            <span class="n">model_raster_filename</span><span class="p">,</span>
+            <span class="n">model_data</span><span class="p">,</span>
+            <span class="n">cell_size</span><span class="p">,</span>
+            <span class="n">min_x</span><span class="p">,</span>
+            <span class="n">max_y</span><span class="p">,</span>
+            <span class="n">epsg</span><span class="p">,</span>
+            <span class="n">nodata_value</span>
+        <span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">def</span> <span class="nf">get_convex_hull_array</span><span class="p">(</span>
+    <span class="n">convex_hull_geom</span><span class="p">,</span>
+    <span class="n">num_cols</span><span class="p">,</span>
+    <span class="n">num_rows</span><span class="p">,</span>
+    <span class="n">cell_size</span><span class="p">,</span>
+    <span class="n">min_x</span><span class="p">,</span>
+    <span class="n">max_y</span><span class="p">,</span>
+    <span class="n">epsg</span><span class="p">,</span>
+    <span class="n">burn_value</span><span class="p">,</span>
+    <span class="n">buffer_distance</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">num_quad_segs</span><span class="o">=</span><span class="mi">30</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a convex hull array.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        convex_hull_geom (geometry): Convex hull geometry for a set of points.</span>
+<span class="sd">        num_cols (int): The number of columns in the array.</span>
+<span class="sd">        num_rows (int): The number of rows in the array.</span>
+<span class="sd">        cell_size (number): The size of each cell in map units.</span>
+<span class="sd">        min_x (number): The minimum x value in the raster.</span>
+<span class="sd">        max_y (number): The maximum y value in the raster.</span>
+<span class="sd">        epsg (int): The EPSG code of the map projection to use.</span>
+<span class="sd">        burn_value (number): A value to burn into the raster for the convex hull.</span>
+<span class="sd">        buffer_distance (number): A buffer distance to add to the convex hull.</span>
+<span class="sd">        num_quad_segs (int): The number of segments to use for buffering.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: Convex hull data converted to an array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">buffered_convex_hull</span> <span class="o">=</span> <span class="n">convex_hull_geom</span><span class="o">.</span><span class="n">Buffer</span><span class="p">(</span><span class="n">buffer_distance</span><span class="p">,</span> <span class="n">num_quad_segs</span><span class="p">)</span>
+    <span class="n">tmp_shp_filename</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.shp&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">tmp_tif_filename</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="n">shp_drv</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create the convex hull shapefile</span>
+    <span class="n">out_ds</span> <span class="o">=</span> <span class="n">shp_drv</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">tmp_shp_filename</span><span class="p">)</span>
+    <span class="n">out_lyr</span> <span class="o">=</span> <span class="n">out_ds</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span><span class="s1">&#39;ConvexHull&#39;</span><span class="p">,</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPolygon</span><span class="p">)</span>
+
+    <span class="c1"># Add an ID field</span>
+    <span class="n">id_field</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">FieldDefn</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">ogr</span><span class="o">.</span><span class="n">OFTInteger</span><span class="p">)</span>
+    <span class="n">out_lyr</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">id_field</span><span class="p">)</span>
+
+    <span class="c1"># Create the feature</span>
+    <span class="n">feat_defn</span> <span class="o">=</span> <span class="n">out_lyr</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
+    <span class="n">feat</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">feat_defn</span><span class="p">)</span>
+    <span class="n">feat</span><span class="o">.</span><span class="n">SetGeometry</span><span class="p">(</span><span class="n">buffered_convex_hull</span><span class="p">)</span>
+    <span class="n">feat</span><span class="o">.</span><span class="n">SetField</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">out_lyr</span><span class="o">.</span><span class="n">CreateFeature</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+    <span class="n">feat</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Rasterize the shapefile</span>
+    <span class="n">tiff_drv</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;GTiff&#39;</span><span class="p">)</span>
+    <span class="n">rst_ds</span> <span class="o">=</span> <span class="n">tiff_drv</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span>
+        <span class="n">tmp_tif_filename</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gdalconst</span><span class="o">.</span><span class="n">GDT_Int16</span>
+    <span class="p">)</span>
+    <span class="n">rst_ds</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">([</span><span class="n">min_x</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cell_size</span><span class="p">])</span>
+
+    <span class="n">srs</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+    <span class="n">srs</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">epsg</span><span class="p">)</span>
+    <span class="n">rst_ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">srs</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+
+    <span class="n">gdal</span><span class="o">.</span><span class="n">RasterizeLayer</span><span class="p">(</span><span class="n">rst_ds</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">out_lyr</span><span class="p">,</span> <span class="n">burn_values</span><span class="o">=</span><span class="p">[</span><span class="n">burn_value</span><span class="p">])</span>
+
+    <span class="n">rst_ds</span><span class="o">.</span><span class="n">FlushCache</span><span class="p">()</span>
+
+    <span class="n">out_ds</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">rst_ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Get the data array</span>
+    <span class="n">rst_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">tmp_tif_filename</span><span class="p">)</span>
+    <span class="n">band</span> <span class="o">=</span> <span class="n">rst_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">data</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">def</span> <span class="nf">get_ecoregions_array</span><span class="p">(</span><span class="n">ecoregions_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get ecoregions data array.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ecoregions_filename (str): File location of ecoregions data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: (Ecoregion data as numpy array, min x, min y, max x, max y, cell size)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">region_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">ecoregions_filename</span><span class="p">)</span>
+    <span class="n">reg_band</span> <span class="o">=</span> <span class="n">region_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">num_cols</span> <span class="o">=</span> <span class="n">region_ds</span><span class="o">.</span><span class="n">RasterXSize</span>
+    <span class="n">num_rows</span> <span class="o">=</span> <span class="n">region_ds</span><span class="o">.</span><span class="n">RasterYSize</span>
+    <span class="n">min_x</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">region_ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+    <span class="n">min_y</span> <span class="o">=</span> <span class="n">max_y</span> <span class="o">-</span> <span class="p">(</span><span class="n">cell_size</span> <span class="o">*</span> <span class="n">num_rows</span><span class="p">)</span>
+    <span class="n">max_x</span> <span class="o">=</span> <span class="n">min_x</span> <span class="o">+</span> <span class="p">(</span><span class="n">num_cols</span> <span class="o">*</span> <span class="n">cell_size</span><span class="p">)</span>
+
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">(</span><span class="n">wkt</span><span class="o">=</span><span class="n">region_ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">())</span>
+    <span class="n">epsg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s1">&#39;AUTHORITY&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">ecoregion_data</span> <span class="o">=</span> <span class="n">reg_band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">)</span>
+    <span class="n">region_ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">ecoregion_data</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">epsg</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">def</span> <span class="nf">get_raster_format</span><span class="p">(</span><span class="n">provided_format</span><span class="p">,</span> <span class="n">model_raster_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the output raster format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        provided_format (str): The user provided raster format.</span>
+<span class="sd">        model_raster_filename (str): The model raster output filename.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The output raster format string (ASC_FORMAT or TIF_FORMAT).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">provided_format</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ASC_FORMAT</span><span class="p">,</span> <span class="n">TIF_FORMAT</span><span class="p">]:</span>
+        <span class="c1"># If provided format is known, use it, else we&#39;ll determine it</span>
+        <span class="k">return</span> <span class="n">provided_format</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">model_raster_filename</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;.asc&#39;</span><span class="p">:</span>
+        <span class="c1"># If model filename ends in .asc, use ASCII format</span>
+        <span class="k">return</span> <span class="n">ASC_FORMAT</span>
+    <span class="k">return</span> <span class="n">TIF_FORMAT</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">def</span> <span class="nf">read_points</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">sp_key</span><span class="p">,</span> <span class="n">x_key</span><span class="p">,</span> <span class="n">y_key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read points from a csv file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        csv_filename (str): Path to CSV file containing occurrence records.</span>
+<span class="sd">        sp_key (str): The CSV column header containing species information.</span>
+<span class="sd">        x_key (str): The CSV column header containing X values.</span>
+<span class="sd">        y_key (str): The CSV column header containing Y values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list of (float, float) tuples: A list of (x, y) tuples for occurrences.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">point_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">PointCsvReader</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">sp_key</span><span class="p">,</span> <span class="n">x_key</span><span class="p">,</span> <span class="n">y_key</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+            <span class="n">point_set</span><span class="o">.</span><span class="n">union</span><span class="p">({(</span><span class="n">pt</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">points</span><span class="p">})</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">point_set</span><span class="p">)</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">def</span> <span class="nf">write_ascii</span><span class="p">(</span><span class="n">out_filename</span><span class="p">,</span> <span class="n">model_data</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">nodata_value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Write model data to ascii file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        out_filename (str): The file location to write the raster.</span>
+<span class="sd">        model_data (numpy.ndarray): Raster data in the form of a matrix or array.</span>
+<span class="sd">        cell_size (number): The desired size of each raster cell in map units.</span>
+<span class="sd">        min_x (number): The minimum x value for the raster in map units.</span>
+<span class="sd">        min_y (number): The minimum y value for the raster in map units.</span>
+<span class="sd">        nodata_value (number): The value to be considered &quot;nodata&quot; in the raster.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_f</span><span class="p">:</span>
+        <span class="n">out_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ncols      </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">out_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;nrows      </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">out_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;xllcorner  </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">min_x</span><span class="p">))</span>
+        <span class="n">out_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;yllcorner  </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">min_y</span><span class="p">))</span>
+        <span class="n">out_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;cellsize   </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cell_size</span><span class="p">))</span>
+        <span class="n">out_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;NODATA_value       </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nodata_value</span><span class="p">))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">out_f</span><span class="p">,</span> <span class="n">model_data</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%i</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="write_tiff"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_rare_species_model/index.html#lmpy.tools.create_rare_species_model.write_tiff">[docs]</a><span class="k">def</span> <span class="nf">write_tiff</span><span class="p">(</span><span class="n">out_filename</span><span class="p">,</span> <span class="n">model_data</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">epsg</span><span class="p">,</span> <span class="n">nodata_value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Write model data to tiff file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        out_filename (str): The file location to write the raster.</span>
+<span class="sd">        model_data (numpy.ndarray): Raster data in the form of a matrix or array.</span>
+<span class="sd">        cell_size (number): The desired size of each raster cell in map units.</span>
+<span class="sd">        min_x (number): The minimum x value for the raster in map units.</span>
+<span class="sd">        max_y (number): The maximum y value for the raster in map units.</span>
+<span class="sd">        epsg (int): The EPSG code to use to define the map projection.</span>
+<span class="sd">        nodata_value (number): The value to be considered &quot;nodata&quot; in the raster.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">drv</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;GTiff&#39;</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">drv</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span>
+        <span class="n">out_filename</span><span class="p">,</span>
+        <span class="n">model_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">model_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">gdalconst</span><span class="o">.</span><span class="n">GDT_Byte</span>
+    <span class="p">)</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">([</span><span class="n">min_x</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cell_size</span><span class="p">])</span>
+
+    <span class="n">srs</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+    <span class="n">srs</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">epsg</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">srs</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+
+    <span class="n">out_band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">out_band</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">model_data</span><span class="p">)</span>
+    <span class="n">out_band</span><span class="o">.</span><span class="n">FlushCache</span><span class="p">()</span>
+    <span class="n">out_band</span><span class="o">.</span><span class="n">SetNoDataValue</span><span class="p">(</span><span class="n">nodata_value</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_rare_species_model/index.html#lmpy.tools.create_rare_species_model.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Command-line interface for creating a rare species model.&quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--species_column&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-sp&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column for species or group name.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--x_column&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-x&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column containing x coordinate (ex. longitude).&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--y_column&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-y&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column containing y coordinate (ex. latitude).&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--burn_value&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-b&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Raster burn value for model presence.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--nodata_value&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-n&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=-</span><span class="mi">9999</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Raster nodata value for model absence.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--output_format&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-of&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;AAIGrid&#39;</span><span class="p">,</span> <span class="s1">&#39;GTiff&#39;</span><span class="p">],</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s1">&#39;The output format for the model raster.&#39;</span>
+            <span class="s1">&#39;(AAIGrid -&gt; Ascii Grid, GTiff -&gt; GeoTiff, auto -&gt; Choose by filename.&#39;</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;point_csv_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of an occurrence csv file.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;ecoregions_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of ecoregions raster file.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;model_raster_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write the model raster file.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="c1"># Read points</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">read_points</span><span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">point_csv_filename</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">species_column</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">x_column</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y_column</span>
+    <span class="p">)</span>
+    <span class="c1"># Create model</span>
+    <span class="n">create_rare_species_model</span><span class="p">(</span>
+        <span class="n">points</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">ecoregions_filename</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">model_raster_filename</span><span class="p">,</span>
+        <span class="n">raster_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
+        <span class="n">nodata_value</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">nodata_value</span><span class="p">,</span>
+        <span class="n">burn_value</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">burn_value</span>
+    <span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="s1">&#39;create_rare_species_model&#39;</span><span class="p">,</span> <span class="s1">&#39;write_tiff&#39;</span><span class="p">]</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">cli</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

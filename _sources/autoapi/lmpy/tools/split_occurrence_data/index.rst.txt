@@ -1,0 +1,29 @@
+:py:mod:`lmpy.tools.split_occurrence_data`
+==========================================
+
+.. py:module:: lmpy.tools.split_occurrence_data
+
+.. autoapi-nested-parse::
+
+   Split occurrence data files into groups for processing.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.split_occurrence_data.cli
+
+
+
+.. py:function:: cli()
+
+   Command-line interface for splitting occurrence datasets.
+
+

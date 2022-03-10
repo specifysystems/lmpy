@@ -18,3 +18,12 @@ Subpackages
    occurrence/index.rst
 
 
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   factory/index.rst
+
+

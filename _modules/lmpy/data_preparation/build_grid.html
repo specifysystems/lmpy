@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.0.4 documentation</title>
+  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -160,7 +160,7 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="build_shapegrid"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/build_grid/index.html#lmpy.data_preparation.build_grid.build_shapegrid">[docs]</a><span class="k">def</span> <span class="nf">build_shapegrid</span><span class="p">(</span>
+<div class="viewcode-block" id="build_shapegrid"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/build_shapegrid/index.html#lmpy.data_preparation.build_grid.build_shapegrid">[docs]</a><span class="k">def</span> <span class="nf">build_shapegrid</span><span class="p">(</span>
     <span class="n">shapegrid_file_name</span><span class="p">,</span>
     <span class="n">min_x</span><span class="p">,</span>
     <span class="n">min_y</span><span class="p">,</span>
@@ -197,8 +197,10 @@
 <span class="sd">        int: The number of cells in the new shapegrid.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: Raised if an invalid number of cell sides is specified.</span>
+<span class="sd">        ValueError: Raised if invalid bbox or cell sides.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">min_x</span> <span class="o">&gt;=</span> <span class="n">max_x</span> <span class="ow">or</span> <span class="n">min_y</span> <span class="o">&gt;=</span> <span class="n">max_y</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Illegal bounds: (</span><span class="si">{min_x}</span><span class="s1">, </span><span class="si">{min_y}</span><span class="s1">, </span><span class="si">{max_x}</span><span class="s1">, </span><span class="si">{max_y}</span><span class="s1">)&#39;</span><span class="p">)</span>
     <span class="c1"># We&#39;ll always check for intersection to reduce amount of work</span>
     <span class="k">if</span> <span class="n">cutout_wkt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">cutout_wkt</span> <span class="o">=</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">([</span>

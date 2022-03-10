@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.tools.create_point_heat_map &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.tools.create_point_heat_map</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.tools.create_point_heat_map</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Create a heat map for occurrence data.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span>
+<span class="kn">from</span> <span class="nn">osgeo.osr</span> <span class="k">import</span> <span class="n">SpatialReference</span><span class="p">,</span> <span class="n">CoordinateTransformation</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointCsvReader</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="get_point_to_xy_func"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_point_heat_map/index.html#lmpy.tools.create_point_heat_map.get_point_to_xy_func">[docs]</a><span class="k">def</span> <span class="nf">get_point_to_xy_func</span><span class="p">(</span><span class="n">point_epsg</span><span class="p">,</span> <span class="n">map_epsg</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">resolution</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a translation function that takes a point as an argument and returns (x, y).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        point_epsg (int): The EPSG code (map projection) to convert from.</span>
+<span class="sd">        map_epsg (int): The EPSG code (map projection) to convert to.</span>
+<span class="sd">        bbox (tuple of 4 numbers): A bounding box for the map raster.</span>
+<span class="sd">        resolution (number): The cell size of the map raster cells in map units.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Method: A function taking a Point as an argument and returning an x,y tuple.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">point_epsg</span> <span class="o">==</span> <span class="n">map_epsg</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">convert_func</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Just get the x,y values of the point.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                point (Point): A point object to convert.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                tuple: A tuple of (x, y, 0).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pt_epsg_sr</span> <span class="o">=</span> <span class="n">SpatialReference</span><span class="p">()</span>
+        <span class="n">pt_epsg_sr</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">point_epsg</span><span class="p">)</span>
+        <span class="n">map_epsg_sr</span> <span class="o">=</span> <span class="n">SpatialReference</span><span class="p">()</span>
+        <span class="n">map_epsg_sr</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">map_epsg</span><span class="p">)</span>
+        <span class="n">coordinate_transform</span> <span class="o">=</span> <span class="n">CoordinateTransformation</span><span class="p">(</span><span class="n">pt_epsg_sr</span><span class="p">,</span> <span class="n">map_epsg_sr</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">convert_func</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Transform the point from one coordinate system to another.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                point (Point): A point object to convert.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                tuple: A tuple of (x, y, 0).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">coordinate_transform</span><span class="o">.</span><span class="n">TransformPoint</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># ................................</span>
+    <span class="k">def</span> <span class="nf">pt_to_xy</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert Point to (x, y).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            point (Point): A point object to convert.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: A tuple of (x, y) or (None, None).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">convert_func</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">and</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">),</span> <span class="nb">int</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">pt_to_xy</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="create_heat_map"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_point_heat_map/index.html#lmpy.tools.create_point_heat_map.create_heat_map">[docs]</a><span class="k">def</span> <span class="nf">create_heat_map</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">,</span> <span class="n">point_epsg</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">map_epsg</span><span class="p">,</span> <span class="n">map_filename</span><span class="p">,</span> <span class="n">nodata_val</span><span class="o">=-</span><span class="mi">9999</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a heat map matrix for the provided points.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        points (list of Point): A list of Point objects.</span>
+<span class="sd">        point_epsg (int): The EPSG code of the point data (map projection).</span>
+<span class="sd">        bbox (float, float, float, float): The bounding box to use for the map.</span>
+<span class="sd">        resolution (float): The size of each map cell (in map projection units).</span>
+<span class="sd">        map_epsg (int): The EPSG code (map projection) to use for the map.</span>
+<span class="sd">        map_filename (str): The file location to write the map.</span>
+<span class="sd">        nodata_val (number): A value to use as the nodata value for the raster.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create a map array</span>
+    <span class="n">num_rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">)</span>
+    <span class="n">num_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">nodata_val</span>
+
+    <span class="c1"># Get point to cell function</span>
+    <span class="n">pt_to_xy</span> <span class="o">=</span> <span class="n">get_point_to_xy_func</span><span class="p">(</span><span class="n">point_epsg</span><span class="p">,</span> <span class="n">map_epsg</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+
+    <span class="c1"># Process points</span>
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="n">pt_x</span><span class="p">,</span> <span class="n">pt_y</span> <span class="o">=</span> <span class="n">pt_to_xy</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="c1"># Only try to add to array if point is within range</span>
+        <span class="k">if</span> <span class="n">pt_x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pt_y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Set the value to max(val+1, 1) to deal with nodata</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">pt_y</span><span class="p">,</span> <span class="n">pt_x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">pt_y</span><span class="p">,</span> <span class="n">pt_x</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Write map</span>
+    <span class="n">drv</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;GTiff&#39;</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">drv</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">map_filename</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Int</span><span class="p">)</span>
+    <span class="n">out_band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">out_band</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">out_band</span><span class="o">.</span><span class="n">FlushCache</span><span class="p">()</span>
+    <span class="n">out_band</span><span class="o">.</span><span class="n">SetNoDataValue</span><span class="p">(</span><span class="n">nodata_val</span><span class="p">)</span>
+    <span class="c1"># dataset.SetGeoTransform(map_transform)</span>
+    <span class="n">srs</span> <span class="o">=</span> <span class="n">SpatialReference</span><span class="p">()</span>
+    <span class="n">srs</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">map_epsg</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">srs</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_point_heat_map/index.html#lmpy.tools.create_point_heat_map.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Function providing command-line interface for the tool.&quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--point_epsg&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The EPSG code of the map projection used for the points.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--map_epsg&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The EPSG code of the map projection to use for generating the heat map.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;point_csv_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A CSV file containing point data.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;species_key&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The key used for grouping (species name).&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;x_key&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The header key for the x column (longitude).&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;y_key&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The header key for the y column (latitude).&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;min_x&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The minimum x value for the map bounding box.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;min_y&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The minimum y value for the map bounding box.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;max_x&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The maximum x value for the map bounding box.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;max_y&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The maximum y value for the map bounding box.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;map_resolution&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The size of each map cell (in appropriate map units).&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;map_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location to write the map.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">PointCsvReader</span><span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">point_csv_filename</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">species_key</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">x_key</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y_key</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pts</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+
+    <span class="n">create_heat_map</span><span class="p">(</span>
+        <span class="n">points</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">point_epsg</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">min_x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">min_y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_y</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">map_resolution</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">map_epsg</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">map_filename</span>
+    <span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="s1">&#39;create_heat_map&#39;</span><span class="p">,</span> <span class="s1">&#39;get_point_to_xy_func&#39;</span><span class="p">]</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">cli</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

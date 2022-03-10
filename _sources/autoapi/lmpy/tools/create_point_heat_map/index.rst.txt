@@ -1,0 +1,68 @@
+:py:mod:`lmpy.tools.create_point_heat_map`
+==========================================
+
+.. py:module:: lmpy.tools.create_point_heat_map
+
+.. autoapi-nested-parse::
+
+   Create a heat map for occurrence data.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.create_point_heat_map.cli
+   lmpy.tools.create_point_heat_map.create_heat_map
+   lmpy.tools.create_point_heat_map.get_point_to_xy_func
+
+
+
+.. py:function:: cli()
+
+   Function providing command-line interface for the tool.
+
+
+.. py:function:: create_heat_map(points, point_epsg, bbox, resolution, map_epsg, map_filename, nodata_val=-9999)
+
+   Create a heat map matrix for the provided points.
+
+   :param points: A list of Point objects.
+   :type points: list of Point
+   :param point_epsg: The EPSG code of the point data (map projection).
+   :type point_epsg: int
+   :param bbox: The bounding box to use for the map.
+   :type bbox: float, float, float, float
+   :param resolution: The size of each map cell (in map projection units).
+   :type resolution: float
+   :param map_epsg: The EPSG code (map projection) to use for the map.
+   :type map_epsg: int
+   :param map_filename: The file location to write the map.
+   :type map_filename: str
+   :param nodata_val: A value to use as the nodata value for the raster.
+   :type nodata_val: number
+
+
+.. py:function:: get_point_to_xy_func(point_epsg, map_epsg, bbox, resolution)
+
+   Get a translation function that takes a point as an argument and returns (x, y).
+
+   :param point_epsg: The EPSG code (map projection) to convert from.
+   :type point_epsg: int
+   :param map_epsg: The EPSG code (map projection) to convert to.
+   :type map_epsg: int
+   :param bbox: A bounding box for the map raster.
+   :type bbox: tuple of 4 numbers
+   :param resolution: The cell size of the map raster cells in map units.
+   :type resolution: number
+
+   :returns: A function taking a Point as an argument and returning an x,y tuple.
+   :rtype: Method
+
+

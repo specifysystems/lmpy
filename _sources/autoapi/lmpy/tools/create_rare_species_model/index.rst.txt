@@ -1,0 +1,69 @@
+:py:mod:`lmpy.tools.create_rare_species_model`
+==============================================
+
+.. py:module:: lmpy.tools.create_rare_species_model
+
+.. autoapi-nested-parse::
+
+   Create a rare species model by intersecting convex hull and ecoregions.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.create_rare_species_model.cli
+   lmpy.tools.create_rare_species_model.create_rare_species_model
+   lmpy.tools.create_rare_species_model.write_tiff
+
+
+
+.. py:function:: cli()
+
+   Command-line interface for creating a rare species model.
+
+
+.. py:function:: create_rare_species_model(points, ecoregions_filename, model_raster_filename, raster_format=AUTO_FORMAT, nodata_value=-9999, burn_value=50)
+
+   Create a rare species model from a convex hull intersected with ecoregions.
+
+   :param points: A list of occurrence points to use for model.
+   :type points: list of Point
+   :param ecoregions_filename: The file location for the ecoregions data.
+   :type ecoregions_filename: str
+   :param model_raster_filename: The file location to write the model raster.
+   :type model_raster_filename: str
+   :param raster_format: The output raster format (default: auto - use filename).
+   :type raster_format: str
+   :param nodata_value: The value to use for nodata in the model raster.
+   :type nodata_value: int
+   :param burn_value: The burn value to use for model presence.
+   :type burn_value: int
+
+
+.. py:function:: write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_value)
+
+   Write model data to tiff file.
+
+   :param out_filename: The file location to write the raster.
+   :type out_filename: str
+   :param model_data: Raster data in the form of a matrix or array.
+   :type model_data: numpy.ndarray
+   :param cell_size: The desired size of each raster cell in map units.
+   :type cell_size: number
+   :param min_x: The minimum x value for the raster in map units.
+   :type min_x: number
+   :param max_y: The maximum y value for the raster in map units.
+   :type max_y: number
+   :param epsg: The EPSG code to use to define the map projection.
+   :type epsg: int
+   :param nodata_value: The value to be considered "nodata" in the raster.
+   :type nodata_value: number
+
+

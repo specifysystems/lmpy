@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.tools.create_rare_species_model &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.create_rare_species_model</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/lmpy/tools/create_rare_species_model/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-lmpy.tools.create_rare_species_model">
+<span id="lmpy-tools-create-rare-species-model"></span><h1><a class="reference internal" href="#module-lmpy.tools.create_rare_species_model" title="lmpy.tools.create_rare_species_model"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.create_rare_species_model</span></code></a><a class="headerlink" href="#module-lmpy.tools.create_rare_species_model" title="Permalink to this headline"></a></h1>
+<p>Create a rare species model by intersecting convex hull and ecoregions.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tools.create_rare_species_model.cli" title="lmpy.tools.create_rare_species_model.cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cli</span></code></a>()</p></td>
+<td><p>Command-line interface for creating a rare species model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.tools.create_rare_species_model.create_rare_species_model" title="lmpy.tools.create_rare_species_model.create_rare_species_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_rare_species_model</span></code></a>(points, ecoregions_filename, model_raster_filename, raster_format=AUTO_FORMAT, nodata_value=-9999, burn_value=50)</p></td>
+<td><p>Create a rare species model from a convex hull intersected with ecoregions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tools.create_rare_species_model.write_tiff" title="lmpy.tools.create_rare_species_model.write_tiff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_tiff</span></code></a>(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_value)</p></td>
+<td><p>Write model data to tiff file.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.tools.create_rare_species_model.cli">
+<span class="sig-prename descclassname"><span class="pre">lmpy.tools.create_rare_species_model.</span></span><span class="sig-name descname"><span class="pre">cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/create_rare_species_model.html#cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.create_rare_species_model.cli" title="Permalink to this definition"></a></dt>
+<dd><p>Command-line interface for creating a rare species model.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.tools.create_rare_species_model.create_rare_species_model">
+<span class="sig-prename descclassname"><span class="pre">lmpy.tools.create_rare_species_model.</span></span><span class="sig-name descname"><span class="pre">create_rare_species_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ecoregions_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_raster_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raster_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AUTO_FORMAT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">9999</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burn_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/create_rare_species_model.html#create_rare_species_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.create_rare_species_model.create_rare_species_model" title="Permalink to this definition"></a></dt>
+<dd><p>Create a rare species model from a convex hull intersected with ecoregions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>list of Point</em>) – A list of occurrence points to use for model.</p></li>
+<li><p><strong>ecoregions_filename</strong> (<em>str</em>) – The file location for the ecoregions data.</p></li>
+<li><p><strong>model_raster_filename</strong> (<em>str</em>) – The file location to write the model raster.</p></li>
+<li><p><strong>raster_format</strong> (<em>str</em>) – The output raster format (default: auto - use filename).</p></li>
+<li><p><strong>nodata_value</strong> (<em>int</em>) – The value to use for nodata in the model raster.</p></li>
+<li><p><strong>burn_value</strong> (<em>int</em>) – The burn value to use for model presence.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.tools.create_rare_species_model.write_tiff">
+<span class="sig-prename descclassname"><span class="pre">lmpy.tools.create_rare_species_model.</span></span><span class="sig-name descname"><span class="pre">write_tiff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/create_rare_species_model.html#write_tiff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.create_rare_species_model.write_tiff" title="Permalink to this definition"></a></dt>
+<dd><p>Write model data to tiff file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>out_filename</strong> (<em>str</em>) – The file location to write the raster.</p></li>
+<li><p><strong>model_data</strong> (<em>numpy.ndarray</em>) – Raster data in the form of a matrix or array.</p></li>
+<li><p><strong>cell_size</strong> (<em>number</em>) – The desired size of each raster cell in map units.</p></li>
+<li><p><strong>min_x</strong> (<em>number</em>) – The minimum x value for the raster in map units.</p></li>
+<li><p><strong>max_y</strong> (<em>number</em>) – The maximum y value for the raster in map units.</p></li>
+<li><p><strong>epsg</strong> (<em>int</em>) – The EPSG code to use to define the map projection.</p></li>
+<li><p><strong>nodata_value</strong> (<em>number</em>) – The value to be considered “nodata” in the raster.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
