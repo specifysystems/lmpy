@@ -1,5 +1,6 @@
 """Data wrangler factory."""
 
+
 # .....................................................................................
 def wrangler_factory(wrangler_configs):
     """Factory for instantiating data wranglers.
@@ -11,6 +12,6 @@ def wrangler_factory(wrangler_configs):
         list: A list of data wranglers.
     """
     wranglers = []
-    for config in wrangler_configs:
+    for _config in wrangler_configs:
         pass
     return wranglers
