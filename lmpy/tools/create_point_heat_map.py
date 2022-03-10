@@ -180,5 +180,5 @@ __all__ = ['cli', 'create_heat_map', 'get_point_to_xy_func']
 
 
 # .....................................................................................
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     cli()

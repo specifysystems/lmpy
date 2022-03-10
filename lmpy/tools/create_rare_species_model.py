@@ -384,5 +384,5 @@ __all__ = ['cli', 'create_rare_species_model', 'write_tiff']
 
 
 # .....................................................................................
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     cli()
