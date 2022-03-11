@@ -27,6 +27,7 @@ class SampleDataFiles(object):
         * For test files, the format should be something like:
             "(in)valid_{name}.{extension}".
     """
+
     # ...........................
     def get_shapegrid_filenames(self):
         """Get a list of shapegrid filenames.
@@ -105,7 +106,8 @@ class SampleDataFiles(object):
             A list of occurrence data wrangler configuration filenames.
         """
         OCCURRENCE_WRANGLER_PATH = os.path.join(
-            SAMPLE_DATA_PATH, OCCURRENCE_WRANGLER_DIR)
+            SAMPLE_DATA_PATH, OCCURRENCE_WRANGLER_DIR
+        )
         return glob.glob(os.path.join(OCCURRENCE_WRANGLER_PATH, '*.json'))
 
     # ...........................
@@ -122,8 +124,8 @@ class SampleDataFiles(object):
         """
         TREE_PATH = os.path.join(SAMPLE_DATA_PATH, TREES_DIR)
         return glob.glob(
-            self._get_glob_string(TREE_PATH, is_valid,
-                                  self._get_format_extension(fmt)))
+            self._get_glob_string(TREE_PATH, is_valid, self._get_format_extension(fmt))
+        )
 
     # ...........................
     def _get_format_extension(self, fmt):
@@ -257,8 +259,10 @@ def pytest_generate_tests(metafunc):
         ('raster_pa_filenames', df.get_raster_pa_filenames()),
         ('vector_pa_filenames', df.get_vector_pa_filenames()),
         ('bio_geo_filenames', df.get_bio_geo_filenames()),
-        ('occurrence_wrangler_configuration',
-            df.get_occurrence_wrangler_configurations()),
+        (
+            'occurrence_wrangler_configuration',
+            df.get_occurrence_wrangler_configurations(),
+        ),
         ('dwca_filename', df.get_dwcas()),
     ]
     for fixture_name, fixture_values in fixture_tuples:

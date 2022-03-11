@@ -13,6 +13,7 @@ class Test_PhyloTreeKeys:
 
     This is a simple class that really just contains constants.
     """
+
     # .....................................
     def test_get_constants(self):
         """Test that the constants can be retrieved."""
@@ -23,6 +24,7 @@ class Test_PhyloTreeKeys:
 # .............................................................................
 class Test_LmTreeException:
     """Test the LmException class."""
+
     # .....................................
     def test_exception(self):
         """Attempt to throw the exception.
@@ -42,6 +44,7 @@ class Test_TreeWrapper:
     functions do not break the existing functionality of the class and that
     they work properly.
     """
+
     # .....................................
     def test_from_base_newick_tree(self, valid_newick_tree):
         """Attempt to get a tree using Dendropy and then wrap it.
@@ -54,8 +57,7 @@ class Test_TreeWrapper:
                 that provides valid newick trees, one at a time, to this test
                 function.
         """
-        dendropy_tree = dendropy.Tree.get(
-            path=valid_newick_tree, schema='newick')
+        dendropy_tree = dendropy.Tree.get(path=valid_newick_tree, schema='newick')
         wrapped_tree = tree.TreeWrapper.from_base_tree(dendropy_tree)
         assert isinstance(wrapped_tree, tree.TreeWrapper)
 
@@ -71,8 +73,7 @@ class Test_TreeWrapper:
                 that provides valid nexus trees, one at a time, to this test
                 function.
         """
-        dendropy_tree = dendropy.Tree.get(
-            path=valid_nexus_tree, schema='nexus')
+        dendropy_tree = dendropy.Tree.get(path=valid_nexus_tree, schema='nexus')
         wrapped_tree = tree.TreeWrapper.from_base_tree(dendropy_tree)
         assert isinstance(wrapped_tree, tree.TreeWrapper)
 
@@ -294,16 +295,12 @@ END;
 """
         my_tree = tree.TreeWrapper.get(data=nexus_string, schema='nexus')
         # Set up attribute pairs
-        att_pairs = {
-            'value1': 't1_value',
-            'value2': 't2_value',
-            'value3': 't3_value'
-        }
+        att_pairs = {'value1': 't1_value', 'value2': 't2_value', 'value3': 't3_value'}
 
         check_pairs = {
             'Taxon 1': 't1_value',  # Should not be changed to this
             'Taxon 2': 't2_value',
-            'Taxon 3': 't3_value'
+            'Taxon 3': 't3_value',
         }
 
         # Get original annotations
@@ -354,16 +351,12 @@ END;
 """
         my_tree = tree.TreeWrapper.get(data=nexus_string, schema='nexus')
         # Set up attribute pairs
-        att_pairs = {
-            'value1': 't1_value',
-            'value2': 't2_value',
-            'value3': 't3_value'
-        }
+        att_pairs = {'value1': 't1_value', 'value2': 't2_value', 'value3': 't3_value'}
 
         check_pairs = {
             'Taxon 1': 't1_value',  # Should not be changed to this
             'Taxon 2': 't2_value',
-            'Taxon 3': 't3_value'
+            'Taxon 3': 't3_value',
         }
 
         # Get original annotations
@@ -371,7 +364,8 @@ END;
 
         # Annotate tree
         my_tree.annotate_tree_tips(
-            'att2', att_pairs, label_attribute='myatt', update=True)
+            'att2', att_pairs, label_attribute='myatt', update=True
+        )
 
         # Check that annotations are correct
         annotations = my_tree.get_annotations('att2')
@@ -386,21 +380,9 @@ END;
     def test_annotate_tree_annotate_twice_with_update(self):
         """Test annotating a tree twice using the same attribute."""
         my_tree = tree.TreeWrapper.get(data='(A,(B,C));', schema='newick')
-        att_pairs_1 = {
-            'A': 'val1',
-            'B': 'val2',
-            'C': 'val3'
-        }
-        att_pairs_2 = {
-            'val1': 'newval1',
-            'val2': 'newval2',
-            'val3': 'newval3'
-        }
-        check_pairs = {
-            'A': 'newval1',
-            'B': 'newval2',
-            'C': 'newval3'
-        }
+        att_pairs_1 = {'A': 'val1', 'B': 'val2', 'C': 'val3'}
+        att_pairs_2 = {'val1': 'newval1', 'val2': 'newval2', 'val3': 'newval3'}
+        check_pairs = {'A': 'newval1', 'B': 'newval2', 'C': 'newval3'}
 
         my_tree.annotate_tree(att_pairs_1, annotation_attribute='myatt')
 
@@ -408,41 +390,30 @@ END;
         for node in my_tree.nodes():
             if node.label is not None:
                 assert node.label in att_pairs_1.keys()
-                assert node.annotations.get_value(
-                    'myatt') == att_pairs_1[node.label]
+                assert node.annotations.get_value('myatt') == att_pairs_1[node.label]
 
         # Update the annotations
         my_tree.annotate_tree(
-            att_pairs_2, annotation_attribute='myatt', label_attribute='myatt',
-            update=True)
+            att_pairs_2,
+            annotation_attribute='myatt',
+            label_attribute='myatt',
+            update=True,
+        )
 
         # Check that the annotations were updated correctly
         for node in my_tree.nodes():
             if node.label is not None:
                 assert node.label in check_pairs.keys()
-                assert node.annotations.get_value(
-                    'myatt') == check_pairs[node.label]
+                assert node.annotations.get_value('myatt') == check_pairs[node.label]
 
     # .....................................
     def test_annotate_tree_dictionaries(self):
         """Test annotating a tree with dictionaries."""
         my_tree = tree.TreeWrapper.get(data='(A,(B,C));', schema='newick')
         att_pairs_1 = {
-            'A': {
-                'ann1': 'val1_1',
-                'ann2': 'val1_2',
-                'ann3': 'val1_3'
-            },
-            'B': {
-                'ann1': 'val2_1',
-                'ann2': 'val2_2',
-                'ann3': 'val2_3'
-            },
-            'C': {
-                'ann1': 'val3_1',
-                'ann2': 'val3_2',
-                'ann3': 'val3_3'
-            }
+            'A': {'ann1': 'val1_1', 'ann2': 'val1_2', 'ann3': 'val1_3'},
+            'B': {'ann1': 'val2_1', 'ann2': 'val2_2', 'ann3': 'val2_3'},
+            'C': {'ann1': 'val3_1', 'ann2': 'val3_2', 'ann3': 'val3_3'},
         }
 
         my_tree.annotate_tree(att_pairs_1)
@@ -451,12 +422,18 @@ END;
         for node in my_tree.nodes():
             if node.label is not None:
                 assert node.label in att_pairs_1.keys()
-                assert node.annotations.get_value(
-                    'ann1') == att_pairs_1[node.label]['ann1']
-                assert node.annotations.get_value(
-                    'ann2') == att_pairs_1[node.label]['ann2']
-                assert node.annotations.get_value(
-                    'ann3') == att_pairs_1[node.label]['ann3']
+                assert (
+                    node.annotations.get_value('ann1')
+                    == att_pairs_1[node.label]['ann1']
+                )
+                assert (
+                    node.annotations.get_value('ann2')
+                    == att_pairs_1[node.label]['ann2']
+                )
+                assert (
+                    node.annotations.get_value('ann3')
+                    == att_pairs_1[node.label]['ann3']
+                )
 
     # .....................................
     def test_annotate_tree_tips_with_bad_attribute(self):
@@ -487,15 +464,14 @@ END;
         att_pairs = {
             'Taxon 1': 't1_value',
             'Taxon 2': 't2_value',
-            'Taxon 3': 't3_value'
+            'Taxon 3': 't3_value',
         }
 
         # Get original annotations
         orig_annotations = dict(my_tree.get_annotations('myatt'))
 
         # Annotate tree
-        my_tree.annotate_tree_tips(
-            'myatt', att_pairs, label_attribute='badatt')
+        my_tree.annotate_tree_tips('myatt', att_pairs, label_attribute='badatt')
 
         # Check that annotations are correct
         annotations = my_tree.get_annotations('myatt')
@@ -536,7 +512,7 @@ END;
         att_pairs = {
             'Taxon 1': 't1_value',
             'Taxon 2': 't2_value',
-            'Taxon 3': 't3_value'
+            'Taxon 3': 't3_value',
         }
 
         # Get original annotations
@@ -585,7 +561,7 @@ END;
         att_pairs = {
             'Taxon 1': 't1_value',
             'Taxon 2': 't2_value',
-            'Taxon 3': 't3_value'
+            'Taxon 3': 't3_value',
         }
 
         # Get original annotations
@@ -715,7 +691,8 @@ END;
 
         # Get default ordered distance matrix
         default_order_matrix = my_tree.get_distance_matrix_dendropy(
-            label_attribute='myatt')
+            label_attribute='myatt'
+        )
         def_col_headers = default_order_matrix.get_column_headers()
         def_row_headers = default_order_matrix.get_row_headers()
 
@@ -730,7 +707,8 @@ END;
         random.shuffle(taxon_labels)
         # Get the ordered distance matrix
         ordered_matrix = my_tree.get_distance_matrix_dendropy(
-            label_attribute='myatt', ordered_labels=taxon_labels)
+            label_attribute='myatt', ordered_labels=taxon_labels
+        )
         ord_col_headers = ordered_matrix.get_column_headers()
         ord_row_headers = ordered_matrix.get_row_headers()
 
@@ -793,7 +771,8 @@ END;
         random.shuffle(taxon_labels)
         # Get the ordered distance matrix
         ordered_matrix = my_tree.get_distance_matrix_dendropy(
-            ordered_labels=taxon_labels)
+            ordered_labels=taxon_labels
+        )
         ord_col_headers = ordered_matrix.get_column_headers()
         ord_row_headers = ordered_matrix.get_row_headers()
 
@@ -840,10 +819,10 @@ END;
         my_tree = tree.TreeWrapper.get(data=nexus_string, schema='nexus')
 
         # Get the distance matrices
-        m1_distance_matrix = my_tree.get_distance_matrix(
-            label_attribute='myatt')
+        m1_distance_matrix = my_tree.get_distance_matrix(label_attribute='myatt')
         m2_distance_matrix = my_tree.get_distance_matrix_dendropy(
-            label_attribute='myatt')
+            label_attribute='myatt'
+        )
 
         # Get headers for both
         m1_row_headers = m1_distance_matrix.get_row_headers()
@@ -865,9 +844,11 @@ END;
         random.shuffle(taxon_labels)
         # Get the distance matrices
         m1_distance_matrix_ord = my_tree.get_distance_matrix(
-            label_attribute='myatt', ordered_labels=taxon_labels)
+            label_attribute='myatt', ordered_labels=taxon_labels
+        )
         m2_distance_matrix_ord = my_tree.get_distance_matrix_dendropy(
-            label_attribute='myatt', ordered_labels=taxon_labels)
+            label_attribute='myatt', ordered_labels=taxon_labels
+        )
 
         # Get headers for both
         m1_row_headers_ord = m1_distance_matrix_ord.get_row_headers()
@@ -943,9 +924,11 @@ END;
         random.shuffle(taxon_labels)
         # Get the distance matrices
         m1_distance_matrix_ord = my_tree.get_distance_matrix(
-            ordered_labels=taxon_labels)
+            ordered_labels=taxon_labels
+        )
         m2_distance_matrix_ord = my_tree.get_distance_matrix_dendropy(
-            ordered_labels=taxon_labels)
+            ordered_labels=taxon_labels
+        )
 
         # Get headers for both
         m1_row_headers_ord = m1_distance_matrix_ord.get_row_headers()
@@ -998,8 +981,7 @@ END;
         my_tree = tree.TreeWrapper.get(data=nexus_string, schema='nexus')
 
         # Get default ordered distance matrix
-        default_order_matrix = my_tree.get_distance_matrix(
-            label_attribute='myatt')
+        default_order_matrix = my_tree.get_distance_matrix(label_attribute='myatt')
         def_col_headers = default_order_matrix.get_column_headers()
         def_row_headers = default_order_matrix.get_row_headers()
 
@@ -1014,7 +996,8 @@ END;
         random.shuffle(taxon_labels)
         # Get the ordered distance matrix
         ordered_matrix = my_tree.get_distance_matrix(
-            label_attribute='myatt', ordered_labels=taxon_labels)
+            label_attribute='myatt', ordered_labels=taxon_labels
+        )
         ord_col_headers = ordered_matrix.get_column_headers()
         ord_row_headers = ordered_matrix.get_row_headers()
 
@@ -1075,8 +1058,7 @@ END;
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
         # Get the ordered distance matrix
-        ordered_matrix = my_tree.get_distance_matrix(
-            ordered_labels=taxon_labels)
+        ordered_matrix = my_tree.get_distance_matrix(ordered_labels=taxon_labels)
         ord_col_headers = ordered_matrix.get_column_headers()
         ord_row_headers = ordered_matrix.get_row_headers()
 
@@ -1148,8 +1130,7 @@ END;
         my_tree = tree.TreeWrapper.get(data=nexus_string, schema='nexus')
 
         # Get default var_cov matrix
-        vcov_mtx1 = my_tree.get_variance_covariance_matrix(
-            label_attribute='myatt')
+        vcov_mtx1 = my_tree.get_variance_covariance_matrix(label_attribute='myatt')
 
         col_headers_1 = vcov_mtx1.get_column_headers()
         row_headers_1 = vcov_mtx1.get_row_headers()
@@ -1165,7 +1146,8 @@ END;
         random.shuffle(taxon_labels)
         # Get the ordered distance matrix
         vcov_mtx2 = my_tree.get_variance_covariance_matrix(
-            label_attribute='myatt', ordered_labels=taxon_labels)
+            label_attribute='myatt', ordered_labels=taxon_labels
+        )
 
         col_headers_2 = vcov_mtx2.get_column_headers()
         row_headers_2 = vcov_mtx2.get_row_headers()
@@ -1225,8 +1207,7 @@ END;
         # Shuffle taxon labels and use them to order return matrix
         random.shuffle(taxon_labels)
         # Get the ordered distance matrix
-        vcov_mtx2 = my_tree.get_variance_covariance_matrix(
-            ordered_labels=taxon_labels)
+        vcov_mtx2 = my_tree.get_variance_covariance_matrix(ordered_labels=taxon_labels)
 
         col_headers_2 = vcov_mtx2.get_column_headers()
         row_headers_2 = vcov_mtx2.get_row_headers()
@@ -1268,8 +1249,7 @@ END;
         no_poly_newick = '((A,B),(C,D));'
 
         poly_tree = tree.TreeWrapper.get(data=poly_newick, schema='newick')
-        no_poly_tree = tree.TreeWrapper.get(
-            data=no_poly_newick, schema='newick')
+        no_poly_tree = tree.TreeWrapper.get(data=no_poly_newick, schema='newick')
 
         # Check if they have branch lengths
         assert poly_tree.has_polytomies()
@@ -1296,8 +1276,7 @@ END;
         ultra_newick = '((A:0.1,B:0.1):0.2,(C:0.2,D:0.2):0.1);'
 
         no_bl_tree = tree.TreeWrapper.get(data=no_bl_newick, schema='newick')
-        no_ultra_tree = tree.TreeWrapper.get(
-            data=no_ultra_newick, schema='newick')
+        no_ultra_tree = tree.TreeWrapper.get(data=no_ultra_newick, schema='newick')
         ultra_tree = tree.TreeWrapper.get(data=ultra_newick, schema='newick')
 
         # Check if they have branch lengths

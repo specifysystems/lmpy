@@ -22,7 +22,8 @@ def create_geometry_from_bbox(min_x, min_y, max_x, max_y):
         str: A well-known text representation of a bounding box geometry.
     """
     wkt = 'POLYGON (({0} {1}, {0} {3}, {2} {3}, {2} {1}, {0} {1}))'.format(
-        min_x, min_y, max_x, max_y)
+        min_x, min_y, max_x, max_y
+    )
     return ogr.CreateGeometryFromWkt(wkt)
 
 
@@ -58,26 +59,31 @@ def quadtree_index(geom, bbox, min_size, depth_left):
         half_y = min_y + (max_y - min_y) / 2.0
         ret.extend(
             quadtree_index(
-                intersection, (min_x, min_y, half_x, half_y), min_size,
-                depth_left - 1))
+                intersection, (min_x, min_y, half_x, half_y), min_size, depth_left - 1
+            )
+        )
         ret.extend(
             quadtree_index(
-                intersection, (half_x, min_y, max_x, half_y), min_size,
-                depth_left - 1))
+                intersection, (half_x, min_y, max_x, half_y), min_size, depth_left - 1
+            )
+        )
         ret.extend(
             quadtree_index(
-                intersection, (half_x, half_y, max_x, max_y), min_size,
-                depth_left - 1))
+                intersection, (half_x, half_y, max_x, max_y), min_size, depth_left - 1
+            )
+        )
         ret.extend(
             quadtree_index(
-                intersection, (min_x, half_y, half_x, max_y), min_size,
-                depth_left - 1))
+                intersection, (min_x, half_y, half_x, max_y), min_size, depth_left - 1
+            )
+        )
     return ret
 
 
 # .............................................................................
 class SpatialIndex:
     """This class provides an index for quickly performing intersects."""
+
     # ..........................
     def __init__(self, index_name=None):
         """Constructor for the spatial index.
@@ -118,8 +124,8 @@ class SpatialIndex:
                 geom = ogr.CreateGeometryFromWkt(geom)
             min_x, max_x, min_y, max_y = geom.GetEnvelope()
             idx_entries = quadtree_index(
-                geom, (min_x, min_y, max_x, max_y),
-                self.min_size, self.depth_left)
+                geom, (min_x, min_y, max_x, max_y), self.min_size, self.depth_left
+            )
             # print('{} - Num idx entries: {}'.format(
             #     identifier, len(idx_entries)))
             for bbox, idx_geom in idx_entries:
@@ -147,8 +153,7 @@ class SpatialIndex:
         with open(self._att_filename, 'w') as out_file:
             json.dump(self.att_lookup, out_file)
         with open(self._geom_filename, 'w') as out_file:
-            out_geoms = {
-                k: val.ExportToWkt() for k, val in self.geom_lookup.items()}
+            out_geoms = {k: val.ExportToWkt() for k, val in self.geom_lookup.items()}
             json.dump(out_geoms, out_file)
             # json.dump(self.geom_lookup, out_file)
 
@@ -166,9 +171,9 @@ class SpatialIndex:
         hits = {}
         for hit in self.index.intersection((x, y, x, y), objects=True):
             if hit.id not in hits.keys():
-                if isinstance(hit.object, bool) or \
-                    self._point_intersect(
-                        x, y, self.geom_lookup[str(hit.object)]):
+                if isinstance(hit.object, bool) or self._point_intersect(
+                    x, y, self.geom_lookup[str(hit.object)]
+                ):
                     hits[str(hit.id)] = self.att_lookup[str(hit.id)]
         return hits
 

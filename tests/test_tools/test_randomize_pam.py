@@ -11,7 +11,7 @@ from lmpy.tools.randomize_pam import cli
 
 # .....................................................................................
 @pytest.fixture(
-    scope='function', params=[(.3, 100, 100), (.25, 1000, 1000), (.15, 10000, 10000)]
+    scope='function', params=[(0.3, 100, 100), (0.25, 1000, 1000), (0.15, 10000, 10000)]
 )
 def observed_pam(request):
     """Generate a PAM for testing.
@@ -24,11 +24,11 @@ def observed_pam(request):
     """
     fill, num_rows, num_cols = request.param
     pam = Matrix(
-        np.random.choice([1, 0], (num_rows, num_cols), p=[fill, 1-fill]),
+        np.random.choice([1, 0], (num_rows, num_cols), p=[fill, 1 - fill]),
         headers={
             '0': [f'Row {j}' for j in range(num_rows)],
-            '1': [f'Col {i}' for i in range(num_cols)]
-        }
+            '1': [f'Col {i}' for i in range(num_cols)],
+        },
     )
     yield pam
 

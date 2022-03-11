@@ -14,6 +14,7 @@ from lmpy.data_preparation.layer_encoder import LayerEncoder, DEFAULT_NODATA
 # .............................................................................
 class Test_LayerEncoder:
     """Test LayerEncoder."""
+
     # ................................
     def test_base_constructor(self, shapegrid_filename):
         """Test construction.
@@ -26,9 +27,7 @@ class Test_LayerEncoder:
 
     # ................................
     def test_encode_biogeographic_hypothesis(
-        self,
-        shapegrid_filename,
-        bio_geo_filenames
+        self, shapegrid_filename, bio_geo_filenames
     ):
         """Test encode biogeographic hypothesis.
 
@@ -59,10 +58,7 @@ class Test_LayerEncoder:
 
     # ................................
     def test_encode_presence_absence(
-        self,
-        shapegrid_filename,
-        raster_pa_filenames,
-        vector_pa_filenames
+        self, shapegrid_filename, raster_pa_filenames, vector_pa_filenames
     ):
         """Test encode presence absence.
 
@@ -94,10 +90,7 @@ class Test_LayerEncoder:
 
     # ................................
     def test_encode_mean_value(
-        self,
-        shapegrid_filename,
-        raster_env_filenames,
-        vector_env_filenames
+        self, shapegrid_filename, raster_env_filenames, vector_env_filenames
     ):
         """Test encode mean value.
 
@@ -120,18 +113,14 @@ class Test_LayerEncoder:
             assert col_headers[i] == 'Raster {}'.format(i)
         for i in range(len(vector_env_filenames)):
             assert col_headers[i + len(raster_env_filenames)] == 'Vector {}'.format(i)
-        assert enc_mtx.shape[1] == len(
-            raster_env_filenames) + len(vector_env_filenames)
+        assert enc_mtx.shape[1] == len(raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
         _ = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
     def test_encode_largest_class(
-        self,
-        shapegrid_filename,
-        raster_env_filenames,
-        vector_env_filenames
+        self, shapegrid_filename, raster_env_filenames, vector_env_filenames
     ):
         """Test encode largest class.
 
@@ -154,8 +143,7 @@ class Test_LayerEncoder:
             assert col_headers[i] == 'Raster {}'.format(i)
         for i in range(len(vector_env_filenames)):
             assert col_headers[i + len(raster_env_filenames)] == 'Vector {}'.format(i)
-        assert enc_mtx.shape[1] == len(
-            raster_env_filenames) + len(vector_env_filenames)
+        assert enc_mtx.shape[1] == len(raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
         _ = enc_mtx[enc_mtx > DEFAULT_NODATA]
         assert json.loads(json.dumps(encoder.get_geojson()))
@@ -191,20 +179,15 @@ class Test_LayerEncoder:
                 layer_out.write('{}\n'.format(' '.join(vals)))
 
         # Encode layer with multiple coverages
+        encoder.encode_presence_absence(layer_filename, 'Layer 1 percent', 1, 100, 1)
+        encoder.encode_presence_absence(layer_filename, 'Layer 2 percent', 1, 100, 2)
+        encoder.encode_presence_absence(layer_filename, 'Layer 10 percent', 1, 100, 10)
+        encoder.encode_presence_absence(layer_filename, 'Layer 40 percent', 1, 100, 40)
+        encoder.encode_presence_absence(layer_filename, 'Layer 70 percent', 1, 100, 70)
+        encoder.encode_presence_absence(layer_filename, 'Layer 90 percent', 1, 100, 90)
         encoder.encode_presence_absence(
-            layer_filename, 'Layer 1 percent', 1, 100, 1)
-        encoder.encode_presence_absence(
-            layer_filename, 'Layer 2 percent', 1, 100, 2)
-        encoder.encode_presence_absence(
-            layer_filename, 'Layer 10 percent', 1, 100, 10)
-        encoder.encode_presence_absence(
-            layer_filename, 'Layer 40 percent', 1, 100, 40)
-        encoder.encode_presence_absence(
-            layer_filename, 'Layer 70 percent', 1, 100, 70)
-        encoder.encode_presence_absence(
-            layer_filename, 'Layer 90 percent', 1, 100, 90)
-        encoder.encode_presence_absence(
-            layer_filename, 'Layer 100 percent', 1, 100, 100)
+            layer_filename, 'Layer 100 percent', 1, 100, 100
+        )
 
         enc_matrix = encoder.get_encoded_matrix()
 
@@ -213,8 +196,7 @@ class Test_LayerEncoder:
             os.remove(fn)
 
         # Check encoding
-        assert np.all(
-            enc_matrix.sum(axis=0) == np.array([55, 55, 55, 55, 45, 45, 45]))
+        assert np.all(enc_matrix.sum(axis=0) == np.array([55, 55, 55, 55, 45, 45, 45]))
 
     # ................................
     def test_bigger_shapegrid(self):
@@ -253,7 +235,8 @@ class Test_LayerEncoder:
         drv = ogr.GetDriverByName('ESRI Shapefile')
         data_set = drv.CreateDataSource(biogeo_filename)
         layer = data_set.CreateLayer(
-            data_set.GetName(), geom_type=ogr.wkbPolygon, srs=target_srs)
+            data_set.GetName(), geom_type=ogr.wkbPolygon, srs=target_srs
+        )
         hyp_wkt = 'POLYGON ((15 11, 19 19, 15 11, 11 11, 15 11))'
         geom = ogr.CreateGeometryFromWkt(hyp_wkt)
         feat = ogr.Feature(feature_def=layer.GetLayerDefn())
@@ -265,10 +248,8 @@ class Test_LayerEncoder:
         # Encode layer with multiple coverages
         encoder.encode_presence_absence(layer_filename, 'PA Layer', 5, 10, 25)
         encoder.encode_mean_value(layer_filename, 'Mean Layer')
-        encoder.encode_largest_class(
-            layer_filename, 'Largest class', 25, nodata=10)
-        encoder.encode_biogeographic_hypothesis(
-            biogeo_filename, 'Hypothesis', 10)
+        encoder.encode_largest_class(layer_filename, 'Largest class', 25, nodata=10)
+        encoder.encode_biogeographic_hypothesis(biogeo_filename, 'Hypothesis', 10)
 
         enc_geojson = encoder.get_geojson()
 

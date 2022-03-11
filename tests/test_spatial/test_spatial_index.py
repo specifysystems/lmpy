@@ -3,12 +3,16 @@ import os
 import tempfile
 
 from lmpy.spatial.spatial_index import (
-    create_geometry_from_bbox, quadtree_index, SpatialIndex)
+    create_geometry_from_bbox,
+    quadtree_index,
+    SpatialIndex,
+)
 
 
 # .............................................................................
 class Test_create_geometry_from_bbox:
     """Test the create_geometry_from_bbox function."""
+
     # ..........................
     def test_valid(self):
         """Test with valid inputs."""
@@ -23,6 +27,7 @@ class Test_create_geometry_from_bbox:
 # .............................................................................
 class Test_quadtree_index:
     """Test the quadtree_index function directly."""
+
     # ..........................
     def test_complete_overlap(self):
         """Simple test of two identical bounding boxes."""
@@ -66,6 +71,7 @@ class Test_quadtree_index:
 # .............................................................................
 class Test_SpatialIndex:
     """Tests for the SpatialIndex class."""
+
     # ..........................
     def _clean_up(self, sp_index):
         """Remove files created when saving an index.
@@ -104,11 +110,14 @@ class Test_SpatialIndex:
         sp_index = SpatialIndex(temp_name)
         # Build index
         sp_index.add_feature(
-            1, create_geometry_from_bbox(-10, -10, 10, 10), {'att_1': 'val_1'})
+            1, create_geometry_from_bbox(-10, -10, 10, 10), {'att_1': 'val_1'}
+        )
         sp_index.add_feature(
-            2, create_geometry_from_bbox(-20, -20, 20, 20), {'att_1': 'val_2'})
+            2, create_geometry_from_bbox(-20, -20, 20, 20), {'att_1': 'val_2'}
+        )
         sp_index.add_feature(
-            3, create_geometry_from_bbox(-30, -30, 30, 30), {'att_1': 'val_3'})
+            3, create_geometry_from_bbox(-30, -30, 30, 30), {'att_1': 'val_3'}
+        )
         # Save index
         sp_index.save()
         sp_index = None
@@ -125,11 +134,14 @@ class Test_SpatialIndex:
         sp_index = SpatialIndex(temp_name)
         # Build index
         sp_index.add_feature(
-            1, create_geometry_from_bbox(-10, -10, 10, 10), {'att_1': 'val_1'})
+            1, create_geometry_from_bbox(-10, -10, 10, 10), {'att_1': 'val_1'}
+        )
         sp_index.add_feature(
-            2, create_geometry_from_bbox(-20, -20, 20, 20), {'att_1': 'val_2'})
+            2, create_geometry_from_bbox(-20, -20, 20, 20), {'att_1': 'val_2'}
+        )
         sp_index.add_feature(
-            3, create_geometry_from_bbox(-30, -30, 30, 30), {'att_1': 'val_3'})
+            3, create_geometry_from_bbox(-30, -30, 30, 30), {'att_1': 'val_3'}
+        )
         # Search
         hits_1 = sp_index.search(0, 0)
         assert len(hits_1) == 3

@@ -126,6 +126,7 @@ def get_disjoint_geometries_filter(geometry_wkts):
         """
         hits = geom_index.search(point.x, point.y)
         return not bool(hits)
+
     return get_occurrence_filter(disjoint_geometry_filter)
 
 
@@ -158,8 +159,8 @@ def get_intersect_geometries_filter(geometry_wkts):
         point_geometry = ogr.Geometry(ogr.wkbPoint)
         point_geometry.AddPoint(point.x, point.y)
         return any(
-            [not geom.Intersection(
-                point_geometry).IsEmpty() for geom in geometries])
+            [not geom.Intersection(point_geometry).IsEmpty() for geom in geometries]
+        )
 
     return get_occurrence_filter(intersect_geometry_filter)
 
@@ -194,9 +195,7 @@ def get_minimum_points_filter(minimum_count):
 
 # .............................................................................
 def get_spatial_index_filter(
-    spatial_index,
-    get_species_intersections_func,
-    check_hit_func
+    spatial_index, get_species_intersections_func, check_hit_func
 ):
     """Get a filter that uses a spatial index and logic to intersect hits.
 
@@ -231,8 +230,7 @@ def get_spatial_index_filter(
         if point.species_name in valid_intersections:
             check_intersections = valid_intersections[point.species_name]
         else:
-            check_intersections = get_species_intersections_func(
-                point.species_name)
+            check_intersections = get_species_intersections_func(point.species_name)
             valid_intersections[point.species_name] = check_intersections
         if check_intersections is None or len(check_intersections) == 0:
             return True

@@ -60,7 +60,8 @@ def _get_presence_absence_method(min_presence, max_presence, min_coverage, nodat
         min_num = max(min_coverage * window.size, 1)
         valid_cells = np.logical_and(
             np.logical_and(window >= min_presence, window <= max_presence),
-            window != nodata)
+            window != nodata,
+        )
         return np.sum(valid_cells) >= min_num
 
     return get_presence_absence
@@ -121,8 +122,7 @@ def _get_largest_class_method(min_coverage, nodata):
         largest_class = nodata
         unique_values = np.column_stack(np.unique(window, return_counts=True))
         for class_, num in unique_values:
-            if not np.isclose(class_, nodata) and num > largest_count \
-                    and num > min_num:
+            if not np.isclose(class_, nodata) and num > largest_count and num > min_num:
                 largest_class = class_
         return largest_class
 
@@ -151,20 +151,11 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
         shuffle(contrast_values)
         try:
             # Pair of values
-            val_map[val[0]] = {
-                'val': contrast_values[0],
-                'index': i
-            }
-            val_map[val[1]] = {
-                'val': contrast_values[1],
-                'index': i
-            }
+            val_map[val[0]] = {'val': contrast_values[0], 'index': i}
+            val_map[val[1]] = {'val': contrast_values[1], 'index': i}
         except Exception:
             # Single value
-            val_map[val] = {
-                'val': contrast_values[0],
-                'index': i
-            }
+            val_map[val] = {'val': contrast_values[0], 'index': i}
         i += 1
         # Note: 'i' is the number of values, we'll use that later
 
@@ -194,8 +185,11 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
 
         # Check unique values in window
         for val, num in unique_values:
-            if not np.isclose(val, nodata) and val in list(val_map.keys()) and\
-                    num >= counts[val_map[val]['index']]:
+            if (
+                not np.isclose(val, nodata)
+                and val in list(val_map.keys())
+                and num >= counts[val_map[val]['index']]
+            ):
                 counts[val_map[val]['index']] = num
                 ret[val_map[val]['index']] = val_map[val]['val']
         return ret
@@ -250,7 +244,8 @@ class LayerEncoder:
             column_headers = [column_name]
         else:  # pragma: no cover
             column_headers = [
-                '{}-{}'.format(column_name, val) for val in range(num_columns)]
+                '{}-{}'.format(column_name, val) for val in range(num_columns)
+            ]
 
         row_headers = []
 
@@ -268,15 +263,12 @@ class LayerEncoder:
             i += 1
             feat = shapegrid_layer.GetNextFeature()
 
-        col = Matrix(encoded_column,
-                     headers={'0': row_headers,
-                              '1': column_headers})
+        col = Matrix(encoded_column, headers={'0': row_headers, '1': column_headers})
 
         if self.encoded_matrix is None:
             self.encoded_matrix = col
         else:
-            self.encoded_matrix = Matrix.concatenate(
-                [self.encoded_matrix, col], axis=1)
+            self.encoded_matrix = Matrix.concatenate([self.encoded_matrix, col], axis=1)
         # Return column headers for added columns
         return column_headers
 
@@ -370,12 +362,15 @@ class LayerEncoder:
             lry, lrx = get_rc(x_coord + x_size_2, y_coord - y_size_2)
 
             # If entire cell window is outside of layer, return None
-            if max([uly, lry]) < 0 or max([ulx, lrx]) < 0 or \
-                    min([uly, lry]) > y_size or min([ulx, lrx]) > x_size:
+            if (
+                max([uly, lry]) < 0
+                or max([ulx, lrx]) < 0
+                or min([uly, lry]) > y_size
+                or min([ulx, lrx]) > x_size
+            ):
                 return None
 
-            return data[max(0, uly):min(y_size, lry),
-                        max(0, ulx):min(x_size, lrx)]
+            return data[max(0, uly) : min(y_size, lry), max(0, ulx) : min(x_size, lrx)]
 
         return window_function
 
@@ -386,7 +381,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        event_field=None
+        event_field=None,
     ):
         """Reads a layer for processing.
 
@@ -411,8 +406,12 @@ class LayerEncoder:
 
         if ext == '.shp':
             window_func, nodata_value, events = self._read_vector_layer(
-                layer_filename, resolution=resolution, bbox=bbox,
-                nodata=nodata, event_field=event_field)
+                layer_filename,
+                resolution=resolution,
+                bbox=bbox,
+                nodata=nodata,
+                event_field=event_field,
+            )
         else:
             window_func, nodata_value = self._read_raster_layer(layer_filename)
             events = set()
@@ -443,8 +442,11 @@ class LayerEncoder:
         min_y = max_y + (y_res * num_y)
         layer_bbox = (min_x, min_y, max_x, max_y)
         window_func = self._get_window_function(
-            layer_array, layer_bbox, self.shapegrid_resolution,
-            num_cell_sides=self.shapegrid_sides)
+            layer_array,
+            layer_bbox,
+            self.shapegrid_resolution,
+            num_cell_sides=self.shapegrid_sides,
+        )
 
         return (window_func, nodata)
 
@@ -471,8 +473,10 @@ class LayerEncoder:
         if len(boundary_points) == 5:
             # Square
             envelope = geom.GetEnvelope()
-            self.shapegrid_resolution = (envelope[1] - envelope[0],
-                                         envelope[3] - envelope[2])
+            self.shapegrid_resolution = (
+                envelope[1] - envelope[0],
+                envelope[3] - envelope[2],
+            )
         else:  # pragma: no cover
             # TODO: Write tests for this when we want full support
             # Hexagon
@@ -481,7 +485,8 @@ class LayerEncoder:
             y_cent = center.GetY()
             x_1, y_1 = boundary_points[1].split(' ')
             self.shapegrid_resolution = np.sqrt(
-                (x_cent - x_1) ** 2 + (y_cent - y_1) ** 2)
+                (x_cent - x_1) ** 2 + (y_cent - y_1) ** 2
+            )
         self.shapegrid_sides = len(boundary_points) - 1
         # self.shapegrid_layer.ResetReading()
         self.shapegrid_layer = None
@@ -493,7 +498,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        event_field=None
+        event_field=None,
     ):
         """Reads a vector layer for processing.
 
@@ -539,8 +544,7 @@ class LayerEncoder:
         vector_layer = vector_ds.GetLayer()
 
         raster_drv = gdal.GetDriverByName('MEM')
-        raster_ds = raster_drv.Create(
-            'temp', x_size, y_size, 1, gdal.GDT_Float32)
+        raster_ds = raster_drv.Create('temp', x_size, y_size, 1, gdal.GDT_Float32)
         raster_ds.SetGeoTransform((min_x, x_res, 0, max_y, 0, -1.0 * y_res))
         band = raster_ds.GetRasterBand(1)
         band.SetNoDataValue(nodata)
@@ -555,8 +559,11 @@ class LayerEncoder:
 
         layer_bbox = (min_x, min_y, max_x, max_y)
         window_func = self._get_window_function(
-            layer_array, layer_bbox, self.shapegrid_resolution,
-            num_cell_sides=self.shapegrid_sides)
+            layer_array,
+            layer_bbox,
+            self.shapegrid_resolution,
+            num_cell_sides=self.shapegrid_sides,
+        )
 
         distinct_events = list(np.unique(layer_array))
         try:
@@ -581,7 +588,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        event_field=None
+        event_field=None,
     ):
         """Encodes a biogeographic hypothesis layer.
 
@@ -606,16 +613,21 @@ class LayerEncoder:
             list of str: A list of column headers for the newly encoded columns.
         """
         window_func, nodata, distinct_events = self._read_layer(
-            layer_filename, resolution=resolution, bbox=bbox, nodata=nodata,
-            event_field=event_field)
+            layer_filename,
+            resolution=resolution,
+            bbox=bbox,
+            nodata=nodata,
+            event_field=event_field,
+        )
         if len(distinct_events) == 2:
             # Set the events to be opposite sides of same hypothesis
             distinct_events = [tuple(distinct_events)]
         encode_func = _get_encode_hypothesis_method(
-            distinct_events, min_coverage, nodata)
+            distinct_events, min_coverage, nodata
+        )
         return self._encode_layer(
-            window_func, encode_func, column_name,
-            num_columns=len(distinct_events))
+            window_func, encode_func, column_name, num_columns=len(distinct_events)
+        )
 
     # ...............................
     def encode_presence_absence(
@@ -628,7 +640,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        attribute_name=None
+        attribute_name=None,
     ):
         """Encodes a distribution layer into a presence absence column.
 
@@ -652,10 +664,15 @@ class LayerEncoder:
             list of str: A list of column headers for the newly encoded columns.
         """
         window_func, nodata, _ = self._read_layer(
-            layer_filename, resolution=resolution, bbox=bbox, nodata=nodata,
-            event_field=attribute_name)
+            layer_filename,
+            resolution=resolution,
+            bbox=bbox,
+            nodata=nodata,
+            event_field=attribute_name,
+        )
         encode_func = _get_presence_absence_method(
-            min_presence, max_presence, min_coverage, nodata)
+            min_presence, max_presence, min_coverage, nodata
+        )
         return self._encode_layer(window_func, encode_func, column_name)
 
     # ...............................
@@ -666,7 +683,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        attribute_name=None
+        attribute_name=None,
     ):
         """Encodes a layer based on the mean value for each data window.
 
@@ -686,8 +703,12 @@ class LayerEncoder:
             list of str: A list of column headers for the newly encoded columns
         """
         window_func, nodata, _ = self._read_layer(
-            layer_filename, resolution=resolution, bbox=bbox, nodata=nodata,
-            event_field=attribute_name)
+            layer_filename,
+            resolution=resolution,
+            bbox=bbox,
+            nodata=nodata,
+            event_field=attribute_name,
+        )
         encode_func = _get_mean_value_method(nodata)
         return self._encode_layer(window_func, encode_func, column_name)
 
@@ -700,7 +721,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        attribute_name=None
+        attribute_name=None,
     ):
         """Encodes a layer based on the largest class in each data window.
 
@@ -726,7 +747,7 @@ class LayerEncoder:
             resolution=resolution,
             bbox=bbox,
             nodata=nodata,
-            event_field=attribute_name
+            event_field=attribute_name,
         )
         encode_func = _get_largest_class_method(min_coverage, nodata)
         return self._encode_layer(window_func, encode_func, column_name)
@@ -747,9 +768,7 @@ class LayerEncoder:
         Returns:
             dict: A JSON dictionary for the encoded matrix.
         """
-        ret = {
-            'type': 'FeatureCollection'
-        }
+        ret = {'type': 'FeatureCollection'}
         features = []
 
         column_headers = self.encoded_matrix.get_column_headers()
@@ -767,7 +786,8 @@ class LayerEncoder:
             # TODO(CJ): Remove this if updated library adds first id correctly
             ft_json['id'] = feat.GetFID()
             ft_json['properties'] = {
-                k: self.encoded_matrix[i, j].item() for j, k in column_enum}
+                k: self.encoded_matrix[i, j].item() for j, k in column_enum
+            }
             features.append(ft_json)
             i += 1
             feat = shapegrid_layer.GetNextFeature()

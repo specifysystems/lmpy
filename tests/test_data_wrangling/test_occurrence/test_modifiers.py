@@ -9,13 +9,14 @@ from lmpy.data_wrangling.occurrence.modifiers import (
     get_accepted_name_modifier,
     get_attribute_modifier,
     get_common_format_modifier,
-    get_coordinate_converter_modifier
+    get_coordinate_converter_modifier,
 )
 
 
 # ............................................................................
 class Test_get_accepted_name_modifier:
     """Test get_accepted_name_modifier."""
+
     # .......................
     def test_simple(self):
         """Simple test that attribute values change as expected."""
@@ -23,11 +24,12 @@ class Test_get_accepted_name_modifier:
             Point('Oldname a1', 10, 20),
             Point('Oldname a2', 20, 30),
             Point('Newname a', -10, 0),
-            Point('Oldname b', 30, 30)
-            ]
+            Point('Oldname b', 30, 30),
+        ]
 
         with tempfile.NamedTemporaryFile(
-                mode='wt', encoding='utf8', delete=False) as temp_out:
+            mode='wt', encoding='utf8', delete=False
+        ) as temp_out:
             temp_out.write('Name,Accepted name\n')
             temp_out.write('Oldname a1,Newname a\n')
             temp_out.write('Oldname a2,Newname a\n')
@@ -44,20 +46,22 @@ class Test_get_accepted_name_modifier:
 # ............................................................................
 class Test_get_attribute_modifier:
     """Test get_attribute_modifier."""
+
     # .......................
     def test_simple(self):
         """Simple test that attribute values change as expected."""
         points = [
             Point('species 1', 10, 20, attributes={'val': 0}),
             Point('species 1', 20, 30, attributes={'val': 9}),
-            Point('species 2', -10, 0, attributes={'val': -3})]
+            Point('species 2', -10, 0, attributes={'val': -3}),
+        ]
 
         def val_modify_func(orig_val):
             return orig_val + 1
 
         modifier = get_attribute_modifier('val', val_modify_func)
         new_points = modifier(points)
-        test_orig = sorted(p.get_attribute('val')+1 for p in points)
+        test_orig = sorted(p.get_attribute('val') + 1 for p in points)
         test_new = sorted(p.get_attribute('val') for p in new_points)
         assert test_orig == test_new
 
@@ -65,6 +69,7 @@ class Test_get_attribute_modifier:
 # ............................................................................
 class Test_get_common_format_modifier:
     """Test get_common_format_modifier."""
+
     # .......................
     def test_simple(self):
         """Simple test that attribute names can be changed by modifier."""
@@ -73,7 +78,7 @@ class Test_get_common_format_modifier:
         points = [
             Point('species 1', 1, 1, attributes={old_att: 1}),
             Point('species 2', 2, 2, attributes={old_att: 2}),
-            Point('species 3', 3, 3, attributes={old_att: 3})
+            Point('species 3', 3, 3, attributes={old_att: 3}),
         ]
         modifier = get_common_format_modifier({old_att: new_att})
         new_points = modifier(points)
@@ -85,6 +90,7 @@ class Test_get_common_format_modifier:
 # .............................................................................
 class Test_get_coordinate_converter_modifier:
     """Test get_coordinate_converter_modifier."""
+
     # ..........................
     # def test_specific_values(self):
     #     """Test that conversion produces known values."""
@@ -124,12 +130,10 @@ class Test_get_coordinate_converter_modifier:
         in_points = [deepcopy(original_point)]
         src_epsg = in_vals[0]
         for target_epsg in epsgs:
-            converter = get_coordinate_converter_modifier(
-                src_epsg, target_epsg)
+            converter = get_coordinate_converter_modifier(src_epsg, target_epsg)
             in_points = converter(in_points)
             src_epsg = target_epsg
-        final_converter = get_coordinate_converter_modifier(
-            src_epsg, in_vals[0])
+        final_converter = get_coordinate_converter_modifier(src_epsg, in_vals[0])
         final_point = final_converter(in_points)[0]
         assert np.isclose(final_point.x, original_point.x)
         assert np.isclose(final_point.y, original_point.y)

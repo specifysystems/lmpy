@@ -77,8 +77,7 @@ class TreeEncoder:
             else:
                 p_mtx = self._build_p_matrix_no_branch_lengths()
         else:
-            raise EncodingException(
-                "PAM and Tree do not match, fix before encoding")
+            raise EncodingException("PAM and Tree do not match, fix before encoding")
 
         return p_mtx
 
@@ -90,23 +89,27 @@ class TreeEncoder:
             bool: Boolean indicating if the tree / pam is valid.
         """
         # check if tree is ultrametric
-        if (not self.tree.has_branch_lengths() or self.tree.is_ultrametric()) \
-                and self.tree.is_binary():
+        if (
+            not self.tree.has_branch_lengths() or self.tree.is_ultrametric()
+        ) and self.tree.is_binary():
             # Check that matrix indices in tree match PAM
             # List of matrix indices (based on PAM column count)
             pam_mtx_indices = range(self.pam.shape[1])
             # All matrix indices in tree
             tree_mtx_indices = [
-                int(mtx_id) for _, mtx_id in self.tree.get_annotations(
-                    PhyloTreeKeys.MTX_IDX) if mtx_id is not None]
+                int(mtx_id)
+                for _, mtx_id in self.tree.get_annotations(PhyloTreeKeys.MTX_IDX)
+                if mtx_id is not None
+            ]
 
             # Find the intersection between the two lists
             intersection = set(pam_mtx_indices) & set(tree_mtx_indices)
 
             # This checks that there are no duplicates in either of the indices
             #     lists and that they overlap completely
-            if len(intersection) == len(pam_mtx_indices) and \
-                    len(pam_mtx_indices) == len(tree_mtx_indices):
+            if len(intersection) == len(pam_mtx_indices) and len(
+                pam_mtx_indices
+            ) == len(tree_mtx_indices):
                 # If everything checks out to here, return true for valid
                 return True
         # If anything does not validate, return false
@@ -145,8 +148,11 @@ class TreeEncoder:
             shuffle(multipliers)
 
             for child in node.child_nodes():
-                (child_bl_dict, child_bl_sum, child_p_val_dict
-                 ) = self._build_p_branch_length_values(child)
+                (
+                    child_bl_dict,
+                    child_bl_sum,
+                    child_p_val_dict,
+                ) = self._build_p_branch_length_values(child)
                 multiplier = multipliers.pop(0)
 
                 # Extend the p values dictionary
@@ -183,9 +189,7 @@ class TreeEncoder:
             p_vals_dict[node.label] = clade_p_vals
 
         else:  # We are at a tip
-            bl_dict = {
-                node.taxon.annotations.get_value(PhyloTreeKeys.MTX_IDX): []
-            }
+            bl_dict = {node.taxon.annotations.get_value(PhyloTreeKeys.MTX_IDX): []}
 
         return bl_dict, bl_sum, p_vals_dict
 
@@ -257,18 +261,17 @@ class TreeEncoder:
         """
         # .......................
         # Initialize the matrix
-        internal_node_labels = [
-            n.label for n in self.tree.nodes() if not n.is_leaf()]
+        internal_node_labels = [n.label for n in self.tree.nodes() if not n.is_leaf()]
         labels = self.pam.get_column_headers()
 
         # We need a mapping of node path id to matrix column.  I don't think
         #     order matters
-        node_col_idx = dict(
-            zip(internal_node_labels, range(len(internal_node_labels))))
+        node_col_idx = dict(zip(internal_node_labels, range(len(internal_node_labels))))
 
         mtx = Matrix(
             np.zeros((len(labels), len(internal_node_labels)), dtype=float),
-            headers={'0': labels, '1': internal_node_labels})
+            headers={'0': labels, '1': internal_node_labels},
+        )
 
         # Get the list of tip proportion lists
         # Note: Which tip each of the lists belongs to doesn't really matter
@@ -276,7 +279,8 @@ class TreeEncoder:
         #    tree tips.
         self.tree.seed_node._set_edge_length(0.0)
         tip_props = self._build_p_matrix_tip_proportion_list(
-            self.tree.seed_node, visited=[])
+            self.tree.seed_node, visited=[]
+        )
 
         # The matrix index of the tip in the PAM maps to the row index of P
         for row_idx, tip_prop in tip_props:
@@ -312,14 +316,18 @@ class TreeEncoder:
             left_child, right_child = node.child_nodes()
             tip_props.extend(
                 self._build_p_matrix_tip_proportion_list(
-                    left_child, visited=new_visited + [(node.label, -1.0)]))
+                    left_child, visited=new_visited + [(node.label, -1.0)]
+                )
+            )
             tip_props.extend(
                 self._build_p_matrix_tip_proportion_list(
-                    right_child, visited=new_visited + [(node.label, 1.0)]))
+                    right_child, visited=new_visited + [(node.label, 1.0)]
+                )
+            )
         else:
             tip_props.append(
-                (node.taxon.annotations.get_value(PhyloTreeKeys.MTX_IDX),
-                 visited))
+                (node.taxon.annotations.get_value(PhyloTreeKeys.MTX_IDX), visited)
+            )
 
         return tip_props
 
@@ -385,19 +393,18 @@ class TreeEncoder:
         # We only need the P-values dictionary
         # TODO: Is there a better way to do this so the length of the r?
         self.tree.seed_node._set_edge_length(0.0)
-        _, _, p_val_dict = self._build_p_branch_length_values(
-            self.tree.seed_node)
+        _, _, p_val_dict = self._build_p_branch_length_values(self.tree.seed_node)
 
         # Initialize the matrix
         labels = self.pam.get_column_headers()
         mtx = Matrix(
             np.zeros((len(labels), len(p_val_dict)), dtype=float),
-            headers={'0': labels, '1': list(p_val_dict.keys())})
+            headers={'0': labels, '1': list(p_val_dict.keys())},
+        )
 
         # We need a mapping of node path id to matrix column.  I don't think
         #     order matters
-        node_col_idx = dict(
-            zip(p_val_dict.keys(), range(len(p_val_dict.keys()))))
+        node_col_idx = dict(zip(p_val_dict.keys(), range(len(p_val_dict.keys()))))
 
         for node_clade_id, p_val_node_val in p_val_dict.items():
             for tip_mtx_idx, tip_p_vals in p_val_node_val.items():

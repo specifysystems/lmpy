@@ -24,14 +24,14 @@ def get_random_matrix(*dim_size):
     headers = {}
     i = 0
     for i in range(len(dim_size)):
-        headers[str(i)] = [
-            'header-{}-{}'.format(i, x) for x in range(dim_size[i])]
+        headers[str(i)] = ['header-{}-{}'.format(i, x) for x in range(dim_size[i])]
     return Matrix(np.random.rand(*dim_size), headers=headers)
 
 
 # .............................................................................
 class Test_Matrix:
     """Test the Matrix class."""
+
     # .....................................
     def test_load(self):
         """Test the load class method."""
@@ -80,8 +80,7 @@ class Test_Matrix:
             out_str.seek(0)
 
             # Attempt to load matrix
-            loaded_mtx = Matrix.load_csv(
-                out_str, num_header_rows=1, num_header_cols=1)
+            loaded_mtx = Matrix.load_csv(out_str, num_header_rows=1, num_header_cols=1)
 
         print(loaded_mtx.get_headers())
         print(orig_mtx.get_headers())
@@ -115,8 +114,7 @@ class Test_Matrix:
             out_str.seek(0)
 
             # Attempt to load matrix
-            loaded_mtx = Matrix.load_csv(
-                out_str, num_header_rows=2, num_header_cols=2)
+            loaded_mtx = Matrix.load_csv(out_str, num_header_rows=2, num_header_cols=2)
 
         print(loaded_mtx.get_headers())
         print(orig_mtx.get_headers())
@@ -142,7 +140,8 @@ class Test_Matrix:
 
         # Concatenate numpy arrays
         mtx6 = Matrix.concatenate(
-            [np.random.random((4, 2)), np.random.random((4, 6))], axis=1)
+            [np.random.random((4, 2)), np.random.random((4, 6))], axis=1
+        )
         assert mtx6.shape == (4, 8)
 
         # Concatenate a stack and a single
@@ -156,21 +155,27 @@ class Test_Matrix:
         """Test the concatenate function for stacking matrices."""
         # Single-value matrices -> row
         mtx_row_0 = Matrix.concatenate(
-            [get_random_matrix(1), get_random_matrix(1), get_random_matrix(1),
-             get_random_matrix(1)], axis=1)
+            [
+                get_random_matrix(1),
+                get_random_matrix(1),
+                get_random_matrix(1),
+                get_random_matrix(1),
+            ],
+            axis=1,
+        )
         assert mtx_row_0.shape == (1, 4)
 
         # Test single row matrices
         mtx_row_1 = get_random_matrix(1, 4)
         mtx_row_2 = get_random_matrix(1, 4)
-        mtx_table_0 = Matrix.concatenate(
-            [mtx_row_0, mtx_row_1, mtx_row_2], axis=2)
+        mtx_table_0 = Matrix.concatenate([mtx_row_0, mtx_row_1, mtx_row_2], axis=2)
         assert mtx_table_0.shape == (1, 4, 3)
 
         # Test table matrices
         mtx_cube = Matrix.concatenate(
-            [get_random_matrix(3, 3), get_random_matrix(3, 3),
-             get_random_matrix(3, 3)], axis=2)
+            [get_random_matrix(3, 3), get_random_matrix(3, 3), get_random_matrix(3, 3)],
+            axis=2,
+        )
         assert mtx_cube.shape == (3, 3, 3)
 
     # .....................................
@@ -287,13 +292,13 @@ class Test_Matrix:
         # Test that current column headers do not match new
         old_col_headers = mtx.get_column_headers()
         assert not all(
-            [new_col_headers[i] == old_col_headers[i] for i in range(n_cols)])
+            [new_col_headers[i] == old_col_headers[i] for i in range(n_cols)]
+        )
 
         # Set the column headers and check that they now match
         mtx.set_column_headers(new_col_headers)
         mtx_new_headers = mtx.get_column_headers()
-        assert all(
-            [new_col_headers[i] == mtx_new_headers[i] for i in range(n_cols)])
+        assert all([new_col_headers[i] == mtx_new_headers[i] for i in range(n_cols)])
 
     # .....................................
     def test_set_headers(self):
@@ -307,18 +312,18 @@ class Test_Matrix:
         old_col_headers = mtx.get_column_headers()
         old_row_headers = mtx.get_row_headers()
         assert not all(
-            [new_col_headers[i] == old_col_headers[i] for i in range(n_cols)])
+            [new_col_headers[i] == old_col_headers[i] for i in range(n_cols)]
+        )
         assert not all(
-            [new_row_headers[i] == old_row_headers[i] for i in range(n_rows)])
+            [new_row_headers[i] == old_row_headers[i] for i in range(n_rows)]
+        )
 
         # Set the row headers and check that they now match
         mtx.set_headers({'0': new_row_headers, '1': new_col_headers})
         test_col_headers = mtx.get_column_headers()
         test_row_headers = mtx.get_row_headers()
-        assert all(
-            [new_col_headers[i] == test_col_headers[i] for i in range(n_cols)])
-        assert all(
-            [new_row_headers[i] == test_row_headers[i] for i in range(n_rows)])
+        assert all([new_col_headers[i] == test_col_headers[i] for i in range(n_cols)])
+        assert all([new_row_headers[i] == test_row_headers[i] for i in range(n_rows)])
 
     # .....................................
     def test_set_headers_with_dict_keys(self):
@@ -346,13 +351,13 @@ class Test_Matrix:
         # Test that current row headers do not match new
         old_row_headers = mtx.get_row_headers()
         assert not all(
-            [new_row_headers[i] == old_row_headers[i] for i in range(n_rows)])
+            [new_row_headers[i] == old_row_headers[i] for i in range(n_rows)]
+        )
 
         # Set the row headers and check that they now match
         mtx.set_row_headers(new_row_headers)
         mtx_new_headers = mtx.get_row_headers()
-        assert all(
-            [new_row_headers[i] == mtx_new_headers[i] for i in range(n_rows)])
+        assert all([new_row_headers[i] == mtx_new_headers[i] for i in range(n_rows)])
 
     # .....................................
     def test_slice(self):
@@ -446,12 +451,12 @@ class Test_Matrix:
         assert np.all(mtx2.transpose() == mtx2.view(np.ndarray).transpose())
 
         assert np.all(
-            mtx2.transpose(
-                1, 2, 0) == mtx2.view(np.ndarray).transpose(1, 2, 0))
+            mtx2.transpose(1, 2, 0) == mtx2.view(np.ndarray).transpose(1, 2, 0)
+        )
 
         assert np.all(
-            mtx2.transpose(
-                (2, 1, 0)) == mtx2.view(np.ndarray).transpose(2, 1, 0))
+            mtx2.transpose((2, 1, 0)) == mtx2.view(np.ndarray).transpose(2, 1, 0)
+        )
 
     # .....................................
     def test_write(self):

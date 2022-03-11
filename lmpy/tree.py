@@ -23,6 +23,7 @@ class PhyloTreeKeys:
         SQUID (str): The tree attribute indicating a hashed identifier for the
             taxon.
     """
+
     MTX_IDX = 'mx'  # The matrix index for this node
     SQUID = 'squid'  # This is the LM SQUID (species identifier) for the tip
 
@@ -30,6 +31,7 @@ class PhyloTreeKeys:
 # .............................................................................
 class LmTreeException(Exception):
     """Wrapper around the base Exception class for tree related errors."""
+
     pass
 
 
@@ -40,6 +42,7 @@ class TreeWrapper(dendropy.Tree):
     Dendropy tree wrapper that adds a little functionality and improves
     performance of some functions.
     """
+
     # ..............................
     @classmethod
     def from_base_tree(cls, tree):
@@ -77,8 +80,7 @@ class TreeWrapper(dendropy.Tree):
         elif tree_ext == '.tre':
             tree_schema = 'newick'
         else:
-            raise IOError(
-                'Cannot handle tree with extension: {}'.format(tree_ext))
+            raise IOError('Cannot handle tree with extension: {}'.format(tree_ext))
         return cls.get(path=filename, schema=tree_schema)
 
     # ..............................
@@ -97,12 +99,18 @@ class TreeWrapper(dendropy.Tree):
         Note:
             * This labels nodes the way that R does.
         """
-        self._label_tree_nodes(self.seed_node, len(self.get_labels()),
-                               prefix=prefix, overwrite=overwrite)
+        self._label_tree_nodes(
+            self.seed_node, len(self.get_labels()), prefix=prefix, overwrite=overwrite
+        )
 
     # ..............................
-    def annotate_tree(self, annotation_dict, annotation_attribute=None,
-                      label_attribute=None, update=False):
+    def annotate_tree(
+        self,
+        annotation_dict,
+        annotation_attribute=None,
+        label_attribute=None,
+        update=False,
+    ):
         """Annotates tree tips and nodes.
 
         Args:
@@ -133,21 +141,16 @@ class TreeWrapper(dendropy.Tree):
                 # Assume annotations are in a dictionary
                 try:
                     for (ann_name, ann_value) in node_annotation.items():
-                        self._annotate_node(
-                            node, ann_name, ann_value, update=update)
+                        self._annotate_node(node, ann_name, ann_value, update=update)
                 except Exception:
                     # Annotation is a single value
                     self._annotate_node(
-                        node, annotation_attribute, node_annotation,
-                        update=update)
+                        node, annotation_attribute, node_annotation, update=update
+                    )
 
     # ..............................
     def annotate_tree_tips(
-        self,
-        attribute_name,
-        annotation_pairs,
-        label_attribute='label',
-        update=False
+        self, attribute_name, annotation_pairs, label_attribute='label', update=False
     ):
         """Annotates the tips of the tree.
 
@@ -174,15 +177,14 @@ class TreeWrapper(dendropy.Tree):
                 if taxon.annotations.get_value(attribute_name) is not None:
                     if update:
                         # Remove existing values
-                        for ann in taxon.annotations.findall(
-                                                        name=attribute_name):
+                        for ann in taxon.annotations.findall(name=attribute_name):
                             taxon.annotations.remove(ann)
                         # Set new value
-                        taxon.annotations.add_new(attribute_name,
-                                                  annotation_pairs[label])
+                        taxon.annotations.add_new(
+                            attribute_name, annotation_pairs[label]
+                        )
                 else:
-                    taxon.annotations.add_new(attribute_name,
-                                              annotation_pairs[label])
+                    taxon.annotations.add_new(attribute_name, annotation_pairs[label])
             except KeyError:
                 # Pass if label is not found in the dictionary, otherwise fail
                 pass
@@ -204,8 +206,7 @@ class TreeWrapper(dendropy.Tree):
         return annotations
 
     # ..............................
-    def get_distance_matrix(self, label_attribute='label',
-                            ordered_labels=None):
+    def get_distance_matrix(self, label_attribute='label', ordered_labels=None):
         """Gets a Matrix object of phylogenetic distances.
 
         Get a Matrix object of phylogenetic distances between tips using a
@@ -229,11 +230,9 @@ class TreeWrapper(dendropy.Tree):
             for taxon in self.taxon_namespace:
                 ordered_labels.append(label_method(taxon))
 
-        label_lookup = {
-                ordered_labels[i]: i for i in range(len(ordered_labels))}
+        label_lookup = {ordered_labels[i]: i for i in range(len(ordered_labels))}
 
-        dist_mtx = np.zeros((len(ordered_labels), len(ordered_labels)),
-                            dtype=float)
+        dist_mtx = np.zeros((len(ordered_labels), len(ordered_labels)), dtype=float)
 
         # Build path lookup dictionary
         path_lookups = {}
@@ -288,14 +287,13 @@ class TreeWrapper(dendropy.Tree):
                 dist_mtx[idx2, idx1] = dist
 
         distance_matrix = Matrix(
-            dist_mtx, headers={'0': ordered_labels, '1': ordered_labels})
+            dist_mtx, headers={'0': ordered_labels, '1': ordered_labels}
+        )
         return distance_matrix
 
     # ..............................
     def get_distance_matrix_dendropy(
-        self,
-        label_attribute='label',
-        ordered_labels=None
+        self, label_attribute='label', ordered_labels=None
     ):
         """Gets a Matrix object of phylogenetic distances between tips.
 
@@ -324,11 +322,9 @@ class TreeWrapper(dendropy.Tree):
             for taxon in self.taxon_namespace:
                 ordered_labels.append(label_method(taxon))
 
-        label_lookup = {
-                ordered_labels[i]: i for i in range(len(ordered_labels))}
+        label_lookup = {ordered_labels[i]: i for i in range(len(ordered_labels))}
 
-        dist_mtx = np.zeros((len(ordered_labels), len(ordered_labels)),
-                            dtype=float)
+        dist_mtx = np.zeros((len(ordered_labels), len(ordered_labels)), dtype=float)
 
         pdm = self.phylogenetic_distance_matrix()
 
@@ -344,7 +340,8 @@ class TreeWrapper(dendropy.Tree):
                 dist_mtx[idx1, idx2] = dist
 
         distance_matrix = Matrix(
-            dist_mtx, headers={'0': ordered_labels, '1': ordered_labels})
+            dist_mtx, headers={'0': ordered_labels, '1': ordered_labels}
+        )
         return distance_matrix
 
     # ..............................
@@ -366,9 +363,7 @@ class TreeWrapper(dendropy.Tree):
 
     # ..............................
     def get_variance_covariance_matrix(
-        self,
-        label_attribute='label',
-        ordered_labels=None
+        self, label_attribute='label', ordered_labels=None
     ):
         """Gets a Matrix object of variance / co-variance for tips in tree.
 
@@ -396,8 +391,7 @@ class TreeWrapper(dendropy.Tree):
             for taxon in self.taxon_namespace:
                 ordered_labels.append(label_method(taxon))
 
-        label_lookup = {
-                ordered_labels[i]: i for i in range(len(ordered_labels))}
+        label_lookup = {ordered_labels[i]: i for i in range(len(ordered_labels))}
 
         n = len(ordered_labels)
         vcv = np.zeros((n, n), dtype=float)
@@ -419,13 +413,13 @@ class TreeWrapper(dendropy.Tree):
                 else:
                     left_child, right_child = edge.head_node.child_nodes()
                     left_tips = [
-                        label_lookup[
-                            label_method(tip_node.taxon)
-                                    ] for tip_node in left_child.leaf_nodes()]
+                        label_lookup[label_method(tip_node.taxon)]
+                        for tip_node in left_child.leaf_nodes()
+                    ]
                     right_tips = [
-                        label_lookup[
-                            label_method(tip_node.taxon)
-                                    ] for tip_node in right_child.leaf_nodes()]
+                        label_lookup[label_method(tip_node.taxon)]
+                        for tip_node in right_child.leaf_nodes()
+                    ]
                     # if len(leftTips) > 1 and len(rightTips) > 1:
                     for left in left_tips:
                         for right in right_tips:
@@ -435,8 +429,7 @@ class TreeWrapper(dendropy.Tree):
                 idx = label_lookup[label_method(node.taxon)]
                 vcv[idx, idx] = node.distance_from_root()
 
-        vcv_matrix = Matrix(
-            vcv, headers={'0': ordered_labels, '1': ordered_labels})
+        vcv_matrix = Matrix(vcv, headers={'0': ordered_labels, '1': ordered_labels})
         return vcv_matrix
 
     # ..............................
@@ -529,6 +522,7 @@ class TreeWrapper(dendropy.Tree):
         Returns:
             Method: A method for retrieving the label for a taxon.
         """
+
         def label_method(taxon):
             """Get the label of a taxon.
 
@@ -539,11 +533,13 @@ class TreeWrapper(dendropy.Tree):
                 str: The taxon's label.
             """
             return taxon.annotations.get_value(label_attribute)
+
         return label_method
 
     # ..............................
-    def _annotate_node(self, node, annotation_attribute, annotation_value,
-                       update=False):
+    def _annotate_node(
+        self, node, annotation_attribute, annotation_value, update=False
+    ):
         """Annotates a node with the given value.
 
         Args:
@@ -554,8 +550,7 @@ class TreeWrapper(dendropy.Tree):
             update (:obj:`bool`, optional): If True, update existing attribute.
                 Defaults to False.
         """
-        if annotation_attribute is None or \
-                annotation_attribute.lower() == 'label':
+        if annotation_attribute is None or annotation_attribute.lower() == 'label':
             try:
                 node.taxon.label = annotation_value
             except Exception:
@@ -564,14 +559,11 @@ class TreeWrapper(dendropy.Tree):
             if node.annotations.get_value(annotation_attribute) is not None:
                 if update:
                     # Remove existing annotations
-                    for ann in node.annotations.findall(
-                            name=annotation_attribute):
+                    for ann in node.annotations.findall(name=annotation_attribute):
                         node.annotations.remove(ann)
-                    node.annotations.add_new(
-                        annotation_attribute, annotation_value)
+                    node.annotations.add_new(annotation_attribute, annotation_value)
             else:
-                node.annotations.add_new(
-                    annotation_attribute, annotation_value)
+                node.annotations.add_new(annotation_attribute, annotation_value)
 
     # ..............................
     def _get_label_method(self, label_attribute):
@@ -618,8 +610,7 @@ class TreeWrapper(dendropy.Tree):
                 i += 1
             # Loop through children and label nodes
             for child in cn:
-                i = self._label_tree_nodes(
-                    child, i, prefix=prefix, overwrite=overwrite)
+                i = self._label_tree_nodes(child, i, prefix=prefix, overwrite=overwrite)
         # Return the current i value
         return i
 

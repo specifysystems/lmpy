@@ -31,6 +31,7 @@ def get_occurrence_filter(pass_condition_func):
     # .......................
     def occurrence_filter(points):
         return list(filter(pass_condition_func, points))
+
     return occurrence_filter
 
 

@@ -20,8 +20,8 @@ from lmpy.tools.clean_occurrences import cli
         ('taxon', 'longitude', 'latitude', True),
         ('taxon', 'longitude', 'latitude', False),
         ('species', 'x_val', 'y_val', True),
-        ('a', 'b', 'c', False)
-    ]
+        ('a', 'b', 'c', False),
+    ],
 )
 def data_keys(request):
     """Get a set of csv header keys for testing.
@@ -48,7 +48,7 @@ def filenames():
         f'{base_fn}_in.csv',
         f'{base_fn}_out.csv',
         f'{base_fn}_wranglers.json',
-        f'{base_fn}_report.json'
+        f'{base_fn}_report.json',
     )
     yield ret_filenames
     for fn in ret_filenames:
@@ -77,19 +77,19 @@ def generate_points(
     points = []
     for _ in range(count):
         x_val = np.round(
-             360 * np.random.random() - 180,  # Random value in range (-180, 180)
-             np.random.randint(min_precision, max_precision)  # Random precision
+            360 * np.random.random() - 180,  # Random value in range (-180, 180)
+            np.random.randint(min_precision, max_precision),  # Random precision
         )
         y_val = np.round(
-             180 * np.random.random() - 90,  # Random value in range (-90, 90)
-             np.random.randint(min_precision, max_precision)  # Random precision
+            180 * np.random.random() - 90,  # Random value in range (-90, 90)
+            np.random.randint(min_precision, max_precision),  # Random precision
         )
         points.append(
             Point(
                 sp_name,
                 x_val,
                 y_val,
-                attributes={sp_key: sp_name, x_key: x_val, y_key: y_val}
+                attributes={sp_key: sp_name, x_key: x_val, y_key: y_val},
             )
         )
     return points
@@ -109,9 +109,9 @@ def test_valid(monkeypatch, filenames, data_keys):
     wrangler_config = [
         {
             'wrangler_type': 'decimal_precision_filter',
-            'decimal_precision': target_precision
+            'decimal_precision': target_precision,
         },
-        {'wrangler_type': 'unique_localities_filter'}
+        {'wrangler_type': 'unique_localities_filter'},
     ]
     with open(filenames[2], mode='wt') as json_out:
         json.dump(wrangler_config, json_out)
@@ -120,10 +120,12 @@ def test_valid(monkeypatch, filenames, data_keys):
     # Figure out how many points are valid
     valid_points = set()
     for pt in points:
-        if all([
-            len(str(pt.x).split('.')[1]) >= target_precision,
-            len(str(pt.y).split('.')[1]) >= target_precision
-        ]):
+        if all(
+            [
+                len(str(pt.x).split('.')[1]) >= target_precision,
+                len(str(pt.y).split('.')[1]) >= target_precision,
+            ]
+        ):
             valid_points.add((pt.species_name, pt.x, pt.y))
     # Create some duplicates
     for _ in range(np.random.randint(len(points))):
