@@ -9,7 +9,11 @@ import pytest
 
 from lmpy import Point
 from lmpy.point import (
-    none_getter, PointCsvReader, PointCsvWriter, PointDwcaReader, PointJsonWriter
+    none_getter,
+    PointCsvReader,
+    PointCsvWriter,
+    PointDwcaReader,
+    PointJsonWriter,
 )
 
 
@@ -23,9 +27,11 @@ def _flag_getter(index):
     Returns:
         Method: A function to get issue flags.
     """
+
     def getter(obj):
         flag_string = obj[index]
         return flag_string.split(', ')
+
     return getter
 
 
@@ -42,6 +48,7 @@ def test_none_getter():
 # ............................................................................
 class Test_Point:
     """Test Point class."""
+
     # ..........................
     def test_constructor(self):
         """Basic constructor tests."""
@@ -90,14 +97,10 @@ class Test_Point:
 # ............................................................................
 class Test_PointCsvReader:
     """Test the PointCSVReader class."""
+
     # ..........................
     def _make_csv(
-        self,
-        num_species,
-        species_field,
-        x_field,
-        y_field,
-        geopoint_field=None
+        self, num_species, species_field, x_field, y_field, geopoint_field=None
     ):
         """Make a CSV file.
 
@@ -117,23 +120,25 @@ class Test_PointCsvReader:
             def string_point(pt):
                 return '"{}", "{}"\n'.format(
                     pt.species_name,
-                    json.dumps({x_field: pt.x, y_field: pt.y}).replace(
-                        '"', '""'))
+                    json.dumps({x_field: pt.x, y_field: pt.y}).replace('"', '""'),
+                )
+
         else:
             headers = [species_field, x_field, y_field]
 
             def string_point(pt):
-                return '{}, {}, {}\n'.format(
-                    pt.species_name, pt.x, pt.y)
-        out_file = tempfile.NamedTemporaryFile(
-            mode='w', suffix='.csv', delete=False)
+                return '{}, {}, {}\n'.format(pt.species_name, pt.x, pt.y)
+
+        out_file = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
         i = 0
         # Write headers
         out_file.write('{}\n'.format(','.join(headers)))
         while i < num_species:
             pt = Point(
-                'Species {}'.format(i), np.random.triangular(-180.0, 0.0, 180.0),
-                np.random.triangular(-90.0, 0.0, 90.0))
+                'Species {}'.format(i),
+                np.random.triangular(-180.0, 0.0, 180.0),
+                np.random.triangular(-90.0, 0.0, 90.0),
+            )
             out_file.write(string_point(pt))
             if np.random.triangular(0.0, 0.5, 1.0) > 0.92:
                 i += 1
@@ -153,9 +158,11 @@ class Test_PointCsvReader:
     def test_reader_species_geopoint(self):
         """Test with a CSV file of species, geopt."""
         pt_filename = self._make_csv(
-            10, 'species', 'lon', 'lat', geopoint_field='geopt')
-        with PointCsvReader(pt_filename, 'species', 'lon', 'lat',
-                            geopoint='geopt') as reader:
+            10, 'species', 'lon', 'lat', geopoint_field='geopt'
+        )
+        with PointCsvReader(
+            pt_filename, 'species', 'lon', 'lat', geopoint='geopt'
+        ) as reader:
             for points in reader:
                 assert len(points) > 0
         os.remove(pt_filename)
@@ -164,11 +171,11 @@ class Test_PointCsvReader:
 # ............................................................................
 class Test_PointCsvWriter:
     """Test PointCsvWriter class."""
+
     # ..........................
     def test_basic(self):
         """Perform simple test."""
-        out_file = tempfile.NamedTemporaryFile(
-            suffix='.csv', delete=False, mode='w')
+        out_file = tempfile.NamedTemporaryFile(suffix='.csv', delete=False, mode='w')
         filename = out_file.name
         out_file.close()
         with PointCsvWriter(filename, ['species_name', 'x', 'y']) as writer:
@@ -177,14 +184,16 @@ class Test_PointCsvWriter:
                 [
                     Point('species', 10, 10),
                     Point('species', 20, 20),
-                    Point('species', -30, -30)
-                ])
+                    Point('species', -30, -30),
+                ]
+            )
         os.remove(filename)
 
 
 # ............................................................................
 class Test_PointDwcaReader:
     """Test PointDwcaReader class."""
+
     # ..........................
     def test_aggregator_dwca(self, dwca_filename):
         """Test that an aggregator DWCA file can be processed correctly.
@@ -234,18 +243,15 @@ class Test_PointDwcaReader:
                 '<field index="2"',
                 ' term="http://rs.tdwg.org/dwc/terms/decimalLatitude"/>',
                 '<field term="{}" default="{}"/>'.format(
-                    constant_field,
-                    constant_value
+                    constant_field, constant_value
                 ),
                 '</core>',
-                '</archive>'
+                '</archive>',
             ]
         )
 
         with zipfile.ZipFile(
-            dwca_filename,
-            mode='w',
-            compression=zipfile.ZIP_DEFLATED
+            dwca_filename, mode='w', compression=zipfile.ZIP_DEFLATED
         ) as zip_file:
             zip_file.writestr('occurrence.csv', occ_data)
             zip_file.writestr('meta.xml', meta_xml_data)
@@ -260,6 +266,7 @@ class Test_PointDwcaReader:
                     # Check for constant field
                     assert pt.get_attribute(constant_field) == constant_value
 
+
 # Test that constants work
 # Test specific fields
 
@@ -267,11 +274,11 @@ class Test_PointDwcaReader:
 # ............................................................................
 class Test_PointJsonWriter:
     """Test PointJsonWriter class."""
+
     # ..........................
     def test_basic(self):
         """Perform simple test."""
-        out_file = tempfile.NamedTemporaryFile(
-            suffix='.json', delete=False, mode='w')
+        out_file = tempfile.NamedTemporaryFile(suffix='.json', delete=False, mode='w')
         filename = out_file.name
         out_file.close()
         with PointJsonWriter(filename) as writer:
@@ -280,6 +287,7 @@ class Test_PointJsonWriter:
                 [
                     Point('species', 10, 10),
                     Point('species', 20, 20),
-                    Point('species', -30, -30)
-                ])
+                    Point('species', -30, -30),
+                ]
+            )
         os.remove(filename)

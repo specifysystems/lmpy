@@ -22,7 +22,7 @@ OCCURRENCE_ROW_TYPE = 'http://rs.tdwg.org/dwc/terms/Occurrence'
 TERM_TYPE_ATT = 'term'
 DELIMITED_TERMS = [
     'http://portal.idigbio.org/terms/flags',
-    'http://portal.idigbio.org/terms/recordIds'
+    'http://portal.idigbio.org/terms/recordIds',
 ]
 DELIMITED_BY_ATT = 'delimitedBy'
 
@@ -43,8 +43,10 @@ def process_meta_xml(meta_xml_contents):
     # If core element is missing (iDigBio) look in extensions
     if core_element is None:
         for extension_el in meta_xml_root.findall(EXTENSION_TAG):
-            if core_element is None and \
-                    extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:
+            if (
+                core_element is None
+                and extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE
+            ):
                 core_element = extension_el
                 extension_el.tag = CORE_TAG
 
@@ -88,9 +90,11 @@ def process_idb_dwca(in_zipfile, out_zipfile):
         for line in in_occ:
             i += 1
             # Remove double-double-quotes
-            mod_line = line.replace(
-                quad_quote, '""'
-            ).replace(trip_quote, trip_quote_replace).replace('""', "'")
+            mod_line = (
+                line.replace(quad_quote, '""')
+                .replace(trip_quote, trip_quote_replace)
+                .replace('""', "'")
+            )
 
             quote_chunks = mod_line.split('"')
             write_line = ''
@@ -99,8 +103,9 @@ def process_idb_dwca(in_zipfile, out_zipfile):
 
             for chunk in quote_chunks:
                 if chunk.startswith('[') and chunk.endswith(']'):
-                    write_line += chunk[1:-1].replace(
-                        ',', ';').replace("'", '').replace(' ', '')
+                    write_line += (
+                        chunk[1:-1].replace(',', ';').replace("'", '').replace(' ', '')
+                    )
                 elif chunk.startswith('{') and chunk.endswith('}'):  # JSON
                     write_line += '"' + chunk + '"'
                 else:
@@ -152,10 +157,7 @@ def test_dwca(dwca_filename):
         ValueError: Raised if points returned is None.
     """
     with PointDwcaReader(
-        dwca_filename,
-        geopoint_term='geoPoint',
-        x_term='lon',
-        y_term='lat'
+        dwca_filename, geopoint_term='geoPoint', x_term='lon', y_term='lat'
     ) as reader:
         for points in reader:
             if points is None:

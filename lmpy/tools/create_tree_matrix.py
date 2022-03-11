@@ -25,13 +25,11 @@ def encode_tree(tree):
     ordered_taxa = [taxon.label for taxon in tree.taxon_namespace]
     node_labels = ['Node {}'.format(i) for i in range(num_nodes)]
 
-    taxon_index_map = {
-        val: idx for idx, val in enumerate(ordered_taxa)
-    }
+    taxon_index_map = {val: idx for idx, val in enumerate(ordered_taxa)}
 
     tree_mtx = Matrix(
         np.zeros((num_tips, num_nodes), dtype=np.bool),
-        headers={'0': ordered_taxa, '1': node_labels}
+        headers={'0': ordered_taxa, '1': node_labels},
     )
 
     def process_node(node, node_idx):
@@ -82,29 +80,27 @@ def main():
     """Main controlling method for script."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        'tree_filename',
-        type=str,
-        help='File path to a phylogenetic tree.'
+        'tree_filename', type=str, help='File path to a phylogenetic tree.'
     )
     parser.add_argument(
         'tree_schema',
         type=str,
-        help='The format of the tree file (ex. newick or nexus).'
+        help='The format of the tree file (ex. newick or nexus).',
     )
     parser.add_argument(
         'out_tree_matrix_filename',
         type=str,
-        help='File path to write encoded tree matrix (tip rows by node columns).'
+        help='File path to write encoded tree matrix (tip rows by node columns).',
     )
     parser.add_argument(
         'out_node_heights_filename',
         type=str,
-        help='File path to write node heights matrix.'
+        help='File path to write node heights matrix.',
     )
     parser.add_argument(
         'out_tip_lengths_filename',
         type=str,
-        help='File path to write tip lengths matrix.'
+        help='File path to write tip lengths matrix.',
     )
     args = parser.parse_args()
 

@@ -14,16 +14,18 @@ def cli():
     """Command-line interface to build shapegrid."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
-        'shapegrid_filename', type=str,
-        help='File location to write shapegrid shapefile.'
+        'shapegrid_filename',
+        type=str,
+        help='File location to write shapegrid shapefile.',
     )
     parser.add_argument('min_x', type=float, help='The minimum x value for the grid.')
     parser.add_argument('min_y', type=float, help='The minimum y value for the grid.')
     parser.add_argument('max_x', type=float, help='The maximum x value for the grid.')
     parser.add_argument('max_y', type=float, help='The maximum y value for the grid.')
     parser.add_argument(
-        'cell_size', type=float,
-        help='The resolution of each grid cell (in EPSG map units).'
+        'cell_size',
+        type=float,
+        help='The resolution of each grid cell (in EPSG map units).',
     )
     parser.add_argument(
         'epsg', type=int, help='The EPSG code (map projection) for the shapegrid.'
@@ -38,7 +40,7 @@ def cli():
         args.max_y,
         args.cell_size,
         args.epsg,
-        cell_sides
+        cell_sides,
     )
 
 

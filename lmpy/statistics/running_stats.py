@@ -43,6 +43,7 @@ def compare_signed_values(observed, test_data):
 # .............................................................................
 class RunningStats(object):
     """Keep track of running statistics to reduce required memory."""
+
     # .....................................
     def __init__(self, observed=None, compare_fn=compare_absolute_values):
         """Construct a RunningStats instance.
@@ -82,7 +83,7 @@ class RunningStats(object):
             self.s_k = Matrix(np.zeros(val[0].shape))
             self.f_counts = Matrix(self.f_counts)
         for v in val:
-            self.count += 1.
+            self.count += 1.0
             mean_k_1 = deepcopy(self.mean)
             self.mean = mean_k_1 + ((v - mean_k_1) / self.count)
             self.s_k = self.s_k + (v - mean_k_1) * (v - self.mean)
@@ -127,8 +128,7 @@ class RunningStats(object):
         if self.f_counts is not None:
             return self.f_counts / float(self.count)
         else:
-            raise Exception(
-                'P-values cannot be computed without observed values')
+            raise Exception('P-values cannot be computed without observed values')
 
 
 # .............................................................................

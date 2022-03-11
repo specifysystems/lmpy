@@ -10,6 +10,7 @@ from lmpy.data_preparation.tree_encoder import EncodingException, TreeEncoder
 # ............................................................................
 class Test_EncodingException:
     """Test the EncodingException class."""
+
     # ............................
     def test_constructor(self):
         """Test the construction since it is just a wrapper class."""
@@ -19,6 +20,7 @@ class Test_EncodingException:
 # ............................................................................
 class Test_TreeEncoder:
     """Test the TreeEncoder class."""
+
     # ............................
     def test_basic_constructor(self):
         """Test with a TreeWrapper and Matrix."""

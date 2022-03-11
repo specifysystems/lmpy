@@ -9,6 +9,7 @@ from copy import deepcopy
 # .............................................................................
 class Test_swap_randomize:
     """Test the swap randomize method."""
+
     # .....................................
     def _test_pam_randomization(self, pam):
         """Helper function to test randomization.
@@ -36,55 +37,50 @@ class Test_swap_randomize:
     def test_empty_column(self):
         """Test with a known matrix that has an empty column."""
         pam = Matrix(
-            np.array([
-                [0, 1, 0, 1, 0],
-                [1, 1, 0, 0, 0],
-                [0, 0, 0, 0, 1],
-                [1, 1, 0, 1, 1]]))
+            np.array(
+                [[0, 1, 0, 1, 0], [1, 1, 0, 0, 0], [0, 0, 0, 0, 1], [1, 1, 0, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_empty_row(self):
         """Test with a known matrix that has an empty row."""
         pam = Matrix(
-            np.array([
-                [0, 1, 0, 1, 0],
-                [1, 1, 1, 0, 0],
-                [0, 0, 0, 0, 0],
-                [1, 1, 0, 1, 1]]))
+            np.array(
+                [[0, 1, 0, 1, 0], [1, 1, 1, 0, 0], [0, 0, 0, 0, 0], [1, 1, 0, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_full_column(self):
         """Test with a known matrix that has a full column."""
         pam = Matrix(
-            np.array([
-                [0, 1, 1, 1, 0],
-                [1, 1, 1, 0, 0],
-                [0, 0, 1, 0, 1],
-                [1, 1, 1, 1, 1]]))
+            np.array(
+                [[0, 1, 1, 1, 0], [1, 1, 1, 0, 0], [0, 0, 1, 0, 1], [1, 1, 1, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_full_row(self):
         """Test with a known matrix that has a full row."""
         pam = Matrix(
-            np.array([
-                [0, 1, 0, 1, 0],
-                [1, 1, 1, 1, 1],
-                [0, 0, 1, 0, 1],
-                [1, 1, 0, 1, 1]]))
+            np.array(
+                [[0, 1, 0, 1, 0], [1, 1, 1, 1, 1], [0, 0, 1, 0, 1], [1, 1, 0, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_known_matrix(self):
         """Test with a known matrix."""
         pam = Matrix(
-            np.array([
-                [0, 1, 0, 1, 0],
-                [1, 1, 1, 0, 0],
-                [0, 0, 1, 0, 1],
-                [1, 1, 0, 1, 1]]))
+            np.array(
+                [[0, 1, 0, 1, 0], [1, 1, 1, 0, 0], [0, 0, 1, 0, 1], [1, 1, 0, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
@@ -103,6 +99,7 @@ class Test_swap_randomize:
 # .............................................................................
 class Test_trial_swap_randomize:
     """Test the trial swap randomize method."""
+
     # .....................................
     def _test_pam_randomization(self, pam):
         """Helper function to test randomization.
@@ -130,55 +127,50 @@ class Test_trial_swap_randomize:
     def test_empty_column(self):
         """Test with a known matrix that has an empty column."""
         pam = Matrix(
-            np.array([
-                [0, 1, 0, 1, 0],
-                [1, 1, 0, 0, 0],
-                [0, 0, 0, 0, 1],
-                [1, 1, 0, 1, 1]]))
+            np.array(
+                [[0, 1, 0, 1, 0], [1, 1, 0, 0, 0], [0, 0, 0, 0, 1], [1, 1, 0, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_empty_row(self):
         """Test with a known matrix that has an empty row."""
         pam = Matrix(
-            np.array([
-                [0, 1, 0, 1, 0],
-                [1, 1, 1, 0, 0],
-                [0, 0, 0, 0, 0],
-                [1, 1, 0, 1, 1]]))
+            np.array(
+                [[0, 1, 0, 1, 0], [1, 1, 1, 0, 0], [0, 0, 0, 0, 0], [1, 1, 0, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_full_column(self):
         """Test with a known matrix that has a full column."""
         pam = Matrix(
-            np.array([
-                [0, 1, 1, 1, 0],
-                [1, 1, 1, 0, 0],
-                [0, 0, 1, 0, 1],
-                [1, 1, 1, 1, 1]]))
+            np.array(
+                [[0, 1, 1, 1, 0], [1, 1, 1, 0, 0], [0, 0, 1, 0, 1], [1, 1, 1, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_full_row(self):
         """Test with a known matrix that has a full row."""
         pam = Matrix(
-            np.array([
-                [0, 1, 0, 1, 0],
-                [1, 1, 1, 1, 1],
-                [0, 0, 1, 0, 1],
-                [1, 1, 0, 1, 1]]))
+            np.array(
+                [[0, 1, 0, 1, 0], [1, 1, 1, 1, 1], [0, 0, 1, 0, 1], [1, 1, 0, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................
     def test_known_matrix(self):
         """Test with a known matrix."""
         pam = Matrix(
-            np.array([
-                [0, 1, 0, 1, 0],
-                [1, 1, 1, 0, 0],
-                [0, 0, 1, 0, 1],
-                [1, 1, 0, 1, 1]]))
+            np.array(
+                [[0, 1, 0, 1, 0], [1, 1, 1, 0, 0], [0, 0, 1, 0, 1], [1, 1, 0, 1, 1]]
+            )
+        )
         self._test_pam_randomization(pam)
 
     # .....................................

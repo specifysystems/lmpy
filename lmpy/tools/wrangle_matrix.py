@@ -36,7 +36,7 @@ def cli():
     parser.add_argument(
         'wrangler_configuration_file',
         type=str,
-        help='Path to Matrix wrangler configuration.'
+        help='Path to Matrix wrangler configuration.',
     )
     parser.add_argument(
         'out_matrix_filename', type=str, help='Path to the outut Matrix.'

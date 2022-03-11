@@ -4,13 +4,17 @@ from tempfile import NamedTemporaryFile
 import pytest
 
 from lmpy.data_preparation.build_grid import (
-    build_shapegrid, hexagon_wkt_generator, make_polygon_wkt_from_points,
-    square_wkt_generator)
+    build_shapegrid,
+    hexagon_wkt_generator,
+    make_polygon_wkt_from_points,
+    square_wkt_generator,
+)
 
 
 # .............................................................................
 class Test_build_shapegrid:
     """Test build_shapegrid."""
+
     # ................................
     def test_simple_square(self):
         """Basic test to make sure it doesn't just fail."""
@@ -40,6 +44,7 @@ class Test_build_shapegrid:
 # .............................................................................
 class Test_make_polygon_wkt_from_points:
     """Test make_polygon_wkt_from_points."""
+
     # ................................
     def test_simple(self):
         """Perform a simple test that a known string is produced."""
@@ -53,6 +58,7 @@ class Test_make_polygon_wkt_from_points:
 # .............................................................................
 class Test_hexagon_wkt_generator:
     """Test hexagon_wkt_generator."""
+
     # ................................
     def test_simple(self):
         """Basic test to make sure it doesn't just fail and returns strings."""
@@ -63,6 +69,7 @@ class Test_hexagon_wkt_generator:
 # .............................................................................
 class Test_square_wkt_generator:
     """Test square_wkt_generator."""
+
     # ................................
     def test_simple(self):
         """Basic test to make sure it doesn't just fail and returns strings."""

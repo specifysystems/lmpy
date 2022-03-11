@@ -7,9 +7,7 @@ from lmpy.point import PointCsvReader, PointCsvWriter
 
 
 # .....................................................................................
-def clean_data(
-    reader, writer_filename, wranglers, write_fields=None, log_output=False
-):
+def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output=False):
     """Clean occurrence data.
 
     Args:
@@ -25,15 +23,19 @@ def clean_data(
         dict: Output report from data wrangling.
     """
     if log_output:
+
         def log_msg(msg):
             print(msg)
+
     else:
+
         def log_msg(msg):
             pass
+
     report = {
         'input_records': 0,
         'output_records': 0,
-        'wranglers': {wrangler_name: {'removed': 0} for wrangler_name, _ in wranglers}
+        'wranglers': {wrangler_name: {'removed': 0} for wrangler_name, _ in wranglers},
     }
     # Open reader
     reader.open()
@@ -69,24 +71,38 @@ def cli():
     """A command-line interface to the tool."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-sp', '--species_key', type=str, default='species_name',
-        help='The CSV column header for species name.'
+        '-sp',
+        '--species_key',
+        type=str,
+        default='species_name',
+        help='The CSV column header for species name.',
     )
     parser.add_argument(
-        '-x', '--x_key', type=str, default='x',
-        help='The CSV column header for the X (longitude) field.'
+        '-x',
+        '--x_key',
+        type=str,
+        default='x',
+        help='The CSV column header for the X (longitude) field.',
     )
     parser.add_argument(
-        '-y', '--y_key', type=str, default='y',
-        help='The CSV column header for the Y (latitude) field.'
+        '-y',
+        '--y_key',
+        type=str,
+        default='y',
+        help='The CSV column header for the Y (latitude) field.',
     )
     parser.add_argument(
-        '-r', '--report_filename', type=str,
-        help='File location to write optional output report JSON.'
+        '-r',
+        '--report_filename',
+        type=str,
+        help='File location to write optional output report JSON.',
     )
     parser.add_argument(
-        '-l', '--log_output', action='store_true', default=False,
-        help='Should output messages be written to console.'
+        '-l',
+        '--log_output',
+        action='store_true',
+        default=False,
+        help='Should output messages be written to console.',
     )
     parser.add_argument(
         'reader_filename', type=str, help='Input occurrence CSV filename.'

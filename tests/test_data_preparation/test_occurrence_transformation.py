@@ -6,10 +6,14 @@ import numpy as np
 
 from lmpy.point import PointCsvReader, PointCsvWriter
 from lmpy.data_preparation.occurrence_transformation import (
-    get_chunk_key, sort_points, split_points, wrangle_points
+    get_chunk_key,
+    sort_points,
+    split_points,
+    wrangle_points,
 )
 from lmpy.data_wrangling.occurrence.filters import (
-    get_bounding_box_filter, get_minimum_points_filter
+    get_bounding_box_filter,
+    get_minimum_points_filter,
 )
 
 
@@ -25,24 +29,24 @@ def _create_csv_reader(num_points, num_species):
         str: The path to the created file.
     """
     with tempfile.NamedTemporaryFile(
-            mode='wt', encoding='utf8', suffix='.csv', delete=False
-            ) as reader_file:
+        mode='wt', encoding='utf8', suffix='.csv', delete=False
+    ) as reader_file:
         reader_filename = reader_file.name
         reader_file.write('Species,x,y\n')
         for _ in range(num_points):
             reader_file.write(
                 'Species {},{},{}\n'.format(
                     np.random.randint(0, num_species),
-                    np.random.randint(-180, 180), np.random.randint(-90, 90)))
+                    np.random.randint(-180, 180),
+                    np.random.randint(-90, 90),
+                )
+            )
     return reader_filename
 
 
 # .............................................................................
 def _verify_sorted(
-    reader_filename,
-    species_field='species_name',
-    x_field='x',
-    y_field='y'
+    reader_filename, species_field='species_name', x_field='x', y_field='y'
 ):
     """Verify that a set of points are sorted.
 
@@ -72,6 +76,7 @@ def _verify_sorted(
 # .............................................................................
 class Test_get_chunk_key:
     """Tests for get_chunk_key."""
+
     # ................................
     def test_general(self):
         """Perform general testing for getting chunk keys."""
@@ -89,15 +94,16 @@ class Test_get_chunk_key:
 # .............................................................................
 class Test_sort_points:
     """Tests for sort_points."""
+
     # ................................
     def test_simple(self):
         """Test with one reader and no wranglers."""
         reader_filename = _create_csv_reader(200, 5)
         writer_filename = tempfile.NamedTemporaryFile(
-            mode='wt', encoding='utf8', suffix='.csv').name
+            mode='wt', encoding='utf8', suffix='.csv'
+        ).name
         with PointCsvReader(reader_filename, 'Species', 'x', 'y') as reader:
-            with PointCsvWriter(
-                    writer_filename, ['species_name', 'x', 'y']) as writer:
+            with PointCsvWriter(writer_filename, ['species_name', 'x', 'y']) as writer:
                 sort_points(reader, writer)
 
         # Verify points are sorted
@@ -118,9 +124,9 @@ class Test_sort_points:
             readers.append(reader)
 
         writer_filename = tempfile.NamedTemporaryFile(
-            mode='wt', encoding='utf8', suffix='.csv').name
-        with PointCsvWriter(
-                writer_filename, ['species_name', 'x', 'y']) as writer:
+            mode='wt', encoding='utf8', suffix='.csv'
+        ).name
+        with PointCsvWriter(writer_filename, ['species_name', 'x', 'y']) as writer:
             sort_points(readers, writer)
 
         # Verify points are sorted
@@ -139,7 +145,7 @@ class Test_sort_points:
         """Test with multiple readers and data wranglers."""
         wranglers = [
             get_bounding_box_filter(-30, -30, 30, 30),
-            get_minimum_points_filter(10)
+            get_minimum_points_filter(10),
         ]
         readers = []
         for _ in range(10):
@@ -149,9 +155,9 @@ class Test_sort_points:
             readers.append(reader)
 
         writer_filename = tempfile.NamedTemporaryFile(
-            mode='wt', encoding='utf8', suffix='.csv').name
-        with PointCsvWriter(
-                writer_filename, ['species_name', 'x', 'y']) as writer:
+            mode='wt', encoding='utf8', suffix='.csv'
+        ).name
+        with PointCsvWriter(writer_filename, ['species_name', 'x', 'y']) as writer:
             sort_points(readers, writer, wranglers=wranglers)
 
         # Verify points are sorted
@@ -169,6 +175,7 @@ class Test_sort_points:
 # .............................................................................
 class Test_split_points:
     """Tests for split_points."""
+
     # ................................
     def test_multiple_with_wranglers(self):
         """Test with multiple readers and data wranglers."""
@@ -187,25 +194,22 @@ class Test_split_points:
         writers = {}
         for i in range(10):
             writer_filename = tempfile.NamedTemporaryFile(
-                mode='wt', encoding='utf8', suffix='{}.csv'.format(i)).name
-            writer = PointCsvWriter(
-                writer_filename, ['species_name', 'x', 'y'])
+                mode='wt', encoding='utf8', suffix='{}.csv'.format(i)
+            ).name
+            writer = PointCsvWriter(writer_filename, ['species_name', 'x', 'y'])
             writer.open()
             writers[str(i)] = writer
 
-        split_points(
-            readers, writers, 'species_name', 1, 8, wranglers=wranglers)
+        split_points(readers, writers, 'species_name', 1, 8, wranglers=wranglers)
 
         # Verify points are in correct writer, close writer, and delete file
         for (code, writer) in writers.items():
             writer.close()
-            with PointCsvReader(
-                    writer.filename, 'species_name', 'x', 'y') as reader:
+            with PointCsvReader(writer.filename, 'species_name', 'x', 'y') as reader:
                 for points in reader:
                     for point in points:
                         # Check that all points are in correct writer
-                        assert point.species_name.startswith(
-                            'Species {}'.format(code))
+                        assert point.species_name.startswith('Species {}'.format(code))
             os.remove(writer.filename)
 
         # Close readers and delete filenames
@@ -217,12 +221,13 @@ class Test_split_points:
 # .............................................................................
 class Test_wrangle_points:
     """Tests for wrangle_points."""
+
     # ................................
     def test_general(self):
         """General testing of wrangle points."""
         wranglers = [
             get_bounding_box_filter(-30, -30, 30, 30),
-            get_minimum_points_filter(10)
+            get_minimum_points_filter(10),
         ]
         readers = []
         for _ in range(10):
@@ -232,9 +237,9 @@ class Test_wrangle_points:
             readers.append(reader)
 
         writer_filename = tempfile.NamedTemporaryFile(
-            mode='wt', encoding='utf8', suffix='.csv').name
-        with PointCsvWriter(
-                writer_filename, ['species_name', 'x', 'y']) as writer:
+            mode='wt', encoding='utf8', suffix='.csv'
+        ).name
+        with PointCsvWriter(writer_filename, ['species_name', 'x', 'y']) as writer:
             sort_points(readers, writer)
 
         # Verify points are sorted
@@ -247,12 +252,14 @@ class Test_wrangle_points:
 
         # Use the writer output for input to wrangle
         with PointCsvReader(
-                writer_filename, 'species_name', 'x', 'y') as wrangle_reader:
+            writer_filename, 'species_name', 'x', 'y'
+        ) as wrangle_reader:
             wrangler_writer_filename = tempfile.NamedTemporaryFile(
-                mode='wt', encoding='utf8', suffix='.csv').name
+                mode='wt', encoding='utf8', suffix='.csv'
+            ).name
             with PointCsvWriter(
-                    wrangler_writer_filename, ['species_name', 'x', 'y']
-                    ) as writer:
+                wrangler_writer_filename, ['species_name', 'x', 'y']
+            ) as writer:
                 wrangle_points(wrangle_reader, writer, wranglers=wranglers)
         # Delete writer files
         os.remove(writer_filename)
