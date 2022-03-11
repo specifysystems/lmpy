@@ -1,14 +1,28 @@
 """Test the split occurrence data tool."""
 from collections import namedtuple
 import csv
+from io import StringIO
+import json
+import os
 import shutil
-import xml.etree.ElementTree as ET
+import tempfile
+# Bandit doesn't like bare element tree but we need it for creating xml docs.
+# Note that we only create XML, we don't parse anything
+import xml.etree.ElementTree as ET  # nosec
 import zipfile
 
 import numpy as np
 import pytest
 
-from lmpy.point import DWCA_OCCURRENCE_PARAMS, OCCURRENCE_ROW_TYPE
+from lmpy.point import (
+    CORE_TAG,
+    DWCA_OCCURRENCE_PARAMS,
+    FIELD_TAG,
+    FILES_TAG,
+    ID_TAG,
+    LOCATION_TAG,
+    OCCURRENCE_ROW_TYPE,
+)
 from lmpy.tools.split_occurrence_data import cli
 
 
@@ -28,6 +42,7 @@ SPECIES_MAP = {
     'Accepted E': 'Accepted E',
     'Accepted G': 'Accepted G'
 }
+
 
 # .....................................................................................
 def get_random_int_func(min_val, max_val):
@@ -67,7 +82,7 @@ def get_random_float_func(min_val, max_val, min_precision, max_precision):
     """
     # ..................
     def get_random_float():
-        """Get a random float
+        """Get a random float.
 
         Returns:
             float: A random float in the range specified in the outer function.
@@ -100,16 +115,19 @@ def get_random_string_func(min_chars, max_chars, char_set, do_capitalize):
         Returns:
             str: A randomly generated string determined by outer function parameters.
         """
-        rand_str = ''.join([
-            np.random.choice(
-                char_set
-            ) for _ in np.random.randint(min_chars, max_chars)]
-        ])
+        rand_str = ''.join(
+            [
+                np.random.choice(
+                    char_set
+                ) for _ in np.random.randint(min_chars, max_chars)
+            ]
+        )
         if do_capitalize:
             rand_str = rand_str.capitalize()
         return rand_str
 
     return get_random_string
+
 
 # .....................................................................................
 def get_random_choice_func(choices):
@@ -134,7 +152,7 @@ def get_random_choice_func(choices):
 
 
 # .....................................................................................
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='session')
 def generate_temp_filename(request):
     """Get a function to generate (and clean up) temporary files.
 
@@ -181,10 +199,10 @@ def temp_directory():
         str: A directory to use for testing.
     """
     dir_name = tempfile.TemporaryDirectory().name
+    os.makedirs(dir_name)
     yield dir_name
 
     shutil.rmtree(dir_name)
-
 
 
 # .....................................................................................
@@ -198,7 +216,7 @@ SimulatedField = namedtuple(
 
 
 # .....................................................................................
-def generate_dwca(filename, count, fields)
+def generate_dwca(filename, count, fields):
     """Generate a DarwinCore Archive for testing.
 
     Args:
@@ -212,7 +230,7 @@ def generate_dwca(filename, count, fields)
     meta_el = ET.Element('archive')
     core_el = ET.SubElement(
         meta_el,
-        'core',
+        CORE_TAG,
         attrib={
             'encoding': DWCA_OCCURRENCE_PARAMS['encoding'],
             'fieldsTerminatedBy': ',',
@@ -221,14 +239,14 @@ def generate_dwca(filename, count, fields)
             'rowType': OCCURRENCE_ROW_TYPE
         }
     )
-    ET.SubElement(ET.SubElement(core_el, 'files'), 'location').text = occ_filename
+    ET.SubElement(ET.SubElement(core_el, FILES_TAG), LOCATION_TAG).text = occ_filename
 
     # Add id?
-    ET.SubElement(core_el, 'id', attrib={'index': 0})
+    ET.SubElement(core_el, ID_TAG, attrib={'index': '0'})
 
     # Add fields
     for idx, fld in enumerate(fields):
-        ET.SubElement(core_el, 'field', attrib={'index': idx, 'term': fld['concept']})
+        ET.SubElement(core_el, FIELD_TAG, attrib={'index': str(idx), 'term': fld.concept})
 
     # Open zip file
     with zipfile.ZipFile(
@@ -237,18 +255,18 @@ def generate_dwca(filename, count, fields)
         # Write out occurrence data
         occ_buffer = StringIO()
         csv_writer = csv.DictWriter(
-            occ_buffer, delimiter=',', fieldnames=[f['header'] for f in fields]
+            occ_buffer, delimiter=',', fieldnames=[f.header for f in fields]
         )
         csv_writer.writeheader()
         for _ in range(count):
-            csv_writer.writerow({f['header']: f['create']() for f in fields})
+            csv_writer.writerow({f.header: f.create() for f in fields})
         zip_f.writestr(occ_filename, occ_buffer.getvalue())
         # Write out metadata
-        zip_f.writestr('meta.xml', ET.dump(meta_el)
+        zip_f.writestr('meta.xml', ET.tostring(meta_el))
 
 
 # .....................................................................................
-def generate_csv(filename, count, fields)
+def generate_csv(filename, count, fields):
     """Generate a CSV file for testing.
 
     Args:
@@ -257,11 +275,14 @@ def generate_csv(filename, count, fields)
         fields (list of SimulatedField): A list of simulated fields.
     """
     with open(filename, mode='wt') as out_file:
-        # Write header
-        out_file.write('{}\n'.format(','.join([f['header'] for f in fields])))
+        # Write out occurrence data
+        csv_writer = csv.DictWriter(
+            out_file, delimiter=',', fieldnames=[f.header for f in fields]
+        )
+        csv_writer.writeheader()
         for _ in range(count):
             # Write row of simulated values
-            out_file.write('{}\n'.format(','.join([f['create']() for f in fields])))
+            csv_writer.writerow({f.header: f.create() for f in fields})
 
 
 # .....................................................................................
@@ -289,13 +310,13 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
         SimulatedField(
             'latitude',
             'http://rs.tdwg.org/dwc/terms/decimalLatitude',
-            get_random_float(-90.0, 90.0, 2, 6),
+            get_random_float_func(-90.0, 90.0, 2, 6),
             'float'
         ),
         SimulatedField(
             'longitude',
             'http://rs.tdwg.org/dwc/terms/decimalLongitude',
-            get_random_float(-180.0, 180.0, 2, 6),
+            get_random_float_func(-180.0, 180.0, 2, 6),
             'float'
         )
     ]
@@ -306,7 +327,7 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
                 {
                     'wrangler_type': 'attribute_modifier',
                     'attribute_name': 'taxonname',
-                    'map_names': SPECIES_MAP
+                    'map_values': SPECIES_MAP
                 }
             ],
             json_out
@@ -318,31 +339,24 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
         '-k',
         'taxonname',
         '--dwca',
-        'dwca_filename',
-        'wrangler_config_filename',
+        dwca_filename,
+        wrangler_config_filename,
         temp_directory
     ]
 
-    monkeypatch('sys.argv', params)
+    monkeypatch.setattr('sys.argv', params)
     cli()
 
     # Todo: Check output
 
-"""
-DWCA
-CSV
-Multiple of each
+
+# .....................................................................................
+def test_one_csv():
+    """Test splitting one csv file."""
+    pass
 
 
-mix of formats and fields
-wranglers
-
-make sure to test max open writers
-
-test output fields
-
-wranglers
- accepted name
- common format - species, x, y, source, original sp
-
-"""
+# .....................................................................................
+def test_complex():
+    """Test splitting multiple files of different types."""
+    pass
