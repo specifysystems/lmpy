@@ -246,7 +246,11 @@ def generate_dwca(filename, count, fields):
 
     # Add fields
     for idx, fld in enumerate(fields):
-        ET.SubElement(core_el, FIELD_TAG, attrib={'index': str(idx), 'term': fld.concept})
+        ET.SubElement(
+            core_el,
+            FIELD_TAG,
+            attrib={'index': str(idx), 'term': fld.concept},
+        )
 
     # Open zip file
     with zipfile.ZipFile(
