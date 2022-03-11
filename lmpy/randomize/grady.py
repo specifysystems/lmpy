@@ -49,9 +49,7 @@ def total_fill_percentage_heuristic(orig_pam):
     fill = np.sum(orig_pam)
     fill_percentage = 1.0 * fill / orig_pam.size
     approx = (
-        np.random.uniform(
-            low=0.0, high=1.0, size=orig_pam.shape
-        ) <= fill_percentage
+        np.random.uniform(low=0.0, high=1.0, size=orig_pam.shape) <= fill_percentage
     ).astype(int)
     return approx
 
@@ -75,14 +73,11 @@ def max_col_or_row_heuristic(orig_pam):
     row_weights = row_totals.astype(float) / row_totals.shape[0]
     col_weights = col_totals.astype(float) / col_totals.shape[0]
 
-    row_weights = np.expand_dims(
-        row_totals.astype(float) / row_totals.shape[0], 1)
-    col_weights = np.expand_dims(
-        col_totals.astype(float) / col_totals.shape[0], 0)
+    row_weights = np.expand_dims(row_totals.astype(float) / row_totals.shape[0], 1)
+    col_weights = np.expand_dims(col_totals.astype(float) / col_totals.shape[0], 0)
     return (
-        np.random.uniform(
-            low=0.0, high=1.0, size=orig_pam.shape
-        ) <= np.maximum(row_weights, col_weights)
+        np.random.uniform(low=0.0, high=1.0, size=orig_pam.shape)
+        <= np.maximum(row_weights, col_weights)
     ).astype(int)
 
 
@@ -102,14 +97,11 @@ def min_col_or_row_heuristic(orig_pam):
     row_totals = np.sum(orig_pam, axis=1, dtype=int)
     col_totals = np.sum(orig_pam, axis=0, dtype=int)
 
-    row_weights = np.expand_dims(
-        row_totals.astype(float) / row_totals.shape[0], 1)
-    col_weights = np.expand_dims(
-        col_totals.astype(float) / col_totals.shape[0], 0)
+    row_weights = np.expand_dims(row_totals.astype(float) / row_totals.shape[0], 1)
+    col_weights = np.expand_dims(col_totals.astype(float) / col_totals.shape[0], 0)
     return (
-        np.random.uniform(
-            low=0.0, high=1.0, size=orig_pam.shape
-        ) <= np.minimum(row_weights, col_weights, dtype=np.single)
+        np.random.uniform(low=0.0, high=1.0, size=orig_pam.shape)
+        <= np.minimum(row_weights, col_weights, dtype=np.single)
     ).astype(int)
 
 
@@ -173,15 +165,13 @@ def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic
     for i in np.where(row_sums > row_totals)[0]:
         row_choices = np.where(rand_mtx_data[i] == 1)[0]
         change_count = int(row_sums[i] - row_totals[i])
-        rand_mtx_data[
-            i, np.random.permutation(row_choices)[:change_count]] = False
+        rand_mtx_data[i, np.random.permutation(row_choices)[:change_count]] = False
 
     col_sums = np.sum(rand_mtx_data, axis=0).reshape((1, num_cols))
     for j in np.where(col_sums > col_totals)[1]:
         col_choices = np.where(rand_mtx_data[:, j] == 1)[0]
         change_count = int(col_sums[0, j] - col_totals[0, j])
-        rand_mtx_data[
-            np.random.permutation(col_choices)[:change_count], j] = False
+        rand_mtx_data[np.random.permutation(col_choices)[:change_count], j] = False
 
     # Step 3: Fill
     # ...........................
@@ -192,13 +182,15 @@ def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic
     col_sums = np.sum(rand_mtx_data, axis=0)
 
     unfilled_cols = np.where(col_sums < col_totals[0, :])[0].tolist()
-    for row_idx in np.random.permutation(
-            np.where(row_sums < row_totals[:, 0])[0]):
+    for row_idx in np.random.permutation(np.where(row_sums < row_totals[:, 0])[0]):
 
         possible_cols = np.random.permutation(
             np.intersect1d(
                 np.where(rand_mtx_data[row_idx, :] == 0)[0],
-                unfilled_cols, assume_unique=True))
+                unfilled_cols,
+                assume_unique=True,
+            )
+        )
         num_to_fill = int(row_totals[row_idx, 0] - row_sums[row_idx])
         if num_to_fill > possible_cols.shape[0]:
             # Add this row to problem rows because we can't fill it enough
@@ -213,8 +205,9 @@ def grady_randomize(mtx, approximation_heuristic=total_fill_percentage_heuristic
 
         # Check if we should remove these columns from the list
         for c in np.where(
-            col_sums[possible_cols[:num_to_fill]] == col_totals[
-                0, possible_cols[:num_to_fill]])[0]:
+            col_sums[possible_cols[:num_to_fill]]
+            == col_totals[0, possible_cols[:num_to_fill]]
+        )[0]:
             unfilled_cols.remove(possible_cols[c])
 
     problem_cols = unfilled_cols
@@ -276,5 +269,5 @@ __all__ = [
     'grady_randomize',
     'max_col_or_row_heuristic',
     'min_col_or_row_heuristic',
-    'total_fill_percentage_heuristic'
+    'total_fill_percentage_heuristic',
 ]

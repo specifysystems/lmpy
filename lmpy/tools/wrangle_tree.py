@@ -34,23 +34,23 @@ def cli():
         'tree_schema',
         type=str,
         choices=['newick', 'nexus'],
-        help='The schema of the input phylogenetic tree.'
+        help='The schema of the input phylogenetic tree.',
     )
     parser.add_argument(
         'wrangler_configuration_file',
         type=str,
-        help='Path to phylogenetic tree wrangler configuration.'
+        help='Path to phylogenetic tree wrangler configuration.',
     )
     parser.add_argument(
         'out_tree_filename',
         type=str,
-        help='Path to write the wrangled phylogenetic tree.'
+        help='Path to write the wrangled phylogenetic tree.',
     )
     parser.add_argument(
         'out_tree_schema',
         type=str,
         choices=['newick', 'nexus'],
-        help='The schema of the output phylogenetic tree.'
+        help='The schema of the output phylogenetic tree.',
     )
     args = parser.parse_args()
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)

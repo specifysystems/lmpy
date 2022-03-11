@@ -30,7 +30,9 @@ def get_chunk_key(value, group_position, group_size, filler_char='a'):
         str: The group chunk key from the value.
     """
     value += 10 * filler_char
-    return value[group_size * group_position:group_size * (group_position + 1)].lower()
+    return value[
+        group_size * group_position : group_size * (group_position + 1)
+    ].lower()
 
 
 # .............................................................................
@@ -64,12 +66,7 @@ def sort_points(readers, writer, wranglers=None):
 
 # .............................................................................
 def split_points(
-    readers,
-    writers,
-    group_attribute,
-    group_size,
-    group_position,
-    wranglers=None
+    readers, writers, group_attribute, group_size, group_position, wranglers=None
 ):
     """Split points in the readers into smaller chunks for easier processing.
 
@@ -92,8 +89,8 @@ def split_points(
         for points in reader:
             # Assume all points returned go into the same group
             location_key = get_chunk_key(
-                points[0].get_attribute(group_attribute), group_position,
-                group_size)
+                points[0].get_attribute(group_attribute), group_position, group_size
+            )
             if wranglers:
                 for flt in wranglers:
                     if points:

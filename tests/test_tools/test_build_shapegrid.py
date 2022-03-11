@@ -28,10 +28,7 @@ def shapegrid_filename():
 # .....................................................................................
 @pytest.fixture(
     scope='function',
-    params=[
-        (500, -3000, 180, 90, 1, 4326),
-        (20, 20, 10, 10, .25, 4326)
-    ]
+    params=[(500, -3000, 180, 90, 1, 4326), (20, 20, 10, 10, 0.25, 4326)],
 )
 def invalid_shapegrid_parameters(request):
     """Get a list of invalid shapegrid parameter sets.
@@ -50,9 +47,9 @@ def invalid_shapegrid_parameters(request):
     scope='function',
     params=[
         (-180, -90, 180, 90, 1, 4326),
-        (-10, -10, 10, 10, .25, 4326),
-        (166021, 0, 833978, 9329005, 10000, 32617)
-    ]
+        (-10, -10, 10, 10, 0.25, 4326),
+        (166021, 0, 833978, 9329005, 10000, 32617),
+    ],
 )
 def shapegrid_parameters(request):
     """Get a list of valid shapegrid parameter sets.

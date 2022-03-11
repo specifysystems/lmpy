@@ -48,16 +48,19 @@ def hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
 
     while y_coord > min_y:
         # Every other row needs to be shifted slightly
-        x_coord = min_x if y_row else min_x + (x_res * .75)
+        x_coord = min_x if y_row else min_x + (x_res * 0.75)
 
         while x_coord < max_x:
-            yield make_polygon_wkt_from_points([
-                (x_coord - (x_res * .25), y_coord + (y_res * .25) * SQRT_3),
-                (x_coord + (x_res * .25), y_coord + (y_res * .25) * SQRT_3),
-                (x_coord + (x_res * .25), y_coord),
-                (x_coord + (x_res * .25), y_coord - (y_res * .25) * SQRT_3),
-                (x_coord - (x_res * .25), y_coord - (y_res * .25) * SQRT_3),
-                (x_coord - (x_res * .5), y_coord)])
+            yield make_polygon_wkt_from_points(
+                [
+                    (x_coord - (x_res * 0.25), y_coord + (y_res * 0.25) * SQRT_3),
+                    (x_coord + (x_res * 0.25), y_coord + (y_res * 0.25) * SQRT_3),
+                    (x_coord + (x_res * 0.25), y_coord),
+                    (x_coord + (x_res * 0.25), y_coord - (y_res * 0.25) * SQRT_3),
+                    (x_coord - (x_res * 0.25), y_coord - (y_res * 0.25) * SQRT_3),
+                    (x_coord - (x_res * 0.5), y_coord),
+                ]
+            )
             x_coord += x_step
         y_row = not y_row
         y_coord += y_step
@@ -80,11 +83,14 @@ def square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
     """
     for y_coord in np.arange(max_y, min_y, -y_res):
         for x_coord in np.arange(min_x, max_x, x_res):
-            yield make_polygon_wkt_from_points([
-                (x_coord, y_coord),
-                (x_coord + x_res, y_coord),
-                (x_coord + x_res, y_coord - y_res),
-                (x_coord, y_coord - y_res)])
+            yield make_polygon_wkt_from_points(
+                [
+                    (x_coord, y_coord),
+                    (x_coord + x_res, y_coord),
+                    (x_coord + x_res, y_coord - y_res),
+                    (x_coord, y_coord - y_res),
+                ]
+            )
 
 
 # .............................................................................
@@ -100,7 +106,7 @@ def build_shapegrid(
     site_id='siteid',
     site_x='siteX',
     site_y='siteY',
-    cutout_wkt=None
+    cutout_wkt=None,
 ):
     """Build a shapegrid with an optional cutout.
 
@@ -131,8 +137,9 @@ def build_shapegrid(
         raise ValueError(f'Illegal bounds: ({min_x}, {min_y}, {max_x}, {max_y})')
     # We'll always check for intersection to reduce amount of work
     if cutout_wkt is None:
-        cutout_wkt = make_polygon_wkt_from_points([
-            (min_x, max_y), (max_x, max_y), (max_x, min_y), (min_x, min_y)])
+        cutout_wkt = make_polygon_wkt_from_points(
+            [(min_x, max_y), (max_x, max_y), (max_x, min_y), (min_x, min_y)]
+        )
     selected_poly = ogr.CreateGeometryFromWkt(cutout_wkt)
 
     # Just in case we decide that these can vary at some point
@@ -146,18 +153,17 @@ def build_shapegrid(
     data_set = drv.CreateDataSource(shapegrid_file_name)
 
     layer = data_set.CreateLayer(
-        data_set.GetName(), geom_type=ogr.wkbPolygon, srs=target_srs)
+        data_set.GetName(), geom_type=ogr.wkbPolygon, srs=target_srs
+    )
     layer.CreateField(ogr.FieldDefn(site_id, ogr.OFTInteger))
     layer.CreateField(ogr.FieldDefn(site_x, ogr.OFTReal))
     layer.CreateField(ogr.FieldDefn(site_y, ogr.OFTReal))
 
     # Set up generator
     if cell_sides == 4:
-        wkt_generator = square_wkt_generator(
-            min_x, min_y, max_x, max_y, x_res, y_res)
+        wkt_generator = square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
     elif cell_sides == 6:
-        wkt_generator = hexagon_wkt_generator(
-            min_x, min_y, max_x, max_y, x_res, y_res)
+        wkt_generator = hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
     else:
         raise ValueError(
             'Cannot generate shapegrid cells with {} sides'.format(cell_sides)
@@ -186,5 +192,5 @@ __all__ = [
     'build_shapegrid',
     'hexagon_wkt_generator',
     'make_polygon_wkt_from_points',
-    'square_wkt_generator'
+    'square_wkt_generator',
 ]

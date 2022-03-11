@@ -86,10 +86,14 @@ def get_common_format_modifier(attribute_map):
     # .......................
     def modify_func(point):
         new_pt = Point(
-            point.species_name, point.x, point.y,
+            point.species_name,
+            point.x,
+            point.y,
             attributes={
                 new_name: point.get_attribute(old_name)
-                for old_name, new_name in attribute_map.items()})
+                for old_name, new_name in attribute_map.items()
+            },
+        )
         return new_pt
 
     return get_occurrence_map(modify_func)

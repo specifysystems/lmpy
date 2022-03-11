@@ -31,12 +31,12 @@ def cli():
     parser.add_argument(
         'input_pam_filename',
         type=str,
-        help='The file location of the PAM to randomize.'
+        help='The file location of the PAM to randomize.',
     )
     parser.add_argument(
         'output_pam_filename',
         type=str,
-        help='The file location to write the randomized PAM.'
+        help='The file location to write the randomized PAM.',
     )
     args = parser.parse_args()
     in_pam = Matrix.load(args.input_pam_filename)

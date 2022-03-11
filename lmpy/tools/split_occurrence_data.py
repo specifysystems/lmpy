@@ -25,6 +25,7 @@ def get_writer_filename_func(base_dir):
     Returns:
         Method: A function that returns a filename when given a writer key.
     """
+
     def get_writer_filename_from_key(writer_key):
         """Get a writer filename from a writer key and create directories if needed.
 
@@ -40,6 +41,7 @@ def get_writer_filename_func(base_dir):
             writer_fn = '{}.csv'.format(os.path.join(base_dir, *writer_key))
         os.makedirs(os.path.dirname(writer_fn), exist_ok=True)
         return writer_fn
+
     return get_writer_filename_from_key
 
 
@@ -69,19 +71,21 @@ def get_writer_key_from_fields_func(*fields):
         if len(writer_key) == 1:
             return writer_key[0]
         return writer_key
+
     return key_from_fields_func
 
 
 # .....................................................................................
 class OccurrenceSplitter:
     """A tool for splitting occurrence data by some criteria for easier processing."""
+
     # .......................
     def __init__(
         self,
         writer_key_func,
         writer_filename_func,
         write_fields=None,
-        max_writers=DEFAULT_MAX_WRITERS
+        max_writers=DEFAULT_MAX_WRITERS,
     ):
         """Constructor.
 
@@ -191,7 +195,7 @@ def cli():
             'The maximum number of data writers to have open at once. '
             'Too many open files can cause errors. '
             'Default: {}.'.format(DEFAULT_MAX_WRITERS)
-        )
+        ),
     )
     parser.add_argument(
         '-k',
@@ -201,7 +205,7 @@ def cli():
         help=(
             'A field to use to determine writer key.  Multiple values can be used to '
             'utilize multiple fields.'
-        )
+        ),
     )
     parser.add_argument(
         '-of',
@@ -211,13 +215,13 @@ def cli():
         help=(
             'Include this field in the outputs.  If not provided, all fields from the '
             'first point ready for output will be used.'
-        )
+        ),
     )
     parser.add_argument(
         '--dwca',
         action='append',
         nargs=2,
-        help='A Darwin-Core Archive to process and associated wrangler configuration.'
+        help='A Darwin-Core Archive to process and associated wrangler configuration.',
     )
     parser.add_argument(
         '--csv',
@@ -226,13 +230,11 @@ def cli():
         help=(
             'A CSV file to process, an associated wrangler configuration file, '
             'a species header key, an x header key, and a y header key.'
-        )
+        ),
     )
 
     parser.add_argument(
-        'out_dir',
-        type=str,
-        help='Directory where the output data should be written.'
+        'out_dir', type=str, help='Directory where the output data should be written.'
     )
     args = parser.parse_args()
 
@@ -249,7 +251,7 @@ def cli():
         writer_key_func,
         writer_filename_func,
         write_fields=write_fields,
-        max_writers=args.max_open_writers
+        max_writers=args.max_open_writers,
     ) as occurrence_processor:
         # For each dwca file
         for dwca_fn, wranglers_fn in args.dwca:

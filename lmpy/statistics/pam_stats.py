@@ -12,6 +12,7 @@ class PamStatsMetric:
     This wrapper is used to classify each statistic so that the arguments it
     needs can be inferred.
     """
+
     # .........................
     def __init__(self, func):
         """Constructor.
@@ -201,8 +202,7 @@ def psi_average_proportional(pam):
         Matrix: A row of proportional range richness for the sites that each species in
             the PAM is present.
     """
-    return alpha(
-        pam).dot(pam).astype(float) / (num_species(pam) * omega(pam))
+    return alpha(pam).dot(pam).astype(float) / (num_species(pam) * omega(pam))
 
 
 # .............................................................................
@@ -290,8 +290,9 @@ def lande(pam):
     Returns:
         float: Lande's beta diversity for the PAM.
     """
-    return float(num_species(pam) - (
-        pam.sum(axis=0).astype(float) / num_sites(pam)).sum())
+    return float(
+        num_species(pam) - (pam.sum(axis=0).astype(float) / num_sites(pam)).sum()
+    )
 
 
 # .............................................................................
@@ -305,8 +306,7 @@ def legendre(pam):
     Returns:
         float: Legendre's beta diversity for the PAM.
     """
-    return float(
-        omega(pam).sum() - (float((omega(pam) ** 2).sum()) / num_sites(pam)))
+    return float(omega(pam).sum() - (float((omega(pam) ** 2).sum()) / num_sites(pam)))
 
 
 # .............................................................................
@@ -365,8 +365,7 @@ def sigma_species(pam):
     """
     species_by_site = pam.T.dot(pam).astype(float)
     omega_prop = omega_proportional(pam)
-    return (species_by_site / num_sites(pam)
-            ) - np.outer(omega_prop, omega_prop)
+    return (species_by_site / num_sites(pam)) - np.outer(omega_prop, omega_prop)
 
 
 # .............................................................................
@@ -384,8 +383,7 @@ def mean_nearest_taxon_distance(phylo_dist_mtx):
         float: The average distance from each taxa to taxa nearest to it.
     """
     try:
-        nearest_total = np.sum(
-            [np.min(row[row > 0.0]) for row in phylo_dist_mtx])
+        nearest_total = np.sum([np.min(row[row > 0.0]) for row in phylo_dist_mtx])
         return float(nearest_total / phylo_dist_mtx.shape[0])
     except Exception:  # pragma: no cover
         return 0.0
@@ -404,9 +402,9 @@ def mean_pairwise_distance(phylo_dist_mtx):
         float: The average distance from each taxa all of the other co-located taxa.
     """
     num_sp = phylo_dist_mtx.shape[0]
-    return float((
-        phylo_dist_mtx.sum() - phylo_dist_mtx.trace()
-        ) / (num_sp * (num_sp - 1)))
+    return float(
+        (phylo_dist_mtx.sum() - phylo_dist_mtx.trace()) / (num_sp * (num_sp - 1))
+    )
 
 
 # .............................................................................
@@ -450,8 +448,7 @@ def pearson_correlation(pam, phylo_dist_mtx):
             for i in range(num_sp - 1):
                 for j in range(i + 1, num_sp):
                     pair_dist.append(phylo_dist_mtx[i, j])
-                    pair_sites_shared.append(
-                        pam[:, i].dot(pam[:, j]))
+                    pair_sites_shared.append(pam[:, i].dot(pam[:, j]))
             # X : Pair distance
             # Y : Pair sites shared
             x_val = np.array(pair_dist)
@@ -459,14 +456,15 @@ def pearson_correlation(pam, phylo_dist_mtx):
             sum_xy = np.sum(x_val * y_val)
             sum_x = np.sum(x_val)
             sum_y = np.sum(y_val)
-            sum_x_sq = np.sum(x_val ** 2)
-            sum_y_sq = np.sum(y_val ** 2)
+            sum_x_sq = np.sum(x_val**2)
+            sum_y_sq = np.sum(y_val**2)
 
             # Pearson
             p_num = sum_xy - sum_x * sum_y / num_pairs
             p_denom = np.sqrt(
-                (sum_x_sq - (sum_x ** 2 / num_pairs)
-                 ) * (sum_y_sq - (sum_y ** 2 / num_pairs)))
+                (sum_x_sq - (sum_x**2 / num_pairs))
+                * (sum_y_sq - (sum_y**2 / num_pairs))
+            )
             pearson[site_idx, 0] = p_num / p_denom
     return pearson
 
@@ -491,36 +489,35 @@ def phylogenetic_diversity(tree):
 # .............................................................................
 class PamStats:
     """Class for managing metric computation for PAM statistics."""
-    covariance_stats = [
-        ('sigma sites', sigma_sites),
-        ('sigma species', sigma_species)
-        ]
+
+    covariance_stats = [('sigma sites', sigma_sites), ('sigma species', sigma_species)]
     diversity_stats = [
         ('c-score', c_score),
         ('lande', lande),
         ('legendre', legendre),
         ('num sites', num_sites),
         ('num species', num_species),
-        ('whittaker', whittaker)
-        ]
+        ('whittaker', whittaker),
+    ]
     site_matrix_stats = [
         ('alpha', alpha),
         ('alpha proportional', alpha_proportional),
         ('phi', phi),
-        ('phi average proportional', phi_average_proportional)
-        ]
+        ('phi average proportional', phi_average_proportional),
+    ]
     site_tree_stats = [('Phylogenetic Diversity', phylogenetic_diversity)]
     site_tree_distance_matrix_stats = [
         ('MNTD', mean_nearest_taxon_distance),
         ('Mean Pairwise Distance', mean_pairwise_distance),
-        ('Sum Pairwise Distance', sum_pairwise_distance)]
+        ('Sum Pairwise Distance', sum_pairwise_distance),
+    ]
     site_pam_dist_mtx_stats = [('pearson_correlation', pearson_correlation)]
     species_matrix_stats = [
         ('omega', omega),
         ('omega_proportional', omega_proportional),
         ('psi', psi),
-        ('psi_average_proportional', psi_average_proportional)
-        ]
+        ('psi_average_proportional', psi_average_proportional),
+    ]
 
     # ...........................
     def __init__(self, pam, tree=None):
@@ -552,9 +549,8 @@ class PamStats:
         print([func(self.pam) for _, func in self.diversity_stats])
         diversity_matrix = Matrix(
             np.array([func(self.pam) for _, func in self.diversity_stats]),
-            headers={
-                '0': ['value'],
-                '1': [name for name, _ in self.diversity_stats]})
+            headers={'0': ['value'], '1': [name for name, _ in self.diversity_stats]},
+        )
         return diversity_matrix
 
     # ...........................
@@ -570,7 +566,9 @@ class PamStats:
             np.zeros((self.pam.shape[0], len(self.site_matrix_stats))),
             headers={
                 '0': self.pam.get_row_headers(),
-                '1': [name for name, _ in self.site_matrix_stats]})
+                '1': [name for name, _ in self.site_matrix_stats],
+            },
+        )
         print('Site matrix stats')
         for i in range(len(self.site_matrix_stats)):
             site_stats_matrix[:, i] = self.site_matrix_stats[i][1](self.pam)
@@ -591,15 +589,19 @@ class PamStats:
                 np.zeros((self.pam.shape[0], len(self.site_tree_stats))),
                 headers={
                     '0': self.pam.get_row_headers(),
-                    '1': [name for name, _ in self.site_tree_stats]})
+                    '1': [name for name, _ in self.site_tree_stats],
+                },
+            )
 
             site_tree_dist_mtx_matrix = Matrix(
-                np.zeros((self.pam.shape[0],
-                          len(self.site_tree_distance_matrix_stats))),
+                np.zeros(
+                    (self.pam.shape[0], len(self.site_tree_distance_matrix_stats))
+                ),
                 headers={
                     '0': self.pam.get_row_headers(),
-                    '1': [name for name, _ in
-                          self.site_tree_distance_matrix_stats]})
+                    '1': [name for name, _ in self.site_tree_distance_matrix_stats],
+                },
+            )
 
             # PAM / Tree stats
             print('Get distance matrix')
@@ -609,12 +611,16 @@ class PamStats:
             if self.site_pam_dist_mtx_stats:
                 site_pam_tree_matrix = Matrix(
                     Matrix.concatenate(
-                        [func(self.pam, phylo_dist_mtx
-                              ) for _, func in self.site_pam_dist_mtx_stats]),
+                        [
+                            func(self.pam, phylo_dist_mtx)
+                            for _, func in self.site_pam_dist_mtx_stats
+                        ]
+                    ),
                     headers={
                         '0': self.pam.get_row_headers(),
-                        '1': [name for name, _ in
-                              self.site_pam_dist_mtx_stats]})
+                        '1': [name for name, _ in self.site_pam_dist_mtx_stats],
+                    },
+                )
 
             print('Site by site')
             # Loop through PAM
@@ -624,28 +630,31 @@ class PamStats:
 
                 # Get sub tree
                 present_labels = list(
-                    filter(lambda x: bool(x),
-                           [ordered_labels[i] for i in present_species]))
+                    filter(
+                        lambda x: bool(x), [ordered_labels[i] for i in present_species]
+                    )
+                )
                 present_dist_mtx_idxs = []
-                for idx, label in enumerate(
-                        phylo_dist_mtx.get_column_headers()):
+                for idx, label in enumerate(phylo_dist_mtx.get_column_headers()):
                     if label in present_labels:
                         present_dist_mtx_idxs.append(idx)
                 try:
                     if present_labels:
                         site_tree = self.tree.extract_tree_with_taxa_labels(
-                            present_labels)
+                            present_labels
+                        )
                         # Get distance matrix
                         site_dist_mtx = phylo_dist_mtx.slice(
-                            present_dist_mtx_idxs, present_dist_mtx_idxs)
+                            present_dist_mtx_idxs, present_dist_mtx_idxs
+                        )
                         # site_dist_mtx = site_tree.get_distance_matrix()
                         site_tree_dist_mtx_matrix[site_idx] = [
-                            func(site_dist_mtx) for (
-                                _, func
-                                ) in self.site_tree_distance_matrix_stats]
+                            func(site_dist_mtx)
+                            for (_, func) in self.site_tree_distance_matrix_stats
+                        ]
                         site_tree_stats_matrix[site_idx] = [
-                            func(site_tree
-                                 ) for _, func in self.site_tree_stats]
+                            func(site_tree) for _, func in self.site_tree_stats
+                        ]
                 except Exception as err:  # pragma: no cover
                     print(err)
                     print(present_labels)
@@ -676,10 +685,11 @@ class PamStats:
             np.zeros((self.pam.shape[1], len(self.species_matrix_stats))),
             headers={
                 '0': self.pam.get_column_headers(),
-                '1': [name for name, _ in self.species_matrix_stats]})
+                '1': [name for name, _ in self.species_matrix_stats],
+            },
+        )
         for i in range(len(self.species_matrix_stats)):
-            species_stats_matrix[:, i] = \
-                self.species_matrix_stats[i][1](self.pam)
+            species_stats_matrix[:, i] = self.species_matrix_stats[i][1](self.pam)
 
         return species_stats_matrix
 
@@ -703,16 +713,13 @@ class PamStats:
         elif isinstance(metric_function, TreeMetric):
             self.site_tree_stats.append((name, metric_function))
         elif isinstance(metric_function, TreeDistanceMatrixMetric):
-            self.site_tree_distance_matrix_stats.append(
-                (name, metric_function))
+            self.site_tree_distance_matrix_stats.append((name, metric_function))
         elif isinstance(metric_function, PamDistMatrixMetric):
             self.site_pam_dist_mtx_stats.append((name, metric_function))
         elif isinstance(metric_function, SpeciesMatrixMetric):
             self.species_matrix_stats.append((name, metric_function))
         else:
-            raise TypeError(
-                'Unknown metric type: {}, {}'.format(name, metric_function)
-            )
+            raise TypeError('Unknown metric type: {}, {}'.format(name, metric_function))
 
 
 # .............................................................................
@@ -748,5 +755,5 @@ __all__ = [
     'sigma_sites',
     'sigma_species',
     'sum_pairwise_distance',
-    'whittaker'
+    'whittaker',
 ]

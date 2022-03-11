@@ -8,6 +8,7 @@ from lmpy.data_wrangling.occurrence.factory import wrangler_factory
 # ............................................................................
 class Test_wrangler_factory:
     """Test the occurrence data wrangler factory."""
+
     # .......................
     def test_wrangler_config(self, occurrence_wrangler_configuration):
         """Test wrangler configurations.
@@ -21,8 +22,10 @@ class Test_wrangler_factory:
             config = json.loads(
                 raw_string.replace(
                     '$THIS_DIR$',
-                    os.path.dirname(
-                        occurrence_wrangler_configuration).replace(
-                        '\\', '/')))
+                    os.path.dirname(occurrence_wrangler_configuration).replace(
+                        '\\', '/'
+                    ),
+                )
+            )
         wrangler = wrangler_factory(config)
         assert wrangler

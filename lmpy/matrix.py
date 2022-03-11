@@ -30,6 +30,7 @@ DATA_FILENAME = 'data.npz'
 # .............................................................................
 class Matrix(np.ndarray):
     """Lifemapper wrapper for Numpy ndarrays that adds headers."""
+
     # ...........................
     def __new__(cls, input_array, headers=None, metadata=None):
         """Create a new Matrix object from an existing ndarray.
@@ -146,8 +147,7 @@ class Matrix(np.ndarray):
                 if num_header_cols == 1:
                     row_headers.append(items[0].strip())
                 elif num_header_cols > 1:
-                    row_headers.append(
-                        [q.strip() for q in items[:num_header_cols]])
+                    row_headers.append([q.strip() for q in items[:num_header_cols]])
                 data.append([dtype(x) for x in items[num_header_cols:]])
 
             i += 1
@@ -213,9 +213,7 @@ class Matrix(np.ndarray):
         for mtx in mtx_list:
             # Make sure we reshape if necessary if adding new axis (stacking)
             if mtx.ndim < axis + 1:  # Add 1 since zero-based
-                mtx = Matrix(
-                    np.expand_dims(mtx, axis),
-                    headers=mtx.headers)
+                mtx = Matrix(np.expand_dims(mtx, axis), headers=mtx.headers)
                 mtx.set_headers([''], axis=str(axis))
             # Cast mtx to Matrix in case it is not
             mtx = mtx.view(Matrix)
@@ -230,7 +228,9 @@ class Matrix(np.ndarray):
         #    metadata
         new_mtx = cls(
             np.concatenate(mtx_objs, axis=axis),
-            headers=first_mtx.get_headers(), metadata=first_mtx.get_metadata())
+            headers=first_mtx.get_headers(),
+            metadata=first_mtx.get_metadata(),
+        )
         # Set the headers for the new axis
         new_mtx.set_headers(axis_headers, axis=str(axis))
         return new_mtx
@@ -252,8 +252,8 @@ class Matrix(np.ndarray):
             old_shape = flat_mtx.shape
             old_num_rows = old_shape[0]
             new_shape = tuple(
-                [old_shape[0]*old_shape[2],
-                 old_shape[1]] + list(old_shape[3:]))
+                [old_shape[0] * old_shape[2], old_shape[1]] + list(old_shape[3:])
+            )
             new_mtx = Matrix(np.zeros(new_shape))
 
             old_rh = flat_mtx.get_row_headers()
@@ -271,14 +271,14 @@ class Matrix(np.ndarray):
                 oh = old_headers[i]
                 # Set data
                 start_row = i * old_num_rows
-                end_row = (i+1) * old_num_rows
+                end_row = (i + 1) * old_num_rows
                 new_mtx[start_row:end_row, :] = flat_mtx[:, :, i]
 
                 # Set row headers
                 for rh in old_rh:
                     if not isinstance(rh, list):
                         rh = [rh]
-                    new_rh.append(rh+[oh])
+                    new_rh.append(rh + [oh])
 
             # Set the headers on the new matrix
             new_mtx.set_row_headers(new_rh)
@@ -290,8 +290,8 @@ class Matrix(np.ndarray):
                     # Reduce the key of the axis by one and set headers on
                     #   new matrix
                     new_mtx.set_headers(
-                        flat_mtx.get_headers(axis=axis),
-                        axis=str(int(axis) - 1))
+                        flat_mtx.get_headers(axis=axis), axis=str(int(axis) - 1)
+                    )
 
             flat_mtx = new_mtx
 
@@ -369,8 +369,8 @@ class Matrix(np.ndarray):
         np_bytes.close()
 
         with zipfile.ZipFile(
-            flo, mode='w', compression=zipfile.ZIP_DEFLATED,
-                allowZip64=True) as zip_f:
+            flo, mode='w', compression=zipfile.ZIP_DEFLATED, allowZip64=True
+        ) as zip_f:
 
             zip_f.writestr(HEADERS_FILENAME, json.dumps(my_obj, default=float))
             zip_f.writestr(DATA_FILENAME, zip_np_str)
@@ -511,7 +511,7 @@ class Matrix(np.ndarray):
         """
         new_mtx = Matrix(self.view(np.ndarray).transpose(*axes))
         if len(axes) == 0:
-            dim_order = range(len(self.shape)-1, -1, -1)
+            dim_order = range(len(self.shape) - 1, -1, -1)
         elif isinstance(axes[0], tuple):
             dim_order = list(axes[0])
         else:
@@ -521,8 +521,7 @@ class Matrix(np.ndarray):
             old_dim = str(old_dim)
             try:
                 if old_dim in self.get_headers().keys():
-                    new_mtx.set_headers(
-                        self.get_headers(axis=old_dim), axis=str(i))
+                    new_mtx.set_headers(self.get_headers(axis=old_dim), axis=str(i))
             except Exception as err:  # pragma: no cover
                 print(err)
                 print(dir(self))
@@ -611,17 +610,22 @@ class Matrix(np.ndarray):
             if '1' in mtx.headers and mtx.headers['1']:
                 # Make column headers lists of lists
                 if not isinstance(mtx.headers['1'][0], (tuple, list)):
-                    header_row = ['']*len(
-                        listify(row_headers[0]) if row_headers else [])
+                    header_row = [''] * len(
+                        listify(row_headers[0]) if row_headers else []
+                    )
                     header_row.extend(mtx.headers['1'])
                     yield header_row
                 else:
                     for i in range(len(mtx.headers['1'][0])):
-                        header_row = ['']*len(
-                            listify(row_headers[0]) if row_headers else [])
+                        header_row = [''] * len(
+                            listify(row_headers[0]) if row_headers else []
+                        )
                         header_row.extend(
-                            [mtx.headers['1'][j][i] for j in range(
-                                len(mtx.headers['1']))])
+                            [
+                                mtx.headers['1'][j][i]
+                                for j in range(len(mtx.headers['1']))
+                            ]
+                        )
                         yield header_row
             # For each row in the data set
             for i in range(mtx.shape[0]):
