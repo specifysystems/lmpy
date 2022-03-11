@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.filters &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.data_wrangling.occurrence.filters &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -198,6 +198,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">hits</span> <span class="o">=</span> <span class="n">geom_index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">hits</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">get_occurrence_filter</span><span class="p">(</span><span class="n">disjoint_geometry_filter</span><span class="p">)</span></div>
 
 
@@ -230,8 +231,8 @@
         <span class="n">point_geometry</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPoint</span><span class="p">)</span>
         <span class="n">point_geometry</span><span class="o">.</span><span class="n">AddPoint</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">any</span><span class="p">(</span>
-            <span class="p">[</span><span class="ow">not</span> <span class="n">geom</span><span class="o">.</span><span class="n">Intersection</span><span class="p">(</span>
-                <span class="n">point_geometry</span><span class="p">)</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">()</span> <span class="k">for</span> <span class="n">geom</span> <span class="ow">in</span> <span class="n">geometries</span><span class="p">])</span>
+            <span class="p">[</span><span class="ow">not</span> <span class="n">geom</span><span class="o">.</span><span class="n">Intersection</span><span class="p">(</span><span class="n">point_geometry</span><span class="p">)</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">()</span> <span class="k">for</span> <span class="n">geom</span> <span class="ow">in</span> <span class="n">geometries</span><span class="p">]</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">get_occurrence_filter</span><span class="p">(</span><span class="n">intersect_geometry_filter</span><span class="p">)</span></div>
 
@@ -266,9 +267,7 @@
 
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="get_spatial_index_filter"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/filters/index.html#lmpy.data_wrangling.occurrence.filters.get_spatial_index_filter">[docs]</a><span class="k">def</span> <span class="nf">get_spatial_index_filter</span><span class="p">(</span>
-    <span class="n">spatial_index</span><span class="p">,</span>
-    <span class="n">get_species_intersections_func</span><span class="p">,</span>
-    <span class="n">check_hit_func</span>
+    <span class="n">spatial_index</span><span class="p">,</span> <span class="n">get_species_intersections_func</span><span class="p">,</span> <span class="n">check_hit_func</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a filter that uses a spatial index and logic to intersect hits.</span>
 
@@ -303,8 +302,7 @@
         <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">species_name</span> <span class="ow">in</span> <span class="n">valid_intersections</span><span class="p">:</span>
             <span class="n">check_intersections</span> <span class="o">=</span> <span class="n">valid_intersections</span><span class="p">[</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">check_intersections</span> <span class="o">=</span> <span class="n">get_species_intersections_func</span><span class="p">(</span>
-                <span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">)</span>
+            <span class="n">check_intersections</span> <span class="o">=</span> <span class="n">get_species_intersections_func</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">)</span>
             <span class="n">valid_intersections</span><span class="p">[</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">check_intersections</span>
         <span class="k">if</span> <span class="n">check_intersections</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">check_intersections</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>

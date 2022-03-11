@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.convert_csv_to_lmm &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.tools.convert_csv_to_lmm &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -93,9 +93,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_in</span><span class="p">:</span>
         <span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load_csv</span><span class="p">(</span>
-            <span class="n">csv_in</span><span class="p">,</span>
-            <span class="n">num_header_rows</span><span class="o">=</span><span class="n">num_header_rows</span><span class="p">,</span>
-            <span class="n">num_header_cols</span><span class="o">=</span><span class="n">num_header_cols</span>
+            <span class="n">csv_in</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="n">num_header_rows</span><span class="p">,</span> <span class="n">num_header_cols</span><span class="o">=</span><span class="n">num_header_cols</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">mtx</span></div>
 
@@ -109,19 +107,17 @@
         <span class="s1">&#39;-r&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of header rows in the CSV.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of header rows in the CSV.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--header_cols&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-c&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of header columns in the CSV.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of header columns in the CSV.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;in_csv_filename&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV filename to convert to lmm Matrix.&#39;</span>
+        <span class="s1">&#39;in_csv_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV filename to convert to lmm Matrix.&#39;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;out_lmm_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Filename for .lmm Matrix.&#39;</span><span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>

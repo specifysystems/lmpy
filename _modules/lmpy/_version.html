@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy._version &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy._version &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -130,17 +130,18 @@
 
 <div class="viewcode-block" id="register_vcs_handler"><a class="viewcode-back" href="../../autoapi/lmpy/_version/index.html#lmpy._version.register_vcs_handler">[docs]</a><span class="k">def</span> <span class="nf">register_vcs_handler</span><span class="p">(</span><span class="n">vcs</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>  <span class="c1"># decorator</span>
     <span class="sd">&quot;&quot;&quot;Create decorator to mark a method as the handler of a VCS.&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Store f in HANDLERS[vcs][method].&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">vcs</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HANDLERS</span><span class="p">:</span>
             <span class="n">HANDLERS</span><span class="p">[</span><span class="n">vcs</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">HANDLERS</span><span class="p">[</span><span class="n">vcs</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span>
         <span class="k">return</span> <span class="n">f</span>
+
     <span class="k">return</span> <span class="n">decorate</span></div>
 
 
-<div class="viewcode-block" id="run_command"><a class="viewcode-back" href="../../autoapi/lmpy/_version/index.html#lmpy._version.run_command">[docs]</a><span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">commands</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">hide_stderr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="run_command"><a class="viewcode-back" href="../../autoapi/lmpy/_version/index.html#lmpy._version.run_command">[docs]</a><span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">commands</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">hide_stderr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Call the given command(s).&quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">commands</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
     <span class="n">process</span> <span class="o">=</span> <span class="kc">None</span>
@@ -148,10 +149,13 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">dispcmd</span> <span class="o">=</span> <span class="nb">str</span><span class="p">([</span><span class="n">command</span><span class="p">]</span> <span class="o">+</span> <span class="n">args</span><span class="p">)</span>
             <span class="c1"># remember shell=False, so use git.cmd on windows, not just git</span>
-            <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">command</span><span class="p">]</span> <span class="o">+</span> <span class="n">args</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-                                       <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                                       <span class="n">stderr</span><span class="o">=</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span> <span class="k">if</span> <span class="n">hide_stderr</span>
-                                               <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">command</span><span class="p">]</span> <span class="o">+</span> <span class="n">args</span><span class="p">,</span>
+                <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span>
+                <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+                <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                <span class="n">stderr</span><span class="o">=</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span> <span class="k">if</span> <span class="n">hide_stderr</span> <span class="k">else</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="p">)</span>
             <span class="k">break</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
@@ -186,15 +190,21 @@
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
         <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dirname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">parentdir_prefix</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">dirname</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">parentdir_prefix</span><span class="p">):],</span>
-                    <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                    <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">dirname</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">parentdir_prefix</span><span class="p">)</span> <span class="p">:],</span>
+                <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">}</span>
         <span class="n">rootdirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>  <span class="c1"># up a level</span>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tried directories </span><span class="si">%s</span><span class="s2"> but none started with prefix </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
-              <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">rootdirs</span><span class="p">),</span> <span class="n">parentdir_prefix</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Tried directories </span><span class="si">%s</span><span class="s2"> but none started with prefix </span><span class="si">%s</span><span class="s2">&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">rootdirs</span><span class="p">),</span> <span class="n">parentdir_prefix</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">raise</span> <span class="n">NotThisMethod</span><span class="p">(</span><span class="s2">&quot;rootdir doesn&#39;t start with parentdir_prefix&quot;</span><span class="p">)</span></div>
 
 
@@ -253,7 +263,7 @@
     <span class="c1"># starting in git-1.8.3, tags are listed as &quot;tag: foo-1.0&quot; instead of</span>
     <span class="c1"># just &quot;foo-1.0&quot;. If we see a &quot;tag: &quot; prefix, prefer those.</span>
     <span class="n">TAG</span> <span class="o">=</span> <span class="s2">&quot;tag: &quot;</span>
-    <span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">TAG</span><span class="p">):]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">refs</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">TAG</span><span class="p">)}</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">TAG</span><span class="p">)</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">refs</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">TAG</span><span class="p">)}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tags</span><span class="p">:</span>
         <span class="c1"># Either we&#39;re using git &lt; 1.8.3, or there really are no tags. We use</span>
         <span class="c1"># a heuristic: assume all version tags have a digit. The old git %d</span>
@@ -270,7 +280,7 @@
     <span class="k">for</span> <span class="n">ref</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
         <span class="c1"># sorting will prefer e.g. &quot;2.0&quot; over &quot;2.0rc1&quot;</span>
         <span class="k">if</span> <span class="n">ref</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">):</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">ref</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">):]</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">ref</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">)</span> <span class="p">:]</span>
             <span class="c1"># Filter out refs that exactly match prefix or that don&#39;t start</span>
             <span class="c1"># with a number once the prefix is stripped (mostly a concern</span>
             <span class="c1"># when prefix is &#39;&#39;)</span>
@@ -278,16 +288,23 @@
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;picking </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">r</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
-                    <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;full&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-                    <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                    <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">date</span><span class="p">}</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
+                <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;full&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span>
+            <span class="p">}</span>
     <span class="c1"># no suitable tags, so version is &quot;0+unknown&quot;, but full hex is still there</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;no suitable tags, using unknown + full revision id&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0+unknown&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;full&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-            <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;no suitable tags&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span></div>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0+unknown&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;full&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+        <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;no suitable tags&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span></div>
 
 
 <span class="nd">@register_vcs_handler</span><span class="p">(</span><span class="s2">&quot;git&quot;</span><span class="p">,</span> <span class="s2">&quot;pieces_from_vcs&quot;</span><span class="p">)</span>
@@ -304,8 +321,7 @@
         <span class="n">GITS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;git.cmd&quot;</span><span class="p">,</span> <span class="s2">&quot;git.exe&quot;</span><span class="p">]</span>
         <span class="n">TAG_PREFIX_REGEX</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\*&quot;</span>
 
-    <span class="n">_</span><span class="p">,</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">runner</span><span class="p">(</span><span class="n">GITS</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;rev-parse&quot;</span><span class="p">,</span> <span class="s2">&quot;--git-dir&quot;</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="n">root</span><span class="p">,</span>
-                   <span class="n">hide_stderr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">runner</span><span class="p">(</span><span class="n">GITS</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;rev-parse&quot;</span><span class="p">,</span> <span class="s2">&quot;--git-dir&quot;</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="n">root</span><span class="p">,</span> <span class="n">hide_stderr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rc</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Directory </span><span class="si">%s</span><span class="s2"> not under git control&quot;</span> <span class="o">%</span> <span class="n">root</span><span class="p">)</span>
@@ -313,11 +329,19 @@
 
     <span class="c1"># if there is a tag matching tag_prefix, this yields TAG-NUM-gHEX[-dirty]</span>
     <span class="c1"># if there isn&#39;t one, this yields HEX[-dirty] (no NUM)</span>
-    <span class="n">describe_out</span><span class="p">,</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">runner</span><span class="p">(</span><span class="n">GITS</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;describe&quot;</span><span class="p">,</span> <span class="s2">&quot;--tags&quot;</span><span class="p">,</span> <span class="s2">&quot;--dirty&quot;</span><span class="p">,</span>
-                                     <span class="s2">&quot;--always&quot;</span><span class="p">,</span> <span class="s2">&quot;--long&quot;</span><span class="p">,</span>
-                                     <span class="s2">&quot;--match&quot;</span><span class="p">,</span>
-                                     <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">,</span> <span class="n">TAG_PREFIX_REGEX</span><span class="p">)],</span>
-                              <span class="n">cwd</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">describe_out</span><span class="p">,</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">runner</span><span class="p">(</span>
+        <span class="n">GITS</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;describe&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--tags&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--dirty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--always&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--long&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--match&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">,</span> <span class="n">TAG_PREFIX_REGEX</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">cwd</span><span class="o">=</span><span class="n">root</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="c1"># --long was added in git-1.5.5</span>
     <span class="k">if</span> <span class="n">describe_out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NotThisMethod</span><span class="p">(</span><span class="s2">&quot;&#39;git describe&#39; failed&quot;</span><span class="p">)</span>
@@ -332,8 +356,7 @@
     <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_out</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span>  <span class="c1"># maybe improved later</span>
     <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">branch_name</span><span class="p">,</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">runner</span><span class="p">(</span><span class="n">GITS</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;rev-parse&quot;</span><span class="p">,</span> <span class="s2">&quot;--abbrev-ref&quot;</span><span class="p">,</span> <span class="s2">&quot;HEAD&quot;</span><span class="p">],</span>
-                             <span class="n">cwd</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">branch_name</span><span class="p">,</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">runner</span><span class="p">(</span><span class="n">GITS</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;rev-parse&quot;</span><span class="p">,</span> <span class="s2">&quot;--abbrev-ref&quot;</span><span class="p">,</span> <span class="s2">&quot;HEAD&quot;</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
     <span class="c1"># --abbrev-ref was added in git-1.6.3</span>
     <span class="k">if</span> <span class="n">rc</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">branch_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NotThisMethod</span><span class="p">(</span><span class="s2">&quot;&#39;git rev-parse --abbrev-ref&#39; returned error&quot;</span><span class="p">)</span>
@@ -373,7 +396,7 @@
     <span class="n">dirty</span> <span class="o">=</span> <span class="n">git_describe</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-dirty&quot;</span><span class="p">)</span>
     <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;dirty&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dirty</span>
     <span class="k">if</span> <span class="n">dirty</span><span class="p">:</span>
-        <span class="n">git_describe</span> <span class="o">=</span> <span class="n">git_describe</span><span class="p">[:</span><span class="n">git_describe</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s2">&quot;-dirty&quot;</span><span class="p">)]</span>
+        <span class="n">git_describe</span> <span class="o">=</span> <span class="n">git_describe</span><span class="p">[:</span> <span class="n">git_describe</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s2">&quot;-dirty&quot;</span><span class="p">)]</span>
 
     <span class="c1"># now we have TAG-NUM-gHEX or HEX</span>
 
@@ -382,8 +405,7 @@
         <span class="n">mo</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(.+)-(\d+)-g([0-9a-f]+)$&#39;</span><span class="p">,</span> <span class="n">git_describe</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">mo</span><span class="p">:</span>
             <span class="c1"># unparsable. Maybe git-describe is misbehaving?</span>
-            <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;unable to parse git-describe output: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
-                               <span class="o">%</span> <span class="n">describe_out</span><span class="p">)</span>
+            <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unable to parse git-describe output: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">describe_out</span>
             <span class="k">return</span> <span class="n">pieces</span>
 
         <span class="c1"># tag</span>
@@ -392,10 +414,12 @@
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                 <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;tag &#39;</span><span class="si">%s</span><span class="s2">&#39; doesn&#39;t start with prefix &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span> <span class="o">%</span> <span class="p">(</span><span class="n">full_tag</span><span class="p">,</span> <span class="n">tag_prefix</span><span class="p">))</span>
-            <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;tag &#39;</span><span class="si">%s</span><span class="s2">&#39; doesn&#39;t start with prefix &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
-                               <span class="o">%</span> <span class="p">(</span><span class="n">full_tag</span><span class="p">,</span> <span class="n">tag_prefix</span><span class="p">))</span>
+            <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;tag &#39;</span><span class="si">{}</span><span class="s2">&#39; doesn&#39;t start with prefix &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">full_tag</span><span class="p">,</span>
+                <span class="n">tag_prefix</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="n">pieces</span>
-        <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;closest-tag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_tag</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">):]</span>
+        <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;closest-tag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_tag</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">)</span> <span class="p">:]</span>
 
         <span class="c1"># distance: number of commits since tag</span>
         <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mo</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
@@ -444,8 +468,7 @@
                 <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;.dirty&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># exception #1</span>
-        <span class="n">rendered</span> <span class="o">=</span> <span class="s2">&quot;0+untagged.</span><span class="si">%d</span><span class="s2">.g</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">],</span>
-                                          <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">])</span>
+        <span class="n">rendered</span> <span class="o">=</span> <span class="s2">&quot;0+untagged.</span><span class="si">%d</span><span class="s2">.g</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">],</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;dirty&quot;</span><span class="p">]:</span>
             <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;.dirty&quot;</span>
     <span class="k">return</span> <span class="n">rendered</span></div>
@@ -474,8 +497,7 @@
         <span class="n">rendered</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
         <span class="k">if</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;branch&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;master&quot;</span><span class="p">:</span>
             <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;.dev0&quot;</span>
-        <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;+untagged.</span><span class="si">%d</span><span class="s2">.g</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">],</span>
-                                          <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">])</span>
+        <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;+untagged.</span><span class="si">%d</span><span class="s2">.g</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">],</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;dirty&quot;</span><span class="p">]:</span>
             <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;.dirty&quot;</span>
     <span class="k">return</span> <span class="n">rendered</span></div>
@@ -503,7 +525,7 @@
             <span class="n">tag_version</span><span class="p">,</span> <span class="n">post_version</span> <span class="o">=</span> <span class="n">pep440_split_post</span><span class="p">(</span><span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;closest-tag&quot;</span><span class="p">])</span>
             <span class="n">rendered</span> <span class="o">=</span> <span class="n">tag_version</span>
             <span class="k">if</span> <span class="n">post_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;.post</span><span class="si">%d</span><span class="s2">.dev</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">post_version</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">])</span>
+                <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;.post</span><span class="si">%d</span><span class="s2">.dev</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">post_version</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">rendered</span> <span class="o">+=</span> <span class="s2">&quot;.post0.dev</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
@@ -636,11 +658,13 @@
 <div class="viewcode-block" id="render"><a class="viewcode-back" href="../../autoapi/lmpy/_version/index.html#lmpy._version.render">[docs]</a><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">pieces</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Render the given version pieces into the requested style.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;long&quot;</span><span class="p">),</span>
-                <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;long&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">style</span> <span class="ow">or</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
         <span class="n">style</span> <span class="o">=</span> <span class="s2">&quot;pep440&quot;</span>  <span class="c1"># the default</span>
@@ -664,9 +688,13 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown style &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">style</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">rendered</span><span class="p">,</span> <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;dirty&quot;</span><span class="p">],</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)}</span></div>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">rendered</span><span class="p">,</span>
+        <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="p">[</span><span class="s2">&quot;dirty&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">pieces</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">),</span>
+    <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="get_versions"><a class="viewcode-back" href="../../autoapi/lmpy/_version/index.html#lmpy._version.get_versions">[docs]</a><span class="k">def</span> <span class="nf">get_versions</span><span class="p">():</span>
@@ -680,8 +708,7 @@
     <span class="n">verbose</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">verbose</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">git_versions_from_keywords</span><span class="p">(</span><span class="n">get_keywords</span><span class="p">(),</span> <span class="n">cfg</span><span class="o">.</span><span class="n">tag_prefix</span><span class="p">,</span>
-                                          <span class="n">verbose</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">git_versions_from_keywords</span><span class="p">(</span><span class="n">get_keywords</span><span class="p">(),</span> <span class="n">cfg</span><span class="o">.</span><span class="n">tag_prefix</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">NotThisMethod</span><span class="p">:</span>
         <span class="k">pass</span>
 
@@ -693,10 +720,13 @@
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">versionfile_source</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
             <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0+unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;unable to find root of source tree&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0+unknown&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;unable to find root of source tree&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">pieces</span> <span class="o">=</span> <span class="n">git_pieces_from_vcs</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">tag_prefix</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
@@ -710,9 +740,13 @@
     <span class="k">except</span> <span class="n">NotThisMethod</span><span class="p">:</span>
         <span class="k">pass</span>
 
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0+unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;unable to compute version&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span></div>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0+unknown&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;full-revisionid&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;dirty&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;unable to compute version&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span></div>
 </pre></div>
 
            </div>

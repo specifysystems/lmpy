@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.randomize.swap &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.randomize.swap &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -115,8 +115,9 @@
             <span class="n">row2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
             <span class="k">while</span> <span class="n">row2</span> <span class="o">==</span> <span class="n">row1</span><span class="p">:</span>
                 <span class="n">row2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">((</span><span class="n">first_corner</span> <span class="o">^</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column1</span><span class="p">])</span> <span class="ow">and</span>
-                    <span class="p">(</span><span class="ow">not</span><span class="p">(</span><span class="n">first_corner</span><span class="p">)</span> <span class="o">^</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column2</span><span class="p">])):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">first_corner</span> <span class="o">^</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column1</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="p">(</span><span class="n">first_corner</span><span class="p">)</span> <span class="o">^</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column2</span><span class="p">]</span>
+            <span class="p">):</span>
                 <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">column2</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_corner</span>
                 <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column1</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_corner</span>
                 <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column2</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">first_corner</span>
@@ -124,9 +125,7 @@
                 <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">num_tries</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">num_tries</span> <span class="o">&gt;=</span> <span class="n">max_tries</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-            <span class="s1">&#39;Reached maximum number of tries without finding suitable swap&#39;</span>
-        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Reached maximum number of tries without finding suitable swap&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">swapped_mtx</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">mtx_headers</span><span class="p">)</span></div>
 
@@ -162,8 +161,9 @@
             <span class="n">row2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
             <span class="k">while</span> <span class="n">row2</span> <span class="o">==</span> <span class="n">row1</span><span class="p">:</span>
                 <span class="n">row2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_len</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">((</span><span class="n">first_corner</span> <span class="o">^</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column1</span><span class="p">])</span> <span class="ow">and</span>
-                    <span class="p">(</span><span class="ow">not</span><span class="p">(</span><span class="n">first_corner</span><span class="p">)</span> <span class="o">^</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column2</span><span class="p">])):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">first_corner</span> <span class="o">^</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column1</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="p">(</span><span class="n">first_corner</span><span class="p">)</span> <span class="o">^</span> <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column2</span><span class="p">]</span>
+            <span class="p">):</span>
                 <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row1</span><span class="p">][</span><span class="n">column2</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_corner</span>
                 <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column1</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_corner</span>
                 <span class="n">swapped_mtx</span><span class="p">[</span><span class="n">row2</span><span class="p">][</span><span class="n">column2</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">first_corner</span>

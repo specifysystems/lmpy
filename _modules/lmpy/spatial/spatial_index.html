@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.spatial.spatial_index &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.spatial.spatial_index &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -94,7 +94,8 @@
 <span class="sd">        str: A well-known text representation of a bounding box geometry.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">wkt</span> <span class="o">=</span> <span class="s1">&#39;POLYGON ((</span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1"> </span><span class="si">{3}</span><span class="s1">, </span><span class="si">{2}</span><span class="s1"> </span><span class="si">{3}</span><span class="s1">, </span><span class="si">{2}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1">))&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">)</span>
+        <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
 
 
@@ -130,26 +131,31 @@
         <span class="n">half_y</span> <span class="o">=</span> <span class="n">min_y</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
             <span class="n">quadtree_index</span><span class="p">(</span>
-                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">half_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span>
-                <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">half_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span> <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
             <span class="n">quadtree_index</span><span class="p">(</span>
-                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">half_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span>
-                <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">half_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span> <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
             <span class="n">quadtree_index</span><span class="p">(</span>
-                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">half_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span>
-                <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">half_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span> <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
             <span class="n">quadtree_index</span><span class="p">(</span>
-                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">,</span> <span class="n">half_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span>
-                <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">intersection</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">half_y</span><span class="p">,</span> <span class="n">half_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="n">min_size</span><span class="p">,</span> <span class="n">depth_left</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">ret</span>
 
 
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="SpatialIndex"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/spatial_index/index.html#lmpy.spatial.spatial_index.SpatialIndex">[docs]</a><span class="k">class</span> <span class="nc">SpatialIndex</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This class provides an index for quickly performing intersects.&quot;&quot;&quot;</span>
+
     <span class="c1"># ..........................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for the spatial index.</span>
@@ -190,8 +196,8 @@
                 <span class="n">geom</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
             <span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">GetEnvelope</span><span class="p">()</span>
             <span class="n">idx_entries</span> <span class="o">=</span> <span class="n">quadtree_index</span><span class="p">(</span>
-                <span class="n">geom</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">min_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth_left</span><span class="p">)</span>
+                <span class="n">geom</span><span class="p">,</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth_left</span>
+            <span class="p">)</span>
             <span class="c1"># print(&#39;{} - Num idx entries: {}&#39;.format(</span>
             <span class="c1">#     identifier, len(idx_entries)))</span>
             <span class="k">for</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">idx_geom</span> <span class="ow">in</span> <span class="n">idx_entries</span><span class="p">:</span>
@@ -219,8 +225,7 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_att_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">att_lookup</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_geom_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
-            <span class="n">out_geoms</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">k</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">out_geoms</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">out_geoms</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span></div>
             <span class="c1"># json.dump(self.geom_lookup, out_file)</span>
 
@@ -238,9 +243,9 @@
         <span class="n">hits</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">objects</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">hit</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> \
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_point_intersect</span><span class="p">(</span>
-                        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">object</span><span class="p">)]):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_point_intersect</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom_lookup</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">object</span><span class="p">)]</span>
+                <span class="p">):</span>
                     <span class="n">hits</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att_lookup</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">hits</span></div>
 

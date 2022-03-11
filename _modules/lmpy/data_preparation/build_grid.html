@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -120,16 +120,19 @@
 
     <span class="k">while</span> <span class="n">y_coord</span> <span class="o">&gt;</span> <span class="n">min_y</span><span class="p">:</span>
         <span class="c1"># Every other row needs to be shifted slightly</span>
-        <span class="n">x_coord</span> <span class="o">=</span> <span class="n">min_x</span> <span class="k">if</span> <span class="n">y_row</span> <span class="k">else</span> <span class="n">min_x</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">75</span><span class="p">)</span>
+        <span class="n">x_coord</span> <span class="o">=</span> <span class="n">min_x</span> <span class="k">if</span> <span class="n">y_row</span> <span class="k">else</span> <span class="n">min_x</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
 
         <span class="k">while</span> <span class="n">x_coord</span> <span class="o">&lt;</span> <span class="n">max_x</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">([</span>
-                <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="o">.</span><span class="mi">5</span><span class="p">),</span> <span class="n">y_coord</span><span class="p">)])</span>
+            <span class="k">yield</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">y_coord</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">SQRT_3</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="p">(</span><span class="n">x_res</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">y_coord</span><span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
             <span class="n">x_coord</span> <span class="o">+=</span> <span class="n">x_step</span>
         <span class="n">y_row</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">y_row</span>
         <span class="n">y_coord</span> <span class="o">+=</span> <span class="n">y_step</span></div>
@@ -152,11 +155,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">y_coord</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">max_y</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="o">-</span><span class="n">y_res</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">x_coord</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">x_res</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">([</span>
-                <span class="p">(</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="n">y_res</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="n">y_res</span><span class="p">)])</span></div>
+            <span class="k">yield</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="n">y_res</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="n">y_res</span><span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -172,7 +178,7 @@
     <span class="n">site_id</span><span class="o">=</span><span class="s1">&#39;siteid&#39;</span><span class="p">,</span>
     <span class="n">site_x</span><span class="o">=</span><span class="s1">&#39;siteX&#39;</span><span class="p">,</span>
     <span class="n">site_y</span><span class="o">=</span><span class="s1">&#39;siteY&#39;</span><span class="p">,</span>
-    <span class="n">cutout_wkt</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">cutout_wkt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Build a shapegrid with an optional cutout.</span>
 
@@ -203,8 +209,9 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Illegal bounds: (</span><span class="si">{min_x}</span><span class="s1">, </span><span class="si">{min_y}</span><span class="s1">, </span><span class="si">{max_x}</span><span class="s1">, </span><span class="si">{max_y}</span><span class="s1">)&#39;</span><span class="p">)</span>
     <span class="c1"># We&#39;ll always check for intersection to reduce amount of work</span>
     <span class="k">if</span> <span class="n">cutout_wkt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">cutout_wkt</span> <span class="o">=</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">([</span>
-            <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">),</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">)])</span>
+        <span class="n">cutout_wkt</span> <span class="o">=</span> <span class="n">make_polygon_wkt_from_points</span><span class="p">(</span>
+            <span class="p">[(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">),</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">)]</span>
+        <span class="p">)</span>
     <span class="n">selected_poly</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">cutout_wkt</span><span class="p">)</span>
 
     <span class="c1"># Just in case we decide that these can vary at some point</span>
@@ -218,18 +225,17 @@
     <span class="n">data_set</span> <span class="o">=</span> <span class="n">drv</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">shapegrid_file_name</span><span class="p">)</span>
 
     <span class="n">layer</span> <span class="o">=</span> <span class="n">data_set</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span>
-        <span class="n">data_set</span><span class="o">.</span><span class="n">GetName</span><span class="p">(),</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPolygon</span><span class="p">,</span> <span class="n">srs</span><span class="o">=</span><span class="n">target_srs</span><span class="p">)</span>
+        <span class="n">data_set</span><span class="o">.</span><span class="n">GetName</span><span class="p">(),</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPolygon</span><span class="p">,</span> <span class="n">srs</span><span class="o">=</span><span class="n">target_srs</span>
+    <span class="p">)</span>
     <span class="n">layer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">FieldDefn</span><span class="p">(</span><span class="n">site_id</span><span class="p">,</span> <span class="n">ogr</span><span class="o">.</span><span class="n">OFTInteger</span><span class="p">))</span>
     <span class="n">layer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">FieldDefn</span><span class="p">(</span><span class="n">site_x</span><span class="p">,</span> <span class="n">ogr</span><span class="o">.</span><span class="n">OFTReal</span><span class="p">))</span>
     <span class="n">layer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">FieldDefn</span><span class="p">(</span><span class="n">site_y</span><span class="p">,</span> <span class="n">ogr</span><span class="o">.</span><span class="n">OFTReal</span><span class="p">))</span>
 
     <span class="c1"># Set up generator</span>
     <span class="k">if</span> <span class="n">cell_sides</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-        <span class="n">wkt_generator</span> <span class="o">=</span> <span class="n">square_wkt_generator</span><span class="p">(</span>
-            <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
+        <span class="n">wkt_generator</span> <span class="o">=</span> <span class="n">square_wkt_generator</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">cell_sides</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
-        <span class="n">wkt_generator</span> <span class="o">=</span> <span class="n">hexagon_wkt_generator</span><span class="p">(</span>
-            <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
+        <span class="n">wkt_generator</span> <span class="o">=</span> <span class="n">hexagon_wkt_generator</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s1">&#39;Cannot generate shapegrid cells with </span><span class="si">{}</span><span class="s1"> sides&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cell_sides</span><span class="p">)</span>
@@ -258,7 +264,7 @@
     <span class="s1">&#39;build_shapegrid&#39;</span><span class="p">,</span>
     <span class="s1">&#39;hexagon_wkt_generator&#39;</span><span class="p">,</span>
     <span class="s1">&#39;make_polygon_wkt_from_points&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;square_wkt_generator&#39;</span>
+    <span class="s1">&#39;square_wkt_generator&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 </pre></div>
 

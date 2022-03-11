@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.encode_layers &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.tools.encode_layers &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -93,40 +93,40 @@
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;biogeo&#39;</span><span class="p">,</span> <span class="s1">&#39;presence_absence&#39;</span><span class="p">,</span> <span class="s1">&#39;largest_class&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_value&#39;</span><span class="p">],</span>
         <span class="n">default</span><span class="o">=</span><span class="s1">&#39;mean_value&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The method to use to encode each layer.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The method to use to encode each layer.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--min_coverage&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum percentage of a cell that has to be covered to encode it.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum percentage of a cell that has to be covered to encode it.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--min_presence&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum value to be considered present when encoding presence absence.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Minimum value to be considered present when encoding presence absence.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--max_presence&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">127</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The maximum value that should be considered present.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The maximum value that should be considered present.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--attribute_field&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The vector attribute to use for encoding layers.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The vector attribute to use for encoding layers.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;shapegrid_filename&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of shapegrid to use for site geometries.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of shapegrid to use for site geometries.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;out_matrix_filename&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write the encoded matrix.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write the encoded matrix.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="c1"># Layers to encode</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -134,7 +134,7 @@
         <span class="s1">&#39;-l&#39;</span><span class="p">,</span>
         <span class="n">nargs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of layer followed by a label.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of layer followed by a label.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
@@ -144,10 +144,7 @@
     <span class="k">for</span> <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">layer</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;biogeo&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_biogeographic_hypothesis</span><span class="p">(</span>
-                <span class="n">lyr_fn</span><span class="p">,</span>
-                <span class="n">lyr_label</span><span class="p">,</span>
-                <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span>
-                <span class="n">event_field</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">attribute_field</span>
+                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span> <span class="n">event_field</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">attribute_field</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;presence_absence&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
@@ -156,20 +153,18 @@
                 <span class="n">args</span><span class="o">.</span><span class="n">min_presence</span><span class="p">,</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">max_presence</span><span class="p">,</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span>
-                <span class="n">attribute_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">attribute_field</span>
+                <span class="n">attribute_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">attribute_field</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;largest_class&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_largest_class</span><span class="p">(</span>
                 <span class="n">lyr_fn</span><span class="p">,</span>
                 <span class="n">lyr_label</span><span class="p">,</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span>
-                <span class="n">attribute_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">attribute_field</span>
+                <span class="n">attribute_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">attribute_field</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;mean_value&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_mean_value</span><span class="p">(</span>
-                <span class="n">lyr_fn</span><span class="p">,</span>
-                <span class="n">lyr_label</span><span class="p">,</span>
-                <span class="n">attribute_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">attribute_field</span>
+                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span><span class="p">,</span> <span class="n">attribute_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">attribute_field</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown encoding method: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">encode_method</span><span class="p">))</span>

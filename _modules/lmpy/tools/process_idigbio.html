@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.process_idigbio &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.tools.process_idigbio &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -94,7 +94,7 @@
 <div class="viewcode-block" id="TERM_TYPE_ATT"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.TERM_TYPE_ATT">[docs]</a><span class="n">TERM_TYPE_ATT</span> <span class="o">=</span> <span class="s1">&#39;term&#39;</span></div>
 <div class="viewcode-block" id="DELIMITED_TERMS"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.DELIMITED_TERMS">[docs]</a><span class="n">DELIMITED_TERMS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;http://portal.idigbio.org/terms/flags&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;http://portal.idigbio.org/terms/recordIds&#39;</span>
+    <span class="s1">&#39;http://portal.idigbio.org/terms/recordIds&#39;</span><span class="p">,</span>
 <span class="p">]</span></div>
 <div class="viewcode-block" id="DELIMITED_BY_ATT"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/process_idigbio/index.html#lmpy.tools.process_idigbio.DELIMITED_BY_ATT">[docs]</a><span class="n">DELIMITED_BY_ATT</span> <span class="o">=</span> <span class="s1">&#39;delimitedBy&#39;</span></div>
 
@@ -115,8 +115,10 @@
     <span class="c1"># If core element is missing (iDigBio) look in extensions</span>
     <span class="k">if</span> <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">extension_el</span> <span class="ow">in</span> <span class="n">meta_xml_root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">EXTENSION_TAG</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> \
-                    <span class="n">extension_el</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">ROW_TYPE_ATT</span><span class="p">]</span> <span class="o">==</span> <span class="n">OCCURRENCE_ROW_TYPE</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="n">extension_el</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">ROW_TYPE_ATT</span><span class="p">]</span> <span class="o">==</span> <span class="n">OCCURRENCE_ROW_TYPE</span>
+            <span class="p">):</span>
                 <span class="n">core_element</span> <span class="o">=</span> <span class="n">extension_el</span>
                 <span class="n">extension_el</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">CORE_TAG</span>
 
@@ -160,9 +162,11 @@
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">in_occ</span><span class="p">:</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="c1"># Remove double-double-quotes</span>
-            <span class="n">mod_line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                <span class="n">quad_quote</span><span class="p">,</span> <span class="s1">&#39;&quot;&quot;&#39;</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">trip_quote</span><span class="p">,</span> <span class="n">trip_quote_replace</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+            <span class="n">mod_line</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">quad_quote</span><span class="p">,</span> <span class="s1">&#39;&quot;&quot;&#39;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">trip_quote</span><span class="p">,</span> <span class="n">trip_quote_replace</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
 
             <span class="n">quote_chunks</span> <span class="o">=</span> <span class="n">mod_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
             <span class="n">write_line</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -171,8 +175,9 @@
 
             <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">quote_chunks</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">chunk</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chunk</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">):</span>
-                    <span class="n">write_line</span> <span class="o">+=</span> <span class="n">chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                        <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                    <span class="n">write_line</span> <span class="o">+=</span> <span class="p">(</span>
+                        <span class="n">chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                    <span class="p">)</span>
                 <span class="k">elif</span> <span class="n">chunk</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chunk</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">):</span>  <span class="c1"># JSON</span>
                     <span class="n">write_line</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">chunk</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -224,10 +229,7 @@
 <span class="sd">        ValueError: Raised if points returned is None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">PointDwcaReader</span><span class="p">(</span>
-        <span class="n">dwca_filename</span><span class="p">,</span>
-        <span class="n">geopoint_term</span><span class="o">=</span><span class="s1">&#39;geoPoint&#39;</span><span class="p">,</span>
-        <span class="n">x_term</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span>
-        <span class="n">y_term</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span>
+        <span class="n">dwca_filename</span><span class="p">,</span> <span class="n">geopoint_term</span><span class="o">=</span><span class="s1">&#39;geoPoint&#39;</span><span class="p">,</span> <span class="n">x_term</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y_term</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span>
     <span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

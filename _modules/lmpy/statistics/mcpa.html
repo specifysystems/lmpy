@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.mcpa &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.statistics.mcpa &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -252,23 +252,27 @@
             <span class="n">p_std</span> <span class="o">=</span> <span class="n">_standardize_matrix</span><span class="p">(</span><span class="n">phylo_col</span><span class="p">,</span> <span class="n">species_weights</span><span class="p">)</span>
             <span class="n">p_sigma_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">incidence</span><span class="p">,</span> <span class="n">p_std</span><span class="p">)</span>
             <span class="c1"># Get Beta, Y(hat), Rho, R-squared, F-pseudo</span>
-            <span class="n">beta_env_all</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span><span class="n">e_std</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span>
-                                           <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span><span class="p">)</span>
+            <span class="n">beta_env_all</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
+                <span class="n">e_std</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span>
+            <span class="p">)</span>
             <span class="n">y_hat_env_all</span> <span class="o">=</span> <span class="n">_calculate_y_hat</span><span class="p">(</span><span class="n">e_std</span><span class="p">,</span> <span class="n">beta_env_all</span><span class="p">)</span>
-            <span class="n">beta_bg_all</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span><span class="n">all_std</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span>
-                                          <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span><span class="p">)</span>
+            <span class="n">beta_bg_all</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
+                <span class="n">all_std</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span>
+            <span class="p">)</span>
             <span class="n">y_hat_bg_all</span> <span class="o">=</span> <span class="n">_calculate_y_hat</span><span class="p">(</span><span class="n">all_std</span><span class="p">,</span> <span class="n">beta_bg_all</span><span class="p">)</span>
             <span class="n">env_r2</span> <span class="o">=</span> <span class="n">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat_env_all</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">)</span>
             <span class="n">bg_r2</span> <span class="o">=</span> <span class="n">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat_bg_all</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">env_adj_r2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">((</span><span class="n">num_sites</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
-                    <span class="n">num_sites</span> <span class="o">-</span> <span class="n">num_env_predictors</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">env_r2</span><span class="p">)</span>
+                <span class="n">env_adj_r2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="n">num_sites</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_sites</span> <span class="o">-</span> <span class="n">num_env_predictors</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+                <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">env_r2</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
                 <span class="n">env_adj_r2</span> <span class="o">=</span> <span class="mf">0.0</span>
 
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">bg_adj_r2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">((</span><span class="n">num_sites</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
-                    <span class="n">num_sites</span> <span class="o">-</span> <span class="n">num_bg_predictors</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">bg_r2</span><span class="p">)</span>
+                <span class="n">bg_adj_r2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="n">num_sites</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_sites</span> <span class="o">-</span> <span class="n">num_bg_predictors</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+                <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">bg_r2</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
                 <span class="n">bg_adj_r2</span> <span class="o">=</span> <span class="mf">0.0</span>
 
@@ -283,8 +287,7 @@
             <span class="n">env_denom_temp</span> <span class="o">=</span> <span class="n">p_sigma_std</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">y_hat_env_all</span><span class="o">.</span><span class="n">T</span>
             <span class="c1"># env_f_pseudo_denominator = np.trace(</span>
             <span class="c1">#    env_denom_temp.T.dot(env_denom_temp))</span>
-            <span class="n">env_f_pseudo_denominator</span> <span class="o">=</span> <span class="n">_trace_mtx_by_transverse</span><span class="p">(</span>
-                <span class="n">env_denom_temp</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">env_f_pseudo_denominator</span> <span class="o">=</span> <span class="n">_trace_mtx_by_transverse</span><span class="p">(</span><span class="n">env_denom_temp</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
             <span class="n">bg_denom_temp</span> <span class="o">=</span> <span class="n">p_sigma_std</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">y_hat_bg_all</span><span class="o">.</span><span class="n">T</span>
             <span class="c1"># bg_f_pseudo_denominator = np.trace(</span>
             <span class="c1">#    bg_denom_temp.T.dot(bg_denom_temp))</span>
@@ -300,22 +303,21 @@
 
                 <span class="c1"># Semi-partial correlation</span>
                 <span class="n">beta_wo_pred</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
-                    <span class="n">wo_predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span>
-                    <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span><span class="p">)</span>
+                    <span class="n">wo_predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span>
+                <span class="p">)</span>
                 <span class="n">y_hat_wo_pred</span> <span class="o">=</span> <span class="n">_calculate_y_hat</span><span class="p">(</span><span class="n">wo_predictor</span><span class="p">,</span> <span class="n">beta_wo_pred</span><span class="p">)</span>
                 <span class="n">beta_j_i</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
-                    <span class="n">predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="kc">False</span>
+                <span class="p">)</span>
                 <span class="n">r2_j_i</span> <span class="o">=</span> <span class="n">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat_wo_pred</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">)</span>
-                <span class="n">semi_partial</span> <span class="o">=</span> <span class="n">beta_j_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-                    <span class="n">env_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">beta_j_i</span><span class="p">)</span>
+                <span class="n">semi_partial</span> <span class="o">=</span> <span class="n">beta_j_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">env_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">beta_j_i</span><span class="p">)</span>
                 <span class="n">f_pseudo_env_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">env_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">env_f_pseudo_denominator</span>
                 <span class="n">obs_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_partial</span>
                 <span class="n">f_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_pseudo_env_i</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="c1"># Add Environment adjusted R squared</span>
             <span class="n">obs_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">env_adj_r2</span>
-            <span class="n">f_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">env_f_pseudo_numerator</span> <span class="o">/</span> <span class="n">env_f_pseudo_denominator</span><span class="p">)</span>
+            <span class="n">f_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">env_f_pseudo_numerator</span> <span class="o">/</span> <span class="n">env_f_pseudo_denominator</span>
             <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
             <span class="c1"># Biogeography</span>
@@ -325,14 +327,14 @@
 
                 <span class="c1"># Semi-partial correlation</span>
                 <span class="n">beta_wo_pred</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
-                    <span class="n">wo_predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span>
-                    <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span><span class="p">)</span>
+                    <span class="n">wo_predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="n">use_locks</span>
+                <span class="p">)</span>
                 <span class="n">y_hat_wo_pred</span> <span class="o">=</span> <span class="n">_calculate_y_hat</span><span class="p">(</span><span class="n">wo_predictor</span><span class="p">,</span> <span class="n">beta_wo_pred</span><span class="p">)</span>
                 <span class="n">beta_j_i</span> <span class="o">=</span> <span class="n">_calculate_beta</span><span class="p">(</span>
-                    <span class="n">predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">predictor</span><span class="p">,</span> <span class="n">site_weights</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">,</span> <span class="n">use_lock</span><span class="o">=</span><span class="kc">False</span>
+                <span class="p">)</span>
                 <span class="n">r2_j_i</span> <span class="o">=</span> <span class="n">_calculate_r_squared</span><span class="p">(</span><span class="n">y_hat_wo_pred</span><span class="p">,</span> <span class="n">p_sigma_std</span><span class="p">)</span>
-                <span class="n">semi_partial</span> <span class="o">=</span> <span class="n">beta_j_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-                    <span class="n">bg_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">beta_j_i</span><span class="p">)</span>
+                <span class="n">semi_partial</span> <span class="o">=</span> <span class="n">beta_j_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">bg_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">beta_j_i</span><span class="p">)</span>
                 <span class="n">f_pseudo_bg_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">bg_r2</span> <span class="o">-</span> <span class="n">r2_j_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">bg_f_pseudo_denominator</span>
                 <span class="n">obs_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_partial</span>
                 <span class="n">f_values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_pseudo_bg_i</span>
@@ -386,7 +388,7 @@
     <span class="n">s_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">ones</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mtx</span> <span class="o">*</span> <span class="n">mtx</span><span class="p">)</span>
 
     <span class="n">mean_weighted</span> <span class="o">=</span> <span class="n">s_1</span> <span class="o">/</span> <span class="n">total_sum</span>
-    <span class="n">std_dev_weighted</span> <span class="o">=</span> <span class="p">((</span><span class="n">s_2</span> <span class="o">-</span> <span class="p">(</span><span class="n">s_1</span> <span class="o">**</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">total_sum</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_sum</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="n">std_dev_weighted</span> <span class="o">=</span> <span class="p">((</span><span class="n">s_2</span> <span class="o">-</span> <span class="p">(</span><span class="n">s_1</span><span class="o">**</span><span class="mf">2.0</span> <span class="o">/</span> <span class="n">total_sum</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_sum</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.5</span>
 
     <span class="c1"># Fixes any invalid values created previously</span>
     <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">ones</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">std_dev_weighted</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
@@ -456,11 +458,13 @@
         <span class="c1"># If this is a stack</span>
         <span class="k">if</span> <span class="n">test_mtx</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">test_mtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
-                <span class="n">p_vals</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">test_mtx</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="mi">5</span><span class="p">)</span>
-                                 <span class="p">)</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">observed_value</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+                <span class="n">p_vals</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">test_mtx</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="mi">5</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">observed_value</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">p_vals</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">test_mtx</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-                             <span class="p">)</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">observed_value</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+            <span class="n">p_vals</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">test_mtx</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">observed_value</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="p">)</span>
     <span class="c1"># Reshape and adding depth header</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_vals</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">p_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">p_vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -508,18 +512,16 @@
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">):</span>
         <span class="c1"># print(&#39;Node {} of {}&#39;.format(i+1, num_nodes))</span>
         <span class="n">obs</span><span class="p">,</span> <span class="n">f_vals</span> <span class="o">=</span> <span class="n">_mcpa_for_node</span><span class="p">(</span>
-            <span class="n">init_incidence</span><span class="p">,</span> <span class="n">env_predictors</span><span class="p">,</span> <span class="n">bg_predictors</span><span class="p">,</span>
-            <span class="n">phylo_mtx</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+            <span class="n">init_incidence</span><span class="p">,</span> <span class="n">env_predictors</span><span class="p">,</span> <span class="n">bg_predictors</span><span class="p">,</span> <span class="n">phylo_mtx</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="p">)</span>
         <span class="n">obs_results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs</span>
         <span class="n">f_results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_vals</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Processed mcpa for </span><span class="si">{}</span><span class="s1"> of </span><span class="si">{}</span><span class="s1"> nodes&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">))</span>
 
     <span class="c1"># Correct any nans and add depth</span>
-    <span class="n">obs_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">obs_results</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-    <span class="n">f_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">f_results</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">obs_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">obs_results</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">f_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">f_results</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 
     <span class="n">column_headers</span> <span class="o">=</span> <span class="n">env_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
     <span class="n">column_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Env - Adjusted R-squared&#39;</span><span class="p">)</span>
@@ -528,12 +530,12 @@
     <span class="n">obs_headers</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
         <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">,</span>
-        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Observed&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Observed&#39;</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="n">f_headers</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
         <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">,</span>
-        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;F-values&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;F-values&#39;</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="n">obs_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">obs_results</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">obs_headers</span><span class="p">)</span>
     <span class="n">f_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">f_results</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">f_headers</span><span class="p">)</span>
@@ -578,15 +580,14 @@
     <span class="n">f_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_predictors</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
 
     <span class="n">func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
-        <span class="n">_mcpa_for_node</span><span class="p">,</span> <span class="n">init_incidence</span><span class="p">,</span> <span class="n">env_predictors</span><span class="p">,</span> <span class="n">bg_predictors</span><span class="p">,</span>
-        <span class="n">use_locks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">_mcpa_for_node</span><span class="p">,</span> <span class="n">init_incidence</span><span class="p">,</span> <span class="n">env_predictors</span><span class="p">,</span> <span class="n">bg_predictors</span><span class="p">,</span> <span class="n">use_locks</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
 
     <span class="c1"># Use an Executor to parallelize the computations over each tree node</span>
     <span class="c1"># Note: The executor class is determined at the module level, so see top of</span>
     <span class="c1">#    module for more information about executor class and concurrency</span>
     <span class="k">with</span> <span class="n">ExecutorClass</span><span class="p">(</span><span class="n">CONCURRENCY_FACTOR</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-        <span class="n">comp_run</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
-            <span class="n">func</span><span class="p">,</span> <span class="p">[</span><span class="n">phylo_mtx</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)])</span>
+        <span class="n">comp_run</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="p">[</span><span class="n">phylo_mtx</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)])</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">f_val</span> <span class="ow">in</span> <span class="n">comp_run</span><span class="p">:</span>
             <span class="n">obs_results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs</span>
@@ -603,12 +604,12 @@
     <span class="n">obs_headers</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
         <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">,</span>
-        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Observed&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Observed&#39;</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="n">f_headers</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">phylo_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
         <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">,</span>
-        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;F-values&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;F-values&#39;</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="n">obs_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">obs_results</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">obs_headers</span><span class="p">)</span>
     <span class="n">f_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">f_results</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">f_headers</span><span class="p">)</span>

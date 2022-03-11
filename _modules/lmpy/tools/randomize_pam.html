@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.randomize_pam &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.tools.randomize_pam &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -103,12 +103,12 @@
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;input_pam_filename&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location of the PAM to randomize.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location of the PAM to randomize.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;output_pam_filename&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location to write the randomized PAM.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location to write the randomized PAM.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="n">in_pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_pam_filename</span><span class="p">)</span>

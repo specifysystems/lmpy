@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.clean_occurrences &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.tools.clean_occurrences &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -79,9 +79,7 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="clean_data"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/clean_occurrences/index.html#lmpy.tools.clean_occurrences.clean_data">[docs]</a><span class="k">def</span> <span class="nf">clean_data</span><span class="p">(</span>
-    <span class="n">reader</span><span class="p">,</span> <span class="n">writer_filename</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">,</span> <span class="n">write_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_output</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">):</span>
+<div class="viewcode-block" id="clean_data"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/clean_occurrences/index.html#lmpy.tools.clean_occurrences.clean_data">[docs]</a><span class="k">def</span> <span class="nf">clean_data</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">writer_filename</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">,</span> <span class="n">write_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_output</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Clean occurrence data.</span>
 
 <span class="sd">    Args:</span>
@@ -97,15 +95,19 @@
 <span class="sd">        dict: Output report from data wrangling.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">log_output</span><span class="p">:</span>
+
         <span class="k">def</span> <span class="nf">log_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
     <span class="k">else</span><span class="p">:</span>
+
         <span class="k">def</span> <span class="nf">log_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
             <span class="k">pass</span>
+
     <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;input_records&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="s1">&#39;output_records&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;wranglers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">wrangler_name</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;removed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> <span class="k">for</span> <span class="n">wrangler_name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">}</span>
+        <span class="s1">&#39;wranglers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">wrangler_name</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;removed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> <span class="k">for</span> <span class="n">wrangler_name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">},</span>
     <span class="p">}</span>
     <span class="c1"># Open reader</span>
     <span class="n">reader</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
@@ -141,24 +143,38 @@
     <span class="sd">&quot;&quot;&quot;A command-line interface to the tool.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;-sp&#39;</span><span class="p">,</span> <span class="s1">&#39;--species_key&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The CSV column header for species name.&#39;</span>
+        <span class="s1">&#39;-sp&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--species_key&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The CSV column header for species name.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;-x&#39;</span><span class="p">,</span> <span class="s1">&#39;--x_key&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The CSV column header for the X (longitude) field.&#39;</span>
+        <span class="s1">&#39;-x&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--x_key&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The CSV column header for the X (longitude) field.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;-y&#39;</span><span class="p">,</span> <span class="s1">&#39;--y_key&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The CSV column header for the Y (latitude) field.&#39;</span>
+        <span class="s1">&#39;-y&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--y_key&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The CSV column header for the Y (latitude) field.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;--report_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write optional output report JSON.&#39;</span>
+        <span class="s1">&#39;-r&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--report_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write optional output report JSON.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="s1">&#39;--log_output&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Should output messages be written to console.&#39;</span>
+        <span class="s1">&#39;-l&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--log_output&#39;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Should output messages be written to console.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;reader_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Input occurrence CSV filename.&#39;</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.split_occurrence_data &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.tools.split_occurrence_data &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -97,6 +97,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        Method: A function that returns a filename when given a writer key.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">get_writer_filename_from_key</span><span class="p">(</span><span class="n">writer_key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get a writer filename from a writer key and create directories if needed.</span>
 
@@ -112,6 +113,7 @@
             <span class="n">writer_fn</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="o">*</span><span class="n">writer_key</span><span class="p">))</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">writer_fn</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">writer_fn</span>
+
     <span class="k">return</span> <span class="n">get_writer_filename_from_key</span>
 
 
@@ -141,19 +143,21 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">writer_key</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">writer_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">writer_key</span>
+
     <span class="k">return</span> <span class="n">key_from_fields_func</span>
 
 
 <span class="c1"># .....................................................................................</span>
 <span class="k">class</span> <span class="nc">OccurrenceSplitter</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A tool for splitting occurrence data by some criteria for easier processing.&quot;&quot;&quot;</span>
+
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">writer_key_func</span><span class="p">,</span>
         <span class="n">writer_filename_func</span><span class="p">,</span>
         <span class="n">write_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_writers</span><span class="o">=</span><span class="n">DEFAULT_MAX_WRITERS</span>
+        <span class="n">max_writers</span><span class="o">=</span><span class="n">DEFAULT_MAX_WRITERS</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor.</span>
 
@@ -263,7 +267,7 @@
             <span class="s1">&#39;The maximum number of data writers to have open at once. &#39;</span>
             <span class="s1">&#39;Too many open files can cause errors. &#39;</span>
             <span class="s1">&#39;Default: </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">DEFAULT_MAX_WRITERS</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;-k&#39;</span><span class="p">,</span>
@@ -273,7 +277,7 @@
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s1">&#39;A field to use to determine writer key.  Multiple values can be used to &#39;</span>
             <span class="s1">&#39;utilize multiple fields.&#39;</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;-of&#39;</span><span class="p">,</span>
@@ -283,13 +287,13 @@
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s1">&#39;Include this field in the outputs.  If not provided, all fields from the &#39;</span>
             <span class="s1">&#39;first point ready for output will be used.&#39;</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--dwca&#39;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
         <span class="n">nargs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A Darwin-Core Archive to process and associated wrangler configuration.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A Darwin-Core Archive to process and associated wrangler configuration.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--csv&#39;</span><span class="p">,</span>
@@ -298,13 +302,11 @@
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s1">&#39;A CSV file to process, an associated wrangler configuration file, &#39;</span>
             <span class="s1">&#39;a species header key, an x header key, and a y header key.&#39;</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;out_dir&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Directory where the output data should be written.&#39;</span>
+        <span class="s1">&#39;out_dir&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Directory where the output data should be written.&#39;</span>
     <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
@@ -321,7 +323,7 @@
         <span class="n">writer_key_func</span><span class="p">,</span>
         <span class="n">writer_filename_func</span><span class="p">,</span>
         <span class="n">write_fields</span><span class="o">=</span><span class="n">write_fields</span><span class="p">,</span>
-        <span class="n">max_writers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_open_writers</span>
+        <span class="n">max_writers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_open_writers</span><span class="p">,</span>
     <span class="p">)</span> <span class="k">as</span> <span class="n">occurrence_processor</span><span class="p">:</span>
         <span class="c1"># For each dwca file</span>
         <span class="k">for</span> <span class="n">dwca_fn</span><span class="p">,</span> <span class="n">wranglers_fn</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">dwca</span><span class="p">:</span>

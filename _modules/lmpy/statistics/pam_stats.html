@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.pam_stats &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.statistics.pam_stats &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -84,6 +84,7 @@
 <span class="sd">    This wrapper is used to classify each statistic so that the arguments it</span>
 <span class="sd">    needs can be inferred.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># .........................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor.</span>
@@ -273,8 +274,7 @@
 <span class="sd">        Matrix: A row of proportional range richness for the sites that each species in</span>
 <span class="sd">            the PAM is present.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">alpha</span><span class="p">(</span>
-        <span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">alpha</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -362,8 +362,9 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        float: Lande&#39;s beta diversity for the PAM.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span>
-        <span class="n">pam</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span></div>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+        <span class="n">num_species</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">pam</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="p">)</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -377,8 +378,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        float: Legendre&#39;s beta diversity for the PAM.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
-        <span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="p">(</span><span class="nb">float</span><span class="p">((</span><span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">)))</span></div>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="p">(</span><span class="nb">float</span><span class="p">((</span><span class="n">omega</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">)))</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -437,8 +437,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">species_by_site</span> <span class="o">=</span> <span class="n">pam</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">omega_prop</span> <span class="o">=</span> <span class="n">omega_proportional</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">species_by_site</span> <span class="o">/</span> <span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
-            <span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">omega_prop</span><span class="p">,</span> <span class="n">omega_prop</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">species_by_site</span> <span class="o">/</span> <span class="n">num_sites</span><span class="p">(</span><span class="n">pam</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">omega_prop</span><span class="p">,</span> <span class="n">omega_prop</span><span class="p">)</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -456,8 +455,7 @@
 <span class="sd">        float: The average distance from each taxa to taxa nearest to it.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">nearest_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">row</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">phylo_dist_mtx</span><span class="p">])</span>
+        <span class="n">nearest_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">row</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">phylo_dist_mtx</span><span class="p">])</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">nearest_total</span> <span class="o">/</span> <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">return</span> <span class="mf">0.0</span></div>
@@ -476,9 +474,9 @@
 <span class="sd">        float: The average distance from each taxa all of the other co-located taxa.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">num_sp</span> <span class="o">=</span> <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">((</span>
-        <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">trace</span><span class="p">()</span>
-        <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_sp</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_sp</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span></div>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">trace</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_sp</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_sp</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="p">)</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -522,8 +520,7 @@
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sp</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_sp</span><span class="p">):</span>
                     <span class="n">pair_dist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phylo_dist_mtx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
-                    <span class="n">pair_sites_shared</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="n">pam</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]))</span>
+                    <span class="n">pair_sites_shared</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pam</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pam</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]))</span>
             <span class="c1"># X : Pair distance</span>
             <span class="c1"># Y : Pair sites shared</span>
             <span class="n">x_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pair_dist</span><span class="p">)</span>
@@ -531,14 +528,15 @@
             <span class="n">sum_xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_val</span> <span class="o">*</span> <span class="n">y_val</span><span class="p">)</span>
             <span class="n">sum_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
             <span class="n">sum_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_val</span><span class="p">)</span>
-            <span class="n">sum_x_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_val</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="n">sum_y_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_val</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">sum_x_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_val</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">sum_y_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_val</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
             <span class="c1"># Pearson</span>
             <span class="n">p_num</span> <span class="o">=</span> <span class="n">sum_xy</span> <span class="o">-</span> <span class="n">sum_x</span> <span class="o">*</span> <span class="n">sum_y</span> <span class="o">/</span> <span class="n">num_pairs</span>
             <span class="n">p_denom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">sum_x_sq</span> <span class="o">-</span> <span class="p">(</span><span class="n">sum_x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">num_pairs</span><span class="p">)</span>
-                 <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">sum_y_sq</span> <span class="o">-</span> <span class="p">(</span><span class="n">sum_y</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">num_pairs</span><span class="p">)))</span>
+                <span class="p">(</span><span class="n">sum_x_sq</span> <span class="o">-</span> <span class="p">(</span><span class="n">sum_x</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">num_pairs</span><span class="p">))</span>
+                <span class="o">*</span> <span class="p">(</span><span class="n">sum_y_sq</span> <span class="o">-</span> <span class="p">(</span><span class="n">sum_y</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">num_pairs</span><span class="p">))</span>
+            <span class="p">)</span>
             <span class="n">pearson</span><span class="p">[</span><span class="n">site_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_num</span> <span class="o">/</span> <span class="n">p_denom</span>
     <span class="k">return</span> <span class="n">pearson</span></div>
 
@@ -563,36 +561,35 @@
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="PamStats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats">[docs]</a><span class="k">class</span> <span class="nc">PamStats</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for managing metric computation for PAM statistics.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="PamStats.covariance_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.covariance_stats">[docs]</a>    <span class="n">covariance_stats</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s1">&#39;sigma sites&#39;</span><span class="p">,</span> <span class="n">sigma_sites</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;sigma species&#39;</span><span class="p">,</span> <span class="n">sigma_species</span><span class="p">)</span>
-        <span class="p">]</span></div>
+
+<div class="viewcode-block" id="PamStats.covariance_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.covariance_stats">[docs]</a>    <span class="n">covariance_stats</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;sigma sites&#39;</span><span class="p">,</span> <span class="n">sigma_sites</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;sigma species&#39;</span><span class="p">,</span> <span class="n">sigma_species</span><span class="p">)]</span></div>
 <div class="viewcode-block" id="PamStats.diversity_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.diversity_stats">[docs]</a>    <span class="n">diversity_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;c-score&#39;</span><span class="p">,</span> <span class="n">c_score</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;lande&#39;</span><span class="p">,</span> <span class="n">lande</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;legendre&#39;</span><span class="p">,</span> <span class="n">legendre</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;num sites&#39;</span><span class="p">,</span> <span class="n">num_sites</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;num species&#39;</span><span class="p">,</span> <span class="n">num_species</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;whittaker&#39;</span><span class="p">,</span> <span class="n">whittaker</span><span class="p">)</span>
-        <span class="p">]</span></div>
+        <span class="p">(</span><span class="s1">&#39;whittaker&#39;</span><span class="p">,</span> <span class="n">whittaker</span><span class="p">),</span>
+    <span class="p">]</span></div>
 <div class="viewcode-block" id="PamStats.site_matrix_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.site_matrix_stats">[docs]</a>    <span class="n">site_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;alpha proportional&#39;</span><span class="p">,</span> <span class="n">alpha_proportional</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="n">phi</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;phi average proportional&#39;</span><span class="p">,</span> <span class="n">phi_average_proportional</span><span class="p">)</span>
-        <span class="p">]</span></div>
+        <span class="p">(</span><span class="s1">&#39;phi average proportional&#39;</span><span class="p">,</span> <span class="n">phi_average_proportional</span><span class="p">),</span>
+    <span class="p">]</span></div>
 <div class="viewcode-block" id="PamStats.site_tree_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.site_tree_stats">[docs]</a>    <span class="n">site_tree_stats</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Phylogenetic Diversity&#39;</span><span class="p">,</span> <span class="n">phylogenetic_diversity</span><span class="p">)]</span></div>
 <div class="viewcode-block" id="PamStats.site_tree_distance_matrix_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.site_tree_distance_matrix_stats">[docs]</a>    <span class="n">site_tree_distance_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;MNTD&#39;</span><span class="p">,</span> <span class="n">mean_nearest_taxon_distance</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;Mean Pairwise Distance&#39;</span><span class="p">,</span> <span class="n">mean_pairwise_distance</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;Sum Pairwise Distance&#39;</span><span class="p">,</span> <span class="n">sum_pairwise_distance</span><span class="p">)]</span></div>
+        <span class="p">(</span><span class="s1">&#39;Sum Pairwise Distance&#39;</span><span class="p">,</span> <span class="n">sum_pairwise_distance</span><span class="p">),</span>
+    <span class="p">]</span></div>
 <div class="viewcode-block" id="PamStats.site_pam_dist_mtx_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.site_pam_dist_mtx_stats">[docs]</a>    <span class="n">site_pam_dist_mtx_stats</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pearson_correlation&#39;</span><span class="p">,</span> <span class="n">pearson_correlation</span><span class="p">)]</span></div>
 <div class="viewcode-block" id="PamStats.species_matrix_stats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.species_matrix_stats">[docs]</a>    <span class="n">species_matrix_stats</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;omega&#39;</span><span class="p">,</span> <span class="n">omega</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;omega_proportional&#39;</span><span class="p">,</span> <span class="n">omega_proportional</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;psi&#39;</span><span class="p">,</span> <span class="n">psi</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;psi_average_proportional&#39;</span><span class="p">,</span> <span class="n">psi_average_proportional</span><span class="p">)</span>
-        <span class="p">]</span></div>
+        <span class="p">(</span><span class="s1">&#39;psi_average_proportional&#39;</span><span class="p">,</span> <span class="n">psi_average_proportional</span><span class="p">),</span>
+    <span class="p">]</span></div>
 
     <span class="c1"># ...........................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -624,9 +621,8 @@
         <span class="nb">print</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">])</span>
         <span class="n">diversity_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">]),</span>
-            <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
-                <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">]})</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">]},</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">diversity_matrix</span></div>
 
     <span class="c1"># ...........................</span>
@@ -642,7 +638,9 @@
             <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">))),</span>
             <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
                 <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">(),</span>
-                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">]})</span>
+                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">],</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Site matrix stats&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">)):</span>
             <span class="n">site_stats_matrix</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span>
@@ -663,15 +661,19 @@
                 <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span><span class="p">))),</span>
                 <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
                     <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">(),</span>
-                    <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span><span class="p">]})</span>
+                    <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span><span class="p">],</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
 
             <span class="n">site_tree_dist_mtx_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                          <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="p">))),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="p">))</span>
+                <span class="p">),</span>
                 <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
                     <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">(),</span>
-                    <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span>
-                          <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="p">]})</span>
+                    <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="p">],</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
 
             <span class="c1"># PAM / Tree stats</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Get distance matrix&#39;</span><span class="p">)</span>
@@ -681,12 +683,16 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_pam_dist_mtx_stats</span><span class="p">:</span>
                 <span class="n">site_pam_tree_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
                     <span class="n">Matrix</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
-                        <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">,</span> <span class="n">phylo_dist_mtx</span>
-                              <span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_pam_dist_mtx_stats</span><span class="p">]),</span>
+                        <span class="p">[</span>
+                            <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">,</span> <span class="n">phylo_dist_mtx</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_pam_dist_mtx_stats</span>
+                        <span class="p">]</span>
+                    <span class="p">),</span>
                     <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
                         <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">(),</span>
-                        <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span>
-                              <span class="bp">self</span><span class="o">.</span><span class="n">site_pam_dist_mtx_stats</span><span class="p">]})</span>
+                        <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_pam_dist_mtx_stats</span><span class="p">],</span>
+                    <span class="p">},</span>
+                <span class="p">)</span>
 
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Site by site&#39;</span><span class="p">)</span>
             <span class="c1"># Loop through PAM</span>
@@ -696,28 +702,31 @@
 
                 <span class="c1"># Get sub tree</span>
                 <span class="n">present_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-                    <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
-                           <span class="p">[</span><span class="n">ordered_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">present_species</span><span class="p">]))</span>
+                    <span class="nb">filter</span><span class="p">(</span>
+                        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="p">[</span><span class="n">ordered_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">present_species</span><span class="p">]</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
                 <span class="n">present_dist_mtx_idxs</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-                        <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()):</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()):</span>
                     <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">present_labels</span><span class="p">:</span>
                         <span class="n">present_dist_mtx_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">present_labels</span><span class="p">:</span>
                         <span class="n">site_tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">extract_tree_with_taxa_labels</span><span class="p">(</span>
-                            <span class="n">present_labels</span><span class="p">)</span>
+                            <span class="n">present_labels</span>
+                        <span class="p">)</span>
                         <span class="c1"># Get distance matrix</span>
                         <span class="n">site_dist_mtx</span> <span class="o">=</span> <span class="n">phylo_dist_mtx</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span>
-                            <span class="n">present_dist_mtx_idxs</span><span class="p">,</span> <span class="n">present_dist_mtx_idxs</span><span class="p">)</span>
+                            <span class="n">present_dist_mtx_idxs</span><span class="p">,</span> <span class="n">present_dist_mtx_idxs</span>
+                        <span class="p">)</span>
                         <span class="c1"># site_dist_mtx = site_tree.get_distance_matrix()</span>
                         <span class="n">site_tree_dist_mtx_matrix</span><span class="p">[</span><span class="n">site_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                            <span class="n">func</span><span class="p">(</span><span class="n">site_dist_mtx</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span>
-                                <span class="n">_</span><span class="p">,</span> <span class="n">func</span>
-                                <span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="p">]</span>
+                            <span class="n">func</span><span class="p">(</span><span class="n">site_dist_mtx</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span>
+                        <span class="p">]</span>
                         <span class="n">site_tree_stats_matrix</span><span class="p">[</span><span class="n">site_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                            <span class="n">func</span><span class="p">(</span><span class="n">site_tree</span>
-                                 <span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span><span class="p">]</span>
+                            <span class="n">func</span><span class="p">(</span><span class="n">site_tree</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span>
+                        <span class="p">]</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
                     <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
                     <span class="nb">print</span><span class="p">(</span><span class="n">present_labels</span><span class="p">)</span>
@@ -748,10 +757,11 @@
             <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">))),</span>
             <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
                 <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
-                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">]})</span>
+                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">],</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">)):</span>
-            <span class="n">species_stats_matrix</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span>
+            <span class="n">species_stats_matrix</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">species_stats_matrix</span></div>
 
@@ -775,16 +785,13 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metric_function</span><span class="p">,</span> <span class="n">TreeMetric</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metric_function</span><span class="p">,</span> <span class="n">TreeDistanceMatrixMetric</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_distance_matrix_stats</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metric_function</span><span class="p">,</span> <span class="n">PamDistMatrixMetric</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">site_pam_dist_mtx_stats</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metric_function</span><span class="p">,</span> <span class="n">SpeciesMatrixMetric</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s1">&#39;Unknown metric type: </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">)</span>
-            <span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unknown metric type: </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">metric_function</span><span class="p">))</span></div></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -820,7 +827,7 @@
     <span class="s1">&#39;sigma_sites&#39;</span><span class="p">,</span>
     <span class="s1">&#39;sigma_species&#39;</span><span class="p">,</span>
     <span class="s1">&#39;sum_pairwise_distance&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;whittaker&#39;</span>
+    <span class="s1">&#39;whittaker&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 </pre></div>
 

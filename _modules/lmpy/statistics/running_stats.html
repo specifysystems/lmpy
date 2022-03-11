@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.running_stats &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.statistics.running_stats &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -115,6 +115,7 @@
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="RunningStats"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/running_stats/index.html#lmpy.statistics.running_stats.RunningStats">[docs]</a><span class="k">class</span> <span class="nc">RunningStats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Keep track of running statistics to reduce required memory.&quot;&quot;&quot;</span>
+
     <span class="c1"># .....................................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_absolute_values</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Construct a RunningStats instance.</span>
@@ -154,7 +155,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">s_k</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mf">1.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mf">1.0</span>
             <span class="n">mean_k_1</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean_k_1</span> <span class="o">+</span> <span class="p">((</span><span class="n">v</span> <span class="o">-</span> <span class="n">mean_k_1</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">s_k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_k</span> <span class="o">+</span> <span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">mean_k_1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
@@ -199,8 +200,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="s1">&#39;P-values cannot be computed without observed values&#39;</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;P-values cannot be computed without observed values&#39;</span><span class="p">)</span></div></div>
 
 
 <span class="c1"># .............................................................................</span>

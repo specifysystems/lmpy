@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -116,6 +116,7 @@
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class representing an occurrence data point.&quot;&quot;&quot;</span>
+
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species_name</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor.</span>
@@ -154,8 +155,11 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: An indication if the two points are equal for the primary attributes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">species_name</span> <span class="ow">and</span> \
-            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">species_name</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span>
+        <span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="Point.__lt__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.__lt__">[docs]</a>    <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -185,7 +189,8 @@
 <span class="sd">            str: A string representation of this Point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;Point(species=&quot;</span><span class="si">{}</span><span class="s1">&quot;, x=</span><span class="si">{}</span><span class="s1">, y=</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+        <span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="Point.get_attribute"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.get_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">):</span>
@@ -225,6 +230,7 @@
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="PointCsvReader"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader">[docs]</a><span class="k">class</span> <span class="nc">PointCsvReader</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for reading Points from a CSV file.&quot;&quot;&quot;</span>
+
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -233,7 +239,7 @@
         <span class="n">x_field</span><span class="p">,</span>
         <span class="n">y_field</span><span class="p">,</span>
         <span class="n">geopoint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">group_field</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span>
+        <span class="n">group_field</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for a Point CSV retriever.</span>
 
@@ -308,8 +314,8 @@
                     <span class="n">x_val</span> <span class="o">=</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_field</span><span class="p">]</span>
                     <span class="n">y_val</span> <span class="o">=</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_field</span><span class="p">]</span>
                 <span class="n">pt</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span>
-                    <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species_field</span><span class="p">],</span> <span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span>
-                    <span class="n">attributes</span><span class="o">=</span><span class="n">point_dict</span><span class="p">)</span>
+                    <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species_field</span><span class="p">],</span> <span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">point_dict</span>
+                <span class="p">)</span>
                 <span class="n">test_val</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">group_field</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">test_val</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr_val</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -348,8 +354,9 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="PointCsvWriter"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter">[docs]</a><span class="k">class</span> <span class="nc">PointCsvWriter</span><span class="p">():</span>
+<div class="viewcode-block" id="PointCsvWriter"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter">[docs]</a><span class="k">class</span> <span class="nc">PointCsvWriter</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for writing Points to a CSV file.&quot;&quot;&quot;</span>
+
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for writing points to csv file.</span>
@@ -415,6 +422,7 @@
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="PointDwcaReader"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader">[docs]</a><span class="k">class</span> <span class="nc">PointDwcaReader</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for reading Darwin Core Archives.&quot;&quot;&quot;</span>
+
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -423,7 +431,7 @@
         <span class="n">species_term</span><span class="o">=</span><span class="n">DEFAULT_SPECIES_TERM</span><span class="p">,</span>
         <span class="n">x_term</span><span class="o">=</span><span class="n">DEFAULT_X_TERM</span><span class="p">,</span>
         <span class="n">y_term</span><span class="o">=</span><span class="n">DEFAULT_Y_TERM</span><span class="p">,</span>
-        <span class="n">geopoint_term</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">geopoint_term</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for reading Darwin Core Archives.</span>
 
@@ -476,9 +484,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
-                    <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-                <span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_term</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x_term</span>
+                <span class="p">]</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_term</span><span class="p">]</span></div>
@@ -496,9 +504,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
-                    <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-                <span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">y_term</span>
+                <span class="p">]</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span></div>
@@ -550,7 +558,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">_get_species_name</span><span class="p">(</span><span class="n">point_dict</span><span class="p">),</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_get_x_value</span><span class="p">(</span><span class="n">point_dict</span><span class="p">),</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_value</span><span class="p">(</span><span class="n">point_dict</span><span class="p">),</span>
-                    <span class="n">attributes</span><span class="o">=</span><span class="n">point_dict</span>
+                    <span class="n">attributes</span><span class="o">=</span><span class="n">point_dict</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">test_val</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">group_field</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">test_val</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr_val</span><span class="p">:</span>
@@ -597,9 +605,9 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="n">core_att</span><span class="p">]</span> <span class="o">=</span> <span class="n">core_element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">core_att</span><span class="p">]</span>
 
         <span class="c1"># Get the occurrence data file name in the zip file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_filename</span> <span class="o">=</span> <span class="n">core_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">FILES_TAG</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span>
-            <span class="n">LOCATION_TAG</span>
-        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_filename</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">core_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">FILES_TAG</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">LOCATION_TAG</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+        <span class="p">)</span>
 
         <span class="c1"># Get the CSV fields from the metadata</span>
         <span class="k">for</span> <span class="n">field_element</span> <span class="ow">in</span> <span class="n">core_element</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">FIELD_TAG</span><span class="p">):</span>
@@ -626,7 +634,7 @@
                 <span class="n">index</span><span class="o">=</span><span class="n">field_index</span><span class="p">,</span>
                 <span class="n">default</span><span class="o">=</span><span class="n">field_default</span><span class="p">,</span>
                 <span class="n">vocabulary</span><span class="o">=</span><span class="n">field_vocabulary</span><span class="p">,</span>
-                <span class="n">delimiter</span><span class="o">=</span><span class="n">field_delimiter</span>
+                <span class="n">delimiter</span><span class="o">=</span><span class="n">field_delimiter</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># Check for id field</span>
         <span class="k">for</span> <span class="n">id_element</span> <span class="ow">in</span> <span class="n">core_element</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">ID_TAG</span><span class="p">):</span>
@@ -649,7 +657,7 @@
                 <span class="n">index</span><span class="o">=</span><span class="n">field_index</span><span class="p">,</span>
                 <span class="n">default</span><span class="o">=</span><span class="n">field_default</span><span class="p">,</span>
                 <span class="n">vocabulary</span><span class="o">=</span><span class="n">field_vocabulary</span><span class="p">,</span>
-                <span class="n">delimiter</span><span class="o">=</span><span class="n">field_delimiter</span>
+                <span class="n">delimiter</span><span class="o">=</span><span class="n">field_delimiter</span><span class="p">,</span>
             <span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
@@ -659,15 +667,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_zip_archive</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
         <span class="c1"># self._zip_archive.open()</span>
         <span class="n">meta_contents</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_zip_archive</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span><span class="p">),</span>
-            <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_zip_archive</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span>
         <span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_process_metadata</span><span class="p">(</span><span class="n">meta_contents</span><span class="p">)</span>
         <span class="c1"># Read metadata</span>
         <span class="c1"># Get occurrence file ready</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_zip_archive</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_filename</span><span class="p">),</span>
-            <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_zip_archive</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_filename</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span>
         <span class="p">)</span>
 
         <span class="n">delimiter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsTerminatedBy&#39;</span><span class="p">]</span>
@@ -678,9 +684,9 @@
             <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;linesTerminatedBy&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">reader_params</span><span class="p">[</span>
-                <span class="s1">&#39;lineterminator&#39;</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;linesTerminatedBy&#39;</span><span class="p">]</span>
+            <span class="n">reader_params</span><span class="p">[</span><span class="s1">&#39;lineterminator&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span>
+                <span class="s1">&#39;linesTerminatedBy&#39;</span>
+            <span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">reader_params</span><span class="p">[</span><span class="s1">&#39;quotechar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">]</span>
         <span class="c1"># reader_params[&#39;quotechar&#39;] = None</span>
@@ -697,8 +703,9 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="PointJsonWriter"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter">[docs]</a><span class="k">class</span> <span class="nc">PointJsonWriter</span><span class="p">():</span>
+<div class="viewcode-block" id="PointJsonWriter"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter">[docs]</a><span class="k">class</span> <span class="nc">PointJsonWriter</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for writing Points to JSON.&quot;&quot;&quot;</span>
+
     <span class="c1"># .......................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for writing JSON points.</span>

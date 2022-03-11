@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.create_rare_species_model &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.tools.create_rare_species_model &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -99,7 +99,7 @@
     <span class="n">model_raster_filename</span><span class="p">,</span>
     <span class="n">raster_format</span><span class="o">=</span><span class="n">AUTO_FORMAT</span><span class="p">,</span>
     <span class="n">nodata_value</span><span class="o">=-</span><span class="mi">9999</span><span class="p">,</span>
-    <span class="n">burn_value</span><span class="o">=</span><span class="mi">50</span>
+    <span class="n">burn_value</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a rare species model from a convex hull intersected with ecoregions.</span>
 
@@ -116,7 +116,13 @@
 
     <span class="c1"># Get ecoregions array</span>
     <span class="p">(</span>
-        <span class="n">ecoregion_data</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">epsg</span>
+        <span class="n">ecoregion_data</span><span class="p">,</span>
+        <span class="n">min_x</span><span class="p">,</span>
+        <span class="n">min_y</span><span class="p">,</span>
+        <span class="n">max_x</span><span class="p">,</span>
+        <span class="n">max_y</span><span class="p">,</span>
+        <span class="n">cell_size</span><span class="p">,</span>
+        <span class="n">epsg</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">=</span> <span class="n">get_ecoregions_array</span><span class="p">(</span><span class="n">ecoregions_filename</span><span class="p">)</span>
     <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="n">ecoregion_data</span><span class="o">.</span><span class="n">shape</span>
 
@@ -150,12 +156,7 @@
     <span class="c1"># Write model</span>
     <span class="k">if</span> <span class="n">raster_format</span> <span class="o">==</span> <span class="n">ASC_FORMAT</span><span class="p">:</span>
         <span class="n">write_ascii</span><span class="p">(</span>
-            <span class="n">model_raster_filename</span><span class="p">,</span>
-            <span class="n">model_data</span><span class="p">,</span>
-            <span class="n">cell_size</span><span class="p">,</span>
-            <span class="n">min_x</span><span class="p">,</span>
-            <span class="n">min_y</span><span class="p">,</span>
-            <span class="n">nodata_value</span>
+            <span class="n">model_raster_filename</span><span class="p">,</span> <span class="n">model_data</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">nodata_value</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">write_tiff</span><span class="p">(</span>
@@ -165,7 +166,7 @@
             <span class="n">min_x</span><span class="p">,</span>
             <span class="n">max_y</span><span class="p">,</span>
             <span class="n">epsg</span><span class="p">,</span>
-            <span class="n">nodata_value</span>
+            <span class="n">nodata_value</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -180,7 +181,7 @@
     <span class="n">epsg</span><span class="p">,</span>
     <span class="n">burn_value</span><span class="p">,</span>
     <span class="n">buffer_distance</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">num_quad_segs</span><span class="o">=</span><span class="mi">30</span>
+    <span class="n">num_quad_segs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a convex hull array.</span>
 
@@ -351,11 +352,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">drv</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;GTiff&#39;</span><span class="p">)</span>
     <span class="n">dataset</span> <span class="o">=</span> <span class="n">drv</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span>
-        <span class="n">out_filename</span><span class="p">,</span>
-        <span class="n">model_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-        <span class="n">model_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="mi">1</span><span class="p">,</span>
-        <span class="n">gdalconst</span><span class="o">.</span><span class="n">GDT_Byte</span>
+        <span class="n">out_filename</span><span class="p">,</span> <span class="n">model_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">model_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gdalconst</span><span class="o">.</span><span class="n">GDT_Byte</span>
     <span class="p">)</span>
     <span class="n">dataset</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">([</span><span class="n">min_x</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cell_size</span><span class="p">])</span>
 
@@ -378,35 +375,35 @@
         <span class="s1">&#39;-sp&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column for species or group name.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column for species or group name.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--x_column&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-x&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column containing x coordinate (ex. longitude).&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column containing x coordinate (ex. longitude).&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--y_column&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-y&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column containing y coordinate (ex. latitude).&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV column containing y coordinate (ex. latitude).&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--burn_value&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-b&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Raster burn value for model presence.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Raster burn value for model presence.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--nodata_value&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-n&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=-</span><span class="mi">9999</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Raster nodata value for model absence.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Raster nodata value for model absence.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--output_format&#39;</span><span class="p">,</span>
@@ -417,22 +414,18 @@
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s1">&#39;The output format for the model raster.&#39;</span>
             <span class="s1">&#39;(AAIGrid -&gt; Ascii Grid, GTiff -&gt; GeoTiff, auto -&gt; Choose by filename.&#39;</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;point_csv_filename&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of an occurrence csv file.&#39;</span>
+        <span class="s1">&#39;point_csv_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of an occurrence csv file.&#39;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;ecoregions_filename&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of ecoregions raster file.&#39;</span>
+        <span class="s1">&#39;ecoregions_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of ecoregions raster file.&#39;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;model_raster_filename&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write the model raster file.&#39;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write the model raster file.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
@@ -447,7 +440,7 @@
         <span class="n">args</span><span class="o">.</span><span class="n">model_raster_filename</span><span class="p">,</span>
         <span class="n">raster_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
         <span class="n">nodata_value</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">nodata_value</span><span class="p">,</span>
-        <span class="n">burn_value</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">burn_value</span>
+        <span class="n">burn_value</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">burn_value</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

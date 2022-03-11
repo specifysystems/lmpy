@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.create_point_heat_map &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.tools.create_point_heat_map &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -94,6 +94,7 @@
 <span class="sd">        Method: A function taking a Point as an argument and returning an x,y tuple.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">point_epsg</span> <span class="o">==</span> <span class="n">map_epsg</span><span class="p">:</span>
+
         <span class="k">def</span> <span class="nf">convert_func</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Just get the x,y values of the point.</span>
 
@@ -137,6 +138,7 @@
         <span class="k">if</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">and</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">),</span> <span class="nb">int</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
     <span class="k">return</span> <span class="n">pt_to_xy</span></div>
 
 
@@ -190,12 +192,16 @@
     <span class="sd">&quot;&quot;&quot;Function providing command-line interface for the tool.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--point_epsg&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The EPSG code of the map projection used for the points.&#39;</span>
+        <span class="s1">&#39;--point_epsg&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The EPSG code of the map projection used for the points.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--map_epsg&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The EPSG code of the map projection to use for generating the heat map.&#39;</span>
+        <span class="s1">&#39;--map_epsg&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The EPSG code of the map projection to use for generating the heat map.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;point_csv_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A CSV file containing point data.&#39;</span>
@@ -222,8 +228,9 @@
         <span class="s1">&#39;max_y&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The maximum y value for the map bounding box.&#39;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;map_resolution&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The size of each map cell (in appropriate map units).&#39;</span>
+        <span class="s1">&#39;map_resolution&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The size of each map cell (in appropriate map units).&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;map_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location to write the map.&#39;</span>
@@ -243,7 +250,7 @@
         <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">min_x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">min_y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_y</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">map_resolution</span><span class="p">,</span>
         <span class="n">args</span><span class="o">.</span><span class="n">map_epsg</span><span class="p">,</span>
-        <span class="n">args</span><span class="o">.</span><span class="n">map_filename</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">map_filename</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.occurrence_transformation &mdash; Specify lmpy 3.0.4+30.gcc9008e documentation</title>
+  <title>lmpy.data_preparation.occurrence_transformation &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -102,7 +102,9 @@
 <span class="sd">        str: The group chunk key from the value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">value</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">filler_char</span>
-    <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="n">group_size</span> <span class="o">*</span> <span class="n">group_position</span><span class="p">:</span><span class="n">group_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">group_position</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">value</span><span class="p">[</span>
+        <span class="n">group_size</span> <span class="o">*</span> <span class="n">group_position</span> <span class="p">:</span> <span class="n">group_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">group_position</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
 <span class="c1"># .............................................................................</span>
@@ -136,12 +138,7 @@
 
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="split_points"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_transformation/index.html#lmpy.data_preparation.occurrence_transformation.split_points">[docs]</a><span class="k">def</span> <span class="nf">split_points</span><span class="p">(</span>
-    <span class="n">readers</span><span class="p">,</span>
-    <span class="n">writers</span><span class="p">,</span>
-    <span class="n">group_attribute</span><span class="p">,</span>
-    <span class="n">group_size</span><span class="p">,</span>
-    <span class="n">group_position</span><span class="p">,</span>
-    <span class="n">wranglers</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">readers</span><span class="p">,</span> <span class="n">writers</span><span class="p">,</span> <span class="n">group_attribute</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">group_position</span><span class="p">,</span> <span class="n">wranglers</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Split points in the readers into smaller chunks for easier processing.</span>
 
@@ -164,8 +161,8 @@
         <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
             <span class="c1"># Assume all points returned go into the same group</span>
             <span class="n">location_key</span> <span class="o">=</span> <span class="n">get_chunk_key</span><span class="p">(</span>
-                <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="n">group_attribute</span><span class="p">),</span> <span class="n">group_position</span><span class="p">,</span>
-                <span class="n">group_size</span><span class="p">)</span>
+                <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="n">group_attribute</span><span class="p">),</span> <span class="n">group_position</span><span class="p">,</span> <span class="n">group_size</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">wranglers</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">flt</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
