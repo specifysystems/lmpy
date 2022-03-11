@@ -7,7 +7,7 @@ repos:
     -   id: trailing-whitespace
     -   id: check-toml
 -   repo: https://github.com/psf/black
-    rev: 21.12b0
+    rev: 22.1.0
     hooks:
     -   id: black
         args: [--config=.github/linters/.python-black, --diff]
@@ -40,7 +40,7 @@ repos:
       exclude: versioneer.py|lmpy/_version.py
       args: ['-v2', '-sgoogle']
 -   repo: https://github.com/PyCQA/bandit
-    rev: 1.7.1
+    rev: 1.7.4
     hooks:
     - id: bandit
       args: [-c, .github/linters/.bandit]
@@ -53,11 +53,11 @@ repos:
     hooks:
     -   id: pyupgrade
 -   repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.1.10
+    rev: v1.1.13
     hooks:
     -   id: forbid-tabs
 -   repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.30.0
+    rev: v0.31.1
     hooks:
     - id: markdownlint
       args: [--config=.github/linters/.markdownlint]
