@@ -1,6 +1,7 @@
 """Test the split occurrence data tool."""
 from collections import namedtuple
 import csv
+import shutil
 import xml.etree.ElementTree as ET
 import zipfile
 
@@ -8,8 +9,11 @@ import numpy as np
 import pytest
 
 from lmpy.point import DWCA_OCCURRENCE_PARAMS, OCCURRENCE_ROW_TYPE
+from lmpy.tools.split_occurrence_data import cli
 
 
+# .....................................................................................
+# Test mapping dictionary from raw names to accepted names
 SPECIES_MAP = {
     'Species A': 'Accepted A',
     'Species B': 'Accepted B',
@@ -25,43 +29,141 @@ SPECIES_MAP = {
     'Accepted G': 'Accepted G'
 }
 
-def get_random_int_func(min, max):
+# .....................................................................................
+def get_random_int_func(min_val, max_val):
+    """Get a parameterless function to generate random integers.
+
+    Args:
+        min_val (int): The minimum value in the desired range (inclusive).
+        max_val (int): The maximum value in the desired range (exclusive).
+
+    Returns:
+        Method: A parameterless function that returns a random integer in range.
+    """
+    # ..................
     def get_random_int():
+        """Get a random integer.
+
+        Returns:
+            int: A random integer in the range specified in the outer function.
+        """
         return np.random.randint(min, max)
+
     return get_random_int
 
+
+# .....................................................................................
 def get_random_float_func(min_val, max_val, min_precision, max_precision):
+    """Get a parameterless function to generate random floats.
+
+    Args:
+        min_val (float): The minimum value of the random range (inclusive).
+        max_val (float): The maximum value of the random range (exclusive).
+        min_precision (int): The minimum decimal place precision for the number.
+        max_precision (int): The maximum decimal place precision for the number.
+
+    Returns:
+        Method: A parameterless function that returns a random float in range.
+    """
+    # ..................
     def get_random_float():
+        """Get a random float
+
+        Returns:
+            float: A random float in the range specified in the outer function.
+        """
         return np.round(
             (max_val - min_val) * np.random.random() + min_val,
             np.random.randint(min_precision, max_precision)
         )
+
     return get_random_float
 
+
+# .....................................................................................
 def get_random_string_func(min_chars, max_chars, char_set, do_capitalize):
+    """Get a parameterless function to generate random strings.
+
+    Args:
+        min_chars (int): The minimum length of a generated string.
+        max_chars (int): The maximum length of a generated string.
+        char_set (iterable): Characters options for the generated string.
+        do_capitalize (bool): Should the first character be capitalized.
+
+    Returns:
+        Method: A parameterless function that returns a string.
+    """
+    # ..................
     def get_random_string():
-        rand_str = ''.join([np.random.choice(char_set) for _ in np.random.randint(min_chars, max_chars)])
+        """Get a random string.
+
+        Returns:
+            str: A randomly generated string determined by outer function parameters.
+        """
+        rand_str = ''.join([
+            np.random.choice(
+                char_set
+            ) for _ in np.random.randint(min_chars, max_chars)]
+        ])
         if do_capitalize:
             rand_str = rand_str.capitalize()
         return rand_str
+
     return get_random_string
 
+# .....................................................................................
 def get_random_choice_func(choices):
+    """Get a parameterless function to randomly select one of the provided choices.
+
+    Args:
+        choices (list): A list of options to choose from.
+
+    Returns:
+        Method: A parameterless function that returns a random choice.
+    """
+    # ..................
     def get_random_choice():
+        """Get a random selection from the outer function choices.
+
+        Returns:
+            Object: A choice of one of the provided choices.
+        """
         return np.random.choice(choices)
+
     return get_random_choice
 
+
+# .....................................................................................
 @pytest.fixture(scope='function')
 def generate_temp_filename(request):
-    """Get a function to generate (and clean up) temporary files."""
+    """Get a function to generate (and clean up) temporary files.
+
+    Args:
+        request (pytest.fixture): A pytest request fixture.
+
+    Returns:
+        Method: A function to generate a temporary filename.
+    """
     fns = []
 
+    # ..................
     def get_filename(*args, **kwargs):
+        """Get a temporary filename.
+
+        Args:
+            *args (list): Positional arguments.
+            **kwargs (dict): Named arguments.
+
+        Returns:
+            str: A temporary filename.
+        """
         fn = tempfile.NamedTemporaryFile().name
         fns.append(fn)
         return fn
 
+    # ..................
     def finalizer():
+        """Clean up temporary files."""
         for fn in fns:
             if os.path.exists(fn):
                 os.remove(fn)
@@ -70,25 +172,22 @@ def generate_temp_filename(request):
     return get_filename
 
 
-"""
-DWCA
-CSV
-Multiple of each
+# .....................................................................................
+@pytest.fixture(scope='function')
+def temp_directory():
+    """Get a temporary directory for storing files.
+
+    Yields:
+        str: A directory to use for testing.
+    """
+    dir_name = tempfile.TemporaryDirectory().name
+    yield dir_name
+
+    shutil.rmtree(dir_name)
 
 
-mix of formats and fields
-wranglers
 
-make sure to test max open writers
-
-test output fields
-
-wranglers
- accepted name
- common format - species, x, y, source, original sp
-
-"""
-
+# .....................................................................................
 # header - A CSV column header for this field
 # concept - A DarwinCore concept for the field
 # create - A function to create a value
@@ -97,6 +196,8 @@ SimulatedField = namedtuple(
     'SimulatedField', ['header', 'concept', 'create', 'type_str']
 )
 
+
+# .....................................................................................
 def generate_dwca(filename, count, fields)
     """Generate a DarwinCore Archive for testing.
 
@@ -146,6 +247,7 @@ def generate_dwca(filename, count, fields)
         zip_f.writestr('meta.xml', ET.dump(meta_el)
 
 
+# .....................................................................................
 def generate_csv(filename, count, fields)
     """Generate a CSV file for testing.
 
@@ -162,7 +264,20 @@ def generate_csv(filename, count, fields)
             out_file.write('{}\n'.format(','.join([f['create']() for f in fields])))
 
 
-def test_one_dwca(monkeypatch, generate_temp_filename, temp_out_dir):
+# .....................................................................................
+def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
+    """Test data splitting for a single Darwin Core Archive.
+
+    Args:
+        monkeypatch (pytest.fixture): A fixture for monkeypatching.
+        generate_temp_filename (pytest.fixture): A fixture for generating tempoarary
+            filenames.
+        temp_directory (pytest.fixture): A fixture to get a temporary directory.
+    """
+    # Temporary files
+    dwca_filename = generate_temp_filename()
+    wrangler_config_filename = generate_temp_filename()
+
     # Generate a DWCA and wranglers
     dwca_fields = [
         SimulatedField(
@@ -200,13 +315,34 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_out_dir):
     # Run script
     params = [
         'split_occurrence_data.py',
+        '-k',
+        'taxonname',
         '--dwca',
         'dwca_filename',
         'wrangler_config_filename',
-        temp_out_dir
+        temp_directory
     ]
 
     monkeypatch('sys.argv', params)
     cli()
 
+    # Todo: Check output
 
+"""
+DWCA
+CSV
+Multiple of each
+
+
+mix of formats and fields
+wranglers
+
+make sure to test max open writers
+
+test output fields
+
+wranglers
+ accepted name
+ common format - species, x, y, source, original sp
+
+"""
