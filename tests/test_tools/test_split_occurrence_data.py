@@ -14,7 +14,7 @@ from tests.data_simulator import (
 from tests.data_validator import validate_point_csvs
 
 
-TEST_CHAR_SET = 'abcdedfghijklmnopqrstuvwxyz'
+TEST_CHAR_SET = list('abcdedfghijklmnopqrstuvwxyz')
 
 
 # .....................................................................................
@@ -360,7 +360,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         }
     ]
     # Write testing data
-    generate_dwca(csv_1_filename, 5000, csv_1_fields)
+    generate_csv(csv_1_filename, 5000, csv_1_fields)
     with open(wrangler_3_filename, mode='wt') as json_out:
         json.dump(csv_1_wrangler_conf, json_out)
 
@@ -415,7 +415,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         }
     ]
     # Write testing data
-    generate_dwca(csv_2_filename, 5000, csv_2_fields)
+    generate_csv(csv_2_filename, 5000, csv_2_fields)
     with open(wrangler_4_filename, mode='wt') as json_out:
         json.dump(csv_2_wrangler_conf, json_out)
 

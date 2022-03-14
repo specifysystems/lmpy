@@ -2,7 +2,7 @@
 import argparse
 import json
 
-from lmpy.data_preparation.occurence_splitter import (
+from lmpy.data_preparation.occurrence_splitter import (
     DEFAULT_MAX_WRITERS,
     get_writer_key_from_fields_func,
     get_writer_filename_func,
@@ -79,7 +79,7 @@ def cli():
     args = parser.parse_args()
 
     # Establish functions for getting writer key and filename
-    writer_key_func = get_writer_key_from_fields_func(args.key_field)
+    writer_key_func = get_writer_key_from_fields_func(*tuple(args.key_field))
     writer_filename_func = get_writer_filename_func(args.out_dir)
 
     # Determine fields to write
