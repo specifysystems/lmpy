@@ -44,6 +44,7 @@ OCCURRENCE_ROW_TYPE = 'http://rs.tdwg.org/dwc/terms/Occurrence'
 # .....................................................................................
 class Point:
     """Class representing an occurrence data point."""
+
     # .......................
     def __init__(self, species_name, x, y, attributes=None):
         """Constructor.
@@ -82,8 +83,11 @@ class Point:
         Returns:
             bool: An indication if the two points are equal for the primary attributes.
         """
-        return self.species_name == other.species_name and \
-            self.x == other.x and self.y == other.y
+        return (
+            self.species_name == other.species_name
+            and self.x == other.x
+            and self.y == other.y
+        )
 
     # .......................
     def __lt__(self, other):
@@ -113,7 +117,8 @@ class Point:
             str: A string representation of this Point.
         """
         return 'Point(species="{}", x={}, y={})'.format(
-            self.species_name, self.x, self.y)
+            self.species_name, self.x, self.y
+        )
 
     # .......................
     def get_attribute(self, attribute_name):
@@ -153,6 +158,7 @@ class Point:
 # .....................................................................................
 class PointCsvReader:
     """Class for reading Points from a CSV file."""
+
     # .......................
     def __init__(
         self,
@@ -161,7 +167,7 @@ class PointCsvReader:
         x_field,
         y_field,
         geopoint=None,
-        group_field='species_name'
+        group_field='species_name',
     ):
         """Constructor for a Point CSV retriever.
 
@@ -236,8 +242,8 @@ class PointCsvReader:
                     x_val = point_dict[self.x_field]
                     y_val = point_dict[self.y_field]
                 pt = Point(
-                    point_dict[self.species_field], x_val, y_val,
-                    attributes=point_dict)
+                    point_dict[self.species_field], x_val, y_val, attributes=point_dict
+                )
                 test_val = pt.get_attribute(self.group_field)
                 if test_val != self._curr_val:
                     if self._curr_val is not None:
@@ -276,8 +282,9 @@ class PointCsvReader:
 
 
 # .....................................................................................
-class PointCsvWriter():
+class PointCsvWriter:
     """Class for writing Points to a CSV file."""
+
     # .......................
     def __init__(self, filename, fields, **kwargs):
         """Constructor for writing points to csv file.
@@ -343,6 +350,7 @@ class PointCsvWriter():
 # .....................................................................................
 class PointDwcaReader:
     """Class for reading Darwin Core Archives."""
+
     # .......................
     def __init__(
         self,
@@ -351,7 +359,7 @@ class PointDwcaReader:
         species_term=DEFAULT_SPECIES_TERM,
         x_term=DEFAULT_X_TERM,
         y_term=DEFAULT_Y_TERM,
-        geopoint_term=None
+        geopoint_term=None,
     ):
         """Constructor for reading Darwin Core Archives.
 
@@ -404,9 +412,9 @@ class PointDwcaReader:
         """
         if self.geopoint_term is not None:
             try:
-                return json.loads(
-                    point_dict[self.geopoint_term].replace("'", '"')
-                )[self.x_term]
+                return json.loads(point_dict[self.geopoint_term].replace("'", '"'))[
+                    self.x_term
+                ]
             except Exception:
                 return None
         return point_dict[self.x_term]
@@ -424,9 +432,9 @@ class PointDwcaReader:
         """
         if self.geopoint_term is not None:
             try:
-                return json.loads(
-                    point_dict[self.geopoint_term].replace("'", '"')
-                )[self.y_term]
+                return json.loads(point_dict[self.geopoint_term].replace("'", '"'))[
+                    self.y_term
+                ]
             except Exception:
                 return None
         return point_dict[self.y_term]
@@ -478,7 +486,7 @@ class PointDwcaReader:
                     self._get_species_name(point_dict),
                     self._get_x_value(point_dict),
                     self._get_y_value(point_dict),
-                    attributes=point_dict
+                    attributes=point_dict,
                 )
                 test_val = pt.get_attribute(self.group_field)
                 if test_val != self._curr_val:
@@ -525,9 +533,9 @@ class PointDwcaReader:
                 self.occurrence_params[core_att] = core_element.attrib[core_att]
 
         # Get the occurrence data file name in the zip file
-        self.occurrence_filename = core_element.find(FILES_TAG).findall(
-            LOCATION_TAG
-        )[0].text
+        self.occurrence_filename = (
+            core_element.find(FILES_TAG).findall(LOCATION_TAG)[0].text
+        )
 
         # Get the CSV fields from the metadata
         for field_element in core_element.findall(FIELD_TAG):
@@ -554,7 +562,7 @@ class PointDwcaReader:
                 index=field_index,
                 default=field_default,
                 vocabulary=field_vocabulary,
-                delimiter=field_delimiter
+                delimiter=field_delimiter,
             )
         # Check for id field
         for id_element in core_element.findall(ID_TAG):
@@ -577,7 +585,7 @@ class PointDwcaReader:
                 index=field_index,
                 default=field_default,
                 vocabulary=field_vocabulary,
-                delimiter=field_delimiter
+                delimiter=field_delimiter,
             )
 
     # .......................
@@ -587,15 +595,13 @@ class PointDwcaReader:
         self._zip_archive = zipfile.ZipFile(self.archive_filename, mode='r')
         # self._zip_archive.open()
         meta_contents = io.TextIOWrapper(
-            self._zip_archive.open(self.meta_filename),
-            encoding='utf8'
+            self._zip_archive.open(self.meta_filename), encoding='utf8'
         ).read()
         self._process_metadata(meta_contents)
         # Read metadata
         # Get occurrence file ready
         self.file = io.TextIOWrapper(
-            self._zip_archive.open(self.occurrence_filename),
-            encoding='utf8'
+            self._zip_archive.open(self.occurrence_filename), encoding='utf8'
         )
 
         delimiter = self.occurrence_params['fieldsTerminatedBy']
@@ -606,9 +612,9 @@ class PointDwcaReader:
             'delimiter': delimiter,
         }
         if len(self.occurrence_params['linesTerminatedBy']) > 0:
-            reader_params[
-                'lineterminator'
-            ] = self.occurrence_params['linesTerminatedBy']
+            reader_params['lineterminator'] = self.occurrence_params[
+                'linesTerminatedBy'
+            ]
         if len(self.occurrence_params['fieldsEnclosedBy']) > 0:
             reader_params['quotechar'] = self.occurrence_params['fieldsEnclosedBy']
         # reader_params['quotechar'] = None
@@ -625,8 +631,9 @@ class PointDwcaReader:
 
 
 # .....................................................................................
-class PointJsonWriter():
+class PointJsonWriter:
     """Class for writing Points to JSON."""
+
     # .......................
     def __init__(self, filename):
         """Constructor for writing JSON points.

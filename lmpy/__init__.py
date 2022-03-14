@@ -18,10 +18,11 @@ __all__ = [
     'randomize',
     'spatial',
     'statistics',
-    'tools'
+    'tools',
 ]
 __all__.extend(matrix.__all__)
 __all__.extend(tree.__all__)
 
 from . import _version
+
 __version__ = _version.get_versions()['version']

@@ -1,18 +1,27 @@
 """Module containing wrangler factory tools."""
 from lmpy.data_wrangling.occurrence.filters import (
-    get_attribute_filter, get_bounding_box_filter,
-    get_decimal_precision_filter, get_disjoint_geometries_filter,
-    get_intersect_geometries_filter, get_minimum_points_filter,
-    get_spatial_index_filter, get_unique_localities_filter)
+    get_attribute_filter,
+    get_bounding_box_filter,
+    get_decimal_precision_filter,
+    get_disjoint_geometries_filter,
+    get_intersect_geometries_filter,
+    get_minimum_points_filter,
+    get_spatial_index_filter,
+    get_unique_localities_filter,
+)
 from lmpy.data_wrangling.occurrence.modifiers import (
-    get_accepted_name_modifier, get_attribute_modifier,
-    get_common_format_modifier, get_coordinate_converter_modifier)
+    get_accepted_name_modifier,
+    get_attribute_modifier,
+    get_common_format_modifier,
+    get_coordinate_converter_modifier,
+)
 from lmpy.spatial import SpatialIndex
 
 
 # .............................................................................
 class WRANGLER_TYPES:
     """Constants class for occurrence data wrangler types."""
+
     # Filters
     ATTRIBUTE_FILTER = 'attribute_filter'
     BBOX_FILTER = 'bbox_filter'
@@ -53,13 +62,17 @@ def wrangler_factory(wrangler_config_list):
             def all_not_in(value):  # pragma: no cover
                 field_values = value.split(list_delimiter)
                 return all(
-                    [val.strip(']').strip('[').strip(
-                        '"') not in bad_values for val in field_values])
+                    [
+                        val.strip(']').strip('[').strip('"') not in bad_values
+                        for val in field_values
+                    ]
+                )
 
             occurrence_wrangler = get_attribute_filter(att_name, all_not_in)
         elif wrangler_type == WRANGLER_TYPES.DECIMAL_PRECISION_FILTER:
             occurrence_wrangler = get_decimal_precision_filter(
-               int(wrangler_config['decimal_precision']))
+                int(wrangler_config['decimal_precision'])
+            )
         elif wrangler_type == WRANGLER_TYPES.DISJOINT_GEOMETRIES_FILTER:
             # Get geometries (wkts)
             wkts = wrangler_config['geometry_wkts']
@@ -74,11 +87,11 @@ def wrangler_factory(wrangler_config_list):
             min_y = float(wrangler_config['min_y'])
             max_x = float(wrangler_config['max_x'])
             max_y = float(wrangler_config['max_y'])
-            occurrence_wrangler = get_bounding_box_filter(
-                min_x, min_y, max_x, max_y)
+            occurrence_wrangler = get_bounding_box_filter(min_x, min_y, max_x, max_y)
         elif wrangler_type == WRANGLER_TYPES.MINIMUM_POINTS_FILTER:
             occurrence_wrangler = get_minimum_points_filter(
-                int(wrangler_config['minimum_points']))
+                int(wrangler_config['minimum_points'])
+            )
         elif wrangler_type == WRANGLER_TYPES.SPATIAL_INDEX_FILTER:
             spatial_index = SpatialIndex(wrangler_config['index_file'])
 
@@ -100,7 +113,8 @@ def wrangler_factory(wrangler_config_list):
                 return ret_vals
 
             occurrence_wrangler = get_spatial_index_filter(
-                spatial_index, get_valid_intersections_func, check_hit_func)
+                spatial_index, get_valid_intersections_func, check_hit_func
+            )
         elif wrangler_type == WRANGLER_TYPES.ATTRIBUTE_MODIFIER:
             att_name = wrangler_config['attribute_name']
             map_dict = wrangler_config['map_values']
@@ -116,11 +130,11 @@ def wrangler_factory(wrangler_config_list):
             occurrence_wrangler = get_common_format_modifier(mapping)
         elif wrangler_type == WRANGLER_TYPES.ACCEPTED_NAME_MODIFIER:
             occurrence_wrangler = get_accepted_name_modifier(
-                wrangler_config['filename'])
+                wrangler_config['filename']
+            )
         elif wrangler_type == WRANGLER_TYPES.CORDINATE_CONVERTER_MODIFIER:
             in_epsg = wrangler_config['in_epsg']
             out_epsg = wrangler_config['out_epsg']
-            occurrence_wrangler = get_coordinate_converter_modifier(
-                in_epsg, out_epsg)
+            occurrence_wrangler = get_coordinate_converter_modifier(in_epsg, out_epsg)
         wranglers.append((wrangler_type, occurrence_wrangler))
     return wranglers

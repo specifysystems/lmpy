@@ -43,8 +43,9 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
             row2 = np.random.randint(0, row_len)
             while row2 == row1:
                 row2 = np.random.randint(0, row_len)
-            if ((first_corner ^ swapped_mtx[row2][column1]) and
-                    (not(first_corner) ^ swapped_mtx[row2][column2])):
+            if (first_corner ^ swapped_mtx[row2][column1]) and (
+                not (first_corner) ^ swapped_mtx[row2][column2]
+            ):
                 swapped_mtx[row1][column2] = first_corner
                 swapped_mtx[row2][column1] = first_corner
                 swapped_mtx[row2][column2] = not first_corner
@@ -52,9 +53,7 @@ def swap_randomize(matrix, num_swaps, max_tries=MAX_TRIES_WITHOUT_SWAP):
                 counter += 1
                 num_tries = 0
     if num_tries >= max_tries:  # pragma: no cover
-        raise Exception(
-            'Reached maximum number of tries without finding suitable swap'
-        )
+        raise Exception('Reached maximum number of tries without finding suitable swap')
 
     return Matrix(swapped_mtx, headers=mtx_headers)
 
@@ -90,8 +89,9 @@ def trial_swap(matrix, num_trials=None):
             row2 = np.random.randint(0, row_len)
             while row2 == row1:
                 row2 = np.random.randint(0, row_len)
-            if ((first_corner ^ swapped_mtx[row2][column1]) and
-                    (not(first_corner) ^ swapped_mtx[row2][column2])):
+            if (first_corner ^ swapped_mtx[row2][column1]) and (
+                not (first_corner) ^ swapped_mtx[row2][column2]
+            ):
                 swapped_mtx[row1][column2] = first_corner
                 swapped_mtx[row2][column1] = first_corner
                 swapped_mtx[row2][column2] = not first_corner

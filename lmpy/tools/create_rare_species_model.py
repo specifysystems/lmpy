@@ -27,7 +27,7 @@ def create_rare_species_model(
     model_raster_filename,
     raster_format=AUTO_FORMAT,
     nodata_value=-9999,
-    burn_value=50
+    burn_value=50,
 ):
     """Create a rare species model from a convex hull intersected with ecoregions.
 
@@ -44,7 +44,13 @@ def create_rare_species_model(
 
     # Get ecoregions array
     (
-        ecoregion_data, min_x, min_y, max_x, max_y, cell_size, epsg
+        ecoregion_data,
+        min_x,
+        min_y,
+        max_x,
+        max_y,
+        cell_size,
+        epsg,
     ) = get_ecoregions_array(ecoregions_filename)
     num_rows, num_cols = ecoregion_data.shape
 
@@ -78,12 +84,7 @@ def create_rare_species_model(
     # Write model
     if raster_format == ASC_FORMAT:
         write_ascii(
-            model_raster_filename,
-            model_data,
-            cell_size,
-            min_x,
-            min_y,
-            nodata_value
+            model_raster_filename, model_data, cell_size, min_x, min_y, nodata_value
         )
     else:
         write_tiff(
@@ -93,7 +94,7 @@ def create_rare_species_model(
             min_x,
             max_y,
             epsg,
-            nodata_value
+            nodata_value,
         )
 
 
@@ -108,7 +109,7 @@ def get_convex_hull_array(
     epsg,
     burn_value,
     buffer_distance=0.5,
-    num_quad_segs=30
+    num_quad_segs=30,
 ):
     """Create a convex hull array.
 
@@ -279,11 +280,7 @@ def write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_v
     """
     drv = gdal.GetDriverByName('GTiff')
     dataset = drv.Create(
-        out_filename,
-        model_data.shape[1],
-        model_data.shape[0],
-        1,
-        gdalconst.GDT_Byte
+        out_filename, model_data.shape[1], model_data.shape[0], 1, gdalconst.GDT_Byte
     )
     dataset.SetGeoTransform([min_x, cell_size, 0, max_y, 0, -cell_size])
 
@@ -306,35 +303,35 @@ def cli():
         '-sp',
         type=str,
         default='species_name',
-        help='CSV column for species or group name.'
+        help='CSV column for species or group name.',
     )
     parser.add_argument(
         '--x_column',
         '-x',
         type=str,
         default='x',
-        help='CSV column containing x coordinate (ex. longitude).'
+        help='CSV column containing x coordinate (ex. longitude).',
     )
     parser.add_argument(
         '--y_column',
         '-y',
         type=str,
         default='y',
-        help='CSV column containing y coordinate (ex. latitude).'
+        help='CSV column containing y coordinate (ex. latitude).',
     )
     parser.add_argument(
         '--burn_value',
         '-b',
         type=int,
         default=50,
-        help='Raster burn value for model presence.'
+        help='Raster burn value for model presence.',
     )
     parser.add_argument(
         '--nodata_value',
         '-n',
         type=int,
         default=-9999,
-        help='Raster nodata value for model absence.'
+        help='Raster nodata value for model absence.',
     )
     parser.add_argument(
         '--output_format',
@@ -345,22 +342,18 @@ def cli():
         help=(
             'The output format for the model raster.'
             '(AAIGrid -> Ascii Grid, GTiff -> GeoTiff, auto -> Choose by filename.'
-        )
+        ),
     )
     parser.add_argument(
-        'point_csv_filename',
-        type=str,
-        help='File location of an occurrence csv file.'
+        'point_csv_filename', type=str, help='File location of an occurrence csv file.'
     )
     parser.add_argument(
-        'ecoregions_filename',
-        type=str,
-        help='File location of ecoregions raster file.'
+        'ecoregions_filename', type=str, help='File location of ecoregions raster file.'
     )
     parser.add_argument(
         'model_raster_filename',
         type=str,
-        help='File location to write the model raster file.'
+        help='File location to write the model raster file.',
     )
     args = parser.parse_args()
 
@@ -375,7 +368,7 @@ def cli():
         args.model_raster_filename,
         raster_format=args.output_format,
         nodata_value=args.nodata_value,
-        burn_value=args.burn_value
+        burn_value=args.burn_value,
     )
 
 

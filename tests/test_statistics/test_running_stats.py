@@ -4,12 +4,16 @@ import pytest
 
 from lmpy import Matrix
 from lmpy.statistics.running_stats import (
-    compare_absolute_values, compare_signed_values, RunningStats)
+    compare_absolute_values,
+    compare_signed_values,
+    RunningStats,
+)
 
 
 # .............................................................................
 class Test_RunningStats(object):
     """Test the RunningStats class."""
+
     # .....................................
     def test_single_values(self):
         """Tests the RunningStats class using single values."""
@@ -98,10 +102,9 @@ class Test_RunningStats(object):
         v_stack = np.array([v for v in vals])
         assert np.all(np.isclose(rs.mean, np.mean(v_stack, axis=0)))
         assert np.all(
-            np.isclose(
-                rs.standard_deviation, np.std(v_stack, axis=0, ddof=1)))
-        assert np.all(
-            np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
+            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1))
+        )
+        assert np.all(np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
         with pytest.raises(Exception):
             rs.p_values
 
@@ -110,8 +113,7 @@ class Test_RunningStats(object):
         """Tests the RunningStats class using Matrix objects with p-values."""
         obs = Matrix(np.random.randint(0, 10, size=(10, 10)))
         vals = []
-        rs = RunningStats(
-            observed=obs, compare_fn=compare_absolute_values)
+        rs = RunningStats(observed=obs, compare_fn=compare_absolute_values)
         assert np.all(rs.variance == np.zeros((10, 10)))
         for _ in range(5):
             vals.append(Matrix(np.random.randint(-10, 10, size=(10, 10))))
@@ -123,10 +125,9 @@ class Test_RunningStats(object):
         v_stack = np.array([v for v in vals])
         assert np.all(np.isclose(rs.mean, np.mean(v_stack, axis=0)))
         assert np.all(
-            np.isclose(
-                rs.standard_deviation, np.std(v_stack, axis=0, ddof=1)))
-        assert np.all(
-            np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
+            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1))
+        )
+        assert np.all(np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
         num_greater = Matrix(np.zeros((10, 10)))
         for i in range(v_stack.shape[0]):
             num_greater += np.abs(v_stack[i, ...]) > np.abs(obs)
@@ -149,10 +150,9 @@ class Test_RunningStats(object):
         v_stack = np.array([v for v in vals])
         assert np.all(np.isclose(rs.mean, np.mean(v_stack, axis=0)))
         assert np.all(
-            np.isclose(
-                rs.standard_deviation, np.std(v_stack, axis=0, ddof=1)))
-        assert np.all(
-            np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
+            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1))
+        )
+        assert np.all(np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
         num_greater = Matrix(np.zeros((10, 10)))
         for i in range(v_stack.shape[0]):
             num_greater += v_stack[i, ...] > obs
@@ -174,7 +174,8 @@ class Test_RunningStats(object):
         v_stack = np.array(vals)
         assert np.all(np.isclose(rs.mean, np.mean(v_stack, axis=0)))
         assert np.all(
-            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1)))
+            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1))
+        )
         assert np.all(np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
         with pytest.raises(Exception):
             rs.p_values
@@ -184,8 +185,7 @@ class Test_RunningStats(object):
         """Tests the RunningStats class using numpy arrays with p-values."""
         obs = np.random.randint(0, 10, size=(10, 10))
         vals = []
-        rs = RunningStats(
-            observed=obs, compare_fn=compare_absolute_values)
+        rs = RunningStats(observed=obs, compare_fn=compare_absolute_values)
         assert np.all(rs.variance == np.zeros((10, 10)))
         for _ in range(5):
             vals.append(np.random.randint(-10, 10, size=(10, 10)))
@@ -197,7 +197,8 @@ class Test_RunningStats(object):
         v_stack = np.array(vals)
         assert np.all(np.isclose(rs.mean, np.mean(v_stack, axis=0)))
         assert np.all(
-            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1)))
+            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1))
+        )
         assert np.all(np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
         num_greater = np.zeros((10, 10))
         for i in range(v_stack.shape[0]):
@@ -221,7 +222,8 @@ class Test_RunningStats(object):
         v_stack = np.array(vals)
         assert np.all(np.isclose(rs.mean, np.mean(v_stack, axis=0)))
         assert np.all(
-            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1)))
+            np.isclose(rs.standard_deviation, np.std(v_stack, axis=0, ddof=1))
+        )
         assert np.all(np.isclose(rs.variance, np.var(v_stack, axis=0, ddof=1)))
         num_greater = np.zeros((10, 10))
         for i in range(v_stack.shape[0]):

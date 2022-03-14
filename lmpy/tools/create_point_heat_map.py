@@ -22,6 +22,7 @@ def get_point_to_xy_func(point_epsg, map_epsg, bbox, resolution):
         Method: A function taking a Point as an argument and returning an x,y tuple.
     """
     if point_epsg == map_epsg:
+
         def convert_func(point):
             """Just get the x,y values of the point.
 
@@ -65,6 +66,7 @@ def get_point_to_xy_func(point_epsg, map_epsg, bbox, resolution):
         if bbox[0] <= x <= bbox[2] and bbox[1] <= y <= bbox[3]:
             return (int((y - bbox[1]) / resolution), int((x - bbox[0]) / resolution))
         return None, None
+
     return pt_to_xy
 
 
@@ -118,12 +120,16 @@ def cli():
     """Function providing command-line interface for the tool."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--point_epsg', type=int, default=4326,
-        help='The EPSG code of the map projection used for the points.'
+        '--point_epsg',
+        type=int,
+        default=4326,
+        help='The EPSG code of the map projection used for the points.',
     )
     parser.add_argument(
-        '--map_epsg', type=int, default=4326,
-        help='The EPSG code of the map projection to use for generating the heat map.'
+        '--map_epsg',
+        type=int,
+        default=4326,
+        help='The EPSG code of the map projection to use for generating the heat map.',
     )
     parser.add_argument(
         'point_csv_filename', type=str, help='A CSV file containing point data.'
@@ -150,8 +156,9 @@ def cli():
         'max_y', type=float, help='The maximum y value for the map bounding box.'
     )
     parser.add_argument(
-        'map_resolution', type=float,
-        help='The size of each map cell (in appropriate map units).'
+        'map_resolution',
+        type=float,
+        help='The size of each map cell (in appropriate map units).',
     )
     parser.add_argument(
         'map_filename', type=str, help='The file location to write the map.'
@@ -171,7 +178,7 @@ def cli():
         (args.min_x, args.min_y, args.max_x, args.max_y),
         args.map_resolution,
         args.map_epsg,
-        args.map_filename
+        args.map_filename,
     )
 
 

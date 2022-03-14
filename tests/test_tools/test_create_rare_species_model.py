@@ -26,7 +26,7 @@ def filenames_for_test():
 
 
 # .....................................................................................
-@pytest.fixture(scope='function', params=[(10, .5, (-180.0, -90.0, 180.0, 90.0))])
+@pytest.fixture(scope='function', params=[(10, 0.5, (-180.0, -90.0, 180.0, 90.0))])
 def model_parameters(request):
     """Get parameters for testing rare species model.
 
@@ -57,8 +57,9 @@ def generate_test_points(point_filename, count, min_x, min_y, max_x, max_y):
                 Point(
                     'Some species',
                     np.round((max_x - min_x) * np.random.random() + min_x, 4),
-                    np.round((max_y - min_y) * np.random.random() + min_y, 4)
-                ) for _ in range(count)
+                    np.round((max_y - min_y) * np.random.random() + min_y, 4),
+                )
+                for _ in range(count)
             ]
         )
 
@@ -77,16 +78,7 @@ def generate_test_ecoregions(ecoreg_filename, min_x, min_y, max_x, max_y, resolu
     """
     # Queen dispersion
     disperse_options = np.array(
-        [
-            [-1, -1],
-            [-1, 0],
-            [-1, 1],
-            [0, -1],
-            [0, 1],
-            [1, -1],
-            [1, 0],
-            [1, 1]
-        ]
+        [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
     )
     n_cols = int((max_x - min_x) / resolution)
     n_rows = int((max_y - min_y) / resolution)
