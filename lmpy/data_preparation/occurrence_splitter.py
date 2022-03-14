@@ -4,6 +4,9 @@ import os
 from lmpy.point import PointCsvWriter
 
 
+DEFAULT_MAX_WRITERS = 100
+
+
 # .....................................................................................
 def get_writer_filename_func(base_dir):
     """Get a function that returns a filename from a writer key.
@@ -167,4 +170,3 @@ class OccurrenceSplitter:
                     self.writer_fields = list(points[0].attributes.keys())
                 self.open_writer(writer_key)
             self.writers[writer_key].write_points(points)
-

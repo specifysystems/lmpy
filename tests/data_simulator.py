@@ -1,4 +1,5 @@
 """Module containing functions used to simulate data for testing."""
+from collections import namedtuple
 import csv
 from io import StringIO
 # Bandit doesn't like bare element tree but we need it for creating xml docs.
@@ -18,6 +19,7 @@ from lmpy.point import (
     LOCATION_TAG,
     OCCURRENCE_ROW_TYPE,
 )
+
 
 # .....................................................................................
 def get_random_int_func(min_val, max_val):
@@ -71,7 +73,7 @@ def get_random_float_func(min_val, max_val, min_precision, max_precision):
 
 
 # .....................................................................................
-def get_random_string_func(min_chars, max_chars, char_set, do_capitalize):
+def get_random_string_func(min_chars, max_chars, char_set, do_capitalize=False):
     """Get a parameterless function to generate random strings.
 
     Args:

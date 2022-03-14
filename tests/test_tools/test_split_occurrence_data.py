@@ -2,9 +2,6 @@
 import glob
 import json
 
-import numpy as np
-import pytest
-
 from lmpy.tools.split_occurrence_data import cli
 from tests.data_simulator import (
     generate_csv,
