@@ -4,7 +4,7 @@ import json
 
 from lmpy.data_preparation.occurrence_splitter import (
     get_writer_filename_func,
-    get_writer_key_func,
+    get_writer_key_from_fields_func,
     OccurrenceSplitter,
 )
 from lmpy.data_wrangling.occurrence.factory import wrangler_factory
@@ -21,7 +21,7 @@ from tests.data_simulator import (
 from tests.data_validator import validate_point_csvs
 
 
-TEST_CHAR_SET = 'abcdedfghijklmnopqrstuvwxyz'
+TEST_CHAR_SET = list('abcdedfghijklmnopqrstuvwxyz')
 
 
 # .....................................................................................
@@ -87,7 +87,8 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
 
     # Run script
     splitter = OccurrenceSplitter(
-        get_writer_key_func('taxonname'), get_writer_filename_func(temp_directory)
+        get_writer_key_from_fields_func('taxonname'),
+        get_writer_filename_func(temp_directory)
     )
     splitter.process_reader(
         PointDwcaReader(dwca_filename), wrangler_factory(wrangler_config)
@@ -146,7 +147,8 @@ def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
     ]
 
     splitter = OccurrenceSplitter(
-        get_writer_key_func(sp_key), get_writer_filename_func(temp_directory)
+        get_writer_key_from_fields_func(sp_key),
+        get_writer_filename_func(temp_directory)
     )
     splitter.process_reader(
         PointCsvReader(csv_filename, sp_key, x_key, y_key),
@@ -182,6 +184,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
 
     # Reader and wrangler configurations
     # DWCA 1
+    print(TEST_CHAR_SET)
     dwca_1_fields = [
         SimulatedField(
             'taxonname',
@@ -342,7 +345,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         }
     ]
     # Write testing data
-    generate_dwca(csv_1_filename, 5000, csv_1_fields)
+    generate_csv(csv_1_filename, 5000, csv_1_fields)
     with open(wrangler_3_filename, mode='wt') as json_out:
         json.dump(csv_1_wrangler_conf, json_out)
 
@@ -397,12 +400,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         }
     ]
     # Write testing data
-    generate_dwca(csv_2_filename, 5000, csv_2_fields)
+    generate_csv(csv_2_filename, 5000, csv_2_fields)
     with open(wrangler_4_filename, mode='wt') as json_out:
         json.dump(csv_2_wrangler_conf, json_out)
 
     splitter = OccurrenceSplitter(
-        get_writer_key_func('species'), get_writer_filename_func(temp_directory)
+        get_writer_key_from_fields_func('species'),
+        get_writer_filename_func(temp_directory)
     )
     splitter.process_reader(
         PointDwcaReader(dwca_1_filename), wrangler_factory(dwca_1_wrangler_conf)

@@ -96,7 +96,7 @@ def get_random_string_func(min_chars, max_chars, char_set, do_capitalize=False):
             [
                 np.random.choice(
                     char_set
-                ) for _ in np.random.randint(min_chars, max_chars)
+                ) for _ in range(np.random.randint(min_chars, max_chars))
             ]
         )
         if do_capitalize:

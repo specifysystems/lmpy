@@ -47,7 +47,7 @@ def get_writer_key_from_fields_func(*fields):
     Returns:
         Method: A function that takes a Point as an argument and returns a key.
     """
-    key_fields = list(fields)
+    key_fields = tuple(fields)
 
     # .......................
     def key_from_fields_func(point):
@@ -119,7 +119,7 @@ class OccurrenceSplitter:
     # .......................
     def flush_writers(self):
         """Close all open occurrence writers."""
-        for writer in self.writers:
+        for writer in self.writers.values():
             writer.close()
         self.writers = {}
 
@@ -149,7 +149,7 @@ class OccurrenceSplitter:
         """
         reader.open()
         for points in reader:
-            for wrangler in wranglers:
+            for _wrangler_name, wrangler in wranglers:
                 if points:
                     points = wrangler(points)
             if points:
@@ -170,3 +170,11 @@ class OccurrenceSplitter:
                     self.writer_fields = list(points[0].attributes.keys())
                 self.open_writer(writer_key)
             self.writers[writer_key].write_points(points)
+
+
+# .....................................................................................
+__all__ = [
+    'get_writer_key_from_fields_func',
+    'get_writer_filename_func',
+    'OccurrenceSplitter',
+]
