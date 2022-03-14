@@ -1,11 +1,15 @@
-"""Test the split occurrence data tool."""
+"""Test the occurrence_splitter module."""
 import glob
 import json
 
 import numpy as np
 import pytest
 
-from lmpy.tools.split_occurrence_data import cli
+from lmpy.data_preparation.occurrence_splitter import (
+    get_writer_filename_func,
+    get_writer_key_func,
+    OccurrenceSplitter,
+)
 from tests.data_simulator import (
     generate_csv,
     generate_dwca,
@@ -50,7 +54,6 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
     """
     # Temporary files
     dwca_filename = generate_temp_filename()
-    wrangler_config_filename = generate_temp_filename()
 
     # Generate a DWCA and wranglers
     dwca_fields = [
@@ -74,31 +77,21 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
         )
     ]
     generate_dwca(dwca_filename, 1000, dwca_fields)
-    with open(wrangler_config_filename, mode='wt') as json_out:
-        json.dump(
-            [
-                {
-                    'wrangler_type': 'attribute_modifier',
-                    'attribute_name': 'taxonname',
-                    'map_values': SPECIES_MAP
-                }
-            ],
-            json_out
-        )
-
-    # Run script
-    params = [
-        'split_occurrence_data.py',
-        '-k',
-        'taxonname',
-        '--dwca',
-        dwca_filename,
-        wrangler_config_filename,
-        temp_directory
+    wrangler_config = [
+        {
+            'wrangler_type': 'attribute_modifier',
+            'attribute_name': 'taxonname',
+            'map_values': SPECIES_MAP
+        }
     ]
 
-    monkeypatch.setattr('sys.argv', params)
-    cli()
+    # Run script
+    splitter = OccurrenceSplitter(
+        get_writer_key_func('taxonname'), get_writer_filename_func(temp_directory)
+    )
+    splitter.process_reader(
+        PointDwcaReader(dwca_filename), wrangler_factory(wrangler_config)
+    )
 
     # Check output
     assert validate_point_csvs(
@@ -118,7 +111,6 @@ def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
     """
     # Temporary files
     csv_filename = generate_temp_filename()
-    wrangler_config_filename = generate_temp_filename()
 
     # Generate a CSV and wranglers
     sp_key = 'species'
@@ -145,34 +137,21 @@ def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
         )
     ]
     generate_csv(csv_filename, 1000, csv_fields)
-    with open(wrangler_config_filename, mode='wt') as json_out:
-        json.dump(
-            [
-                {
-                    'wrangler_type': 'attribute_modifier',
-                    'attribute_name': sp_key,
-                    'map_values': SPECIES_MAP
-                }
-            ],
-            json_out
-        )
-
-    # Run script
-    params = [
-        'split_occurrence_data.py',
-        '-k',
-        sp_key,
-        '--csv',
-        csv_filename,
-        wrangler_config_filename,
-        sp_key,
-        x_key,
-        y_key,
-        temp_directory
+    wrangler_config = [
+        {
+            'wrangler_type': 'attribute_modifier',
+            'attribute_name': sp_key,
+            'map_values': SPECIES_MAP
+        }
     ]
 
-    monkeypatch.setattr('sys.argv', params)
-    cli()
+    splitter = OccurrenceSplitter(
+        get_writer_key_func(sp_key), get_writer_filename_func(temp_directory)
+    )
+    splitter.process_reader(
+        PointCsvReader(csv_filename, sp_key, x_key, y_key),
+        wrangler_factory(wrangler_config)
+    )
 
     # Check output
     assert validate_point_csvs(
@@ -422,34 +401,23 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     with open(wrangler_4_filename, mode='wt') as json_out:
         json.dump(csv_2_wrangler_conf, json_out)
 
-    # Run script
-    params = [
-        'split_occurrence_data.py',
-        '-k',
-        'species',
-        '--dwca',
-        dwca_1_filename,
-        wrangler_1_filename,
-        '--dwca',
-        dwca_2_filename,
-        wrangler_2_filename,
-        '--csv',
-        csv_1_filename,
-        wrangler_3_filename,
-        'tax',
-        'lon',
-        'lat',
-        '--csv',
-        csv_2_filename,
-        wrangler_4_filename,
-        'taxname',
-        'dec_lon',
-        'dec_lat',
-        temp_directory
-    ]
-
-    monkeypatch.setattr('sys.argv', params)
-    cli()
+    splitter = OccurrenceSplitter(
+        get_writer_key_func('species'), get_writer_filename_func(temp_directory)
+    )
+    splitter.process_reader(
+        PointDwcaReader(dwca_1_filename), wrangler_factory(dwca_1_wrangler_conf)
+    )
+    splitter.process_reader(
+        PointDwcaReader(dwca_2_filename), wrangler_factory(dwca_2_wrangler_conf)
+    )
+    splitter.process_reader(
+        PointCsvReader(csv_1_filename, 'tax', 'lon', 'lat'),
+        wrangler_factory(csv_1_wrangler_conf)
+    )
+    splitter.process_reader(
+        PointCsvReader(csv_2_filename, 'taxname', 'dec_lon', 'dec_lat'),
+        wrangler_factory(csv_2_wrangler_conf)
+    )
 
     # Check output
     assert validate_point_csvs(
