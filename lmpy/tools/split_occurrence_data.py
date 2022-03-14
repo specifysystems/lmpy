@@ -1,24 +1,21 @@
 """Split occurrence data files into groups for processing."""
 import argparse
 import json
-import os
 
 from lmpy.data_preparation.occurence_splitter import (
+    DEFAULT_MAX_WRITERS,
+    get_writer_key_from_fields_func,
+    get_writer_filename_func,
     OccurrenceSplitter,
-    writer_filename_func,
-    writer_key_func,
 )
 from lmpy.data_wrangling.occurrence.factory import wrangler_factory
-from lmpy.point import PointCsvReader, PointCsvWriter, PointDwcaReader
+from lmpy.point import PointCsvReader, PointDwcaReader
 
 
 # .....................................................................................
-DEFAULT_MAX_WRITERS = 100
-
 DESCRIPTION = '''\
 Group and split occurrence data from one or more sources so that like-records (ex. \
 species) can be processed together.'''
-
 
 
 # .....................................................................................

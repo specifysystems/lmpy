@@ -2,14 +2,14 @@
 import glob
 import json
 
-import numpy as np
-import pytest
-
 from lmpy.data_preparation.occurrence_splitter import (
     get_writer_filename_func,
     get_writer_key_func,
     OccurrenceSplitter,
 )
+from lmpy.data_wrangling.occurrence.factory import wrangler_factory
+from lmpy.point import PointCsvReader, PointDwcaReader
+
 from tests.data_simulator import (
     generate_csv,
     generate_dwca,
