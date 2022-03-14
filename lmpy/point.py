@@ -321,7 +321,7 @@ class PointCsvWriter():
     # .......................
     def open(self):
         """Open file for writing."""
-        self.file = open(self.filename, 'w')
+        self.file = open(self.filename, 'a')
         self.writer = csv.DictWriter(self.file, self.field_names, **self.kwargs)
         self.writer.writeheader()
 
