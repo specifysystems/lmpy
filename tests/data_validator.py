@@ -18,6 +18,13 @@ def validate_point_csvs(fns, sp_key, x_key, y_key):
     if isinstance(fns, str):
         fns = [fns]
     for fn in fns:
+        print(fn)
+        i = 0
+        with open(fn, mode='rt') as in_file:
+            for line in in_file:
+                if i < 3:
+                    print(line)
+                i += 1
         points = []
         with PointCsvReader(fn, sp_key, x_key, y_key) as reader:
             for pts in reader:

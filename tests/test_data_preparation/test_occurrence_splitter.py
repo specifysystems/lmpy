@@ -178,14 +178,8 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     csv_1_filename = generate_temp_filename()
     csv_2_filename = generate_temp_filename()
 
-    wrangler_1_filename = generate_temp_filename()
-    wrangler_2_filename = generate_temp_filename()
-    wrangler_3_filename = generate_temp_filename()
-    wrangler_4_filename = generate_temp_filename()
-
     # Reader and wrangler configurations
     # DWCA 1
-    print(TEST_CHAR_SET)
     dwca_1_fields = [
         SimulatedField(
             'taxonname',
@@ -237,8 +231,6 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     ]
     # Write testing data
     generate_dwca(dwca_1_filename, 5000, dwca_1_fields)
-    with open(wrangler_1_filename, mode='wt') as json_out:
-        json.dump(dwca_1_wrangler_conf, json_out)
 
     # DWCA 2
     dwca_2_fields = [
@@ -292,8 +284,6 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     ]
     # Write testing data
     generate_dwca(dwca_2_filename, 5000, dwca_2_fields)
-    with open(wrangler_2_filename, mode='wt') as json_out:
-        json.dump(dwca_2_wrangler_conf, json_out)
 
     # CSV 1
     csv_1_fields = [
@@ -347,8 +337,6 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     ]
     # Write testing data
     generate_csv(csv_1_filename, 5000, csv_1_fields)
-    with open(wrangler_3_filename, mode='wt') as json_out:
-        json.dump(csv_1_wrangler_conf, json_out)
 
     # CSV 2
     csv_2_fields = [
@@ -402,8 +390,6 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     ]
     # Write testing data
     generate_csv(csv_2_filename, 5000, csv_2_fields)
-    with open(wrangler_4_filename, mode='wt') as json_out:
-        json.dump(csv_2_wrangler_conf, json_out)
 
     with OccurrenceSplitter(
         get_writer_key_from_fields_func('species'),
@@ -426,5 +412,5 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
 
     # Check output
     assert validate_point_csvs(
-        glob.glob(f'{temp_directory}/*.csv'), 'species', 'latitude', 'longitude'
+        glob.glob(f'{temp_directory}/*.csv'), 'species', 'longitude', 'latitude'
     )

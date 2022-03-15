@@ -99,7 +99,8 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
 
     # Check output
     assert validate_point_csvs(
-        glob.glob(f'{temp_directory}/*.csv'), 'taxonname', 'longitude', 'latitude'
+    #    glob.glob(f'{temp_directory}/*.csv'), 'taxonname', 'longitude', 'latitude'
+        glob.glob(f'{temp_directory}/*.csv'), 'species_name', 'x', 'y'
     )
 
 
@@ -173,7 +174,8 @@ def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
 
     # Check output
     assert validate_point_csvs(
-        glob.glob(f'{temp_directory}/*.csv'), sp_key, x_key, y_key
+    #    glob.glob(f'{temp_directory}/*.csv'), sp_key, x_key, y_key
+        glob.glob(f'{temp_directory}/*.csv'), 'species_name', 'x', 'y'
     )
 
 
@@ -450,5 +452,5 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
 
     # Check output
     assert validate_point_csvs(
-        glob.glob(f'{temp_directory}/*.csv'), 'species', 'latitude', 'longitude'
+        glob.glob(f'{temp_directory}/*.csv'), 'species_name', 'x', 'y'
     )
