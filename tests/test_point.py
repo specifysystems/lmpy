@@ -196,6 +196,37 @@ class Test_PointCsvWriter:
 
         assert len(test_points) == len(points)
 
+    # ..........................
+    def test_reopen(self):
+        """Open, write, close, and reopen test."""
+        filename = tempfile.NamedTemporaryFile(suffix='.csv').name
+        test_points = [
+            Point(
+                'species',
+                np.random.randint(-180, 180),
+                np.random.randint(-90, 90)
+            ) for _ in range(np.random.randint(20, 100))
+        ]
+        # Write some points
+        with PointCsvWriter(filename, ['species_name', 'x', 'y']) as writer:
+            writer.write_points(test_points[:15])
+
+        # Reopen
+        with PointCsvWriter(
+            filename, ['species_name', 'x', 'y'], mode='at', write_headers=False
+        ) as writer:
+            writer.write_points(test_points[15:])
+
+        # Check that there are the correct number of points read
+        with PointCsvReader(filename, 'species_name', 'x', 'y') as reader:
+            points = []
+            for read_points in reader:
+                points.extend(read_points)
+
+        os.remove(filename)
+
+        assert len(test_points) == len(points)
+
 
 # ............................................................................
 class Test_PointDwcaReader:
