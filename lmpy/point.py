@@ -270,7 +270,12 @@ class PointCsvReader:
     def open(self):
         """Open the file and initialize."""
         self.file = open(self.filename, 'r')
-        temp_lines = [next(self.file), next(self.file), next(self.file)]
+        temp_lines = []
+        try:
+            for _ in range(3):
+                temp_lines.append(next(self.file))
+        except StopIteration:  # Raised if fewer than 3 lines in file
+            pass
         dialect = csv.Sniffer().sniff('\n'.join(temp_lines), delimiters="\t,")
         self.file.seek(0)
         self.reader = csv.DictReader(self.file, dialect=dialect)
