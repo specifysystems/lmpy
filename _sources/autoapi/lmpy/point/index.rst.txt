@@ -256,7 +256,7 @@ Attributes
 
 
 
-.. py:class:: PointCsvWriter(filename, fields, **kwargs)
+.. py:class:: PointCsvWriter(filename, fields, write_headers=True, mode='w', **kwargs)
 
    Constructor for writing points to csv file.
 
@@ -264,6 +264,10 @@ Attributes
    :type filename: :obj:`str`
    :param fields: A list of fields to include in the csv headers.
    :type fields: :obj:`list`
+   :param write_headers: Should headers be written.
+   :type write_headers: :obj:`bool`
+   :param mode: File write mode.
+   :type mode: :obj:`str`
    :param \*\*kwargs: Keyword parameters that will be passed to the
                       DictWriter instance from the csv module.
    :type \*\*kwargs: :obj:`dict`

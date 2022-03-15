@@ -17,7 +17,7 @@ Submodules
 
    build_grid/index.rst
    layer_encoder/index.rst
-   occurrence_transformation/index.rst
+   occurrence_splitter/index.rst
    tree_encoder/index.rst
 
 

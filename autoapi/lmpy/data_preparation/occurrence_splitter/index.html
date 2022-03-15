@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.0.4+53.g63d8e43 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_preparation.occurrence_splitter</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/lmpy/data_preparation/occurrence_splitter/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-lmpy.data_preparation.occurrence_splitter">
+<span id="lmpy-data-preparation-occurrence-splitter"></span><h1><a class="reference internal" href="#module-lmpy.data_preparation.occurrence_splitter" title="lmpy.data_preparation.occurrence_splitter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_preparation.occurrence_splitter</span></code></a><a class="headerlink" href="#module-lmpy.data_preparation.occurrence_splitter" title="Permalink to this headline"></a></h1>
+<p>Module containing functions for splitting occurrence data.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter" title="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OccurrenceSplitter</span></code></a></p></td>
+<td><p>Constructor.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_preparation.occurrence_splitter.get_writer_filename_func" title="lmpy.data_preparation.occurrence_splitter.get_writer_filename_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_writer_filename_func</span></code></a>(base_dir)</p></td>
+<td><p>Get a function that returns a filename from a writer key.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.data_preparation.occurrence_splitter.get_writer_key_from_fields_func" title="lmpy.data_preparation.occurrence_splitter.get_writer_key_from_fields_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_writer_key_from_fields_func</span></code></a>(*fields)</p></td>
+<td><p>Get a function that returns a writer key from fields of a point.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.occurrence_splitter.</span></span><span class="sig-name descname"><span class="pre">OccurrenceSplitter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer_key_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer_filename_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_writers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_MAX_WRITERS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter" title="Permalink to this definition"></a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>writer_key_func</strong> (<em>Method</em>) – A function for determining a writer to use.  It
+should take a Point as input and return a dictionary key.</p></li>
+<li><p><strong>writer_filename_func</strong> (<em>Method</em>) – A function to determine the file location
+to write data for a particular writer.  It should take a dictionary
+key and return a string.</p></li>
+<li><p><strong>write_fields</strong> (<em>list</em>) – A list of fields to write for each writer.  If None,
+use all fields in the first output Point object.</p></li>
+<li><p><strong>max_writers</strong> (<em>int</em>) – The maximum number of open writers (files) at any given
+time.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.__enter__" title="Permalink to this definition"></a></dt>
+<dd><p>Context manager magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter" title="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter">OccurrenceSplitter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.__exit__" title="Permalink to this definition"></a></dt>
+<dd><p>Context manager magic method on exit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*args</strong> – Position arguments passed to the method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.close" title="Permalink to this definition"></a></dt>
+<dd><p>Close all open writers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.flush_writers">
+<span class="sig-name descname"><span class="pre">flush_writers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.flush_writers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.flush_writers" title="Permalink to this definition"></a></dt>
+<dd><p>Close all open occurrence writers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.open_writer">
+<span class="sig-name descname"><span class="pre">open_writer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.open_writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.open_writer" title="Permalink to this definition"></a></dt>
+<dd><p>Open an occurrence writer for the provided key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>writer_key</strong> (<em>object</em>) – Some key that can be used to determine a writer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.process_reader">
+<span class="sig-name descname"><span class="pre">process_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wranglers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.process_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.process_reader" title="Permalink to this definition"></a></dt>
+<dd><p>Process an occurrence reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reader</strong> (<a class="reference internal" href="../../point/index.html#lmpy.point.PointCsvReader" title="lmpy.point.PointCsvReader"><em>PointCsvReader</em></a><em> or </em><a class="reference internal" href="../../point/index.html#lmpy.point.PointDwcaReader" title="lmpy.point.PointDwcaReader"><em>PointDwcaReader</em></a>) – An occurrence reader instance.</p></li>
+<li><p><strong>wranglers</strong> (<em>list</em>) – A list of occurrence data wranglers.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.write_points">
+<span class="sig-name descname"><span class="pre">write_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.write_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.write_points" title="Permalink to this definition"></a></dt>
+<dd><p>Write points using the appropriate writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>points</strong> (<em>list</em>) – A list of point objects to write to file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.get_writer_filename_func">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.occurrence_splitter.</span></span><span class="sig-name descname"><span class="pre">get_writer_filename_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#get_writer_filename_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.get_writer_filename_func" title="Permalink to this definition"></a></dt>
+<dd><p>Get a function that returns a filename from a writer key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>base_dir</strong> (<em>str</em>) – A base directory for all writers.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A function that returns a filename when given a writer key.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.get_writer_key_from_fields_func">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.occurrence_splitter.</span></span><span class="sig-name descname"><span class="pre">get_writer_key_from_fields_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#get_writer_key_from_fields_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.get_writer_key_from_fields_func" title="Permalink to this definition"></a></dt>
+<dd><p>Get a function that returns a writer key from fields of a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*fields</strong> (<em>list</em>) – A list of fields to use to determine the Point’s writer key.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A function that takes a Point as an argument and returns a key.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

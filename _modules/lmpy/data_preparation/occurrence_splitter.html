@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.0.4+53.g63d8e43 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.data_preparation.occurrence_splitter</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.data_preparation.occurrence_splitter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing functions for splitting occurrence data.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointCsvWriter</span>
+
+
+<span class="n">DEFAULT_MAX_WRITERS</span> <span class="o">=</span> <span class="mi">100</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="get_writer_filename_func"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.get_writer_filename_func">[docs]</a><span class="k">def</span> <span class="nf">get_writer_filename_func</span><span class="p">(</span><span class="n">base_dir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a function that returns a filename from a writer key.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        base_dir (str): A base directory for all writers.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Method: A function that returns a filename when given a writer key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ..................</span>
+    <span class="k">def</span> <span class="nf">get_writer_filename_from_key</span><span class="p">(</span><span class="n">writer_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a writer filename from a writer key and create directories if needed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            writer_key (str or list): A writer key to use to generate a filename.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A file path to use for the writer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">writer_fn</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">writer_key</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># Tried to join iterable</span>
+            <span class="n">writer_fn</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="o">*</span><span class="n">writer_key</span><span class="p">))</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">writer_fn</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">writer_fn</span>
+
+    <span class="k">return</span> <span class="n">get_writer_filename_from_key</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="get_writer_key_from_fields_func"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.get_writer_key_from_fields_func">[docs]</a><span class="k">def</span> <span class="nf">get_writer_key_from_fields_func</span><span class="p">(</span><span class="o">*</span><span class="n">fields</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a function that returns a writer key from fields of a point.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        *fields (list): A list of fields to use to determine the Point&#39;s writer key.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Method: A function that takes a Point as an argument and returns a key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">key_fields</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">key_from_fields_func</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a wrangler key for a point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            point (Point): A point object to get a writer key for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Object: An object representing the key for the particular point.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">writer_key</span> <span class="o">=</span> <span class="p">[</span><span class="n">point</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span> <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="n">key_fields</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">writer_key</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">writer_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">writer_key</span>
+
+    <span class="k">return</span> <span class="n">key_from_fields_func</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="OccurrenceSplitter"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter">[docs]</a><span class="k">class</span> <span class="nc">OccurrenceSplitter</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A tool for splitting occurrence data by some criteria for easier processing.&quot;&quot;&quot;</span>
+
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">writer_key_func</span><span class="p">,</span>
+        <span class="n">writer_filename_func</span><span class="p">,</span>
+        <span class="n">write_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_writers</span><span class="o">=</span><span class="n">DEFAULT_MAX_WRITERS</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            writer_key_func (Method): A function for determining a writer to use.  It</span>
+<span class="sd">                should take a Point as input and return a dictionary key.</span>
+<span class="sd">            writer_filename_func (Method): A function to determine the file location</span>
+<span class="sd">                to write data for a particular writer.  It should take a dictionary</span>
+<span class="sd">                key and return a string.</span>
+<span class="sd">            write_fields (list): A list of fields to write for each writer.  If None,</span>
+<span class="sd">                use all fields in the first output Point object.</span>
+<span class="sd">            max_writers (int): The maximum number of open writers (files) at any given</span>
+<span class="sd">                time.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_writer_key</span> <span class="o">=</span> <span class="n">writer_key_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_writer_filename</span> <span class="o">=</span> <span class="n">writer_filename_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer_fields</span> <span class="o">=</span> <span class="n">write_fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_writers</span> <span class="o">=</span> <span class="n">max_writers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writers</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="OccurrenceSplitter.__enter__"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Context manager magic method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            OccurrenceSplitter: This instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="OccurrenceSplitter.__exit__"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Context manager magic method on exit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Position arguments passed to the method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flush_writers</span><span class="p">()</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="OccurrenceSplitter.flush_writers"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.flush_writers">[docs]</a>    <span class="k">def</span> <span class="nf">flush_writers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Close all open occurrence writers.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">writer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">writers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writers</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="OccurrenceSplitter.close"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Close all open writers.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flush_writers</span><span class="p">()</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="OccurrenceSplitter.open_writer"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.open_writer">[docs]</a>    <span class="k">def</span> <span class="nf">open_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">writer_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Open an occurrence writer for the provided key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            writer_key (object): Some key that can be used to determine a writer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Flush or close writers if needed</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">writers</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_writers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flush_writers</span>
+        <span class="c1"># Open the new writer</span>
+        <span class="n">writer_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_writer_filename</span><span class="p">(</span><span class="n">writer_key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">writer_fn</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writers</span><span class="p">[</span><span class="n">writer_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">PointCsvWriter</span><span class="p">(</span>
+                <span class="n">writer_fn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">writer_fields</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;at&#39;</span><span class="p">,</span> <span class="n">write_headers</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writers</span><span class="p">[</span><span class="n">writer_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">PointCsvWriter</span><span class="p">(</span>
+                <span class="n">writer_fn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">writer_fields</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">write_headers</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writers</span><span class="p">[</span><span class="n">writer_key</span><span class="p">]</span><span class="o">.</span><span class="n">open</span><span class="p">()</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="OccurrenceSplitter.process_reader"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.process_reader">[docs]</a>    <span class="k">def</span> <span class="nf">process_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Process an occurrence reader.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            reader (PointCsvReader or PointDwcaReader): An occurrence reader instance.</span>
+<span class="sd">            wranglers (list): A list of occurrence data wranglers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_wrangler_name</span><span class="p">,</span> <span class="n">wrangler</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
+                    <span class="n">points</span> <span class="o">=</span> <span class="n">wrangler</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="OccurrenceSplitter.write_points"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.write_points">[docs]</a>    <span class="k">def</span> <span class="nf">write_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write points using the appropriate writer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            points (list): A list of point objects to write to file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
+            <span class="n">writer_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_writer_key</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">writer_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">writers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">writer_fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">writer_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">open_writer</span><span class="p">(</span><span class="n">writer_key</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writers</span><span class="p">[</span><span class="n">writer_key</span><span class="p">]</span><span class="o">.</span><span class="n">write_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;get_writer_key_from_fields_func&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_writer_filename_func&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OccurrenceSplitter&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

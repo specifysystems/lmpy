@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.0.4+33.gc6003c2 documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.0.4+53.g63d8e43 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -430,13 +430,15 @@ data.</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.point.PointCsvWriter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointCsvWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvWriter" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointCsvWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvWriter" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor for writing points to csv file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – A file location to write points to.</p></li>
 <li><p><strong>fields</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – A list of fields to include in the csv headers.</p></li>
+<li><p><strong>write_headers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Should headers be written.</p></li>
+<li><p><strong>mode</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – File write mode.</p></li>
 <li><p><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Keyword parameters that will be passed to the
 DictWriter instance from the csv module.</p></li>
 </ul>

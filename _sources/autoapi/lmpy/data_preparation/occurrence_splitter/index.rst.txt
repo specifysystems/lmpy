@@ -1,0 +1,125 @@
+:py:mod:`lmpy.data_preparation.occurrence_splitter`
+===================================================
+
+.. py:module:: lmpy.data_preparation.occurrence_splitter
+
+.. autoapi-nested-parse::
+
+   Module containing functions for splitting occurrence data.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_preparation.occurrence_splitter.get_writer_filename_func
+   lmpy.data_preparation.occurrence_splitter.get_writer_key_from_fields_func
+
+
+
+.. py:class:: OccurrenceSplitter(writer_key_func, writer_filename_func, write_fields=None, max_writers=DEFAULT_MAX_WRITERS)
+
+   Constructor.
+
+   :param writer_key_func: A function for determining a writer to use.  It
+                           should take a Point as input and return a dictionary key.
+   :type writer_key_func: Method
+   :param writer_filename_func: A function to determine the file location
+                                to write data for a particular writer.  It should take a dictionary
+                                key and return a string.
+   :type writer_filename_func: Method
+   :param write_fields: A list of fields to write for each writer.  If None,
+                        use all fields in the first output Point object.
+   :type write_fields: list
+   :param max_writers: The maximum number of open writers (files) at any given
+                       time.
+   :type max_writers: int
+
+   .. py:method:: __enter__(self)
+
+      Context manager magic method.
+
+      :returns: This instance.
+      :rtype: OccurrenceSplitter
+
+
+   .. py:method:: __exit__(self, *args)
+
+      Context manager magic method on exit.
+
+      :param \*args: Position arguments passed to the method.
+
+
+   .. py:method:: close(self)
+
+      Close all open writers.
+
+
+   .. py:method:: flush_writers(self)
+
+      Close all open occurrence writers.
+
+
+   .. py:method:: open_writer(self, writer_key)
+
+      Open an occurrence writer for the provided key.
+
+      :param writer_key: Some key that can be used to determine a writer.
+      :type writer_key: object
+
+
+   .. py:method:: process_reader(self, reader, wranglers)
+
+      Process an occurrence reader.
+
+      :param reader: An occurrence reader instance.
+      :type reader: PointCsvReader or PointDwcaReader
+      :param wranglers: A list of occurrence data wranglers.
+      :type wranglers: list
+
+
+   .. py:method:: write_points(self, points)
+
+      Write points using the appropriate writer.
+
+      :param points: A list of point objects to write to file.
+      :type points: list
+
+
+
+.. py:function:: get_writer_filename_func(base_dir)
+
+   Get a function that returns a filename from a writer key.
+
+   :param base_dir: A base directory for all writers.
+   :type base_dir: str
+
+   :returns: A function that returns a filename when given a writer key.
+   :rtype: Method
+
+
+.. py:function:: get_writer_key_from_fields_func(*fields)
+
+   Get a function that returns a writer key from fields of a point.
+
+   :param \*fields: A list of fields to use to determine the Point's writer key.
+   :type \*fields: list
+
+   :returns: A function that takes a Point as an argument and returns a key.
+   :rtype: Method
+
+
