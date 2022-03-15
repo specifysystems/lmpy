@@ -3,7 +3,6 @@ from . import build_shapegrid
 from . import clean_occurrences
 from . import convert_csv_to_lmm
 from . import convert_lmm_to_csv
-from . import create_point_heat_map
 from . import create_rare_species_model
 from . import create_tree_matrix
 from . import encode_layers
@@ -17,7 +16,6 @@ __all__.extend(build_shapegrid.__all__)
 __all__.extend(clean_occurrences.__all__)
 __all__.extend(convert_csv_to_lmm.__all__)
 __all__.extend(convert_lmm_to_csv.__all__)
-__all__.extend(create_point_heat_map.__all__)
 __all__.extend(create_rare_species_model.__all__)
 __all__.extend(create_tree_matrix.__all__)
 __all__.extend(encode_layers.__all__)
