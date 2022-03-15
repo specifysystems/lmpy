@@ -221,7 +221,7 @@ def generate_temp_filename(request):
 
 
 # .....................................................................................
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='session')
 def temp_directory():
     """Get a temporary directory for storing files.
 
