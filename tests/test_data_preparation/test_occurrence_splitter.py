@@ -1,6 +1,5 @@
 """Test the occurrence_splitter module."""
 import glob
-import json
 
 from lmpy.data_preparation.occurrence_splitter import (
     get_writer_filename_func,
