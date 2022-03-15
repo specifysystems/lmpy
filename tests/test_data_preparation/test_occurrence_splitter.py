@@ -93,6 +93,7 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
     splitter.process_reader(
         PointDwcaReader(dwca_filename), wrangler_factory(wrangler_config)
     )
+    splitter.close()
 
     # Check output
     assert validate_point_csvs(
@@ -146,14 +147,14 @@ def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
         }
     ]
 
-    splitter = OccurrenceSplitter(
+    with OccurrenceSplitter(
         get_writer_key_from_fields_func(sp_key),
         get_writer_filename_func(temp_directory)
-    )
-    splitter.process_reader(
-        PointCsvReader(csv_filename, sp_key, x_key, y_key),
-        wrangler_factory(wrangler_config)
-    )
+    ) as splitter:
+        splitter.process_reader(
+            PointCsvReader(csv_filename, sp_key, x_key, y_key),
+            wrangler_factory(wrangler_config)
+        )
 
     # Check output
     assert validate_point_csvs(
@@ -404,24 +405,24 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     with open(wrangler_4_filename, mode='wt') as json_out:
         json.dump(csv_2_wrangler_conf, json_out)
 
-    splitter = OccurrenceSplitter(
+    with OccurrenceSplitter(
         get_writer_key_from_fields_func('species'),
         get_writer_filename_func(temp_directory)
-    )
-    splitter.process_reader(
-        PointDwcaReader(dwca_1_filename), wrangler_factory(dwca_1_wrangler_conf)
-    )
-    splitter.process_reader(
-        PointDwcaReader(dwca_2_filename), wrangler_factory(dwca_2_wrangler_conf)
-    )
-    splitter.process_reader(
-        PointCsvReader(csv_1_filename, 'tax', 'lon', 'lat'),
-        wrangler_factory(csv_1_wrangler_conf)
-    )
-    splitter.process_reader(
-        PointCsvReader(csv_2_filename, 'taxname', 'dec_lon', 'dec_lat'),
-        wrangler_factory(csv_2_wrangler_conf)
-    )
+    ) as splitter:
+        splitter.process_reader(
+            PointDwcaReader(dwca_1_filename), wrangler_factory(dwca_1_wrangler_conf)
+        )
+        splitter.process_reader(
+            PointDwcaReader(dwca_2_filename), wrangler_factory(dwca_2_wrangler_conf)
+        )
+        splitter.process_reader(
+            PointCsvReader(csv_1_filename, 'tax', 'lon', 'lat'),
+            wrangler_factory(csv_1_wrangler_conf)
+        )
+        splitter.process_reader(
+            PointCsvReader(csv_2_filename, 'taxname', 'dec_lon', 'dec_lat'),
+            wrangler_factory(csv_2_wrangler_conf)
+        )
 
     # Check output
     assert validate_point_csvs(
