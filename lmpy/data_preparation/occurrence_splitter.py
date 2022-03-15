@@ -124,6 +124,11 @@ class OccurrenceSplitter:
         self.writers = {}
 
     # .......................
+    def close(self):
+        """Close all open writers."""
+        self.flush_writers()
+
+    # .......................
     def open_writer(self, writer_key):
         """Open an occurrence writer for the provided key.
 
