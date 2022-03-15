@@ -270,7 +270,12 @@ class PointCsvReader:
     def open(self):
         """Open the file and initialize."""
         self.file = open(self.filename, 'r')
-        temp_lines = [next(self.file), next(self.file), next(self.file)]
+        temp_lines = []
+        try:
+            for _ in range(3):
+                temp_lines.append(next(self.file))
+        except StopIteration:  # Raised if fewer than 3 lines in file
+            pass
         dialect = csv.Sniffer().sniff('\n'.join(temp_lines), delimiters="\t,")
         self.file.seek(0)
         self.reader = csv.DictReader(self.file, dialect=dialect)
@@ -286,12 +291,14 @@ class PointCsvWriter:
     """Class for writing Points to a CSV file."""
 
     # .......................
-    def __init__(self, filename, fields, **kwargs):
+    def __init__(self, filename, fields, write_headers=True, mode='w', **kwargs):
         """Constructor for writing points to csv file.
 
         Args:
             filename (:obj:`str`): A file location to write points to.
             fields (:obj:`list`): A list of fields to include in the csv headers.
+            write_headers (:obj:`bool`): Should headers be written.
+            mode (:obj:`str`): File write mode.
             **kwargs (:obj:`dict`): Keyword parameters that will be passed to the
                 DictWriter instance from the csv module.
         """
@@ -300,6 +307,8 @@ class PointCsvWriter:
         self.writer = None
         self.field_names = fields
         self.kwargs = kwargs
+        self.write_headers = write_headers
+        self.file_mode = mode
 
     # .......................
     def __enter__(self):
@@ -328,9 +337,10 @@ class PointCsvWriter:
     # .......................
     def open(self):
         """Open file for writing."""
-        self.file = open(self.filename, 'w')
+        self.file = open(self.filename, self.file_mode)
         self.writer = csv.DictWriter(self.file, self.field_names, **self.kwargs)
-        self.writer.writeheader()
+        if self.write_headers:
+            self.writer.writeheader()
 
     # .......................
     def write_points(self, points):

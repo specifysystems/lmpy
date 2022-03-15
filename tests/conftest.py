@@ -1,8 +1,11 @@
 """Test configuration fixtures."""
 import glob
 import os
+import shutil
+import tempfile
 
 import pytest
+
 
 # .............................................................................
 # .                                 Constants                                 .
@@ -176,6 +179,60 @@ def data_files():
         A `SampleDataFiles` object.
     """
     return SampleDataFiles()
+
+
+# .....................................................................................
+@pytest.fixture(scope='session')
+def generate_temp_filename(request):
+    """Get a function to generate (and clean up) temporary files.
+
+    Args:
+        request (pytest.fixture): A pytest request fixture.
+
+    Returns:
+        Method: A function to generate a temporary filename.
+    """
+    fns = []
+
+    # ..................
+    def get_filename(*args, **kwargs):
+        """Get a temporary filename.
+
+        Args:
+            *args (list): Positional arguments.
+            **kwargs (dict): Named arguments.
+
+        Returns:
+            str: A temporary filename.
+        """
+        fn = tempfile.NamedTemporaryFile().name
+        fns.append(fn)
+        return fn
+
+    # ..................
+    def finalizer():
+        """Clean up temporary files."""
+        for fn in fns:
+            if os.path.exists(fn):
+                os.remove(fn)
+
+    request.addfinalizer(finalizer)
+    return get_filename
+
+
+# .....................................................................................
+@pytest.fixture(scope='function')
+def temp_directory():
+    """Get a temporary directory for storing files.
+
+    Yields:
+        str: A directory to use for testing.
+    """
+    dir_name = tempfile.TemporaryDirectory().name
+    os.makedirs(dir_name)
+    yield dir_name
+
+    shutil.rmtree(dir_name)
 
 
 # .............................................................................
