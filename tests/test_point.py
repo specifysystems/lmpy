@@ -175,19 +175,26 @@ class Test_PointCsvWriter:
     # ..........................
     def test_basic(self):
         """Perform simple test."""
-        out_file = tempfile.NamedTemporaryFile(suffix='.csv', delete=False, mode='w')
-        filename = out_file.name
-        out_file.close()
+        filename = tempfile.NamedTemporaryFile(suffix='.csv').name
+        test_points = [
+            Point('species', 0, 0),
+            Point('species', 10, 10),
+            Point('species', 20, 20),
+            Point('species', -30, -30),
+        ]
         with PointCsvWriter(filename, ['species_name', 'x', 'y']) as writer:
-            writer.write_points(Point('species', 0, 0))
-            writer.write_points(
-                [
-                    Point('species', 10, 10),
-                    Point('species', 20, 20),
-                    Point('species', -30, -30),
-                ]
-            )
+            writer.write_points(test_points[0])
+            writer.write_points(test_points[1:])
+
+        # Check that there are the correct number of points read
+        with PointCsvReader(filename, 'species_name', 'x', 'y') as reader:
+            points = []
+            for read_points in reader:
+                points.extend(read_points)
+
         os.remove(filename)
+
+        assert len(test_points) == len(points)
 
 
 # ............................................................................

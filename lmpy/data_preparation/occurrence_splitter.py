@@ -134,9 +134,15 @@ class OccurrenceSplitter:
         if len(self.writers) >= self.max_writers:
             self.flush_writers
         # Open the new writer
-        self.writers[writer_key] = PointCsvWriter(
-            self.get_writer_filename(writer_key), self.writer_fields
-        )
+        writer_fn = self.get_writer_filename(writer_key)
+        if os.path.exists(writer_fn):
+            self.writers[writer_key] = PointCsvWriter(
+                writer_fn, self.writer_fields, mode='at', write_headers=False
+            )
+        else:
+            self.writers[writer_key] = PointCsvWriter(
+                writer_fn, self.writer_fields, mode='wt', write_headers=True
+            )
         self.writers[writer_key].open()
 
     # .......................
