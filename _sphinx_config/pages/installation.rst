@@ -55,6 +55,6 @@ Install latest
 Install latest release
 ----------------------
 
-.. code-block:: bash 
+.. code-block:: bash
 
   pip install specify-lmpy
