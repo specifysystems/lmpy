@@ -8,6 +8,10 @@ dependencies:
   - sphinx-autoapi
   - numpy
   - defusedxml
+  - coverage
+  - coveralls
+  - pytest
+  - pytest-cov
   - pip>=20.1
   - pip:
     - sphinx-rtd-theme
