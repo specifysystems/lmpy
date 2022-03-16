@@ -1,28 +1,9 @@
 """Test the create rare species model tool."""
-import os
-import tempfile
-
 import numpy as np
 import pytest
 
 from lmpy.point import Point, PointCsvWriter
 from lmpy.tools.create_rare_species_model import cli, write_tiff
-
-
-# .....................................................................................
-@pytest.fixture(scope='function')
-def filenames_for_test():
-    """Get a tuple of filenames to use for testing.
-
-    Yields:
-        tuple: A tuple of testing filenames
-    """
-    base_fn = tempfile.NamedTemporaryFile().name
-    fns = (f'{base_fn}.csv', f'{base_fn}_ecoregions.tif', f'{base_fn}_model.tif')
-    yield fns
-    for fn in fns:
-        if os.path.exists(fn):
-            os.remove(fn)
 
 
 # .....................................................................................
@@ -98,18 +79,20 @@ def generate_test_ecoregions(ecoreg_filename, min_x, min_y, max_x, max_y, resolu
 
 
 # .....................................................................................
-def test_valid(monkeypatch, filenames_for_test, model_parameters):
+def test_valid(monkeypatch, generate_temp_filename, model_parameters):
     """Test with valid parameters.
 
     Args:
         monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
-        filenames_for_test (pytest.Fixture): Temporary filenames to use for test.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
         model_parameters (tuple): Parameters for creating a test model.
     """
     # Model parameters
     count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
     # Get filenames
-    csv_fn, ecoreg_fn, model_fn = filenames_for_test
+    csv_fn = generate_temp_filename()
+    ecoreg_fn = generate_temp_filename()
+    model_fn = generate_temp_filename()
     # Write points
     generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
     # Write ecoregions file
