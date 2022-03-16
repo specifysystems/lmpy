@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; Specify lmpy 3.0.4+56.ga4c2931 documentation</title>
+  <title>Installation &mdash; Specify lmpy 3.0.4+71.g0068c70 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -41,7 +41,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#apt-requirements-installation">Apt Requirements Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conda-requirements-installation">Conda Requirements Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#lmpy-installation">lmpy Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-latest">Install latest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-latest-release">Install latest release</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
@@ -74,11 +83,54 @@
              
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
-<p>The repository can be installed locally by downloading or cloning the code from
-GitHub and running:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python setup.py install
+<p><cite>lmpy</cite> can be installed via multiple methods.  Before installation, your environment
+must have prerequisite libraries installed.</p>
+<dl class="simple">
+<dt>The required libraries are:</dt><dd><ul class="simple">
+<li><p>gdal</p></li>
+<li><p>libspatialindex</p></li>
+</ul>
+</dd>
+</dl>
+<p>If you install the libraries with <cite>apt</cite> or from source, you can install lmpy via pip.
+Alternatively, you can install all of the prerequisites using <cite>conda</cite>.</p>
+<section id="apt-requirements-installation">
+<h2>Apt Requirements Installation<a class="headerlink" href="#apt-requirements-installation" title="Permalink to this headline"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install --upgrade pip
+pip install numpy
+add-apt-repository --yes ppa:ubuntugis/ppa
+apt-get --quiet update
+apt-get install --yes libgdal-dev gdal-bin libspatialindex-dev
+pip install <span class="nv">GDAL</span><span class="o">==</span><span class="sb">`</span>gdal-config --version<span class="sb">`</span>
+pip install -r requirements.txt
 </pre></div>
 </div>
+</section>
+<section id="conda-requirements-installation">
+<h2>Conda Requirements Installation<a class="headerlink" href="#conda-requirements-installation" title="Permalink to this headline"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda update -n base -c conda-forge conda
+conda env create -f environment.yml
+conda activate lmpy
+</pre></div>
+</div>
+</section>
+</section>
+<section id="lmpy-installation">
+<h1>lmpy Installation<a class="headerlink" href="#lmpy-installation" title="Permalink to this headline"></a></h1>
+<p>After installing the prerequisites are installed, you can install lmpy using pip.</p>
+<section id="install-latest">
+<h2>Install latest<a class="headerlink" href="#install-latest" title="Permalink to this headline"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/specifysystems/lmpy.git
+pip install lmpy/
+</pre></div>
+</div>
+</section>
+<section id="install-latest-release">
+<h2>Install latest release<a class="headerlink" href="#install-latest-release" title="Permalink to this headline"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install specify-lmpy
+</pre></div>
+</div>
+</section>
 </section>
 
 
