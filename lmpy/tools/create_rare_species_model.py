@@ -61,11 +61,11 @@ def create_rare_species_model(
     for pt in points:
         # Add geometry to collection
         pt_geom = ogr.Geometry(ogr.wkbPoint)
-        pt_geom.addPoint(pt.x, pt.y)
+        pt_geom.AddPoint(pt[0], pt[1])
         geom_collection.AddGeometry(pt_geom)
         # Add to value set
-        col = int((pt.x - min_x) / cell_size)
-        row = int((max_y - pt.y) / cell_size)
+        col = int((pt[0] - min_x) / cell_size)
+        row = int((max_y - pt[1]) / cell_size)
         val_set.add(ecoregion_data[row, col])
     # Convex hull
     convex_hull_raw = geom_collection.ConvexHull()
@@ -239,7 +239,7 @@ def read_points(csv_filename, sp_key, x_key, y_key):
     point_set = set()
     with PointCsvReader(csv_filename, sp_key, x_key, y_key) as reader:
         for points in reader:
-            point_set.union({(pt.x, pt.y) for pt in points})
+            point_set = point_set.union({(pt.x, pt.y) for pt in points})
     return list(point_set)
 
 

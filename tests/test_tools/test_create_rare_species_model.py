@@ -1,28 +1,9 @@
 """Test the create rare species model tool."""
-import os
-import tempfile
-
 import numpy as np
 import pytest
 
 from lmpy.point import Point, PointCsvWriter
 from lmpy.tools.create_rare_species_model import cli, write_tiff
-
-
-# .....................................................................................
-@pytest.fixture(scope='function')
-def filenames_for_test():
-    """Get a tuple of filenames to use for testing.
-
-    Yields:
-        tuple: A tuple of testing filenames
-    """
-    base_fn = tempfile.NamedTemporaryFile().name
-    fns = (f'{base_fn}.csv', f'{base_fn}_ecoregions.tif', f'{base_fn}_model.tif')
-    yield fns
-    for fn in fns:
-        if os.path.exists(fn):
-            os.remove(fn)
 
 
 # .....................................................................................
@@ -98,24 +79,128 @@ def generate_test_ecoregions(ecoreg_filename, min_x, min_y, max_x, max_y, resolu
 
 
 # .....................................................................................
-def test_valid(monkeypatch, filenames_for_test, model_parameters):
-    """Test with valid parameters.
+def test_valid_ascii(monkeypatch, generate_temp_filename, model_parameters):
+    """Test with valid parameters and create an ASCII Grid.
 
     Args:
         monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
-        filenames_for_test (pytest.Fixture): Temporary filenames to use for test.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
         model_parameters (tuple): Parameters for creating a test model.
     """
     # Model parameters
     count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
     # Get filenames
-    csv_fn, ecoreg_fn, model_fn = filenames_for_test
+    csv_fn = generate_temp_filename(suffix='.csv')
+    ecoreg_fn = generate_temp_filename(suffix='.tif')
+    model_fn = generate_temp_filename(suffix='.asc')
     # Write points
     generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
     # Write ecoregions file
     generate_test_ecoregions(ecoreg_fn, min_x, min_y, max_x, max_y, resolution)
 
-    params = ['create_rare_species_model.py', csv_fn, ecoreg_fn, model_fn]
+    params = [
+        'create_rare_species_model.py',
+        '--output_format=AAIGrid',
+        csv_fn,
+        ecoreg_fn,
+        model_fn,
+    ]
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+    # Check the created model
+
+
+# .....................................................................................
+def test_valid_ascii_auto(monkeypatch, generate_temp_filename, model_parameters):
+    """Test with valid parameters and create an ASCII Grid with auto format.
+
+    Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
+        model_parameters (tuple): Parameters for creating a test model.
+    """
+    # Model parameters
+    count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
+    # Get filenames
+    csv_fn = generate_temp_filename(suffix='.csv')
+    ecoreg_fn = generate_temp_filename(suffix='.tif')
+    model_fn = generate_temp_filename(suffix='.asc')
+    # Write points
+    generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
+    # Write ecoregions file
+    generate_test_ecoregions(ecoreg_fn, min_x, min_y, max_x, max_y, resolution)
+
+    params = [
+        'create_rare_species_model.py',
+        '--output_format=auto',
+        csv_fn,
+        ecoreg_fn,
+        model_fn,
+    ]
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+    # Check the created model
+
+
+# .....................................................................................
+def test_valid_tiff(monkeypatch, generate_temp_filename, model_parameters):
+    """Test with valid parameters and create a GeoTiff.
+
+    Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
+        model_parameters (tuple): Parameters for creating a test model.
+    """
+    # Model parameters
+    count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
+    # Get filenames
+    csv_fn = generate_temp_filename(suffix='.csv')
+    ecoreg_fn = generate_temp_filename(suffix='.tif')
+    model_fn = generate_temp_filename(suffix='.tif')
+    # Write points
+    generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
+    # Write ecoregions file
+    generate_test_ecoregions(ecoreg_fn, min_x, min_y, max_x, max_y, resolution)
+
+    params = [
+        'create_rare_species_model.py',
+        '--output_format=GTiff',
+        csv_fn,
+        ecoreg_fn,
+        model_fn,
+    ]
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+    # Check the created model
+
+
+# .....................................................................................
+def test_valid_tiff_auto(monkeypatch, generate_temp_filename, model_parameters):
+    """Test with valid parameters and create a GeoTiff with auto format.
+
+    Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
+        model_parameters (tuple): Parameters for creating a test model.
+    """
+    # Model parameters
+    count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
+    # Get filenames
+    csv_fn = generate_temp_filename(suffix='.csv')
+    ecoreg_fn = generate_temp_filename(suffix='.tif')
+    model_fn = generate_temp_filename(suffix='.tif')
+    # Write points
+    generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
+    # Write ecoregions file
+    generate_test_ecoregions(ecoreg_fn, min_x, min_y, max_x, max_y, resolution)
+
+    params = [
+        'create_rare_species_model.py',
+        '--output_format=auto',
+        csv_fn,
+        ecoreg_fn,
+        model_fn,
+    ]
     monkeypatch.setattr('sys.argv', params)
     cli()
     # Check the created model
