@@ -23,7 +23,7 @@ jobs:
           auto-update-conda: true
           environment-file: environment.yml
           python-version: ${{ matrix.python-version }}
- 
+
       # Get info
       - shell: bash -l {0}
         run: |
@@ -31,15 +31,10 @@ jobs:
           conda list
 
       # Install testing dependencies
-      - name: Install testing dependencies
+      - name: Install testing dependencies and test
         run: |
           pip install -r requirements-test.txt
-
-      # Run pytest
-      - name: Test with Pytest
-        run: |
           PYTHONPATH=. coverage run --source=lmpy -m pytest tests/
-          #PYTHONPATH=. pytest tests/ -v --cov lmpy --cov-report term-missing
       - name: Upload coverage data to coveralls.io
         run: coveralls --service=github
         env:
