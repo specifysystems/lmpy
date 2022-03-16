@@ -195,17 +195,16 @@ def generate_temp_filename(request):
     fns = []
 
     # ..................
-    def get_filename(*args, **kwargs):
+    def get_filename(suffix=''):
         """Get a temporary filename.
 
         Args:
-            *args (list): Positional arguments.
-            **kwargs (dict): Named arguments.
+            suffix (str): A suffix to add to the filename.
 
         Returns:
             str: A temporary filename.
         """
-        fn = tempfile.NamedTemporaryFile().name
+        fn = tempfile.NamedTemporaryFile(suffix=suffix).name
         fns.append(fn)
         return fn
 
