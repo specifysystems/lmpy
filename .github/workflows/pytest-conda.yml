@@ -30,11 +30,6 @@ jobs:
           conda info
           conda list
 
-      # Install testing dependencies
-      - name: Install testing dependencies
-        run: |
-          conda install coverage coveralls pytest pytest-cov
-
       # Run pytest
       - name: Test with Pytest
         run: |
