@@ -25,9 +25,10 @@ jobs:
           auto-update-conda: true
           environment-file: environment.yml
           python-version: ${{ matrix.python-version }}
- 
+
       # Get info
-      - shell: bash -l {0}
+      - name: Debugging info
+        shell: bash -l {0}
         run: |
           conda info
           conda list
@@ -38,7 +39,9 @@ jobs:
         run: |
           PYTHONPATH=. coverage run --source=lmpy -m pytest tests/
           #PYTHONPATH=. pytest tests/ -v --cov lmpy --cov-report term-missing
+
       - name: Upload coverage data to coveralls.io
+        shell: bash -l {0}
         run: coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
