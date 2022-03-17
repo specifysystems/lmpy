@@ -26,7 +26,6 @@ def test_encode_biogeographic_hypotheses(
     matrix_filename = generate_temp_filename(suffix='.lmm')
 
     # Set params
-    event_field = None
     params = [
         'encode_layers.py',
         '-m',
@@ -38,11 +37,10 @@ def test_encode_biogeographic_hypotheses(
     ]
     # Add layers
     for i, filename in enumerate(bio_geo_filenames):
-        if filename.find('_event_') > 0:
-            event_field = filename.split('_event_')[1].split('.shp')[0]
         params.extend(['--layer', filename, f'Hypothesis {i}'])
-    if event_field is not None:
-        params.extend(['--attribute_field', event_field])
+        # Add event field if present in filename
+        if filename.find('_event_') > 0:
+            params.append(filename.split('_event_')[1].split('.shp')[0])
 
     monkeypatch.setattr('sys.argv', params)
 
@@ -92,8 +90,6 @@ def test_encode_presence_absence(
         '1',
         '--max_presence',
         '99',
-        '--attribute_field',
-        'value',
         shapegrid_filename,
         matrix_filename,
     ]
@@ -101,7 +97,7 @@ def test_encode_presence_absence(
     for i, filename in enumerate(raster_pa_filenames):
         params.extend(['--layer', filename, f'Raster {i}'])
     for i, filename in enumerate(vector_pa_filenames):
-        params.extend(['--layer', filename, f'Vector {i}'])
+        params.extend(['--layer', filename, f'Vector {i}', 'value'])
 
     monkeypatch.setattr('sys.argv', params)
 
@@ -150,8 +146,6 @@ def test_encode_largest_class(
         'largest_class',
         '--min_coverage',
         '10',
-        '--attribute_field',
-        'value',
         shapegrid_filename,
         matrix_filename,
     ]
@@ -159,7 +153,7 @@ def test_encode_largest_class(
     for i, filename in enumerate(raster_env_filenames):
         params.extend(['--layer', filename, f'Raster {i}'])
     for i, filename in enumerate(vector_env_filenames):
-        params.extend(['--layer', filename, f'Vector {i}'])
+        params.extend(['--layer', filename, f'Vector {i}', 'value'])
 
     monkeypatch.setattr('sys.argv', params)
 
@@ -206,8 +200,6 @@ def test_encode_mean_value(
         'encode_layers.py',
         '-m',
         'mean_value',
-        '--attribute_field',
-        'value',
         shapegrid_filename,
         matrix_filename,
     ]
@@ -215,7 +207,7 @@ def test_encode_mean_value(
     for i, filename in enumerate(raster_env_filenames):
         params.extend(['--layer', filename, f'Raster {i}'])
     for i, filename in enumerate(vector_env_filenames):
-        params.extend(['--layer', filename, f'Vector {i}'])
+        params.extend(['--layer', filename, f'Vector {i}', 'value'])
 
     monkeypatch.setattr('sys.argv', params)
 
