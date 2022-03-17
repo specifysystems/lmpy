@@ -15,6 +15,13 @@ from lmpy.point import (
     PointDwcaReader,
     PointJsonWriter,
 )
+from tests.data_simulator import (
+    generate_csv,
+    generate_dwca,
+    get_random_choice_func,
+    get_random_float_func,
+    SimulatedField,
+)
 
 
 # .............................................................................
@@ -146,13 +153,37 @@ class Test_PointCsvReader:
         return out_file.name
 
     # ..........................
-    def test_reader_species_x_y(self):
-        """Test with a CSV file of species, x, y."""
-        pt_filename = self._make_csv(5, 'species', 'lon', 'lat')
+    def test_reader_species_x_y(self, generate_temp_filename):
+        """Test with a CSV file of species, x, y.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Method to create temp filenames.
+        """
+        pt_filename = generate_temp_filename(suffix='.csv')
+        fields = [
+            SimulatedField(
+                'species',
+                '',
+                get_random_choice_func([f'Species {i}' for i in range(5)]),
+                'str',
+            ),
+            SimulatedField(
+                'lon',
+                '',
+                get_random_float_func(-180.0, 180.0, 3, 5),
+                'float',
+            ),
+            SimulatedField(
+                'lat',
+                '',
+                get_random_float_func(-90.0, 90.0, 3, 5),
+                'float',
+            )
+        ]
+        generate_csv(pt_filename, 50, fields)
         with PointCsvReader(pt_filename, 'species', 'lon', 'lat') as reader:
             for points in reader:
                 assert len(points) > 0
-        os.remove(pt_filename)
 
     # ..........................
     def test_reader_species_geopoint(self):
