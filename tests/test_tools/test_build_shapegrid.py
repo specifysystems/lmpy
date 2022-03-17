@@ -1,28 +1,7 @@
 """Test the Build Shapegrid tool."""
-import glob
-import os
-import tempfile
-
 import pytest
 
 from lmpy.tools.build_shapegrid import cli
-
-
-# .....................................................................................
-@pytest.fixture(scope='module')
-def shapegrid_filename():
-    """Get a temporary file location to write shapegrid data and clean it up.
-
-    Yields:
-        str: A temporary filename that can be used for creating a shapegrid.
-    """
-    # Get a temporary file path
-    base_filename = tempfile.NamedTemporaryFile().name
-    # Return a temporary shapefile file path
-    yield f'{base_filename}.shp'
-    # Clean up any created temp files for the shapefile
-    for fn in glob.glob(f'{base_filename}*'):
-        os.remove(fn)
 
 
 # .....................................................................................
@@ -64,30 +43,32 @@ def shapegrid_parameters(request):
 
 
 # .....................................................................................
-def test_valid(monkeypatch, shapegrid_filename, shapegrid_parameters):
+def test_valid(monkeypatch, generate_temp_filename, shapegrid_parameters):
     """Test with valid parameters.
 
     Args:
         monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
-        shapegrid_filename (pytest.Fixture): A temporary filename to use for test.
+        generate_temp_filename (pytest.Fixture): A fixture for generating temporary
+            filenames.
         shapegrid_parameters (pytest.Fixture): A set of shapegrid parameters.
     """
-    params = ['build_shapegrid.py', shapegrid_filename]
+    params = ['build_shapegrid.py', generate_temp_filename(suffix='.shp')]
     params.extend([str(i) for i in shapegrid_parameters])
     monkeypatch.setattr('sys.argv', params)
     cli()
 
 
 # .....................................................................................
-def test_invalid(monkeypatch, shapegrid_filename, invalid_shapegrid_parameters):
+def test_invalid(monkeypatch, generate_temp_filename, invalid_shapegrid_parameters):
     """Test with invalid parameters.
 
     Args:
         monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
-        shapegrid_filename (pytest.Fixture): A temporary filename to use for test.
+        generate_temp_filename (pytest.Fixture): A fixture for generating temporary
+            filenames.
         invalid_shapegrid_parameters (pytest.Fixture): A set of shapegrid parameters.
     """
-    params = ['build_shapegrid.py', shapegrid_filename]
+    params = ['build_shapegrid.py', generate_temp_filename(suffix='.shp')]
     params.extend([str(i) for i in invalid_shapegrid_parameters])
     monkeypatch.setattr('sys.argv', params)
     with pytest.raises(ValueError):
