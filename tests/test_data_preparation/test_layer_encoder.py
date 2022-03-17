@@ -112,7 +112,9 @@ class Test_LayerEncoder:
             assert col_headers[i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
-        _ = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        # Test that nodata values aren't being mixed in windows
+        assert tmp.min() >= -100
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
@@ -142,7 +144,9 @@ class Test_LayerEncoder:
             assert col_headers[i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
-        _ = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        # Test that nodata values aren't being mixed in windows
+        assert tmp.min() >= -100
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
