@@ -1,8 +1,5 @@
-"""Tests the occurrence data filters."""
-import glob
+"""Tests for layer encoding."""
 import json
-import os
-import tempfile
 
 import numpy as np
 from osgeo import ogr, osr
@@ -11,7 +8,7 @@ from lmpy.data_preparation.build_grid import build_shapegrid
 from lmpy.data_preparation.layer_encoder import LayerEncoder, DEFAULT_NODATA
 
 
-# .............................................................................
+# .....................................................................................
 class Test_LayerEncoder:
     """Test LayerEncoder."""
 
@@ -115,7 +112,9 @@ class Test_LayerEncoder:
             assert col_headers[i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
-        _ = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        # Test that nodata values aren't being mixed in windows
+        assert tmp.min() >= -100
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
@@ -145,23 +144,25 @@ class Test_LayerEncoder:
             assert col_headers[i + len(raster_env_filenames)] == 'Vector {}'.format(i)
         assert enc_mtx.shape[1] == len(raster_env_filenames) + len(vector_env_filenames)
         assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
-        _ = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
+        # Test that nodata values aren't being mixed in windows
+        assert tmp.min() >= -100
         assert json.loads(json.dumps(encoder.get_geojson()))
 
     # ................................
-    def test_min_coverage_encode_presence_absence(self):
-        """Test encode presence absence minimum coverage parameter."""
+    def test_min_coverage_encode_presence_absence(self, generate_temp_filename):
+        """Test encode presence absence minimum coverage parameter.
+
+        Args:
+            generate_temp_filename (pytest.fixture): A fixture for generating filenames.
+        """
         # Create shapegrid (10 x 10 1 degree cells)
-        t_file = tempfile.NamedTemporaryFile(delete=True)
-        base_filename = t_file.name
-        t_file.close()
+        temp_shapegrid_filename = generate_temp_filename(suffix='.shp')
+        layer_filename = generate_temp_filename(suffix='.asc')
 
-        shapegrid_filename = '{}.shp'.format(base_filename)
-        layer_filename = '{}.asc'.format(base_filename)
+        build_shapegrid(temp_shapegrid_filename, 0, 0, 10, 10, 1, 4326, 4)
 
-        build_shapegrid(shapegrid_filename, 0, 0, 10, 10, 1, 4326, 4)
-
-        encoder = LayerEncoder(shapegrid_filename)
+        encoder = LayerEncoder(temp_shapegrid_filename)
 
         # Create layer
         with open(layer_filename, mode='wt') as layer_out:
@@ -191,29 +192,25 @@ class Test_LayerEncoder:
 
         enc_matrix = encoder.get_encoded_matrix()
 
-        # Delete temp files
-        for fn in glob.glob('{}.*'.format(base_filename)):
-            os.remove(fn)
-
         # Check encoding
         assert np.all(enc_matrix.sum(axis=0) == np.array([55, 55, 55, 55, 45, 45, 45]))
 
     # ................................
-    def test_bigger_shapegrid(self):
-        """Test encode methods with a larger shapegrid than layers."""
-        t_file = tempfile.NamedTemporaryFile(delete=True)
-        base_filename = t_file.name
-        t_file.close()
+    def test_bigger_shapegrid(self, generate_temp_filename):
+        """Test encode methods with a larger shapegrid than layers.
 
+        Args:
+            generate_temp_filename (pytest.fixture): A fixture for generating filenames.
+        """
         # File names
-        shapegrid_filename = '{}.shp'.format(base_filename)
-        layer_filename = '{}.asc'.format(base_filename)
-        biogeo_filename = '{}.bg.shp'.format(base_filename)
+        temp_shapegrid_filename = generate_temp_filename(suffix='.shp')
+        layer_filename = generate_temp_filename(suffix='.asc')
+        biogeo_filename = generate_temp_filename(suffix='.bg.shp')
 
         # Create a shapegrid (50 x 50 1 degree cells)
-        build_shapegrid(shapegrid_filename, 0, 0, 50, 50, 1, 4326, 4)
+        build_shapegrid(temp_shapegrid_filename, 0, 0, 50, 50, 1, 4326, 4)
 
-        encoder = LayerEncoder(shapegrid_filename)
+        encoder = LayerEncoder(temp_shapegrid_filename)
 
         # Create layer
         with open(layer_filename, mode='wt') as layer_out:
@@ -252,10 +249,6 @@ class Test_LayerEncoder:
         encoder.encode_biogeographic_hypothesis(biogeo_filename, 'Hypothesis', 10)
 
         enc_geojson = encoder.get_geojson()
-
-        # Delete temp files
-        for fn in glob.glob('{}.*'.format(base_filename)):
-            os.remove(fn)
 
         # Check that encoding is zero outside of layer region
         for feat in enc_geojson['features']:

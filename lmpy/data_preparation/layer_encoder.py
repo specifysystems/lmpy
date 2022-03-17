@@ -81,7 +81,7 @@ def _get_mean_value_method(nodata):
     def get_mean(window):
         if window is None:
             return nodata
-        window_mean = np.nanmean(window)
+        window_mean = np.nanmean(window[np.where(window != nodata)])
         if np.isnan(window_mean):
             return nodata
 
@@ -306,7 +306,7 @@ class LayerEncoder:
         Todo:
             CJ - Enable hexagonal windows by masking data.
         """
-        if num_cell_sides != 4:
+        if num_cell_sides != 4:  # pragma: no cover
             raise NotImplementedError('Only rectangular cells are currently supported')
         # Compute bounds here to save compute time
         y_size, x_size = data.shape
@@ -702,6 +702,7 @@ class LayerEncoder:
         Returns:
             list of str: A list of column headers for the newly encoded columns
         """
+        print((layer_filename, nodata, bbox, resolution, attribute_name))
         window_func, nodata, _ = self._read_layer(
             layer_filename,
             resolution=resolution,
