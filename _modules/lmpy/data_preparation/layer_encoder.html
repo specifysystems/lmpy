@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.0.4+78.g5a71336 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.0.4+84.gc731aff documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -154,7 +154,7 @@
     <span class="k">def</span> <span class="nf">get_mean</span><span class="p">(</span><span class="n">window</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">window</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">nodata</span>
-        <span class="n">window_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+        <span class="n">window_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">window</span> <span class="o">!=</span> <span class="n">nodata</span><span class="p">)])</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">window_mean</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">nodata</span>
 
@@ -379,7 +379,7 @@
 <span class="sd">        Todo:</span>
 <span class="sd">            CJ - Enable hexagonal windows by masking data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">num_cell_sides</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">num_cell_sides</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Only rectangular cells are currently supported&#39;</span><span class="p">)</span>
         <span class="c1"># Compute bounds here to save compute time</span>
         <span class="n">y_size</span><span class="p">,</span> <span class="n">x_size</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
@@ -775,6 +775,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">((</span><span class="n">layer_filename</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">))</span>
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span>
             <span class="n">layer_filename</span><span class="p">,</span>
             <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
