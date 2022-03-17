@@ -1,5 +1,4 @@
 """Tests for layer encoding."""
-import glob
 import json
 
 import numpy as np
