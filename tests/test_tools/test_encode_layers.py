@@ -172,7 +172,6 @@ def test_encode_largest_class(
     assert np.nanmin(enc_mtx) >= DEFAULT_NODATA
     tmp = enc_mtx[enc_mtx > DEFAULT_NODATA]
     assert tmp.min() >= -1
-    assert tmp.max() <= 1
 
 
 # .....................................................................................

@@ -81,7 +81,7 @@ def _get_mean_value_method(nodata):
     def get_mean(window):
         if window is None:
             return nodata
-        window_mean = np.nanmean(window)
+        window_mean = np.nanmean(window[np.where(window != nodata)])
         if np.isnan(window_mean):
             return nodata
 
@@ -702,6 +702,7 @@ class LayerEncoder:
         Returns:
             list of str: A list of column headers for the newly encoded columns
         """
+        print((layer_filename, nodata, bbox, resolution, attribute_name))
         window_func, nodata, _ = self._read_layer(
             layer_filename,
             resolution=resolution,
