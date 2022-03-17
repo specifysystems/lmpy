@@ -306,7 +306,7 @@ class LayerEncoder:
         Todo:
             CJ - Enable hexagonal windows by masking data.
         """
-        if num_cell_sides != 4:
+        if num_cell_sides != 4:  # pragma: no cover
             raise NotImplementedError('Only rectangular cells are currently supported')
         # Compute bounds here to save compute time
         y_size, x_size = data.shape
