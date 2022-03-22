@@ -1,7 +1,4 @@
 """Test the Randomize PAM tool."""
-import os
-import tempfile
-
 import numpy as np
 import pytest
 
@@ -34,45 +31,31 @@ def observed_pam(request):
 
 
 # .....................................................................................
-@pytest.fixture(scope='function')
-def pam_filenames():
-    """Generate temporary file locations for observed and random PAMs.
-
-    Yields:
-        tuple of (str, str): Input and output PAM filenames.
-    """
-    base_fn = tempfile.NamedTemporaryFile().name
-    fns = (f'{base_fn}_obs_pam.lmm', f'{base_fn}_random_pam.lmm')
-    yield fns
-    for fn in fns:
-        if os.path.exists(fn):
-            os.remove(fn)
-
-
-# .....................................................................................
-def test_randomize(monkeypatch, observed_pam, pam_filenames):
+def test_randomize(monkeypatch, observed_pam, generate_temp_filename):
     """Test that the randomize PAM tool works as expected.
 
     Args:
         monkeypatch (pytest.Fixture): A pytest fixture for monkeypatching.
         observed_pam (Matrix): A Presence-Absence Matrix for testing.
-        pam_filenames (tuple of strings): A tuple of input and output filenames.
+        generate_temp_filename (pytest.fixture): Fixture to generate filenames.
     """
     # Get input marginal totals before randomization
     row_totals = observed_pam.sum(axis=0)
     col_totals = observed_pam.sum(axis=1)
     total = observed_pam.sum()
 
+    obs_pam_filename = generate_temp_filename(suffix='.lmm')
+    rand_pam_filename = generate_temp_filename(suffix='.lmm')
     # Write test PAM
-    observed_pam.save(pam_filenames[0])
+    observed_pam.save(obs_pam_filename)
 
     # Run tool
-    params = ['randomize_pam.py', *pam_filenames]
+    params = ['randomize_pam.py', obs_pam_filename, rand_pam_filename]
     monkeypatch.setattr('sys.argv', params)
     cli()
 
     # Check output PAM
-    random_pam = Matrix.load(pam_filenames[1])
+    random_pam = Matrix.load(rand_pam_filename)
 
     assert np.all(random_pam.sum(axis=0) == row_totals)
     assert np.all(random_pam.sum(axis=1) == col_totals)

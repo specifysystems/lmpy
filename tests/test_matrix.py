@@ -334,7 +334,7 @@ class Test_Matrix:
         assert all([new_row_headers[i] == test_row_headers[i] for i in range(n_rows)])
 
     # .....................................
-    def test_set_headers_with_dict_keys(self):
+    def test_set_headers_with_dict_keys(self, generate_temp_filename):
         """Test set headers using dictionary keys.
 
         Note:
