@@ -1,5 +1,4 @@
 """Tree encoding module tests."""
-import tempfile
 import numpy as np
 import pytest
 
@@ -36,14 +35,16 @@ class Test_TreeEncoder:
         _ = TreeEncoder(tree, pam)
 
     # ............................
-    def test_constructor_from_file(self):
-        """Test constructor from file."""
+    def test_constructor_from_file(self, generate_temp_filename):
+        """Test constructor from file.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate filenames.
+        """
         tree = TreeWrapper.get(data='(A,(B,C));', schema='newick')
         pam = Matrix(np.array([[1, 0, 1], [0, 1, 1], [1, 0, 0]]))
-        tmp_file = tempfile.NamedTemporaryFile(delete=True)
-        tree_filename = '{}.tre'.format(tmp_file.name)
-        pam_filename = '{}.lmm'.format(tmp_file.name)
-        tmp_file.close()
+        tree_filename = generate_temp_filename(suffix='.tre')
+        pam_filename = generate_temp_filename(suffix='.lmm')
         tree.write(path=tree_filename, schema='newick')
         pam.write(pam_filename)
         _ = TreeEncoder.from_file(tree_filename, pam_filename)

@@ -1,6 +1,4 @@
 """Tests the occurrence data filters."""
-import tempfile
-
 from lmpy import Point
 from lmpy.data_wrangling.occurrence.filters import (
     get_attribute_filter,
@@ -288,8 +286,12 @@ class Test_occurrence_filters:
         assert filter_count == 4
 
     # ....................................
-    def test_get_spatial_index_filter_from_file(self):
-        """Test get_spatial_index_filter."""
+    def test_get_spatial_index_filter_from_file(self, generate_temp_filename):
+        """Test get_spatial_index_filter.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate filenames.
+        """
         test_points = [
             Point('Species A', -10, -1),  # Should pass
             Point('Species A', 0, 0),  # Should pass
@@ -309,7 +311,7 @@ class Test_occurrence_filters:
         def get_true(hit, check_vals):
             return True
 
-        temp_filename = tempfile.NamedTemporaryFile(mode='wt', delete=True).name
+        temp_filename = generate_temp_filename()
         sp_index = SpatialIndex(temp_filename)
         sp_index.add_feature(
             1, create_geometry_from_bbox(-10, -10, 10, 10), {'att_1': 'val_1'}

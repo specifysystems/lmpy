@@ -1,6 +1,4 @@
 """Tests build shapegrid."""
-import os
-from tempfile import NamedTemporaryFile
 import pytest
 
 from lmpy.data_preparation.build_grid import (
@@ -16,29 +14,38 @@ class Test_build_shapegrid:
     """Test build_shapegrid."""
 
     # ................................
-    def test_simple_square(self):
-        """Basic test to make sure it doesn't just fail."""
-        temp_filename = NamedTemporaryFile(suffix='.shp').name
+    def test_simple_square(self, generate_temp_filename):
+        """Basic test to make sure it doesn't just fail.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to create
+                temporary filenames.
+        """
+        temp_filename = generate_temp_filename(suffix='.shp')
         build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 4)
-        os.remove(temp_filename)
 
     # ................................
-    def test_simple_hexagon(self):
-        """Basic test to make sure it doesn't just fail."""
-        temp_filename = NamedTemporaryFile(suffix='.shp').name
+    def test_simple_hexagon(self, generate_temp_filename):
+        """Basic test to make sure it doesn't just fail.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to create
+                temporary filenames.
+        """
+        temp_filename = generate_temp_filename(suffix='.shp')
         build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 6)
-        os.remove(temp_filename)
 
     # ................................
-    def test_invalid_shape(self):
-        """Basic test to make sure it doesn't just fail."""
-        temp_filename = NamedTemporaryFile(suffix='.shp').name
+    def test_invalid_shape(self, generate_temp_filename):
+        """Basic test to make sure it doesn't just fail.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to create
+                temporary filenames.
+        """
+        temp_filename = generate_temp_filename(suffix='.shp')
         with pytest.raises(ValueError):
             build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 7)
-        try:
-            os.remove(temp_filename)
-        except IOError:
-            pass
 
 
 # .............................................................................

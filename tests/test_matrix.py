@@ -1,7 +1,5 @@
 """This module tests the analyses/lm_objects/matrix.py module."""
 import io
-import os
-import tempfile
 
 import numpy as np
 import pytest
@@ -33,8 +31,13 @@ class Test_Matrix:
     """Test the Matrix class."""
 
     # .....................................
-    def test_load(self):
-        """Test the load class method."""
+    def test_load(self, generate_temp_filename):
+        """Test the load class method.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture for generating temp
+                filenames.
+        """
         orig_mtx = get_random_matrix(5, 5)
 
         # Create a file like object and save original matrix
@@ -51,10 +54,11 @@ class Test_Matrix:
         assert loaded_mtx.get_headers() == orig_mtx.get_headers()
 
         # Write to temp file
-        with tempfile.TemporaryFile() as out_f:
+        tmp_mtx_filename = generate_temp_filename(suffix='.lmm')
+        with open(tmp_mtx_filename, mode='wb') as out_f:
             orig_mtx.save(out_f)
-            out_f.seek(0)
-            np_mtx = Matrix.load_flo(out_f)
+        with open(tmp_mtx_filename, mode='rb') as in_f:
+            np_mtx = Matrix.load_flo(in_f)
 
         # Verify that the data is the same
         assert np.allclose(np_mtx, orig_mtx)
@@ -65,10 +69,9 @@ class Test_Matrix:
 
         # Load from file name
         mtx = get_random_matrix(10, 10)
-        filename = tempfile.NamedTemporaryFile(delete=False).name
+        filename = generate_temp_filename(suffix='.lmm')
         mtx.write(filename)
         _ = Matrix.load(filename)
-        os.remove(filename)
 
     # .....................................
     def test_load_csv(self):
@@ -262,21 +265,26 @@ class Test_Matrix:
         assert len(row_headers) == mtx.shape[0]
 
     # .....................................
-    def test_save(self):
+    def test_save(self, generate_temp_filename):
         """Test the save method.
 
         Save should save a Matrix object to a file that can be loaded later.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture for generating temp
+                filenames.
         """
         orig_mtx = get_random_matrix(5, 5)
 
         # Create a file like object and save original matrix
-        with tempfile.TemporaryFile() as save_f:
+        mtx_filename = generate_temp_filename(suffix='.lmm')
+        with open(mtx_filename, mode='wb') as save_f:
             # Save the original matrix
             orig_mtx.save(save_f)
 
+        with open(mtx_filename, mode='rb') as in_f:
             # Load the saved Matrix
-            save_f.seek(0)
-            loaded_mtx = Matrix.load_flo(save_f)
+            loaded_mtx = Matrix.load_flo(in_f)
 
         # Verify data and headers are the same
         assert np.allclose(loaded_mtx, orig_mtx)
@@ -326,20 +334,23 @@ class Test_Matrix:
         assert all([new_row_headers[i] == test_row_headers[i] for i in range(n_rows)])
 
     # .....................................
-    def test_set_headers_with_dict_keys(self):
+    def test_set_headers_with_dict_keys(self, generate_temp_filename):
         """Test set headers using dictionary keys.
 
         Note:
             This was failing to write because the Python JSON module could not
             serialize dictionary keys.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture for generating temp
+                filenames.
         """
         mtx = get_random_matrix(3, 3)
         row_headers = {'a': 1, 'b': 2, 'c': 3}.keys()
         mtx.set_headers(row_headers, axis='0')
-        filename = tempfile.NamedTemporaryFile(delete=False).name
-        mtx.write(filename)
-        _ = Matrix.load(filename)
-        os.remove(filename)
+        mtx_filename = generate_temp_filename(suffix='.lmm')
+        mtx.write(mtx_filename)
+        _ = Matrix.load(mtx_filename)
 
     # .....................................
     def test_set_row_headers(self):
@@ -459,13 +470,17 @@ class Test_Matrix:
         )
 
     # .....................................
-    def test_write(self):
-        """Test write."""
+    def test_write(self, generate_temp_filename):
+        """Test write.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture for generating temp
+                filenames.
+        """
         mtx = get_random_matrix(10, 10)
-        filename = tempfile.NamedTemporaryFile(delete=False).name
+        filename = generate_temp_filename(suffix='.lmm')
         mtx.write(filename)
         _ = Matrix.load(filename)
-        os.remove(filename)
 
     # .....................................
     def test_write_csv_no_slice(self):
