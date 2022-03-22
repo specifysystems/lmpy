@@ -192,27 +192,32 @@ def generate_temp_filename(request):
     Returns:
         Method: A function to generate a temporary filename.
     """
-    fns = []
+    delete_globs = []
 
     # ..................
-    def get_filename(suffix=''):
+    def get_filename(suffix='', wildcard_delete=True):
         """Get a temporary filename.
 
         Args:
             suffix (str): A suffix to add to the filename.
+            wildcard_delete (bool): Delete all files with returned basename.
 
         Returns:
             str: A temporary filename.
         """
-        fn = tempfile.NamedTemporaryFile(suffix=suffix).name
-        fns.append(fn)
+        base_name = tempfile.NamedTemporaryFile(suffix=suffix).name
+        fn = f'{base_name}{suffix}'
+        if wildcard_delete:
+            delete_globs.append(f'{base_name}*')
+        else:
+            delete_globs.append(fn)
         return fn
 
     # ..................
     def finalizer():
         """Clean up temporary files."""
-        for fn in fns:
-            if os.path.exists(fn):
+        for del_glob in delete_globs:
+            for fn in glob.glob(del_glob):
                 os.remove(fn)
 
     request.addfinalizer(finalizer)

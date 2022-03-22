@@ -2,6 +2,7 @@
 from collections import namedtuple
 import csv
 from io import StringIO
+import string
 # Bandit doesn't like bare element tree but we need it for creating xml docs.
 # Note that we only create XML, we don't parse anything
 import xml.etree.ElementTree as ET  # nosec
@@ -19,6 +20,28 @@ from lmpy.point import (
     LOCATION_TAG,
     OCCURRENCE_ROW_TYPE,
 )
+
+
+# .....................................................................................
+def get_random_dict_func(fields):
+    """Get a parameterless function to generate random dictionaries.
+
+    Args:
+        fields (list): A list of SimulatedFields for the dictionary.
+
+    Returns:
+        Method: A parameterless function that returns a random dictionary.
+    """
+    # ..................
+    def get_random_dict():
+        """Get a random dictionary.
+
+        Returns:
+            dict: A random dictionary.
+        """
+        return {fld.header: fld.create() for fld in fields}
+
+    return get_random_dict
 
 
 # .....................................................................................
@@ -73,7 +96,12 @@ def get_random_float_func(min_val, max_val, min_precision, max_precision):
 
 
 # .....................................................................................
-def get_random_string_func(min_chars, max_chars, char_set, do_capitalize=False):
+def get_random_string_func(
+    min_chars,
+    max_chars,
+    char_set=string.ascii_letters,
+    do_capitalize=False,
+):
     """Get a parameterless function to generate random strings.
 
     Args:
@@ -85,6 +113,9 @@ def get_random_string_func(min_chars, max_chars, char_set, do_capitalize=False):
     Returns:
         Method: A parameterless function that returns a string.
     """
+    if isinstance(char_set, str):
+        char_set = list(char_set)
+
     # ..................
     def get_random_string():
         """Get a random string.
@@ -93,11 +124,7 @@ def get_random_string_func(min_chars, max_chars, char_set, do_capitalize=False):
             str: A randomly generated string determined by outer function parameters.
         """
         rand_str = ''.join(
-            [
-                np.random.choice(
-                    char_set
-                ) for _ in range(np.random.randint(min_chars, max_chars))
-            ]
+            np.random.choice(char_set, np.random.randint(min_chars, max_chars))
         )
         if do_capitalize:
             rand_str = rand_str.capitalize()

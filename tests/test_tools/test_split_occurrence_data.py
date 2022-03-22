@@ -14,9 +14,6 @@ from tests.data_simulator import (
 from tests.data_validator import validate_point_csvs
 
 
-TEST_CHAR_SET = list('abcdedfghijklmnopqrstuvwxyz')
-
-
 # .....................................................................................
 # Test mapping dictionary from raw names to accepted names
 SPECIES_MAP = {
@@ -228,7 +225,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         SimulatedField(
             'throw_away',
             'http://rs.tdwg.org/dwc/terms/eventRemarks',
-            get_random_string_func(2, 20, TEST_CHAR_SET),
+            get_random_string_func(2, 20),
             'str'
         ),
     ]
@@ -283,7 +280,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         SimulatedField(
             'throw_away_2',
             'http://rs.tdwg.org/dwc/terms/eventRemarks',
-            get_random_string_func(2, 20, TEST_CHAR_SET),
+            get_random_string_func(2, 20),
             'str'
         ),
     ]
@@ -338,7 +335,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         SimulatedField(
             'throw_away_3',
             'http://rs.tdwg.org/dwc/terms/eventRemarks',
-            get_random_string_func(2, 20, TEST_CHAR_SET),
+            get_random_string_func(2, 20),
             'str'
         ),
     ]
@@ -393,7 +390,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         SimulatedField(
             'throw_away_4',
             'http://rs.tdwg.org/dwc/terms/eventRemarks',
-            get_random_string_func(2, 20, TEST_CHAR_SET),
+            get_random_string_func(2, 20),
             'str'
         ),
     ]

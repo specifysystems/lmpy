@@ -1,6 +1,5 @@
 """Test the occurrence data wrangler modifiers module."""
 from copy import deepcopy
-import tempfile
 
 import numpy as np
 
@@ -18,8 +17,12 @@ class Test_get_accepted_name_modifier:
     """Test get_accepted_name_modifier."""
 
     # .......................
-    def test_simple(self):
-        """Simple test that attribute values change as expected."""
+    def test_simple(self, generate_temp_filename):
+        """Simple test that attribute values change as expected.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to create filenames.
+        """
         points = [
             Point('Oldname a1', 10, 20),
             Point('Oldname a2', 20, 30),
@@ -27,14 +30,12 @@ class Test_get_accepted_name_modifier:
             Point('Oldname b', 30, 30),
         ]
 
-        with tempfile.NamedTemporaryFile(
-            mode='wt', encoding='utf8', delete=False
-        ) as temp_out:
+        temp_filename = generate_temp_filename(suffix='.csv')
+        with open(temp_filename, mode='wt') as temp_out:
             temp_out.write('Name,Accepted name\n')
             temp_out.write('Oldname a1,Newname a\n')
             temp_out.write('Oldname a2,Newname a\n')
             temp_out.write('Newname a,Newname a')
-            temp_filename = temp_out.name
 
         modifier = get_accepted_name_modifier(temp_filename)
         new_points = modifier(points)

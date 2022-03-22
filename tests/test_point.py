@@ -1,7 +1,4 @@
 """Tests the occurrence_transformation module."""
-import json
-import os
-import tempfile
 import zipfile
 
 import numpy as np
@@ -19,6 +16,7 @@ from tests.data_simulator import (
     generate_csv,
     generate_dwca,
     get_random_choice_func,
+    get_random_dict_func,
     get_random_float_func,
     SimulatedField,
 )
@@ -106,53 +104,6 @@ class Test_PointCsvReader:
     """Test the PointCSVReader class."""
 
     # ..........................
-    def _make_csv(
-        self, num_species, species_field, x_field, y_field, geopoint_field=None
-    ):
-        """Make a CSV file.
-
-        Args:
-            num_species (int): The number of species to include in the test file.
-            species_field (str): The name of a field to use for species name data.
-            x_field (str): The name of a field to use for x coordinate data.
-            y_field (str): The name of a field to use for y coordinate data.
-            geopoint_field (str, optional): The name of field to use for geopoint data.
-
-        Returns:
-            str: A file path for the test data file.
-        """
-        if geopoint_field is not None:
-            headers = [species_field, geopoint_field]
-
-            def string_point(pt):
-                return '"{}", "{}"\n'.format(
-                    pt.species_name,
-                    json.dumps({x_field: pt.x, y_field: pt.y}).replace('"', '""'),
-                )
-
-        else:
-            headers = [species_field, x_field, y_field]
-
-            def string_point(pt):
-                return '{}, {}, {}\n'.format(pt.species_name, pt.x, pt.y)
-
-        out_file = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
-        i = 0
-        # Write headers
-        out_file.write('{}\n'.format(','.join(headers)))
-        while i < num_species:
-            pt = Point(
-                'Species {}'.format(i),
-                np.random.triangular(-180.0, 0.0, 180.0),
-                np.random.triangular(-90.0, 0.0, 90.0),
-            )
-            out_file.write(string_point(pt))
-            if np.random.triangular(0.0, 0.5, 1.0) > 0.92:
-                i += 1
-        out_file.close()
-        return out_file.name
-
-    # ..........................
     def test_reader_species_x_y(self, generate_temp_filename):
         """Test with a CSV file of species, x, y.
 
@@ -186,27 +137,68 @@ class Test_PointCsvReader:
                 assert len(points) > 0
 
     # ..........................
-    def test_reader_species_geopoint(self):
-        """Test with a CSV file of species, geopt."""
-        pt_filename = self._make_csv(
-            10, 'species', 'lon', 'lat', geopoint_field='geopt'
+    def test_reader_species_geopoint(self, generate_temp_filename):
+        """Test with a CSV file of species, geopt.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate temporary
+                filenames.
+        """
+        pt_filename = generate_temp_filename(suffix='.csv')
+
+        generate_csv(
+            pt_filename,
+            10,
+            [
+                SimulatedField(
+                    'species',
+                    '',
+                    get_random_choice_func([f'Species {i}' for i in range(2)]),
+                    'str',
+                ),
+                SimulatedField(
+                    'geopt',
+                    '',
+                    get_random_dict_func(
+                        [
+                            SimulatedField(
+                                'lon',
+                                '',
+                                get_random_float_func(-180.0, 180.0, 4, 6),
+                                'float',
+                            ),
+                            SimulatedField(
+                                'lat',
+                                '',
+                                get_random_float_func(-90.0, 90.0, 4, 6),
+                                'float',
+                            ),
+                        ]
+                    ),
+                    'dict',
+                ),
+            ],
         )
         with PointCsvReader(
             pt_filename, 'species', 'lon', 'lat', geopoint='geopt'
         ) as reader:
             for points in reader:
                 assert len(points) > 0
-        os.remove(pt_filename)
 
 
-# ............................................................................
+# .....................................................................................
 class Test_PointCsvWriter:
     """Test PointCsvWriter class."""
 
     # ..........................
-    def test_basic(self):
-        """Perform simple test."""
-        filename = tempfile.NamedTemporaryFile(suffix='.csv').name
+    def test_basic(self, generate_temp_filename):
+        """Perform simple test.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate temporary
+                filenames.
+        """
+        filename = generate_temp_filename(suffix='.csv')
         test_points = [
             Point('species', 0, 0),
             Point('species', 10, 10),
@@ -223,14 +215,17 @@ class Test_PointCsvWriter:
             for read_points in reader:
                 points.extend(read_points)
 
-        os.remove(filename)
-
         assert len(test_points) == len(points)
 
     # ..........................
-    def test_reopen(self):
-        """Open, write, close, and reopen test."""
-        filename = tempfile.NamedTemporaryFile(suffix='.csv').name
+    def test_reopen(self, generate_temp_filename):
+        """Open, write, close, and reopen test.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate temporary
+                filenames.
+        """
+        filename = generate_temp_filename(suffix='.csv')
         test_points = [
             Point(
                 'species',
@@ -254,14 +249,52 @@ class Test_PointCsvWriter:
             for read_points in reader:
                 points.extend(read_points)
 
-        os.remove(filename)
-
         assert len(test_points) == len(points)
 
 
-# ............................................................................
+# .....................................................................................
 class Test_PointDwcaReader:
     """Test PointDwcaReader class."""
+
+    # ..........................
+    def test_generated_dwca(self, generate_temp_filename):
+        """Test the DWCA reader with generated data.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate filenames.
+        """
+        dwca_filename = generate_temp_filename(suffix='.zip')
+
+        generate_dwca(
+            dwca_filename,
+            1000,
+            [
+                SimulatedField(
+                    'species',
+                    'http://rs.tdwg.org/dwc/terms/scientificName>',
+                    get_random_choice_func([f'Species {i}' for i in range(2)]),
+                    'str',
+                ),
+                SimulatedField(
+                    'lon',
+                    'http://rs.tdwg.org/dwc/terms/decimalLongitude',
+                    get_random_float_func(-180.0, 180.0, 4, 6),
+                    'float',
+                ),
+                SimulatedField(
+                    'lat',
+                    'http://rs.tdwg.org/dwc/terms/decimalLatitude',
+                    get_random_float_func(-90.0, 90.0, 4, 6),
+                    'float',
+                ),
+            ]
+        )
+        with PointDwcaReader(dwca_filename) as reader:
+            # For each point
+            for points in reader:
+                # Check that all records are points
+                for pt in points:
+                    assert isinstance(pt, Point)
 
     # ..........................
     def test_aggregator_dwca(self, dwca_filename):
@@ -277,10 +310,15 @@ class Test_PointDwcaReader:
                         assert isinstance(pt, Point)
 
     # ..........................
-    def test_constants_dwca(self):
-        """Test that constant fields are added to point attributes."""
+    def test_constants_dwca(self, generate_temp_filename):
+        """Test that constant fields are added to point attributes.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate temporary
+                filenames.
+        """
         # Create zip file
-        dwca_filename = tempfile.NamedTemporaryFile(suffix='.zip', delete=False).name
+        dwca_filename = generate_temp_filename(suffix='.zip')
         constant_field = 'constant_field'
         constant_value = 'test_default'
         occ_data = '\n'.join(
@@ -345,11 +383,14 @@ class Test_PointJsonWriter:
     """Test PointJsonWriter class."""
 
     # ..........................
-    def test_basic(self):
-        """Perform simple test."""
-        out_file = tempfile.NamedTemporaryFile(suffix='.json', delete=False, mode='w')
-        filename = out_file.name
-        out_file.close()
+    def test_basic(self, generate_temp_filename):
+        """Perform simple test.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate temporary
+                filenames.
+        """
+        filename = generate_temp_filename(suffix='.json')
         with PointJsonWriter(filename) as writer:
             writer.write_points(Point('species', 0, 0))
             writer.write_points(
@@ -359,4 +400,3 @@ class Test_PointJsonWriter:
                     Point('species', -30, -30),
                 ]
             )
-        os.remove(filename)

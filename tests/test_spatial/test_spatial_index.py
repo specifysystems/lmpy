@@ -1,7 +1,4 @@
 """Tests for the spatial_index module."""
-import os
-import tempfile
-
 from lmpy.spatial.spatial_index import (
     create_geometry_from_bbox,
     quadtree_index,
@@ -68,45 +65,35 @@ class Test_quadtree_index:
         assert len(test_vals) >= 4
 
 
-# .............................................................................
+# .....................................................................................
 class Test_SpatialIndex:
     """Tests for the SpatialIndex class."""
 
     # ..........................
-    def _clean_up(self, sp_index):
-        """Remove files created when saving an index.
+    def test_constructor(self, generate_temp_filename):
+        """Test constructor.
 
         Args:
-            sp_index (SpatialIndex): The index to clean up.
+            generate_temp_filename (pytest.fixture): Fixture to generate filenames.
         """
-        index_name = sp_index.index.properties.filename
-        sp_index.close()
-        for ext in ['.json', '.geom_json', '.dat', '.idx']:
-            fn = '{}{}'.format(index_name, ext)
-            if os.path.exists(fn):
-                os.remove(fn)
-
-    # ..........................
-    def test_constructor(self):
-        """Test constructor."""
         sp_index_1 = SpatialIndex()
-        self._clean_up(sp_index_1)
-        tmp_file = tempfile.NamedTemporaryFile()
-        temp_name = tmp_file.name
-        tmp_file.close()
+        sp_index_1.close()
+        temp_name = generate_temp_filename()
         sp_index_2 = SpatialIndex(temp_name)
         sp_index_2.save()
         sp_index_2 = None
         # Check that it can be reloaded
         sp_index_3 = SpatialIndex(temp_name)
-        self._clean_up(sp_index_3)
+        sp_index_3.close()
 
     # ..........................
-    def test_build_index(self):
-        """Test building and reloading an index."""
-        tmp_file = tempfile.NamedTemporaryFile()
-        temp_name = tmp_file.name
-        tmp_file.close()
+    def test_build_index(self, generate_temp_filename):
+        """Test building and reloading an index.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate filenames.
+        """
+        temp_name = generate_temp_filename()
         sp_index = SpatialIndex(temp_name)
         # Build index
         sp_index.add_feature(
@@ -123,14 +110,16 @@ class Test_SpatialIndex:
         sp_index = None
         # Reload index
         sp_index = SpatialIndex(temp_name)
-        self._clean_up(sp_index)
+        sp_index.close()
 
     # ..........................
-    def test_search_index(self):
-        """Test searching an index."""
-        tmp_file = tempfile.NamedTemporaryFile()
-        temp_name = tmp_file.name
-        tmp_file.close()
+    def test_search_index(self, generate_temp_filename):
+        """Test searching an index.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate filenames.
+        """
+        temp_name = generate_temp_filename()
         sp_index = SpatialIndex(temp_name)
         # Build index
         sp_index.add_feature(
@@ -172,14 +161,16 @@ class Test_SpatialIndex:
         hits_3 = sp_index.search(-25, -25)
         assert len(hits_3) == 1
         assert hits_3['3']['att_1'] == 'val_3'
-        self._clean_up(sp_index)
+        sp_index.close()
 
     # ..........................
-    def test_edges(self):
-        """Test edge cases."""
-        tmp_file = tempfile.NamedTemporaryFile()
-        temp_name = tmp_file.name
-        tmp_file.close()
+    def test_edges(self, generate_temp_filename):
+        """Test edge cases.
+
+        Args:
+            generate_temp_filename (pytest.fixture): Fixture to generate filenames.
+        """
+        temp_name = generate_temp_filename()
         sp_index = SpatialIndex(temp_name)
         # Add feature from WKT
         wkt_1 = 'POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))'
@@ -192,4 +183,4 @@ class Test_SpatialIndex:
         sp_index = None
         sp_index = SpatialIndex(temp_name)
         _ = sp_index.search(-30, 0)
-        self._clean_up(sp_index)
+        sp_index.close()
