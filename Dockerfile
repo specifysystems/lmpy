@@ -3,8 +3,6 @@ FROM conda/miniconda3:latest as lmpy
 LABEL maintainer="Specify Systems <github.com/specifysystems>"
 LABEL description="A Docker image lmpy tools"
 
-USER lmpy
-
 # RUN apt-get update && apt-get install -y .....
 
 RUN conda update -n base -c conda-forge conda && \
