@@ -44,7 +44,8 @@ jobs:
           #  my-docker-hub-namespace/my-docker-hub-repository ........................
           #  ghcr.io/${{ github.repository }}
           tags: |
-            type=sha
+            type=ref,event=branch
+            type=ref,event=pr
             type=pep440,pattern={{version}}
 
       - name: Build and push Docker images
