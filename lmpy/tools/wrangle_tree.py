@@ -2,7 +2,7 @@
 import argparse
 import json
 
-from lmpy.data_wrangling.factory import wrangler_factory
+from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.tree import TreeWrapper
 
 
@@ -55,7 +55,8 @@ def cli():
     args = parser.parse_args()
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
-        wranglers = wrangler_factory(json.load(in_json))
+        wrangler_factory = WranglerFactory()
+        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
     wrangled_tree = wrangle_tree(tree, wranglers)
     wrangled_tree.write(path=args.out_tree_filename, schema=args.out_tree_schema)
 
