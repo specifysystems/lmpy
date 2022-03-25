@@ -2,7 +2,7 @@
 import argparse
 import json
 
-from lmpy.data_wrangling.occurrence.factory import wrangler_factory
+from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointCsvWriter
 
 
@@ -116,7 +116,8 @@ def cli():
     args = parser.parse_args()
 
     # Get wranglers
-    wranglers = wrangler_factory(
+    wrangler_factory = WranglerFactory()
+    wranglers = wrangler_factory.get_wranglers(
         json.load(open(args.wrangler_config_filename, mode='rt'))
     )
 

@@ -8,7 +8,7 @@ from lmpy.data_preparation.occurrence_splitter import (
     get_writer_filename_func,
     OccurrenceSplitter,
 )
-from lmpy.data_wrangling.occurrence.factory import wrangler_factory
+from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointDwcaReader
 
 
@@ -84,6 +84,10 @@ def cli():
     write_fields = None
     if args.out_field is not None:
         write_fields = args.out_field
+
+    # Wrangler Factory
+    wrangler_factory = WranglerFactory()
+
     # Initialize processor
     with OccurrenceSplitter(
         writer_key_func,
@@ -96,14 +100,14 @@ def cli():
             for dwca_fn, wranglers_fn in args.dwca:
                 reader = PointDwcaReader(dwca_fn)
                 with open(wranglers_fn, mode='rt') as in_json:
-                    wranglers = wrangler_factory(json.load(in_json))
+                    wranglers = wrangler_factory.get_wranglers(json.load(in_json))
                 occurrence_processor.process_reader(reader, wranglers)
         if args.csv:
             # For each csv file
             for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
                 reader = PointCsvReader(csv_fn, sp_key, x_key, y_key)
                 with open(wranglers_fn, mode='rt') as in_json:
-                    wranglers = wrangler_factory(json.load(in_json))
+                    wranglers = wrangler_factory.get_wranglers(json.load(in_json))
                 occurrence_processor.process_reader(reader, wranglers)
 
 
