@@ -10,3 +10,4 @@ class _DataWrangler:
     # ........................
 
     def get_report(self):
+        pass
