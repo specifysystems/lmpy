@@ -6,15 +6,18 @@ from lmpy.point import Point
 # .....................................................................................
 class CommonFormatWrangler(_OccurrenceDataWrangler):
     """Modifies a point record using an attribute map."""
+    name = 'CommonFormatWrangler'
+    version = '1.0'
+
     # .......................
-    def __init__(self, attribute_map):
+    def __init__(self, attribute_map, **params):
         """CommonFormatWrangler constructor.
 
         Args:
             attribute_map (dict): A mapping of source key, target values.
         """
         self.attribute_map = attribute_map
-        _OccurrenceDataWrangler.__init__(self)
+        _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
     def _modify_point(point):

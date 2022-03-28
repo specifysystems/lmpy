@@ -5,17 +5,18 @@ from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 # .....................................................................................
 class MinimumPointsFilter(_OccurrenceDataWrangler):
     """Filter points if there are less than the specified number."""
-    name = 'MinimumPointsFilter'
+    name = 'MinimumPointsWrangler'
+    version = '1.0'
 
     # .......................
-    def __init__(self, minimum_count, store_attribute=None):
+    def __init__(self, minimum_count, **params):
         """Get an occurrence data wrangler for minimum points.
 
         Args:
-            store_attribute (str or None): An attribute name to store assessment.
+            minimum_count (int): The minimum number of points in order to keep all.
         """
         self.minimum_count = minimum_count
-        _OccurrenceDataWrangler.__init__(self, store_attribute=store_attribute)
+        _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
     def _get_all_pass_condition(self):

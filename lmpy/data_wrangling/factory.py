@@ -16,7 +16,9 @@ class WranglerFactory:
 
     def get_wranglers(self, wrangler_configs):
         return [
-            self.wrangler_types[config['wrangler_type']].from_dict(config['parameters'])
+            self.wrangler_types[
+                config['wrangler_type']
+            ].from_config(config['parameters'])
             for config in wrangler_configs
         ]
 

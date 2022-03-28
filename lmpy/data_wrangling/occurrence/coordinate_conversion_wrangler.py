@@ -9,6 +9,8 @@ from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 # .....................................................................................
 class CoordinateConverterWrangler(_OccurrenceDataWrangler):
     """Tool for converting fron one coordinate system to another via ESPG."""
+    name = 'CoordinateConverterWrangler'
+    version = '1.0'
 
     # .......................
     def __init__(
@@ -16,11 +18,9 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
         target_epsg,
         source_epsg=None,
         epsg_attribute=None,
-        store_attribute=None,
-        pass_value=0,
-        fail_value=1,
         original_x_attribute=None,
         original_y_attribute=None,
+        **params
     ):
         """CoordinateConverterModifier constructor.
 
@@ -28,9 +28,6 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
             target_epsg (int): Target map projection specified by EPSG code.
             source_epsg (int or None): Source map projection specified by EPSG code.
             epsg_attribute (str or None): A point attribute containing EPSG code.
-            store_attribute (str or None): A new point attribute to store assessment.
-            pass_value (Object): A value to set when the point passess assessment.
-            fail_value (Object): A value to set when the point fails assessment.
             original_x_attribute (str or None): An attribute to store the original x
                value.
             original_y_attribute (str or None): An attribute to store the original y
@@ -41,12 +38,7 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
         self.original_x_attribute = original_x_attribute
         self.original_y_attribute = original_y_attribute
 
-        _OccurrenceDataWrangler.__init__(
-            self,
-            store_attribute=store_attribute,
-            pass_value=pass_value,
-            fail_value=fail_value,
-        )
+        _OccurrenceDataWrangler.__init__(self, **params)
         self.target_sr = osr.SpatialReference()
         self.target_sr.ImportFromEPSG(target_epsg)
         self.transforms = {}
