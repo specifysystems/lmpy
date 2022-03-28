@@ -7,6 +7,7 @@ from lmpy.spatial import SpatialIndex
 class SpatialIndexFilter(_OccurrenceDataWrangler):
     """Spatial Index Filter Occurrence Data Wrangler."""
     name = 'SpatialIndexFilter'
+    version = '1.0'
 
     # .......................
     def __init__(
@@ -14,7 +15,7 @@ class SpatialIndexFilter(_OccurrenceDataWrangler):
         spatial_index,
         intersections_map,
         check_hit_func,
-        store_attribute=None
+        **params,
     ):
         self.spatial_index = spatial_index
         if not isinstance(self.spatial_index, SpatialIndex):
@@ -22,7 +23,7 @@ class SpatialIndexFilter(_OccurrenceDataWrangler):
         self.intersections_map = intersections_map
         self.check_hit_func = check_hit_func
 
-        _OccurrenceDataWrangler.__init__(self, store_attribute=store_attribute)
+        _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
     def _pass_condiation(self, point):

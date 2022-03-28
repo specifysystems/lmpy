@@ -6,18 +6,18 @@ from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 class DecimalPrecisionFilter(_OccurrenceDataWrangler):
     """Get an occurrence data wrangler for filtering by decimal precision."""
     name = 'DecimalPrecisionFilter'
+    version = '1.0'
 
     # .......................
-    def __init__(self, decimal_places, store_attribute=None):
+    def __init__(self, decimal_places, **params):
         """Get an occurrence data wrangler for filtering by decimal precision.
 
         Args:
             decimal_places (int): Only keep points with at least this many decimal
                 places of precision.
-            store_attribute (str or None): An attribute name to store assessment.
         """
         self.decimal_places = decimal_places
-        _OccurrenceDataWrangler.__init__(self, store_attribute=store_attribute)
+        _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
     def _pass_condition(self, point):

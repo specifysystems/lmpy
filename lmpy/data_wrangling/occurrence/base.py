@@ -33,19 +33,6 @@ class _OccurrenceDataWrangler(_DataWrangler):
         self.fail_value = fail_value
 
     # .......................
-    @classmethod
-    def from_config_dict(cls, config_dict):
-        """Build an instance from a configuration dictionary.
-
-        Args:
-            config_dict (dict): A dictionary of instance parameters.
-
-        Returns:
-            _OccurrenceDataWrangler: A configured occurrence data wrangler.
-        """
-        raise NotImplementedError('Not implemented for base class')
-
-    # .......................
     def _modify_point(self, point):
         """A function that modifies a Point object as needed.
 
@@ -73,6 +60,19 @@ class _OccurrenceDataWrangler(_DataWrangler):
             bool: Indication if the point passes the test condition.
         """
         return True
+
+    # .......................
+    def get_report(self):
+        """Get a report of the wrangler's functioning.
+
+        Returns:
+            dict: A dictionary of wrangler outputs.
+        """
+        report = _DataWrangler.get_report(self)
+        report['assessed'] = self.assessed
+        report['modified'] = self.modified
+        report['filtered'] = self.filtered
+        return report
 
     # .......................
     def report_point(self, filtered=False, modified=False):

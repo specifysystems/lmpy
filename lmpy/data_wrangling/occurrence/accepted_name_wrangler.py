@@ -1,10 +1,41 @@
 """Module containing occurrence data wranglers for modifying point data."""
+from lmpy.data_wrangling.base import DataWranglerInput
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
+
+
+# .....................................................................................
+def get_accepted_name_map(accepted_name_map_or_filename):
+    """Get the accepted name map from a dictionary or a filename."""
+    accepted_name_map = {}
+    with open(accepted_name_map_or_filename, mode='rt') as in_file:
+        _ = next(in_file)
+        for line in in_file:
+            parts = line.split(',')
+            accepted_name_map[parts[0].strip()] = parts[1].strip()
+    return accepted_name_map
 
 
 # .....................................................................................
 class AcceptedNameModifier(_OccurrenceDataWrangler):
     """Modifies the species_name to the "accepted" taxon name for the species."""
+    name = 'AcceptedNameOccurrenceWrangler'
+    inputs.extend(
+        [
+            DataWranglerInput(
+                'accepted_name_map',
+                get_accepted_name_map,
+                True,
+                'Parameters for getting taxon name map.',
+            ),
+            DataWranglerInput(
+                'store_original_attribute',
+                str,
+                False,
+                'Attribute to store original value.',
+            ),
+       ]
+    )
+
     # .......................
     def __init__(
         self,
@@ -27,7 +58,7 @@ class AcceptedNameModifier(_OccurrenceDataWrangler):
         if isinstance(accepted_name_map, dict):
             self.accepted_name_map = accepted_name_map
         else:
-            self.get_accepted_name_map(accepted_name_map)
+            self.accepted_name_map = get_accepted_name_map(accepted_name_map)
         self.store_original_attribute = store_original_attribute
         _OccurrenceDataWrangler.__init__(
             self,
@@ -35,16 +66,6 @@ class AcceptedNameModifier(_OccurrenceDataWrangler):
             pass_value=pass_value,
             fail_value=fail_value
         )
-
-    # .......................
-    def get_accepted_name_map(self, accepted_name_map_or_filename):
-        """Get the accepted name map from a dictionary or a filename."""
-        self.accepted_name_map = {}
-        with open(accepted_name_map_or_filename, mode='rt') as in_file:
-            _ = next(in_file)
-            for line in in_file:
-                parts = line.split(',')
-                self.accepted_name_map[parts[0].strip()] = parts[1].strip()
 
     # .......................
     def _pass_condition(point):

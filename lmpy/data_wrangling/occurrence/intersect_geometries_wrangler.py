@@ -7,15 +7,16 @@ from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 class IntersectGeometriesFilter(_OccurrenceDataWrangler):
     """Get an occurrence data wrangler for filtering by intersect geometries."""
     name = 'IntersectGeometriesFilter'
+    version = '1.0'
 
     # .......................
-    def __init__(self, geometry_wkts, store_attribute=None):
+    def __init__(self, geometry_wkts, **params):
         """Get an occurrence data wrangler for filtering by intersecting geometries.
 
         Args:
-            store_attribute (str or None): An attribute name to store assessment.
+            geometry_wkts (list of str): A list of WKT strings.
         """
-        _OccurrenceDataWrangler.__init__(self, store_attribute=store_attribute)
+        _OccurrenceDataWrangler.__init__(self, **params)
         self.geometries = []
         for wkt in geometry_wkts:
             self.geometries.append(ogr.CreateGeometryFromWkt(wkt))
