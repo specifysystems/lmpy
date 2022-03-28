@@ -1,5 +1,4 @@
 """Module containing occurrence data wranglers for modifying point data."""
-from lmpy.data_wrangling.base import DataWranglerInput
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
 
@@ -16,59 +15,29 @@ def get_accepted_name_map(accepted_name_map_or_filename):
 
 
 # .....................................................................................
-class AcceptedNameModifier(_OccurrenceDataWrangler):
+class AcceptedNameWrangler(_OccurrenceDataWrangler):
     """Modifies the species_name to the "accepted" taxon name for the species."""
     name = 'AcceptedNameOccurrenceWrangler'
-    inputs.extend(
-        [
-            DataWranglerInput(
-                'accepted_name_map',
-                get_accepted_name_map,
-                True,
-                'Parameters for getting taxon name map.',
-            ),
-            DataWranglerInput(
-                'store_original_attribute',
-                str,
-                False,
-                'Attribute to store original value.',
-            ),
-       ]
-    )
+    version = '1.0'
 
     # .......................
-    def __init__(
-        self,
-        accepted_name_map,
-        store_original_attribute=None,
-        store_attribute=None,
-        pass_value=0,
-        fail_value=1
-    ):
+    def __init__(self, accepted_name_map, store_original_attribute=None, **params):
         """AcceptedNameModifier constructor.
 
         Args:
             accepted_name_map (dict): A map of original name to accepted name.
             store_original_attribute (str or None): A new attribute to store the
                 original taxon name.
-            store_attribute (str or None): A new attribute to store the assessed value.
-            pass_value (Object): A value to store when the point passes assessment.
-            fail_value (Object): A value to store when the point fails assessment.
         """
         if isinstance(accepted_name_map, dict):
             self.accepted_name_map = accepted_name_map
         else:
             self.accepted_name_map = get_accepted_name_map(accepted_name_map)
         self.store_original_attribute = store_original_attribute
-        _OccurrenceDataWrangler.__init__(
-            self,
-            store_attribute=store_attribute,
-            pass_value=pass_value,
-            fail_value=fail_value
-        )
+        _OccurrenceDataWrangler.__init__(**params)
 
     # .......................
-    def _pass_condition(point):
+    def _pass_condition(self, point):
         """Determine if a point has an accepted name.
 
         Args:
@@ -82,7 +51,7 @@ class AcceptedNameModifier(_OccurrenceDataWrangler):
         return True
 
     # .......................
-    def _modify_point(point):
+    def _modify_point(self, point):
         """Update taxon name if necessary.
 
         Args:

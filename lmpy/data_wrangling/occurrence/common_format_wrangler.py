@@ -11,7 +11,7 @@ class CommonFormatWrangler(_OccurrenceDataWrangler):
 
     # .......................
     def __init__(self, attribute_map, **params):
-        """CommonFormatWrangler constructor.
+        """Constructor for CommonFormatWrangler class.
 
         Args:
             attribute_map (dict): A mapping of source key, target values.
@@ -20,7 +20,7 @@ class CommonFormatWrangler(_OccurrenceDataWrangler):
         _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
-    def _modify_point(point):
+    def _modify_point(self, point):
         """Update point attributes.
 
         Args:

@@ -21,4 +21,3 @@ class WranglerFactory:
             ].from_config(config['parameters'])
             for config in wrangler_configs
         ]
-

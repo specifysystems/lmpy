@@ -9,7 +9,7 @@ class BoundingBoxFilter(_OccurrenceDataWrangler):
     version = '1.0'
 
     # .......................
-    def __init__(self, min_x, min_y, max_x, max_y, store_attribute=None):
+    def __init__(self, min_x, min_y, max_x, max_y, **params):
         """Get an occurrence data wrangler for filtering by bounding box.
 
         Args:
@@ -19,13 +19,13 @@ class BoundingBoxFilter(_OccurrenceDataWrangler):
             max_y (numeric): The maximum 'y' value for the bounding box.
         """
         self.min_x = min_x
-        self.min_y = min_Y
+        self.min_y = min_y
         self.max_x = max_x
         self.max_y = max_y
         _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
-    def _pass_condition(point):
+    def _pass_condition(self, point):
         """Pass condition for a point.
 
         Args:

@@ -1,6 +1,4 @@
 """Module containing base class for data wranglers."""
-from collections import namedtuple
-
 
 # .....................................................................................
 class _DataWrangler:

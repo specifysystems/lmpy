@@ -50,4 +50,3 @@ class UniqueLocalitiesFilter(_OccurrenceDataWrangler):
         if self.do_reset:
             self.seen_localities = []
         return _OccurrenceDataWrangler.wrangle_points(self, points)
-
