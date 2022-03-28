@@ -58,3 +58,37 @@ Install latest release
 .. code-block:: bash
 
   pip install specify-lmpy
+
+====================================================
+Alternative: Install and run with a Docker Container
+====================================================
+
+You can avoid installing locally and just run `lmpy` using a Docker container.  We distribute containers through DockerHub as well as the GitHub Container Registry.
+
+------------------
+Get from DockerHub
+------------------
+
+.. code-block:: bash
+
+  docker pull specifyconsortium/specify-lmpy:latest
+
+Then you can run the container interactively and call tools with bash
+
+.. code-block:: bash
+
+  docker run -it specifyconsortium/specify-lmpy:latest bash
+
+----------------------------------
+Get from GitHub Container Registry
+----------------------------------
+
+.. code-block:: bash
+
+  docker pull ghcr.io/specifysystems/lmpy:latest
+
+Then you can run the container interactively and call tools with bash
+
+.. code-block:: bash
+
+  docker run -it specifysystems/lmpy:latest bash
