@@ -34,5 +34,8 @@ class IntersectGeometriesFilter(_OccurrenceDataWrangler):
         point_geometry = ogr.Geometry(ogr.wkbPoint)
         point_geometry.AddPoint(point.x, point.y)
         return any(
-            [not geom.Intersection(point_geometry).IsEmpty() for geom in self.geometries]
+            [
+                not geom.Intersection(point_geometry).IsEmpty() \
+                for geom in self.geometries
+            ]
         )
