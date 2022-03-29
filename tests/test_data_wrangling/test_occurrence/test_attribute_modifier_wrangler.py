@@ -16,16 +16,6 @@ from tests.data_simulator import (
 # .....................................................................................
 def test_attribute_modifier_wrangler():
     """Test the AttributeModifierWrangler class."""
-    # Test points
-    points = generate_points(
-        1000,
-        SimulatedField(
-            'species_name', '', get_random_choice_func(['Species A']), 'str'
-        ),
-        SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
-        SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
-        []
-    )
 
     # .......................
     def euclidean_distance_from_origin(point):
@@ -39,8 +29,19 @@ def test_attribute_modifier_wrangler():
         """
         return np.sqrt(pt.x**2 + pt.y**2)
 
+    # Test points
+    points = generate_points(
+        1000,
+        SimulatedField(
+            'species_name', '', get_random_choice_func(['Species A']), 'str'
+        ),
+        SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
+        SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
+        []
+    )
+
     wrangler = AttributeModifierWrangler('distance', euclidean_distance_from_origin)
-    wrangled_points = wrangler.wrangle_points()
+    wrangled_points = wrangler.wrangle_points(points)
 
     # Check that each point has the distance attribute and that it is correc
     for pt in wrangled_points:

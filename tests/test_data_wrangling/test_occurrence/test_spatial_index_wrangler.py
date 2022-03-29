@@ -1,4 +1,5 @@
 """Test the spatial_index_wrangler module."""
+from lmpy.data_wrangling.occurrence.spatial_index_wrangler import SpatialIndexFilter
 from lmpy.spatial.spatial_index import create_geometry_from_bbox, SpatialIndex
 
 from tests.data_simulator import (
@@ -7,6 +8,7 @@ from tests.data_simulator import (
     get_random_float_func,
     SimulatedField,
 )
+
 
 # .....................................................................................
 def test_sptial_index_filter():
@@ -19,7 +21,7 @@ def test_sptial_index_filter():
     species_choices = [f'Species {i}' for i in range(10)]
 
     intersections_map = {species: ['any'] for species in species_choices}
-    
+
     # .......................
     def get_true(*args):
         """A dummy function that always returns True.
@@ -29,7 +31,7 @@ def test_sptial_index_filter():
 
         Returns:
             bool: Always return True.
-        """ 
+        """
         return True
 
     points = generate_points(

@@ -15,6 +15,7 @@ class DisjointGeometriesFilter(_OccurrenceDataWrangler):
 
         Args:
             geometry_wkts (list of str): A list of geometry WKTs to check against.
+            **params (dict): Extra parameters to be sent to the base class.
         """
         _OccurrenceDataWrangler.__init__(self, **params)
         self.geom_index = SpatialIndex()

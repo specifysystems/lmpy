@@ -15,6 +15,7 @@ class CommonFormatWrangler(_OccurrenceDataWrangler):
 
         Args:
             attribute_map (dict): A mapping of source key, target values.
+            **params (dict): Extra parameters to be sent to the base class.
         """
         self.attribute_map = attribute_map
         _OccurrenceDataWrangler.__init__(self, **params)

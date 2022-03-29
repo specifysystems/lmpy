@@ -15,6 +15,7 @@ class DecimalPrecisionFilter(_OccurrenceDataWrangler):
         Args:
             decimal_places (int): Only keep points with at least this many decimal
                 places of precision.
+            **params (dict): Extra parameters to be sent to the base class.
         """
         self.decimal_places = decimal_places
         _OccurrenceDataWrangler.__init__(self, **params)

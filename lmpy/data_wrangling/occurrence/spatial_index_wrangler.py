@@ -46,8 +46,12 @@ class SpatialIndexFilter(_OccurrenceDataWrangler):
         Returns:
             bool: Indication if the point passess the assessment.
         """
-        if point.species_name not in self.intersections_map.keys() \
-            or len(self.intersections_map[point.species_name]) == 0:
+        if any(
+            [
+                point.species_name not in self.intersections_map.keys(),
+                len(self.intersections_map[point.species_name]) == 0
+            ]
+        ):
             return True
         for hit in self.spatial_index.search(point.x, point.y).values():
             if self.check_hit_func(hit, self.intersections_map[point.species_name]):

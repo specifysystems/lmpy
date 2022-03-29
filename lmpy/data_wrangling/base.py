@@ -1,5 +1,6 @@
 """Module containing base class for data wranglers."""
 
+
 # .....................................................................................
 class _DataWrangler:
     """Data wrangler base class."""
