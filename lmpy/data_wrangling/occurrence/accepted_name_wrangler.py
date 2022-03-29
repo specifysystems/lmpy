@@ -3,10 +3,19 @@ from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
 
 # .....................................................................................
-def get_accepted_name_map(accepted_name_map_or_filename):
-    """Get the accepted name map from a dictionary or a filename."""
+def get_accepted_name_map(name_map):
+    """Get the accepted name map from a dictionary or a filename.
+
+    Args:
+        name_map (str or dict): A filename or mapping dictionary.
+
+    Returns:
+        dict: A mapping dictionary
+    """
+    if isinstance(name_map, dict):
+        return name_map
     accepted_name_map = {}
-    with open(accepted_name_map_or_filename, mode='rt') as in_file:
+    with open(name_map, mode='rt') as in_file:
         _ = next(in_file)
         for line in in_file:
             parts = line.split(',')
@@ -22,19 +31,20 @@ class AcceptedNameWrangler(_OccurrenceDataWrangler):
 
     # .......................
     def __init__(self, accepted_name_map, store_original_attribute=None, **params):
-        """AcceptedNameModifier constructor.
+        """Constructor for AcceptedNameModifier class.
 
         Args:
             accepted_name_map (dict): A map of original name to accepted name.
             store_original_attribute (str or None): A new attribute to store the
                 original taxon name.
+            **params (dict): Keyword parameters to pass to _OccurrenceDataWrangler.
         """
         if isinstance(accepted_name_map, dict):
             self.accepted_name_map = accepted_name_map
         else:
             self.accepted_name_map = get_accepted_name_map(accepted_name_map)
         self.store_original_attribute = store_original_attribute
-        _OccurrenceDataWrangler.__init__(**params)
+        _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
     def _pass_condition(self, point):

@@ -19,6 +19,7 @@ from lmpy.point import (
     ID_TAG,
     LOCATION_TAG,
     OCCURRENCE_ROW_TYPE,
+    Point
 )
 
 
@@ -256,19 +257,18 @@ def generate_points(count, species_field, x_field, y_field, fields):
     points = []
     for _ in range(count):
         atts = {
-            fld.name: fld.create() for fld in fields
+            fld.header: fld.create() for fld in fields
         }
-        atts[species_field.name] = species_field.create()
-        atts[x_field.name] = x_field.create()
-        atts[y_field.name] = y_field.create()
+        atts[species_field.header] = species_field.create()
+        atts[x_field.header] = x_field.create()
+        atts[y_field.header] = y_field.create()
         points.append(
             Point(
-                atts[species_field.name],
-                atts[x_field.name],
-                atts[y_field.anme],
+                atts[species_field.header],
+                atts[x_field.header],
+                atts[y_field.header],
                 attributes=atts
             )
         )
 
     return points
-
