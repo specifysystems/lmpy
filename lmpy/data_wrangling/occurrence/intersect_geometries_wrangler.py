@@ -15,6 +15,7 @@ class IntersectGeometriesFilter(_OccurrenceDataWrangler):
 
         Args:
             geometry_wkts (list of str): A list of WKT strings.
+            **params (dict): Keyword parameters to pass to _OccurrenceDataWrangler.
         """
         _OccurrenceDataWrangler.__init__(self, **params)
         self.geometries = []
@@ -35,7 +36,7 @@ class IntersectGeometriesFilter(_OccurrenceDataWrangler):
         point_geometry.AddPoint(point.x, point.y)
         return any(
             [
-                not geom.Intersection(point_geometry).IsEmpty() \
+                not geom.Intersection(point_geometry).IsEmpty()
                 for geom in self.geometries
             ]
         )
