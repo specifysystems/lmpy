@@ -1,4 +1,4 @@
-"""Tests for the bounding_box_wrangler module."""
+"""Tests for the intersect_geometries_wrangler module."""
 from lmpy.data_wrangling.occurrence.intersect_geometries_wrangler import (
     IntersectGeometriesFilter,
 )
