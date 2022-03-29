@@ -32,6 +32,14 @@ class MinimumPointsFilter(_OccurrenceDataWrangler):
 
     # .......................
     def wrangle_points(self, points):
+        """Wrangle points.  Return all or none based on how many are present.
+
+        Args:
+            points (list of Point): A list of points to assess.
+
+        Returns:
+            list of Point: Either an empty list or all of the points passed in.
+        """
         if len(points) >= self.minimum_count:
             # Enough points, so all pass
             self.pass_condition = self._get_all_pass_condition()

@@ -55,9 +55,9 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
                 modified.
         """
         if self.source_epsg is not None:
-            epsg = self.source_epsg
+            epsg = int(self.source_epsg)
         else:
-            epsg = point.get_attribute(self.epsg_attribute)
+            epsg = int(point.get_attribute(self.epsg_attribute))
 
         if epsg in self.transforms.keys():
             transform = self.transforms[epsg]
