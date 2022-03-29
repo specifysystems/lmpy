@@ -17,6 +17,7 @@ class BoundingBoxFilter(_OccurrenceDataWrangler):
             min_y (numeric): The minimum 'y' value for the bounding box.
             max_x (numeric): The maximum 'x' value for the bounding box.
             max_y (numeric): The maximum 'y' value for the bounding box.
+            **params (dict): Keyword parameters to pass to _OccurrenceDataWrangler.
         """
         self.min_x = min_x
         self.min_y = min_y
