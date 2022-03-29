@@ -17,6 +17,17 @@ class SpatialIndexFilter(_OccurrenceDataWrangler):
         check_hit_func,
         **params,
     ):
+        """A data wrangler to filter points using a spatial index.
+
+        Args:
+            spatial_index (SpatialIndex): A SpatialIndex object that can be searched.
+            intersections_map (dict): A dictionary of species name keys and
+                corresponding valid intersection values.
+            check_hit_func (Method): A function that takes two arguments
+                (search hit, valid intersections for a species) and returns a boolean
+                indication if the hit should be counted.
+            **params (dict): Extra parameters to be sent to the base class.
+        """
         self.spatial_index = spatial_index
         if not isinstance(self.spatial_index, SpatialIndex):
             self.spatial_index = SpatialIndex(spatial_index)

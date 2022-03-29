@@ -45,8 +45,6 @@ def test_coordinate_conversion():
 
     # Check each point and make sure values are close to the original
     for pt in wrangled_points_4326:
-        print((pt.x, pt.get_attribute(wrangler_config['original_x_attribute'])))
-        print((pt.y, pt.get_attribute(wrangler_config['original_y_attribute'])))
         assert np.isclose(
             pt.x, pt.get_attribute(wrangler_config['original_x_attribute'])
         )
