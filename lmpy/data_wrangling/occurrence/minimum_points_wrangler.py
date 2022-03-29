@@ -14,6 +14,7 @@ class MinimumPointsFilter(_OccurrenceDataWrangler):
 
         Args:
             minimum_count (int): The minimum number of points in order to keep all.
+            **params (dict): Extra parameters to be sent to the base class.
         """
         self.minimum_count = minimum_count
         _OccurrenceDataWrangler.__init__(self, **params)

@@ -22,16 +22,17 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
         original_y_attribute=None,
         **params
     ):
-        """CoordinateConverterModifier constructor.
+        """Constructor for CoordinateConverterModifier class.
 
         Args:
             target_epsg (int): Target map projection specified by EPSG code.
             source_epsg (int or None): Source map projection specified by EPSG code.
             epsg_attribute (str or None): A point attribute containing EPSG code.
             original_x_attribute (str or None): An attribute to store the original x
-               value.
+                value.
             original_y_attribute (str or None): An attribute to store the original y
-               value.
+                value.
+            **params (dict): Extra parameters to be sent to the base class.
         """
         self.source_epsg = source_epsg
         self.epsg_attribute = epsg_attribute

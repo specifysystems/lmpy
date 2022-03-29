@@ -14,6 +14,7 @@ class UniqueLocalitiesFilter(_OccurrenceDataWrangler):
 
         Args:
             do_reset (bool): Reset the list of seen localities after each group.
+            **params (dict): Extra parameters to be sent to the base class.
         """
         self.seen_localities = []
         self.do_reset = do_reset
