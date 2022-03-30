@@ -52,4 +52,3 @@ def test_sptial_index_filter():
         assert -10 <= pt.x <= 10
         assert -10 <= pt.y <= 10
     assert len(wrangled_points) < len(points)
-

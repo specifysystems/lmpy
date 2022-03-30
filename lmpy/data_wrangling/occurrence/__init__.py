@@ -1,6 +1,7 @@
 """Occurrence data wrangling package."""
 
 from . import accepted_name_wrangler
+from . import attribute_filter_wrangler
 from . import attribute_modifier_wrangler
 from . import base
 from . import bounding_box_wrangler
@@ -15,6 +16,7 @@ from . import unique_localities_wrangler
 
 __all__ = [
     'accepted_name_wrangler',
+    'attribute_filter_wrangler',
     'attribute_modifier_wrangler',
     'base',
     'bounding_box_wrangler',

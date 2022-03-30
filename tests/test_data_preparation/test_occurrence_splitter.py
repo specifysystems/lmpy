@@ -398,10 +398,12 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         get_writer_filename_func(temp_directory)
     ) as splitter:
         splitter.process_reader(
-            PointDwcaReader(dwca_1_filename), factory.get_wranglers(dwca_1_wrangler_conf)
+            PointDwcaReader(dwca_1_filename),
+            factory.get_wranglers(dwca_1_wrangler_conf)
         )
         splitter.process_reader(
-            PointDwcaReader(dwca_2_filename), factory.get_wranglers(dwca_2_wrangler_conf)
+            PointDwcaReader(dwca_2_filename),
+            factory.get_wranglers(dwca_2_wrangler_conf)
         )
         splitter.process_reader(
             PointCsvReader(csv_1_filename, 'tax', 'lon', 'lat'),
