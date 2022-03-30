@@ -50,7 +50,7 @@ def test_common_format_instance():
     # Check attributes
     for pt in wrangled_points:
         for att in att_map.keys():
-            assert att not in pt.attributes.keys
+            assert att not in pt.attributes.keys()
         for att in att_map.values():
             assert pt.get_attribute(att)
 
@@ -96,6 +96,6 @@ def test_common_format_from_config():
     # Check attributes
     for pt in wrangled_points:
         for att in att_map.keys():
-            assert att not in pt.attributes.keys
+            assert att not in pt.attributes.keys()
         for att in att_map.values():
             assert pt.get_attribute(att)

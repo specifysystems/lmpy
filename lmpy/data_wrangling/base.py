@@ -8,6 +8,16 @@ class _DataWrangler:
     version = '1.0'
 
     # ........................
+    def __init__(self, *args, **kwargs):
+        """Base class constructor.
+
+        Args:
+            *args (tuple): Positional arguments.
+            **kwargs (dict): Dictionary of parameters.
+        """
+        pass
+
+    # ........................
     @classmethod
     def from_config(cls, config):
         """Get an instance generated from the provided configuration.

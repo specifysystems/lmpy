@@ -43,10 +43,10 @@ class MinimumPointsFilter(_OccurrenceDataWrangler):
         """
         if len(points) >= self.minimum_count:
             # Enough points, so all pass
-            self.pass_condition = self._get_all_pass_condition()
+            self._pass_condition = self._get_all_pass_condition()
         else:
             # Not enough points to all fail
-            self.pass_condition = self._get_all_fail_condition()
+            self._pass_condition = self._get_all_fail_condition()
 
         # Call parent class wrangle_points function
         return _OccurrenceDataWrangler.wrangle_points(self, points)

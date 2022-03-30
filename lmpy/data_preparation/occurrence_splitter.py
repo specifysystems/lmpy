@@ -160,9 +160,9 @@ class OccurrenceSplitter:
         """
         reader.open()
         for points in reader:
-            for _wrangler_name, wrangler in wranglers:
+            for wrangler in wranglers:
                 if points:
-                    points = wrangler(points)
+                    points = wrangler.wrangle_points(points)
             if points:
                 self.write_points(points)
         reader.close()

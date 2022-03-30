@@ -26,7 +26,7 @@ def test_attribute_modifier_wrangler():
         Returns:
             float: The Euclidean distance from the origin.
         """
-        return np.sqrt(pt.x**2 + pt.y**2)
+        return np.sqrt(point.x**2 + point.y**2)
 
     # Test points
     points = generate_points(

@@ -13,6 +13,7 @@ class _OccurrenceDataWrangler(_DataWrangler):
         store_attribute=None,
         pass_value=0,
         fail_value=1,
+        **params
     ):
         """Constructor for _OcccurrenceDataWrangler base class.
 
@@ -23,7 +24,9 @@ class _OccurrenceDataWrangler(_DataWrangler):
                 this value.
             fail_value (object): If the point fails the assessment, set the field to
                 this value.
+            **params (dict): A dictionary of keyword parameters.
         """
+        _DataWrangler(self, **params)
         self.assessed = 0
         self.filtered = 0
         self.modified = 0
@@ -126,6 +129,7 @@ class _OccurrenceDataWrangler(_DataWrangler):
         # If we should just assess the point, set the attribute
         if self.store_attribute is not None:
             mod_point.set_attribute(self.store_attribute, val)
+            is_modified = True
         elif is_filtered:
             # If it was filtered and we should remove, do so
             mod_point = None
