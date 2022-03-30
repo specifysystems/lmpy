@@ -85,7 +85,7 @@ def test_in_and_out():
     wrangler = BoundingBoxFilter.from_config(wrangler_config)
     wrangled_points = wrangler.wrangle_points(points)
 
-    assert len(wrangled_points) < len(points)
+    assert len(wrangled_points) == len(points)
     assert len(points) == 1000
     assert len(wrangled_points) > 0
 
@@ -99,6 +99,6 @@ def test_in_and_out():
     # Get the report
     report = wrangler.get_report()
     assert report['assessed'] == len(points)
-    assert report['modified'] == 0
+    assert report['modified'] == len(points)
     assert report['filtered'] < len(points)
     assert report['filtered'] == num_filtered

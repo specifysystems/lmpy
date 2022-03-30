@@ -57,9 +57,12 @@ class WranglerFactory:
         Returns:
             list of _DataWrangler subclasses: A List of configured data wranglers.
         """
+        if isinstance(wrangler_configs, dict):
+            wrangler_configs = [wrangler_configs]
+
         return [
             self.wrangler_types[config["wrangler_type"]].from_config(
-                config["parameters"]
+                config
             )
             for config in wrangler_configs
         ]

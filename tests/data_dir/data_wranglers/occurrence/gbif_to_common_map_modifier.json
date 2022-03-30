@@ -1,6 +1,4 @@
-[
 {
-    "wrangler_type": "attribute_map_modifier",
-    "attribute_mapping": {}
+    "wrangler_type": "CommonFormatWrangler",
+    "attribute_map": {}
 }
-]

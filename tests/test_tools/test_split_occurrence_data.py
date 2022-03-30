@@ -72,9 +72,9 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
         json.dump(
             [
                 {
-                    'wrangler_type': 'attribute_modifier',
+                    'wrangler_type': 'AcceptedNameOccurrenceWrangler',
                     'attribute_name': 'taxonname',
-                    'map_values': SPECIES_MAP
+                    'accepted_name_map': SPECIES_MAP
                 }
             ],
             json_out
@@ -143,9 +143,9 @@ def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
         json.dump(
             [
                 {
-                    'wrangler_type': 'attribute_modifier',
+                    'wrangler_type': 'AcceptedNameOccurrenceWrangler',
                     'attribute_name': sp_key,
-                    'map_values': SPECIES_MAP
+                    'accepted_name_map': SPECIES_MAP
                 }
             ],
             json_out
@@ -232,13 +232,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # Accepted name, common fields
     dwca_1_wrangler_conf = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'taxonname',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         },
         {
-            'wrangler_type': 'attribute_map_modifier',
-            'attribute_mapping': {
+            'wrangler_type': 'CommonFormatWrangler',
+            'attribute_map': {
                 'taxonname': 'species',
                 'latitude': 'latitude',
                 'longitude': 'longitude',
@@ -287,13 +287,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # Accepted name, common fields
     dwca_2_wrangler_conf = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'species_name',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         },
         {
-            'wrangler_type': 'attribute_map_modifier',
-            'attribute_mapping': {
+            'wrangler_type': 'CommonFormatWrangler',
+            'attribute_map': {
                 'species_name': 'species',
                 'decimallatitude': 'latitude',
                 'decimallongitude': 'longitude',
@@ -342,13 +342,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # Accepted name, common fields
     csv_1_wrangler_conf = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'tax',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         },
         {
-            'wrangler_type': 'attribute_map_modifier',
-            'attribute_mapping': {
+            'wrangler_type': 'CommonFormatWrangler',
+            'attribute_map': {
                 'tax': 'species',
                 'lat': 'latitude',
                 'lon': 'longitude',
@@ -397,13 +397,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # Accepted name, common fields
     csv_2_wrangler_conf = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'taxname',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         },
         {
-            'wrangler_type': 'attribute_map_modifier',
-            'attribute_mapping': {
+            'wrangler_type': 'CommonFormatWrangler',
+            'attribute_map': {
                 'taxname': 'species',
                 'dec_lat': 'latitude',
                 'dec_lon': 'longitude',

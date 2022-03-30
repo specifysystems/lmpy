@@ -17,7 +17,10 @@ class UniqueLocalitiesFilter(_OccurrenceDataWrangler):
             **params (dict): Extra parameters to be sent to the base class.
         """
         self.seen_localities = []
-        self.do_reset = do_reset
+        # JSON may make boolean into a string so handle that
+        if isinstance(do_reset, str):
+            do_reset = do_reset.lower() != 'false'
+        self.do_reset = bool(do_reset)
         _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
@@ -30,7 +33,7 @@ class UniqueLocalitiesFilter(_OccurrenceDataWrangler):
         Returns:
             bool: An indication if the point is spatially unique.
         """
-        test_val = (point.x, point.y)
+        test_val = (point.species_name, point.x, point.y)
         if test_val in self.seen_localities:
             return False
         self.seen_localities.append(test_val)

@@ -66,7 +66,7 @@ def test_minimum_points_return_all():
 def test_minimum_points_assess_all_pass():
     """Test the MinimumPointsFilter when there are more than the minimum (assess)."""
     points = generate_points(
-        10,
+        100,
         SimulatedField(
             'species_name', '', get_random_choice_func(['Species A']), 'str'
         ),
@@ -75,7 +75,7 @@ def test_minimum_points_assess_all_pass():
         []
     )
     # Wrangle points
-    wrangler = MinimumPointsFilter(100, store_attribute='assessed')
+    wrangler = MinimumPointsFilter(10, store_attribute='assessed')
     wrangled_points = wrangler.wrangle_points(points)
 
     assert len(wrangled_points) == len(points)
@@ -91,7 +91,7 @@ def test_minimum_points_assess_all_pass():
 def test_minimum_points_assess_all_fail():
     """Test the MinimumPointsFilter when there are less than the minimum (assess)."""
     points = generate_points(
-        100,
+        10,
         SimulatedField(
             'species_name', '', get_random_choice_func(['Species A']), 'str'
         ),
@@ -101,7 +101,7 @@ def test_minimum_points_assess_all_fail():
     )
     # Wrangle points
     wrangler_config = {
-        'minimum_count': 10,
+        'minimum_count': 100,
         'store_attribute': 'assessed',
         'pass_value': 0,
         'fail_value': 1,
