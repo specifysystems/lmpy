@@ -45,7 +45,7 @@ def test_sptial_index_filter():
     )
 
     wrangler = SpatialIndexFilter(sp_index, intersections_map, get_true)
-    wrangled_points = wrangler.wrangle_points()
+    wrangled_points = wrangler.wrangle_points(points)
 
     # Only points within the (-10, -10, 10, 10) bounding box should be kept
     assert len(wrangled_points) < len(points)

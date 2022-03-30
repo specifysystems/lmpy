@@ -89,6 +89,7 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
         """Pass condition for coordinate conversion.
 
         Args:
+            point (Point): A point object to assess.
 
         Returns:
             bool: Indication if the point passes the test condition.
