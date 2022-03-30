@@ -15,7 +15,6 @@ class AttributeFilterWrangler(_OccurrenceDataWrangler):
         Args:
             attribute_name (str): The name of the attribute to modify.
             filter_func (Method): A function to be used for the pass condition.
-            attribute_func (Method): A function to generate values for a point.
             **params (dict): Extra parameters to be sent to the base class.
         """
         self.attribute_name = attribute_name
@@ -34,6 +33,7 @@ class AttributeFilterWrangler(_OccurrenceDataWrangler):
                 condition = filter_func['for-each']['condition']
                 if condition.lower() == 'not-in':
                     bad_values = filter_func['for-each']['values']
+
                     def _each_value_not_in(point):
                         return all(
                             [
@@ -41,6 +41,7 @@ class AttributeFilterWrangler(_OccurrenceDataWrangler):
                                 for val in point.get_attribute(self.attribute_name)
                             ]
                         )
+
                     self._pass_condition = _each_value_not_in
         else:
             self._pass_condition = filter_func
