@@ -37,7 +37,7 @@ class SpatialIndexFilter(_OccurrenceDataWrangler):
         _OccurrenceDataWrangler.__init__(self, **params)
 
     # .......................
-    def _pass_condiation(self, point):
+    def _pass_condition(self, point):
         """Assess a point to see if it passes the spatial index filter.
 
         Args:

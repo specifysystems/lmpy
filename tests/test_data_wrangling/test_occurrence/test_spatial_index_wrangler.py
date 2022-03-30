@@ -48,8 +48,8 @@ def test_sptial_index_filter():
     wrangled_points = wrangler.wrangle_points(points)
 
     # Only points within the (-10, -10, 10, 10) bounding box should be kept
-    assert len(wrangled_points) < len(points)
-
     for pt in wrangled_points:
         assert -10 <= pt.x <= 10
         assert -10 <= pt.y <= 10
+    assert len(wrangled_points) < len(points)
+
