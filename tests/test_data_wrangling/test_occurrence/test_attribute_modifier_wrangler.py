@@ -16,7 +16,6 @@ from tests.data_simulator import (
 # .....................................................................................
 def test_attribute_modifier_wrangler():
     """Test the AttributeModifierWrangler class."""
-
     # .......................
     def euclidean_distance_from_origin(point):
         """Return the Euclidean distance from the origin (0, 0) for the point.
