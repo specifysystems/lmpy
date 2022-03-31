@@ -23,8 +23,9 @@ def get_srs_for_epsg(epsg):
         # So we can use GDAL 2 or 3
         # See https://github.com/OSGeo/gdal/issues/1546
         srs.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
-    except:  # pragma: no cover
-        pass
+    except Exception as err:  # pragma: no cover
+        print('Error setting mapping strategy')
+        print(err)
 
     return srs
 
