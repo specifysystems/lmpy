@@ -68,7 +68,7 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
             transform = osr.CoordinateTransformation(source_sr, self.target_sr)
             self.transforms[epsg] = transform
 
-        new_x, new_y, _ = transform.TransformPoint(point.y, point.x)
+        new_x, new_y, _ = transform.TransformPoint(point.x, point.y)
         pt = deepcopy(point)
         pt.x = new_x
         pt.y = new_y
