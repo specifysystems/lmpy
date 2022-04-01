@@ -1,5 +1,5 @@
 dendropy>=4.0.0
 numpy>=1.11.0
 rtree
-gdal>=3.0.0
+gdal
 defusedxml
