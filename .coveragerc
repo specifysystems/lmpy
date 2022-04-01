@@ -7,4 +7,3 @@ omit =
     */wrangle_matrix.py
     */data_wrangling/tree/base.py
     */data_wrangling/matrix/base.py
-
