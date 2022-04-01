@@ -7,30 +7,6 @@ from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
 
 # .....................................................................................
-def get_srs_for_epsg(epsg):
-    """Get a osr.SpatialReference for the specified EPSG code.
-
-    Args:
-        epsg (int): An EPSG code to get the SpatialReference for.
-
-    Returns:
-        SpatialReference: A spatial reference object for the EPSG.
-    """
-    srs = osr.SpatialReference()
-    srs.ImportFromEPSG(epsg)
-
-    try:
-        # So we can use GDAL 2 or 3
-        # See https://github.com/OSGeo/gdal/issues/1546
-        srs.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
-    except Exception as err:  # pragma: no cover
-        print('Error setting mapping strategy')
-        print(err)
-
-    return srs
-
-
-# .....................................................................................
 class CoordinateConverterWrangler(_OccurrenceDataWrangler):
     """Tool for converting fron one coordinate system to another via ESPG."""
     name = 'CoordinateConverterWrangler'
@@ -92,7 +68,7 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
             transform = osr.CoordinateTransformation(source_sr, self.target_sr)
             self.transforms[epsg] = transform
 
-        new_x, new_y, _ = transform.TransformPoint(point.x, point.y)
+        new_x, new_y, _ = transform.TransformPoint(point.y, point.x)
         pt = deepcopy(point)
         pt.x = new_x
         pt.y = new_y
