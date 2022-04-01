@@ -87,9 +87,10 @@ class _AcceptedNameWrangler(_DataWrangler):
         unmatched_names = []
         for name in names:
             if name in self.name_map.keys():
-                resolved_names[name] = self.name_map.keys()
+                resolved_names[name] = self.name_map[name]
             else:
                 unmatched_names.append(name)
+                resolved_names[name] = None
 
         # If we have a name resolver and names to resolve, do it
         if self._name_resolver is not None and len(unmatched_names) > 0:

@@ -1,11 +1,8 @@
 """Test the accepted_name_wrangler module."""
-from copy import deepcopy
-
 import numpy as np
 
 from lmpy.data_wrangling.occurrence.accepted_name_wrangler import (
-    AcceptedNameWrangler,
-    get_accepted_name_map,
+    AcceptedNameOccurrenceWrangler,
 )
 
 from tests.data_simulator import (
@@ -14,40 +11,6 @@ from tests.data_simulator import (
     get_random_float_func,
     SimulatedField,
 )
-
-
-# .....................................................................................
-def test_get_accepted_name_map_file(generate_temp_filename):
-    """Test get_accepted_name_map function with a file.
-
-    Args:
-        generate_temp_filename (pytest.fixture): A fixture for creating filenames.
-    """
-    name_pairs = [
-        ('Oldname a1', 'Newname a'),
-        ('Oldname a2', 'Newname a'),
-        ('Newname a', 'Newname a')
-    ]
-    temp_filename = generate_temp_filename(suffix='.csv')
-    with open(temp_filename, mode='wt') as temp_out:
-        temp_out.write('Name,Accepted name\n')
-        for old_name, new_name in name_pairs:
-            temp_out.write(f'{old_name},{new_name}\n')
-    name_map = get_accepted_name_map(temp_filename)
-    for in_name, out_name in name_pairs:
-        assert name_map[in_name] == out_name
-
-
-# .....................................................................................
-def test_get_accepted_name_map_dict():
-    """Test get_accepted_name_map function with a dictionary."""
-    name_map = {
-        'Oldname a1': 'Newname a',
-        'Oldname a2': 'Newname a',
-        'Newname a': 'Newname a',
-    }
-    test_name_map = get_accepted_name_map(deepcopy(name_map))
-    assert name_map == test_name_map
 
 
 # .....................................................................................
@@ -69,7 +32,7 @@ def test_accepted_name_wrangler():
     )
 
     # Wrangle points
-    wrangler = AcceptedNameWrangler(name_map)
+    wrangler = AcceptedNameOccurrenceWrangler(name_map)
     wrangled_points = wrangler.wrangle_points(points)
 
     # Test that names are correct
@@ -106,7 +69,7 @@ def test_accepted_name_wrangler_unmatched_names():
     )
 
     # Wrangle points
-    wrangler = AcceptedNameWrangler(name_map)
+    wrangler = AcceptedNameOccurrenceWrangler(name_map)
     wrangled_points = wrangler.wrangle_points(points)
 
     # Check that we removed some points
@@ -146,7 +109,9 @@ def test_accepted_name_wrangler_store_original():
     )
 
     # Wrangle points
-    wrangler = AcceptedNameWrangler(name_map, store_original_attribute='original_name')
+    wrangler = AcceptedNameOccurrenceWrangler(
+        name_map, store_original_attribute='original_name'
+    )
     wrangled_points = wrangler.wrangle_points(points)
 
     # Check that we removed some points
@@ -187,7 +152,7 @@ def test_accepted_name_wrangler_unmatched_names_dont_remove():
     )
 
     # Wrangle points
-    wrangler = AcceptedNameWrangler(
+    wrangler = AcceptedNameOccurrenceWrangler(
         name_map, store_attribute='assessed', pass_value=0, fail_value=1
     )
     wrangled_points = wrangler.wrangle_points(points)
@@ -246,12 +211,12 @@ def test_accepted_name_wrangler_from_config(generate_temp_filename):
 
     # Wrangler config
     wrangler_config = {
-        'accepted_name_map': temp_filename,
+        'name_map': temp_filename,
         'store_original_attribute': 'original_name'
     }
 
     # Wrangle points
-    wrangler = AcceptedNameWrangler.from_config(wrangler_config)
+    wrangler = AcceptedNameOccurrenceWrangler.from_config(wrangler_config)
     wrangled_points = wrangler.wrangle_points(points)
 
     # Test that names are correct
