@@ -77,4 +77,6 @@ venv.bak/
 tdwg_spatial_index.*
 
 # PyCharm
+data/
+host_data/
 .idea/
