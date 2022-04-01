@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.data_wrangling.occurrence.attribute_filter_wrangler &mdash; Specify lmpy 3.0.6+29.ge1bd535 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.data_wrangling.occurrence.attribute_filter_wrangler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.data_wrangling.occurrence.attribute_filter_wrangler</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing attribute filter occurrence data wrangler.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.occurrence.base</span> <span class="k">import</span> <span class="n">_OccurrenceDataWrangler</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="AttributeFilterWrangler"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/attribute_filter_wrangler/index.html#lmpy.data_wrangling.occurrence.attribute_filter_wrangler.AttributeFilterWrangler">[docs]</a><span class="k">class</span> <span class="nc">AttributeFilterWrangler</span><span class="p">(</span><span class="n">_OccurrenceDataWrangler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Filters points according to a function.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AttributeFilterWrangler.name"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/attribute_filter_wrangler/index.html#lmpy.data_wrangling.occurrence.attribute_filter_wrangler.AttributeFilterWrangler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;AttributeFilterWrangler&#39;</span></div>
+<div class="viewcode-block" id="AttributeFilterWrangler.version"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/attribute_filter_wrangler/index.html#lmpy.data_wrangling.occurrence.attribute_filter_wrangler.AttributeFilterWrangler.version">[docs]</a>    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span></div>
+
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">,</span> <span class="n">filter_func</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for AttributeModifierWrangler class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            attribute_name (str): The name of the attribute to modify.</span>
+<span class="sd">            filter_func (Method): A function to be used for the pass condition.</span>
+<span class="sd">            **params (dict): Extra parameters to be sent to the base class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attribute_name</span> <span class="o">=</span> <span class="n">attribute_name</span>
+        <span class="n">_OccurrenceDataWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_pass_condition_func</span><span class="p">(</span><span class="n">filter_func</span><span class="p">)</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="AttributeFilterWrangler._get_pass_condition_func"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/attribute_filter_wrangler/index.html#lmpy.data_wrangling.occurrence.attribute_filter_wrangler.AttributeFilterWrangler._get_pass_condition_func">[docs]</a>    <span class="k">def</span> <span class="nf">_get_pass_condition_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the pass condition function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filter_func (Method or dict): A method to use for pass condition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_func</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;for-each&#39;</span> <span class="ow">in</span> <span class="n">filter_func</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">condition</span> <span class="o">=</span> <span class="n">filter_func</span><span class="p">[</span><span class="s1">&#39;for-each&#39;</span><span class="p">][</span><span class="s1">&#39;condition&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">condition</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;not-in&#39;</span><span class="p">:</span>
+                    <span class="n">bad_values</span> <span class="o">=</span> <span class="n">filter_func</span><span class="p">[</span><span class="s1">&#39;for-each&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]</span>
+
+                    <span class="k">def</span> <span class="nf">_each_value_not_in</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
+                            <span class="p">[</span>
+                                <span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bad_values</span>
+                                <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">point</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attribute_name</span><span class="p">)</span>
+                            <span class="p">]</span>
+                        <span class="p">)</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_pass_condition</span> <span class="o">=</span> <span class="n">_each_value_not_in</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pass_condition</span> <span class="o">=</span> <span class="n">filter_func</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+:py:mod:`lmpy.data_wrangling.occurrence.accepted_name_wrangler`
+===============================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.accepted_name_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for modifying point data.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameWrangler
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.accepted_name_wrangler.get_accepted_name_map
+
+
+
+.. py:class:: AcceptedNameWrangler(accepted_name_map, store_original_attribute=None, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Constructor for AcceptedNameModifier class.
+
+   :param accepted_name_map: A map of original name to accepted name.
+   :type accepted_name_map: dict
+   :param store_original_attribute: A new attribute to store the
+                                    original taxon name.
+   :type store_original_attribute: str or None
+   :param \*\*params: Keyword parameters to pass to _OccurrenceDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = AcceptedNameOccurrenceWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _modify_point(self, point)
+
+      Update taxon name if necessary.
+
+      :param point: A point to modify.
+      :type point: Point
+
+      :returns: Modified (if needed) point and boolean if point was modified.
+      :rtype: Point, bool
+
+
+   .. py:method:: _pass_condition(self, point)
+
+      Determine if a point has an accepted name.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: An indication if the point passed the test.
+      :rtype: bool
+
+
+
+.. py:function:: get_accepted_name_map(name_map)
+
+   Get the accepted name map from a dictionary or a filename.
+
+   :param name_map: A filename or mapping dictionary.
+   :type name_map: str or dict
+
+   :returns: A mapping dictionary
+   :rtype: dict
+
+

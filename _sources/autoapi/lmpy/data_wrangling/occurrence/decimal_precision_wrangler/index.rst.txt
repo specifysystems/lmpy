@@ -1,0 +1,58 @@
+:py:mod:`lmpy.data_wrangling.occurrence.decimal_precision_wrangler`
+===================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.decimal_precision_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for filtering points.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.decimal_precision_wrangler.DecimalPrecisionFilter
+
+
+
+
+.. py:class:: DecimalPrecisionFilter(decimal_places, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Get an occurrence data wrangler for filtering by decimal precision.
+
+   :param decimal_places: Only keep points with at least this many decimal
+                          places of precision.
+   :type decimal_places: int
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = DecimalPrecisionFilter
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _pass_condition(self, point)
+
+      Assessment condition for a point.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: Indication if the point passed assessment.
+      :rtype: bool
+
+
+

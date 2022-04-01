@@ -1,0 +1,117 @@
+:py:mod:`lmpy.data_wrangling.occurrence.base`
+=============================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.base
+
+.. autoapi-nested-parse::
+
+   Module containing Occurrence Data Wrangler base class.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler
+
+
+
+
+.. py:class:: _OccurrenceDataWrangler(store_attribute=None, pass_value=0, fail_value=1, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.base._DataWrangler`
+
+   Constructor for _OcccurrenceDataWrangler base class.
+
+   :param store_attribute: If provided, add an assessment field to the
+                           point.
+   :type store_attribute: str or None
+   :param pass_value: If the point passes the assessment, set the field to
+                      this value.
+   :type pass_value: object
+   :param fail_value: If the point fails the assessment, set the field to
+                      this value.
+   :type fail_value: object
+   :param \*\*params: A dictionary of keyword parameters.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = _OccurrenceDataWrangler
+
+      
+
+   .. py:method:: _modify_point(self, point)
+
+      A function that modifies a Point object as needed.
+
+      The base class version is a dummy function that returns the input point.
+
+      :param point: A point object to  modify.
+      :type point: Point
+
+      :returns:
+
+                Return the provided point and False indicating that it was not
+                    modified.
+      :rtype: Point, bool
+
+
+   .. py:method:: _pass_condition(self, point)
+
+      A function that determines if a point passes some criteria.
+
+      The base class version always passes.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: Indication if the point passes the test condition.
+      :rtype: bool
+
+
+   .. py:method:: get_report(self)
+
+      Get a report of the wrangler's functioning.
+
+      :returns: A dictionary of wrangler outputs.
+      :rtype: dict
+
+
+   .. py:method:: report_point(self, filtered=False, modified=False)
+
+      Report the result of wrangling a point.
+
+      :param filtered: Was the point filtered.
+      :type filtered: bool
+      :param modified: Was the point modified.
+      :type modified: bool
+
+
+   .. py:method:: wrangle_points(self, points)
+
+      Wrangle occurrence `Point` objects.
+
+      :param points: A list of points to wrangle.
+      :type points: list of Point
+
+      :returns: A list of wrangled occurrnece points.
+      :rtype: list of point
+
+
+   .. py:method:: wrangle_single_point(self, point)
+
+      Wrangle a single point.
+
+      :param point: A point object to wrangle.
+      :type point: Point
+
+      :returns: An assessed and / or modified point or None if filtered.
+      :rtype: Point or None
+
+
+

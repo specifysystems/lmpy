@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.0.6 documentation</title>
+  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.0.6+29.ge1bd535 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -234,9 +234,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">reader</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">_wrangler_name</span><span class="p">,</span> <span class="n">wrangler</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">wrangler</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
-                    <span class="n">points</span> <span class="o">=</span> <span class="n">wrangler</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+                    <span class="n">points</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">wrangle_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">write_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="n">reader</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>

@@ -1,0 +1,70 @@
+:py:mod:`lmpy.data_wrangling.occurrence.unique_localities_wrangler`
+===================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.unique_localities_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for filtering points.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter
+
+
+
+
+.. py:class:: UniqueLocalitiesFilter(do_reset=True, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Get an occurrence data wrangler unique localities for a group of points.
+
+   :param do_reset: Reset the list of seen localities after each group.
+   :type do_reset: bool
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = UniqueLocalitiesFilter
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _pass_condition(self, point)
+
+      Assess a point to see if it is unique spatially.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: An indication if the point is spatially unique.
+      :rtype: bool
+
+
+   .. py:method:: wrangle_points(self, points)
+
+      Wrangle points.
+
+      Adds an optional reset step so the same filter can be used for many species.
+
+      :param points: A list of points to wrangle.
+      :type points: list of Point
+
+      :returns: A list of points with unique localities.
+      :rtype: list of Point
+
+
+

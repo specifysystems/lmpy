@@ -1,0 +1,64 @@
+:py:mod:`lmpy.data_wrangling.occurrence.spatial_index_wrangler`
+===============================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.spatial_index_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for filtering points.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.spatial_index_wrangler.SpatialIndexFilter
+
+
+
+
+.. py:class:: SpatialIndexFilter(spatial_index, intersections_map, check_hit_func, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   A data wrangler to filter points using a spatial index.
+
+   :param spatial_index: A SpatialIndex object that can be searched.
+   :type spatial_index: SpatialIndex
+   :param intersections_map: A dictionary of species name keys and
+                             corresponding valid intersection values.
+   :type intersections_map: dict
+   :param check_hit_func: A function that takes two arguments
+                          (search hit, valid intersections for a species) and returns a boolean
+                          indication if the hit should be counted.
+   :type check_hit_func: Method
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = SpatialIndexFilter
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _pass_condition(self, point)
+
+      Assess a point to see if it passes the spatial index filter.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: Indication if the point passess the assessment.
+      :rtype: bool
+
+
+

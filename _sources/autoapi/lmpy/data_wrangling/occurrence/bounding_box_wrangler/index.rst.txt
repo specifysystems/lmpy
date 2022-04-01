@@ -1,0 +1,63 @@
+:py:mod:`lmpy.data_wrangling.occurrence.bounding_box_wrangler`
+==============================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.bounding_box_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for filtering points.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.bounding_box_wrangler.BoundingBoxFilter
+
+
+
+
+.. py:class:: BoundingBoxFilter(min_x, min_y, max_x, max_y, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Get an occurrence data wrangler for filtering by bounding box.
+
+   :param min_x: The minimum 'x' value for the bounding box.
+   :type min_x: numeric
+   :param min_y: The minimum 'y' value for the bounding box.
+   :type min_y: numeric
+   :param max_x: The maximum 'x' value for the bounding box.
+   :type max_x: numeric
+   :param max_y: The maximum 'y' value for the bounding box.
+   :type max_y: numeric
+   :param \*\*params: Keyword parameters to pass to _OccurrenceDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = BoundingBoxFilter
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _pass_condition(self, point)
+
+      Pass condition for a point.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: Indication if the point passed assessment.
+      :rtype: bool
+
+
+

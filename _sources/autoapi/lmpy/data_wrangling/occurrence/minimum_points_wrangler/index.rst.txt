@@ -1,0 +1,63 @@
+:py:mod:`lmpy.data_wrangling.occurrence.minimum_points_wrangler`
+================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.minimum_points_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for filtering points.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.minimum_points_wrangler.MinimumPointsFilter
+
+
+
+
+.. py:class:: MinimumPointsFilter(minimum_count, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Get an occurrence data wrangler for minimum points.
+
+   :param minimum_count: The minimum number of points in order to keep all.
+   :type minimum_count: int
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = MinimumPointsWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _get_all_fail_condition(self)
+
+
+   .. py:method:: _get_all_pass_condition(self)
+
+
+   .. py:method:: wrangle_points(self, points)
+
+      Wrangle points.  Return all or none based on how many are present.
+
+      :param points: A list of points to assess.
+      :type points: list of Point
+
+      :returns: Either an empty list or all of the points passed in.
+      :rtype: list of Point
+
+
+

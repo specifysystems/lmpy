@@ -1,0 +1,100 @@
+:py:mod:`lmpy.data_wrangling.occurrence.coordinate_conversion_wrangler`
+=======================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.coordinate_conversion_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing a coordinate converter modifier.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.coordinate_conversion_wrangler.CoordinateConverterWrangler
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.coordinate_conversion_wrangler.get_srs_for_epsg
+
+
+
+.. py:class:: CoordinateConverterWrangler(target_epsg, source_epsg=None, epsg_attribute=None, original_x_attribute=None, original_y_attribute=None, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Constructor for CoordinateConverterModifier class.
+
+   :param target_epsg: Target map projection specified by EPSG code.
+   :type target_epsg: int
+   :param source_epsg: Source map projection specified by EPSG code.
+   :type source_epsg: int or None
+   :param epsg_attribute: A point attribute containing EPSG code.
+   :type epsg_attribute: str or None
+   :param original_x_attribute: An attribute to store the original x
+                                value.
+   :type original_x_attribute: str or None
+   :param original_y_attribute: An attribute to store the original y
+                                value.
+   :type original_y_attribute: str or None
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = CoordinateConverterWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _modify_point(self, point)
+
+      Transform the point coordinates.
+
+      :param point: The point object to modify.
+      :type point: Point
+
+      :returns:
+
+                A modified (or not) Point and boolean indicating if it was
+                    modified.
+      :rtype: Point and bool
+
+
+   .. py:method:: _pass_condition(self, point)
+
+      Pass condition for coordinate conversion.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: Indication if the point passes the test condition.
+      :rtype: bool
+
+
+
+.. py:function:: get_srs_for_epsg(epsg)
+
+   Get a osr.SpatialReference for the specified EPSG code.
+
+   :param epsg: An EPSG code to get the SpatialReference for.
+   :type epsg: int
+
+   :returns: A spatial reference object for the EPSG.
+   :rtype: SpatialReference
+
+

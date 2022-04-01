@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.data_wrangling.occurrence.base &mdash; Specify lmpy 3.0.6+29.ge1bd535 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.data_wrangling.occurrence.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.data_wrangling.occurrence.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing Occurrence Data Wrangler base class.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.base</span> <span class="k">import</span> <span class="n">_DataWrangler</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="_OccurrenceDataWrangler"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler">[docs]</a><span class="k">class</span> <span class="nc">_OccurrenceDataWrangler</span><span class="p">(</span><span class="n">_DataWrangler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Occurrence data wrangler base class.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="_OccurrenceDataWrangler.name"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_OccurrenceDataWrangler&#39;</span></div>
+
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">store_attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pass_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">fail_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">params</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for _OcccurrenceDataWrangler base class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            store_attribute (str or None): If provided, add an assessment field to the</span>
+<span class="sd">                point.</span>
+<span class="sd">            pass_value (object): If the point passes the assessment, set the field to</span>
+<span class="sd">                this value.</span>
+<span class="sd">            fail_value (object): If the point fails the assessment, set the field to</span>
+<span class="sd">                this value.</span>
+<span class="sd">            **params (dict): A dictionary of keyword parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_DataWrangler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assessed</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filtered</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_attribute</span> <span class="o">=</span> <span class="n">store_attribute</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pass_value</span> <span class="o">=</span> <span class="n">pass_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fail_value</span> <span class="o">=</span> <span class="n">fail_value</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_OccurrenceDataWrangler._modify_point"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler._modify_point">[docs]</a>    <span class="k">def</span> <span class="nf">_modify_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A function that modifies a Point object as needed.</span>
+
+<span class="sd">        The base class version is a dummy function that returns the input point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            point (Point): A point object to  modify.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Point, bool: Return the provided point and False indicating that it was not</span>
+<span class="sd">                modified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">point</span><span class="p">,</span> <span class="kc">False</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_OccurrenceDataWrangler._pass_condition"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler._pass_condition">[docs]</a>    <span class="k">def</span> <span class="nf">_pass_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A function that determines if a point passes some criteria.</span>
+
+<span class="sd">        The base class version always passes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            point (Point): A point object to assess.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Indication if the point passes the test condition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_OccurrenceDataWrangler.get_report"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler.get_report">[docs]</a>    <span class="k">def</span> <span class="nf">get_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a report of the wrangler&#39;s functioning.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary of wrangler outputs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="n">_DataWrangler</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">report</span><span class="p">[</span><span class="s1">&#39;assessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">assessed</span>
+        <span class="n">report</span><span class="p">[</span><span class="s1">&#39;modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modified</span>
+        <span class="n">report</span><span class="p">[</span><span class="s1">&#39;filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filtered</span>
+        <span class="k">return</span> <span class="n">report</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_OccurrenceDataWrangler.report_point"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler.report_point">[docs]</a>    <span class="k">def</span> <span class="nf">report_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filtered</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">modified</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Report the result of wrangling a point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filtered (bool): Was the point filtered.</span>
+<span class="sd">            modified (bool): Was the point modified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assessed</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">modified</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filtered</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_OccurrenceDataWrangler.wrangle_points"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler.wrangle_points">[docs]</a>    <span class="k">def</span> <span class="nf">wrangle_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wrangle occurrence `Point` objects.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            points (list of Point): A list of points to wrangle.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list of point: A list of wrangled occurrnece points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wrangled_points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+            <span class="n">pt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrangle_single_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">wrangled_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrangled_points</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_OccurrenceDataWrangler.wrangle_single_point"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler.wrangle_single_point">[docs]</a>    <span class="k">def</span> <span class="nf">wrangle_single_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wrangle a single point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            point (Point): A point object to wrangle.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Point or None: An assessed and / or modified point or None if filtered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Do any modifications necessary for the point</span>
+        <span class="n">mod_point</span><span class="p">,</span> <span class="n">is_modified</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modify_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="n">is_filtered</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pass_value</span>
+
+        <span class="c1"># Check if the point passes the pass condition</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pass_condition</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+            <span class="n">is_filtered</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fail_value</span>
+
+        <span class="c1"># If we should just assess the point, set the attribute</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_attribute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mod_point</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_attribute</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+            <span class="n">is_modified</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">is_filtered</span><span class="p">:</span>
+            <span class="c1"># If it was filtered and we should remove, do so</span>
+            <span class="n">mod_point</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">report_point</span><span class="p">(</span><span class="n">filtered</span><span class="o">=</span><span class="n">is_filtered</span><span class="p">,</span> <span class="n">modified</span><span class="o">=</span><span class="n">is_modified</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mod_point</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

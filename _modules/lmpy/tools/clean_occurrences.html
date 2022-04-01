@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.clean_occurrences &mdash; Specify lmpy 3.0.6 documentation</title>
+  <title>lmpy.tools.clean_occurrences &mdash; Specify lmpy 3.0.6+29.ge1bd535 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -76,7 +76,7 @@
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.occurrence.factory</span> <span class="k">import</span> <span class="n">wrangler_factory</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="k">import</span> <span class="n">WranglerFactory</span>
 <span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointCsvReader</span><span class="p">,</span> <span class="n">PointCsvWriter</span>
 
 
@@ -109,20 +109,20 @@
     <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;input_records&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="s1">&#39;output_records&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;wranglers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">wrangler_name</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;removed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> <span class="k">for</span> <span class="n">wrangler_name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">},</span>
+        <span class="s1">&#39;wranglers&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">wrangler</span><span class="o">.</span><span class="n">get_report</span><span class="p">()</span> <span class="k">for</span> <span class="n">wrangler</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="c1"># Open reader</span>
     <span class="n">reader</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
     <span class="n">writer</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
         <span class="n">report</span><span class="p">[</span><span class="s1">&#39;input_records&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">wrangler_name</span><span class="p">,</span> <span class="n">wrangler</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">wrangler</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">:</span>
+            <span class="n">wrangler_name</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">name</span>
             <span class="c1"># If there are points, wrangle them</span>
             <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
                 <span class="n">tmp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
                 <span class="n">sp_name</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">species_name</span>
-                <span class="n">points</span> <span class="o">=</span> <span class="n">wrangler</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-                <span class="n">report</span><span class="p">[</span><span class="s1">&#39;wranglers&#39;</span><span class="p">][</span><span class="n">wrangler_name</span><span class="p">][</span><span class="s1">&#39;removed&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tmp</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+                <span class="n">points</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">wrangle_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
                 <span class="n">log_msg</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{wrangler_name}</span><span class="s1"> removed {tmp - len(points)} </span><span class="si">{sp_name}</span><span class="s1"> points&#39;</span><span class="p">)</span>
         <span class="c1"># If any points are left, write them</span>
         <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
@@ -190,7 +190,8 @@
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
     <span class="c1"># Get wranglers</span>
-    <span class="n">wranglers</span> <span class="o">=</span> <span class="n">wrangler_factory</span><span class="p">(</span>
+    <span class="n">wrangler_factory</span> <span class="o">=</span> <span class="n">WranglerFactory</span><span class="p">()</span>
+    <span class="n">wranglers</span> <span class="o">=</span> <span class="n">wrangler_factory</span><span class="o">.</span><span class="n">get_wranglers</span><span class="p">(</span>
         <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">wrangler_config_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">))</span>
     <span class="p">)</span>
 

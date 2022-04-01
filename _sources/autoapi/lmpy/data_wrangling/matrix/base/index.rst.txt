@@ -1,0 +1,36 @@
+:py:mod:`lmpy.data_wrangling.matrix.base`
+=========================================
+
+.. py:module:: lmpy.data_wrangling.matrix.base
+
+.. autoapi-nested-parse::
+
+   Module containing Matrix Data Wrangler base class.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.matrix.base._MatrixDataWrangler
+
+
+
+
+.. py:class:: _MatrixDataWrangler
+
+   Bases: :py:obj:`lmpy.data_wrangling.base._DataWrangler`
+
+   Constructor for _MatrixDataWrangler base class.
+
+   .. py:attribute:: name
+      :annotation: = _MatrixDataWrangler
+
+      
+
+

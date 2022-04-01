@@ -1,0 +1,20 @@
+:py:mod:`lmpy.data_wrangling.matrix`
+====================================
+
+.. py:module:: lmpy.data_wrangling.matrix
+
+.. autoapi-nested-parse::
+
+   Matrix data wranglers.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   base/index.rst
+
+

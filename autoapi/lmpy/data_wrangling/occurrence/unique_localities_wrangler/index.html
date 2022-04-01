@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.data_wrangling.occurrence.unique_localities_wrangler &mdash; Specify lmpy 3.0.6+29.ge1bd535 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_wrangling.occurrence.unique_localities_wrangler</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../_sources/autoapi/lmpy/data_wrangling/occurrence/unique_localities_wrangler/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-lmpy.data_wrangling.occurrence.unique_localities_wrangler">
+<span id="lmpy-data-wrangling-occurrence-unique-localities-wrangler"></span><h1><a class="reference internal" href="#module-lmpy.data_wrangling.occurrence.unique_localities_wrangler" title="lmpy.data_wrangling.occurrence.unique_localities_wrangler"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_wrangling.occurrence.unique_localities_wrangler</span></code></a><a class="headerlink" href="#module-lmpy.data_wrangling.occurrence.unique_localities_wrangler" title="Permalink to this headline"></a></h1>
+<p>Module containing occurrence data wranglers for filtering points.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter" title="lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UniqueLocalitiesFilter</span></code></a></p></td>
+<td><p>Get an occurrence data wrangler unique localities for a group of points.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.unique_localities_wrangler.</span></span><span class="sig-name descname"><span class="pre">UniqueLocalitiesFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">do_reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/unique_localities_wrangler.html#UniqueLocalitiesFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler" title="lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler</span></code></a></p>
+<p>Get an occurrence data wrangler unique localities for a group of points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>do_reset</strong> (<em>bool</em>) – Reset the list of seen localities after each group.</p></li>
+<li><p><strong>**params</strong> (<em>dict</em>) – Extra parameters to be sent to the base class.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">UniqueLocalitiesFilter</span></em><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/unique_localities_wrangler.html#UniqueLocalitiesFilter.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter.version">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">1.0</span></em><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/unique_localities_wrangler.html#UniqueLocalitiesFilter.version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter.version" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter._pass_condition">
+<span class="sig-name descname"><span class="pre">_pass_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/unique_localities_wrangler.html#UniqueLocalitiesFilter._pass_condition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter._pass_condition" title="Permalink to this definition"></a></dt>
+<dd><p>Assess a point to see if it is unique spatially.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point</strong> (<a class="reference internal" href="../../../point/index.html#lmpy.point.Point" title="lmpy.point.Point"><em>Point</em></a>) – A point object to assess.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An indication if the point is spatially unique.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter.wrangle_points">
+<span class="sig-name descname"><span class="pre">wrangle_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/unique_localities_wrangler.html#UniqueLocalitiesFilter.wrangle_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.unique_localities_wrangler.UniqueLocalitiesFilter.wrangle_points" title="Permalink to this definition"></a></dt>
+<dd><p>Wrangle points.</p>
+<p>Adds an optional reset step so the same filter can be used for many species.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>points</strong> (<em>list of Point</em>) – A list of points to wrangle.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of points with unique localities.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of Point</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

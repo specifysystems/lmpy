@@ -1,0 +1,36 @@
+:py:mod:`lmpy.data_wrangling.tree.base`
+=======================================
+
+.. py:module:: lmpy.data_wrangling.tree.base
+
+.. autoapi-nested-parse::
+
+   Module containing Tree Data Wrangler base class.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.tree.base._TreeDataWrangler
+
+
+
+
+.. py:class:: _TreeDataWrangler
+
+   Bases: :py:obj:`lmpy.data_wrangling.base._DataWrangler`
+
+   Constructor for _OcccurrenceDataWrangler base class.
+
+   .. py:attribute:: name
+      :annotation: = _TreeDataWrangler
+
+      
+
+

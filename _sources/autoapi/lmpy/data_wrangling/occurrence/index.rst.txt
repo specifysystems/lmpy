@@ -15,9 +15,18 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   common/index.rst
-   factory/index.rst
-   filters/index.rst
-   modifiers/index.rst
+   accepted_name_wrangler/index.rst
+   attribute_filter_wrangler/index.rst
+   attribute_modifier_wrangler/index.rst
+   base/index.rst
+   bounding_box_wrangler/index.rst
+   common_format_wrangler/index.rst
+   coordinate_conversion_wrangler/index.rst
+   decimal_precision_wrangler/index.rst
+   disjoint_geometries_wrangler/index.rst
+   intersect_geometries_wrangler/index.rst
+   minimum_points_wrangler/index.rst
+   spatial_index_wrangler/index.rst
+   unique_localities_wrangler/index.rst
 
 

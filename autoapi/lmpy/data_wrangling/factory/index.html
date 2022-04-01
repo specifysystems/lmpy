@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.factory &mdash; Specify lmpy 3.0.6 documentation</title>
+  <title>lmpy.data_wrangling.factory &mdash; Specify lmpy 3.0.6+29.ge1bd535 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -77,34 +77,47 @@
 <p>Data wrangler factory.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-<section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.factory.wrangler_factory" title="lmpy.data_wrangling.factory.wrangler_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wrangler_factory</span></code></a>(wrangler_configs)</p></td>
-<td><p>Factory for instantiating data wranglers.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.factory.WranglerFactory" title="lmpy.data_wrangling.factory.WranglerFactory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WranglerFactory</span></code></a></p></td>
+<td><p>Constructor for the WranglerFactory class.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py function">
-<dt class="sig sig-object py" id="lmpy.data_wrangling.factory.wrangler_factory">
-<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.factory.</span></span><span class="sig-name descname"><span class="pre">wrangler_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrangler_configs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_wrangling/factory.html#wrangler_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.factory.wrangler_factory" title="Permalink to this definition"></a></dt>
-<dd><p>Factory for instantiating data wranglers.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.factory.WranglerFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.factory.</span></span><span class="sig-name descname"><span class="pre">WranglerFactory</span></span><a class="reference internal" href="../../../../_modules/lmpy/data_wrangling/factory.html#WranglerFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.factory.WranglerFactory" title="Permalink to this definition"></a></dt>
+<dd><p>Constructor for the WranglerFactory class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.factory.WranglerFactory._load_wranglers">
+<span class="sig-name descname"><span class="pre">_load_wranglers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_wrangling/factory.html#WranglerFactory._load_wranglers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.factory.WranglerFactory._load_wranglers" title="Permalink to this definition"></a></dt>
+<dd><p>Load possible data wrangler types.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.factory.WranglerFactory.get_wranglers">
+<span class="sig-name descname"><span class="pre">get_wranglers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrangler_configs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_wrangling/factory.html#WranglerFactory.get_wranglers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.factory.WranglerFactory.get_wranglers" title="Permalink to this definition"></a></dt>
+<dd><p>Get configured data wranglers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>wrangler_configs</strong> (<em>list of dict</em>) – A list of wrangler configuration dictionaries.</p>
+<dd class="field-odd"><p><strong>wrangler_configs</strong> (<em>list of dicts</em>) – A list of wrangler configuration
+dictionaries.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of data wranglers.</p>
+<dd class="field-even"><p>A List of configured data wranglers.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list</p>
+<dd class="field-odd"><p>list of _DataWrangler subclasses</p>
 </dd>
 </dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>

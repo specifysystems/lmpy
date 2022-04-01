@@ -15,7 +15,9 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
+   matrix/index.rst
    occurrence/index.rst
+   tree/index.rst
 
 
 Submodules
@@ -24,6 +26,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   base/index.rst
    factory/index.rst
 
 

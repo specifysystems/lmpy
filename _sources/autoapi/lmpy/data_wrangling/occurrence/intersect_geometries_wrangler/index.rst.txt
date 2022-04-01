@@ -1,0 +1,57 @@
+:py:mod:`lmpy.data_wrangling.occurrence.intersect_geometries_wrangler`
+======================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.intersect_geometries_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for filtering points.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.intersect_geometries_wrangler.IntersectGeometriesFilter
+
+
+
+
+.. py:class:: IntersectGeometriesFilter(geometry_wkts, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Get an occurrence data wrangler for filtering by intersecting geometries.
+
+   :param geometry_wkts: A list of WKT strings.
+   :type geometry_wkts: list of str
+   :param \*\*params: Keyword parameters to pass to _OccurrenceDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = IntersectGeometriesFilter
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _pass_condition(self, point)
+
+      Assessment function for a point.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: An indication if a point passed assessment.
+      :rtype: bool
+
+
+

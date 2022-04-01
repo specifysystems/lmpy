@@ -1,0 +1,57 @@
+:py:mod:`lmpy.data_wrangling.occurrence.common_format_wrangler`
+===============================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.common_format_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing common format occurrence data wrangler.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.common_format_wrangler.CommonFormatWrangler
+
+
+
+
+.. py:class:: CommonFormatWrangler(attribute_map, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Constructor for CommonFormatWrangler class.
+
+   :param attribute_map: A mapping of source key, target values.
+   :type attribute_map: dict
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = CommonFormatWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _modify_point(self, point)
+
+      Update point attributes.
+
+      :param point: A point to modify.
+      :type point: Point
+
+      :returns: Modified (if needed) point and boolean if point was modified.
+      :rtype: Point, bool
+
+
+

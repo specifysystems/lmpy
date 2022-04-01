@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.factory &mdash; Specify lmpy 3.0.6 documentation</title>
+  <title>lmpy.data_wrangling.factory &mdash; Specify lmpy 3.0.6+29.ge1bd535 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -73,22 +73,73 @@
              
   <h1>Source code for lmpy.data_wrangling.factory</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Data wrangler factory.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.base</span> <span class="k">import</span> <span class="n">_DataWrangler</span>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="wrangler_factory"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/factory/index.html#lmpy.data_wrangling.factory.wrangler_factory">[docs]</a><span class="k">def</span> <span class="nf">wrangler_factory</span><span class="p">(</span><span class="n">wrangler_configs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Factory for instantiating data wranglers.</span>
+<div class="viewcode-block" id="WranglerFactory"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/factory/index.html#lmpy.data_wrangling.factory.WranglerFactory">[docs]</a><span class="k">class</span> <span class="nc">WranglerFactory</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Factory for configuring data wranglers.&quot;&quot;&quot;</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        wrangler_configs (list of dict): A list of wrangler configuration dictionaries.</span>
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for the WranglerFactory class.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wrangler_types</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_wranglers</span><span class="p">()</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        list: A list of data wranglers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">wranglers</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_config</span> <span class="ow">in</span> <span class="n">wrangler_configs</span><span class="p">:</span>
-        <span class="k">pass</span>
-    <span class="k">return</span> <span class="n">wranglers</span></div>
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="WranglerFactory._load_wranglers"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/factory/index.html#lmpy.data_wrangling.factory.WranglerFactory._load_wranglers">[docs]</a>    <span class="k">def</span> <span class="nf">_load_wranglers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load possible data wrangler types.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">_find_data_wranglers</span><span class="p">(</span><span class="n">base_module</span><span class="p">,</span> <span class="n">base_class</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Recursive function for finding data wranglers for factory.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                base_module (Module): A python module to traverse.</span>
+<span class="sd">                base_class (Class): Returned classes should be subclasses of this.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">element_name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">base_module</span><span class="p">):</span>
+                <span class="c1"># Ignore anything that starts with an underscore</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">element_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+                    <span class="c1"># Check the element</span>
+                    <span class="n">element</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">base_module</span><span class="p">,</span> <span class="n">element_name</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">base_class</span><span class="p">):</span>
+                        <span class="c1"># If we found a subclass of our base class, add it</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">wrangler_types</span><span class="p">[</span><span class="n">element</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span>
+                    <span class="k">elif</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismodule</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="ow">and</span> <span class="n">element</span><span class="o">.</span><span class="n">__package__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+                        <span class="n">base_module</span><span class="o">.</span><span class="n">__package__</span>
+                    <span class="p">):</span>
+                        <span class="c1"># If this is a submodule of the provided module, recurse</span>
+                        <span class="n">_find_data_wranglers</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">base_class</span><span class="p">)</span>
+
+        <span class="c1"># Load data_wrangling package now to avoid circular imports</span>
+        <span class="n">_find_data_wranglers</span><span class="p">(</span>
+            <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;lmpy.data_wrangling&quot;</span><span class="p">),</span> <span class="n">_DataWrangler</span>
+        <span class="p">)</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="WranglerFactory.get_wranglers"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/factory/index.html#lmpy.data_wrangling.factory.WranglerFactory.get_wranglers">[docs]</a>    <span class="k">def</span> <span class="nf">get_wranglers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wrangler_configs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get configured data wranglers.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            wrangler_configs (list of dicts): A list of wrangler configuration</span>
+<span class="sd">                dictionaries.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list of _DataWrangler subclasses: A List of configured data wranglers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">wrangler_configs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">wrangler_configs</span> <span class="o">=</span> <span class="p">[</span><span class="n">wrangler_configs</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wrangler_types</span><span class="p">[</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;wrangler_type&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span>
+                <span class="n">config</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">wrangler_configs</span>
+        <span class="p">]</span></div></div>
 </pre></div>
 
            </div>

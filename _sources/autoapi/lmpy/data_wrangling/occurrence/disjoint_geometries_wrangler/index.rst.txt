@@ -1,0 +1,57 @@
+:py:mod:`lmpy.data_wrangling.occurrence.disjoint_geometries_wrangler`
+=====================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.disjoint_geometries_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for filtering points.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.disjoint_geometries_wrangler.DisjointGeometriesFilter
+
+
+
+
+.. py:class:: DisjointGeometriesFilter(geometry_wkts, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Get an occurrence data wrangler for filtering by disjoint geometries.
+
+   :param geometry_wkts: A list of geometry WKTs to check against.
+   :type geometry_wkts: list of str
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = DisjointGeometriesFilter
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _pass_condition(self, point)
+
+      Assesment of a point to see if it passes the condition.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: Indication if the point passes assessment.
+      :rtype: bool
+
+
+

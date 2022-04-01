@@ -1,0 +1,64 @@
+:py:mod:`lmpy.data_wrangling.base`
+==================================
+
+.. py:module:: lmpy.data_wrangling.base
+
+.. autoapi-nested-parse::
+
+   Module containing base class for data wranglers.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.base._DataWrangler
+
+
+
+
+.. py:class:: _DataWrangler(*args, **kwargs)
+
+   Base class constructor.
+
+   :param \*args: Positional arguments.
+   :type \*args: tuple
+   :param \*\*kwargs: Dictionary of parameters.
+   :type \*\*kwargs: dict
+
+   .. py:attribute:: name
+      :annotation: = _DataWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: from_config(cls, config)
+      :classmethod:
+
+      Get an instance generated from the provided configuration.
+
+      :param config: A dictionary of configuration parameters.
+      :type config: dict
+
+      :returns: The instance created from the parameters.
+      :rtype: _DataWrangler
+
+
+   .. py:method:: get_report(self)
+
+      Get a report of the results of the wrangler.
+
+      :returns: A dictionary of reporting information.
+      :rtype: dict
+
+
+

@@ -1,0 +1,56 @@
+:py:mod:`lmpy.data_wrangling.occurrence.attribute_filter_wrangler`
+==================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.attribute_filter_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing attribute filter occurrence data wrangler.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.attribute_filter_wrangler.AttributeFilterWrangler
+
+
+
+
+.. py:class:: AttributeFilterWrangler(attribute_name, filter_func, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Constructor for AttributeModifierWrangler class.
+
+   :param attribute_name: The name of the attribute to modify.
+   :type attribute_name: str
+   :param filter_func: A function to be used for the pass condition.
+   :type filter_func: Method
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = AttributeFilterWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _get_pass_condition_func(self, filter_func)
+
+      Get the pass condition function.
+
+      :param filter_func: A method to use for pass condition.
+      :type filter_func: Method or dict
+
+
+

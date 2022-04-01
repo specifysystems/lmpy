@@ -1,0 +1,20 @@
+:py:mod:`lmpy.data_wrangling.tree`
+==================================
+
+.. py:module:: lmpy.data_wrangling.tree
+
+.. autoapi-nested-parse::
+
+   Tree data wranglers.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   base/index.rst
+
+

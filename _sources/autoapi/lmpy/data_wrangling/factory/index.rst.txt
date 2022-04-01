@@ -12,24 +12,35 @@
 Module Contents
 ---------------
 
-
-Functions
-~~~~~~~~~
+Classes
+~~~~~~~
 
 .. autoapisummary::
 
-   lmpy.data_wrangling.factory.wrangler_factory
+   lmpy.data_wrangling.factory.WranglerFactory
 
 
 
-.. py:function:: wrangler_factory(wrangler_configs)
 
-   Factory for instantiating data wranglers.
+.. py:class:: WranglerFactory
 
-   :param wrangler_configs: A list of wrangler configuration dictionaries.
-   :type wrangler_configs: list of dict
+   Constructor for the WranglerFactory class.
 
-   :returns: A list of data wranglers.
-   :rtype: list
+   .. py:method:: _load_wranglers(self)
+
+      Load possible data wrangler types.
+
+
+   .. py:method:: get_wranglers(self, wrangler_configs)
+
+      Get configured data wranglers.
+
+      :param wrangler_configs: A list of wrangler configuration
+                               dictionaries.
+      :type wrangler_configs: list of dicts
+
+      :returns: A List of configured data wranglers.
+      :rtype: list of _DataWrangler subclasses
+
 
 

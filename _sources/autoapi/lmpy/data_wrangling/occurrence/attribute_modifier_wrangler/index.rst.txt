@@ -1,0 +1,59 @@
+:py:mod:`lmpy.data_wrangling.occurrence.attribute_modifier_wrangler`
+====================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.attribute_modifier_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing attribute modifier occurrence data wrangler.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler
+
+
+
+
+.. py:class:: AttributeModifierWrangler(attribute_name, attribute_func, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Constructor for AttributeModifierWrangler class.
+
+   :param attribute_name: The name of the attribute to modify.
+   :type attribute_name: str
+   :param attribute_func: A function to generate values for a point.
+   :type attribute_func: Method
+   :param \*\*params: Extra parameters to be sent to the base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = AttributeModifierWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _modify_point(self, point)
+
+      Update point attributes.
+
+      :param point: A point to modify.
+      :type point: Point
+
+      :returns: Modified point and boolean if point was modified.
+      :rtype: Point, bool
+
+
+
