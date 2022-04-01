@@ -4,7 +4,7 @@ import argparse
 import json
 
 from lmpy import Matrix
-from lmpy.data_wrangling.factory import wrangler_factory
+from lmpy.data_wrangling.factory import WranglerFactory
 
 
 DESCRIPTION = '''\
@@ -45,7 +45,8 @@ def cli():
 
     in_mtx = Matrix.load(args.in_matrix_filename)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
-        wranglers = wrangler_factory(json.load(in_json))
+        wrangler_factory = WranglerFactory()
+        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
 
     wrangled_mtx = wrangle_matrix(in_mtx, wranglers)
     wrangled_mtx.write(args.out_matrix_filename)

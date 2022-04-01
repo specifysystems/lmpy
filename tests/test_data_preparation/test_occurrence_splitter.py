@@ -6,7 +6,7 @@ from lmpy.data_preparation.occurrence_splitter import (
     get_writer_key_from_fields_func,
     OccurrenceSplitter,
 )
-from lmpy.data_wrangling.occurrence.factory import wrangler_factory
+from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointDwcaReader
 
 from tests.data_simulator import (
@@ -75,9 +75,9 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
     generate_dwca(dwca_filename, 1000, dwca_fields)
     wrangler_config = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'taxonname',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         }
     ]
 
@@ -86,8 +86,10 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
         get_writer_key_from_fields_func('taxonname'),
         get_writer_filename_func(temp_directory)
     )
+    factory = WranglerFactory()
+
     splitter.process_reader(
-        PointDwcaReader(dwca_filename), wrangler_factory(wrangler_config)
+        PointDwcaReader(dwca_filename), factory.get_wranglers(wrangler_config)
     )
     splitter.close()
 
@@ -137,11 +139,12 @@ def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
     generate_csv(csv_filename, 1000, csv_fields)
     wrangler_config = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': sp_key,
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         }
     ]
+    factory = WranglerFactory()
 
     with OccurrenceSplitter(
         get_writer_key_from_fields_func(sp_key),
@@ -149,7 +152,7 @@ def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
     ) as splitter:
         splitter.process_reader(
             PointCsvReader(csv_filename, sp_key, x_key, y_key),
-            wrangler_factory(wrangler_config)
+            factory.get_wranglers(wrangler_config)
         )
 
     # Check output
@@ -168,6 +171,9 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
             filenames.
         temp_directory (pytest.fixture): A fixture to get a temporary directory.
     """
+    # Initialize wrangler factory
+    factory = WranglerFactory()
+
     # Temporary files
     dwca_1_filename = generate_temp_filename()
     dwca_2_filename = generate_temp_filename()
@@ -211,13 +217,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # Accepted name, common fields
     dwca_1_wrangler_conf = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'taxonname',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         },
         {
-            'wrangler_type': 'attribute_map_modifier',
-            'attribute_mapping': {
+            'wrangler_type': 'CommonFormatWrangler',
+            'attribute_map': {
                 'taxonname': 'species',
                 'latitude': 'latitude',
                 'longitude': 'longitude',
@@ -264,13 +270,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # Accepted name, common fields
     dwca_2_wrangler_conf = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'species_name',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         },
         {
-            'wrangler_type': 'attribute_map_modifier',
-            'attribute_mapping': {
+            'wrangler_type': 'CommonFormatWrangler',
+            'attribute_map': {
                 'species_name': 'species',
                 'decimallatitude': 'latitude',
                 'decimallongitude': 'longitude',
@@ -317,13 +323,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # Accepted name, common fields
     csv_1_wrangler_conf = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'tax',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         },
         {
-            'wrangler_type': 'attribute_map_modifier',
-            'attribute_mapping': {
+            'wrangler_type': 'CommonFormatWrangler',
+            'attribute_map': {
                 'tax': 'species',
                 'lat': 'latitude',
                 'lon': 'longitude',
@@ -370,13 +376,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # Accepted name, common fields
     csv_2_wrangler_conf = [
         {
-            'wrangler_type': 'attribute_modifier',
+            'wrangler_type': 'AcceptedNameOccurrenceWrangler',
             'attribute_name': 'taxname',
-            'map_values': SPECIES_MAP
+            'accepted_name_map': SPECIES_MAP
         },
         {
-            'wrangler_type': 'attribute_map_modifier',
-            'attribute_mapping': {
+            'wrangler_type': 'CommonFormatWrangler',
+            'attribute_map': {
                 'taxname': 'species',
                 'dec_lat': 'latitude',
                 'dec_lon': 'longitude',
@@ -392,18 +398,20 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         get_writer_filename_func(temp_directory)
     ) as splitter:
         splitter.process_reader(
-            PointDwcaReader(dwca_1_filename), wrangler_factory(dwca_1_wrangler_conf)
+            PointDwcaReader(dwca_1_filename),
+            factory.get_wranglers(dwca_1_wrangler_conf)
         )
         splitter.process_reader(
-            PointDwcaReader(dwca_2_filename), wrangler_factory(dwca_2_wrangler_conf)
+            PointDwcaReader(dwca_2_filename),
+            factory.get_wranglers(dwca_2_wrangler_conf)
         )
         splitter.process_reader(
             PointCsvReader(csv_1_filename, 'tax', 'lon', 'lat'),
-            wrangler_factory(csv_1_wrangler_conf)
+            factory.get_wranglers(csv_1_wrangler_conf)
         )
         splitter.process_reader(
             PointCsvReader(csv_2_filename, 'taxname', 'dec_lon', 'dec_lat'),
-            wrangler_factory(csv_2_wrangler_conf)
+            factory.get_wranglers(csv_2_wrangler_conf)
         )
 
     # Check output

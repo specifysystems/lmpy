@@ -1,12 +1,10 @@
-[
 {
-    "wrangler_type": "attribute_filter",
+    "wrangler_type": "AttributeFilterWrangler",
     "attribute_name": "issue",
-    "field_delimiter": ";",
-    "field_type": "list",
-    "condition": {
-        "all": {
-            "not_in": [
+    "filter_func": {
+        "for-each": {
+            "condition": "not-in",
+            "values": [
                 "TAXON_MATCH_FUZZY",
                 "TAXON_MATCH_HIGHERRANK",
                 "TAXON_MATCH_NONE"
@@ -14,4 +12,3 @@
         }
     }
 }
-]

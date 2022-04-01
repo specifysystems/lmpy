@@ -19,6 +19,7 @@ from lmpy.point import (
     ID_TAG,
     LOCATION_TAG,
     OCCURRENCE_ROW_TYPE,
+    Point
 )
 
 
@@ -237,3 +238,37 @@ def generate_csv(filename, count, fields):
         for _ in range(count):
             # Write row of simulated values
             csv_writer.writerow({f.header: f.create() for f in fields})
+
+
+# .....................................................................................
+def generate_points(count, species_field, x_field, y_field, fields):
+    """Generate a list of Point objects for testing.
+
+    Args:
+        count (int): THe number of points to simulate.
+        species_field (SimulatedField): A simulated field for species.
+        x_field (SimulatedField): A simulated field for the x coordiante.
+        y_field (SimulatedField): A simulated field for the y coordinate.
+        fields (list of SimulatedField): A list of simulated fields.
+
+    Returns:
+        list of Point: A list of Point objects.
+    """
+    points = []
+    for _ in range(count):
+        atts = {
+            fld.header: fld.create() for fld in fields
+        }
+        atts[species_field.header] = species_field.create()
+        atts[x_field.header] = x_field.create()
+        atts[y_field.header] = y_field.create()
+        points.append(
+            Point(
+                atts[species_field.header],
+                atts[x_field.header],
+                atts[y_field.header],
+                attributes=atts
+            )
+        )
+
+    return points

@@ -58,10 +58,13 @@ def test_valid(monkeypatch, generate_temp_filename, data_keys):
     # Write wrangler configuration file
     wrangler_config = [
         {
-            'wrangler_type': 'decimal_precision_filter',
-            'decimal_precision': target_precision,
+            'wrangler_type': 'DecimalPrecisionFilter',
+            'decimal_places': target_precision,
         },
-        {'wrangler_type': 'unique_localities_filter'},
+        {
+            'wrangler_type': 'UniqueLocalitiesFilter',
+            'do_reset': 'False'
+        },
     ]
     with open(wranglers_fn, mode='wt') as json_out:
         json.dump(wrangler_config, json_out)

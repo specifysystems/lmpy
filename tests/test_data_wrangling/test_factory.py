@@ -2,7 +2,7 @@
 import json
 import os
 
-from lmpy.data_wrangling.occurrence.factory import wrangler_factory
+from lmpy.data_wrangling.factory import WranglerFactory
 
 
 # ............................................................................
@@ -17,6 +17,8 @@ class Test_wrangler_factory:
             occurrence_wrangler_configuration (str): A file containing wrangler
                 configuration information.
         """
+        factory = WranglerFactory()
+
         with open(occurrence_wrangler_configuration) as in_file:
             raw_string = in_file.read()
             config = json.loads(
@@ -27,5 +29,5 @@ class Test_wrangler_factory:
                     ),
                 )
             )
-        wrangler = wrangler_factory(config)
-        assert wrangler
+        wranglers = factory.get_wranglers(config)
+        assert wranglers[0]
