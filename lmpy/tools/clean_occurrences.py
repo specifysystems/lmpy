@@ -2,7 +2,7 @@
 import argparse
 import json
 
-from lmpy.data_wrangling.occurrence.factory import wrangler_factory
+from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointCsvWriter
 
 
@@ -35,20 +35,20 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
     report = {
         'input_records': 0,
         'output_records': 0,
-        'wranglers': {wrangler_name: {'removed': 0} for wrangler_name, _ in wranglers},
+        'wranglers': [wrangler.get_report() for wrangler in wranglers],
     }
     # Open reader
     reader.open()
     writer = None
     for points in reader:
         report['input_records'] += len(points)
-        for wrangler_name, wrangler in wranglers:
+        for wrangler in wranglers:
+            wrangler_name = wrangler.name
             # If there are points, wrangle them
             if points:
                 tmp = len(points)
                 sp_name = points[0].species_name
-                points = wrangler(points)
-                report['wranglers'][wrangler_name]['removed'] += tmp - len(points)
+                points = wrangler.wrangle_points(points)
                 log_msg(f'{wrangler_name} removed {tmp - len(points)} {sp_name} points')
         # If any points are left, write them
         if points:
@@ -116,7 +116,8 @@ def cli():
     args = parser.parse_args()
 
     # Get wranglers
-    wranglers = wrangler_factory(
+    wrangler_factory = WranglerFactory()
+    wranglers = wrangler_factory.get_wranglers(
         json.load(open(args.wrangler_config_filename, mode='rt'))
     )
 

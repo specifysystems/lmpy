@@ -1,7 +1,5 @@
-[
-    {
-        "wrangler_type": "coordinate_converter_modifier",
-        "in_epsg": 4326,
-        "out_epsg": 2163
-    }
-]
+{
+    "wrangler_type": "CoordinateConverterWrangler",
+    "source_epsg": 4326,
+    "target_epsg": 2163
+}
