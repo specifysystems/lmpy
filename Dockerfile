@@ -8,6 +8,8 @@ LABEL description="A Docker image lmpy tools"
 RUN conda update -n base -c conda-forge conda && \
     conda install -y -c conda-forge gdal libspatialindex rtree
 
+ENV PROJ_LIB=/usr/local/share/proj/
+
 # RUN conda update -n base -c conda-forge conda && \
 #     conda env create -f environment.yml
 # SHELL ["conda", "run", "-n", "lmpy", "/bin/bash", "-c"]
