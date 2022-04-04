@@ -1,17 +1,20 @@
 """Module containing a data wrangler base class for resolving taxon names."""
 import json
 import requests
+import time
 import urllib
 
 from lmpy.data_wrangling.base import _DataWrangler
 
 
 # .....................................................................................
-def resolve_names_gbif(names):
+def resolve_names_gbif(names, wait_time=None):
     """Resolve names using GBIF's taxonomic name resolution service.
 
     Args:
         names (list of str): A list of name strings to resolve.
+        wait_time (number): A number of seconds to wait after each request to avoid
+            server ire.
 
     Returns:
         dict: Input names are keys and resolved name or None are values.
@@ -27,6 +30,8 @@ def resolve_names_gbif(names):
             resolved_names[name_str] = response['canonicalName']
         else:
             resolved_names[name_str] = None
+        if wait_time is not None:
+            time.sleep(wait_time)
 
     return resolved_names
 
