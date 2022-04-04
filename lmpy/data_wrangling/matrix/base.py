@@ -18,26 +18,26 @@ class _MatrixDataWrangler(_DataWrangler):
         self.report['changes'] = {}
 
     # .......................
-    def _report_slice(self, axis, idx, modified=False, filtered=False):
+    def _report_slice(self, axis, idx, modified=False, purged=False):
         """Report what is done on a matrix slice.
 
         Args:
             axis (int): The axis of the interaction.
             idx (int): The index of the interaction.
             modified (bool): Was the slice modified.
-            filtered (bool): Was the slice filtered.
+            purged (bool): Was the slice purged.
         """
         if str(axis) not in self.report['changes']:
             self.report['changes'][str(axis)] = {
                 'axis': axis,
                 'modified': 0,
-                'filtered': 0
+                'purged': 0
             }
         if modified:
             self.report['changes'][str(axis)]['modified'] += 1
 
-        if filtered:
-            self.report['changes'][str(axis)]['filtered'] += 1
+        if purged:
+            self.report['changes'][str(axis)]['purged'] += 1
 
     # .......................
     def wrangle_matrix(self, matrix):
