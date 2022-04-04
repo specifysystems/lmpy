@@ -72,7 +72,13 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
 
         # Should we purge?
         if self.purge_failures:
+            new_headers = matrix.get_headers(str(self.taxon_axis))
             matrix = np.delete(matrix, failures, axis=self.taxon_axis)
+            # Go through failures and pop each, reverse list to start at biggest to
+            #     maintain indices
+            for i in sorted(failures, reverse=True):
+                new_headers.pop(i)
+            matrix.set_headers(str(self.taxon_axis), new_headers)
             # Change purged and modified since we are removing items
             purged = True
             modified = False
