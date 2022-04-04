@@ -5,4 +5,3 @@ omit =
     */create_tree_matrix.py
     */wrangle_tree.py
     */wrangle_matrix.py
-    */data_wrangling/tree/base.py
