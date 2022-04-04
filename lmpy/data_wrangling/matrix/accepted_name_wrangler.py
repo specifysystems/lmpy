@@ -1,4 +1,6 @@
 """Module containing occurrence data wranglers for modifying point data."""
+import numpy as np
+
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
     _AcceptedNameWrangler,
     resolve_names_gbif,
