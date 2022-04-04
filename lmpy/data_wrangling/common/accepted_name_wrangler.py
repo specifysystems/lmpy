@@ -8,7 +8,7 @@ from lmpy.data_wrangling.base import _DataWrangler
 
 
 # .....................................................................................
-def resolve_names_gbif(names, wait_time=None):
+def resolve_names_gbif(names, wait_time=.5):
     """Resolve names using GBIF's taxonomic name resolution service.
 
     Args:
