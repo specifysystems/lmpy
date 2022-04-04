@@ -21,6 +21,7 @@ from lmpy.point import (
     OCCURRENCE_ROW_TYPE,
     Point
 )
+from lmpy.tree import TreeWrapper
 
 
 # .....................................................................................
@@ -272,3 +273,25 @@ def generate_points(count, species_field, x_field, y_field, fields):
         )
 
     return points
+
+
+# .....................................................................................
+def generate_tree(tips):
+    """Generate a random tree for the provided tips.
+
+    Args:
+        tips (list of str or int): Either the number of tips to generate or tip names.
+
+    Returns:
+        TreeWrapper: A generated tree.
+    """
+    if isinstance(tips, int):
+        tips = [f'Species {i}' for i in range(tips)]
+    while len(tips) > 1:
+        np.random.shuffle(tips)
+        tips.append('({},{})'.format(tips.pop(), tips.pop()))
+
+    return TreeWrapper.get(
+        data='{};'.format(tips[0].replace(' ', '_')),
+        schema='newick'
+    )
