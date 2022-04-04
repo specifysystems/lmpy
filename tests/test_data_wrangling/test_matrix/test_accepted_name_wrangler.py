@@ -8,7 +8,7 @@ from lmpy.data_wrangling.matrix.accepted_name_wrangler import (
 
 
 # .....................................................................................
-def test_accepted_name_wrangler():
+def test_accepted_name_wrangler_matrix():
     """Test the accepted_name_wrangler."""
     # Name map
     name_map = {
@@ -36,7 +36,7 @@ def test_accepted_name_wrangler():
 
 
 # .....................................................................................
-def test_accepted_name_wrangler_unmatched_names():
+def test_accepted_name_wrangler_unmatched_names_matrix():
     """Test the Accepted Name Wrangler with unmatched names."""
     # Name map
     name_map = {

@@ -9,7 +9,7 @@ from tests.data_simulator import generate_tree
 
 
 # .....................................................................................
-def test_accepted_name_wrangler():
+def test_accepted_name_wrangler_tree():
     """Test the accepted_name_wrangler."""
     # Name map
     name_map = {
@@ -34,7 +34,7 @@ def test_accepted_name_wrangler():
 
 
 # .....................................................................................
-def test_accepted_name_wrangler_unmatched_names():
+def test_accepted_name_wrangler_unmatched_names_tree():
     """Test the Accepted Name Wrangler with unmatched names."""
     # Name map
     name_map = {
