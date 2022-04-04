@@ -30,6 +30,8 @@ class AcceptedNameOccurrenceWrangler(_OccurrenceDataWrangler, _AcceptedNameWrang
                 original taxon name.
             **params (dict): Keyword parameters to pass to _OccurrenceDataWrangler.
         """
+        _OccurrenceDataWrangler.__init__(self, **params)
+
         if isinstance(name_resolver, str) and name_resolver.lower() == 'gbif':
             name_resolver = resolve_names_gbif
         _AcceptedNameWrangler.__init__(
@@ -37,7 +39,6 @@ class AcceptedNameOccurrenceWrangler(_OccurrenceDataWrangler, _AcceptedNameWrang
             name_map=name_map,
             name_resolver=name_resolver
         )
-        _OccurrenceDataWrangler.__init__(self, **params)
 
         self.store_original_attribute = store_original_attribute
 

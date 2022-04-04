@@ -71,11 +71,10 @@ class _OccurrenceDataWrangler(_DataWrangler):
         Returns:
             dict: A dictionary of wrangler outputs.
         """
-        report = _DataWrangler.get_report(self)
-        report['assessed'] = self.assessed
-        report['modified'] = self.modified
-        report['filtered'] = self.filtered
-        return report
+        self.report['assessed'] = self.assessed
+        self.report['modified'] = self.modified
+        self.report['filtered'] = self.filtered
+        return self.report
 
     # .......................
     def report_point(self, filtered=False, modified=False):

@@ -6,6 +6,7 @@ class _DataWrangler:
     """Data wrangler base class."""
     name = '_DataWrangler'
     version = '1.0'
+    report = {}
 
     # ........................
     def __init__(self, *args, **kwargs):
@@ -37,7 +38,6 @@ class _DataWrangler:
         Returns:
             dict: A dictionary of reporting information.
         """
-        return {
-            'name': self.name,
-            'version': self.version
-        }
+        self.report['name'] = self.name
+        self.report['version'] = self.version
+        return self.report
