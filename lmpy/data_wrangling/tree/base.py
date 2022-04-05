@@ -43,4 +43,3 @@ class _TreeDataWrangler(_DataWrangler):
             NotImplementedError: This method is not implemeneted for the base class.
         """
         raise NotImplementedError('wrangle_matrix not implemented on base class.')
-
