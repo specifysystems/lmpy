@@ -1,0 +1,91 @@
+:py:mod:`accepted_name_wrangler`
+================================
+
+.. py:module:: accepted_name_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing a data wrangler base class for resolving taxon names.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   accepted_name_wrangler._AcceptedNameWrangler
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   accepted_name_wrangler.resolve_names_gbif
+
+
+
+.. py:class:: _AcceptedNameWrangler(name_map=None, name_resolver=None)
+
+   Bases: :py:obj:`lmpy.data_wrangling.base._DataWrangler`
+
+   Constructor for the base accepted name wrangler.
+
+   :param name_map: An existing name mapping.
+   :type name_map: dict or str or None
+   :param name_resolver: If provided, this should be a function that
+                         takes a list of names as input and returns a dictionary of name
+                         mappings.  If omitted, resolving of new names will be skipped.
+   :type name_resolver: Method or None
+
+   .. py:method:: _load_name_map(self, name_map)
+
+      Attempt to load names from the name_map provided.
+
+      :param name_map: A mapping dictionary or a filename with names.
+      :type name_map: dict or str
+
+
+   .. py:method:: resolve_names(self, names)
+
+      Attempts to resolve a list of names.
+
+      :param names: A list of names to resolve.
+      :type names: list or str
+
+      :returns: A dictionary of input name keys and resolved name values.
+      :rtype: dict
+
+
+   .. py:method:: write_map_to_file(self, filename, output_format, mode='wt')
+
+      Write the name map to a file so it can be reused.
+
+      :param filename: A file location where the map should be written.
+      :type filename: str
+      :param output_format: The format to write the map, either 'csv' or 'json'.
+      :type output_format: str
+      :param mode: How the file should be opened.
+      :type mode: str
+
+
+
+.. py:function:: resolve_names_gbif(names, wait_time=0.5)
+
+   Resolve names using GBIF's taxonomic name resolution service.
+
+   :param names: A list of name strings to resolve.
+   :type names: list of str
+   :param wait_time: A number of seconds to wait after each request to avoid
+                     server ire.
+   :type wait_time: number
+
+   :returns: Input names are keys and resolved name or None are values.
+   :rtype: dict
+
+

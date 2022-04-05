@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.base &mdash; Specify lmpy 3.0.6+31.g2d43b9e documentation</title>
+  <title>lmpy.data_wrangling.occurrence.base &mdash; Specify lmpy 3.0.6+48.g750cc49 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -145,11 +145,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A dictionary of wrangler outputs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">report</span> <span class="o">=</span> <span class="n">_DataWrangler</span><span class="o">.</span><span class="n">get_report</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">report</span><span class="p">[</span><span class="s1">&#39;assessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">assessed</span>
-        <span class="n">report</span><span class="p">[</span><span class="s1">&#39;modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modified</span>
-        <span class="n">report</span><span class="p">[</span><span class="s1">&#39;filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filtered</span>
-        <span class="k">return</span> <span class="n">report</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;assessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">assessed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modified</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filtered</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">report</span></div>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="_OccurrenceDataWrangler.report_point"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler.report_point">[docs]</a>    <span class="k">def</span> <span class="nf">report_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filtered</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">modified</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

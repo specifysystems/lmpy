@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accepted_name_wrangler &mdash; Specify lmpy 3.0.6+48.g750cc49 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>accepted_name_wrangler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accepted_name_wrangler</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing a data wrangler base class for resolving taxon names.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.base</span> <span class="k">import</span> <span class="n">_DataWrangler</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="resolve_names_gbif"><a class="viewcode-back" href="../autoapi/accepted_name_wrangler/index.html#accepted_name_wrangler.resolve_names_gbif">[docs]</a><span class="k">def</span> <span class="nf">resolve_names_gbif</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">wait_time</span><span class="o">=.</span><span class="mi">5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Resolve names using GBIF&#39;s taxonomic name resolution service.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        names (list of str): A list of name strings to resolve.</span>
+<span class="sd">        wait_time (number): A number of seconds to wait after each request to avoid</span>
+<span class="sd">            server ire.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Input names are keys and resolved name or None are values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">resolved_names</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name_str</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="c1"># Get name</span>
+        <span class="n">other_filters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name_str</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://api.gbif.org/v1/species/match?</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">other_filters</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;accepted&#39;</span><span class="p">,</span> <span class="s1">&#39;synonym&#39;</span><span class="p">):</span>
+            <span class="n">resolved_names</span><span class="p">[</span><span class="n">name_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;canonicalName&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">resolved_names</span><span class="p">[</span><span class="n">name_str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">wait_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">resolved_names</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="_AcceptedNameWrangler"><a class="viewcode-back" href="../autoapi/accepted_name_wrangler/index.html#accepted_name_wrangler._AcceptedNameWrangler">[docs]</a><span class="k">class</span> <span class="nc">_AcceptedNameWrangler</span><span class="p">(</span><span class="n">_DataWrangler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for accepted taxon name wranglers.&quot;&quot;&quot;</span>
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for the base accepted name wrangler.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name_map (dict or str or None): An existing name mapping.</span>
+<span class="sd">            name_resolver (Method or None): If provided, this should be a function that</span>
+<span class="sd">                takes a list of names as input and returns a dictionary of name</span>
+<span class="sd">                mappings.  If omitted, resolving of new names will be skipped.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_name_map</span><span class="p">(</span><span class="n">name_map</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span> <span class="o">=</span> <span class="n">name_resolver</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_AcceptedNameWrangler._load_name_map"><a class="viewcode-back" href="../autoapi/accepted_name_wrangler/index.html#accepted_name_wrangler._AcceptedNameWrangler._load_name_map">[docs]</a>    <span class="k">def</span> <span class="nf">_load_name_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_map</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attempt to load names from the name_map provided.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name_map (dict or str): A mapping dictionary or a filename with names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="n">name_map</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Try to load JSON names</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_json</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_json</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>  <span class="c1"># Not a valid json file, try csv</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_csv</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">in_csv</span><span class="p">:</span>
+                        <span class="n">in_name</span><span class="p">,</span> <span class="n">out_name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">in_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_name</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_AcceptedNameWrangler.resolve_names"><a class="viewcode-back" href="../autoapi/accepted_name_wrangler/index.html#accepted_name_wrangler._AcceptedNameWrangler.resolve_names">[docs]</a>    <span class="k">def</span> <span class="nf">resolve_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attempts to resolve a list of names.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            names (list or str): A list of names to resolve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary of input name keys and resolved name values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">]</span>
+        <span class="n">resolved_names</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">unmatched_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">resolved_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">unmatched_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">resolved_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># If we have a name resolver and names to resolve, do it</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">unmatched_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">new_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span><span class="p">(</span><span class="n">unmatched_names</span><span class="p">)</span>
+            <span class="c1"># Update name map and return dictionary</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
+            <span class="n">resolved_names</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resolved_names</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_AcceptedNameWrangler.write_map_to_file"><a class="viewcode-back" href="../autoapi/accepted_name_wrangler/index.html#accepted_name_wrangler._AcceptedNameWrangler.write_map_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_map_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">output_format</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write the name map to a file so it can be reused.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): A file location where the map should be written.</span>
+<span class="sd">            output_format (str): The format to write the map, either &#39;csv&#39; or &#39;json&#39;.</span>
+<span class="sd">            mode (str): How the file should be opened.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">output_format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">,</span> <span class="n">out_json</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_csv</span><span class="p">:</span>
+                <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Name,Accepted</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">in_name</span><span class="p">,</span> <span class="n">out_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{in_name}</span><span class="s1">,</span><span class="si">{out_name}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

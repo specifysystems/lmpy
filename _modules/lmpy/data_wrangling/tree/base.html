@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.tree.base &mdash; Specify lmpy 3.0.6+31.g2d43b9e documentation</title>
+  <title>lmpy.data_wrangling.tree.base &mdash; Specify lmpy 3.0.6+48.g750cc49 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -82,9 +82,41 @@
 <div class="viewcode-block" id="_TreeDataWrangler.name"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/tree/base/index.html#lmpy.data_wrangling.tree.base._TreeDataWrangler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_TreeDataWrangler&#39;</span></div>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Constructor for _OcccurrenceDataWrangler base class.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for _TreeDataWrangler base class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **params (dict): Named parameters to pass to _DataWrangler base class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_DataWrangler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;purged&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_TreeDataWrangler._report_tip"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/tree/base/index.html#lmpy.data_wrangling.tree.base._TreeDataWrangler._report_tip">[docs]</a>    <span class="k">def</span> <span class="nf">_report_tip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modified</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">purged</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Report what is done on a tree tip.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            modified (bool): Was the tip modified.</span>
+<span class="sd">            purged (bool): Was the tip purged.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">modified</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;modified&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">purged</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;purged&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_TreeDataWrangler.wrangle_tree"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/tree/base/index.html#lmpy.data_wrangling.tree.base._TreeDataWrangler.wrangle_tree">[docs]</a>    <span class="k">def</span> <span class="nf">wrangle_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wrangle a tree.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tree (TreeWrapper): A phylogenetic tree to wrangle.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method is not implemeneted for the base class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;wrangle_matrix not implemented on base class.&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

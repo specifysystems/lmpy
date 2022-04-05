@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.tree.base &mdash; Specify lmpy 3.0.6+31.g2d43b9e documentation</title>
+  <title>lmpy.data_wrangling.tree.base &mdash; Specify lmpy 3.0.6+48.g750cc49 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
@@ -86,19 +86,52 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.tree.base._TreeDataWrangler" title="lmpy.data_wrangling.tree.base._TreeDataWrangler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_TreeDataWrangler</span></code></a></p></td>
-<td><p>Constructor for _OcccurrenceDataWrangler base class.</p></td>
+<td><p>Constructor for _TreeDataWrangler base class.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.tree.base._TreeDataWrangler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.tree.base.</span></span><span class="sig-name descname"><span class="pre">_TreeDataWrangler</span></span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/tree/base.html#_TreeDataWrangler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.tree.base._TreeDataWrangler" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.tree.base.</span></span><span class="sig-name descname"><span class="pre">_TreeDataWrangler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/tree/base.html#_TreeDataWrangler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.tree.base._TreeDataWrangler" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../base/index.html#lmpy.data_wrangling.base._DataWrangler" title="lmpy.data_wrangling.base._DataWrangler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lmpy.data_wrangling.base._DataWrangler</span></code></a></p>
-<p>Constructor for _OcccurrenceDataWrangler base class.</p>
+<p>Constructor for _TreeDataWrangler base class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>**params</strong> (<em>dict</em>) – Named parameters to pass to _DataWrangler base class.</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.tree.base._TreeDataWrangler.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">_TreeDataWrangler</span></em><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/tree/base.html#_TreeDataWrangler.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.tree.base._TreeDataWrangler.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.tree.base._TreeDataWrangler._report_tip">
+<span class="sig-name descname"><span class="pre">_report_tip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">purged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/tree/base.html#_TreeDataWrangler._report_tip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.tree.base._TreeDataWrangler._report_tip" title="Permalink to this definition"></a></dt>
+<dd><p>Report what is done on a tree tip.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modified</strong> (<em>bool</em>) – Was the tip modified.</p></li>
+<li><p><strong>purged</strong> (<em>bool</em>) – Was the tip purged.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.tree.base._TreeDataWrangler.wrangle_tree">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrangle_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/tree/base.html#_TreeDataWrangler.wrangle_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.tree.base._TreeDataWrangler.wrangle_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Wrangle a tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tree</strong> (<a class="reference internal" href="../../../tree/index.html#lmpy.tree.TreeWrapper" title="lmpy.tree.TreeWrapper"><em>TreeWrapper</em></a>) – A phylogenetic tree to wrangle.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – This method is not implemeneted for the base class.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

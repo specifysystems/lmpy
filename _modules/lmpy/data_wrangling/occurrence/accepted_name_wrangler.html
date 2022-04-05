@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.accepted_name_wrangler &mdash; Specify lmpy 3.0.6+31.g2d43b9e documentation</title>
+  <title>lmpy.data_wrangling.occurrence.accepted_name_wrangler &mdash; Specify lmpy 3.0.6+48.g750cc49 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -74,54 +74,50 @@
   <h1>Source code for lmpy.data_wrangling.occurrence.accepted_name_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing occurrence data wranglers for modifying point data.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.occurrence.base</span> <span class="k">import</span> <span class="n">_OccurrenceDataWrangler</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.common.accepted_name_wrangler</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">_AcceptedNameWrangler</span><span class="p">,</span>
+    <span class="n">resolve_names_gbif</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="get_accepted_name_map"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.get_accepted_name_map">[docs]</a><span class="k">def</span> <span class="nf">get_accepted_name_map</span><span class="p">(</span><span class="n">name_map</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get the accepted name map from a dictionary or a filename.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        name_map (str or dict): A filename or mapping dictionary.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        dict: A mapping dictionary</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">name_map</span>
-    <span class="n">accepted_name_map</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_file</span><span class="p">:</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">in_file</span><span class="p">:</span>
-            <span class="n">parts</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
-            <span class="n">accepted_name_map</span><span class="p">[</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">accepted_name_map</span></div>
-
-
-<span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="AcceptedNameWrangler"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameWrangler">[docs]</a><span class="k">class</span> <span class="nc">AcceptedNameWrangler</span><span class="p">(</span><span class="n">_OccurrenceDataWrangler</span><span class="p">):</span>
+<div class="viewcode-block" id="AcceptedNameOccurrenceWrangler"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler">[docs]</a><span class="k">class</span> <span class="nc">AcceptedNameOccurrenceWrangler</span><span class="p">(</span><span class="n">_OccurrenceDataWrangler</span><span class="p">,</span> <span class="n">_AcceptedNameWrangler</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Modifies the species_name to the &quot;accepted&quot; taxon name for the species.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="AcceptedNameWrangler.name"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameWrangler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;AcceptedNameOccurrenceWrangler&#39;</span></div>
-<div class="viewcode-block" id="AcceptedNameWrangler.version"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameWrangler.version">[docs]</a>    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span></div>
+<div class="viewcode-block" id="AcceptedNameOccurrenceWrangler.name"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;AcceptedNameOccurrenceWrangler&#39;</span></div>
+<div class="viewcode-block" id="AcceptedNameOccurrenceWrangler.version"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler.version">[docs]</a>    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span></div>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">accepted_name_map</span><span class="p">,</span> <span class="n">store_original_attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">store_original_attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">params</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for AcceptedNameModifier class.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            accepted_name_map (dict): A map of original name to accepted name.</span>
+<span class="sd">            name_map (dict): A map of original name to accepted name.</span>
+<span class="sd">            name_resolver (str or Method): If provided, use this method for getting new</span>
+<span class="sd">                accepted names.  If set to &#39;gbif&#39;, use GBIF name resolution.</span>
 <span class="sd">            store_original_attribute (str or None): A new attribute to store the</span>
 <span class="sd">                original taxon name.</span>
 <span class="sd">            **params (dict): Keyword parameters to pass to _OccurrenceDataWrangler.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">accepted_name_map</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">accepted_name_map</span> <span class="o">=</span> <span class="n">accepted_name_map</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">accepted_name_map</span> <span class="o">=</span> <span class="n">get_accepted_name_map</span><span class="p">(</span><span class="n">accepted_name_map</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">store_original_attribute</span> <span class="o">=</span> <span class="n">store_original_attribute</span>
         <span class="n">_OccurrenceDataWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_resolver</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name_resolver</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;gbif&#39;</span><span class="p">:</span>
+            <span class="n">name_resolver</span> <span class="o">=</span> <span class="n">resolve_names_gbif</span>
+        <span class="n">_AcceptedNameWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name_map</span><span class="o">=</span><span class="n">name_map</span><span class="p">,</span>
+            <span class="n">name_resolver</span><span class="o">=</span><span class="n">name_resolver</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_original_attribute</span> <span class="o">=</span> <span class="n">store_original_attribute</span>
+
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="AcceptedNameWrangler._pass_condition"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameWrangler._pass_condition">[docs]</a>    <span class="k">def</span> <span class="nf">_pass_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+<div class="viewcode-block" id="AcceptedNameOccurrenceWrangler._pass_condition"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler._pass_condition">[docs]</a>    <span class="k">def</span> <span class="nf">_pass_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Determine if a point has an accepted name.</span>
 
 <span class="sd">        Args:</span>
@@ -135,7 +131,7 @@
         <span class="k">return</span> <span class="kc">True</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="AcceptedNameWrangler._modify_point"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameWrangler._modify_point">[docs]</a>    <span class="k">def</span> <span class="nf">_modify_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+<div class="viewcode-block" id="AcceptedNameOccurrenceWrangler._modify_point"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler._modify_point">[docs]</a>    <span class="k">def</span> <span class="nf">_modify_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Update taxon name if necessary.</span>
 
 <span class="sd">        Args:</span>
@@ -144,10 +140,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Point, bool: Modified (if needed) point and boolean if point was modified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">acc_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="n">is_modified</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">species_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">accepted_name_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">acc_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accepted_name_map</span><span class="p">[</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">]</span>
+        <span class="n">acc_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_names</span><span class="p">([</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">])[</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">]</span>
 
         <span class="c1"># If we should keep original, add a new attribute</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_original_attribute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

@@ -22,15 +22,39 @@ Classes
 
 
 
-.. py:class:: _TreeDataWrangler
+.. py:class:: _TreeDataWrangler(**params)
 
    Bases: :py:obj:`lmpy.data_wrangling.base._DataWrangler`
 
-   Constructor for _OcccurrenceDataWrangler base class.
+   Constructor for _TreeDataWrangler base class.
+
+   :param \*\*params: Named parameters to pass to _DataWrangler base class.
+   :type \*\*params: dict
 
    .. py:attribute:: name
       :annotation: = _TreeDataWrangler
 
       
+
+   .. py:method:: _report_tip(self, modified=False, purged=False)
+
+      Report what is done on a tree tip.
+
+      :param modified: Was the tip modified.
+      :type modified: bool
+      :param purged: Was the tip purged.
+      :type purged: bool
+
+
+   .. py:method:: wrangle_tree(self, tree)
+      :abstractmethod:
+
+      Wrangle a tree.
+
+      :param tree: A phylogenetic tree to wrangle.
+      :type tree: TreeWrapper
+
+      :raises NotImplementedError: This method is not implemeneted for the base class.
+
 
 

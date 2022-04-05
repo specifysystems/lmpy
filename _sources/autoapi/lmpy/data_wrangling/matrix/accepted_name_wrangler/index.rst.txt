@@ -1,0 +1,64 @@
+:py:mod:`lmpy.data_wrangling.matrix.accepted_name_wrangler`
+===========================================================
+
+.. py:module:: lmpy.data_wrangling.matrix.accepted_name_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for modifying point data.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.matrix.accepted_name_wrangler.AcceptedNameMatrixWrangler
+
+
+
+
+.. py:class:: AcceptedNameMatrixWrangler(name_map=None, name_resolver=None, taxon_axis=1, purge_failures=True, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.matrix.base._MatrixDataWrangler`, :py:obj:`lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler`
+
+   Constructor for AcceptedNameMatrixModifier class.
+
+   :param name_map: A map of original name to accepted name.
+   :type name_map: dict
+   :param name_resolver: If provided, use this method for getting new
+                         accepted names.  If set to 'gbif', use GBIF name resolution.
+   :type name_resolver: str or Method
+   :param taxon_axis: The axis with taxon headers.
+   :type taxon_axis: int
+   :param purge_failures: Should failures be purged from the matrix.
+   :type purge_failures: bool
+   :param \*\*params: Keyword parameters to pass to _MatrixDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = AcceptedNameMatrixWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: wrangle_matrix(self, matrix)
+
+      Wrangle a matrix.
+
+      :param matrix: A matrix to wrangle.
+      :type matrix: Matrix
+
+      :returns: The matrix with accepted taxon names.
+      :rtype: Matrix
+
+
+

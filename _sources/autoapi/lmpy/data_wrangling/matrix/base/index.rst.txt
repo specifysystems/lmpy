@@ -22,15 +22,57 @@ Classes
 
 
 
-.. py:class:: _MatrixDataWrangler
+.. py:class:: _MatrixDataWrangler(**params)
 
    Bases: :py:obj:`lmpy.data_wrangling.base._DataWrangler`
 
    Constructor for _MatrixDataWrangler base class.
 
+   :param \*\*params: Named parameters to pass to _DataWrangler base class.
+   :type \*\*params: dict
+
    .. py:attribute:: name
       :annotation: = _MatrixDataWrangler
 
       
+
+   .. py:method:: _report_slice(self, axis, idx, modified=False, purged=False)
+
+      Report what is done on a matrix slice.
+
+      :param axis: The axis of the interaction.
+      :type axis: int
+      :param idx: The index of the interaction.
+      :type idx: int
+      :param modified: Was the slice modified.
+      :type modified: bool
+      :param purged: Was the slice purged.
+      :type purged: bool
+
+
+   .. py:method:: reorder(self, matrix, *axes_order)
+
+      Reorder / subset a matrix for a number of dimensions.
+
+      :param matrix: A matrix to reorder.
+      :type matrix: Matrix
+      :param \*axes_order: Iterables for each dimension of a matrix
+                           to reorder / subset.
+      :type \*axes_order: list of iterables
+
+      :returns: A reordered and / or subset matrix.
+      :rtype: Matrix
+
+
+   .. py:method:: wrangle_matrix(self, matrix)
+      :abstractmethod:
+
+      Wrangle a matrix.
+
+      :param matrix: A matrix to wrangle.
+      :type matrix: Matrix
+
+      :raises NotImplementedError: This method is not implemeneted for the base class.
+
 
 

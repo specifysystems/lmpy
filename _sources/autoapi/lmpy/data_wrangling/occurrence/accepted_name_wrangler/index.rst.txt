@@ -17,27 +17,22 @@ Classes
 
 .. autoapisummary::
 
-   lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameWrangler
+   lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler
 
 
 
-Functions
-~~~~~~~~~
 
-.. autoapisummary::
+.. py:class:: AcceptedNameOccurrenceWrangler(name_map=None, name_resolver=None, store_original_attribute=None, **params)
 
-   lmpy.data_wrangling.occurrence.accepted_name_wrangler.get_accepted_name_map
-
-
-
-.. py:class:: AcceptedNameWrangler(accepted_name_map, store_original_attribute=None, **params)
-
-   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`, :py:obj:`lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler`
 
    Constructor for AcceptedNameModifier class.
 
-   :param accepted_name_map: A map of original name to accepted name.
-   :type accepted_name_map: dict
+   :param name_map: A map of original name to accepted name.
+   :type name_map: dict
+   :param name_resolver: If provided, use this method for getting new
+                         accepted names.  If set to 'gbif', use GBIF name resolution.
+   :type name_resolver: str or Method
    :param store_original_attribute: A new attribute to store the
                                     original taxon name.
    :type store_original_attribute: str or None
@@ -75,16 +70,5 @@ Functions
       :returns: An indication if the point passed the test.
       :rtype: bool
 
-
-
-.. py:function:: get_accepted_name_map(name_map)
-
-   Get the accepted name map from a dictionary or a filename.
-
-   :param name_map: A filename or mapping dictionary.
-   :type name_map: str or dict
-
-   :returns: A mapping dictionary
-   :rtype: dict
 
 

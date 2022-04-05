@@ -36,6 +36,11 @@ Classes
 
       
 
+   .. py:attribute:: report
+      
+
+      
+
    .. py:attribute:: version
       :annotation: = 1.0
 

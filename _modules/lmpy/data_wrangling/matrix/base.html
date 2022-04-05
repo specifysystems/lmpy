@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.matrix.base &mdash; Specify lmpy 3.0.6+31.g2d43b9e documentation</title>
+  <title>lmpy.data_wrangling.matrix.base &mdash; Specify lmpy 3.0.6+48.g750cc49 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -82,9 +82,62 @@
 <div class="viewcode-block" id="_MatrixDataWrangler.name"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/matrix/base/index.html#lmpy.data_wrangling.matrix.base._MatrixDataWrangler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_MatrixDataWrangler&#39;</span></div>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Constructor for _MatrixDataWrangler base class.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for _MatrixDataWrangler base class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **params (dict): Named parameters to pass to _DataWrangler base class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_DataWrangler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_MatrixDataWrangler._report_slice"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/matrix/base/index.html#lmpy.data_wrangling.matrix.base._MatrixDataWrangler._report_slice">[docs]</a>    <span class="k">def</span> <span class="nf">_report_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">modified</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">purged</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Report what is done on a matrix slice.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis (int): The axis of the interaction.</span>
+<span class="sd">            idx (int): The index of the interaction.</span>
+<span class="sd">            modified (bool): Was the slice modified.</span>
+<span class="sd">            purged (bool): Was the slice purged.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;axis&#39;</span><span class="p">:</span> <span class="n">axis</span><span class="p">,</span>
+                <span class="s1">&#39;modified&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s1">&#39;purged&#39;</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">}</span>
+        <span class="k">if</span> <span class="n">modified</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)][</span><span class="s1">&#39;modified&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">purged</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)][</span><span class="s1">&#39;purged&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_MatrixDataWrangler.wrangle_matrix"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/matrix/base/index.html#lmpy.data_wrangling.matrix.base._MatrixDataWrangler.wrangle_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">wrangle_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wrangle a matrix.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            matrix (Matrix): A matrix to wrangle.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method is not implemeneted for the base class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;wrangle_matrix not implemented on base class.&#39;</span><span class="p">)</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_MatrixDataWrangler.reorder"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/matrix/base/index.html#lmpy.data_wrangling.matrix.base._MatrixDataWrangler.reorder">[docs]</a>    <span class="k">def</span> <span class="nf">reorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">,</span> <span class="o">*</span><span class="n">axes_order</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reorder / subset a matrix for a number of dimensions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            matrix (Matrix): A matrix to reorder.</span>
+<span class="sd">            *axes_order (list of iterables): Iterables for each dimension of a matrix</span>
+<span class="sd">                to reorder / subset.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: A reordered and / or subset matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">matrix</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="o">*</span><span class="n">axes_order</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

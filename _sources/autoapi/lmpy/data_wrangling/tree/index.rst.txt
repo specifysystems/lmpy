@@ -15,6 +15,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   accepted_name_wrangler/index.rst
    base/index.rst
 
 

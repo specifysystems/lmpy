@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.base &mdash; Specify lmpy 3.0.6+31.g2d43b9e documentation</title>
+  <title>lmpy.data_wrangling.base &mdash; Specify lmpy 3.0.6+48.g750cc49 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -80,6 +80,7 @@
     <span class="sd">&quot;&quot;&quot;Data wrangler base class.&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="_DataWrangler.name"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/base/index.html#lmpy.data_wrangling.base._DataWrangler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_DataWrangler&#39;</span></div>
 <div class="viewcode-block" id="_DataWrangler.version"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/base/index.html#lmpy.data_wrangling.base._DataWrangler.version">[docs]</a>    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span></div>
+<div class="viewcode-block" id="_DataWrangler.report"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/base/index.html#lmpy.data_wrangling.base._DataWrangler.report">[docs]</a>    <span class="n">report</span> <span class="o">=</span> <span class="p">{}</span></div>
 
     <span class="c1"># ........................</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -111,10 +112,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A dictionary of reporting information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
-        <span class="p">}</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">report</span></div></div>
 </pre></div>
 
            </div>
