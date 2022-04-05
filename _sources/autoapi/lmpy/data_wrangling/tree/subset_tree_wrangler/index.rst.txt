@@ -1,0 +1,57 @@
+:py:mod:`lmpy.data_wrangling.tree.subset_tree_wrangler`
+=======================================================
+
+.. py:module:: lmpy.data_wrangling.tree.subset_tree_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing data wranglers for subsetting a tree.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.tree.subset_tree_wrangler.SubsetTreeWrangler
+
+
+
+
+.. py:class:: SubsetTreeWrangler(keep_taxa, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.tree.base._TreeDataWrangler`
+
+   Constructor for SubsetTreeWrangler class.
+
+   :param keep_taxa: A list of taxon names to keep.
+   :type keep_taxa: list of str
+   :param \*\*params: Keyword parameters to pass to _MatrixDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = SubsetTreeWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: wrangle_tree(self, tree)
+
+      Wrangle a tree.
+
+      :param tree: A tree to wrangle.
+      :type tree: TreeWrapper
+
+      :returns: The subsetted tree.
+      :rtype: TreeWrapper
+
+
+

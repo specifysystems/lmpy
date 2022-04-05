@@ -17,5 +17,7 @@ Submodules
 
    accepted_name_wrangler/index.rst
    base/index.rst
+   match_matrix_wrangler/index.rst
+   subset_tree_wrangler/index.rst
 
 
