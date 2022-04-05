@@ -15,8 +15,8 @@ class _TreeDataWrangler(_DataWrangler):
             **params (dict): Named parameters to pass to _DataWrangler base class.
         """
         _DataWrangler(self, **params)
-        self.report['modified'] = 0
-        self.report['purged'] = 0
+        self._modified = 0
+        self._purged = 0
 
     # .......................
     def _report_tip(self, modified=False, purged=False):
@@ -27,10 +27,22 @@ class _TreeDataWrangler(_DataWrangler):
             purged (bool): Was the tip purged.
         """
         if modified:
-            self.report['modified'] += 1
+            self._modified += 1
 
         if purged:
-            self.report['purged'] += 1
+            self._purged += 1
+
+    # .......................
+    def get_report(self):
+        """Get the report of the wrangler's activities.
+
+        Returns:
+            dict: Wrangler report information.
+        """
+        report = _DataWrangler.get_report(self)
+        report['purged'] = self._purged
+        report['modified'] = self._modified
+        return report
 
     # .......................
     def wrangle_tree(self, tree):

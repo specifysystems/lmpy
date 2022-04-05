@@ -28,7 +28,6 @@ class MatchMatrixTreeWrangler(_TreeDataWrangler):
         if isinstance(matrix, str):
             matrix = Matrix.load(matrix)
         self.keep_taxon_names = matrix.get_headers(axis=str(species_axis))
-        self.report['purged'] = 0
 
     # .......................
     def wrangle_tree(self, tree):
@@ -43,5 +42,6 @@ class MatchMatrixTreeWrangler(_TreeDataWrangler):
         original_taxa_count = len(tree.taxon_namespace)
         tree.retain_taxa_with_labels(self.keep_taxon_names)
         tree.purge_taxon_namespace()
-        self.report['purged'] += original_taxa_count - len(tree.taxon_namespace)
+        num_purged = original_taxa_count - len(tree.taxon_namespace)
+        self._purged += num_purged
         return tree
