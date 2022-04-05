@@ -1,0 +1,57 @@
+:py:mod:`lmpy.data_wrangling.matrix.purge_empty_slices_wrangler`
+================================================================
+
+.. py:module:: lmpy.data_wrangling.matrix.purge_empty_slices_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for purging empty matrix slices.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.matrix.purge_empty_slices_wrangler.PurgeEmptySlicesWrangler
+
+
+
+
+.. py:class:: PurgeEmptySlicesWrangler(purge_axes=None, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.matrix.base._MatrixDataWrangler`
+
+   Constructor for PurgeEmptySlicesWrangler class.
+
+   :param purge_axes: Matrix axes to be processed.
+   :type purge_axes: None, int, or list of int
+   :param \*\*params: Keyword parameters to pass to _MatrixDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = PurgeEmptySlicesWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: wrangle_matrix(self, matrix)
+
+      Wrangle a matrix.
+
+      :param matrix: A matrix to wrangle.
+      :type matrix: Matrix
+
+      :returns: The matrix with empty slices purged.
+      :rtype: Matrix
+
+
+

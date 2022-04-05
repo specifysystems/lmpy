@@ -1,0 +1,58 @@
+:py:mod:`lmpy.data_wrangling.matrix.subset_reorder_slices_wrangler`
+===================================================================
+
+.. py:module:: lmpy.data_wrangling.matrix.subset_reorder_slices_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing data wranglers for subsetting and reordering matrix slices.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.matrix.subset_reorder_slices_wrangler.SubsetReorderSlicesWrangler
+
+
+
+
+.. py:class:: SubsetReorderSlicesWrangler(axes, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.matrix.base._MatrixDataWrangler`
+
+   Constructor for PurgeEmptySlicesWrangler class.
+
+   :param axes: A dictionary of axis keys (int or str of int) and list of
+                values of those headers to keep.
+   :type axes: dict
+   :param \*\*params: Keyword parameters to pass to _MatrixDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = SubsetReorderSlicesWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: wrangle_matrix(self, matrix)
+
+      Wrangle a matrix.
+
+      :param matrix: A matrix to wrangle.
+      :type matrix: Matrix
+
+      :returns: The matrix with empty slices purged.
+      :rtype: Matrix
+
+
+

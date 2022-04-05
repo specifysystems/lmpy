@@ -1,0 +1,59 @@
+:py:mod:`lmpy.data_wrangling.matrix.match_tree_wrangler`
+========================================================
+
+.. py:module:: lmpy.data_wrangling.matrix.match_tree_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing data wranglers for matching a matrix to a tree.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.matrix.match_tree_wrangler.MatchTreeMatrixWrangler
+
+
+
+
+.. py:class:: MatchTreeMatrixWrangler(tree, species_axis, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.matrix.base._MatrixDataWrangler`
+
+   Constructor for MatchTreeMatrixWrangler class.
+
+   :param tree: A tree object or file path to a tree.
+   :type tree: TreeWrapper or str
+   :param species_axis: The matrix axis with species names to match.
+   :type species_axis: int
+   :param \*\*params: Keyword parameters to pass to _MatrixDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = MatchTreeMatrixWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: wrangle_matrix(self, matrix)
+
+      Wrangle a matrix.
+
+      :param matrix: A matrix to wrangle.
+      :type matrix: Matrix
+
+      :returns: The matrix subset to tree tip names.
+      :rtype: Matrix
+
+
+
