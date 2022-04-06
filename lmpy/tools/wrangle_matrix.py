@@ -21,15 +21,25 @@ def wrangle_matrix(mtx, wranglers):
 
     Returns:
         Matrix: The modified Matrix object.
+        list: A list of report dictionaries.
     """
-    wrangled_mtx = mtx
-    return wrangled_mtx
+    report = []
+    for wrangler in wranglers:
+        mtx = wrangler.wrangle_matrix(mtx)
+        report.append(wrangler.get_report())
+    return mtx, report
 
 
 # .....................................................................................
 def cli():
     """Provice a command-line interface to the wrangle matrix tool."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument(
+        '-r',
+        '--report_filename',
+        type=str,
+        help='File location to write the wrangler report.'
+    )
     parser.add_argument(
         'in_matrix_filename', type=str, help='Path to the input Matrix.'
     )
@@ -48,8 +58,12 @@ def cli():
         wrangler_factory = WranglerFactory()
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
 
-    wrangled_mtx = wrangle_matrix(in_mtx, wranglers)
+    wrangled_mtx, report = wrangle_matrix(in_mtx, wranglers)
     wrangled_mtx.write(args.out_matrix_filename)
+
+    if args.report_filename is not None:
+        with open(args.report_filename, mode='wt') as report_out:
+            json.dump(report, report_out)
 
 
 # .....................................................................................
