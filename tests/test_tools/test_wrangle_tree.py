@@ -96,6 +96,5 @@ def test_wrangle_tree(monkeypatch, generate_temp_filename):
     # Check report
     with open(report_filename, mode='rt') as report_in:
         report = json.load(report_in)
-        print(report)
     total_purged = sum(int(wrangler_report['purged']) for wrangler_report in report)
     assert len(wrangled_tree.taxon_namespace) == len(tree_species) - total_purged

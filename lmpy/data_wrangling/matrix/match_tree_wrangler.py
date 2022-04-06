@@ -56,7 +56,7 @@ class MatchTreeMatrixWrangler(_MatrixDataWrangler):
                     self.report['changes'][str(axis)] = {'purged': 0}
                 self.report[
                     'changes'
-                ][str(axis)]['purged'] += len(axis_headers) - len(axis_slice)
+                ][str(axis)]['purged'] += (len(axis_headers) - len(axis_slice))
             else:
                 axis_slice = list(range(matrix.shape[axis]))
 

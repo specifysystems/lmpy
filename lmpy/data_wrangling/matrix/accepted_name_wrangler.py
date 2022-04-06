@@ -33,6 +33,7 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
             purge_failures (bool): Should failures be purged from the matrix.
             **params (dict): Keyword parameters to pass to _MatrixDataWrangler.
         """
+        _MatrixDataWrangler.__init__(self, **params)
         if isinstance(name_resolver, str) and name_resolver.lower() == 'gbif':
             name_resolver = resolve_names_gbif
         _AcceptedNameWrangler.__init__(
@@ -40,7 +41,6 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
             name_map=name_map,
             name_resolver=name_resolver
         )
-        _MatrixDataWrangler.__init__(self, **params)
 
         self.taxon_axis = taxon_axis
         self.purge_failures = purge_failures
