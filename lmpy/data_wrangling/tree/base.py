@@ -14,7 +14,7 @@ class _TreeDataWrangler(_DataWrangler):
         Args:
             **params (dict): Named parameters to pass to _DataWrangler base class.
         """
-        _DataWrangler(self, **params)
+        _DataWrangler.__init__(self, **params)
         self._modified = 0
         self._purged = 0
 
