@@ -6,7 +6,6 @@ class _DataWrangler:
     """Data wrangler base class."""
     name = '_DataWrangler'
     version = '1.0'
-    report = {}
 
     # ........................
     def __init__(self, *args, **kwargs):
@@ -16,7 +15,7 @@ class _DataWrangler:
             *args (tuple): Positional arguments.
             **kwargs (dict): Dictionary of parameters.
         """
-        pass
+        self.report = {}
 
     # ........................
     @classmethod
