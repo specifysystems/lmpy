@@ -26,7 +26,7 @@ class _OccurrenceDataWrangler(_DataWrangler):
                 this value.
             **params (dict): A dictionary of keyword parameters.
         """
-        _DataWrangler(self, **params)
+        _DataWrangler.__init__(self, **params)
         self.assessed = 0
         self.filtered = 0
         self.modified = 0

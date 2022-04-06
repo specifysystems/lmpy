@@ -1,5 +1,6 @@
 """A tool for wrangling phylogenetic trees."""
 import argparse
+from copy import deepcopy
 import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
@@ -20,15 +21,22 @@ def wrangle_tree(tree, wranglers):
 
     Returns:
         TreeWrapper: The modified tree object.
+        dict: Wrangler reporting information
     """
-    wrangled_tree = tree
-    return wrangled_tree
+    report = []
+    for wrangler in wranglers:
+        tree = wrangler.wrangle_tree(tree)
+        report.append(deepcopy(wrangler.get_report()))
+    return tree, report
 
 
 # .....................................................................................
 def cli():
     """Command-line interface for the tool."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument(
+        '-r', '--report_filename', type=str, help='Path to write report.'
+    )
     parser.add_argument('tree_filename', type=str, help='Path to phylogenetic tree.')
     parser.add_argument(
         'tree_schema',
@@ -57,8 +65,11 @@ def cli():
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
         wrangler_factory = WranglerFactory()
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
-    wrangled_tree = wrangle_tree(tree, wranglers)
+    wrangled_tree, report = wrangle_tree(tree, wranglers)
     wrangled_tree.write(path=args.out_tree_filename, schema=args.out_tree_schema)
+    if args.report_filename:
+        with open(args.report_filename, mode='wt') as report_out:
+            json.dump(report, report_out)
 
 
 # .....................................................................................

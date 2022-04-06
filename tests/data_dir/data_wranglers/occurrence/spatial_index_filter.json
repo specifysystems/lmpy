@@ -1,6 +1,6 @@
 {
     "wrangler_type": "SpatialIndexFilter",
-    "spatial_index": "test_index",
+    "spatial_index": "",
     "intersections_map": {},
     "check_hit_func": {
     }

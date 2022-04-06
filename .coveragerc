@@ -2,6 +2,3 @@
 omit =
     */_version.py
     */process_idigbio.py
-    */create_tree_matrix.py
-    */wrangle_tree.py
-    */wrangle_matrix.py

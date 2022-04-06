@@ -22,7 +22,6 @@ class SubsetTreeWrangler(_TreeDataWrangler):
         """
         _TreeDataWrangler.__init__(self, **params)
         self.keep_taxon_names = keep_taxa
-        self.report['purged'] = 0
 
     # .......................
     def wrangle_tree(self, tree):
@@ -37,5 +36,5 @@ class SubsetTreeWrangler(_TreeDataWrangler):
         original_taxa_count = len(tree.taxon_namespace)
         tree.retain_taxa_with_labels(self.keep_taxon_names)
         tree.purge_taxon_namespace()
-        self.report['purged'] += original_taxa_count - len(tree.taxon_namespace)
+        self._purged += (original_taxa_count - len(tree.taxon_namespace))
         return tree
