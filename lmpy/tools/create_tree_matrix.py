@@ -76,7 +76,7 @@ def encode_tree(tree):
 
 
 # .....................................................................................
-def main():
+def cli():
     """Main controlling method for script."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -117,4 +117,4 @@ __all__ = []
 
 # .....................................................................................
 if __name__ == '__main__':  # pragma: no cover
-    main()
+    cli()
