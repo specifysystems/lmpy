@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.tree.match_matrix_wrangler &mdash; Specify lmpy 3.0.6+54.gf288ec7 documentation</title>
+  <title>lmpy.data_wrangling.tree.match_matrix_wrangler &mdash; Specify lmpy 3.0.6+60.gdc0fe28 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -102,7 +102,6 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keep_taxon_names</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">species_axis</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;purged&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="MatchMatrixTreeWrangler.wrangle_tree"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/tree/match_matrix_wrangler/index.html#lmpy.data_wrangling.tree.match_matrix_wrangler.MatchMatrixTreeWrangler.wrangle_tree">[docs]</a>    <span class="k">def</span> <span class="nf">wrangle_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
@@ -117,7 +116,8 @@
         <span class="n">original_taxa_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">taxon_namespace</span><span class="p">)</span>
         <span class="n">tree</span><span class="o">.</span><span class="n">retain_taxa_with_labels</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keep_taxon_names</span><span class="p">)</span>
         <span class="n">tree</span><span class="o">.</span><span class="n">purge_taxon_namespace</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;purged&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">original_taxa_count</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">taxon_namespace</span><span class="p">)</span>
+        <span class="n">num_purged</span> <span class="o">=</span> <span class="n">original_taxa_count</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">taxon_namespace</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_purged</span> <span class="o">+=</span> <span class="n">num_purged</span>
         <span class="k">return</span> <span class="n">tree</span></div></div>
 </pre></div>
 

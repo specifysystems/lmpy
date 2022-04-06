@@ -38,6 +38,7 @@ Functions
    :type wranglers: list
 
    :returns: The modified tree object.
+             dict: Wrangler reporting information
    :rtype: TreeWrapper
 
 

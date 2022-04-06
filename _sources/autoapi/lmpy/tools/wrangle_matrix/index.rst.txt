@@ -38,6 +38,7 @@ Functions
    :type wranglers: list
 
    :returns: The modified Matrix object.
+             list: A list of report dictionaries.
    :rtype: Matrix
 
 

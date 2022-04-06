@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.matrix.accepted_name_wrangler &mdash; Specify lmpy 3.0.6+54.gf288ec7 documentation</title>
+  <title>lmpy.data_wrangling.matrix.accepted_name_wrangler &mdash; Specify lmpy 3.0.6+60.gdc0fe28 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -107,6 +107,7 @@
 <span class="sd">            purge_failures (bool): Should failures be purged from the matrix.</span>
 <span class="sd">            **params (dict): Keyword parameters to pass to _MatrixDataWrangler.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_MatrixDataWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_resolver</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name_resolver</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;gbif&#39;</span><span class="p">:</span>
             <span class="n">name_resolver</span> <span class="o">=</span> <span class="n">resolve_names_gbif</span>
         <span class="n">_AcceptedNameWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -114,7 +115,6 @@
             <span class="n">name_map</span><span class="o">=</span><span class="n">name_map</span><span class="p">,</span>
             <span class="n">name_resolver</span><span class="o">=</span><span class="n">name_resolver</span>
         <span class="p">)</span>
-        <span class="n">_MatrixDataWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">taxon_axis</span> <span class="o">=</span> <span class="n">taxon_axis</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">purge_failures</span> <span class="o">=</span> <span class="n">purge_failures</span>

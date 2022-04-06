@@ -46,6 +46,14 @@ Classes
       :type purged: bool
 
 
+   .. py:method:: get_report(self)
+
+      Get the report of the wrangler's activities.
+
+      :returns: Wrangler report information.
+      :rtype: dict
+
+
    .. py:method:: wrangle_tree(self, tree)
       :abstractmethod:
 
