@@ -7,12 +7,12 @@ https://badge.fury.io/py/specify-lmpy)
 [![Python Versions](https://img.shields.io/pypi/pyversions/specify-lmpy)](
 https://img.shields.io/pypi/pyversions/specify-lmpy)
 [![License Badge](https://img.shields.io/github/license/lifemapper/lmpy.svg)](
-https://github.com/specifysystems/lmpy/blob/master/LICENSE)
+https://github.com/specifysystems/lmpy/blob/main/LICENSE)
 
 [![PyPI download month](https://img.shields.io/pypi/dm/specify-lmpy.svg)](
 https://pypi.python.org/pypi/specify-lmpy/)
 
-[![Build Status](https://github.com/specifysystems/lmpy/workflows/PyTest/badge.svg)](
+[![Build Status](https://github.com/specifysystems/lmpy/workflows/PyTest%20with%20Conda/badge.svg)](
 https://github.com/specifysystems/lmpy/actions)
 [![GitHub issues](https://img.shields.io/github/issues/specifysystems/lmpy.svg)](
 https://GitHub.com/specifysystems/lmpy/issues/)
