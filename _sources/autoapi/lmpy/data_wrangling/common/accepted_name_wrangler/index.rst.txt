@@ -1,7 +1,7 @@
-:py:mod:`accepted_name_wrangler`
-================================
+:py:mod:`lmpy.data_wrangling.common.accepted_name_wrangler`
+===========================================================
 
-.. py:module:: accepted_name_wrangler
+.. py:module:: lmpy.data_wrangling.common.accepted_name_wrangler
 
 .. autoapi-nested-parse::
 
@@ -17,7 +17,7 @@ Classes
 
 .. autoapisummary::
 
-   accepted_name_wrangler._AcceptedNameWrangler
+   lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler
 
 
 
@@ -26,7 +26,7 @@ Functions
 
 .. autoapisummary::
 
-   accepted_name_wrangler.resolve_names_gbif
+   lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif
 
 
 

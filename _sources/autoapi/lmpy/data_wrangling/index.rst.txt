@@ -15,6 +15,7 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
+   common/index.rst
    matrix/index.rst
    occurrence/index.rst
    tree/index.rst
