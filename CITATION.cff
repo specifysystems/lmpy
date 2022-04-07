@@ -11,6 +11,6 @@ authors:
   given-names: "James"
   orcid: "https://orcid.org/0000-0001-8684-1764"
 title: "Specify Systems Lifemapper Python Library (lmpy)"
-version: 3.0.0
+version: 3.1.1
 date-released: 2022-01-26
 url: "https://github.com/specifysystems/lmpy"
