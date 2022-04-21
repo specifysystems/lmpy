@@ -12,6 +12,7 @@ dependencies:
   - coveralls
   - pytest
   - pytest-cov
+  - requests
   - pip=21.3.1
   - pip:
     - sphinx-rtd-theme

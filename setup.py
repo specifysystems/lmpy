@@ -26,6 +26,7 @@ setup(
         'dendropy>=4.0.0',
         'numpy>=1.11.0',
         'gdal',
+        'requests',
         'rtree',
     ],
 )
