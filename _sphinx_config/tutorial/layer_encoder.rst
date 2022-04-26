@@ -87,6 +87,8 @@ See: `encode_mean_value <../autoapi/lmpy/data_preparation/layer_encoder/index.ht
 
 See: `encode_largest_class <../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class>`_
 
+From new grid:
+
     >>> grid_filename = 'my_grid.shp'
     >>> min_x, min_y, max_x, max_y = (0, 0, 90, 90)
     >>> cell_size = 1.0  # Decimal degrees
@@ -122,6 +124,25 @@ See: `encode_largest_class <../autoapi/lmpy/data_preparation/layer_encoder/index
     ... )
     >>> env_mtx = encoder.get_encoded_matrix()
     >>> env_geojson = encoder.get_geojson()
+
+From existing grid:
+
+    >>> import json
+    >>> from lmpy.data_preparation/layer_encoder import LayerEncoder
+    >>> grid_filename = 'my_grid.shp'
+    >>> env_layer_1 = 'precipitation.tif'
+    >>> env_layer_2 = 'temperature.tif'
+    >>> encoder = LayerEncoder(grid_filename)
+    >>> min_coverage = 25  # Percent
+    >>> encoder.encode_mean_value(env_layer_1, 'Precipitation')
+    >>> encoder.encode_mean_value(env_layer_2, 'Temperature')
+    >>> env_mtx = encoder.get_encoded_matrix()
+    >>> # Write GeoJSON
+    >>> with open('encoded_layers.geojson', mode='wt') as out_json:
+    ...     json.dump(encoder.get_geojson(), out_json)
+    >>> # Write CSV
+    >>> with open('encoded_layers.csv', mode='wt') as out_csv:
+    ...     env_mtx.write_csv(out_csv)
 
 ----
 
