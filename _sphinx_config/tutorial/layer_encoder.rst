@@ -89,6 +89,8 @@ See: `encode_largest_class <../autoapi/lmpy/data_preparation/layer_encoder/index
 
 From new grid:
 
+.. code-block:: python
+
     >>> grid_filename = 'my_grid.shp'
     >>> min_x, min_y, max_x, max_y = (0, 0, 90, 90)
     >>> cell_size = 1.0  # Decimal degrees
@@ -126,6 +128,8 @@ From new grid:
     >>> env_geojson = encoder.get_geojson()
 
 From existing grid:
+
+.. code-block:: python
 
     >>> import json
     >>> from lmpy.data_preparation/layer_encoder import LayerEncoder
