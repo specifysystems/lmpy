@@ -75,3 +75,6 @@ venv.bak/
 
 # Spatial index test files
 tdwg_spatial_index.*
+
+# PyCharm
+.idea/

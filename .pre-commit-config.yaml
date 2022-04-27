@@ -22,6 +22,8 @@ repos:
     hooks:
     - id: isort
       args: [--sp=.github/linters/.isort.cfg, --diff]
+      additional_dependencies:
+        - toml
 -   repo: https://github.com/PyCQA/pylint
     rev: v2.13.4
     hooks:
