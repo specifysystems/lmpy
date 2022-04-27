@@ -319,11 +319,11 @@ class LayerEncoder:
 
         try:
             # Tuple or list
-            x_size_2 = cell_size[0] / 2.0
-            y_size_2 = cell_size[1] / 2.0
+            x_size_2 = cell_size[0] / 2
+            y_size_2 = cell_size[1] / 2
         except TypeError:  # pragma: no cover
             # Single value
-            x_size_2 = y_size_2 = cell_size / 2.0
+            x_size_2 = y_size_2 = cell_size / 2
 
         # ...............................
         def get_rc(x_coord, y_coord):
@@ -769,7 +769,9 @@ class LayerEncoder:
         Returns:
             dict: A JSON dictionary for the encoded matrix.
         """
-        return geojsonify_matrix_with_shapefile(self.encoded_matrix, self.shapegrid_filename)
+        return geojsonify_matrix_with_shapefile(
+            self.encoded_matrix, self.shapegrid_filename
+        )
 
 
 # .............................................................................
