@@ -29,7 +29,7 @@ def test_common_format_instance():
             SimulatedField(
                 fld_name,
                 '',
-                get_random_float_func(0, 100, 3, 5),
+                get_random_float_func(1, 100, 3, 5),
                 'float'
             ) for fld_name in att_map.keys()
         ]
