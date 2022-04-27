@@ -5,7 +5,7 @@ from osgeo import ogr
 
 
 # .....................................................................................
-def get_geojson_geometry_func(resolution=None):
+def _get_geojson_geometry_func(resolution=None):
     """Get a function that will generate GeoJSON geometry sections for an x, y pair.
 
     Args:
@@ -58,7 +58,7 @@ def geojsonify_matrix(matrix, resolution=None):
     ret = {'type': 'FeatureCollection'}
     features = []
 
-    make_geometry_func = get_geojson_geometry_func(resolution=resolution)
+    make_geometry_func = _get_geojson_geometry_func(resolution=resolution)
 
     row_headers = matrix.get_row_headers()
     column_headers = matrix.get_column_headers()
@@ -66,11 +66,8 @@ def geojsonify_matrix(matrix, resolution=None):
     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
 
     for i, (site_id, x, y) in enumerate(row_headers):
-        ft_json = {
-            'type': 'Feature',
-            'geometry': make_geometry_func
-        }
-        #ft_json['id'] = feat.GetFID()
+        ft_json = dict(type='Feature', geometry=make_geometry_func(x, y))
+        ft_json['id'] = site_id
         ft_json['properties'] = {k: matrix[i, j].item() for j, k in column_enum}
         features.append(ft_json)
 
@@ -117,4 +114,4 @@ def geojsonify_matrix_with_shapefile(matrix, shapegrid_filename):
 
 
 # .....................................................................................
-__all__ = []
+__all__ = ['geojsonify_matrix', 'geojsonify_matrix_with_shapefile']

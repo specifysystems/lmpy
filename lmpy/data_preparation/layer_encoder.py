@@ -12,14 +12,14 @@ Todo:
 Note:
     Data array is oriented at top left (min x, max y)
 """
-import json
 import os
 from random import shuffle
 
 import numpy as np
 from osgeo import gdal, ogr
 
-from lmpy import Matrix
+from lmpy.matrix import Matrix
+from lmpy.spatial.geojsonify import geojsonify_matrix_with_shapefile
 
 # DEFAULT_SCALE is the scale of the layer data array to the shapegrid cellsize
 #     The number of data array cells in a (square) shapegrid cell is::
@@ -769,33 +769,7 @@ class LayerEncoder:
         Returns:
             dict: A JSON dictionary for the encoded matrix.
         """
-        ret = {'type': 'FeatureCollection'}
-        features = []
-
-        column_headers = self.encoded_matrix.get_column_headers()
-
-        column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
-
-        shapegrid_dataset = ogr.Open(self.shapegrid_filename)
-        shapegrid_layer = shapegrid_dataset.GetLayer()
-
-        i = 0
-        feat = shapegrid_layer.GetNextFeature()
-        while feat is not None:
-            ft_json = json.loads(feat.ExportToJson())
-            # right_hand_rule(ft_json['geometry']['coordinates'])
-            # TODO(CJ): Remove this if updated library adds first id correctly
-            ft_json['id'] = feat.GetFID()
-            ft_json['properties'] = {
-                k: self.encoded_matrix[i, j].item() for j, k in column_enum
-            }
-            features.append(ft_json)
-            i += 1
-            feat = shapegrid_layer.GetNextFeature()
-
-        ret['features'] = features
-        shapegrid_dataset = shapegrid_layer = None
-        return ret
+        return geojsonify_matrix_with_shapefile(self.encoded_matrix, self.shapegrid_filename)
 
 
 # .............................................................................
