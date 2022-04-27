@@ -90,7 +90,8 @@ def geojsonify_matrix(matrix, resolution=None, omit_values=None):
             k: matrix[i, j].item() for j, k in column_enum
             if matrix[i, j].item() not in omit_values
         }
-        features.append(ft_json)
+        if len(ft_json['properties'].keys()) > 0:
+            features.append(ft_json)
 
     ret['features'] = features
     return ret
@@ -127,7 +128,8 @@ def geojsonify_matrix_with_shapefile(matrix, shapegrid_filename, omit_values=Non
             k: matrix[i, j].item() for j, k in column_enum
             if matrix[i, j].item() not in omit_values
         }
-        features.append(ft_json)
+        if len(ft_json['properties'].keys()) > 0:
+            features.append(ft_json)
         i += 1
         feat = shapegrid_layer.GetNextFeature()
 
