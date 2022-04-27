@@ -27,6 +27,28 @@ the category of statistics you would like to be returned.
 
 ----
 
+Generate Statistics and Write to GeoJSON File
+=============================================
+If you wish to visualize the outputs of the statistics in a GIS software like QGIS,
+you can do so by writing the outputs as GeoJSON.
+
+.. code-block:: python
+
+    >>> import json
+    >>> from lmpy.matrix import Matrix
+    >>> from lmpy.statistic.pam_stats import PamStats
+    >>> from lmpy.spatial.geojsonify import geojsonify_matrix
+    >>> # Load PAM from file
+    >>> pam_filename = 'my_pam.lmm'
+    >>> pam = Matrix.load(pam_filename)
+    >>> stats = PamStats(pam)
+    >>> # Create and write GeoJSON
+    >>> matrix_geojson = geojsonify_matrix(pam, resolution=0.5, omit_values=[0])
+    >>> with open('matrix.geojson', mode='wt') as out_json:
+    ...     json.dump(matrix_geojson, out_json)
+
+----
+
 Adding New Statistics
 =====================
 It is fairly simple at add new metrics to the computations.  The first step is

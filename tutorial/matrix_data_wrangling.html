@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matrix Data Wrangling &mdash; Specify lmpy 3.1.2+24.g514d918a documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Matrix Data Wrangling</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/matrix_data_wrangling.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="matrix-data-wrangling">
+<h1>Matrix Data Wrangling<a class="headerlink" href="#matrix-data-wrangling" title="Permalink to this headline"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<p>There are several scenarios where you would want to wrangle a Matrix by subsetting or
+reordering or changing columns, etc.  Here are some examples.
+—-</p>
+</section>
+<section id="subset-a-pam-for-a-taxon-or-group-of-taxa-and-export-to-geojson">
+<h2>Subset a PAM for a Taxon or Group of Taxa and Export to GeoJSON<a class="headerlink" href="#subset-a-pam-for-a-taxon-or-group-of-taxa-and-export-to-geojson" title="Permalink to this headline"></a></h2>
+<p>You can subset a PAM for one ore more taxa using a data wrangler and then create
+GeoJSON for the subset Matrix.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.spatial.geojsonify</span> <span class="kn">import</span> <span class="n">geojsonify_matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.data_wrangling.matrix.subset_reorder_slices_wrangler</span> <span class="kn">import</span> <span class="n">SubsetReorderSlicesWrangler</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;my_pam.lmm&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keep_taxa</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Species A&#39;</span><span class="p">,</span> <span class="s1">&#39;Species B&#39;</span><span class="p">,</span> <span class="s1">&#39;Species R&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wrangler</span> <span class="o">=</span> <span class="n">SubsetReorderSlicesWrangler</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">keep_taxa</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">subset_pam</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">wrangle_matrix</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create GeoJSON for subset PAM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">subset_geojson</span> <span class="o">=</span> <span class="n">geojsonify_matrix</span><span class="p">(</span><span class="n">subset_pam</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;subset_pam.geojson&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">out_json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">subset_geojson</span><span class="p">,</span> <span class="n">out_json</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="subset-a-matrix-by-taxa-generate-stats-and-write-geojson">
+<h2>Subset a Matrix by Taxa, Generate Stats, and Write GeoJSON<a class="headerlink" href="#subset-a-matrix-by-taxa-generate-stats-and-write-geojson" title="Permalink to this headline"></a></h2>
+<p>You can subset a PAM by taxa, generate stats, and then write the outputs to a GeoJSON
+file for spatial inspection using data wranglers and PamStats.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.spatial.geojsonify</span> <span class="kn">import</span> <span class="n">geojsonify_matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.statistics.pam_stats</span> <span class="kn">import</span> <span class="n">PamStats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.data_wrangling.matrix.purge_empty_slices_wrangler</span> <span class="kn">import</span> <span class="n">PurgeEmptySlicesWrangler</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.data_wrangling.matrix.subset_reorder_slices_wrangler</span> <span class="kn">import</span> <span class="n">SubsetReorderSlicesWrangler</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;my_pam.lmm&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keep_taxa</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Species A&#39;</span><span class="p">,</span> <span class="s1">&#39;Species B&#39;</span><span class="p">,</span> <span class="s1">&#39;Species R&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Set up wranlgers, first subset by species, then purge empty rows</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wranglers</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="n">SubsetReorderSlicesWrangler</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">keep_taxa</span><span class="p">}),</span>
+<span class="gp">... </span>    <span class="n">PurgeEmptySlicesWrangler</span><span class="p">(</span><span class="n">purge_axes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Wrangle the matrix using each of the wranglers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wrangled_pam</span> <span class="o">=</span> <span class="n">pam</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">wrangler</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">wrangled_pam</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">wrangle_matrix</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create PamStats for the subset matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">site_stats</span> <span class="o">=</span> <span class="n">PamStats</span><span class="p">(</span><span class="n">wrangled_pam</span><span class="p">)</span><span class="o">.</span><span class="n">calculate_site_statistics</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create GeoJSON for the site statistics</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stats_geojson</span> <span class="o">=</span> <span class="n">geojsonify_matrix</span><span class="p">(</span><span class="n">site_stats</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;site_stats.geojson&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">out_json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">stats_geojson</span><span class="p">,</span> <span class="n">out_json</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PAM Statistics &mdash; Specify lmpy 3.1.2+16.gc0e7e90a documentation</title>
+  <title>PAM Statistics &mdash; Specify lmpy 3.1.2+24.g514d918a documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -56,6 +56,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">PAM Statistics</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#generating-default-statistics">Generating Default Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generate-statistics-and-write-to-geojson-file">Generate Statistics and Write to GeoJSON File</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#adding-new-statistics">Adding New Statistics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#covariance-matrix-metrics">Covariance Matrix Metrics</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#sigma-sites">sigma_sites</a></li>
@@ -157,6 +158,26 @@ the category of statistics you would like to be returned.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">site_stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">calculate_site_statistics</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">species_stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">calculate_species_statistics</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diversity_stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">calculate_diversity_statistics</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="generate-statistics-and-write-to-geojson-file">
+<h2>Generate Statistics and Write to GeoJSON File<a class="headerlink" href="#generate-statistics-and-write-to-geojson-file" title="Permalink to this headline"></a></h2>
+<p>If you wish to visualize the outputs of the statistics in a GIS software like QGIS,
+you can do so by writing the outputs as GeoJSON.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.statistic.pam_stats</span> <span class="kn">import</span> <span class="n">PamStats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lmpy.spatial.geojsonify</span> <span class="kn">import</span> <span class="n">geojsonify_matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load PAM from file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pam_filename</span> <span class="o">=</span> <span class="s1">&#39;my_pam.lmm&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pam_filename</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span> <span class="o">=</span> <span class="n">PamStats</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create and write GeoJSON</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix_geojson</span> <span class="o">=</span> <span class="n">geojsonify_matrix</span><span class="p">(</span><span class="n">pam</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;matrix.geojson&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">matrix_geojson</span><span class="p">,</span> <span class="n">out_json</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
