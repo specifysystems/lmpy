@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.2+2.gb974a162 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.2+11.g33655fbc documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -86,14 +86,14 @@
 <span class="sd">Note:</span>
 <span class="sd">    Data array is oriented at top left (min x, max y)</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">shuffle</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">ogr</span>
 
-<span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy.spatial.geojsonify</span> <span class="k">import</span> <span class="n">geojsonify_matrix_with_shapefile</span>
 
 <span class="c1"># DEFAULT_SCALE is the scale of the layer data array to the shapegrid cellsize</span>
 <span class="c1">#     The number of data array cells in a (square) shapegrid cell is::</span>
@@ -393,11 +393,11 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Tuple or list</span>
-            <span class="n">x_size_2</span> <span class="o">=</span> <span class="n">cell_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span>
-            <span class="n">y_size_2</span> <span class="o">=</span> <span class="n">cell_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">x_size_2</span> <span class="o">=</span> <span class="n">cell_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">y_size_2</span> <span class="o">=</span> <span class="n">cell_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="c1"># Single value</span>
-            <span class="n">x_size_2</span> <span class="o">=</span> <span class="n">y_size_2</span> <span class="o">=</span> <span class="n">cell_size</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">x_size_2</span> <span class="o">=</span> <span class="n">y_size_2</span> <span class="o">=</span> <span class="n">cell_size</span> <span class="o">/</span> <span class="mi">2</span>
 
         <span class="c1"># ...............................</span>
         <span class="k">def</span> <span class="nf">get_rc</span><span class="p">(</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">):</span>
@@ -843,33 +843,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A JSON dictionary for the encoded matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;FeatureCollection&#39;</span><span class="p">}</span>
-        <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="n">column_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
-
-        <span class="n">column_enum</span> <span class="o">=</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">column_headers</span><span class="p">)]</span>
-
-        <span class="n">shapegrid_dataset</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_filename</span><span class="p">)</span>
-        <span class="n">shapegrid_layer</span> <span class="o">=</span> <span class="n">shapegrid_dataset</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
-
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">feat</span> <span class="o">=</span> <span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
-        <span class="k">while</span> <span class="n">feat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ft_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">ExportToJson</span><span class="p">())</span>
-            <span class="c1"># right_hand_rule(ft_json[&#39;geometry&#39;][&#39;coordinates&#39;])</span>
-            <span class="c1"># TODO(CJ): Remove this if updated library adds first id correctly</span>
-            <span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetFID</span><span class="p">()</span>
-            <span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">column_enum</span>
-            <span class="p">}</span>
-            <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ft_json</span><span class="p">)</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">feat</span> <span class="o">=</span> <span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
-
-        <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span>
-        <span class="n">shapegrid_dataset</span> <span class="o">=</span> <span class="n">shapegrid_layer</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">ret</span></div></div>
+        <span class="k">return</span> <span class="n">geojsonify_matrix_with_shapefile</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_filename</span>
+        <span class="p">)</span></div></div>
 
 
 <span class="c1"># .............................................................................</span>

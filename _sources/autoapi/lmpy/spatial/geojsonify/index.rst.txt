@@ -1,0 +1,55 @@
+:py:mod:`lmpy.spatial.geojsonify`
+=================================
+
+.. py:module:: lmpy.spatial.geojsonify
+
+.. autoapi-nested-parse::
+
+   Module containing tools for creating GeoJSON from matrices.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.spatial.geojsonify.geojsonify_matrix
+   lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile
+
+
+
+.. py:function:: geojsonify_matrix(matrix, resolution=None, omit_values=None)
+
+   Creates GeoJSON for a matrix and matching shapefile.
+
+   :param matrix: A (spatial) matrix to create GeoJSON for.
+   :type matrix: Matrix
+   :param resolution: The size of the grid cells in decimal degrees
+   :type resolution: Numeric
+   :param omit_values: Omit properties when their value is in this list.
+   :type omit_values: list
+
+   :returns: A GeoJSON compatible dictionary.
+   :rtype: dict
+
+
+.. py:function:: geojsonify_matrix_with_shapefile(matrix, shapegrid_filename, omit_values=None)
+
+   Creates GeoJSON for a matrix and matching shapefile.
+
+   :param matrix: A (spatial) matrix to create GeoJSON for.
+   :type matrix: Matrix
+   :param shapegrid_filename: A file path to a shapefile matching the matrix.
+   :type shapegrid_filename: str
+   :param omit_values: Omit properties when their value is in this list.
+   :type omit_values: list
+
+   :returns: A GeoJSON compatible dictionary.
+   :rtype: dict
+
+

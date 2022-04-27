@@ -15,6 +15,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   geojsonify/index.rst
    spatial_index/index.rst
 
 

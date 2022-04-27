@@ -1,0 +1,29 @@
+:py:mod:`lmpy.tools.convert_lmm_to_geojson`
+===========================================
+
+.. py:module:: lmpy.tools.convert_lmm_to_geojson
+
+.. autoapi-nested-parse::
+
+   Convert a lmpy Matrix to a GeoJSON (.geojson) file.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.convert_lmm_to_geojson.cli
+
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for converting LMM to GeoJSON.
+
+
