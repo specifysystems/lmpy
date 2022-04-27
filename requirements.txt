@@ -1,6 +1,9 @@
-requests
+requests~=2.27.1
 dendropy>=4.0.0
 numpy>=1.11.0
-rtree
+rtree~=1.0.0
 gdal
-defusedxml
+defusedxml~=0.7.1
+
+pytest~=7.1.2
+setuptools~=62.1.0
