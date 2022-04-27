@@ -87,7 +87,8 @@ def geojsonify_matrix(matrix, resolution=None, omit_values=None):
         ft_json = dict(type='Feature', geometry=make_geometry_func(x, y))
         ft_json['id'] = site_id
         ft_json['properties'] = {
-            k: matrix[i, j].item() for j, k in column_enum if matrix[i, j].item() not in omit_values
+            k: matrix[i, j].item() for j, k in column_enum
+            if matrix[i, j].item() not in omit_values
         }
         features.append(ft_json)
 
@@ -123,7 +124,8 @@ def geojsonify_matrix_with_shapefile(matrix, shapegrid_filename, omit_values=Non
     while feat is not None:
         ft_json = json.loads(feat.ExportToJson())
         ft_json['properties'] = {
-            k: matrix[i, j].item() for j, k in column_enum if matrix[i, j].item() not in omit_values
+            k: matrix[i, j].item() for j, k in column_enum
+            if matrix[i, j].item() not in omit_values
         }
         features.append(ft_json)
         i += 1

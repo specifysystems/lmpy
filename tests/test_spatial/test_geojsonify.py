@@ -1,3 +1,4 @@
+"""Tests for teh geojsonify module."""
 import json
 
 import numpy as np
@@ -52,16 +53,22 @@ def test_make_geojson_from_matrix(generate_temp_filename):
     matrix = Matrix(
         np.random.randint(0, 2, (num_rows, num_cols)),
         headers={
-            '0': [[i, np.random.randint(-179, 179), np.random.randint(-89, 89)] for i in range(num_rows)],
+            '0': [
+                [i, np.random.randint(-179, 179), np.random.randint(-89, 89)]
+                for i in range(num_rows)
+            ],
             '1': ['Species A', 'Species B', 'Species C']
         }
     )
     # Check with point geojson
-    assert _validate_geojson(geojsonify_matrix(matrix, omit_values=[0]), generate_temp_filename)
+    assert _validate_geojson(
+        geojsonify_matrix(matrix, omit_values=[0]), generate_temp_filename
+    )
 
     # Check with polygon geojson
     assert _validate_geojson(
-        geojsonify_matrix(matrix, resolution=0.5, omit_values=[0]), generate_temp_filename
+        geojsonify_matrix(matrix, resolution=0.5, omit_values=[0]),
+        generate_temp_filename
     )
 
 
