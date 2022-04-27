@@ -57,11 +57,11 @@ def test_make_geojson_from_matrix(generate_temp_filename):
         }
     )
     # Check with point geojson
-    assert _validate_geojson(geojsonify_matrix(matrix), generate_temp_filename)
+    assert _validate_geojson(geojsonify_matrix(matrix, omit_values=[0]), generate_temp_filename)
 
     # Check with polygon geojson
     assert _validate_geojson(
-        geojsonify_matrix(matrix, resolution=0.5), generate_temp_filename
+        geojsonify_matrix(matrix, resolution=0.5, omit_values=[0]), generate_temp_filename
     )
 
 
@@ -91,6 +91,6 @@ def test_make_geojson_from_matrix_and_shapefile(
     enc_mtx = encoder.get_encoded_matrix()
     # Validate GeoJSON
     assert _validate_geojson(
-        geojsonify_matrix_with_shapefile(enc_mtx, shapegrid_filename),
+        geojsonify_matrix_with_shapefile(enc_mtx, shapegrid_filename, omit_values=[0]),
         generate_temp_filename,
     )
