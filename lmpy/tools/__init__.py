@@ -1,5 +1,6 @@
 """Tools module."""
 from . import build_shapegrid
+from . import calculate_pam_stats
 from . import clean_occurrences
 from . import convert_csv_to_lmm
 from . import convert_lmm_to_csv
@@ -13,6 +14,7 @@ from . import wrangle_tree
 
 __all__ = []
 __all__.extend(build_shapegrid.__all__)
+__all__.extend(calculate_pam_stats.__all__)
 __all__.extend(clean_occurrences.__all__)
 __all__.extend(convert_csv_to_lmm.__all__)
 __all__.extend(convert_lmm_to_csv.__all__)
