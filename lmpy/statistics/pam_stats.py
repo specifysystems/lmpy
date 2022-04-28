@@ -520,15 +520,28 @@ class PamStats:
     ]
 
     # ...........................
-    def __init__(self, pam, tree=None):
+    def __init__(
+            self,
+            pam,
+            tree=None,
+            tree_matrix=None,
+            node_heights_matrix=None,
+            tip_lengths_matrix=None,
+    ):
         """Constructor for PAM stats computations.
 
         Args:
             pam (Matrix): A presence-absence matrix to use for computations.
             tree (TreeWrapper): A tree to use for phylogenetic distance computations.
+            tree_matrix (Matrix): A matrix of tip / node presence absence values.
+            node_heights_matrix (Matrix): A matrix of node height values.
+            tip_lengths_matrix (Matrix): A matrix of tip length values.
         """
         self.pam = pam
         self.tree = tree
+        self.tree_matrix = tree_matrix
+        self.node_heights_matrix = node_heights_matrix
+        self.tip_lengths_matrix = tip_lengths_matrix
 
     # ...........................
     def calculate_covariance_statistics(self):

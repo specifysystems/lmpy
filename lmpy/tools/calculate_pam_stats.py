@@ -1,5 +1,6 @@
 """Tool for creating PAM statistics."""
 import argparse
+import json
 
 from lmpy.matrix import Matrix
 from lmpy.tree import TreeWrapper
@@ -44,7 +45,7 @@ def cli():
 
     args = parser.parse_args()
 
-    tree = tree_matrix = None
+    tree = tree_matrix = node_heights_matrix = tip_lengths_matrix = None
     pam = Matrix.load(args.pam_filename)
 
     if args.tree_filename is not None:
@@ -55,12 +56,18 @@ def cli():
         node_heights_matrix = Matrix.load(args.tree_matrix[1])
         tip_lengths_matrix = Matrix.load(args.tree_matrix[2])
 
-    stats = PamStats(pam, tree=tree)
+    stats = PamStats(
+        pam,
+        tree=tree,
+        tree_matrix=tree_matrix,
+        node_heights_matrix=node_heights_matrix,
+        tip_lengths_matrix=tip_lengths_matrix,
+    )
 
     # Write requested stats
     if args.covariance_matrix is not None:
         with open(args.covariance_matrix, mode='wt') as out_json:
-            json.dump(stats.calculate_covariance_statistics())
+            json.dump(stats.calculate_covariance_statistics(), out_json)
 
     if args.diversity_matrix is not None:
         stats.calculate_diversity_statistics().write(args.diversity_matrix)
