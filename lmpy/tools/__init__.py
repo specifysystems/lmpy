@@ -7,6 +7,7 @@ from . import convert_lmm_to_csv
 from . import create_rare_species_model
 from . import create_tree_matrix
 from . import encode_layers
+from . import mcpa_run
 from . import randomize_pam
 from . import split_occurrence_data
 from . import wrangle_matrix
@@ -21,6 +22,7 @@ __all__.extend(convert_lmm_to_csv.__all__)
 __all__.extend(create_rare_species_model.__all__)
 __all__.extend(create_tree_matrix.__all__)
 __all__.extend(encode_layers.__all__)
+__all__.extend(mcpa_run.__all__)
 __all__.extend(randomize_pam.__all__)
 __all__.extend(split_occurrence_data.__all__)
 __all__.extend(wrangle_matrix.__all__)
