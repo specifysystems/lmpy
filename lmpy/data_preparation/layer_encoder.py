@@ -21,7 +21,7 @@ from osgeo import gdal, ogr
 from lmpy.matrix import Matrix
 from lmpy.spatial.geojsonify import geojsonify_matrix_with_shapefile
 
-# DEFAULT_SCALE is the scale of the layer data array to the shapegrid cellsize
+# DEFAULT_SCALE is the scale of the layer data array to the shapegrid cell size
 #     The number of data array cells in a (square) shapegrid cell is::
 #         1.0 / DEFAULT_SCALE^2
 DEFAULT_SCALE = 0.1  # Default scale for data array versus shapegrid cells
@@ -107,7 +107,7 @@ def _get_largest_class_method(min_coverage, nodata):
 
     # ...............................
     def get_largest_class(window):
-        """Get largest class for numpy > 1.8.
+        """Get the largest class for numpy > 1.8.
 
         Args:
             window (Matrix): A window of layer data.
@@ -153,7 +153,7 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
             # Pair of values
             val_map[val[0]] = {'val': contrast_values[0], 'index': i}
             val_map[val[1]] = {'val': contrast_values[1], 'index': i}
-        except Exception:
+        except TypeError:
             # Single value
             val_map[val] = {'val': contrast_values[0], 'index': i}
         i += 1
@@ -178,20 +178,20 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
         # Set default min count to min_vals
         # Note: This will cause last one to win if they are equal, change to
         #     '>' below and set this to * (min_vals - 1) to have first one win
-        counts = np.zeros((i), dtype=int) * min_vals
+        counts = np.zeros((i,), dtype=int) * min_vals
         ret = np.zeros(i)
 
         unique_values = np.column_stack(np.unique(window, return_counts=True))
 
         # Check unique values in window
-        for val, num in unique_values:
+        for u_val, num in unique_values:
             if (
-                not np.isclose(val, nodata)
-                and val in list(val_map.keys())
-                and num >= counts[val_map[val]['index']]
+                not np.isclose(u_val, nodata)
+                and u_val in list(val_map.keys())
+                and num >= counts[val_map[u_val]['index']]
             ):
-                counts[val_map[val]['index']] = num
-                ret[val_map[val]['index']] = val_map[val]['val']
+                counts[val_map[u_val]['index']] = num
+                ret[val_map[u_val]['index']] = val_map[u_val]['val']
         return ret
 
     return encode_method
@@ -281,15 +281,15 @@ class LayerEncoder:
         data for a given (x, y) pair.
 
         Args:
-            data: A numpy array with data for a layer
-            layer_bbox: The bounding box of the layer in the map units of the
+            data (np.ndarray): A numpy array with data for a layer
+            layer_bbox (tuple): The bounding box of the layer in the map units of the
                 layer.
-            cell_size: Either a single value or a tuple with two values. If it
-                is a single value, it will be used for both x and y cell sizes.
-                If a tuple is provided, the first value will be used for the
-                size of each cell in the x dimension and the second will be
-                used for the size of the cell in the y dimension.
-            num_cell_sides: The number of sides each shapegrid cell has::
+            cell_size (float or tuple): Either a single value or a tuple with two
+                values. If it is a single value, it will be used for both x and y cell
+                sizes. If a tuple is provided, the first value will be used for the
+                size of each cell in the x dimension and the second will be used for
+                the size of the cell in the y dimension.
+            num_cell_sides (int): The number of sides each shapegrid cell has::
                 4 -- square
                 6 -- hexagon
 
@@ -327,11 +327,11 @@ class LayerEncoder:
 
         # ...............................
         def get_rc(x_coord, y_coord):
-            """Get the row and column values for a x and y coordinate pair.
+            """Get the row and column values for an x and y coordinate pair.
 
             Args:
                 x_coord (numeric): The x coordinate for a position in the layer.
-                y_coord (numeric): The y coordinate for a postiion in the layer.
+                y_coord (numeric): The y coordinate for a position in the layer.
 
             Returns:
                 tuple of int, int: Row and column values for the specified point.
@@ -349,14 +349,14 @@ class LayerEncoder:
 
             Args:
                 x_coord (numeric): The x coordinate for a position in the layer.
-                y_coord (numeric): The y coordinate for a postiion in the layer.
+                y_coord (numeric): The y coordinate for a position in the layer.
 
             Returns:
                 numeric: The value of the layer at the specified position.
             """
             # Note: Again, 0 row corresponds to top of map, so bigger y
             #     corresponds to lower row number
-            # Upper left coorner
+            # Upper left corner
             uly, ulx = get_rc(x_coord - x_size_2, y_coord + y_size_2)
             # Lower right corner
             lry, lrx = get_rc(x_coord + x_size_2, y_coord - y_size_2)
@@ -370,7 +370,7 @@ class LayerEncoder:
             ):
                 return None
 
-            return data[max(0, uly) : min(y_size, lry), max(0, ulx) : min(x_size, lrx)]
+            return data[max(0, uly):min(y_size, lry), max(0, ulx):min(x_size, lrx)]
 
         return window_function
 
@@ -416,7 +416,7 @@ class LayerEncoder:
             window_func, nodata_value = self._read_raster_layer(layer_filename)
             events = set()
 
-        return (window_func, nodata_value, events)
+        return window_func, nodata_value, events
 
     # ...............................
     def _read_raster_layer(self, raster_filename):
@@ -448,7 +448,7 @@ class LayerEncoder:
             num_cell_sides=self.shapegrid_sides,
         )
 
-        return (window_func, nodata)
+        return window_func, nodata
 
     # ...............................
     def _read_shapegrid(self, shapegrid_filename):
@@ -503,7 +503,7 @@ class LayerEncoder:
         """Reads a vector layer for processing.
 
         Args:
-            vector_filename: The vectorfile path for the layer to read.
+            vector_filename: The vector file path for the layer to read.
             resolution: An optional resolution to use for the generated data
                 array for the layer.
             bbox: An optional bounding box in the form
@@ -555,7 +555,7 @@ class LayerEncoder:
         gdal.RasterizeLayer(raster_ds, [1], vector_layer, options=options)
 
         layer_array = raster_ds.ReadAsArray()
-        raster_ds = None
+        del raster_ds
 
         layer_bbox = (min_x, min_y, max_x, max_y)
         window_func = self._get_window_function(
@@ -577,7 +577,7 @@ class LayerEncoder:
                 distinct_events = []
             else:
                 distinct_events = [distinct_events]
-        return (window_func, nodata, distinct_events)
+        return window_func, nodata, distinct_events
 
     # ...............................
     def encode_biogeographic_hypothesis(
@@ -738,7 +738,7 @@ class LayerEncoder:
             nodata: If the layer is a vector, optionally use this as the data
                 grid nodata value.
             attribute_name: If the layer is a vector, use this field to
-                determine largest class.
+                determine the largest class.
 
         Returns:
             list of str: A list of column headers for the newly encoded columns.
