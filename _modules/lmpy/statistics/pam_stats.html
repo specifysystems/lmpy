@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.pam_stats &mdash; Specify lmpy 3.1.3+2.gc3eed6e8 documentation</title>
+  <title>lmpy.statistics.pam_stats &mdash; Specify lmpy 3.1.3+9.g7720e7ea documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -594,15 +594,28 @@
     <span class="p">]</span></div>
 
     <span class="c1"># ...........................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pam</span><span class="p">,</span> <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">pam</span><span class="p">,</span>
+            <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">tree_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">node_heights_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">tip_lengths_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for PAM stats computations.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            pam (Matrix): A presence-absence matrix to use for computations.</span>
 <span class="sd">            tree (TreeWrapper): A tree to use for phylogenetic distance computations.</span>
+<span class="sd">            tree_matrix (Matrix): A matrix of tip / node presence absence values.</span>
+<span class="sd">            node_heights_matrix (Matrix): A matrix of node height values.</span>
+<span class="sd">            tip_lengths_matrix (Matrix): A matrix of tip length values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pam</span> <span class="o">=</span> <span class="n">pam</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_matrix</span> <span class="o">=</span> <span class="n">tree_matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_heights_matrix</span> <span class="o">=</span> <span class="n">node_heights_matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tip_lengths_matrix</span> <span class="o">=</span> <span class="n">tip_lengths_matrix</span>
 
     <span class="c1"># ...........................</span>
 <div class="viewcode-block" id="PamStats.calculate_covariance_statistics"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.calculate_covariance_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_covariance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

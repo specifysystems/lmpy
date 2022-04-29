@@ -1,0 +1,29 @@
+:py:mod:`lmpy.tools.calculate_pam_stats`
+========================================
+
+.. py:module:: lmpy.tools.calculate_pam_stats
+
+.. autoapi-nested-parse::
+
+   Tool for creating PAM statistics.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.calculate_pam_stats.cli
+
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for computing statistics.
+
+

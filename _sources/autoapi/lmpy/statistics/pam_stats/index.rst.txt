@@ -87,7 +87,7 @@ Functions
    :param func: The function to call.
 
 
-.. py:class:: PamStats(pam, tree=None)
+.. py:class:: PamStats(pam, tree=None, tree_matrix=None, node_heights_matrix=None, tip_lengths_matrix=None)
 
    Constructor for PAM stats computations.
 
@@ -95,6 +95,12 @@ Functions
    :type pam: Matrix
    :param tree: A tree to use for phylogenetic distance computations.
    :type tree: TreeWrapper
+   :param tree_matrix: A matrix of tip / node presence absence values.
+   :type tree_matrix: Matrix
+   :param node_heights_matrix: A matrix of node height values.
+   :type node_heights_matrix: Matrix
+   :param tip_lengths_matrix: A matrix of tip length values.
+   :type tip_lengths_matrix: Matrix
 
    .. py:attribute:: covariance_stats
       :annotation: = [None, None]

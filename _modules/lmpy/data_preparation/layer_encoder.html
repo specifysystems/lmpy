@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.3+2.gc3eed6e8 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.3+9.g7720e7ea documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -95,7 +95,7 @@
 <span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
 <span class="kn">from</span> <span class="nn">lmpy.spatial.geojsonify</span> <span class="k">import</span> <span class="n">geojsonify_matrix_with_shapefile</span>
 
-<span class="c1"># DEFAULT_SCALE is the scale of the layer data array to the shapegrid cellsize</span>
+<span class="c1"># DEFAULT_SCALE is the scale of the layer data array to the shapegrid cell size</span>
 <span class="c1">#     The number of data array cells in a (square) shapegrid cell is::</span>
 <span class="c1">#         1.0 / DEFAULT_SCALE^2</span>
 <span class="n">DEFAULT_SCALE</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># Default scale for data array versus shapegrid cells</span>
@@ -181,7 +181,7 @@
 
     <span class="c1"># ...............................</span>
     <span class="k">def</span> <span class="nf">get_largest_class</span><span class="p">(</span><span class="n">window</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get largest class for numpy &gt; 1.8.</span>
+        <span class="sd">&quot;&quot;&quot;Get the largest class for numpy &gt; 1.8.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            window (Matrix): A window of layer data.</span>
@@ -227,7 +227,7 @@
             <span class="c1"># Pair of values</span>
             <span class="n">val_map</span><span class="p">[</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">contrast_values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">}</span>
             <span class="n">val_map</span><span class="p">[</span><span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">contrast_values</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">}</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
             <span class="c1"># Single value</span>
             <span class="n">val_map</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">contrast_values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">}</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -252,20 +252,20 @@
         <span class="c1"># Set default min count to min_vals</span>
         <span class="c1"># Note: This will cause last one to win if they are equal, change to</span>
         <span class="c1">#     &#39;&gt;&#39; below and set this to * (min_vals - 1) to have first one win</span>
-        <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">i</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">min_vals</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">i</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">min_vals</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
         <span class="n">unique_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
         <span class="c1"># Check unique values in window</span>
-        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">unique_values</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">u_val</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">unique_values</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span>
-                <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">nodata</span><span class="p">)</span>
-                <span class="ow">and</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">val_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-                <span class="ow">and</span> <span class="n">num</span> <span class="o">&gt;=</span> <span class="n">counts</span><span class="p">[</span><span class="n">val_map</span><span class="p">[</span><span class="n">val</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span>
+                <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">u_val</span><span class="p">,</span> <span class="n">nodata</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">u_val</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">val_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="ow">and</span> <span class="n">num</span> <span class="o">&gt;=</span> <span class="n">counts</span><span class="p">[</span><span class="n">val_map</span><span class="p">[</span><span class="n">u_val</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span>
             <span class="p">):</span>
-                <span class="n">counts</span><span class="p">[</span><span class="n">val_map</span><span class="p">[</span><span class="n">val</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">num</span>
-                <span class="n">ret</span><span class="p">[</span><span class="n">val_map</span><span class="p">[</span><span class="n">val</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">val_map</span><span class="p">[</span><span class="n">val</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span>
+                <span class="n">counts</span><span class="p">[</span><span class="n">val_map</span><span class="p">[</span><span class="n">u_val</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">num</span>
+                <span class="n">ret</span><span class="p">[</span><span class="n">val_map</span><span class="p">[</span><span class="n">u_val</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">val_map</span><span class="p">[</span><span class="n">u_val</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">ret</span>
 
     <span class="k">return</span> <span class="n">encode_method</span>
@@ -355,15 +355,15 @@
 <span class="sd">        data for a given (x, y) pair.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data: A numpy array with data for a layer</span>
-<span class="sd">            layer_bbox: The bounding box of the layer in the map units of the</span>
+<span class="sd">            data (np.ndarray): A numpy array with data for a layer</span>
+<span class="sd">            layer_bbox (tuple): The bounding box of the layer in the map units of the</span>
 <span class="sd">                layer.</span>
-<span class="sd">            cell_size: Either a single value or a tuple with two values. If it</span>
-<span class="sd">                is a single value, it will be used for both x and y cell sizes.</span>
-<span class="sd">                If a tuple is provided, the first value will be used for the</span>
-<span class="sd">                size of each cell in the x dimension and the second will be</span>
-<span class="sd">                used for the size of the cell in the y dimension.</span>
-<span class="sd">            num_cell_sides: The number of sides each shapegrid cell has::</span>
+<span class="sd">            cell_size (float or tuple): Either a single value or a tuple with two</span>
+<span class="sd">                values. If it is a single value, it will be used for both x and y cell</span>
+<span class="sd">                sizes. If a tuple is provided, the first value will be used for the</span>
+<span class="sd">                size of each cell in the x dimension and the second will be used for</span>
+<span class="sd">                the size of the cell in the y dimension.</span>
+<span class="sd">            num_cell_sides (int): The number of sides each shapegrid cell has::</span>
 <span class="sd">                4 -- square</span>
 <span class="sd">                6 -- hexagon</span>
 
@@ -401,11 +401,11 @@
 
         <span class="c1"># ...............................</span>
         <span class="k">def</span> <span class="nf">get_rc</span><span class="p">(</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Get the row and column values for a x and y coordinate pair.</span>
+            <span class="sd">&quot;&quot;&quot;Get the row and column values for an x and y coordinate pair.</span>
 
 <span class="sd">            Args:</span>
 <span class="sd">                x_coord (numeric): The x coordinate for a position in the layer.</span>
-<span class="sd">                y_coord (numeric): The y coordinate for a postiion in the layer.</span>
+<span class="sd">                y_coord (numeric): The y coordinate for a position in the layer.</span>
 
 <span class="sd">            Returns:</span>
 <span class="sd">                tuple of int, int: Row and column values for the specified point.</span>
@@ -423,14 +423,14 @@
 
 <span class="sd">            Args:</span>
 <span class="sd">                x_coord (numeric): The x coordinate for a position in the layer.</span>
-<span class="sd">                y_coord (numeric): The y coordinate for a postiion in the layer.</span>
+<span class="sd">                y_coord (numeric): The y coordinate for a position in the layer.</span>
 
 <span class="sd">            Returns:</span>
 <span class="sd">                numeric: The value of the layer at the specified position.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="c1"># Note: Again, 0 row corresponds to top of map, so bigger y</span>
             <span class="c1">#     corresponds to lower row number</span>
-            <span class="c1"># Upper left coorner</span>
+            <span class="c1"># Upper left corner</span>
             <span class="n">uly</span><span class="p">,</span> <span class="n">ulx</span> <span class="o">=</span> <span class="n">get_rc</span><span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="n">x_size_2</span><span class="p">,</span> <span class="n">y_coord</span> <span class="o">+</span> <span class="n">y_size_2</span><span class="p">)</span>
             <span class="c1"># Lower right corner</span>
             <span class="n">lry</span><span class="p">,</span> <span class="n">lrx</span> <span class="o">=</span> <span class="n">get_rc</span><span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="n">x_size_2</span><span class="p">,</span> <span class="n">y_coord</span> <span class="o">-</span> <span class="n">y_size_2</span><span class="p">)</span>
@@ -444,7 +444,7 @@
             <span class="p">):</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
-            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">uly</span><span class="p">)</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">y_size</span><span class="p">,</span> <span class="n">lry</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ulx</span><span class="p">)</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">x_size</span><span class="p">,</span> <span class="n">lrx</span><span class="p">)]</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">uly</span><span class="p">):</span><span class="nb">min</span><span class="p">(</span><span class="n">y_size</span><span class="p">,</span> <span class="n">lry</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ulx</span><span class="p">):</span><span class="nb">min</span><span class="p">(</span><span class="n">x_size</span><span class="p">,</span> <span class="n">lrx</span><span class="p">)]</span>
 
         <span class="k">return</span> <span class="n">window_function</span></div>
 
@@ -490,7 +490,7 @@
             <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_raster_layer</span><span class="p">(</span><span class="n">layer_filename</span><span class="p">)</span>
             <span class="n">events</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="n">window_func</span><span class="p">,</span> <span class="n">nodata_value</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata_value</span><span class="p">,</span> <span class="n">events</span></div>
 
     <span class="c1"># ...............................</span>
 <div class="viewcode-block" id="LayerEncoder._read_raster_layer"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder._read_raster_layer">[docs]</a>    <span class="k">def</span> <span class="nf">_read_raster_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_filename</span><span class="p">):</span>
@@ -522,7 +522,7 @@
             <span class="n">num_cell_sides</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_sides</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span></div>
 
     <span class="c1"># ...............................</span>
 <div class="viewcode-block" id="LayerEncoder._read_shapegrid"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder._read_shapegrid">[docs]</a>    <span class="k">def</span> <span class="nf">_read_shapegrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shapegrid_filename</span><span class="p">):</span>
@@ -577,7 +577,7 @@
         <span class="sd">&quot;&quot;&quot;Reads a vector layer for processing.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            vector_filename: The vectorfile path for the layer to read.</span>
+<span class="sd">            vector_filename: The vector file path for the layer to read.</span>
 <span class="sd">            resolution: An optional resolution to use for the generated data</span>
 <span class="sd">                array for the layer.</span>
 <span class="sd">            bbox: An optional bounding box in the form</span>
@@ -629,7 +629,7 @@
         <span class="n">gdal</span><span class="o">.</span><span class="n">RasterizeLayer</span><span class="p">(</span><span class="n">raster_ds</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vector_layer</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
 
         <span class="n">layer_array</span> <span class="o">=</span> <span class="n">raster_ds</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
-        <span class="n">raster_ds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">del</span> <span class="n">raster_ds</span>
 
         <span class="n">layer_bbox</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">)</span>
         <span class="n">window_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_window_function</span><span class="p">(</span>
@@ -651,7 +651,7 @@
                 <span class="n">distinct_events</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">distinct_events</span> <span class="o">=</span> <span class="p">[</span><span class="n">distinct_events</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">distinct_events</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">distinct_events</span></div>
 
     <span class="c1"># ...............................</span>
 <div class="viewcode-block" id="LayerEncoder.encode_biogeographic_hypothesis"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis">[docs]</a>    <span class="k">def</span> <span class="nf">encode_biogeographic_hypothesis</span><span class="p">(</span>
@@ -812,7 +812,7 @@
 <span class="sd">            nodata: If the layer is a vector, optionally use this as the data</span>
 <span class="sd">                grid nodata value.</span>
 <span class="sd">            attribute_name: If the layer is a vector, use this field to</span>
-<span class="sd">                determine largest class.</span>
+<span class="sd">                determine the largest class.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns.</span>

@@ -1,0 +1,29 @@
+:py:mod:`lmpy.tools.mcpa_run`
+=============================
+
+.. py:module:: lmpy.tools.mcpa_run
+
+.. autoapi-nested-parse::
+
+   Tool for performing a single MCPA run.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.mcpa_run.cli
+
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for computing statistics.
+
+

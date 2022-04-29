@@ -16,6 +16,7 @@ Submodules
    :maxdepth: 1
 
    build_shapegrid/index.rst
+   calculate_pam_stats/index.rst
    clean_occurrences/index.rst
    convert_csv_to_lmm/index.rst
    convert_lmm_to_csv/index.rst
@@ -23,6 +24,7 @@ Submodules
    create_rare_species_model/index.rst
    create_tree_matrix/index.rst
    encode_layers/index.rst
+   mcpa_run/index.rst
    process_idigbio/index.rst
    randomize_pam/index.rst
    split_occurrence_data/index.rst

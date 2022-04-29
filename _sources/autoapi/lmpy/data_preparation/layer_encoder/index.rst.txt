@@ -68,17 +68,21 @@ Classes
       data for a given (x, y) pair.
 
       :param data: A numpy array with data for a layer
+      :type data: np.ndarray
       :param layer_bbox: The bounding box of the layer in the map units of the
                          layer.
-      :param cell_size: Either a single value or a tuple with two values. If it
-                        is a single value, it will be used for both x and y cell sizes.
-                        If a tuple is provided, the first value will be used for the
-                        size of each cell in the x dimension and the second will be
-                        used for the size of the cell in the y dimension.
+      :type layer_bbox: tuple
+      :param cell_size: Either a single value or a tuple with two
+                        values. If it is a single value, it will be used for both x and y cell
+                        sizes. If a tuple is provided, the first value will be used for the
+                        size of each cell in the x dimension and the second will be used for
+                        the size of the cell in the y dimension.
+      :type cell_size: float or tuple
       :param num_cell_sides:
                              The number of sides each shapegrid cell has::
                                  4 -- square
                                  6 -- hexagon
+      :type num_cell_sides: int
 
       .. note::
 
@@ -145,7 +149,7 @@ Classes
 
       Reads a vector layer for processing.
 
-      :param vector_filename: The vectorfile path for the layer to read.
+      :param vector_filename: The vector file path for the layer to read.
       :param resolution: An optional resolution to use for the generated data
                          array for the layer.
       :param bbox: An optional bounding box in the form
@@ -203,7 +207,7 @@ Classes
       :param nodata: If the layer is a vector, optionally use this as the data
                      grid nodata value.
       :param attribute_name: If the layer is a vector, use this field to
-                             determine largest class.
+                             determine the largest class.
 
       :returns: A list of column headers for the newly encoded columns.
       :rtype: list of str
