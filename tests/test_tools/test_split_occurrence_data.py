@@ -101,6 +101,85 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
 
 
 # .....................................................................................
+def test_one_dwca_config_file(monkeypatch, generate_temp_filename, temp_directory):
+    """Test data splitting for a single Darwin Core Archive.
+
+    Args:
+        monkeypatch (pytest.fixture): A fixture for monkeypatching.
+        generate_temp_filename (pytest.fixture): A fixture for generating tempoarary
+            filenames.
+        temp_directory (pytest.fixture): A fixture to get a temporary directory.
+    """
+    # Temporary files
+    dwca_filename = generate_temp_filename()
+    wrangler_config_filename = generate_temp_filename()
+
+    # Generate a DWCA and wranglers
+    dwca_fields = [
+        SimulatedField(
+            'taxonname',
+            'http://rs.tdwg.org/dwc/terms/specificEpithet',
+            get_random_choice_func(list(SPECIES_MAP.keys())),
+            'str'
+        ),
+        SimulatedField(
+            'latitude',
+            'http://rs.tdwg.org/dwc/terms/decimalLatitude',
+            get_random_float_func(-90.0, 90.0, 2, 6),
+            'float'
+        ),
+        SimulatedField(
+            'longitude',
+            'http://rs.tdwg.org/dwc/terms/decimalLongitude',
+            get_random_float_func(-180.0, 180.0, 2, 6),
+            'float'
+        )
+    ]
+    generate_dwca(dwca_filename, 1000, dwca_fields)
+    with open(wrangler_config_filename, mode='wt') as json_out:
+        json.dump(
+            [
+                {
+                    'wrangler_type': 'AcceptedNameOccurrenceWrangler',
+                    'attribute_name': 'taxonname',
+                    'accepted_name_map': SPECIES_MAP
+                }
+            ],
+            json_out
+        )
+
+    # Create config file for script
+    script_config_filename = generate_temp_filename(suffix='.json')
+    with open(script_config_filename, mode='wt') as json_out:
+        json.dump(
+            {
+                'dwca': [
+                    [dwca_filename, wrangler_config_filename]
+                ]
+            },
+            json_out
+        )
+
+    # Run script
+    params = [
+        'split_occurrence_data.py',
+        '-k',
+        'taxonname',
+        '--config_file',
+        script_config_filename,
+        temp_directory
+    ]
+
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+
+    # Check output
+    assert validate_point_csvs(
+        glob.glob(f'{temp_directory}/*.csv'), 'species_name', 'x', 'y'
+    )
+
+
+# .....................................................................................
 def test_one_csv(monkeypatch, generate_temp_filename, temp_directory):
     """Test data splitting for a single CSV file.
 
