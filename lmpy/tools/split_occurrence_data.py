@@ -47,6 +47,7 @@ def _process_arguments(parser):
 
     return args
 
+
 # .....................................................................................
 def cli():
     """Command-line interface for splitting occurrence datasets."""
