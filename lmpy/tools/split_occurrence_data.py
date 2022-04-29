@@ -19,9 +19,60 @@ species) can be processed together.'''
 
 
 # .....................................................................................
+def _process_arguments(parser):
+    """Process arguments including filling in those provided by configuration file.
+
+    Args:
+        parser (argparse.ArgumentParser): An argparse.ArgumentParser with parameters.
+
+    Returns:
+        argparse.Namespace: An augmented Namespace with any parameters specified in a
+            configuration file.
+    """
+    args = parser.parse_args()
+
+    if args.config_file is not None:
+        with open(args.config_file, mode='rt') as in_json:
+            config = json.load(in_json)
+            if 'csv' in config.keys():
+                if not isinstance(config['csv'], list):
+                    config['csv'] = [config['csv']]
+                if args.csv is None:
+                    args.csv = []
+                for csv_dict in config['csv']:
+                    args.csv.append(
+                        [
+                            csv_dict['csv_filename'],
+                            csv_dict['wrangler_config_filename'],
+                            csv_dict['species_key'],
+                            csv_dict['x_key'],
+                            csv_dict['y_key'],
+                        ]
+                    )
+            if 'dwca' in config.keys():
+                if not isinstance(config['dwca'], list):
+                    config['dwca'] = [config['dwca']]
+                if args.dwca is None:
+                    args.dwca = []
+                for dwca_dict in config['dwca']:
+                    args.dwca.append(
+                        [
+                            dwca_dict['dwca_filename'],
+                            dwca_dict['wrangler_config_filename'],
+                        ]
+                    )
+
+    return args
+
+# .....................................................................................
 def cli():
     """Command-line interface for splitting occurrence datasets."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument(
+        '--config_file',
+        type=str,
+        help='Configuration file containing script arguments.'
+    )
     parser.add_argument(
         '-m',
         '--max_open_writers',
@@ -74,7 +125,7 @@ def cli():
     parser.add_argument(
         'out_dir', type=str, help='Directory where the output data should be written.'
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser)
 
     # Establish functions for getting writer key and filename
     writer_key_func = get_writer_key_from_fields_func(*tuple(args.key_field))
