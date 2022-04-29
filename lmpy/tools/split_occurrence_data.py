@@ -10,42 +10,13 @@ from lmpy.data_preparation.occurrence_splitter import (
 )
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointDwcaReader
+from lmpy.tools._config_parser import _process_arguments
 
 
 # .....................................................................................
 DESCRIPTION = '''\
 Group and split occurrence data from one or more sources so that like-records (ex. \
 species) can be processed together.'''
-
-
-# .....................................................................................
-def _process_arguments(parser):
-    """Process arguments including filling in those provided by configuration file.
-
-    Args:
-        parser (argparse.ArgumentParser): An argparse.ArgumentParser with parameters.
-
-    Returns:
-        argparse.Namespace: An augmented Namespace with any parameters specified in a
-            configuration file.
-    """
-    args = parser.parse_args()
-
-    if args.config_file is not None:
-        with open(args.config_file, mode='rt') as in_json:
-            config = json.load(in_json)
-            if 'csv' in config.keys():
-                if not isinstance(config['csv'], list):
-                    config['csv'] = [config['csv']]
-                if args.csv is None:
-                    args.csv = []
-                args.csv.extend(config['csv'])
-            if 'dwca' in config.keys():
-                if args.dwca is None:
-                    args.dwca = []
-                args.dwca.extend(config['dwca'])
-
-    return args
 
 
 # .....................................................................................
@@ -111,7 +82,7 @@ def cli():
         type=str,
         help='Directory where the output data should be written.',
     )
-    args = _process_arguments(parser)
+    args = _process_arguments(parser, 'config_file')
 
     # Establish functions for getting writer key and filename
     writer_key_func = get_writer_key_from_fields_func(*tuple(args.key_field))

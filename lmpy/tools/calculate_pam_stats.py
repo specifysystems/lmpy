@@ -3,8 +3,10 @@ import argparse
 import json
 
 from lmpy.matrix import Matrix
-from lmpy.tree import TreeWrapper
 from lmpy.statistics.pam_stats import PamStats
+from lmpy.tools._config_parser import _process_arguments
+from lmpy.tree import TreeWrapper
+
 
 DESCRIPTION = 'Compute statistics for a PAM and optionally a tree.'
 
@@ -13,6 +15,7 @@ DESCRIPTION = 'Compute statistics for a PAM and optionally a tree.'
 def cli():
     """Provide a command-line tool for computing statistics."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument('--tree_filename', type=str, help='Path to matching tree.')
     parser.add_argument(
         '--tree_matrix', type=str, nargs=3, help='Path to tree matrix.'
@@ -43,7 +46,7 @@ def cli():
     # PAM
     parser.add_argument('pam_filename', type=str, help='Path to PAM file.')
 
-    args = parser.parse_args()
+    args = _process_arguments(parser, 'config_file')
 
     tree = tree_matrix = node_heights_matrix = tip_lengths_matrix = None
     pam = Matrix.load(args.pam_filename)

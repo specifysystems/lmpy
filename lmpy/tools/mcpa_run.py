@@ -3,6 +3,7 @@ import argparse
 
 from lmpy.matrix import Matrix
 from lmpy.statistics.mcpa import mcpa
+from lmpy.tools._config_parser import _process_arguments
 
 
 DESCRIPTION = 'Compute a single run of MCPA metric.'
@@ -30,7 +31,7 @@ def cli():
     )
     parser.add_argument('f_matrix_filename', type=str, help='Path to write F-Matrix.')
 
-    args = parser.parse_args()
+    args = _process_arguments(parser, config_arg='config_file')
 
     pam = Matrix.load(args.pam_filename)
     tree_mtx = Matrix.load(args.tree_matrix_filename)

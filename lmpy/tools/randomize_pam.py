@@ -3,6 +3,7 @@ import argparse
 
 from lmpy import Matrix
 from lmpy.randomize.grady import grady_randomize
+from lmpy.tools._config_parser import _process_arguments
 
 
 DESCRIPTION = '''\
@@ -38,7 +39,7 @@ def cli():
         type=str,
         help='The file location to write the randomized PAM.',
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser)
     in_pam = Matrix.load(args.input_pam_filename)
     rand_pam = randomize_pam(in_pam)
     rand_pam.write(args.output_pam_filename)

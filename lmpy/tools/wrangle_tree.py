@@ -5,6 +5,7 @@ import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.tree import TreeWrapper
+from lmpy.tools._config_parser import _process_arguments
 
 
 # .....................................................................................
@@ -34,6 +35,7 @@ def wrangle_tree(tree, wranglers):
 def cli():
     """Command-line interface for the tool."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '-r', '--report_filename', type=str, help='Path to write report.'
     )
@@ -60,7 +62,7 @@ def cli():
         choices=['newick', 'nexus'],
         help='The schema of the output phylogenetic tree.',
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser, config_arg='config_file')
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
         wrangler_factory = WranglerFactory()
