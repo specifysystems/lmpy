@@ -19,15 +19,14 @@ def _process_arguments(parser, config_arg=None):
 
     if config_arg is not None and hasattr(args, config_arg):
         config_filename = getattr(args, config_arg)
-        with open(config_filename, mode='rt') as in_json:
-            config = json.load(in_json)
-            for k in config.keys():
-                tmp = getattr(args, k)
-                if tmp is None:
-                    setattr(args, k, config[k])
-                    print((k, config[k], 'none'))
-                elif isinstance(tmp, list):
-                    tmp.extend(config[k])
-                    setattr(args, k, tmp)
-                    print((k, tmp, 'list'))
+        if config_filename is not None:
+            with open(config_filename, mode='rt') as in_json:
+                config = json.load(in_json)
+                for k in config.keys():
+                    tmp = getattr(args, k)
+                    if tmp is None:
+                        setattr(args, k, config[k])
+                    elif isinstance(tmp, list):
+                        tmp.extend(config[k])
+                        setattr(args, k, tmp)
     return args
