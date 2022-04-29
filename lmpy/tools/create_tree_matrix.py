@@ -4,6 +4,7 @@ import argparse
 import numpy as np
 
 from lmpy import Matrix, TreeWrapper
+from lmpy.tools._config_parser import _process_arguments
 
 
 # .....................................................................................
@@ -102,7 +103,7 @@ def cli():
         type=str,
         help='File path to write tip lengths matrix.',
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser)
 
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
     tree_mtx, node_heights, tip_lengths = encode_tree(tree)
