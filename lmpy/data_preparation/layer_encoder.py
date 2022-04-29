@@ -153,7 +153,7 @@ def _get_encode_hypothesis_method(hypothesis_values, min_coverage, nodata):
             # Pair of values
             val_map[val[0]] = {'val': contrast_values[0], 'index': i}
             val_map[val[1]] = {'val': contrast_values[1], 'index': i}
-        except TypeError:
+        except IndexError:
             # Single value
             val_map[val] = {'val': contrast_values[0], 'index': i}
         i += 1
