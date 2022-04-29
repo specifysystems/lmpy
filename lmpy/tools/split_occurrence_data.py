@@ -39,28 +39,11 @@ def _process_arguments(parser):
                     config['csv'] = [config['csv']]
                 if args.csv is None:
                     args.csv = []
-                for csv_dict in config['csv']:
-                    args.csv.append(
-                        [
-                            csv_dict['csv_filename'],
-                            csv_dict['wrangler_config_filename'],
-                            csv_dict['species_key'],
-                            csv_dict['x_key'],
-                            csv_dict['y_key'],
-                        ]
-                    )
+                args.csv.extend(config['csv'])
             if 'dwca' in config.keys():
-                if not isinstance(config['dwca'], list):
-                    config['dwca'] = [config['dwca']]
                 if args.dwca is None:
                     args.dwca = []
-                for dwca_dict in config['dwca']:
-                    args.dwca.append(
-                        [
-                            dwca_dict['dwca_filename'],
-                            dwca_dict['wrangler_config_filename'],
-                        ]
-                    )
+                args.dwca.extend(config['dwca'])
 
     return args
 

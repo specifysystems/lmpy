@@ -153,10 +153,9 @@ def test_one_dwca_config_file(monkeypatch, generate_temp_filename, temp_director
     with open(script_config_filename, mode='wt') as json_out:
         json.dump(
             {
-                'dwca': {
-                    'dwca_filename': dwca_filename,
-                    'wrangler_config_filename': wrangler_config_filename
-                }
+                'dwca': [
+                    [dwca_filename, wrangler_config_filename]
+                ]
             },
             json_out
         )
