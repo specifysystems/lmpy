@@ -6,6 +6,7 @@ from lmpy.matrix import Matrix
 from lmpy.spatial.geojsonify import (
     geojsonify_matrix, geojsonify_matrix_with_shapefile,
 )
+from lmpy.tools._config_parser import _process_arguments
 
 
 DESCRIPTION = 'Convert a lmpy Matrix to a GeoJSON file.'
@@ -15,6 +16,7 @@ DESCRIPTION = 'Convert a lmpy Matrix to a GeoJSON file.'
 def cli():
     """Provide a command-line tool for converting LMM to GeoJSON."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '--shapefile_filename',
         '-s',
@@ -49,7 +51,7 @@ def cli():
         type=str,
         help='Location to write the converted matrix GeoJSON.',
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser, config_arg='config_file')
     mtx = Matrix.load(args.in_lmm_filename)
     if args.shapefile_filename is not None:
         matrix_geojson = geojsonify_matrix_with_shapefile(

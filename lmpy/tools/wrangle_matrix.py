@@ -5,6 +5,7 @@ import json
 
 from lmpy import Matrix
 from lmpy.data_wrangling.factory import WranglerFactory
+from lmpy.tools._config_parser import _process_arguments
 
 
 DESCRIPTION = '''\
@@ -34,6 +35,7 @@ def wrangle_matrix(mtx, wranglers):
 def cli():
     """Provice a command-line interface to the wrangle matrix tool."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '-r',
         '--report_filename',
@@ -51,7 +53,7 @@ def cli():
     parser.add_argument(
         'out_matrix_filename', type=str, help='Path to the outut Matrix.'
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser, config_arg='config_file')
 
     in_mtx = Matrix.load(args.in_matrix_filename)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:

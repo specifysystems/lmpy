@@ -7,6 +7,7 @@ import numpy as np
 from osgeo import gdal, gdalconst, ogr, osr
 
 from lmpy.point import PointCsvReader
+from lmpy.tools._config_parser import _process_arguments
 
 
 DESCRIPTION = '''\
@@ -298,6 +299,7 @@ def write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_v
 def cli():
     """Command-line interface for creating a rare species model."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '--species_column',
         '-sp',
@@ -355,7 +357,7 @@ def cli():
         type=str,
         help='File location to write the model raster file.',
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser, config_arg='config_file')
 
     # Read points
     points = read_points(
