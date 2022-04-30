@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.convert_lmm_to_csv &mdash; Specify lmpy 3.1.4+3.g8908f807 documentation</title>
+  <title>lmpy.tools._config_parser &mdash; Specify lmpy 3.1.4+3.g8908f807 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -62,9 +62,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.convert_lmm_to_csv</span></code></li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools._config_parser</span></code></li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../../_sources/autoapi/lmpy/tools/convert_lmm_to_csv/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/autoapi/lmpy/tools/_config_parser/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -72,9 +72,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-lmpy.tools.convert_lmm_to_csv">
-<span id="lmpy-tools-convert-lmm-to-csv"></span><h1><a class="reference internal" href="#module-lmpy.tools.convert_lmm_to_csv" title="lmpy.tools.convert_lmm_to_csv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.convert_lmm_to_csv</span></code></a><a class="headerlink" href="#module-lmpy.tools.convert_lmm_to_csv" title="Permalink to this headline"></a></h1>
-<p>Convert a lmpy Matrix to a (.csv) file.</p>
+  <section id="module-lmpy.tools._config_parser">
+<span id="lmpy-tools-config-parser"></span><h1><a class="reference internal" href="#module-lmpy.tools._config_parser" title="lmpy.tools._config_parser"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools._config_parser</span></code></a><a class="headerlink" href="#module-lmpy.tools._config_parser" title="Permalink to this headline"></a></h1>
+<p>Module containing a tool for parsing a configuration file for argparse.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
 <section id="functions">
@@ -85,30 +85,32 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tools.convert_lmm_to_csv.cli" title="lmpy.tools.convert_lmm_to_csv.cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cli</span></code></a>()</p></td>
-<td><p>Provide a command-line tool for converting lmms to csvs.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.tools.convert_lmm_to_csv.convert_lmm_to_csv" title="lmpy.tools.convert_lmm_to_csv.convert_lmm_to_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_lmm_to_csv</span></code></a>(mtx, csv_filename)</p></td>
-<td><p>Convert a lmpy Matrix to a csv file.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tools._config_parser._process_arguments" title="lmpy.tools._config_parser._process_arguments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_process_arguments</span></code></a>(parser, config_arg=None)</p></td>
+<td><p>Process arguments including filling in those provided by configuration file.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt class="sig sig-object py" id="lmpy.tools.convert_lmm_to_csv.cli">
-<span class="sig-prename descclassname"><span class="pre">lmpy.tools.convert_lmm_to_csv.</span></span><span class="sig-name descname"><span class="pre">cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/convert_lmm_to_csv.html#cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.convert_lmm_to_csv.cli" title="Permalink to this definition"></a></dt>
-<dd><p>Provide a command-line tool for converting lmms to csvs.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lmpy.tools.convert_lmm_to_csv.convert_lmm_to_csv">
-<span class="sig-prename descclassname"><span class="pre">lmpy.tools.convert_lmm_to_csv.</span></span><span class="sig-name descname"><span class="pre">convert_lmm_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/convert_lmm_to_csv.html#convert_lmm_to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.convert_lmm_to_csv.convert_lmm_to_csv" title="Permalink to this definition"></a></dt>
-<dd><p>Convert a lmpy Matrix to a csv file.</p>
+<dt class="sig sig-object py" id="lmpy.tools._config_parser._process_arguments">
+<span class="sig-prename descclassname"><span class="pre">lmpy.tools._config_parser.</span></span><span class="sig-name descname"><span class="pre">_process_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/_config_parser.html#_process_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools._config_parser._process_arguments" title="Permalink to this definition"></a></dt>
+<dd><p>Process arguments including filling in those provided by configuration file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A lmpy matrix to convert to csv.</p></li>
-<li><p><strong>csv_filename</strong> (<em>str</em>) – The file location of the csv to convert.</p></li>
+<li><p><strong>parser</strong> (<em>argparse.ArgumentParser</em>) – An argparse.ArgumentParser with parameters.</p></li>
+<li><p><strong>config_arg</strong> (<em>str</em>) – If provided, try to read configuration file for additional
+arguments.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>An augmented Namespace with any parameters specified in a</dt><dd><p>configuration file.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>argparse.Namespace</p>
 </dd>
 </dl>
 </dd></dl>

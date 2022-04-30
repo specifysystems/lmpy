@@ -15,6 +15,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   _config_parser/index.rst
    build_shapegrid/index.rst
    calculate_pam_stats/index.rst
    clean_occurrences/index.rst

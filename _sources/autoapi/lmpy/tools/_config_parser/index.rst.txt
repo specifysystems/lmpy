@@ -1,0 +1,41 @@
+:py:mod:`lmpy.tools._config_parser`
+===================================
+
+.. py:module:: lmpy.tools._config_parser
+
+.. autoapi-nested-parse::
+
+   Module containing a tool for parsing a configuration file for argparse.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools._config_parser._process_arguments
+
+
+
+.. py:function:: _process_arguments(parser, config_arg=None)
+
+   Process arguments including filling in those provided by configuration file.
+
+   :param parser: An argparse.ArgumentParser with parameters.
+   :type parser: argparse.ArgumentParser
+   :param config_arg: If provided, try to read configuration file for additional
+                      arguments.
+   :type config_arg: str
+
+   :returns:
+
+             An augmented Namespace with any parameters specified in a
+                 configuration file.
+   :rtype: argparse.Namespace
+
+
