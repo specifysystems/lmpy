@@ -20,16 +20,15 @@ jobs:
       - uses: jannekem/run-python-script-action@v1
         env:
           MY_TAG: '3.1.4'
-          MY_DATE: '2022-05-02'
         with:
           script: |
-            import os
+            import datetime
             print(os.environ)
             import yaml
             citation_fn = 'CITATION.cff'
             with open(citation_fn, mode='rt') as in_file:
                 citation_data = yaml.safe_load(in_file)
-            citation_data['date-released'] = os.environ['MY_DATE']
+            citation_data['date-released'] = datetime.datetime.now().strftime('%Y-%m-%d')
             citation_data['version'] = os.environ['MY_TAG']
             with open(citation_fn, mode='wt') as out_file:
                 yaml.dump(citation_data, out_file)
