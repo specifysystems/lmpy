@@ -1,16 +1,16 @@
-cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
 authors:
-- family-names: "Grady"
-  given-names: "CJ"
-  orcid: "https://orcid.org/0000-0002-0915-7130"
-- family-names: "Stewart"
-  given-names: "Aimee"
-  orcid: "https://orcid.org/0000-0002-8470-9118"
-- family-names: "Beach"
-  given-names: "James"
-  orcid: "https://orcid.org/0000-0001-8684-1764"
-title: "Specify Systems Lifemapper Python Library (lmpy)"
-version: 3.1.1
-date-released: 2022-01-26
-url: "https://github.com/specifysystems/lmpy"
+- family-names: Grady
+  given-names: CJ
+  orcid: https://orcid.org/0000-0002-0915-7130
+- family-names: Stewart
+  given-names: Aimee
+  orcid: https://orcid.org/0000-0002-8470-9118
+- family-names: Beach
+  given-names: James
+  orcid: https://orcid.org/0000-0001-8684-1764
+cff-version: 1.2.0
+date-released: null
+message: If you use this software, please cite it as below.
+title: Specify Systems Lifemapper Python Library (lmpy)
+url: https://github.com/specifysystems/lmpy
+version: null
