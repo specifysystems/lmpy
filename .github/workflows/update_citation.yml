@@ -18,7 +18,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
       - uses: jannekem/run-python-script-action@v1
-        env: 
+        env:
           MY_TAG: '3.1.4'
           MY_DATE: '2022-05-02'
         with:
