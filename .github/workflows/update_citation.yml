@@ -27,7 +27,7 @@ jobs:
             import yaml
             citation_fn = 'CITATION.cff'
             with open(citation_fn, mode='rt') as in_file:
-                citation_data = y aml.safe_load(in_file)
+                citation_data = yaml.safe_load(in_file)
             citation_data['date-released'] = get_input('MY_DATE')
             citation_data['version'] = get_input('MY_TAG')
             with open(citation_fn, mode='wt') as out_file:
