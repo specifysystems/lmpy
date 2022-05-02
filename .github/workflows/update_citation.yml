@@ -31,7 +31,7 @@ jobs:
             citation_data['date-released'] = get_input('MY_DATE')
             citation_data['version'] = get_input('MY_TAG')
             with open(citation_fn, mode='wt') as out_file:
-                yaml.dump(citation_data, out_file
+                yaml.dump(citation_data, out_file)
       - name: Commit results
         run: |
           git config --local user.name "$GITHUB_ACTOR"
