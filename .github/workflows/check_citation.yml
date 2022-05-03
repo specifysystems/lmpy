@@ -5,10 +5,10 @@ on:
       - '*.*.*' # Push events to matching {major}.{minor}.{patch}{whatever}
   workflow_dispatch:
 
-name: Update CITATION.cff
+name: Check CITATION.cff
 
 jobs:
-  update-citation-cff:
+  check-citation-cff:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
