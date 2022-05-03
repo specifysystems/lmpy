@@ -30,8 +30,22 @@ jobs:
             citation_fn = 'CITATION.cff'
             with open(citation_fn, mode='rt') as in_file:
                 citation_data = yaml.safe_load(in_file)
-            assert citation_data['version'] == os.environ['RELEASE_VERSION']
-            assert citation_data['date-released'] == datetime.datetime.now().strftime('%Y-%m-%d')
+            expected_version = os.environ['RELEASE_VERSION']
+            expected_date = datetime.datetime.now().strftime('%Y-%m-%d')
+            if not all(
+                [
+                    citation_data['version'] == expected_version,
+                    citation_data['date-released'] == expected_date
+                ]
+            ):
+                raise ValueError(
+                    'Version and date did not match expected. ({}, {}) != ({}, {})'.format(
+                        citation_data['version'],
+                        citation_data['date-released'],
+                        expected_version,
+                        expected_date
+                    )
+                )
       # - name: Commit results
       #   run: |
       #     git config --local user.name "$GITHUB_ACTOR"
