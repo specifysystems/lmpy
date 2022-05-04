@@ -61,7 +61,7 @@ def cli():
         '-l',
         nargs='*',
         action='append',
-        help='File location of layer [ LABEL [ EVENT FIELD ]].',
+        help='File location of layer [ LABEL [ ATTRIBUTE FIELD ]].',
     )
 
     args = _process_arguments(parser, config_arg='config_file')
@@ -75,21 +75,21 @@ def cli():
                 'Too many layer arguments {}.'
                 'Hint: Specify layer args last in command.'.format(layer_args)
             )
-        # Process layer arguments, get filename for sure, try label and event field
+        # Process layer arguments, get filename for sure, try label and attribute field
         lyr_fn = layer_args[0]
-        layer_event = None
+        layer_attribute = None
 
         # Label
         if len(layer_args) > 1:
             lyr_label = layer_args[1]
             if len(layer_args) > 2:
-                layer_event = layer_args[2]
+                layer_attribute = layer_args[2]
         else:
             lyr_label = os.path.splitext(os.path.basename(lyr_fn))[0]
 
         if args.encode_method == 'biogeo':
             encoder.encode_biogeographic_hypothesis(
-                lyr_fn, lyr_label, args.min_coverage, event_field=layer_event
+                lyr_fn, lyr_label, args.min_coverage, attribute_field=layer_attribute
             )
         elif args.encode_method == 'presence_absence':
             encoder.encode_presence_absence(
@@ -98,18 +98,18 @@ def cli():
                 args.min_presence,
                 args.max_presence,
                 args.min_coverage,
-                attribute_name=layer_event,
+                attribute_name=layer_attribute,
             )
         elif args.encode_method == 'largest_class':
             encoder.encode_largest_class(
                 lyr_fn,
                 lyr_label,
                 args.min_coverage,
-                attribute_name=layer_event,
+                attribute_name=layer_attribute,
             )
         elif args.encode_method == 'mean_value':
             encoder.encode_mean_value(
-                lyr_fn, lyr_label, attribute_name=layer_event
+                lyr_fn, lyr_label, attribute_name=layer_attribute
             )
         else:
             raise ValueError('Unknown encoding method: {}'.format(args.encode_method))

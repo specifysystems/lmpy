@@ -21,7 +21,7 @@ encoding these layers to consider.  Minimum presence, this is the minimum value
 of the species layer that should be considered present.  For example, if your
 species layer is scaled 0-100, maybe you want to consider any value above 0 to
 be present.  Maximum presence is the maximum value to be considered present.
-This is possibly most useful when you have a postive NODATA value, such as 255
+This is possibly most useful when you have a positive NODATA value, such as 255
 for unsigned single byte integer cell values.  Finally, minimum coverage, this
 value indicates what portion of a grid cell must be covered by "present" values
 to call that cell present.  For instance, you may want to call grid cells
@@ -191,7 +191,7 @@ See `encode_biogeographic_hypothesis <../autoapi/lmpy/data_preparation/layer_enc
     ...     hypothesis_2,
     ...     'Hypothesis 2',
     ...     min_coverage,
-    ...     event_field='zone'
+    ...     attribute_field='zone'
     ... )
     >>> bg_mtx = encoder.get_encoded_matrix()
     >>> bg_geojson = encoder.get_geojson()
