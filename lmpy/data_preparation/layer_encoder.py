@@ -375,17 +375,13 @@ class LayerEncoder:
         return window_function
 
     # ...............................
-    def _read_layer(
-        self,
-        layer_filename,
-        resolution=None,
-        bbox=None,
-        nodata=DEFAULT_NODATA,
-        event_field=None,
-    ):
+    def _read_layer(self, layer_filename, resolution=None, bbox=None,
+                    nodata=DEFAULT_NODATA, event_field=None,
+                    attribute_field=attribute_name):
         """Reads a layer for processing.
 
         Args:
+            attribute_field ():
             layer_filename (str): The file path for the layer to read.
             resolution (numeric): An optional resolution to use for the input data if
                 it is a vector layer.
@@ -393,8 +389,8 @@ class LayerEncoder:
                 (min x, min y, max x, max y) to use if the layer is a vector layer.
             nodata (numeric): An optional nodata value to use if the layer is a vector
                 layer.
-            event_field (str): If provided, use this field as the burn value for a
-                vector layer.
+            event_field (str): If provided, use this shapefile attribute as the data
+                value for a vector layer.
 
         Returns:
             tuple: A tuple containing a window function for returning a portion of the
@@ -498,21 +494,20 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        event_field=None,
+        attribute_field=None,
     ):
         """Reads a vector layer for processing.
 
         Args:
             vector_filename: The vector file path for the layer to read.
-            resolution: An optional resolution to use for the generated data
-                array for the layer.
-            bbox: An optional bounding box in the form
-                (min x, min y, max x, max y) to use for the vector layer.  Will
-                use the shapegrid bounding box if not provided.
-            nodata: An optional nodata value to use if the layer is a vector
+            resolution (numeric): An optional resolution to use for the input data if
+                it is a vector layer.
+            bbox (tuple): An optional bounding box in the form
+                (min x, min y, max x, max y) to use if the layer is a vector layer.
+            nodata (numeric): An optional nodata value to use if the layer is a vector
                 layer.
-            event_field: An optional shapefile attribute to use as the burn
-                value for each cell.  This should be numeric.
+            attribute_field (str): If provided, use this shapefile attribute as the
+                data value for a vector layer.
 
         Returns:
             tuple: A tuple containing a window function for returning a portion of the
@@ -520,8 +515,8 @@ class LayerEncoder:
                 layer, and a set of distinct events to be used for processing.
         """
         options = ['ALL_TOUCHED=TRUE']
-        if event_field is not None:
-            options.append('ATTRIBUTE={}'.format(event_field))
+        if attribute_field is not None:
+            options.append('ATTRIBUTE={}'.format(attribute_field))
 
         if resolution is None:
             resolution = [DEFAULT_SCALE * i for i in self.shapegrid_resolution]
@@ -588,7 +583,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        event_field=None,
+        attribute_field=None,
     ):
         """Encodes a biogeographic hypothesis layer.
 
@@ -606,7 +601,7 @@ class LayerEncoder:
                 for the data grid.
             nodata: If the layer is a vector, optionally use this as the data
                 grid nodata value.
-            event_field: If the layer is a vector and contains multiple
+            attribute_field: If the layer is a vector and contains multiple
                 hypotheses, use this field to separate the vector file.
 
         Returns:
@@ -616,8 +611,7 @@ class LayerEncoder:
             layer_filename,
             resolution=resolution,
             bbox=bbox,
-            nodata=nodata,
-            event_field=event_field,
+            nodata=nodata
         )
         if len(distinct_events) == 2:
             # Set the events to be opposite sides of same hypothesis
@@ -663,13 +657,8 @@ class LayerEncoder:
         Returns:
             list of str: A list of column headers for the newly encoded columns.
         """
-        window_func, nodata, _ = self._read_layer(
-            layer_filename,
-            resolution=resolution,
-            bbox=bbox,
-            nodata=nodata,
-            event_field=attribute_name,
-        )
+        window_func, nodata, _ = self._read_layer(layer_filename, resolution=resolution,
+                                                  bbox=bbox, nodata=nodata)
         encode_func = _get_presence_absence_method(
             min_presence, max_presence, min_coverage, nodata
         )
@@ -707,8 +696,7 @@ class LayerEncoder:
             layer_filename,
             resolution=resolution,
             bbox=bbox,
-            nodata=nodata,
-            event_field=attribute_name,
+            nodata=nodata
         )
         encode_func = _get_mean_value_method(nodata)
         return self._encode_layer(window_func, encode_func, column_name)
@@ -747,8 +735,7 @@ class LayerEncoder:
             layer_filename,
             resolution=resolution,
             bbox=bbox,
-            nodata=nodata,
-            event_field=attribute_name,
+            nodata=nodata
         )
         encode_func = _get_largest_class_method(min_coverage, nodata)
         return self._encode_layer(window_func, encode_func, column_name)
