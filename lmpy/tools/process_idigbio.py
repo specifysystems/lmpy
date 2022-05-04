@@ -6,6 +6,7 @@ import zipfile
 import defusedxml.ElementTree as ET
 
 from lmpy.point import PointDwcaReader
+from lmpy.tools._config_parser import _process_arguments
 
 
 # DWCA Tag Constants
@@ -168,9 +169,10 @@ def test_dwca(dwca_filename):
 def main():
     """Main method for script."""
     parser = argparse.ArgumentParser()
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument('in_dwca', type=str, help='Input DWCA zip file.')
     parser.add_argument('out_dwca', type=str, help='Output processed DWCA zip file.')
-    args = parser.parse_args()
+    args = _process_arguments(parser, config_arg='config_file')
     process_idb_dwca(args.in_dwca, args.out_dwca)
     test_dwca(args.out_dwca)
 

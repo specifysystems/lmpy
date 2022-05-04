@@ -80,6 +80,7 @@ def encode_tree(tree):
 def cli():
     """Main controlling method for script."""
     parser = argparse.ArgumentParser()
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         'tree_filename', type=str, help='File path to a phylogenetic tree.'
     )
@@ -103,7 +104,7 @@ def cli():
         type=str,
         help='File path to write tip lengths matrix.',
     )
-    args = _process_arguments(parser)
+    args = _process_arguments(parser, config_arg='config_file')
 
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
     tree_mtx, node_heights, tip_lengths = encode_tree(tree)

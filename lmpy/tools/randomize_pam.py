@@ -29,6 +29,7 @@ def randomize_pam(in_pam):
 def cli():
     """Function providing a command line interface to the tool."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         'input_pam_filename',
         type=str,
@@ -39,7 +40,7 @@ def cli():
         type=str,
         help='The file location to write the randomized PAM.',
     )
-    args = _process_arguments(parser)
+    args = _process_arguments(parser, config_arg='config_file')
     in_pam = Matrix.load(args.input_pam_filename)
     rand_pam = randomize_pam(in_pam)
     rand_pam.write(args.output_pam_filename)
