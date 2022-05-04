@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Layer Encoder &mdash; Specify lmpy 3.1.7 documentation</title>
+  <title>Layer Encoder &mdash; Specify lmpy 3.1.7+3.gde84ce24 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -113,7 +113,7 @@ encoding these layers to consider.  Minimum presence, this is the minimum value
 of the species layer that should be considered present.  For example, if your
 species layer is scaled 0-100, maybe you want to consider any value above 0 to
 be present.  Maximum presence is the maximum value to be considered present.
-This is possibly most useful when you have a postive NODATA value, such as 255
+This is possibly most useful when you have a positive NODATA value, such as 255
 for unsigned single byte integer cell values.  Finally, minimum coverage, this
 value indicates what portion of a grid cell must be covered by “present” values
 to call that cell present.  For instance, you may want to call grid cells
@@ -272,7 +272,7 @@ neither for two-sided hypotheses.</p>
 <span class="gp">... </span>    <span class="n">hypothesis_2</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;Hypothesis 2&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">min_coverage</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">event_field</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span>
+<span class="gp">... </span>    <span class="n">attribute_field</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bg_mtx</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_encoded_matrix</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bg_geojson</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_geojson</span><span class="p">()</span>

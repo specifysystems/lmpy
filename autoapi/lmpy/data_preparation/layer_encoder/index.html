@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.7 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.7+3.gde84ce24 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -181,7 +181,7 @@ the size of the cell in the y dimension.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder._read_layer">
-<span class="sig-name descname"><span class="pre">_read_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._read_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._read_layer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">_read_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._read_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._read_layer" title="Permalink to this definition"></a></dt>
 <dd><p>Reads a layer for processing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -193,8 +193,8 @@ it is a vector layer.</p></li>
 (min x, min y, max x, max y) to use if the layer is a vector layer.</p></li>
 <li><p><strong>nodata</strong> (<em>numeric</em>) – An optional nodata value to use if the layer is a vector
 layer.</p></li>
-<li><p><strong>event_field</strong> (<em>str</em>) – If provided, use this field as the burn value for a
-vector layer.</p></li>
+<li><p><strong>attribute_field</strong> (<em>str</em>) – If provided, use this shapefile attribute as the data
+value for a vector layer.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -246,27 +246,26 @@ this layer.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder._read_vector_layer">
-<span class="sig-name descname"><span class="pre">_read_vector_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._read_vector_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._read_vector_layer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">_read_vector_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder._read_vector_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder._read_vector_layer" title="Permalink to this definition"></a></dt>
 <dd><p>Reads a vector layer for processing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vector_filename</strong> – The vector file path for the layer to read.</p></li>
-<li><p><strong>resolution</strong> – An optional resolution to use for the generated data
-array for the layer.</p></li>
-<li><p><strong>bbox</strong> – An optional bounding box in the form
-(min x, min y, max x, max y) to use for the vector layer.  Will
-use the shapegrid bounding box if not provided.</p></li>
-<li><p><strong>nodata</strong> – An optional nodata value to use if the layer is a vector
+<li><p><strong>resolution</strong> (<em>numeric</em>) – An optional resolution to use for the input data if
+it is a vector layer.</p></li>
+<li><p><strong>bbox</strong> (<em>tuple</em>) – An optional bounding box in the form
+(min x, min y, max x, max y) to use if the layer is a vector layer.</p></li>
+<li><p><strong>nodata</strong> (<em>numeric</em>) – An optional nodata value to use if the layer is a vector
 layer.</p></li>
-<li><p><strong>event_field</strong> – An optional shapefile attribute to use as the burn
-value for each cell.  This should be numeric.</p></li>
+<li><p><strong>attribute_field</strong> (<em>str</em>) – If provided, use this shapefile attribute as the
+data value for a vector layer.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>A tuple containing a window function for returning a portion of the</dt><dd><p>numpy array generated by the layer, the NODATA value to use with this
-layer, and a set of distinct events to be used for processing.</p>
+layer, and a set of distinct attributes to be used for processing.</p>
 </dd>
 </dl>
 </p>
@@ -279,7 +278,7 @@ layer, and a set of distinct events to be used for processing.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis">
-<span class="sig-name descname"><span class="pre">encode_biogeographic_hypothesis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_biogeographic_hypothesis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">encode_biogeographic_hypothesis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_biogeographic_hypothesis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_biogeographic_hypothesis" title="Permalink to this definition"></a></dt>
 <dd><p>Encodes a biogeographic hypothesis layer.</p>
 <p>Encodes a biogeographic hypothesis layer by creating a Helmert contrast
 column in the encoded matrix.</p>
@@ -296,7 +295,7 @@ resolution of the data grid.</p></li>
 for the data grid.</p></li>
 <li><p><strong>nodata</strong> – If the layer is a vector, optionally use this as the data
 grid nodata value.</p></li>
-<li><p><strong>event_field</strong> – If the layer is a vector and contains multiple
+<li><p><strong>attribute_field</strong> – If the layer is a vector and contains multiple
 hypotheses, use this field to separate the vector file.</p></li>
 </ul>
 </dd>

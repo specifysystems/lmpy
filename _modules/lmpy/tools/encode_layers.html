@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.encode_layers &mdash; Specify lmpy 3.1.7 documentation</title>
+  <title>lmpy.tools.encode_layers &mdash; Specify lmpy 3.1.7+3.gde84ce24 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -135,7 +135,7 @@
         <span class="s1">&#39;-l&#39;</span><span class="p">,</span>
         <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of layer [ LABEL [ EVENT FIELD ]].&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of layer [ LABEL [ ATTRIBUTE FIELD ]].&#39;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
@@ -149,21 +149,21 @@
                 <span class="s1">&#39;Too many layer arguments </span><span class="si">{}</span><span class="s1">.&#39;</span>
                 <span class="s1">&#39;Hint: Specify layer args last in command.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span>
             <span class="p">)</span>
-        <span class="c1"># Process layer arguments, get filename for sure, try label and event field</span>
+        <span class="c1"># Process layer arguments, get filename for sure, try label and attribute field</span>
         <span class="n">lyr_fn</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">layer_event</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">layer_attribute</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Label</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">lyr_label</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">layer_event</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">layer_attribute</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">lyr_label</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">lyr_fn</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;biogeo&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_biogeographic_hypothesis</span><span class="p">(</span>
-                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span> <span class="n">event_field</span><span class="o">=</span><span class="n">layer_event</span>
+                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span> <span class="n">attribute_field</span><span class="o">=</span><span class="n">layer_attribute</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;presence_absence&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
@@ -172,18 +172,18 @@
                 <span class="n">args</span><span class="o">.</span><span class="n">min_presence</span><span class="p">,</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">max_presence</span><span class="p">,</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span>
-                <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_event</span><span class="p">,</span>
+                <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_attribute</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;largest_class&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_largest_class</span><span class="p">(</span>
                 <span class="n">lyr_fn</span><span class="p">,</span>
                 <span class="n">lyr_label</span><span class="p">,</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span>
-                <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_event</span><span class="p">,</span>
+                <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_attribute</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;mean_value&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_mean_value</span><span class="p">(</span>
-                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span><span class="p">,</span> <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_event</span>
+                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span><span class="p">,</span> <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_attribute</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown encoding method: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">encode_method</span><span class="p">))</span>
