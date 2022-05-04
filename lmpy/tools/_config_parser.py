@@ -2,6 +2,7 @@
 import json
 import sys
 
+
 # .....................................................................................
 def _process_arguments(parser, config_arg=None):
     """Process arguments including filling in those provided by configuration file.
