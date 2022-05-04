@@ -4,6 +4,7 @@ import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointCsvWriter
+from lmpy.tools._config_parser import _process_arguments
 
 
 # .....................................................................................
@@ -70,6 +71,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
 def cli():
     """A command-line interface to the tool."""
     parser = argparse.ArgumentParser()
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '-sp',
         '--species_key',
@@ -113,7 +115,7 @@ def cli():
     parser.add_argument(
         'wrangler_config_filename', type=str, help='Wrangler(s) configuration file.'
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser, 'config_file')
 
     # Get wranglers
     wrangler_factory = WranglerFactory()
