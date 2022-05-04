@@ -13,4 +13,4 @@ date-released: '2022-05-04'
 message: If you use this software, please cite it as below.
 title: Specify Systems Lifemapper Python Library (lmpy)
 url: https://github.com/specifysystems/lmpy
-version: 3.1.7
+version: 3.1.8
