@@ -9,3 +9,21 @@
 
 
 
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.create_tree_matrix.cli
+
+
+
+.. py:function:: cli()
+
+   Main controlling method for script.
+
+
