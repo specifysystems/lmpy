@@ -1,4 +1,5 @@
 """Test the create rare species model tool."""
+import json
 import numpy as np
 import pytest
 
@@ -200,6 +201,182 @@ def test_valid_tiff_auto(monkeypatch, generate_temp_filename, model_parameters):
         csv_fn,
         ecoreg_fn,
         model_fn,
+    ]
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+    # Check the created model
+
+
+# .....................................................................................
+def test_valid_ascii_config(monkeypatch, generate_temp_filename, model_parameters):
+    """Test with valid parameters and create an ASCII Grid with a configuration file.
+
+    Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
+        model_parameters (tuple): Parameters for creating a test model.
+    """
+    # Model parameters
+    count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
+    # Get filenames
+    csv_fn = generate_temp_filename(suffix='.csv')
+    ecoreg_fn = generate_temp_filename(suffix='.tif')
+    model_fn = generate_temp_filename(suffix='.asc')
+    # Write points
+    generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
+    # Write ecoregions file
+    generate_test_ecoregions(ecoreg_fn, min_x, min_y, max_x, max_y, resolution)
+
+    # Create the configuration file
+    config_fn = generate_temp_filename(suffix='.json')
+    with open(config_fn, mode='wt') as config_out:
+        json.dump(
+            {
+                'output_format': 'AAIGrid',
+                'point_csv_filename': csv_fn,
+                'ecoregions_filename': ecoreg_fn,
+                'model_raster_filename': model_fn
+            },
+            config_out
+        )
+
+    params = [
+        'create_rare_species_model.py',
+        '--config_file',
+        config_fn
+    ]
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+    # Check the created model
+
+
+# .....................................................................................
+def test_valid_ascii_auto_config(
+    monkeypatch,
+    generate_temp_filename,
+    model_parameters
+):
+    """Test with valid parameters and create an ASCII Grid with auto format and config.
+
+    Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
+        model_parameters (tuple): Parameters for creating a test model.
+    """
+    # Model parameters
+    count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
+    # Get filenames
+    csv_fn = generate_temp_filename(suffix='.csv')
+    ecoreg_fn = generate_temp_filename(suffix='.tif')
+    model_fn = generate_temp_filename(suffix='.asc')
+    # Write points
+    generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
+    # Write ecoregions file
+    generate_test_ecoregions(ecoreg_fn, min_x, min_y, max_x, max_y, resolution)
+
+    # Create the configuration file
+    config_fn = generate_temp_filename(suffix='.json')
+    with open(config_fn, mode='wt') as config_out:
+        json.dump(
+            {
+                'output_format': 'auto',
+                'point_csv_filename': csv_fn,
+                'ecoregions_filename': ecoreg_fn,
+                'model_raster_filename': model_fn
+            },
+            config_out
+        )
+
+    params = [
+        'create_rare_species_model.py',
+        '--config_file',
+        config_fn
+    ]
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+    # Check the created model
+
+
+# .....................................................................................
+def test_valid_tiff_config(monkeypatch, generate_temp_filename, model_parameters):
+    """Test with valid parameters and create a GeoTiff with config file.
+
+    Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
+        model_parameters (tuple): Parameters for creating a test model.
+    """
+    # Model parameters
+    count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
+    # Get filenames
+    csv_fn = generate_temp_filename(suffix='.csv')
+    ecoreg_fn = generate_temp_filename(suffix='.tif')
+    model_fn = generate_temp_filename(suffix='.tif')
+    # Write points
+    generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
+    # Write ecoregions file
+    generate_test_ecoregions(ecoreg_fn, min_x, min_y, max_x, max_y, resolution)
+
+    # Create the configuration file
+    config_fn = generate_temp_filename(suffix='.json')
+    with open(config_fn, mode='wt') as config_out:
+        json.dump(
+            {
+                'output_format': 'GTiff',
+                'point_csv_filename': csv_fn,
+                'ecoregions_filename': ecoreg_fn,
+                'model_raster_filename': model_fn
+            },
+            config_out
+        )
+
+    params = [
+        'create_rare_species_model.py',
+        '--config_file',
+        config_fn
+    ]
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+    # Check the created model
+
+
+# .....................................................................................
+def test_valid_tiff_auto_config(monkeypatch, generate_temp_filename, model_parameters):
+    """Test with valid parameters and create a GeoTiff with auto format and config.
+
+    Args:
+        monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
+        generate_temp_filename (pytest.Fixture): Function to generate filenames.
+        model_parameters (tuple): Parameters for creating a test model.
+    """
+    # Model parameters
+    count, resolution, (min_x, min_y, max_x, max_y) = model_parameters
+    # Get filenames
+    csv_fn = generate_temp_filename(suffix='.csv')
+    ecoreg_fn = generate_temp_filename(suffix='.tif')
+    model_fn = generate_temp_filename(suffix='.tif')
+    # Write points
+    generate_test_points(csv_fn, count, min_x, min_y, max_x, max_y)
+    # Write ecoregions file
+    generate_test_ecoregions(ecoreg_fn, min_x, min_y, max_x, max_y, resolution)
+
+    # Create the configuration file
+    config_fn = generate_temp_filename(suffix='.json')
+    with open(config_fn, mode='wt') as config_out:
+        json.dump(
+            {
+                'output_format': 'auto',
+                'point_csv_filename': csv_fn,
+                'ecoregions_filename': ecoreg_fn,
+                'model_raster_filename': model_fn
+            },
+            config_out
+        )
+
+    params = [
+        'create_rare_species_model.py',
+        '--config_file',
+        config_fn
     ]
     monkeypatch.setattr('sys.argv', params)
     cli()
