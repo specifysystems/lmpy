@@ -10,12 +10,11 @@ DESCRIPTION = 'Encode raster and / or vector layers into a site by layer matrix.
 
 
 # .....................................................................................
-def cli():
-    """Command line interface for layer encoding.
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
 
-    Raises:
-        ValueError: Raised if an unknown encoding method is provided or too many layer
-            arguments.
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
@@ -63,6 +62,18 @@ def cli():
         action='append',
         help='File location of layer [ LABEL [ ATTRIBUTE FIELD ]].',
     )
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """Command line interface for layer encoding.
+
+    Raises:
+        ValueError: Raised if an unknown encoding method is provided or too many layer
+            arguments.
+    """
+    parser = build_parser()
 
     args = _process_arguments(parser, config_arg='config_file')
 
@@ -119,7 +130,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['cli']
+__all__ = ['build_parser', 'cli']
 
 
 # .....................................................................................

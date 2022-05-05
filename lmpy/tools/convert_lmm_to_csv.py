@@ -21,8 +21,12 @@ def convert_lmm_to_csv(mtx, csv_filename):
 
 
 # .....................................................................................
-def cli():
-    """Provide a command-line tool for converting lmms to csvs."""
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
         'in_lmm_filename', type=str, help='Lmpy LMM filename to convert to CSV.'
@@ -30,13 +34,20 @@ def cli():
     parser.add_argument(
         'out_csv_filename', type=str, help='Location to write the converted matrix CSV.'
     )
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """Provide a command-line tool for converting lmms to csvs."""
+    parser = build_parser()
     args = _process_arguments(parser)
     mtx = Matrix.load(args.in_lmm_filename)
     convert_lmm_to_csv(mtx, args.out_csv_filename)
 
 
 # .....................................................................................
-__all__ = ['cli', 'convert_lmm_to_csv']
+__all__ = ['build_parser', 'cli', 'convert_lmm_to_csv']
 
 
 # .....................................................................................

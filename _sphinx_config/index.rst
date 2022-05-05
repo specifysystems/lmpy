@@ -27,9 +27,9 @@ models.
     tutorial/tutorial
 
     pages/about
-    pages/references
 
-    scripts/build
+    scripts/tools
+    pages/references
 
 
 Indices and tables

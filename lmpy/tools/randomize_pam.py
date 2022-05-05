@@ -26,8 +26,12 @@ def randomize_pam(in_pam):
 
 
 # .....................................................................................
-def cli():
-    """Function providing a command line interface to the tool."""
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
@@ -40,6 +44,13 @@ def cli():
         type=str,
         help='The file location to write the randomized PAM.',
     )
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """Function providing a command line interface to the tool."""
+    parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
     in_pam = Matrix.load(args.input_pam_filename)
     rand_pam = randomize_pam(in_pam)
@@ -47,7 +58,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['cli', 'randomize_pam']
+__all__ = ['build_parser', 'cli', 'randomize_pam']
 
 
 # .....................................................................................
