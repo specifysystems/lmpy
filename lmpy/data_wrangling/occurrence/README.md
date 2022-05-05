@@ -1,15 +1,14 @@
 # Occurrence Data Wranglers
 
-These files define occurrence data manipulation parameters that can be configured for various tools
+The files in this module define occurrence data manipulations, and parameters for each, that can be configured 
+for various purposes. 
 
 * A configuration file is in JSON format, a list of one dictionary per desired wrangler.  
   * Each dictionary must contain "wrangler_type", with the name of the wrangler types (listed below).  
   * The dictionary will also contain all required parameters and any optional parameters.  
 
 * Currently, wrangler names correspond to the wrangler class `name` attribute in this module's files.
-* The factory module instantiates wranglers and checks validity of parameters and values.
 * Each wrangler's parameters correspond to the constructor arguments for that wrangler. 
-* Valid wrangler types are enumerated in lmpy.data_wrangling.occurrence.factory.WRANGLER_TYPES
 * Example clean_occurrences wrangler configuration:
 
 ```json
