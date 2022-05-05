@@ -29,6 +29,8 @@ models.
     pages/about
     pages/references
 
+    scripts/build
+
 
 Indices and tables
 ==================

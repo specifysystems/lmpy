@@ -43,6 +43,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
     'autoapi.extension',
+    'sphinx_argparse_cli',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
