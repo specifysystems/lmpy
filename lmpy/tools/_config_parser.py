@@ -1,5 +1,4 @@
 """Module containing a tool for parsing a configuration file for argparse."""
-import argparse
 import json
 import sys
 
