@@ -4,8 +4,8 @@ from copy import deepcopy
 import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
-from lmpy.tree import TreeWrapper
 from lmpy.tools._config_parser import _process_arguments
+from lmpy.tree import TreeWrapper
 
 
 # .....................................................................................

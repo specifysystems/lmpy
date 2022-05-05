@@ -2,6 +2,7 @@
 import argparse
 
 from lmpy.data_preparation.build_grid import build_shapegrid
+from lmpy.tools._config_parser import _process_arguments
 
 
 DESCRIPTION = '''\
@@ -13,6 +14,7 @@ multivariate Matrix for lmpy operations.'''
 def cli():
     """Command-line interface to build shapegrid."""
     parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         'shapegrid_filename',
         type=str,
@@ -30,7 +32,7 @@ def cli():
     parser.add_argument(
         'epsg', type=int, help='The EPSG code (map projection) for the shapegrid.'
     )
-    args = parser.parse_args()
+    args = _process_arguments(parser, config_arg='config_file')
     cell_sides = 4  # Add this to parameters if we enable hexagons again
     build_shapegrid(
         args.shapegrid_filename,
