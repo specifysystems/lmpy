@@ -39,7 +39,7 @@ Filtering Records
 
 Built-in Filters
 ----------------
-Filter a list of :term:Point objects so that those with less than four (4) decimal places
+Filter a list of :term:`Point` objects so that those with less than four (4) decimal places
 of precision are removed.
 
     >>> points = [Point('Species A', 10.3, 23.1),
