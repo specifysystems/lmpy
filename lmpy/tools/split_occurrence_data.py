@@ -20,9 +20,16 @@ species) can be processed together.'''
 
 
 # .....................................................................................
-def cli():
-    """Command-line interface for splitting occurrence datasets."""
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
+    parser = argparse.ArgumentParser(
+        prog='split_occurrence_data',
+        description=DESCRIPTION,
+    )
     parser.add_argument(
         '--config_file',
         type=str,
@@ -82,6 +89,13 @@ def cli():
         type=str,
         help='Directory where the output data should be written.',
     )
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """Command-line interface for splitting occurrence datasets."""
+    parser = build_parser()
     args = _process_arguments(parser, 'config_file')
 
     # Establish functions for getting writer key and filename
@@ -120,7 +134,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['cli']
+__all__ = ['build_parser', 'cli']
 
 
 # .....................................................................................

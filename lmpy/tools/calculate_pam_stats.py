@@ -12,9 +12,16 @@ DESCRIPTION = 'Compute statistics for a PAM and optionally a tree.'
 
 
 # .....................................................................................
-def cli():
-    """Provide a command-line tool for computing statistics."""
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
+    parser = argparse.ArgumentParser(
+        prog='calculate_pam_stats',
+        description=DESCRIPTION,
+    )
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument('--tree_filename', type=str, help='Path to matching tree.')
     parser.add_argument(
@@ -45,6 +52,13 @@ def cli():
 
     # PAM
     parser.add_argument('pam_filename', type=str, help='Path to PAM file.')
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """Provide a command-line tool for computing statistics."""
+    parser = build_parser()
 
     args = _process_arguments(parser, 'config_file')
 
@@ -83,7 +97,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['cli']
+__all__ = ['build_parser', 'cli']
 
 
 # .....................................................................................

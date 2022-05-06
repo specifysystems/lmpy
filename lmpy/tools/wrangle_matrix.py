@@ -32,9 +32,13 @@ def wrangle_matrix(mtx, wranglers):
 
 
 # .....................................................................................
-def cli():
-    """Provice a command-line interface to the wrangle matrix tool."""
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
+    parser = argparse.ArgumentParser(prog='wrangle_matrix', description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '-r',
@@ -53,6 +57,13 @@ def cli():
     parser.add_argument(
         'out_matrix_filename', type=str, help='Path to the outut Matrix.'
     )
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """Provice a command-line interface to the wrangle matrix tool."""
+    parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
 
     in_mtx = Matrix.load(args.in_matrix_filename)
@@ -69,7 +80,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['cli', 'wrangle_matrix']
+__all__ = ['build_parser', 'cli', 'wrangle_matrix']
 
 
 # .....................................................................................

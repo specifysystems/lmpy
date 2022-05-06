@@ -8,6 +8,10 @@ from lmpy.tools._config_parser import _process_arguments
 
 
 # .....................................................................................
+DESCRIPTION = 'Clean (filter / modify) occurrence records using data wranglers.'
+
+
+# .....................................................................................
 def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output=False):
     """Clean occurrence data.
 
@@ -68,9 +72,16 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
 
 
 # .....................................................................................
-def cli():
-    """A command-line interface to the tool."""
-    parser = argparse.ArgumentParser()
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
+    parser = argparse.ArgumentParser(
+        prog='clean_occurrences',
+        description=DESCRIPTION,
+    )
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '-sp',
@@ -115,6 +126,13 @@ def cli():
     parser.add_argument(
         'wrangler_config_filename', type=str, help='Wrangler(s) configuration file.'
     )
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """A command-line interface to the tool."""
+    parser = build_parser()
     args = _process_arguments(parser, 'config_file')
 
     # Get wranglers
@@ -140,7 +158,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['clean_data', 'cli']
+__all__ = ['build_parser', 'clean_data', 'cli']
 
 
 # .....................................................................................

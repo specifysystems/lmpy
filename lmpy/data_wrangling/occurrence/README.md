@@ -1,7 +1,14 @@
 # Occurrence Data Wranglers
 
-The files in this module define occurrence data manipulations, and parameters for
-each, that can be configured for various purposes.
+Occurrence data wranglers operate on lists of `lmpy.point.Point` objects and modify
+and / or filter those point records according to each of the occurrence data wranglers
+configured.  Each occurrence data wrangler is a subclass of
+`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler` and exposes functionality
+through the `wrangle_occurrences` method.  This method takes a list of `Point` objects
+as input and returns a list of wrangled `Point` objects which may include filtering out
+points that don't satisfy the specified criteria or they may be modified by a wrangler
+to fit a specified need, such as modifying the set of fields for a point so that it
+meets a common format for aggregation.
 
 * A configuration file is in JSON format, a list of one dictionary per desired
   wrangler.
@@ -10,12 +17,8 @@ each, that can be configured for various purposes.
   * The dictionary will also contain all required parameters and any optional
     parameters.
 
-<<<<<<< HEAD
-* Currently, wrangler names correspond to the wrangler class `name` attribute in this
+* Currently, wrangler names correspond to the wrangler class `name` attribute in this 
   module's files.
-=======
-* Currently, wrangler names correspond to the wrangler class `name` attribute in this module's files.
->>>>>>> c867142fcf9f6e0b52957b3772e4192eac4d623b
 * Each wrangler's parameters correspond to the constructor arguments for that wrangler.
 * Example clean_occurrences wrangler configuration:
 
@@ -35,6 +38,54 @@ each, that can be configured for various purposes.
 ]
 
 ```
+
+## Example Usage
+
+The data wrangler factory can be used to instantiate data wranglers from a JSON configuration
+file.  To use the data wrangler factory, create a json file containing a list of dictionaries
+with parameters for each particular data wrangler to use.
+
+Example wrangler factory usage:
+
+```python
+from lmpy.data_wrangling.factory import WranglerFactory
+
+wrangler_config = [
+    {
+        "wrangler_type": "AcceptedNameOccurrenceWrangler",
+        "name_resolver": "gbif"
+    },
+    {
+        "wrangler_type": "UniqueLocalitiesFilter",
+    },
+    {
+        "wrangler_type": "BoundingBoxFilter",
+        "min_x": -171.79,
+        "min_y": 18.91,
+        "max_x": -66.96,
+        "max_y": 71.36
+    }
+]
+
+factory = WranglerFactory()
+occ_wranglers = factory.get_wranglers(wrangler_config)
+
+# Assume that points have been established somewhere
+for wrangler in occ_wranglers:
+    if points:
+        points = wrangler.wrangle_points(points)
+```
+
+## Subclassing _OccurrenceDataWrangler
+
+Creating a new occurrence data wrangler class can be somewhat simple.  For a new
+filter-type wrangler, you can just override the `_pass_condition` method
+(See: [bounding_box_wrangler.BoundingBoxWrangler](./bounding_box_wrangler.py)).
+For a simple modifier wrangler, you can override the `_modify_point` method
+(See: [common_format_wrangler.CommonFormatWrangler](./common_format_wrangler.py)).
+For more complex cases, you may need to override both methods and maybe the
+`wrangle_points` method as well
+(see: [minimum_points_wrangler.MinimumPointsFilter](./minimum_points_wrangler.py)).
 
 ## Wrangler types
 
@@ -131,3 +182,4 @@ each, that can be configured for various purposes.
 * optional
 
   * do_reset (bool): Reset the list of seen localities after each group.
+

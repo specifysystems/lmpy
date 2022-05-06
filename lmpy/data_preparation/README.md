@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # lmpy.data_preparation
 
 This module prepares data as input into lmpy biogeographical analyses.
@@ -18,3 +19,9 @@ analyses.
 
 * **tree_encoder** enables a phylogenetic tree to be encoded into a new output matrix,
 given an input tree and input matrix where the tree tip labels match the matrix labels.
+=======
+# lmpy Data Preparation Submodule
+
+The data preparation submodule includes tools for preparing data for analysis.  These
+tools are generally exposed through `lmpy.tools` but can be used directly if desired.
+>>>>>>> origin/main

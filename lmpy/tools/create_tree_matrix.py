@@ -8,6 +8,10 @@ from lmpy.tools._config_parser import _process_arguments
 
 
 # .....................................................................................
+DESCRIPTION = 'Create a trio of matrices representing a phylogenetic tree'
+
+
+# .....................................................................................
 def encode_tree(tree):
     """Encode a tree into a binary matrix and two data arrays for node and tips.
 
@@ -77,9 +81,17 @@ def encode_tree(tree):
 
 
 # .....................................................................................
-def cli():
-    """Main controlling method for script."""
-    parser = argparse.ArgumentParser()
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
+    parser = argparse.ArgumentParser(
+        prog='create_tree_matrix',
+        description=DESCRIPTION,
+    )
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         'tree_filename', type=str, help='File path to a phylogenetic tree.'
     )
@@ -103,7 +115,14 @@ def cli():
         type=str,
         help='File path to write tip lengths matrix.',
     )
-    args = _process_arguments(parser)
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """Main controlling method for script."""
+    parser = build_parser()
+    args = _process_arguments(parser, config_arg='config_file')
 
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
     tree_mtx, node_heights, tip_lengths = encode_tree(tree)
@@ -113,7 +132,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = []
+__all__ = ['build_parser', 'cli']
 
 
 # .....................................................................................
