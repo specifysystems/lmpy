@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Cleaning &mdash; Specify lmpy 3.1.9+9.ga0ea4a96 documentation</title>
+  <title>Data Cleaning &mdash; Specify lmpy 3.1.9+21.gf86081b1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -76,9 +76,9 @@
 <li class="toctree-l2"><a class="reference internal" href="tree.html">TreeWrapper Objects</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scripts/tools.html">Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
 </ul>
 
@@ -111,13 +111,14 @@
 <h1>Data Cleaning<a class="headerlink" href="#data-cleaning" title="Permalink to this headline"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
-<p>One of the first steps in creating species distribution models, let alone multi-species
-analyses, is acquiring and preparing specimen occurrence records.  There are multiple
-method for acquiring these raw specimen records such as aggregator downloads or API
-calls but once you have the raw data, you need to assemble your entire dataset, which
-involves converting records to a common format, grouping, and cleaning.  The lmpy
-library provides tools for performing these aggregation and cleaning steps to greatly
-simplify the process for the user.</p>
+<p>One of the first steps in creating
+<a class="reference internal" href="../pages/glossary.html#term-Species-Distribution-Model"><span class="xref std std-term">species distribution models</span></a>, let alone
+multi-species analyses, is acquiring and preparing specimen occurrence records.  There
+are multiple method for acquiring these raw specimen records such as aggregator
+downloads or API calls but once you have the raw data, you need to assemble your entire
+dataset, which involves converting records to a common format, grouping, and cleaning.
+The lmpy library provides tools for performing these aggregation and cleaning steps to
+greatly simplify the process for the user.</p>
 </section>
 <section id="reading-a-csv-file">
 <h2>Reading a CSV File<a class="headerlink" href="#reading-a-csv-file" title="Permalink to this headline"></a></h2>
@@ -130,8 +131,8 @@ and “speciesName” for the species binomial.</p>
 </section>
 <section id="reading-a-darwin-core-archive-file">
 <h2>Reading a Darwin Core Archive File<a class="headerlink" href="#reading-a-darwin-core-archive-file" title="Permalink to this headline"></a></h2>
-<p>Read a Darwin Core Archive file.  The file is assumed to be valid and metadata will
-be pulled from the ‘meta.xml’ file contained within the zip file.</p>
+<p>Read a <a class="reference internal" href="../pages/glossary.html#term-DWCA"><span class="xref std std-term">Darwin Core Archive</span></a> file.  The file is assumed to be valid and
+metadata will be pulled from the ‘meta.xml’ file contained within the zip file.</p>
 <p>See: <a class="reference external" href="../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader">PointDwcaReader</a></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reader</span> <span class="o">=</span> <span class="n">PointDwcaReader</span><span class="p">(</span><span class="n">dwca_filename</span><span class="p">)</span>
 </pre></div>
@@ -141,7 +142,7 @@ be pulled from the ‘meta.xml’ file contained within the zip file.</p>
 <h2>Filtering Records<a class="headerlink" href="#filtering-records" title="Permalink to this headline"></a></h2>
 <section id="built-in-filters">
 <h3>Built-in Filters<a class="headerlink" href="#built-in-filters" title="Permalink to this headline"></a></h3>
-<p>Filter a list of Point objects so that those with less than four (4) decimal places
+<p>Filter a list of <a class="reference internal" href="../pages/glossary.html#term-Point"><span class="xref std std-term">Point</span></a> objects so that those with less than four (4) decimal places
 of precision are removed.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Species A&#39;</span><span class="p">,</span> <span class="mf">10.3</span><span class="p">,</span> <span class="mf">23.1</span><span class="p">),</span>
 <span class="gp">... </span>   <span class="n">Point</span><span class="p">(</span><span class="s1">&#39;Species B&#39;</span><span class="p">,</span> <span class="mf">11.34123</span><span class="p">,</span> <span class="mf">12.2314</span><span class="p">),</span>
@@ -155,7 +156,8 @@ of precision are removed.</p>
 </section>
 <section id="custom-filters">
 <h3>Custom Filters<a class="headerlink" href="#custom-filters" title="Permalink to this headline"></a></h3>
-<p>Filter a list of points so that those without a species epithet are removed.</p>
+<p>Filter a list of <a class="reference internal" href="../pages/glossary.html#term-Point"><span class="xref std std-term">points</span></a> so that those without a species epithet are
+removed.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">genus_filter_func</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">genus_filter</span> <span class="o">=</span> <span class="n">get_occurrence_filter</span><span class="p">(</span><span class="n">genus_filter_func</span><span class="p">)</span>
