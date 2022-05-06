@@ -1,6 +1,7 @@
 # lmpy Tools
 
-lmpy tools are command-line scripts that are included in the system's PATH when the library is installed.
+lmpy tools are command-line scripts that are included in the system's PATH when the
+library is installed.
 
 ## Conventions
 
