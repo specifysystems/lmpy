@@ -296,8 +296,12 @@ def write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_v
 
 
 # .....................................................................................
-def cli():
-    """Command-line interface for creating a rare species model."""
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
@@ -357,6 +361,13 @@ def cli():
         type=str,
         help='File location to write the model raster file.',
     )
+    return parser
+
+
+# .....................................................................................
+def cli():
+    """Command-line interface for creating a rare species model."""
+    parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
 
     # Read points
@@ -375,7 +386,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['cli', 'create_rare_species_model', 'write_tiff']
+__all__ = ['build_parser', 'cli', 'create_rare_species_model', 'write_tiff']
 
 
 # .....................................................................................

@@ -10,8 +10,12 @@ DESCRIPTION = 'Compute a single run of MCPA metric.'
 
 
 # .....................................................................................
-def cli():
-    """Provide a command-line tool for computing statistics."""
+def build_parser():
+    """Build an argparse.ArgumentParser object for the tool.
+
+    Returns:
+        argparse.ArgumentParser: An argument parser for the tool's parameters.
+    """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
 
     parser.add_argument('pam_filename', type=str, help='Path to PAM file.')
@@ -30,7 +34,13 @@ def cli():
         help='Path to write computed MCPA values matrix.'
     )
     parser.add_argument('f_matrix_filename', type=str, help='Path to write F-Matrix.')
+    return parser
 
+
+# .....................................................................................
+def cli():
+    """Provide a command-line tool for computing statistics."""
+    parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
 
     pam = Matrix.load(args.pam_filename)
@@ -46,7 +56,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['cli']
+__all__ = ['build_parser', 'cli']
 
 
 # .....................................................................................
