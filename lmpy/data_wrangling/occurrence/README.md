@@ -92,54 +92,32 @@ each, that can be configured for various purposes.
 
 ### DecimalPrecisionFilter
 
-<<<<<<< HEAD
 * required
 
   * decimal_places (int): Only keep points with at least this many decimal places of 
-=======
-* required:
-
-  * decimal_places (int): Only keep points with at least this many decimal places of
->>>>>>> c867142fcf9f6e0b52957b3772e4192eac4d623b
     precision.
 
 ### DisjointGeometriesFilter
 
-<<<<<<< HEAD
 * required
-=======
-* required:
->>>>>>> c867142fcf9f6e0b52957b3772e4192eac4d623b
 
   * geometry_wkts (list of str): A list of geometry WKTs to check against.
 
 ### IntersectGeometriesFilter
 
-<<<<<<< HEAD
 * required
 
-=======
-* required:
->>>>>>> c867142fcf9f6e0b52957b3772e4192eac4d623b
   * geometry_wkts (list of str): A list of WKT strings.
 
 ### MinimumPointsWrangler
 
-<<<<<<< HEAD
 * required
-=======
-* required:
->>>>>>> c867142fcf9f6e0b52957b3772e4192eac4d623b
 
   * minimum_count (int): The minimum number of points in order to keep all.
 
 ### SpatialIndexFilter
 
-<<<<<<< HEAD
 * required
-=======
-* required:
->>>>>>> c867142fcf9f6e0b52957b3772e4192eac4d623b
 
   * spatial_index (SpatialIndex): A SpatialIndex object that can be searched.
   * intersections_map (dict): A dictionary of species name keys and corresponding valid
