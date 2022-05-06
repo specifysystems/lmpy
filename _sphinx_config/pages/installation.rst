@@ -12,9 +12,9 @@ The required libraries are:
 If you install the libraries with `apt` or from source, you can install lmpy via pip.
 Alternatively, you can install all of the prerequisites using `conda`.
 
-----------------
+-----------------------------
 Apt Requirements Installation
-----------------
+-----------------------------
 
 .. code-block:: bash
 
@@ -26,9 +26,9 @@ Apt Requirements Installation
   pip install GDAL==`gdal-config --version`
   pip install -r requirements.txt
 
-------------------
+-------------------------------
 Conda Requirements Installation
-------------------
+-------------------------------
 
 .. code-block:: bash
 
