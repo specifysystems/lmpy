@@ -8,6 +8,10 @@ from lmpy.tools._config_parser import _process_arguments
 
 
 # .....................................................................................
+DESCRIPTION = 'Clean (filter / modify) occurrence records using data wranglers.'
+
+
+# .....................................................................................
 def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output=False):
     """Clean occurrence data.
 
@@ -74,7 +78,10 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        prog='clean_occurrences',
+        description=DESCRIPTION,
+    )
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '-sp',

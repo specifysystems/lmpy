@@ -26,10 +26,11 @@ models.
 
     tutorial/tutorial
 
-    pages/about
-
     scripts/tools
+
+    pages/glossary
     pages/references
+    pages/about
 
 
 Indices and tables

@@ -6,6 +6,7 @@ from lmpy.data_preparation.layer_encoder import LayerEncoder
 from lmpy.tools._config_parser import _process_arguments
 
 
+# .....................................................................................
 DESCRIPTION = 'Encode raster and / or vector layers into a site by layer matrix.'
 
 
@@ -16,7 +17,7 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser = argparse.ArgumentParser(prog='encode_layers', description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '--encode_method',

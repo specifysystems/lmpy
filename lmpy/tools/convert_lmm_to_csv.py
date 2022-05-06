@@ -27,7 +27,10 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser = argparse.ArgumentParser(
+        prog='convert_lmm_to_csv',
+        description=DESCRIPTION,
+    )
     parser.add_argument(
         'in_lmm_filename', type=str, help='Lmpy LMM filename to convert to CSV.'
     )

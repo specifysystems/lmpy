@@ -4,8 +4,8 @@ Build Shapegrid
 
 Introduction
 ============
-'Shapegrids' are regularly spaced grids of cells that are used to encode
-spatial data into a matrix such as a PAM.
+:term:`Shapegrid<Shapegrids` are regularly spaced grids of cells that are used to
+encode spatial data into a matrix such as a PAM.
 
 Build a Shapegrid
 =================
