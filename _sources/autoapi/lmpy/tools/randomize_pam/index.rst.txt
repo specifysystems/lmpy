@@ -18,9 +18,18 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.tools.randomize_pam.build_parser
    lmpy.tools.randomize_pam.cli
    lmpy.tools.randomize_pam.randomize_pam
 
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
 
 
 .. py:function:: cli()

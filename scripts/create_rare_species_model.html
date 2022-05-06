@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>create_rare_species_model - CLI interface &mdash; Specify lmpy 3.1.9+7.g5a39e138 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>create_rare_species_model - CLI interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scripts/create_rare_species_model.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="create_rare_species_model---CLI-interface">
+<h1>create_rare_species_model - CLI interface<a class="headerlink" href="#create_rare_species_model---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>Create a “rare species” model by intersecting the convex hull for a group of
+occurrences with the ecoregions those points fall within and then rasterizing the
+result.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_rare_species_model</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">species_column</span> <span class="n">SPECIES_COLUMN</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">--</span><span class="n">x_column</span> <span class="n">X_COLUMN</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">y_column</span> <span class="n">Y_COLUMN</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">--</span><span class="n">burn_value</span> <span class="n">BURN_VALUE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">nodata_value</span> <span class="n">NODATA_VALUE</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">--</span><span class="n">output_format</span> <span class="p">{</span><span class="n">auto</span><span class="p">,</span><span class="n">AAIGrid</span><span class="p">,</span><span class="n">GTiff</span><span class="p">}]</span>
+                          <span class="n">point_csv_filename</span> <span class="n">ecoregions_filename</span> <span class="n">model_raster_filename</span>
+</pre></div>
+</div>
+<section id="create_rare_species_model-positional-arguments">
+<h2>create_rare_species_model positional arguments<a class="headerlink" href="#create_rare_species_model-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="create_rare_species_model-point_csv_filename"><a class="reference internal" href="#create_rare_species_model-point_csv_filename" title="create_rare_species_model point_csv_filename"><strong><code class="docutils literal notranslate"><span class="pre">point_csv_filename</span></code></strong></a> - File location of an occurrence csv file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_rare_species_model-ecoregions_filename"><a class="reference internal" href="#create_rare_species_model-ecoregions_filename" title="create_rare_species_model ecoregions_filename"><strong><code class="docutils literal notranslate"><span class="pre">ecoregions_filename</span></code></strong></a> - File location of ecoregions raster file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_rare_species_model-model_raster_filename"><a class="reference internal" href="#create_rare_species_model-model_raster_filename" title="create_rare_species_model model_raster_filename"><strong><code class="docutils literal notranslate"><span class="pre">model_raster_filename</span></code></strong></a> - File location to write the model raster file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="create_rare_species_model-optional-arguments">
+<h2>create_rare_species_model optional arguments<a class="headerlink" href="#create_rare_species_model-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="create_rare_species_model--h"><span id="create_rare_species_model---help"></span><a class="reference internal" href="#create_rare_species_model--h" title="create_rare_species_model -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#create_rare_species_model---help" title="create_rare_species_model --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="create_rare_species_model---config_file"><a class="reference internal" href="#create_rare_species_model---config_file" title="create_rare_species_model --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_rare_species_model---species_column"><span id="create_rare_species_model--sp"></span><a class="reference internal" href="#create_rare_species_model---species_column" title="create_rare_species_model --species_column"><strong><code class="docutils literal notranslate"><span class="pre">--species_column</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">SPECIES_COLUMN</span></code>, <a class="reference internal" href="#create_rare_species_model--sp" title="create_rare_species_model -sp"><strong><code class="docutils literal notranslate"><span class="pre">-sp</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">SPECIES_COLUMN</span></code> - CSV column for species or group name. (default: <code class="docutils literal notranslate"><span class="pre">species_name</span></code>)</p></li>
+<li><p id="create_rare_species_model---x_column"><span id="create_rare_species_model--x"></span><a class="reference internal" href="#create_rare_species_model---x_column" title="create_rare_species_model --x_column"><strong><code class="docutils literal notranslate"><span class="pre">--x_column</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">X_COLUMN</span></code>, <a class="reference internal" href="#create_rare_species_model--x" title="create_rare_species_model -x"><strong><code class="docutils literal notranslate"><span class="pre">-x</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">X_COLUMN</span></code> - CSV column containing x coordinate (ex. longitude). (default: <code class="docutils literal notranslate"><span class="pre">x</span></code>)</p></li>
+<li><p id="create_rare_species_model---y_column"><span id="create_rare_species_model--y"></span><a class="reference internal" href="#create_rare_species_model---y_column" title="create_rare_species_model --y_column"><strong><code class="docutils literal notranslate"><span class="pre">--y_column</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">Y_COLUMN</span></code>, <a class="reference internal" href="#create_rare_species_model--y" title="create_rare_species_model -y"><strong><code class="docutils literal notranslate"><span class="pre">-y</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">Y_COLUMN</span></code> - CSV column containing y coordinate (ex. latitude). (default: <code class="docutils literal notranslate"><span class="pre">y</span></code>)</p></li>
+<li><p id="create_rare_species_model---burn_value"><span id="create_rare_species_model--b"></span><a class="reference internal" href="#create_rare_species_model---burn_value" title="create_rare_species_model --burn_value"><strong><code class="docutils literal notranslate"><span class="pre">--burn_value</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">BURN_VALUE</span></code>, <a class="reference internal" href="#create_rare_species_model--b" title="create_rare_species_model -b"><strong><code class="docutils literal notranslate"><span class="pre">-b</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">BURN_VALUE</span></code> - Raster burn value for model presence. (default: <code class="docutils literal notranslate"><span class="pre">50</span></code>)</p></li>
+<li><p id="create_rare_species_model---nodata_value"><span id="create_rare_species_model--n"></span><a class="reference internal" href="#create_rare_species_model---nodata_value" title="create_rare_species_model --nodata_value"><strong><code class="docutils literal notranslate"><span class="pre">--nodata_value</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">NODATA_VALUE</span></code>, <a class="reference internal" href="#create_rare_species_model--n" title="create_rare_species_model -n"><strong><code class="docutils literal notranslate"><span class="pre">-n</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">NODATA_VALUE</span></code> - Raster nodata value for model absence. (default: <code class="docutils literal notranslate"><span class="pre">-9999</span></code>)</p></li>
+<li><p id="create_rare_species_model---output_format"><span id="create_rare_species_model--of"></span><a class="reference internal" href="#create_rare_species_model---output_format" title="create_rare_species_model --output_format"><strong><code class="docutils literal notranslate"><span class="pre">--output_format</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">OUTPUT_FORMAT</span></code>, <a class="reference internal" href="#create_rare_species_model--of" title="create_rare_species_model -of"><strong><code class="docutils literal notranslate"><span class="pre">-of</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">OUTPUT_FORMAT</span></code> - The output format for the model raster.(AAIGrid -&gt; Ascii Grid, GTiff -&gt; GeoTiff, auto -&gt; Choose by filename. (default: <code class="docutils literal notranslate"><span class="pre">auto</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

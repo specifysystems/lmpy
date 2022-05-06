@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sphinx-build - CLI interface &mdash; Specify lmpy 3.1.9+3.gbea51782 documentation</title>
+  <title>build_shapegrid - CLI interface &mdash; Specify lmpy 3.1.9+7.g5a39e138 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -20,7 +20,9 @@
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="References" href="../pages/references.html" />
+    <link rel="prev" title="Tools" href="tools.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -39,12 +41,20 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">build_shapegrid - CLI interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build_shapegrid-positional-arguments">build_shapegrid positional arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build_shapegrid-optional-arguments">build_shapegrid optional arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
 </ul>
@@ -63,7 +73,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>sphinx-build - CLI interface</li>
+          <li><a href="tools.html">Tools</a> &raquo;</li>
+      <li>build_shapegrid - CLI interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/scripts/build_shapegrid.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -73,30 +84,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="sphinx-build---CLI-interface">
-<h1>sphinx-build - CLI interface<a class="headerlink" href="#sphinx-build---CLI-interface" title="Permalink to this headline"></a></h1>
+  <section id="build_shapegrid---CLI-interface">
+<h1>build_shapegrid - CLI interface<a class="headerlink" href="#build_shapegrid---CLI-interface" title="Permalink to this headline"></a></h1>
 <p>Build a Shapegrid shapefile that is used to define the sites of a PAM or other multivariate Matrix for lmpy operations.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span><span class="o">-</span><span class="n">build</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span>
-             <span class="n">shapegrid_filename</span> <span class="n">min_x</span> <span class="n">min_y</span> <span class="n">max_x</span> <span class="n">max_y</span> <span class="n">cell_size</span> <span class="n">epsg</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build_shapegrid</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span>
+                <span class="n">shapegrid_filename</span> <span class="n">min_x</span> <span class="n">min_y</span> <span class="n">max_x</span> <span class="n">max_y</span> <span class="n">cell_size</span> <span class="n">epsg</span>
 </pre></div>
 </div>
-<section id="sphinx-build-positional-arguments">
-<h2>sphinx-build positional arguments<a class="headerlink" href="#sphinx-build-positional-arguments" title="Permalink to this headline"></a></h2>
+<section id="build_shapegrid-positional-arguments">
+<h2>build_shapegrid positional arguments<a class="headerlink" href="#build_shapegrid-positional-arguments" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p id="sphinx-build-shapegrid_filename"><a class="reference internal" href="#sphinx-build-shapegrid_filename" title="sphinx-build shapegrid_filename"><strong><code class="docutils literal notranslate"><span class="pre">shapegrid_filename</span></code></strong></a> - File location to write shapegrid shapefile. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="sphinx-build-min_x"><a class="reference internal" href="#sphinx-build-min_x" title="sphinx-build min_x"><strong><code class="docutils literal notranslate"><span class="pre">min_x</span></code></strong></a> - The minimum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="sphinx-build-min_y"><a class="reference internal" href="#sphinx-build-min_y" title="sphinx-build min_y"><strong><code class="docutils literal notranslate"><span class="pre">min_y</span></code></strong></a> - The minimum y value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="sphinx-build-max_x"><a class="reference internal" href="#sphinx-build-max_x" title="sphinx-build max_x"><strong><code class="docutils literal notranslate"><span class="pre">max_x</span></code></strong></a> - The maximum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="sphinx-build-max_y"><a class="reference internal" href="#sphinx-build-max_y" title="sphinx-build max_y"><strong><code class="docutils literal notranslate"><span class="pre">max_y</span></code></strong></a> - The maximum y value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="sphinx-build-cell_size"><a class="reference internal" href="#sphinx-build-cell_size" title="sphinx-build cell_size"><strong><code class="docutils literal notranslate"><span class="pre">cell_size</span></code></strong></a> - The resolution of each grid cell (in EPSG map units). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="sphinx-build-epsg"><a class="reference internal" href="#sphinx-build-epsg" title="sphinx-build epsg"><strong><code class="docutils literal notranslate"><span class="pre">epsg</span></code></strong></a> - The EPSG code (map projection) for the shapegrid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_shapegrid-shapegrid_filename"><a class="reference internal" href="#build_shapegrid-shapegrid_filename" title="build_shapegrid shapegrid_filename"><strong><code class="docutils literal notranslate"><span class="pre">shapegrid_filename</span></code></strong></a> - File location to write shapegrid shapefile. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_shapegrid-min_x"><a class="reference internal" href="#build_shapegrid-min_x" title="build_shapegrid min_x"><strong><code class="docutils literal notranslate"><span class="pre">min_x</span></code></strong></a> - The minimum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_shapegrid-min_y"><a class="reference internal" href="#build_shapegrid-min_y" title="build_shapegrid min_y"><strong><code class="docutils literal notranslate"><span class="pre">min_y</span></code></strong></a> - The minimum y value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_shapegrid-max_x"><a class="reference internal" href="#build_shapegrid-max_x" title="build_shapegrid max_x"><strong><code class="docutils literal notranslate"><span class="pre">max_x</span></code></strong></a> - The maximum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_shapegrid-max_y"><a class="reference internal" href="#build_shapegrid-max_y" title="build_shapegrid max_y"><strong><code class="docutils literal notranslate"><span class="pre">max_y</span></code></strong></a> - The maximum y value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_shapegrid-cell_size"><a class="reference internal" href="#build_shapegrid-cell_size" title="build_shapegrid cell_size"><strong><code class="docutils literal notranslate"><span class="pre">cell_size</span></code></strong></a> - The resolution of each grid cell (in EPSG map units). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_shapegrid-epsg"><a class="reference internal" href="#build_shapegrid-epsg" title="build_shapegrid epsg"><strong><code class="docutils literal notranslate"><span class="pre">epsg</span></code></strong></a> - The EPSG code (map projection) for the shapegrid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
-<section id="sphinx-build-optional-arguments">
-<h2>sphinx-build optional arguments<a class="headerlink" href="#sphinx-build-optional-arguments" title="Permalink to this headline"></a></h2>
+<section id="build_shapegrid-optional-arguments">
+<h2>build_shapegrid optional arguments<a class="headerlink" href="#build_shapegrid-optional-arguments" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p id="sphinx-build--h"><span id="sphinx-build---help"></span><a class="reference internal" href="#sphinx-build--h" title="sphinx-build -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#sphinx-build---help" title="sphinx-build --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
-<li><p id="sphinx-build---config_file"><a class="reference internal" href="#sphinx-build---config_file" title="sphinx-build --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_shapegrid--h"><span id="build_shapegrid---help"></span><a class="reference internal" href="#build_shapegrid--h" title="build_shapegrid -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#build_shapegrid---help" title="build_shapegrid --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="build_shapegrid---config_file"><a class="reference internal" href="#build_shapegrid---config_file" title="build_shapegrid --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
 </section>
@@ -104,7 +115,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tools.html" class="btn btn-neutral float-left" title="Tools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../pages/references.html" class="btn btn-neutral float-right" title="References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

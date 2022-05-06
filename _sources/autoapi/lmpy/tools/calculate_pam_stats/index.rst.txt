@@ -18,8 +18,17 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.tools.calculate_pam_stats.build_parser
    lmpy.tools.calculate_pam_stats.cli
 
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
 
 
 .. py:function:: cli()

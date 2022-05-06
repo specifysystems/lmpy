@@ -18,9 +18,18 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.tools.clean_occurrences.build_parser
    lmpy.tools.clean_occurrences.clean_data
    lmpy.tools.clean_occurrences.cli
 
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
 
 
 .. py:function:: clean_data(reader, writer_filename, wranglers, write_fields=None, log_output=False)

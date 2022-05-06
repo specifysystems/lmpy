@@ -18,10 +18,19 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.tools.create_rare_species_model.build_parser
    lmpy.tools.create_rare_species_model.cli
    lmpy.tools.create_rare_species_model.create_rare_species_model
    lmpy.tools.create_rare_species_model.write_tiff
 
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
 
 
 .. py:function:: cli()

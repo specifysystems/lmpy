@@ -18,8 +18,17 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.tools.split_occurrence_data.build_parser
    lmpy.tools.split_occurrence_data.cli
 
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
 
 
 .. py:function:: cli()

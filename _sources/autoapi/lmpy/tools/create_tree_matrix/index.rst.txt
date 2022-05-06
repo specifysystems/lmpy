@@ -18,8 +18,17 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.tools.create_tree_matrix.build_parser
    lmpy.tools.create_tree_matrix.cli
 
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
 
 
 .. py:function:: cli()

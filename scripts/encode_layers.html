@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>encode_layers - CLI interface &mdash; Specify lmpy 3.1.9+7.g5a39e138 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>encode_layers - CLI interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scripts/encode_layers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="encode_layers---CLI-interface">
+<h1>encode_layers - CLI interface<a class="headerlink" href="#encode_layers---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>Encode raster and / or vector layers into a site by layer matrix.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encode_layers</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">encode_method</span> <span class="p">{</span><span class="n">biogeo</span><span class="p">,</span><span class="n">presence_absence</span><span class="p">,</span><span class="n">largest_class</span><span class="p">,</span><span class="n">mean_value</span><span class="p">}]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">min_coverage</span> <span class="n">MIN_COVERAGE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">min_presence</span> <span class="n">MIN_PRESENCE</span><span class="p">]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">max_presence</span> <span class="n">MAX_PRESENCE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">layer</span> <span class="p">[</span><span class="n">LAYER</span> <span class="p">[</span><span class="n">LAYER</span> <span class="o">...</span><span class="p">]]]</span>
+              <span class="n">shapegrid_filename</span> <span class="n">out_matrix_filename</span>
+</pre></div>
+</div>
+<section id="encode_layers-positional-arguments">
+<h2>encode_layers positional arguments<a class="headerlink" href="#encode_layers-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="encode_layers-shapegrid_filename"><a class="reference internal" href="#encode_layers-shapegrid_filename" title="encode_layers shapegrid_filename"><strong><code class="docutils literal notranslate"><span class="pre">shapegrid_filename</span></code></strong></a> - File location of shapegrid to use for site geometries. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="encode_layers-out_matrix_filename"><a class="reference internal" href="#encode_layers-out_matrix_filename" title="encode_layers out_matrix_filename"><strong><code class="docutils literal notranslate"><span class="pre">out_matrix_filename</span></code></strong></a> - File location to write the encoded matrix. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="encode_layers-optional-arguments">
+<h2>encode_layers optional arguments<a class="headerlink" href="#encode_layers-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="encode_layers--h"><span id="encode_layers---help"></span><a class="reference internal" href="#encode_layers--h" title="encode_layers -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#encode_layers---help" title="encode_layers --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="encode_layers---config_file"><a class="reference internal" href="#encode_layers---config_file" title="encode_layers --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="encode_layers---encode_method"><span id="encode_layers--m"></span><a class="reference internal" href="#encode_layers---encode_method" title="encode_layers --encode_method"><strong><code class="docutils literal notranslate"><span class="pre">--encode_method</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">ENCODE_METHOD</span></code>, <a class="reference internal" href="#encode_layers--m" title="encode_layers -m"><strong><code class="docutils literal notranslate"><span class="pre">-m</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">ENCODE_METHOD</span></code> - The method to use to encode each layer. (default: <code class="docutils literal notranslate"><span class="pre">mean_value</span></code>)</p></li>
+<li><p id="encode_layers---min_coverage"><a class="reference internal" href="#encode_layers---min_coverage" title="encode_layers --min_coverage"><strong><code class="docutils literal notranslate"><span class="pre">--min_coverage</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">MIN_COVERAGE</span></code> - Minimum percentage of a cell that has to be covered to encode it. (default: <code class="docutils literal notranslate"><span class="pre">25</span></code>)</p></li>
+<li><p id="encode_layers---min_presence"><a class="reference internal" href="#encode_layers---min_presence" title="encode_layers --min_presence"><strong><code class="docutils literal notranslate"><span class="pre">--min_presence</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">MIN_PRESENCE</span></code> - Minimum value to be considered present when encoding presence absence. (default: <code class="docutils literal notranslate"><span class="pre">10</span></code>)</p></li>
+<li><p id="encode_layers---max_presence"><a class="reference internal" href="#encode_layers---max_presence" title="encode_layers --max_presence"><strong><code class="docutils literal notranslate"><span class="pre">--max_presence</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">MAX_PRESENCE</span></code> - The maximum value that should be considered present. (default: <code class="docutils literal notranslate"><span class="pre">127</span></code>)</p></li>
+<li><p id="encode_layers---layer"><span id="encode_layers--l"></span><a class="reference internal" href="#encode_layers---layer" title="encode_layers --layer"><strong><code class="docutils literal notranslate"><span class="pre">--layer</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LAYER</span></code>, <a class="reference internal" href="#encode_layers--l" title="encode_layers -l"><strong><code class="docutils literal notranslate"><span class="pre">-l</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LAYER</span></code> - File location of layer [ LABEL [ ATTRIBUTE FIELD ]]. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

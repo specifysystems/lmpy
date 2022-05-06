@@ -18,9 +18,18 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.tools.convert_lmm_to_csv.build_parser
    lmpy.tools.convert_lmm_to_csv.cli
    lmpy.tools.convert_lmm_to_csv.convert_lmm_to_csv
 
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
 
 
 .. py:function:: cli()
