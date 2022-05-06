@@ -10,7 +10,6 @@ points that don't satisfy the specified criteria or they may be modified by a wr
 to fit a specified need, such as modifying the set of fields for a point so that it
 meets a common format for aggregation.
 
-
 ## Example Usage
 
 The data wrangler factory can be used to instantiate data wranglers from a JSON configuration
@@ -47,7 +46,6 @@ for wrangler in occ_wranglers:
     if points:
         points = wrangler.wrangle_points(points)
 ```
-
 
 ## Subclassing _OccurrenceDataWrangler
 
