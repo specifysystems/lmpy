@@ -8,6 +8,10 @@ from lmpy.tools._config_parser import _process_arguments
 
 
 # .....................................................................................
+DESCRIPTION = 'Create a trio of matrices representing a phylogenetic tree'
+
+
+# .....................................................................................
 def encode_tree(tree):
     """Encode a tree into a binary matrix and two data arrays for node and tips.
 
@@ -83,7 +87,10 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        prog='create_tree_matrix',
+        description=DESCRIPTION,
+    )
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         'tree_filename', type=str, help='File path to a phylogenetic tree.'

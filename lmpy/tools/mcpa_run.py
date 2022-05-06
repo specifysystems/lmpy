@@ -16,7 +16,7 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser = argparse.ArgumentParser(prog='mcpa_run', description=DESCRIPTION)
 
     parser.add_argument('pam_filename', type=str, help='Path to PAM file.')
     parser.add_argument(

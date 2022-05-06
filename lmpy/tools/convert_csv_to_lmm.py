@@ -33,7 +33,10 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser = argparse.ArgumentParser(
+        prog='convert_csv_to_lmm',
+        description=DESCRIPTION
+    )
     parser.add_argument(
         '--header_rows',
         '-r',

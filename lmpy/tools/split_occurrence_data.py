@@ -26,7 +26,10 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser = argparse.ArgumentParser(
+        prog='split_occurrence_data',
+        description=DESCRIPTION,
+    )
     parser.add_argument(
         '--config_file',
         type=str,
