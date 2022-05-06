@@ -4,13 +4,14 @@ Data Cleaning
 
 Introduction
 ============
-One of the first steps in creating species distribution models, let alone multi-species
-analyses, is acquiring and preparing specimen occurrence records.  There are multiple
-method for acquiring these raw specimen records such as aggregator downloads or API
-calls but once you have the raw data, you need to assemble your entire dataset, which
-involves converting records to a common format, grouping, and cleaning.  The lmpy
-library provides tools for performing these aggregation and cleaning steps to greatly
-simplify the process for the user.
+One of the first steps in creating
+:term:`species distribution models<Species Distribution Model>`, let alone
+multi-species analyses, is acquiring and preparing specimen occurrence records.  There
+are multiple method for acquiring these raw specimen records such as aggregator
+downloads or API calls but once you have the raw data, you need to assemble your entire
+dataset, which involves converting records to a common format, grouping, and cleaning.
+The lmpy library provides tools for performing these aggregation and cleaning steps to
+greatly simplify the process for the user.
 
 
 Reading a CSV File
@@ -25,8 +26,8 @@ See: `PointCsvReader <../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader
 
 Reading a Darwin Core Archive File
 ==================================
-Read a Darwin Core Archive file.  The file is assumed to be valid and metadata will
-be pulled from the 'meta.xml' file contained within the zip file.
+Read a :term:`Darwin Core Archive<DWCA>` file.  The file is assumed to be valid and
+metadata will be pulled from the 'meta.xml' file contained within the zip file.
 
 See: `PointDwcaReader <../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader>`_
 
@@ -38,7 +39,7 @@ Filtering Records
 
 Built-in Filters
 ----------------
-Filter a list of Point objects so that those with less than four (4) decimal places
+Filter a list of :term:Point objects so that those with less than four (4) decimal places
 of precision are removed.
 
     >>> points = [Point('Species A', 10.3, 23.1),
@@ -52,7 +53,8 @@ of precision are removed.
 
 Custom Filters
 --------------
-Filter a list of points so that those without a species epithet are removed.
+Filter a list of :term:`points<Point>` so that those without a species epithet are
+removed.
 
     >>> def genus_filter_func(point):
     ...     return len(point.split(' ')) > 1

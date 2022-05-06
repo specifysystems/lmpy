@@ -8,7 +8,7 @@ We have found that, while easy to use and an efficient data structure, NumPy
 arrays do not really support metadata.  We had dealt with this in the past by
 passing a secondary data structure with metadata along with the array but we
 found that it was too easy for that metadata to get lost, out of date, or just
-ignored.  In response, we have sub-classed Numpy ndarray to create 'Matrix'
+ignored.  In response, we have sub-classed Numpy ndarray to create :term:Matrix
 objects that extend the base functionality provided by ndarrays to include
 metadata and headers for the arrays without the needing a secondary data
 structure.  Additionally, we provide some convenience functions for
