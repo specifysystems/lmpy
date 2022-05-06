@@ -1,7 +1,8 @@
 """Convert a numeric (.csv) file to a lmpy Matrix (.lmm) file."""
 import argparse
 
-from lmpy import Matrix
+from lmpy.matrix import Matrix
+from lmpy.tools._config_parser import _process_arguments
 
 
 DESCRIPTION = 'Convert a CSV file of numerical values into a lmpy Matrix.'
@@ -62,7 +63,7 @@ def build_parser():
 def cli():
     """Provide a command-line tool for converting csvs to lmms."""
     parser = build_parser()
-    args = parser.parse_args()
+    args = _process_arguments(parser)
     mtx = convert_csv_to_lmm(args.in_csv_filename, args.header_rows, args.header_cols)
     mtx.write(args.out_lmm_filename)
 
