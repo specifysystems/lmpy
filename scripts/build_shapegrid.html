@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>build_shapegrid - CLI interface &mdash; Specify lmpy 3.1.9+21.gf86081b1 documentation</title>
+  <title>Build Shapegrid &mdash; Specify lmpy 3.1.9+24.g4dfe4c9f documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -47,9 +47,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">build_shapegrid - CLI interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#build_shapegrid-positional-arguments">build_shapegrid positional arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build_shapegrid-optional-arguments">build_shapegrid optional arguments</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Build Shapegrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build_shapegrid---CLI-interface">build_shapegrid - CLI interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build_shapegrid-positional-arguments">build_shapegrid positional arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build_shapegrid-optional-arguments">build_shapegrid optional arguments</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
@@ -63,6 +66,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mcpa_run.html">mcpa_run - CLI interface</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
@@ -83,7 +87,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="tools.html">Tools</a> &raquo;</li>
-      <li>build_shapegrid - CLI interface</li>
+      <li>Build Shapegrid</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/scripts/build_shapegrid.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -93,15 +97,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="build_shapegrid---CLI-interface">
-<h1>build_shapegrid - CLI interface<a class="headerlink" href="#build_shapegrid---CLI-interface" title="Permalink to this headline"></a></h1>
+  <section id="build-shapegrid">
+<h1>Build Shapegrid<a class="headerlink" href="#build-shapegrid" title="Permalink to this headline"></a></h1>
+<section id="build_shapegrid---CLI-interface">
+<h2>build_shapegrid - CLI interface<a class="headerlink" href="#build_shapegrid---CLI-interface" title="Permalink to this headline"></a></h2>
 <p>Build a Shapegrid shapefile that is used to define the sites of a PAM or other multivariate Matrix for lmpy operations.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build_shapegrid</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span>
                 <span class="n">shapegrid_filename</span> <span class="n">min_x</span> <span class="n">min_y</span> <span class="n">max_x</span> <span class="n">max_y</span> <span class="n">cell_size</span> <span class="n">epsg</span>
 </pre></div>
 </div>
 <section id="build_shapegrid-positional-arguments">
-<h2>build_shapegrid positional arguments<a class="headerlink" href="#build_shapegrid-positional-arguments" title="Permalink to this headline"></a></h2>
+<h3>build_shapegrid positional arguments<a class="headerlink" href="#build_shapegrid-positional-arguments" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p id="build_shapegrid-shapegrid_filename"><a class="reference internal" href="#build_shapegrid-shapegrid_filename" title="build_shapegrid shapegrid_filename"><strong><code class="docutils literal notranslate"><span class="pre">shapegrid_filename</span></code></strong></a> - File location to write shapegrid shapefile. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 <li><p id="build_shapegrid-min_x"><a class="reference internal" href="#build_shapegrid-min_x" title="build_shapegrid min_x"><strong><code class="docutils literal notranslate"><span class="pre">min_x</span></code></strong></a> - The minimum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
@@ -113,11 +119,12 @@
 </ul>
 </section>
 <section id="build_shapegrid-optional-arguments">
-<h2>build_shapegrid optional arguments<a class="headerlink" href="#build_shapegrid-optional-arguments" title="Permalink to this headline"></a></h2>
+<h3>build_shapegrid optional arguments<a class="headerlink" href="#build_shapegrid-optional-arguments" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p id="build_shapegrid--h"><span id="build_shapegrid---help"></span><a class="reference internal" href="#build_shapegrid--h" title="build_shapegrid -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#build_shapegrid---help" title="build_shapegrid --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
 <li><p id="build_shapegrid---config_file"><a class="reference internal" href="#build_shapegrid---config_file" title="build_shapegrid --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
+</section>
 </section>
 </section>
 
