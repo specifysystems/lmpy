@@ -102,9 +102,9 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """Provide a command-line tool for converting csvs to lmms."""
+    """Provide a command-line tool for ..."""
     parser = build_parser()
-    args = _process_arguments(parser, config_args='config_file')
+    args = _process_arguments(parser, config_arg='config_file')
     # ... Do something with the arguments ...
 
 
