@@ -21,6 +21,9 @@ from osgeo import gdal, ogr
 from lmpy.matrix import Matrix
 from lmpy.spatial.geojsonify import geojsonify_matrix_with_shapefile
 
+
+# Suppress numpy warnings
+np.seterr(all='ignore')
 # DEFAULT_SCALE is the scale of the layer data array to the shapegrid cell size
 #     The number of data array cells in a (square) shapegrid cell is::
 #         1.0 / DEFAULT_SCALE^2
