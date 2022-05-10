@@ -123,7 +123,7 @@ def cli():
         sig_mtx = get_significant_values(
             p_values,
             alpha=args.alpha,
-            correction_method=int(sig_method),
+            correction_method=sig_method,
         )
         sig_mtx.write(args.significance_matrix_filename)
 
