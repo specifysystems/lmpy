@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.9+34.gc3b77529 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.10+2.g5dba8a3d documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -98,6 +98,9 @@
 <span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
 <span class="kn">from</span> <span class="nn">lmpy.spatial.geojsonify</span> <span class="k">import</span> <span class="n">geojsonify_matrix_with_shapefile</span>
 
+
+<span class="c1"># Suppress numpy warnings</span>
+<span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 <span class="c1"># DEFAULT_SCALE is the scale of the layer data array to the shapegrid cell size</span>
 <span class="c1">#     The number of data array cells in a (square) shapegrid cell is::</span>
 <span class="c1">#         1.0 / DEFAULT_SCALE^2</span>
