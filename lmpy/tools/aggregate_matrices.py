@@ -1,8 +1,6 @@
 """This tool aggregates matrices by concatenating or adding."""
 import argparse
 
-import numpy as np
-
 from lmpy.matrix import Matrix
 from lmpy.tools._config_parser import _process_arguments
 
