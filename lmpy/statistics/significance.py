@@ -9,6 +9,7 @@ from lmpy import Matrix
 
 # .....................................................................................
 class SignificanceMethod(Enum):
+    """Methods for determining statistical significance."""
     RAW = 0  # No significance value correction
     BONFERRONI = 1  # Bonferroni correction
     FDR = 2  # Benjamini and Hochberg correction
