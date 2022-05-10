@@ -66,7 +66,7 @@ def cli():
         if args.ndim > 0:
             n_dims = args.ndim
         else:
-            n_dims = min([mtx.ndim for mtx in input_matrices])
+            n_dims = min(mtx.ndim for mtx in input_matrices)
         for mtx in input_matrices:
             if mtx.ndim > n_dims:
                 mtx = mtx.sum(axis=-1)
