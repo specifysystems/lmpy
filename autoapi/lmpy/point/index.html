@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.10+13.ga3db8c91 documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.10+17.g851af079 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -104,6 +104,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.PointJsonWriter" title="lmpy.point.PointJsonWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointJsonWriter</span></code></a></p></td>
 <td><p>Constructor for writing JSON points.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point._IdigBioCsvReader" title="lmpy.point._IdigBioCsvReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_IdigBioCsvReader</span></code></a></p></td>
+<td><p>Constructor for _IdigBioCsvReader.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -147,22 +150,34 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.DEFAULT_Y_TERM" title="lmpy.point.DEFAULT_Y_TERM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_Y_TERM</span></code></a></p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.DELIMITED_BY_ATT" title="lmpy.point.DELIMITED_BY_ATT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DELIMITED_BY_ATT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.DELIMITED_TERMS" title="lmpy.point.DELIMITED_TERMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DELIMITED_TERMS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.DWCA_OCCURRENCE_PARAMS" title="lmpy.point.DWCA_OCCURRENCE_PARAMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DWCA_OCCURRENCE_PARAMS</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.FIELD_TAG" title="lmpy.point.FIELD_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FIELD_TAG</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.EXTENSION_TAG" title="lmpy.point.EXTENSION_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXTENSION_TAG</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.FILES_TAG" title="lmpy.point.FILES_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FILES_TAG</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.FIELD_TAG" title="lmpy.point.FIELD_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FIELD_TAG</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.ID_TAG" title="lmpy.point.ID_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ID_TAG</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.FILES_TAG" title="lmpy.point.FILES_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FILES_TAG</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.LOCATION_TAG" title="lmpy.point.LOCATION_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LOCATION_TAG</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.ID_TAG" title="lmpy.point.ID_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ID_TAG</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.OCCURRENCE_ROW_TYPE" title="lmpy.point.OCCURRENCE_ROW_TYPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OCCURRENCE_ROW_TYPE</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.LOCATION_TAG" title="lmpy.point.LOCATION_TAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LOCATION_TAG</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.point.OCCURRENCE_ROW_TYPE" title="lmpy.point.OCCURRENCE_ROW_TYPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OCCURRENCE_ROW_TYPE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.point.ROW_TYPE_ATT" title="lmpy.point.ROW_TYPE_ATT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROW_TYPE_ATT</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -193,8 +208,23 @@
 <dd></dd></dl>
 
 <dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.DELIMITED_BY_ATT">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">DELIMITED_BY_ATT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">delimitedBy</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#DELIMITED_BY_ATT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.DELIMITED_BY_ATT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.DELIMITED_TERMS">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">DELIMITED_TERMS</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">['http://portal.idigbio.org/terms/flags',</span> <span class="pre">'http://portal.idigbio.org/terms/recordIds']</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#DELIMITED_TERMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.DELIMITED_TERMS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
 <dt class="sig sig-object py" id="lmpy.point.DWCA_OCCURRENCE_PARAMS">
 <span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">DWCA_OCCURRENCE_PARAMS</span></span><a class="reference internal" href="../../../_modules/lmpy/point.html#DWCA_OCCURRENCE_PARAMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.DWCA_OCCURRENCE_PARAMS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.EXTENSION_TAG">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">EXTENSION_TAG</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">{http://rs.tdwg.org/dwc/text/}extension</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#EXTENSION_TAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.EXTENSION_TAG" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
@@ -708,6 +738,90 @@ None: Returned if there is no y value.</p>
 <dd class="field-odd"><p><strong>points</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference internal" href="#lmpy.point.Point" title="lmpy.point.Point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Point</span></code></a>) – A list of point objects to write out.</p>
 </dd>
 </dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.point.ROW_TYPE_ATT">
+<span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">ROW_TYPE_ATT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">rowType</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#ROW_TYPE_ATT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.ROW_TYPE_ATT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lmpy.point._IdigBioCsvReader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">_IdigBioCsvReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reader</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#_IdigBioCsvReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point._IdigBioCsvReader" title="Permalink to this definition"></a></dt>
+<dd><p>Constructor for _IdigBioCsvReader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reader</strong> (<em>File-like object</em>) – An open FLO that emits rows of data.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point._IdigBioCsvReader.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#_IdigBioCsvReader.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point._IdigBioCsvReader.__enter__" title="Permalink to this definition"></a></dt>
+<dd><p>Context manager magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#lmpy.point._IdigBioCsvReader" title="lmpy.point._IdigBioCsvReader">_IdigBioCsvReader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point._IdigBioCsvReader.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#_IdigBioCsvReader.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point._IdigBioCsvReader.__exit__" title="Permalink to this definition"></a></dt>
+<dd><p>Context manager magic method on exit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*args</strong> – Positional arguments passed to the exit function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point._IdigBioCsvReader.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#_IdigBioCsvReader.__iter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point._IdigBioCsvReader.__iter__" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator magic method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#lmpy.point._IdigBioCsvReader" title="lmpy.point._IdigBioCsvReader">_IdigBioCsvReader</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point._IdigBioCsvReader.__next__">
+<span class="sig-name descname"><span class="pre">__next__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#_IdigBioCsvReader.__next__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point._IdigBioCsvReader.__next__" title="Permalink to this definition"></a></dt>
+<dd><p>Get the next row of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A row of data</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>StopIteration</strong> – Raised when there are no additional objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point._IdigBioCsvReader.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#_IdigBioCsvReader.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point._IdigBioCsvReader.close" title="Permalink to this definition"></a></dt>
+<dd><p>Close the reader.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.point._IdigBioCsvReader.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#_IdigBioCsvReader.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point._IdigBioCsvReader.open" title="Permalink to this definition"></a></dt>
+<dd><p>Do nothing, the reader should be open already.</p>
 </dd></dl>
 
 </dd></dl>

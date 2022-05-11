@@ -24,6 +24,7 @@ Classes
    lmpy.point.PointCsvWriter
    lmpy.point.PointDwcaReader
    lmpy.point.PointJsonWriter
+   lmpy.point._IdigBioCsvReader
 
 
 
@@ -47,12 +48,16 @@ Attributes
    lmpy.point.DEFAULT_SPECIES_TERM
    lmpy.point.DEFAULT_X_TERM
    lmpy.point.DEFAULT_Y_TERM
+   lmpy.point.DELIMITED_BY_ATT
+   lmpy.point.DELIMITED_TERMS
    lmpy.point.DWCA_OCCURRENCE_PARAMS
+   lmpy.point.EXTENSION_TAG
    lmpy.point.FIELD_TAG
    lmpy.point.FILES_TAG
    lmpy.point.ID_TAG
    lmpy.point.LOCATION_TAG
    lmpy.point.OCCURRENCE_ROW_TYPE
+   lmpy.point.ROW_TYPE_ATT
 
 
 .. py:data:: CORE_TAG
@@ -80,8 +85,23 @@ Attributes
 
    
 
+.. py:data:: DELIMITED_BY_ATT
+   :annotation: = delimitedBy
+
+   
+
+.. py:data:: DELIMITED_TERMS
+   :annotation: = ['http://portal.idigbio.org/terms/flags', 'http://portal.idigbio.org/terms/recordIds']
+
+   
+
 .. py:data:: DWCA_OCCURRENCE_PARAMS
    
+
+   
+
+.. py:data:: EXTENSION_TAG
+   :annotation: = {http://rs.tdwg.org/dwc/text/}extension
 
    
 
@@ -452,6 +472,62 @@ Attributes
 
       :param points: A list of point objects to write out.
       :type points: :obj:`list` of :obj:`Point`
+
+
+
+.. py:data:: ROW_TYPE_ATT
+   :annotation: = rowType
+
+   
+
+.. py:class:: _IdigBioCsvReader(reader)
+
+   Constructor for _IdigBioCsvReader.
+
+   :param reader: An open FLO that emits rows of data.
+   :type reader: File-like object
+
+   .. py:method:: __enter__(self)
+
+      Context manager magic method.
+
+      :returns: This instance.
+      :rtype: _IdigBioCsvReader
+
+
+   .. py:method:: __exit__(self, *args)
+
+      Context manager magic method on exit.
+
+      :param \*args: Positional arguments passed to the exit function.
+
+
+   .. py:method:: __iter__(self)
+
+      Iterator magic method.
+
+      :returns: This instance.
+      :rtype: _IdigBioCsvReader
+
+
+   .. py:method:: __next__(self)
+
+      Get the next row of data.
+
+      :returns: A row of data
+      :rtype: str
+
+      :raises StopIteration: Raised when there are no additional objects.
+
+
+   .. py:method:: close(self)
+
+      Close the reader.
+
+
+   .. py:method:: open(self)
+
+      Do nothing, the reader should be open already.
 
 
 

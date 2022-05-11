@@ -28,7 +28,6 @@ Submodules
    create_tree_matrix/index.rst
    encode_layers/index.rst
    mcpa_run/index.rst
-   process_idigbio/index.rst
    randomize_pam/index.rst
    split_occurrence_data/index.rst
    wrangle_matrix/index.rst

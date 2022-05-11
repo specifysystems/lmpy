@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.10+13.ga3db8c91 documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.10+17.g851af079 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -112,10 +112,16 @@
 <div class="viewcode-block" id="FILES_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.FILES_TAG">[docs]</a><span class="n">FILES_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}files&#39;</span></div>
 <div class="viewcode-block" id="ID_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.ID_TAG">[docs]</a><span class="n">ID_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}id&#39;</span></div>
 <div class="viewcode-block" id="LOCATION_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.LOCATION_TAG">[docs]</a><span class="n">LOCATION_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}location&#39;</span></div>
-<span class="c1"># EXTENSION_TAG = &#39;{http://rs.tdwg.org/dwc/text/}extension&#39;</span>
+<div class="viewcode-block" id="EXTENSION_TAG"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.EXTENSION_TAG">[docs]</a><span class="n">EXTENSION_TAG</span> <span class="o">=</span> <span class="s1">&#39;{http://rs.tdwg.org/dwc/text/}extension&#39;</span></div>
 
-<span class="c1"># ROW_TYPE_ATT = &#39;rowType&#39;</span>
+<div class="viewcode-block" id="ROW_TYPE_ATT"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.ROW_TYPE_ATT">[docs]</a><span class="n">ROW_TYPE_ATT</span> <span class="o">=</span> <span class="s1">&#39;rowType&#39;</span></div>
 <div class="viewcode-block" id="OCCURRENCE_ROW_TYPE"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.OCCURRENCE_ROW_TYPE">[docs]</a><span class="n">OCCURRENCE_ROW_TYPE</span> <span class="o">=</span> <span class="s1">&#39;http://rs.tdwg.org/dwc/terms/Occurrence&#39;</span></div>
+
+<div class="viewcode-block" id="DELIMITED_TERMS"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.DELIMITED_TERMS">[docs]</a><span class="n">DELIMITED_TERMS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;http://portal.idigbio.org/terms/flags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;http://portal.idigbio.org/terms/recordIds&#39;</span><span class="p">,</span>
+<span class="p">]</span></div>
+<div class="viewcode-block" id="DELIMITED_BY_ATT"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.DELIMITED_BY_ATT">[docs]</a><span class="n">DELIMITED_BY_ATT</span> <span class="o">=</span> <span class="s1">&#39;delimitedBy&#39;</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -461,6 +467,7 @@
 <span class="sd">            geopoint_term (:obj:`str`): Geopoint term in the DWCA file.</span>
 <span class="sd">                Default is None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_idigbio</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">meta_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span> <span class="o">=</span> <span class="n">dwca_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_filename</span> <span class="o">=</span> <span class="kc">None</span>
@@ -607,11 +614,15 @@
         <span class="n">core_element</span> <span class="o">=</span> <span class="n">root_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">CORE_TAG</span><span class="p">)</span>
 
         <span class="c1"># If core element is missing (iDigBio) look in extensions</span>
-        <span class="c1"># if core_element is None:</span>
-        <span class="c1">#    for extension_el in root_element.findall(EXTENSION_TAG):</span>
-        <span class="c1">#        if core_element is None and \</span>
-        <span class="c1">#           extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:</span>
-        <span class="c1">#            core_element = extension_el</span>
+        <span class="k">if</span> <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_idigbio</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">extension_el</span> <span class="ow">in</span> <span class="n">root_element</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">EXTENSION_TAG</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span>
+                        <span class="ow">and</span> <span class="n">extension_el</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">ROW_TYPE_ATT</span><span class="p">]</span> <span class="o">==</span> <span class="n">OCCURRENCE_ROW_TYPE</span>
+                <span class="p">):</span>
+                    <span class="n">core_element</span> <span class="o">=</span> <span class="n">extension_el</span>
+                    <span class="n">extension_el</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">CORE_TAG</span>
 
         <span class="c1"># Process core element</span>
         <span class="c1"># - Look for parameters we use for processing</span>
@@ -623,6 +634,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_filename</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">core_element</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">FILES_TAG</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">LOCATION_TAG</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
         <span class="p">)</span>
+
+        <span class="c1"># Add attribute for delimited fields</span>
+        <span class="k">for</span> <span class="n">field_element</span> <span class="ow">in</span> <span class="n">core_element</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">FIELD_TAG</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">field_element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">DELIMITED_TERMS</span><span class="p">:</span>
+                <span class="n">field_element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">DELIMITED_BY_ATT</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;;&#39;</span>
 
         <span class="c1"># Get the CSV fields from the metadata</span>
         <span class="k">for</span> <span class="n">field_element</span> <span class="ow">in</span> <span class="n">core_element</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">FIELD_TAG</span><span class="p">):</span>
@@ -691,6 +707,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_zip_archive</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_filename</span><span class="p">),</span>
             <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;encoding&#39;</span><span class="p">]</span>
         <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_idigbio</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">_IdigBioCsvReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
 
         <span class="n">delimiter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsTerminatedBy&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">delimiter</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -848,6 +867,102 @@
         <span class="k">return</span> <span class="n">list_getter</span>
     <span class="c1"># If there is an index but no delimiter, return a field getter</span>
     <span class="k">return</span> <span class="n">value_getter</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="_IdigBioCsvReader"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader">[docs]</a><span class="k">class</span> <span class="nc">_IdigBioCsvReader</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A class for pre-processing incoming row data form iDigBio DWCAs.&quot;&quot;&quot;</span>
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for _IdigBioCsvReader.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            reader (File-like object): An open FLO that emits rows of data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">reader</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Context manager magic method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            _IdigBioCsvReader: This instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Context manager magic method on exit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Positional arguments passed to the exit function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.__iter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__iter__">[docs]</a>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Iterator magic method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            _IdigBioCsvReader: This instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.__next__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__next__">[docs]</a>    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the next row of data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A row of data</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            StopIteration: Raised when there are no additional objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">:</span>
+            <span class="n">trip_quote</span> <span class="o">=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&quot;&#39;</span>  <span class="c1"># So python doesn&#39;t interpret as block comment</span>
+            <span class="n">quad_quote</span> <span class="o">=</span> <span class="s1">&#39;&quot;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&quot;&#39;</span>
+            <span class="n">trip_quote_replace</span> <span class="o">=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span>
+            <span class="n">mod_line</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">quad_quote</span><span class="p">,</span> <span class="s1">&#39;&quot;&quot;&#39;</span><span class="p">)</span>
+                   <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">trip_quote</span><span class="p">,</span> <span class="n">trip_quote_replace</span><span class="p">)</span>
+                   <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">quote_chunks</span> <span class="o">=</span> <span class="n">mod_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+            <span class="n">processed_point_row</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">quote_chunks</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">chunk</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chunk</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">):</span>
+                    <span class="n">processed_point_row</span> <span class="o">+=</span> <span class="p">(</span>
+                        <span class="n">chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">)</span>
+                                   <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                                   <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="n">chunk</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chunk</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">):</span>  <span class="c1"># JSON</span>
+                    <span class="n">processed_point_row</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">chunk</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Quoted section</span>
+                    <span class="k">if</span> <span class="n">inside</span><span class="p">:</span>
+                        <span class="n">processed_point_row</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">chunk</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">processed_point_row</span> <span class="o">+=</span> <span class="n">chunk</span>
+                <span class="n">inside</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">inside</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">processed_point_row</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                <span class="n">processed_point_row</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+            <span class="k">return</span> <span class="n">processed_point_row</span>
+
+        <span class="k">raise</span> <span class="ne">StopIteration</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.open"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Do nothing, the reader should be open already.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.close"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Close the reader.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 
 
 <span class="c1"># .....................................................................................</span>
