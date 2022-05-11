@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: AcceptedNameMatrixWrangler(name_map=None, name_resolver=None, taxon_axis=1, purge_failures=True, **params)
+.. py:class:: AcceptedNameMatrixWrangler(name_map=None, name_resolver=None, taxon_axis=1, purge_failures=True, out_map_filename=None, map_write_interval=100, out_map_format='json', **params)
 
    Bases: :py:obj:`lmpy.data_wrangling.matrix.base._MatrixDataWrangler`, :py:obj:`lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler`
 
@@ -37,6 +37,13 @@ Classes
    :type taxon_axis: int
    :param purge_failures: Should failures be purged from the matrix.
    :type purge_failures: bool
+   :param out_map_filename: A file location to write the updated name map.
+   :type out_map_filename: str
+   :param map_write_interval: Update the name map output file after each set of
+                              this many iterations.
+   :type map_write_interval: int
+   :param out_map_format: The format to write the names map (csv or json).
+   :type out_map_format: str
    :param \*\*params: Keyword parameters to pass to _MatrixDataWrangler.
    :type \*\*params: dict
 

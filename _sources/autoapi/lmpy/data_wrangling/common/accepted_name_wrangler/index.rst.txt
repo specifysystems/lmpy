@@ -30,7 +30,7 @@ Functions
 
 
 
-.. py:class:: _AcceptedNameWrangler(name_map=None, name_resolver=None)
+.. py:class:: _AcceptedNameWrangler(name_map=None, name_resolver=None, out_map_filename=None, map_write_interval=100, out_map_format='json')
 
    Bases: :py:obj:`lmpy.data_wrangling.base._DataWrangler`
 
@@ -42,6 +42,18 @@ Functions
                          takes a list of names as input and returns a dictionary of name
                          mappings.  If omitted, resolving of new names will be skipped.
    :type name_resolver: Method or None
+   :param out_map_filename: A file location to write the updated name map.
+   :type out_map_filename: str
+   :param map_write_interval: Update the name map output file after each set of
+                              this many iterations.
+   :type map_write_interval: int
+   :param out_map_format: The format to write the names map (csv or json).
+   :type out_map_format: str
+
+   .. py:method:: __del__(self)
+
+      Destructor method, sync map to disk if needed.
+
 
    .. py:method:: _load_name_map(self, name_map)
 

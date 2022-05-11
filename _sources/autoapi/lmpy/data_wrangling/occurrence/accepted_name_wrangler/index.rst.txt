@@ -22,20 +22,27 @@ Classes
 
 
 
-.. py:class:: AcceptedNameOccurrenceWrangler(name_map=None, name_resolver=None, store_original_attribute=None, **params)
+.. py:class:: AcceptedNameOccurrenceWrangler(name_map=None, name_resolver=None, store_original_attribute=None, out_map_filename=None, map_write_interval=100, out_map_format='json', **params)
 
    Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`, :py:obj:`lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler`
 
    Constructor for AcceptedNameModifier class.
 
    :param name_map: A map of original name to accepted name.
-   :type name_map: dict
+   :type name_map: dict or str
    :param name_resolver: If provided, use this method for getting new
                          accepted names.  If set to 'gbif', use GBIF name resolution.
    :type name_resolver: str or Method
    :param store_original_attribute: A new attribute to store the
                                     original taxon name.
    :type store_original_attribute: str or None
+   :param out_map_filename: A file location to write the updated name map.
+   :type out_map_filename: str
+   :param map_write_interval: Update the name map output file after each set of
+                              this many iterations.
+   :type map_write_interval: int
+   :param out_map_format: The format to write the names map (csv or json).
+   :type out_map_format: str
    :param \*\*params: Keyword parameters to pass to _OccurrenceDataWrangler.
    :type \*\*params: dict
 

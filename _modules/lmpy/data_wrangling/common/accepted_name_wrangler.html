@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.10+17.g851af079 documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.10+19.gb76a2e38 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -117,7 +117,14 @@
 <div class="viewcode-block" id="_AcceptedNameWrangler"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler">[docs]</a><span class="k">class</span> <span class="nc">_AcceptedNameWrangler</span><span class="p">(</span><span class="n">_DataWrangler</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for accepted taxon name wranglers.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">out_map_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">map_write_interval</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">out_map_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for the base accepted name wrangler.</span>
 
 <span class="sd">        Args:</span>
@@ -125,12 +132,31 @@
 <span class="sd">            name_resolver (Method or None): If provided, this should be a function that</span>
 <span class="sd">                takes a list of names as input and returns a dictionary of name</span>
 <span class="sd">                mappings.  If omitted, resolving of new names will be skipped.</span>
+<span class="sd">            out_map_filename (str): A file location to write the updated name map.</span>
+<span class="sd">            map_write_interval (int): Update the name map output file after each set of</span>
+<span class="sd">                this many iterations.</span>
+<span class="sd">            out_map_format (str): The format to write the names map (csv or json).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_load_name_map</span><span class="p">(</span><span class="n">name_map</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span> <span class="o">=</span> <span class="n">name_resolver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span> <span class="o">=</span> <span class="n">out_map_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">map_write_interval</span> <span class="o">=</span> <span class="n">map_write_interval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_updated_since_write</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_map_format</span> <span class="o">=</span> <span class="n">out_map_format</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="_AcceptedNameWrangler.__del__"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__">[docs]</a>    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Destructor method, sync map to disk if needed.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_updated_since_write</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+            <span class="p">]</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_map_to_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_map_format</span><span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="_AcceptedNameWrangler._load_name_map"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler._load_name_map">[docs]</a>    <span class="k">def</span> <span class="nf">_load_name_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_map</span><span class="p">):</span>
@@ -180,6 +206,15 @@
             <span class="c1"># Update name map and return dictionary</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
             <span class="n">resolved_names</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_updated_since_write</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_names</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_updated_since_write</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_write_interval</span>
+                <span class="p">]</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_map_to_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_map_format</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_updated_since_write</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">return</span> <span class="n">resolved_names</span></div>
 

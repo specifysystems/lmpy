@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.accepted_name_wrangler &mdash; Specify lmpy 3.1.10+17.g851af079 documentation</title>
+  <title>lmpy.data_wrangling.occurrence.accepted_name_wrangler &mdash; Specify lmpy 3.1.10+19.gb76a2e38 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
@@ -95,17 +95,21 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.accepted_name_wrangler.</span></span><span class="sig-name descname"><span class="pre">AcceptedNameOccurrenceWrangler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_resolver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_original_attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/accepted_name_wrangler.html#AcceptedNameOccurrenceWrangler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.occurrence.accepted_name_wrangler.</span></span><span class="sig-name descname"><span class="pre">AcceptedNameOccurrenceWrangler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_resolver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_original_attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_map_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_write_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_map_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'json'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/accepted_name_wrangler.html#AcceptedNameOccurrenceWrangler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base/index.html#lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler" title="lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler</span></code></a>, <a class="reference internal" href="../../common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler" title="lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler</span></code></a></p>
 <p>Constructor for AcceptedNameModifier class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name_map</strong> (<em>dict</em>) – A map of original name to accepted name.</p></li>
+<li><p><strong>name_map</strong> (<em>dict</em><em> or </em><em>str</em>) – A map of original name to accepted name.</p></li>
 <li><p><strong>name_resolver</strong> (<em>str</em><em> or </em><em>Method</em>) – If provided, use this method for getting new
 accepted names.  If set to ‘gbif’, use GBIF name resolution.</p></li>
 <li><p><strong>store_original_attribute</strong> (<em>str</em><em> or </em><em>None</em>) – A new attribute to store the
 original taxon name.</p></li>
+<li><p><strong>out_map_filename</strong> (<em>str</em>) – A file location to write the updated name map.</p></li>
+<li><p><strong>map_write_interval</strong> (<em>int</em>) – Update the name map output file after each set of
+this many iterations.</p></li>
+<li><p><strong>out_map_format</strong> (<em>str</em>) – The format to write the names map (csv or json).</p></li>
 <li><p><strong>**params</strong> (<em>dict</em>) – Keyword parameters to pass to _OccurrenceDataWrangler.</p></li>
 </ul>
 </dd>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.matrix.accepted_name_wrangler &mdash; Specify lmpy 3.1.10+17.g851af079 documentation</title>
+  <title>lmpy.data_wrangling.matrix.accepted_name_wrangler &mdash; Specify lmpy 3.1.10+19.gb76a2e38 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -98,6 +98,9 @@
         <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">taxon_axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">purge_failures</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">out_map_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">map_write_interval</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">out_map_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">params</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for AcceptedNameMatrixModifier class.</span>
@@ -108,6 +111,10 @@
 <span class="sd">                accepted names.  If set to &#39;gbif&#39;, use GBIF name resolution.</span>
 <span class="sd">            taxon_axis (int): The axis with taxon headers.</span>
 <span class="sd">            purge_failures (bool): Should failures be purged from the matrix.</span>
+<span class="sd">            out_map_filename (str): A file location to write the updated name map.</span>
+<span class="sd">            map_write_interval (int): Update the name map output file after each set of</span>
+<span class="sd">                this many iterations.</span>
+<span class="sd">            out_map_format (str): The format to write the names map (csv or json).</span>
 <span class="sd">            **params (dict): Keyword parameters to pass to _MatrixDataWrangler.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_MatrixDataWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
@@ -116,7 +123,10 @@
         <span class="n">_AcceptedNameWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name_map</span><span class="o">=</span><span class="n">name_map</span><span class="p">,</span>
-            <span class="n">name_resolver</span><span class="o">=</span><span class="n">name_resolver</span>
+            <span class="n">name_resolver</span><span class="o">=</span><span class="n">name_resolver</span><span class="p">,</span>
+            <span class="n">out_map_filename</span><span class="o">=</span><span class="n">out_map_filename</span><span class="p">,</span>
+            <span class="n">map_write_interval</span><span class="o">=</span><span class="n">map_write_interval</span><span class="p">,</span>
+            <span class="n">out_map_format</span><span class="o">=</span><span class="n">out_map_format</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">taxon_axis</span> <span class="o">=</span> <span class="n">taxon_axis</span>

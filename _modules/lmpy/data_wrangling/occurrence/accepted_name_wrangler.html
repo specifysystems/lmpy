@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.accepted_name_wrangler &mdash; Specify lmpy 3.1.10+17.g851af079 documentation</title>
+  <title>lmpy.data_wrangling.occurrence.accepted_name_wrangler &mdash; Specify lmpy 3.1.10+19.gb76a2e38 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -95,16 +95,23 @@
         <span class="n">name_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">store_original_attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">out_map_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">map_write_interval</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">out_map_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">params</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for AcceptedNameModifier class.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            name_map (dict): A map of original name to accepted name.</span>
+<span class="sd">            name_map (dict or str): A map of original name to accepted name.</span>
 <span class="sd">            name_resolver (str or Method): If provided, use this method for getting new</span>
 <span class="sd">                accepted names.  If set to &#39;gbif&#39;, use GBIF name resolution.</span>
 <span class="sd">            store_original_attribute (str or None): A new attribute to store the</span>
 <span class="sd">                original taxon name.</span>
+<span class="sd">            out_map_filename (str): A file location to write the updated name map.</span>
+<span class="sd">            map_write_interval (int): Update the name map output file after each set of</span>
+<span class="sd">                this many iterations.</span>
+<span class="sd">            out_map_format (str): The format to write the names map (csv or json).</span>
 <span class="sd">            **params (dict): Keyword parameters to pass to _OccurrenceDataWrangler.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_OccurrenceDataWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
@@ -114,7 +121,10 @@
         <span class="n">_AcceptedNameWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name_map</span><span class="o">=</span><span class="n">name_map</span><span class="p">,</span>
-            <span class="n">name_resolver</span><span class="o">=</span><span class="n">name_resolver</span>
+            <span class="n">name_resolver</span><span class="o">=</span><span class="n">name_resolver</span><span class="p">,</span>
+            <span class="n">out_map_filename</span><span class="o">=</span><span class="n">out_map_filename</span><span class="p">,</span>
+            <span class="n">map_write_interval</span><span class="o">=</span><span class="n">map_write_interval</span><span class="p">,</span>
+            <span class="n">out_map_format</span><span class="o">=</span><span class="n">out_map_format</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">store_original_attribute</span> <span class="o">=</span> <span class="n">store_original_attribute</span>
