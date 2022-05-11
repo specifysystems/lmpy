@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.statistics.significance &mdash; Specify lmpy 3.1.10+13.ga3db8c91 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.statistics.significance</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.statistics.significance</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing tools for evaluating statistical significance.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="SignificanceMethod"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.SignificanceMethod">[docs]</a><span class="k">class</span> <span class="nc">SignificanceMethod</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Methods for determining statistical significance.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SignificanceMethod.RAW"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.SignificanceMethod.RAW">[docs]</a>    <span class="n">RAW</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># No significance value correction</span></div>
+<div class="viewcode-block" id="SignificanceMethod.BONFERRONI"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.SignificanceMethod.BONFERRONI">[docs]</a>    <span class="n">BONFERRONI</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Bonferroni correction</span></div>
+<div class="viewcode-block" id="SignificanceMethod.FDR"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.SignificanceMethod.FDR">[docs]</a>    <span class="n">FDR</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Benjamini and Hochberg correction</span></div></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="compare_absolute_values"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.compare_absolute_values">[docs]</a><span class="k">def</span> <span class="nf">compare_absolute_values</span><span class="p">(</span><span class="n">observed</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compares the absolute values of the observed and random data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        observed (:obj:`Numpy array`): A numpy array of observed values.</span>
+<span class="sd">        test_data (:obj:`Numpy array`): A numpy array of random values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: Boolean indicating if the absolute value of the test data is greater than</span>
+<span class="sd">            the absolute value of the observed data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">observed</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="compare_signed_values"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.compare_signed_values">[docs]</a><span class="k">def</span> <span class="nf">compare_signed_values</span><span class="p">(</span><span class="n">observed</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compares the signed values of the observed and random data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        observed (:obj:`Numpy array`): A numpy array of observed values.</span>
+<span class="sd">        test_data (:obj:`Numpy array`): A numpy array of random values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: An indication if the test data is greater than the observed data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">test_data</span> <span class="o">&gt;</span> <span class="n">observed</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="get_significant_values"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.get_significant_values">[docs]</a><span class="k">def</span> <span class="nf">get_significant_values</span><span class="p">(</span>
+    <span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">correction_method</span><span class="o">=</span><span class="n">SignificanceMethod</span><span class="o">.</span><span class="n">RAW</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get significant values in a p-values matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        p_values (Matrix): A matrix of p-values to evaluate.</span>
+<span class="sd">        alpha (float): An alpha value to use to evaluate significance.</span>
+<span class="sd">        correction_method (int): The SignificanceMethod to use.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: A boolean matrix indicating which values are cells are significant.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Raised if an unknown significance method is provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">correction_method</span> <span class="o">==</span> <span class="n">SignificanceMethod</span><span class="o">.</span><span class="n">RAW</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span>
+            <span class="n">p_values</span> <span class="o">&lt;=</span> <span class="n">alpha</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">p_values</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(),</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;significance_method&#39;</span><span class="p">:</span> <span class="s1">&#39;Raw&#39;</span><span class="p">},</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">correction_method</span> <span class="o">==</span> <span class="n">SignificanceMethod</span><span class="o">.</span><span class="n">BONFERRONI</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">p_values</span> <span class="o">*</span> <span class="n">p_values</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">p_values</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(),</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;significance_method&#39;</span><span class="p">:</span> <span class="s1">&#39;Bonferroni&#39;</span><span class="p">},</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">correction_method</span> <span class="o">==</span> <span class="n">SignificanceMethod</span><span class="o">.</span><span class="n">FDR</span><span class="p">:</span>
+        <span class="c1"># In order to perform Benjamini and Hochberg correction</span>
+        <span class="c1"># 1. Order p-values</span>
+        <span class="n">p_flat</span> <span class="o">=</span> <span class="n">p_values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">num_vals</span> <span class="o">=</span> <span class="n">p_flat</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">comp_p</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="c1"># 2. Assign rank</span>
+        <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">p_val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">p_flat</span><span class="p">))):</span>
+            <span class="c1"># 3. Find the critical value where last p-val &lt; (rank / num values) * alpha</span>
+            <span class="n">crit_val</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">((</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_vals</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">p_val</span> <span class="o">&lt;</span> <span class="n">crit_val</span><span class="p">:</span>
+                <span class="n">comp_p</span> <span class="o">=</span> <span class="n">p_val</span>
+        <span class="c1"># 4. All P(j) such that j &lt;= i are significant</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span>
+            <span class="n">p_values</span> <span class="o">&lt;=</span> <span class="n">comp_p</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">p_values</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(),</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;significance_method&#39;</span><span class="p">:</span> <span class="s1">&#39;Benjamini and Hochberg&#39;</span><span class="p">},</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown significance method (</span><span class="si">{correction_method}</span><span class="s1">).&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="PermutationTests"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.PermutationTests">[docs]</a><span class="k">class</span> <span class="nc">PermutationTests</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Tool for performing permutation tests.&quot;&quot;&quot;</span>
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_signed_values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for PermutationTests class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            observed (Matrix): Observed values to test against.</span>
+<span class="sd">            compare_fn (Method): A function used to compare values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obs</span> <span class="o">=</span> <span class="n">observed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compare_fn</span> <span class="o">=</span> <span class="n">compare_fn</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="PermutationTests.add_permutation"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.PermutationTests.add_permutation">[docs]</a>    <span class="k">def</span> <span class="nf">add_permutation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compare the observed value with a test value and add to tracking.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            test_val (Matrix): A matrix of permuted values to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">test_val</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+            <span class="n">tmp_shp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">tmp_shp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">compare_fn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">tmp_shp</span><span class="p">)),</span> <span class="n">test_val</span><span class="p">),</span>
+                <span class="n">axis</span><span class="o">=</span><span class="n">test_val</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="n">test_val</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compare_fn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span> <span class="n">test_val</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="PermutationTests.get_p_values"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.PermutationTests.get_p_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_p_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_iterations</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute raw p-values from the permutations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_iterations (int): If provided, use this instead of self.count</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: A Matrix of p-values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+        <span class="k">if</span> <span class="n">num_iterations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">num_iterations</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_counts</span> <span class="o">/</span> <span class="n">count</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()),)</span></div></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;compare_absolute_values&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;compare_signed_values&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_significant_values&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PermutationTests&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SignificanceMethod&#39;</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

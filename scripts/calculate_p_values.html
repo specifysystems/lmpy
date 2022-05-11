@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>calculate_p_values - CLI interface &mdash; Specify lmpy 3.1.10+13.ga3db8c91 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>calculate_p_values - CLI interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scripts/calculate_p_values.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="calculate_p_values---CLI-interface">
+<h1>calculate_p_values - CLI interface<a class="headerlink" href="#calculate_p_values---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>Calculate p-values for observed data compared with random.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">calculate_p_values</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="p">{</span><span class="n">bonferroni</span><span class="p">,</span><span class="n">fdr</span><span class="p">,</span><span class="n">raw</span><span class="p">}]</span>
+                   <span class="p">[</span><span class="o">--</span><span class="n">num_permutations</span> <span class="n">NUM_PERMUTATIONS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">abs</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">alpha</span> <span class="n">ALPHA</span><span class="p">]</span>
+                   <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">SIGNIFICANCE_MATRIX_FILENAME</span><span class="p">]</span>
+                   <span class="n">p_values_matrix</span> <span class="n">observed_matrix</span> <span class="n">random_matrix</span> <span class="p">[</span><span class="n">random_matrix</span> <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="calculate_p_values-positional-arguments">
+<h2>calculate_p_values positional arguments<a class="headerlink" href="#calculate_p_values-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="calculate_p_values-p_values_matrix"><a class="reference internal" href="#calculate_p_values-p_values_matrix" title="calculate_p_values p_values_matrix"><strong><code class="docutils literal notranslate"><span class="pre">p_values_matrix</span></code></strong></a> - Path to write the computed p-values matrix. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="calculate_p_values-observed_matrix"><a class="reference internal" href="#calculate_p_values-observed_matrix" title="calculate_p_values observed_matrix"><strong><code class="docutils literal notranslate"><span class="pre">observed_matrix</span></code></strong></a> - Path to the observed data matrix. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="calculate_p_values-random_matrix"><a class="reference internal" href="#calculate_p_values-random_matrix" title="calculate_p_values random_matrix"><strong><code class="docutils literal notranslate"><span class="pre">random_matrix</span></code></strong></a> - Path to the random data matrix. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="calculate_p_values-optional-arguments">
+<h2>calculate_p_values optional arguments<a class="headerlink" href="#calculate_p_values-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="calculate_p_values--h"><span id="calculate_p_values---help"></span><a class="reference internal" href="#calculate_p_values--h" title="calculate_p_values -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#calculate_p_values---help" title="calculate_p_values --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="calculate_p_values---config_file"><a class="reference internal" href="#calculate_p_values---config_file" title="calculate_p_values --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="calculate_p_values--m"><span id="calculate_p_values---significance_method"></span><a class="reference internal" href="#calculate_p_values--m" title="calculate_p_values -m"><strong><code class="docutils literal notranslate"><span class="pre">-m</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">SIGNIFICANCE_METHOD</span></code>, <a class="reference internal" href="#calculate_p_values---significance_method" title="calculate_p_values --significance_method"><strong><code class="docutils literal notranslate"><span class="pre">--significance_method</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">SIGNIFICANCE_METHOD</span></code> - If provided, correct the p-values using the Bonferroni method (bonferroni)or Benjamini and Hochberg method (fdr). (default: <code class="docutils literal notranslate"><span class="pre">raw</span></code>)</p></li>
+<li><p id="calculate_p_values---num_permutations"><span id="calculate_p_values--n"></span><a class="reference internal" href="#calculate_p_values---num_permutations" title="calculate_p_values --num_permutations"><strong><code class="docutils literal notranslate"><span class="pre">--num_permutations</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">NUM_PERMUTATIONS</span></code>, <a class="reference internal" href="#calculate_p_values--n" title="calculate_p_values -n"><strong><code class="docutils literal notranslate"><span class="pre">-n</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">NUM_PERMUTATIONS</span></code> - The total number of random iterations used (useful if only computingp-values for a subset of randomizations). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="calculate_p_values---abs"><a class="reference internal" href="#calculate_p_values---abs" title="calculate_p_values --abs"><strong><code class="docutils literal notranslate"><span class="pre">--abs</span></code></strong></a> - Compare absolute values instead of signed values.</p></li>
+<li><p id="calculate_p_values---alpha"><a class="reference internal" href="#calculate_p_values---alpha" title="calculate_p_values --alpha"><strong><code class="docutils literal notranslate"><span class="pre">--alpha</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">ALPHA</span></code> - Alpha value for statistical significance or False Discovery Rate. (default: <code class="docutils literal notranslate"><span class="pre">0.05</span></code>)</p></li>
+<li><p id="calculate_p_values--s"><span id="calculate_p_values---significance_matrix_filename"></span><a class="reference internal" href="#calculate_p_values--s" title="calculate_p_values -s"><strong><code class="docutils literal notranslate"><span class="pre">-s</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">SIGNIFICANCE_MATRIX_FILENAME</span></code>, <a class="reference internal" href="#calculate_p_values---significance_matrix_filename" title="calculate_p_values --significance_matrix_filename"><strong><code class="docutils literal notranslate"><span class="pre">--significance_matrix_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">SIGNIFICANCE_MATRIX_FILENAME</span></code> - Path to write significance matrix. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

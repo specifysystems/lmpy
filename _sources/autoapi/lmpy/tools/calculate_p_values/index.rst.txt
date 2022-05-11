@@ -1,0 +1,38 @@
+:py:mod:`lmpy.tools.calculate_p_values`
+=======================================
+
+.. py:module:: lmpy.tools.calculate_p_values
+
+.. autoapi-nested-parse::
+
+   Calculate p-values for observed values compared to those generated from random.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.calculate_p_values.build_parser
+   lmpy.tools.calculate_p_values.cli
+
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for calculating p-values.
+
+

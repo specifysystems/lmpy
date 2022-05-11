@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.tools.calculate_p_values &mdash; Specify lmpy 3.1.10+13.ga3db8c91 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.tools.calculate_p_values</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.tools.calculate_p_values</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Calculate p-values for observed values compared to those generated from random.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy.statistics.significance</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">compare_absolute_values</span><span class="p">,</span>
+    <span class="n">compare_signed_values</span><span class="p">,</span>
+    <span class="n">get_significant_values</span><span class="p">,</span>
+    <span class="n">PermutationTests</span><span class="p">,</span>
+    <span class="n">SignificanceMethod</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span>
+
+
+<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;Calculate p-values for observed data compared with random.&#39;</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="build_parser"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/calculate_p_values/index.html#lmpy.tools.calculate_p_values.build_parser">[docs]</a><span class="k">def</span> <span class="nf">build_parser</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Build an argparse.ArgumentParser object for the tool.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        argparse.ArgumentParser: An argument parser for the tool&#39;s parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;calculate_p_values&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span>
+    <span class="p">)</span>
+    <span class="c1"># The &#39;--config_file&#39; argument is used for providing arguments in a configuration</span>
+    <span class="c1">#     file instead of the command line</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--config_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to configuration file.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;-m&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--significance_method&#39;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;significance_method&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;bonferroni&#39;</span><span class="p">,</span> <span class="s1">&#39;fdr&#39;</span><span class="p">,</span> <span class="s1">&#39;raw&#39;</span><span class="p">],</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;raw&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s1">&#39;If provided, correct the p-values using the Bonferroni method (bonferroni)&#39;</span>
+            <span class="s1">&#39;or Benjamini and Hochberg method (fdr).&#39;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--num_permutations&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-n&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s1">&#39;The total number of random iterations used (useful if only computing&#39;</span>
+            <span class="s1">&#39;p-values for a subset of randomizations).&#39;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--abs&#39;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Compare absolute values instead of signed values.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--alpha&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Alpha value for statistical significance or False Discovery Rate.&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;-s&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--significance_matrix_filename&#39;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;significance_matrix_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to write significance matrix.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;p_values_matrix&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to write the computed p-values matrix.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;observed_matrix&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the observed data matrix.&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;random_matrix&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the random data matrix.&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/calculate_p_values/index.html#lmpy.tools.calculate_p_values.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Provide a command-line tool for calculating p-values.&quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
+    <span class="c1"># Compare method</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">abs</span><span class="p">:</span>
+        <span class="n">compare_func</span> <span class="o">=</span> <span class="n">compare_absolute_values</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">compare_func</span> <span class="o">=</span> <span class="n">compare_signed_values</span>
+    <span class="c1"># Load observed matrix</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">observed_matrix</span><span class="p">)</span>
+    <span class="c1"># Create running stats</span>
+    <span class="n">perm_testing</span> <span class="o">=</span> <span class="n">PermutationTests</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_func</span><span class="p">)</span>
+    <span class="c1"># For each random matrix</span>
+    <span class="k">for</span> <span class="n">rand_mtx_filename</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">random_matrix</span><span class="p">:</span>
+        <span class="c1"># Load matrix</span>
+        <span class="n">rand_mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">rand_mtx_filename</span><span class="p">)</span>
+        <span class="c1"># Add to running stats</span>
+        <span class="n">perm_testing</span><span class="o">.</span><span class="n">add_permutation</span><span class="p">(</span><span class="n">rand_mtx</span><span class="p">)</span>
+    <span class="c1"># Get p-values, scaled if desired</span>
+    <span class="n">p_values</span> <span class="o">=</span> <span class="n">perm_testing</span><span class="o">.</span><span class="n">get_p_values</span><span class="p">(</span><span class="n">num_iterations</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_permutations</span><span class="p">)</span>
+    <span class="c1"># If correction, do it</span>
+    <span class="c1"># Write p-values matrix</span>
+    <span class="n">p_values</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">p_values_matrix</span><span class="p">)</span>
+    <span class="c1"># Write significant matrix if desired</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">significance_matrix_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">significance_method</span> <span class="o">==</span> <span class="s1">&#39;raw&#39;</span><span class="p">:</span>
+            <span class="n">sig_method</span> <span class="o">=</span> <span class="n">SignificanceMethod</span><span class="o">.</span><span class="n">RAW</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">significance_method</span> <span class="o">==</span> <span class="s1">&#39;fdr&#39;</span><span class="p">:</span>
+            <span class="n">sig_method</span> <span class="o">=</span> <span class="n">SignificanceMethod</span><span class="o">.</span><span class="n">FDR</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sig_method</span> <span class="o">=</span> <span class="n">SignificanceMethod</span><span class="o">.</span><span class="n">BONFERRONI</span>
+        <span class="n">sig_mtx</span> <span class="o">=</span> <span class="n">get_significant_values</span><span class="p">(</span>
+            <span class="n">p_values</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span>
+            <span class="n">correction_method</span><span class="o">=</span><span class="n">sig_method</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">sig_mtx</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">significance_matrix_filename</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;build_parser&#39;</span><span class="p">,</span> <span class="s1">&#39;cli&#39;</span><span class="p">]</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">cli</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+:py:mod:`lmpy.statistics.significance`
+======================================
+
+.. py:module:: lmpy.statistics.significance
+
+.. autoapi-nested-parse::
+
+   Module containing tools for evaluating statistical significance.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.statistics.significance.PermutationTests
+   lmpy.statistics.significance.SignificanceMethod
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.statistics.significance.compare_absolute_values
+   lmpy.statistics.significance.compare_signed_values
+   lmpy.statistics.significance.get_significant_values
+
+
+
+.. py:class:: PermutationTests(observed, compare_fn=compare_signed_values)
+
+   Constructor for PermutationTests class.
+
+   :param observed: Observed values to test against.
+   :type observed: Matrix
+   :param compare_fn: A function used to compare values.
+   :type compare_fn: Method
+
+   .. py:method:: add_permutation(self, test_val)
+
+      Compare the observed value with a test value and add to tracking.
+
+      :param test_val: A matrix of permuted values to test against.
+      :type test_val: Matrix
+
+
+   .. py:method:: get_p_values(self, num_iterations=None)
+
+      Compute raw p-values from the permutations.
+
+      :param num_iterations: If provided, use this instead of self.count
+      :type num_iterations: int
+
+      :returns: A Matrix of p-values.
+      :rtype: Matrix
+
+
+
+.. py:class:: SignificanceMethod
+
+   Bases: :py:obj:`enum.Enum`
+
+   Methods for determining statistical significance.
+
+   .. py:attribute:: BONFERRONI
+      :annotation: = 1
+
+      
+
+   .. py:attribute:: FDR
+      :annotation: = 2
+
+      
+
+   .. py:attribute:: RAW
+      :annotation: = 0
+
+      
+
+
+.. py:function:: compare_absolute_values(observed, test_data)
+
+   Compares the absolute values of the observed and random data.
+
+   :param observed: A numpy array of observed values.
+   :type observed: :obj:`Numpy array`
+   :param test_data: A numpy array of random values.
+   :type test_data: :obj:`Numpy array`
+
+   :returns:
+
+             Boolean indicating if the absolute value of the test data is greater than
+                 the absolute value of the observed data.
+   :rtype: bool
+
+
+.. py:function:: compare_signed_values(observed, test_data)
+
+   Compares the signed values of the observed and random data.
+
+   :param observed: A numpy array of observed values.
+   :type observed: :obj:`Numpy array`
+   :param test_data: A numpy array of random values.
+   :type test_data: :obj:`Numpy array`
+
+   :returns: An indication if the test data is greater than the observed data.
+   :rtype: bool
+
+
+.. py:function:: get_significant_values(p_values, alpha=0.05, correction_method=SignificanceMethod.RAW)
+
+   Get significant values in a p-values matrix.
+
+   :param p_values: A matrix of p-values to evaluate.
+   :type p_values: Matrix
+   :param alpha: An alpha value to use to evaluate significance.
+   :type alpha: float
+   :param correction_method: The SignificanceMethod to use.
+   :type correction_method: int
+
+   :returns: A boolean matrix indicating which values are cells are significant.
+   :rtype: Matrix
+
+   :raises ValueError: Raised if an unknown significance method is provided.
+
+

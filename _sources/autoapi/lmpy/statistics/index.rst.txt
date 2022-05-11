@@ -18,5 +18,6 @@ Submodules
    mcpa/index.rst
    pam_stats/index.rst
    running_stats/index.rst
+   significance/index.rst
 
 

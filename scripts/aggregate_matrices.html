@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aggregate_matrices - CLI interface &mdash; Specify lmpy 3.1.10+13.ga3db8c91 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>aggregate_matrices - CLI interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scripts/aggregate_matrices.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aggregate_matrices---CLI-interface">
+<h1>aggregate_matrices - CLI interface<a class="headerlink" href="#aggregate_matrices---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>Aggregate matrices.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aggregate_matrices</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ndim</span> <span class="n">NDIM</span><span class="p">]</span>
+                   <span class="p">{</span><span class="n">add</span><span class="p">,</span><span class="n">concatenate</span><span class="p">}</span> <span class="n">axis</span> <span class="n">output_matrix_filename</span> <span class="n">input_matrix_filename</span>
+                   <span class="p">[</span><span class="n">input_matrix_filename</span> <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="aggregate_matrices-positional-arguments">
+<h2>aggregate_matrices positional arguments<a class="headerlink" href="#aggregate_matrices-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="aggregate_matrices-method"><a class="reference internal" href="#aggregate_matrices-method" title="aggregate_matrices method"><strong><code class="docutils literal notranslate"><span class="pre">method</span></code></strong></a> - Method to use to aggregate the matrices. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="aggregate_matrices-axis"><a class="reference internal" href="#aggregate_matrices-axis" title="aggregate_matrices axis"><strong><code class="docutils literal notranslate"><span class="pre">axis</span></code></strong></a> - The axis to aggregate matrices on. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="aggregate_matrices-output_matrix_filename"><a class="reference internal" href="#aggregate_matrices-output_matrix_filename" title="aggregate_matrices output_matrix_filename"><strong><code class="docutils literal notranslate"><span class="pre">output_matrix_filename</span></code></strong></a> - Path to write out the aggregated matrices. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="aggregate_matrices-input_matrix_filename"><a class="reference internal" href="#aggregate_matrices-input_matrix_filename" title="aggregate_matrices input_matrix_filename"><strong><code class="docutils literal notranslate"><span class="pre">input_matrix_filename</span></code></strong></a> - Path to input matrix to aggregate. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="aggregate_matrices-optional-arguments">
+<h2>aggregate_matrices optional arguments<a class="headerlink" href="#aggregate_matrices-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="aggregate_matrices--h"><span id="aggregate_matrices---help"></span><a class="reference internal" href="#aggregate_matrices--h" title="aggregate_matrices -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#aggregate_matrices---help" title="aggregate_matrices --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="aggregate_matrices---config_file"><a class="reference internal" href="#aggregate_matrices---config_file" title="aggregate_matrices --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="aggregate_matrices---ndim"><a class="reference internal" href="#aggregate_matrices---ndim" title="aggregate_matrices --ndim"><strong><code class="docutils literal notranslate"><span class="pre">--ndim</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">NDIM</span></code> - The number of dimensions in the output matrix for sum. (default: <code class="docutils literal notranslate"><span class="pre">-1</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

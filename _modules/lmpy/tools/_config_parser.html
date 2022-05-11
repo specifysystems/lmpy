@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools._config_parser &mdash; Specify lmpy 3.1.10+4.g7dc028cf documentation</title>
+  <title>lmpy.tools._config_parser &mdash; Specify lmpy 3.1.10+13.ga3db8c91 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -135,10 +135,12 @@
     <span class="c1"># Check if each positional argument is present</span>
     <span class="k">for</span> <span class="n">pos_arg</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">_positionals</span><span class="o">.</span><span class="n">_group_actions</span><span class="p">:</span>
         <span class="c1"># Get nargs for this positional</span>
-        <span class="k">if</span> <span class="n">pos_arg</span><span class="o">.</span><span class="n">nargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pos_arg</span><span class="o">.</span><span class="n">nargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">pos_arg</span><span class="o">.</span><span class="n">nargs</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
             <span class="n">pos_nargs</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">pos_arg</span><span class="o">.</span><span class="n">nargs</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+            <span class="n">pos_nargs</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">pos_nargs</span> <span class="o">=</span> <span class="n">pos_arg</span><span class="o">.</span><span class="n">nargs</span>
+            <span class="n">pos_nargs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos_arg</span><span class="o">.</span><span class="n">nargs</span><span class="p">)</span>
 
         <span class="c1"># Move pos_idx</span>
         <span class="n">pos_idx</span> <span class="o">+=</span> <span class="n">pos_nargs</span>

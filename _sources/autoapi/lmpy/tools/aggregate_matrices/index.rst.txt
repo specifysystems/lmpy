@@ -1,0 +1,38 @@
+:py:mod:`lmpy.tools.aggregate_matrices`
+=======================================
+
+.. py:module:: lmpy.tools.aggregate_matrices
+
+.. autoapi-nested-parse::
+
+   This tool aggregates matrices by concatenating or adding.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.aggregate_matrices.build_parser
+   lmpy.tools.aggregate_matrices.cli
+
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for aggregating matrices.
+
+
