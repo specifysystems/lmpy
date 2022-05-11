@@ -18,6 +18,9 @@ class AcceptedNameTreeWrangler(_TreeDataWrangler, _AcceptedNameWrangler):
         name_map=None,
         name_resolver=None,
         purge_failures=True,
+        out_map_filename=None,
+        map_write_interval=100,
+        out_map_format='json',
         **params
     ):
         """Constructor for AcceptedNameTreeModifier class.
@@ -27,6 +30,10 @@ class AcceptedNameTreeWrangler(_TreeDataWrangler, _AcceptedNameWrangler):
             name_resolver (str or Method): If provided, use this method for getting new
                 accepted names.  If set to 'gbif', use GBIF name resolution.
             purge_failures (bool): Should failures be purged from the tree.
+            out_map_filename (str): A file location to write the updated name map.
+            map_write_interval (int): Update the name map output file after each set of
+                this many iterations.
+            out_map_format (str): The format to write the names map (csv or json).
             **params (dict): Keyword parameters to pass to _TreeDataWrangler.
         """
         if isinstance(name_resolver, str) and name_resolver.lower() == 'gbif':
@@ -34,7 +41,10 @@ class AcceptedNameTreeWrangler(_TreeDataWrangler, _AcceptedNameWrangler):
         _AcceptedNameWrangler.__init__(
             self,
             name_map=name_map,
-            name_resolver=name_resolver
+            name_resolver=name_resolver,
+            out_map_filename=out_map_filename,
+            map_write_interval=map_write_interval,
+            out_map_format=out_map_format,
         )
         _TreeDataWrangler.__init__(self, **params)
 

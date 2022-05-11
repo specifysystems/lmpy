@@ -21,6 +21,9 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
         name_resolver=None,
         taxon_axis=1,
         purge_failures=True,
+        out_map_filename=None,
+        map_write_interval=100,
+        out_map_format='json',
         **params
     ):
         """Constructor for AcceptedNameMatrixModifier class.
@@ -31,6 +34,10 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
                 accepted names.  If set to 'gbif', use GBIF name resolution.
             taxon_axis (int): The axis with taxon headers.
             purge_failures (bool): Should failures be purged from the matrix.
+            out_map_filename (str): A file location to write the updated name map.
+            map_write_interval (int): Update the name map output file after each set of
+                this many iterations.
+            out_map_format (str): The format to write the names map (csv or json).
             **params (dict): Keyword parameters to pass to _MatrixDataWrangler.
         """
         _MatrixDataWrangler.__init__(self, **params)
@@ -39,7 +46,10 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
         _AcceptedNameWrangler.__init__(
             self,
             name_map=name_map,
-            name_resolver=name_resolver
+            name_resolver=name_resolver,
+            out_map_filename=out_map_filename,
+            map_write_interval=map_write_interval,
+            out_map_format=out_map_format,
         )
 
         self.taxon_axis = taxon_axis
