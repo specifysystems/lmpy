@@ -7,6 +7,7 @@ Tutorials
     data_cleaning
     layer_encoder
     matrix
+    matrix_data_wrangling
     mcpa
     occurrence_filters
     pam_randomization
