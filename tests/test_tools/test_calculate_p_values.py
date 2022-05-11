@@ -77,18 +77,22 @@ def test_calculate_p_values(
     Args:
         monkeypatch (pytest.Fixture): Fixture for monkeypatching command arguments.
         generate_temp_filename (pytest.Fixture): Fixture for generating temp files.
-        significance_method (pytest.Fixture):
-        use_abs_value (pytest.Fixture):
-        use_config_file (pytest.Fixture):
-        use_permutations (pytest.Fixture):
+        significance_method (pytest.Fixture): Fixture providing a significance method
+            identifer string.
+        use_abs_value (pytest.Fixture): Fixture providing boolean indicating if
+            absolute value comparison should be used.
+        use_config_file (pytest.Fixture): Fixture providing boolean indicating if
+            config file should be used.
+        use_permutations (pytest.Fixture): Fixture providing boolean indicating if
+            extra permutations should be used.
     """
     min_rand, max_rand = (10, 100)
     if use_abs_value:
-        obs_min, obs_max = (-20, 20)
-        rand_min, rand_max = (-40, 40)
+        obs_min, obs_max = (-40, 40)
+        rand_min, rand_max = (-20, 20)
     else:
-        obs_min, obs_max = (0, 20)
-        rand_min, rand_max = (5, 20)
+        obs_min, obs_max = (5, 40)
+        rand_min, rand_max = (0, 20)
     num_rows, num_cols = (np.random.randint(5, 10), np.random.randint(5, 10))
     params = ['calculate_p_values.py']
 
@@ -108,6 +112,7 @@ def test_calculate_p_values(
             np.random.randint(rand_min, rand_max, size=(num_rows, num_cols))
         )
         rand_mtx.write(fn)
+        rand_matrix_filename.append(fn)
 
     significance_matrix_filename = None
     if significance_method is not None:
