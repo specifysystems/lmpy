@@ -35,10 +35,16 @@ FIELD_TAG = '{http://rs.tdwg.org/dwc/text/}field'
 FILES_TAG = '{http://rs.tdwg.org/dwc/text/}files'
 ID_TAG = '{http://rs.tdwg.org/dwc/text/}id'
 LOCATION_TAG = '{http://rs.tdwg.org/dwc/text/}location'
-# EXTENSION_TAG = '{http://rs.tdwg.org/dwc/text/}extension'
+EXTENSION_TAG = '{http://rs.tdwg.org/dwc/text/}extension'
 
-# ROW_TYPE_ATT = 'rowType'
+ROW_TYPE_ATT = 'rowType'
 OCCURRENCE_ROW_TYPE = 'http://rs.tdwg.org/dwc/terms/Occurrence'
+
+DELIMITED_TERMS = [
+    'http://portal.idigbio.org/terms/flags',
+    'http://portal.idigbio.org/terms/recordIds',
+]
+DELIMITED_BY_ATT = 'delimitedBy'
 
 
 # .....................................................................................
@@ -384,6 +390,7 @@ class PointDwcaReader:
             geopoint_term (:obj:`str`): Geopoint term in the DWCA file.
                 Default is None.
         """
+        self.is_idigbio = False
         self.meta_filename = meta_filename
         self.archive_filename = dwca_filename
         self.occurrence_filename = None
@@ -530,11 +537,15 @@ class PointDwcaReader:
         core_element = root_element.find(CORE_TAG)
 
         # If core element is missing (iDigBio) look in extensions
-        # if core_element is None:
-        #    for extension_el in root_element.findall(EXTENSION_TAG):
-        #        if core_element is None and \
-        #           extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE:
-        #            core_element = extension_el
+        if core_element is None:
+            self.is_idigbio = True
+            for extension_el in root_element.findall(EXTENSION_TAG):
+                if (
+                        core_element is None
+                        and extension_el.attrib[ROW_TYPE_ATT] == OCCURRENCE_ROW_TYPE
+                ):
+                    core_element = extension_el
+                    extension_el.tag = CORE_TAG
 
         # Process core element
         # - Look for parameters we use for processing
@@ -546,6 +557,11 @@ class PointDwcaReader:
         self.occurrence_filename = (
             core_element.find(FILES_TAG).findall(LOCATION_TAG)[0].text
         )
+
+        # Add attribute for delimited fields
+        for field_element in core_element.findall(FIELD_TAG):
+            if field_element.attrib['term'] in DELIMITED_TERMS:
+                field_element.attrib[DELIMITED_BY_ATT] = ';'
 
         # Get the CSV fields from the metadata
         for field_element in core_element.findall(FIELD_TAG):
@@ -614,6 +630,9 @@ class PointDwcaReader:
             self._zip_archive.open(self.occurrence_filename),
             encoding=self.occurrence_params['encoding']
         )
+
+        if self.is_idigbio:
+            self.file = _IdigBioCsvReader(self.file)
 
         delimiter = self.occurrence_params['fieldsTerminatedBy']
         if delimiter.find('t') > 0:
@@ -771,6 +790,98 @@ def get_field_process_func(index=None, default=None, vocabulary=None, delimiter=
         return list_getter
     # If there is an index but no delimiter, return a field getter
     return value_getter
+
+
+# .....................................................................................
+class _IdigBioCsvReader:
+    """A class for pre-processing incoming row data form iDigBio DWCAs."""
+    # .......................
+    def __init__(self, reader):
+        """Constructor for _IdigBioCsvReader."""
+        self.reader = reader
+
+    # .......................
+    def __enter__(self):
+        """Context manager magic method.
+
+        Returns:
+            _IdigBioCsvReader: This instance.
+        """
+        self.open()
+        return self
+
+    # .......................
+    def __exit__(self, *args):
+        """Context manager magic method on exit.
+
+        Args:
+            *args: Positional arguments passed to the exit function.
+        """
+        self.close()
+
+    # .......................
+    def __iter__(self):
+        """Iterator magic method.
+
+        Returns:
+            _IdigBioCsvReader: This instance.
+        """
+        return self
+
+    # .......................
+    def __next__(self):
+        """Get the next row of data.
+
+        Returns:
+            str: A row of data
+
+        Raises:
+            StopIteration: Raised when there are no additional objects.
+        """
+        for row in self.reader:
+            trip_quote = '"' + '""'  # So python doesn't interpret as block comment
+            quad_quote = '""' + '""'
+            trip_quote_replace = '"' + "'"
+            mod_line = (
+                row.replace(quad_quote, '""')
+                   .replace(trip_quote, trip_quote_replace)
+                   .replace('""', "'")
+            )
+            quote_chunks = mod_line.split('"')
+            processed_point_row = ''
+            inside = False
+            for chunk in quote_chunks:
+                if chunk.startswith('[') and chunk.endswith(']'):
+                    processed_point_row += (
+                        chunk[1:-1].replace(',', ';')
+                                   .replace("'", '')
+                                   .replace(' ', '')
+                    )
+                elif chunk.startswith('{') and chunk.endswith('}'):  # JSON
+                    processed_point_row += '"' + chunk + '"'
+                else:
+                    # Quoted section
+                    if inside:
+                        processed_point_row += '"' + chunk + '"'
+                    else:
+                        processed_point_row += chunk
+                inside = not inside
+            if not processed_point_row.endswith('\n'):
+                processed_point_row += '\n'
+
+            return processed_point_row
+
+        raise StopIteration
+
+    # .......................
+    def open(self):
+        """Do nothing, the reader should be open already."""
+        pass
+
+    # .......................
+    def close(self):
+        """Close the reader."""
+        self.reader.close()
 
 
 # .....................................................................................
