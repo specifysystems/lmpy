@@ -797,7 +797,11 @@ class _IdigBioCsvReader:
     """A class for pre-processing incoming row data form iDigBio DWCAs."""
     # .......................
     def __init__(self, reader):
-        """Constructor for _IdigBioCsvReader."""
+        """Constructor for _IdigBioCsvReader.
+
+        Args:
+            reader (File-like object): An open FLO that emits rows of data.
+        """
         self.reader = reader
 
     # .......................
