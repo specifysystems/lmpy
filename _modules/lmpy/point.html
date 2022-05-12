@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.11 documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.11+4.g76f68c45 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -95,7 +95,7 @@
     <span class="c1"># Key: Default</span>
     <span class="s1">&#39;linesTerminatedBy&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
     <span class="s1">&#39;fieldsTerminatedBy&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">:</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
     <span class="s1">&#39;ignoreHeaderLines&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
     <span class="s1">&#39;rowType&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Required</span>
     <span class="s1">&#39;encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">,</span>
@@ -724,7 +724,8 @@
             <span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">reader_params</span><span class="p">[</span><span class="s1">&#39;quotechar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;fieldsEnclosedBy&#39;</span><span class="p">]</span>
-        <span class="c1"># reader_params[&#39;quotechar&#39;] = None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reader_params</span><span class="p">[</span><span class="s1">&#39;quotechar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">reader_params</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occurrence_params</span><span class="p">[</span><span class="s1">&#39;ignoreHeaderLines&#39;</span><span class="p">])):</span>
