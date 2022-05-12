@@ -18,7 +18,7 @@ DWCA_OCCURRENCE_PARAMS = {
     # Key: Default
     'linesTerminatedBy': '\n',
     'fieldsTerminatedBy': ',',
-    'fieldsEnclosedBy': '"',
+    'fieldsEnclosedBy': '',
     'ignoreHeaderLines': 0,
     'rowType': None,  # Required
     'encoding': 'UTF-8',
@@ -518,6 +518,9 @@ class PointDwcaReader:
                 pass
             except TypeError:
                 pass
+            except IndexError:
+                print(point_row)
+                raise Exception(point_row)
 
         if self._next_points:
             tmp = self._next_points
@@ -647,7 +650,8 @@ class PointDwcaReader:
             ]
         if len(self.occurrence_params['fieldsEnclosedBy']) > 0:
             reader_params['quotechar'] = self.occurrence_params['fieldsEnclosedBy']
-        # reader_params['quotechar'] = None
+        else:
+            reader_params['quotechar'] = None
 
         self.reader = csv.reader(self.file, **reader_params)
         for _ in range(int(self.occurrence_params['ignoreHeaderLines'])):
