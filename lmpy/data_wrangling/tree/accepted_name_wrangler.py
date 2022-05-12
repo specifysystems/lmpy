@@ -1,4 +1,4 @@
-"""Module containing occurrence data wranglers for modifying point data."""
+"""Module containing occurrence data wranglers for modifying tree tips."""
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
     _AcceptedNameWrangler,
     resolve_names_gbif,
