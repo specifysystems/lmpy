@@ -21,3 +21,14 @@ class SpeciesList(set):
         with open(filename, mode='rt') as in_file:
             species = [line.replace('\n', '').strip() for line in in_file]
         return SpeciesList(species)
+
+    # .......................
+    def write(self, filename):
+        """Write the species list to a file.
+
+        Args:
+            filename (str): Path where the species list data should be written.
+        """
+        with open(filename, mode='wt') as out_file:
+            for name in self:
+                out_file.write(f'{name}\n')

@@ -3,32 +3,31 @@ import argparse
 
 import json
 
-from lmpy import Matrix
 from lmpy.data_wrangling.factory import WranglerFactory
+from lmpy.species_list import SpeciesList
 from lmpy.tools._config_parser import _process_arguments
 
 
-DESCRIPTION = '''\
-Perform various wrangle operations on a matrix such as subsetting and reordering.'''
+DESCRIPTION = 'Perform various wrangle operations on a species list.'
 
 
 # .....................................................................................
-def wrangle_matrix(mtx, wranglers):
-    """Wrangle the Matrix as configured.
+def wrangle_species_list(species_list, wranglers):
+    """Wrangle the SpeciesList as configured.
 
     Args:
-        mtx (Matrix): A Matrix to wrangle.
+        species_list (SpeciesList): A SpeciesList to wrangle.
         wranglers (list): A list of tree data wranglers.
 
     Returns:
-        Matrix: The modified Matrix object.
+        SpeciesList: The modified SpeciesList object.
         list: A list of report dictionaries.
     """
     report = []
     for wrangler in wranglers:
-        mtx = wrangler.wrangle_matrix(mtx)
+        species_list = wrangler.wrangle_species_list(species_list)
         report.append(wrangler.get_report())
-    return mtx, report
+    return species_list, report
 
 
 # .....................................................................................
@@ -47,7 +46,7 @@ def build_parser():
         help='File location to write the wrangler report.'
     )
     parser.add_argument(
-        'in_matrix_filename', type=str, help='Path to the input Matrix.'
+        'in_species_list_filename', type=str, help='Path to the input SpeciesList.'
     )
     parser.add_argument(
         'wrangler_configuration_file',
@@ -55,7 +54,7 @@ def build_parser():
         help='Path to Matrix wrangler configuration.',
     )
     parser.add_argument(
-        'out_matrix_filename', type=str, help='Path to the outut Matrix.'
+        'out_species_list_filename', type=str, help='Path to the outut SpeciesList.'
     )
     return parser
 
@@ -66,13 +65,13 @@ def cli():
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
 
-    in_mtx = Matrix.load(args.in_matrix_filename)
+    in_species_list = SpeciesList.from_file(args.in_species_list_filename)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
         wrangler_factory = WranglerFactory()
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
 
-    wrangled_mtx, report = wrangle_matrix(in_mtx, wranglers)
-    wrangled_mtx.write(args.out_matrix_filename)
+    wrangled_species_list, report = wrangle_species_list(in_species_list, wranglers)
+    wrangled_species_list.write(args.out_species_list_filename)
 
     if args.report_filename is not None:
         with open(args.report_filename, mode='wt') as report_out:
@@ -80,7 +79,7 @@ def cli():
 
 
 # .....................................................................................
-__all__ = ['build_parser', 'cli', 'wrangle_matrix']
+__all__ = ['build_parser', 'cli', 'wrangle_species_list']
 
 
 # .....................................................................................

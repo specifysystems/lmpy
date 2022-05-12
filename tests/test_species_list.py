@@ -31,8 +31,7 @@ def test_species_list_from_file(generate_temp_filename):
     """
     num_species = np.random.randint(5, 50)
     species_filename = generate_temp_filename(suffix='.txt')
-    with open(species_filename, mode='wt') as out_file:
-        for i in range(num_species):
-            out_file.write(f'Species {i}\n')
+    in_species_list = SpeciesList([f'Species {i}' for i in range(num_species)])
+    in_species_list.write(species_filename)
     species_list = SpeciesList.from_file(species_filename)
     assert len(species_list) == num_species
