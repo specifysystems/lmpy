@@ -518,9 +518,6 @@ class PointDwcaReader:
                 pass
             except TypeError:
                 pass
-            except IndexError:
-                print(point_row)
-                raise Exception(point_row)
 
         if self._next_points:
             tmp = self._next_points
