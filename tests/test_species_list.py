@@ -11,9 +11,9 @@ def test_species_list():
     list_b = SpeciesList({4, 5, 6})
     list_c = SpeciesList([2, 4, 5])
     list_d = SpeciesList({1, 3, 6})
-    assert list_a == set([1, 2, 3])
+    assert list_a == {1, 2, 3}
     assert list_b == {4, 5, 6}
-    assert list_c == set([2, 4, 5])
+    assert list_c == {2, 4, 5}
     assert list_d == {1, 3, 6}
     assert list_a.union(list_b) == {1, 2, 3, 4, 5, 6}
     assert list_a.intersection(list_b) == set()
