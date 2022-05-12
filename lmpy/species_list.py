@@ -13,3 +13,11 @@ class SpeciesList(set):
             **kwargs (dict): A dictionary of keyword arguments to send to `list`.
         """
         super().__init__(*args, **kwargs)
+
+    # .......................
+    @classmethod
+    def from_file(cls, filename):
+        """Get a species list from a file."""
+        with open(filename, mode='rt') as in_file:
+            species = [line.replace('\n', '').strip() for line in in_file]
+        return SpeciesList(species)
