@@ -26,7 +26,10 @@ def resolve_names_gbif(names, wait_time=.5):
         url = 'http://api.gbif.org/v1/species/match?{}'.format(
             urllib.parse.urlencode(other_filters))
         response = requests.get(url).json()
-        if response['status'].lower() in ('accepted', 'synonym'):
+        if 'status' in response.keys() and response['status'].lower() in (
+            'accepted',
+            'synonym'
+        ):
             resolved_names[name_str] = response['canonicalName']
         else:
             resolved_names[name_str] = None
