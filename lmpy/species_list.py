@@ -17,7 +17,14 @@ class SpeciesList(set):
     # .......................
     @classmethod
     def from_file(cls, filename):
-        """Get a species list from a file."""
+        """Get a species list from a file.
+
+        Args:
+            filename (str): File path of a species list to load.
+
+        Returns:
+            SpeciesList: A species list loaded from a file.
+        """
         with open(filename, mode='rt') as in_file:
             species = [line.replace('\n', '').strip() for line in in_file]
         return SpeciesList(species)

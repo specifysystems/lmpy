@@ -17,7 +17,6 @@ def test_match_tree_species_list_wrangler():
     np.random.shuffle(species_pool)
     val_1 = np.random.randint(500, 800)
     val_2 = np.random.randint(200, 500)
-    num_rows = 100
 
     # Create species list
     species_list = SpeciesList(species_pool[:val_1])

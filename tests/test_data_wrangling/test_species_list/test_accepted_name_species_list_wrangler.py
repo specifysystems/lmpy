@@ -6,8 +6,6 @@ from lmpy.data_wrangling.species_list.accepted_name_wrangler import (
 )
 from lmpy.species_list import SpeciesList
 
-from tests.data_simulator import generate_tree
-
 
 # .....................................................................................
 def test_accepted_name_wrangler():
