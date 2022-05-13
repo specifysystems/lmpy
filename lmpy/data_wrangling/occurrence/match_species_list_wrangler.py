@@ -4,7 +4,7 @@ from lmpy.species_list import SpeciesList
 
 
 # .....................................................................................
-class BoundingBoxFilter(_OccurrenceDataWrangler):
+class MatchSpeciesListWrangler(_OccurrenceDataWrangler):
     """Get an occurrence data wrangler for filtering by a species list."""
     name = 'OccurrenceSpeciesListWrangler'
     version = '1.0'
