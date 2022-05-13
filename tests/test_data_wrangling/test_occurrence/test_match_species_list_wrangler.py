@@ -1,4 +1,4 @@
-"""Tests teh match_species_list_wrangler module."""
+"""Tests the match_species_list_wrangler module."""
 import numpy as np
 
 from lmpy.data_wrangling.occurrence.match_species_list_wrangler import (

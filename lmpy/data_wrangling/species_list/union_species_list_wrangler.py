@@ -34,4 +34,6 @@ class UnionSpeciesListWrangler(_SpeciesListDataWrangler):
         Returns:
             SpeciesList: A species list union with the provided species list.
         """
-        return species_list.union(self.other_species_list)
+        ret_sl = species_list.union(self.other_species_list)
+        self.report['added'] = len(ret_sl) - len(species_list)
+        return ret_sl

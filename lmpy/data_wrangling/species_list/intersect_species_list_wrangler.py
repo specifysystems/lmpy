@@ -34,4 +34,6 @@ class IntersectionSpeciesListWrangler(_SpeciesListDataWrangler):
         Returns:
             SpeciesList: A species list intersected with the provided species list.
         """
-        return species_list.intersection(self.other_species_list)
+        ret_sl = species_list.intersection(self.other_species_list)
+        self.report['removed'] = len(species_list - ret_sl)
+        return ret_sl
