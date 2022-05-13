@@ -2,6 +2,7 @@
 from lmpy.matrix import Matrix
 
 from lmpy.data_wrangling.species_list.base import _SpeciesListDataWrangler
+from lmpy.species_list import SpeciesList
 
 
 # .....................................................................................
@@ -39,6 +40,6 @@ class MatchMatrixSpeciesListWrangler(_SpeciesListDataWrangler):
         Returns:
             SpeciesList: A species list intersected with the provided matrix.
         """
-        ret_sl = species_list.intersection(self.keep_names)
+        ret_sl = SpeciesList(species_list.intersection(self.keep_names))
         self.report['removed'] = len(species_list) - len(ret_sl)
         return ret_sl

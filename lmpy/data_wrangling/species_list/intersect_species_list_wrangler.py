@@ -21,6 +21,8 @@ class IntersectionSpeciesListWrangler(_SpeciesListDataWrangler):
             species_list (SpeciesList): The species list to intersect with.
             **params (dict): Keyword parameters to pass to _TreeDataWrangler.
         """
+        if isinstance(species_list, str):
+            species_list = SpeciesList.from_file(species_list)
         self.other_species_list = species_list
         _SpeciesListDataWrangler.__init__(self, **params)
 
@@ -34,6 +36,6 @@ class IntersectionSpeciesListWrangler(_SpeciesListDataWrangler):
         Returns:
             SpeciesList: A species list intersected with the provided species list.
         """
-        ret_sl = species_list.intersection(self.other_species_list)
-        self.report['removed'] = len(species_list - ret_sl)
+        ret_sl = SpeciesList(species_list.intersection(self.other_species_list))
+        self.report['removed'] = len(species_list) - len(ret_sl)
         return ret_sl

@@ -21,6 +21,8 @@ class UnionSpeciesListWrangler(_SpeciesListDataWrangler):
             species_list (SpeciesList): The species list to union with.
             **params (dict): Keyword parameters to pass to _TreeDataWrangler.
         """
+        if isinstance(species_list, str):
+            species_list = SpeciesList.from_file(species_list)
         self.other_species_list = species_list
         _SpeciesListDataWrangler.__init__(self, **params)
 
@@ -34,6 +36,6 @@ class UnionSpeciesListWrangler(_SpeciesListDataWrangler):
         Returns:
             SpeciesList: A species list union with the provided species list.
         """
-        ret_sl = species_list.union(self.other_species_list)
+        ret_sl = SpeciesList(species_list.union(self.other_species_list))
         self.report['added'] = len(ret_sl) - len(species_list)
         return ret_sl
