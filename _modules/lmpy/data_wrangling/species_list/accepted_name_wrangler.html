@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.data_wrangling.species_list.accepted_name_wrangler &mdash; Specify lmpy 3.1.13+24.g8a75b805 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.data_wrangling.species_list.accepted_name_wrangler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.data_wrangling.species_list.accepted_name_wrangler</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing occurrence data wranglers for modifying a species list.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.common.accepted_name_wrangler</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">_AcceptedNameWrangler</span><span class="p">,</span>
+    <span class="n">resolve_names_gbif</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.species_list.base</span> <span class="k">import</span> <span class="n">_SpeciesListDataWrangler</span>
+<span class="kn">from</span> <span class="nn">lmpy.species_list</span> <span class="k">import</span> <span class="n">SpeciesList</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="AcceptedNameSpeciesListWrangler"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/species_list/accepted_name_wrangler/index.html#lmpy.data_wrangling.species_list.accepted_name_wrangler.AcceptedNameSpeciesListWrangler">[docs]</a><span class="k">class</span> <span class="nc">AcceptedNameSpeciesListWrangler</span><span class="p">(</span><span class="n">_SpeciesListDataWrangler</span><span class="p">,</span> <span class="n">_AcceptedNameWrangler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modifies a species list to update taxon names to the &quot;accepted&quot; names.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AcceptedNameSpeciesListWrangler.name"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/species_list/accepted_name_wrangler/index.html#lmpy.data_wrangling.species_list.accepted_name_wrangler.AcceptedNameSpeciesListWrangler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;AcceptedNameSpeciesListWrangler&#39;</span></div>
+<div class="viewcode-block" id="AcceptedNameSpeciesListWrangler.version"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/species_list/accepted_name_wrangler/index.html#lmpy.data_wrangling.species_list.accepted_name_wrangler.AcceptedNameSpeciesListWrangler.version">[docs]</a>    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span></div>
+
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">purge_failures</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">out_map_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">map_write_interval</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">out_map_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">params</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor for AcceptedNameSpeciesListModifier class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name_map (dict): A map of original name to accepted name.</span>
+<span class="sd">            name_resolver (str or Method): If provided, use this method for getting new</span>
+<span class="sd">                accepted names.  If set to &#39;gbif&#39;, use GBIF name resolution.</span>
+<span class="sd">            purge_failures (bool): Should failures be purged from the tree.</span>
+<span class="sd">            out_map_filename (str): A file location to write the updated name map.</span>
+<span class="sd">            map_write_interval (int): Update the name map output file after each set of</span>
+<span class="sd">                this many iterations.</span>
+<span class="sd">            out_map_format (str): The format to write the names map (csv or json).</span>
+<span class="sd">            **params (dict): Keyword parameters to pass to _TreeDataWrangler.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_resolver</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name_resolver</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;gbif&#39;</span><span class="p">:</span>
+            <span class="n">name_resolver</span> <span class="o">=</span> <span class="n">resolve_names_gbif</span>
+        <span class="n">_AcceptedNameWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name_map</span><span class="o">=</span><span class="n">name_map</span><span class="p">,</span>
+            <span class="n">name_resolver</span><span class="o">=</span><span class="n">name_resolver</span><span class="p">,</span>
+            <span class="n">out_map_filename</span><span class="o">=</span><span class="n">out_map_filename</span><span class="p">,</span>
+            <span class="n">map_write_interval</span><span class="o">=</span><span class="n">map_write_interval</span><span class="p">,</span>
+            <span class="n">out_map_format</span><span class="o">=</span><span class="n">out_map_format</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">_SpeciesListDataWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="AcceptedNameSpeciesListWrangler.wrangle_species_list"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/species_list/accepted_name_wrangler/index.html#lmpy.data_wrangling.species_list.accepted_name_wrangler.AcceptedNameSpeciesListWrangler.wrangle_species_list">[docs]</a>    <span class="k">def</span> <span class="nf">wrangle_species_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wrangle a species list.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            species_list (SpeciesList): A species list to wrangle.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SpeciesList: A species list with accepted names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">accepted_species</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">acc_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_names</span><span class="p">(</span><span class="n">species_list</span><span class="p">)</span>
+        <span class="n">num_unresolved</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">num_duplicates</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">species_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">acc_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">num_unresolved</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">acc_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">in</span> <span class="n">accepted_species</span><span class="p">:</span>
+                <span class="n">num_duplicates</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">accepted_species</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">acc_names</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;unresolved&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_unresolved</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;duplicates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_duplicates</span>
+        <span class="k">return</span> <span class="n">SpeciesList</span><span class="p">(</span><span class="n">accepted_species</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

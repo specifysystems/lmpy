@@ -1,0 +1,57 @@
+:py:mod:`lmpy.data_wrangling.occurrence.match_species_list_wrangler`
+====================================================================
+
+.. py:module:: lmpy.data_wrangling.occurrence.match_species_list_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for matching a species list.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.occurrence.match_species_list_wrangler.MatchSpeciesListWrangler
+
+
+
+
+.. py:class:: MatchSpeciesListWrangler(species_list, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.occurrence.base._OccurrenceDataWrangler`
+
+   Get an occurrence data wrangler for filtering by bounding box.
+
+   :param species_list: A species list to match against.
+   :type species_list: SpeciesList
+   :param \*\*params: Keyword parameters to pass to _OccurrenceDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = OccurrenceSpeciesListWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: _pass_condition(self, point)
+
+      Pass condition for a point.
+
+      :param point: A point object to assess.
+      :type point: Point
+
+      :returns: Indication if the point passed assessment.
+      :rtype: bool
+
+
+

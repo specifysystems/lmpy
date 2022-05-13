@@ -18,6 +18,7 @@ Subpackages
    common/index.rst
    matrix/index.rst
    occurrence/index.rst
+   species_list/index.rst
    tree/index.rst
 
 

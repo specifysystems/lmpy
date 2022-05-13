@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; Specify lmpy 3.1.13 documentation</title>
+  <title>wrangle_tree - CLI interface &mdash; Specify lmpy 3.1.13+24.g8a75b805 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Lmpy Term Glossary" href="../pages/glossary.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="wrangle_matrix.html" /> 
+    <link rel="prev" title="wrangle_species_list - CLI interface" href="wrangle_species_list.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,12 +41,33 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build_shapegrid.html">Build Shapegrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clean_occurrences.html">clean_occurrences - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_csv_to_lmm.html">convert_csv_to_lmm - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_csv.html">convert_lmm_to_csv - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html">convert_lmm_to_geojson - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html">create_rare_species_model - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_tree_matrix.html">create_tree_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encode_layers.html">encode_layers - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpa_run.html">mcpa_run - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomize_pam.html">randomize_pam - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_occurrence_data.html">split_occurrence_data - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_matrix.html">wrangle_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_species_list.html">wrangle_species_list - CLI interface</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">wrangle_tree - CLI interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wrangle_tree-positional-arguments">wrangle_tree positional arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wrangle_tree-optional-arguments">wrangle_tree optional arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
@@ -68,7 +89,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="tools.html">Tools</a> &raquo;</li>
-      <li>&lt;no title&gt;</li>
+      <li>wrangle_tree - CLI interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/scripts/wrangle_tree.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,12 +99,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
+  <section id="wrangle_tree---CLI-interface">
+<h1>wrangle_tree - CLI interface<a class="headerlink" href="#wrangle_tree---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>A tool to wrangle phylogenetic trees as needed for processing.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wrangle_tree</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">REPORT_FILENAME</span><span class="p">]</span>
+             <span class="n">tree_filename</span> <span class="p">{</span><span class="n">newick</span><span class="p">,</span><span class="n">nexus</span><span class="p">}</span> <span class="n">wrangler_configuration_file</span> <span class="n">out_tree_filename</span>
+             <span class="p">{</span><span class="n">newick</span><span class="p">,</span><span class="n">nexus</span><span class="p">}</span>
+</pre></div>
+</div>
+<section id="wrangle_tree-positional-arguments">
+<h2>wrangle_tree positional arguments<a class="headerlink" href="#wrangle_tree-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="wrangle_tree-tree_filename"><a class="reference internal" href="#wrangle_tree-tree_filename" title="wrangle_tree tree_filename"><strong><code class="docutils literal notranslate"><span class="pre">tree_filename</span></code></strong></a> - Path to phylogenetic tree. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_tree-tree_schema"><a class="reference internal" href="#wrangle_tree-tree_schema" title="wrangle_tree tree_schema"><strong><code class="docutils literal notranslate"><span class="pre">tree_schema</span></code></strong></a> - The schema of the input phylogenetic tree. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_tree-wrangler_configuration_file"><a class="reference internal" href="#wrangle_tree-wrangler_configuration_file" title="wrangle_tree wrangler_configuration_file"><strong><code class="docutils literal notranslate"><span class="pre">wrangler_configuration_file</span></code></strong></a> - Path to phylogenetic tree wrangler configuration. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_tree-out_tree_filename"><a class="reference internal" href="#wrangle_tree-out_tree_filename" title="wrangle_tree out_tree_filename"><strong><code class="docutils literal notranslate"><span class="pre">out_tree_filename</span></code></strong></a> - Path to write the wrangled phylogenetic tree. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_tree-out_tree_schema"><a class="reference internal" href="#wrangle_tree-out_tree_schema" title="wrangle_tree out_tree_schema"><strong><code class="docutils literal notranslate"><span class="pre">out_tree_schema</span></code></strong></a> - The schema of the output phylogenetic tree. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="wrangle_tree-optional-arguments">
+<h2>wrangle_tree optional arguments<a class="headerlink" href="#wrangle_tree-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="wrangle_tree--h"><span id="wrangle_tree---help"></span><a class="reference internal" href="#wrangle_tree--h" title="wrangle_tree -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#wrangle_tree---help" title="wrangle_tree --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="wrangle_tree---config_file"><a class="reference internal" href="#wrangle_tree---config_file" title="wrangle_tree --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_tree--r"><span id="wrangle_tree---report_filename"></span><a class="reference internal" href="#wrangle_tree--r" title="wrangle_tree -r"><strong><code class="docutils literal notranslate"><span class="pre">-r</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code>, <a class="reference internal" href="#wrangle_tree---report_filename" title="wrangle_tree --report_filename"><strong><code class="docutils literal notranslate"><span class="pre">--report_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code> - Path to write report. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="wrangle_matrix.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wrangle_species_list.html" class="btn btn-neutral float-left" title="wrangle_species_list - CLI interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../pages/glossary.html" class="btn btn-neutral float-right" title="Lmpy Term Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

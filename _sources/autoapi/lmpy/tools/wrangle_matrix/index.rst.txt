@@ -34,7 +34,7 @@ Functions
 
 .. py:function:: cli()
 
-   Provice a command-line interface to the wrangle matrix tool.
+   Provide a command-line interface to the wrangle matrix tool.
 
 
 .. py:function:: wrangle_matrix(mtx, wranglers)

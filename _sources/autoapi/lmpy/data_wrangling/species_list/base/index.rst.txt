@@ -1,0 +1,50 @@
+:py:mod:`lmpy.data_wrangling.species_list.base`
+===============================================
+
+.. py:module:: lmpy.data_wrangling.species_list.base
+
+.. autoapi-nested-parse::
+
+   Module containing Species List Data Wrangler base class.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.species_list.base._SpeciesListDataWrangler
+
+
+
+
+.. py:class:: _SpeciesListDataWrangler(**params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.base._DataWrangler`
+
+   Constructor for _SpeciesListDataWrangler base class.
+
+   :param \*\*params: Named parameters to pass to _DataWrangler base class.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = _SpeciesListDataWrangler
+
+      
+
+   .. py:method:: wrangle_species_list(self, species_list)
+      :abstractmethod:
+
+      Wrangle a species list.
+
+      :param species_list: A species list to wrangle.
+      :type species_list: SpeciesList
+
+      :raises NotImplementedError: This method is not implemeneted for the base class.
+
+
+

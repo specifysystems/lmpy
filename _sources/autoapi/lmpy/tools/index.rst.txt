@@ -31,6 +31,7 @@ Submodules
    randomize_pam/index.rst
    split_occurrence_data/index.rst
    wrangle_matrix/index.rst
+   wrangle_species_list/index.rst
    wrangle_tree/index.rst
 
 

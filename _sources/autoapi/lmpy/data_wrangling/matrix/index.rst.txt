@@ -17,6 +17,7 @@ Submodules
 
    accepted_name_wrangler/index.rst
    base/index.rst
+   match_species_list_wrangler/index.rst
    match_tree_wrangler/index.rst
    purge_empty_slices_wrangler/index.rst
    subset_reorder_slices_wrangler/index.rst

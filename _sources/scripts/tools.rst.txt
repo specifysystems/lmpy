@@ -16,4 +16,5 @@ Tools
     randomize_pam
     split_occurrence_data
     wrangle_matrix
+    wrangle_species_list
     wrangle_tree

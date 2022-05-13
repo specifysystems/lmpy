@@ -32,6 +32,7 @@ Submodules
    _version/index.rst
    matrix/index.rst
    point/index.rst
+   species_list/index.rst
    tree/index.rst
 
 

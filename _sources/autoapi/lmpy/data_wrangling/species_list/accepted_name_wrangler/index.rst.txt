@@ -1,0 +1,69 @@
+:py:mod:`lmpy.data_wrangling.species_list.accepted_name_wrangler`
+=================================================================
+
+.. py:module:: lmpy.data_wrangling.species_list.accepted_name_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing occurrence data wranglers for modifying a species list.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.species_list.accepted_name_wrangler.AcceptedNameSpeciesListWrangler
+
+
+
+
+.. py:class:: AcceptedNameSpeciesListWrangler(name_map=None, name_resolver=None, purge_failures=True, out_map_filename=None, map_write_interval=100, out_map_format='json', **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.species_list.base._SpeciesListDataWrangler`, :py:obj:`lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler`
+
+   Constructor for AcceptedNameSpeciesListModifier class.
+
+   :param name_map: A map of original name to accepted name.
+   :type name_map: dict
+   :param name_resolver: If provided, use this method for getting new
+                         accepted names.  If set to 'gbif', use GBIF name resolution.
+   :type name_resolver: str or Method
+   :param purge_failures: Should failures be purged from the tree.
+   :type purge_failures: bool
+   :param out_map_filename: A file location to write the updated name map.
+   :type out_map_filename: str
+   :param map_write_interval: Update the name map output file after each set of
+                              this many iterations.
+   :type map_write_interval: int
+   :param out_map_format: The format to write the names map (csv or json).
+   :type out_map_format: str
+   :param \*\*params: Keyword parameters to pass to _TreeDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = AcceptedNameSpeciesListWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: wrangle_species_list(self, species_list)
+
+      Wrangle a species list.
+
+      :param species_list: A species list to wrangle.
+      :type species_list: SpeciesList
+
+      :returns: A species list with accepted names.
+      :rtype: SpeciesList
+
+
+

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; Specify lmpy 3.1.13 documentation</title>
+  <title>split_occurrence_data - CLI interface &mdash; Specify lmpy 3.1.13+24.g8a75b805 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="wrangle_matrix.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="randomize_pam.html" /> 
+    <link rel="next" title="wrangle_matrix - CLI interface" href="wrangle_matrix.html" />
+    <link rel="prev" title="randomize_pam - CLI interface" href="randomize_pam.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,12 +41,33 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build_shapegrid.html">Build Shapegrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clean_occurrences.html">clean_occurrences - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_csv_to_lmm.html">convert_csv_to_lmm - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_csv.html">convert_lmm_to_csv - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html">convert_lmm_to_geojson - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html">create_rare_species_model - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_tree_matrix.html">create_tree_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encode_layers.html">encode_layers - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpa_run.html">mcpa_run - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomize_pam.html">randomize_pam - CLI interface</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">split_occurrence_data - CLI interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#split_occurrence_data-positional-arguments">split_occurrence_data positional arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#split_occurrence_data-optional-arguments">split_occurrence_data optional arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_matrix.html">wrangle_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_species_list.html">wrangle_species_list - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_tree.html">wrangle_tree - CLI interface</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
@@ -68,7 +89,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="tools.html">Tools</a> &raquo;</li>
-      <li>&lt;no title&gt;</li>
+      <li>split_occurrence_data - CLI interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/scripts/split_occurrence_data.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,13 +99,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
+  <section id="split_occurrence_data---CLI-interface">
+<h1>split_occurrence_data - CLI interface<a class="headerlink" href="#split_occurrence_data---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>Group and split occurrence data from one or more sources so that like-records (ex. species) can be processed together.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">split_occurrence_data</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">500</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">k</span> <span class="n">KEY_FIELD</span><span class="p">]</span>
+                      <span class="p">[</span><span class="o">-</span><span class="n">of</span> <span class="n">OUT_FIELD</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">dwca</span> <span class="n">DWCA</span> <span class="n">DWCA</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">csv</span> <span class="n">CSV</span> <span class="n">CSV</span> <span class="n">CSV</span> <span class="n">CSV</span> <span class="n">CSV</span><span class="p">]</span>
+                      <span class="n">out_dir</span>
+</pre></div>
+</div>
+<section id="split_occurrence_data-positional-arguments">
+<h2>split_occurrence_data positional arguments<a class="headerlink" href="#split_occurrence_data-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="split_occurrence_data-out_dir"><a class="reference internal" href="#split_occurrence_data-out_dir" title="split_occurrence_data out_dir"><strong><code class="docutils literal notranslate"><span class="pre">out_dir</span></code></strong></a> - Directory where the output data should be written. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="split_occurrence_data-optional-arguments">
+<h2>split_occurrence_data optional arguments<a class="headerlink" href="#split_occurrence_data-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="split_occurrence_data--h"><span id="split_occurrence_data---help"></span><a class="reference internal" href="#split_occurrence_data--h" title="split_occurrence_data -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#split_occurrence_data---help" title="split_occurrence_data --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="split_occurrence_data---config_file"><a class="reference internal" href="#split_occurrence_data---config_file" title="split_occurrence_data --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Configuration file containing script arguments. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="split_occurrence_data--m"><span id="split_occurrence_data---max_open_writers"></span><a class="reference internal" href="#split_occurrence_data--m" title="split_occurrence_data -m"><strong><code class="docutils literal notranslate"><span class="pre">-m</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">[1</span> <span class="pre">-</span> <span class="pre">500]</span></code>, <a class="reference internal" href="#split_occurrence_data---max_open_writers" title="split_occurrence_data --max_open_writers"><strong><code class="docutils literal notranslate"><span class="pre">--max_open_writers</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">[1</span> <span class="pre">-</span> <span class="pre">500]</span></code> - The maximum number of data writers to have open at once. Too many open files can cause errors. Default: 100. (default: <code class="docutils literal notranslate"><span class="pre">100</span></code>)</p></li>
+<li><p id="split_occurrence_data--k"><span id="split_occurrence_data---key_field"></span><a class="reference internal" href="#split_occurrence_data--k" title="split_occurrence_data -k"><strong><code class="docutils literal notranslate"><span class="pre">-k</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">KEY_FIELD</span></code>, <a class="reference internal" href="#split_occurrence_data---key_field" title="split_occurrence_data --key_field"><strong><code class="docutils literal notranslate"><span class="pre">--key_field</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">KEY_FIELD</span></code> - A field to use to determine writer key.  Multiple values can be used to utilize multiple fields. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="split_occurrence_data--of"><span id="split_occurrence_data---out_field"></span><a class="reference internal" href="#split_occurrence_data--of" title="split_occurrence_data -of"><strong><code class="docutils literal notranslate"><span class="pre">-of</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">OUT_FIELD</span></code>, <a class="reference internal" href="#split_occurrence_data---out_field" title="split_occurrence_data --out_field"><strong><code class="docutils literal notranslate"><span class="pre">--out_field</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">OUT_FIELD</span></code> - Include this field in the outputs.  If not provided, all fields from the first point ready for output will be used. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="split_occurrence_data---dwca"><a class="reference internal" href="#split_occurrence_data---dwca" title="split_occurrence_data --dwca"><strong><code class="docutils literal notranslate"><span class="pre">--dwca</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">DWCA</span></code> - A Darwin-Core Archive to process and associated wrangler configuration. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="split_occurrence_data---csv"><a class="reference internal" href="#split_occurrence_data---csv" title="split_occurrence_data --csv"><strong><code class="docutils literal notranslate"><span class="pre">--csv</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CSV</span></code> - A CSV file to process, an associated wrangler configuration file, a species header key, an x header key, and a y header key. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="randomize_pam.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="wrangle_matrix.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="randomize_pam.html" class="btn btn-neutral float-left" title="randomize_pam - CLI interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wrangle_matrix.html" class="btn btn-neutral float-right" title="wrangle_matrix - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

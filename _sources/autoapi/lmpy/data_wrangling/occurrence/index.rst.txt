@@ -25,6 +25,7 @@ Submodules
    decimal_precision_wrangler/index.rst
    disjoint_geometries_wrangler/index.rst
    intersect_geometries_wrangler/index.rst
+   match_species_list_wrangler/index.rst
    minimum_points_wrangler/index.rst
    spatial_index_wrangler/index.rst
    unique_localities_wrangler/index.rst

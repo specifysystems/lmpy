@@ -1,0 +1,57 @@
+:py:mod:`lmpy.data_wrangling.species_list.union_species_list_wrangler`
+======================================================================
+
+.. py:module:: lmpy.data_wrangling.species_list.union_species_list_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing species data wranglers for creating a union species list.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.species_list.union_species_list_wrangler.UnionSpeciesListWrangler
+
+
+
+
+.. py:class:: UnionSpeciesListWrangler(species_list, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.species_list.base._SpeciesListDataWrangler`
+
+   Constructor for UnionSpeciesListModifier class.
+
+   :param species_list: The species list to union with.
+   :type species_list: SpeciesList
+   :param \*\*params: Keyword parameters to pass to _TreeDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = UnionSpeciesListWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: wrangle_species_list(self, species_list)
+
+      Wrangle a species list.
+
+      :param species_list: A species list to wrangle.
+      :type species_list: SpeciesList
+
+      :returns: A species list union with the provided species list.
+      :rtype: SpeciesList
+
+
+

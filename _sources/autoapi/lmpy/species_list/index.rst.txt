@@ -1,0 +1,56 @@
+:py:mod:`lmpy.species_list`
+===========================
+
+.. py:module:: lmpy.species_list
+
+.. autoapi-nested-parse::
+
+   Module containing SpeciesList class.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.species_list.SpeciesList
+
+
+
+
+.. py:class:: SpeciesList(*args, **kwargs)
+
+   Bases: :py:obj:`set`
+
+   Constructor for SpeciesList.
+
+   :param \*args: A list of positional arguments to send to `list`.
+   :type \*args: list of object
+   :param \*\*kwargs: A dictionary of keyword arguments to send to `list`.
+   :type \*\*kwargs: dict
+
+   .. py:method:: from_file(cls, filename)
+      :classmethod:
+
+      Get a species list from a file.
+
+      :param filename: File path of a species list to load.
+      :type filename: str
+
+      :returns: A species list loaded from a file.
+      :rtype: SpeciesList
+
+
+   .. py:method:: write(self, filename)
+
+      Write the species list to a file.
+
+      :param filename: Path where the species list data should be written.
+      :type filename: str
+
+
+

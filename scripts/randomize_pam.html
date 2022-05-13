@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; Specify lmpy 3.1.13 documentation</title>
+  <title>randomize_pam - CLI interface &mdash; Specify lmpy 3.1.13+24.g8a75b805 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="split_occurrence_data.html" />
+    <link rel="next" title="split_occurrence_data - CLI interface" href="split_occurrence_data.html" />
     <link rel="prev" title="mcpa_run - CLI interface" href="mcpa_run.html" /> 
 </head>
 
@@ -41,12 +41,33 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="build_shapegrid.html">Build Shapegrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clean_occurrences.html">clean_occurrences - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_csv_to_lmm.html">convert_csv_to_lmm - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_csv.html">convert_lmm_to_csv - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html">convert_lmm_to_geojson - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html">create_rare_species_model - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_tree_matrix.html">create_tree_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encode_layers.html">encode_layers - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpa_run.html">mcpa_run - CLI interface</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">randomize_pam - CLI interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#randomize_pam-positional-arguments">randomize_pam positional arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#randomize_pam-optional-arguments">randomize_pam optional arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="split_occurrence_data.html">split_occurrence_data - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_matrix.html">wrangle_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_species_list.html">wrangle_species_list - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_tree.html">wrangle_tree - CLI interface</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
@@ -68,7 +89,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="tools.html">Tools</a> &raquo;</li>
-      <li>&lt;no title&gt;</li>
+      <li>randomize_pam - CLI interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/scripts/randomize_pam.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,13 +99,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
+  <section id="randomize_pam---CLI-interface">
+<h1>randomize_pam - CLI interface<a class="headerlink" href="#randomize_pam---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>Randomize a binary presence-absence matrix (PAM) while maintaining marginal totals.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">randomize_pam</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="n">input_pam_filename</span> <span class="n">output_pam_filename</span>
+</pre></div>
+</div>
+<section id="randomize_pam-positional-arguments">
+<h2>randomize_pam positional arguments<a class="headerlink" href="#randomize_pam-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="randomize_pam-input_pam_filename"><a class="reference internal" href="#randomize_pam-input_pam_filename" title="randomize_pam input_pam_filename"><strong><code class="docutils literal notranslate"><span class="pre">input_pam_filename</span></code></strong></a> - The file location of the PAM to randomize. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="randomize_pam-output_pam_filename"><a class="reference internal" href="#randomize_pam-output_pam_filename" title="randomize_pam output_pam_filename"><strong><code class="docutils literal notranslate"><span class="pre">output_pam_filename</span></code></strong></a> - The file location to write the randomized PAM. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="randomize_pam-optional-arguments">
+<h2>randomize_pam optional arguments<a class="headerlink" href="#randomize_pam-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="randomize_pam--h"><span id="randomize_pam---help"></span><a class="reference internal" href="#randomize_pam--h" title="randomize_pam -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#randomize_pam---help" title="randomize_pam --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="randomize_pam---config_file"><a class="reference internal" href="#randomize_pam---config_file" title="randomize_pam --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="mcpa_run.html" class="btn btn-neutral float-left" title="mcpa_run - CLI interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="split_occurrence_data.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="split_occurrence_data.html" class="btn btn-neutral float-right" title="split_occurrence_data - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

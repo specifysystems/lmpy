@@ -1,0 +1,57 @@
+:py:mod:`lmpy.data_wrangling.tree.match_species_list_wrangler`
+==============================================================
+
+.. py:module:: lmpy.data_wrangling.tree.match_species_list_wrangler
+
+.. autoapi-nested-parse::
+
+   Module containing data wranglers for subsetting a tree to match a species list.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.data_wrangling.tree.match_species_list_wrangler.MatchSpeciesListTreeWrangler
+
+
+
+
+.. py:class:: MatchSpeciesListTreeWrangler(species_list, **params)
+
+   Bases: :py:obj:`lmpy.data_wrangling.tree.base._TreeDataWrangler`
+
+   Constructor for MatchSpeciesListTreeWrangler class.
+
+   :param species_list: A species list to match.
+   :type species_list: SpeciesList
+   :param \*\*params: Keyword parameters to pass to _MatrixDataWrangler.
+   :type \*\*params: dict
+
+   .. py:attribute:: name
+      :annotation: = MatchSpeciesListTreeWrangler
+
+      
+
+   .. py:attribute:: version
+      :annotation: = 1.0
+
+      
+
+   .. py:method:: wrangle_tree(self, tree)
+
+      Wrangle a tree.
+
+      :param tree: A tree to wrangle.
+      :type tree: TreeWrapper
+
+      :returns: The subsetted tree.
+      :rtype: TreeWrapper
+
+
+
