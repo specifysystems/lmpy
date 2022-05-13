@@ -1,4 +1,4 @@
-"""Module containing occurrence data wranglers for modifying point data."""
+"""Module containing occurrence data wranglers for modifying matrices."""
 import numpy as np
 
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
