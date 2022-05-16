@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from lmpy.point import PointCsvReader, PointCsvWriter
-from lmpy.tools.clean_occurrences import cli
+from lmpy.tools.wrangle_occurrences import cli
 
 from tests.data_simulator import (
     generate_csv,
@@ -117,7 +117,7 @@ def test_valid(monkeypatch, generate_temp_filename, data_keys):
     with PointCsvWriter(in_points_fn, data_keys[:-1]) as writer:
         writer.write_points(points)
     # Run data cleaner
-    args = ['clean_occurrences.py']
+    args = ['wrangle_occurrences.py']
     # ------
     args.extend(['-sp', sp_key, '-x', x_key, '-y', y_key])
     if do_report:
