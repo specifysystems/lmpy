@@ -57,6 +57,9 @@ class MatchTreeMatrixWrangler(_MatrixDataWrangler):
                 self.report[
                     'changes'
                 ][str(axis)]['purged'] += (len(axis_headers) - len(axis_slice))
+                self.log('Purged {} species.'.format(
+                    self.report['changes'][str(axis)]['purged'])
+                )
             else:
                 axis_slice = list(range(matrix.shape[axis]))
 

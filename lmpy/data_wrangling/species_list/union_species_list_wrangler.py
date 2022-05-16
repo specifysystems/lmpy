@@ -38,4 +38,5 @@ class UnionSpeciesListWrangler(_SpeciesListDataWrangler):
         """
         ret_sl = SpeciesList(species_list.union(self.other_species_list))
         self.report['added'] = len(ret_sl) - len(species_list)
+        self.log(f'added {self.report["added"]} tips.')
         return ret_sl

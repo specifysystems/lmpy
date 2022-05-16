@@ -38,4 +38,5 @@ class IntersectionSpeciesListWrangler(_SpeciesListDataWrangler):
         """
         ret_sl = SpeciesList(species_list.intersection(self.other_species_list))
         self.report['removed'] = len(species_list) - len(ret_sl)
+        self.log(f'removed {self.report["removed"]} tips.')
         return ret_sl

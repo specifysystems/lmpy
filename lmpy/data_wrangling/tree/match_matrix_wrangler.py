@@ -44,4 +44,5 @@ class MatchMatrixTreeWrangler(_TreeDataWrangler):
         tree.purge_taxon_namespace()
         num_purged = original_taxa_count - len(tree.taxon_namespace)
         self._purged += num_purged
+        self.log(f'removed {self._purged} tips.')
         return tree

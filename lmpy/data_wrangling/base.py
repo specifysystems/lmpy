@@ -1,4 +1,5 @@
 """Module containing base class for data wranglers."""
+import logging
 
 
 # .....................................................................................
@@ -8,14 +9,16 @@ class _DataWrangler:
     version = '1.0'
 
     # ........................
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, logger=None, **kwargs):
         """Base class constructor.
 
         Args:
             *args (tuple): Positional arguments.
+            logger (logging.Logger): An optional logger to use for logging output.
             **kwargs (dict): Dictionary of parameters.
         """
         self.report = {}
+        self.logger = logger
 
     # ........................
     @classmethod
@@ -40,3 +43,13 @@ class _DataWrangler:
         self.report['name'] = self.name
         self.report['version'] = self.version
         return self.report
+
+    # ........................
+    def log(self, msg, log_level=logging.INFO):
+        """Log a message.
+        Args:
+            msg (str): A message to write to the logger.
+            log_level (int): A level to use when logging the message.
+        """
+        if self.logger is not None:
+            self.logger.log(log_level, self.name + ': ' + msg)

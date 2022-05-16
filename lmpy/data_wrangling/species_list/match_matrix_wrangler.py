@@ -42,4 +42,5 @@ class MatchMatrixSpeciesListWrangler(_SpeciesListDataWrangler):
         """
         ret_sl = SpeciesList(species_list.intersection(self.keep_names))
         self.report['removed'] = len(species_list) - len(ret_sl)
+        self.log(f'removed {self.report["removed"]} tips.')
         return ret_sl

@@ -37,4 +37,5 @@ class SubsetTreeWrangler(_TreeDataWrangler):
         tree.retain_taxa_with_labels(self.keep_taxon_names)
         tree.purge_taxon_namespace()
         self._purged += (original_taxa_count - len(tree.taxon_namespace))
+        self.log(f'removed {self._purged} tips.')
         return tree
