@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Layer Encoder &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>Layer Encoder &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="build_grid.html">Build Shapegrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_grid.html">Build Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_cleaning.html">Data Cleaning</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Layer Encoder</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
@@ -130,7 +130,7 @@ you would set the value to 10 or 25 percent.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_grid</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">grid_filename</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">min_x</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">min_y</span><span class="p">,</span>
@@ -185,7 +185,7 @@ the most prevalent non-NODATA value for categorical data respectively.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_grid</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">grid_filename</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">min_x</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">min_y</span><span class="p">,</span>
@@ -251,7 +251,7 @@ neither for two-sided hypotheses.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_size</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Decimal degrees</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_epsg</span> <span class="o">=</span> <span class="mi">4326</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Squares</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">build_shapegrid</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_grid</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">grid_filename</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">min_x</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">min_y</span><span class="p">,</span>

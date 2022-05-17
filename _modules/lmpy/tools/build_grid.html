@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.build_shapegrid &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.tools.build_grid &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -65,7 +65,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>lmpy.tools.build_shapegrid</li>
+      <li>lmpy.tools.build_grid</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -74,32 +74,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for lmpy.tools.build_shapegrid</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Tool for building shapegrid shapefiles.&quot;&quot;&quot;</span>
+  <h1>Source code for lmpy.tools.build_grid</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Tool for building grid shapefiles.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.data_preparation.build_grid</span> <span class="k">import</span> <span class="n">build_shapegrid</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_preparation.build_grid</span> <span class="k">import</span> <span class="n">build_grid</span>
 <span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span>
 
 
 <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
-<span class="s1">Build a Shapegrid shapefile that is used to define the sites of a PAM or other </span><span class="se">\</span>
+<span class="s1">Build a grid shapefile that is used to define the sites of a PAM or other </span><span class="se">\</span>
 <span class="s1">multivariate Matrix for lmpy operations.&#39;&#39;&#39;</span>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="build_parser"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/build_shapegrid/index.html#lmpy.tools.build_shapegrid.build_parser">[docs]</a><span class="k">def</span> <span class="nf">build_parser</span><span class="p">():</span>
+<div class="viewcode-block" id="build_parser"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/build_grid/index.html#lmpy.tools.build_grid.build_parser">[docs]</a><span class="k">def</span> <span class="nf">build_parser</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Build an argparse.ArgumentParser object for the tool.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        argparse.ArgumentParser: An argument parser for the tool&#39;s parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;build_shapegrid&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;build_grid&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--config_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to configuration file.&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;shapegrid_filename&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;grid_filename&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write shapegrid shapefile.&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write grid shapefile.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;min_x&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The minimum x value for the grid.&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;min_y&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The minimum y value for the grid.&#39;</span><span class="p">)</span>
@@ -111,19 +111,19 @@
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The resolution of each grid cell (in EPSG map units).&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;epsg&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The EPSG code (map projection) for the shapegrid.&#39;</span>
+        <span class="s1">&#39;epsg&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The EPSG code (map projection) for the grid.&#39;</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/build_shapegrid/index.html#lmpy.tools.build_shapegrid.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Command-line interface to build shapegrid.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/build_grid/index.html#lmpy.tools.build_grid.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Command-line interface to build grid.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
     <span class="n">cell_sides</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Add this to parameters if we enable hexagons again</span>
-    <span class="n">build_shapegrid</span><span class="p">(</span>
-        <span class="n">args</span><span class="o">.</span><span class="n">shapegrid_filename</span><span class="p">,</span>
+    <span class="n">build_grid</span><span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">grid_filename</span><span class="p">,</span>
         <span class="n">args</span><span class="o">.</span><span class="n">min_x</span><span class="p">,</span>
         <span class="n">args</span><span class="o">.</span><span class="n">min_y</span><span class="p">,</span>
         <span class="n">args</span><span class="o">.</span><span class="n">max_x</span><span class="p">,</span>
@@ -135,7 +135,7 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;build_parser&#39;</span><span class="p">,</span> <span class="s1">&#39;build_shapegrid&#39;</span><span class="p">,</span> <span class="s1">&#39;cli&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;build_parser&#39;</span><span class="p">,</span> <span class="s1">&#39;build_grid&#39;</span><span class="p">,</span> <span class="s1">&#39;cli&#39;</span><span class="p">]</span>
 
 
 <span class="c1"># .....................................................................................</span>

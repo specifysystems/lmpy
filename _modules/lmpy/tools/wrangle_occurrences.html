@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.clean_occurrences &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.tools.wrangle_occurrences &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -65,7 +65,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>lmpy.tools.clean_occurrences</li>
+      <li>lmpy.tools.wrangle_occurrences</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -74,14 +74,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for lmpy.tools.clean_occurrences</h1><div class="highlight"><pre>
+  <h1>Source code for lmpy.tools.wrangle_occurrences</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;This tool cleans occurrence records according to the wranglers specified.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="k">import</span> <span class="n">WranglerFactory</span>
 <span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointCsvReader</span><span class="p">,</span> <span class="n">PointCsvWriter</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">get_logger</span>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -89,7 +89,7 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="clean_data"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/clean_occurrences/index.html#lmpy.tools.clean_occurrences.clean_data">[docs]</a><span class="k">def</span> <span class="nf">clean_data</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">writer_filename</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">,</span> <span class="n">write_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_output</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="clean_data"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/wrangle_occurrences/index.html#lmpy.tools.wrangle_occurrences.clean_data">[docs]</a><span class="k">def</span> <span class="nf">clean_data</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">writer_filename</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">,</span> <span class="n">write_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_output</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Clean occurrence data.</span>
 
 <span class="sd">    Args:</span>
@@ -149,14 +149,14 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="build_parser"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/clean_occurrences/index.html#lmpy.tools.clean_occurrences.build_parser">[docs]</a><span class="k">def</span> <span class="nf">build_parser</span><span class="p">():</span>
+<div class="viewcode-block" id="build_parser"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/wrangle_occurrences/index.html#lmpy.tools.wrangle_occurrences.build_parser">[docs]</a><span class="k">def</span> <span class="nf">build_parser</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Build an argparse.ArgumentParser object for the tool.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        argparse.ArgumentParser: An argument parser for the tool&#39;s parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-        <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;clean_occurrences&#39;</span><span class="p">,</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;wrangle_occurrences&#39;</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--config_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to configuration file.&#39;</span><span class="p">)</span>
@@ -188,11 +188,16 @@
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write optional output report JSON.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--log_filename&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-l&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;--log_output&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A file location to write logging data.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--log_console&#39;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Should output messages be written to console.&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If provided, write log to console.&#39;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;reader_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Input occurrence CSV filename.&#39;</span>
@@ -207,13 +212,18 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/clean_occurrences/index.html#lmpy.tools.clean_occurrences.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
+<div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/wrangle_occurrences/index.html#lmpy.tools.wrangle_occurrences.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;A command-line interface to the tool.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span>
+        <span class="s1">&#39;wrangle_occurrences&#39;</span><span class="p">,</span>
+        <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
+        <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
+    <span class="p">)</span>
 
     <span class="c1"># Get wranglers</span>
-    <span class="n">wrangler_factory</span> <span class="o">=</span> <span class="n">WranglerFactory</span><span class="p">()</span>
+    <span class="n">wrangler_factory</span> <span class="o">=</span> <span class="n">WranglerFactory</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
     <span class="n">wranglers</span> <span class="o">=</span> <span class="n">wrangler_factory</span><span class="o">.</span><span class="n">get_wranglers</span><span class="p">(</span>
         <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">wrangler_config_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">))</span>
     <span class="p">)</span>
@@ -225,7 +235,7 @@
 
     <span class="c1"># Clean data</span>
     <span class="n">report</span> <span class="o">=</span> <span class="n">clean_data</span><span class="p">(</span>
-        <span class="n">reader</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">writer_filename</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">,</span> <span class="n">log_output</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_output</span>
+        <span class="n">reader</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">writer_filename</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">,</span> <span class="n">log_output</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
     <span class="p">)</span>
 
     <span class="c1"># If the output report was requested, write it</span>

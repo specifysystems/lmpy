@@ -1,0 +1,76 @@
+:py:mod:`lmpy.tools.build_grid`
+===============================
+
+.. py:module:: lmpy.tools.build_grid
+
+.. autoapi-nested-parse::
+
+   Tool for building grid shapefiles.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.build_grid.build_grid
+   lmpy.tools.build_grid.build_parser
+   lmpy.tools.build_grid.cli
+
+
+
+.. py:function:: build_grid(grid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)
+
+   Build a grid with an optional cutout.
+
+   :param grid_file_name: The location to store the resulting grid.
+   :type grid_file_name: str
+   :param min_x: The minimum value for X of the grid.
+   :type min_x: numeric
+   :param min_y: The minimum value for Y of the grid.
+   :type min_y: numeric
+   :param max_x: The maximum value for X of the grid.
+   :type max_x: numeric
+   :param max_y: The maximum value for Y of the grid.
+   :type max_y: numeric
+   :param cell_size: The size of each cell (in units indicated by EPSG).
+   :type cell_size: numeric
+   :param epsg_code: The EPSG code for the new grid.
+   :type epsg_code: int
+   :param cell_sides: The number of sides for each cell of the grid.
+                      4 - square cells, 6 - hexagon cells
+   :type cell_sides: int
+   :param site_id: The name of the site id field for the shapefile.
+   :type site_id: str
+   :param site_x: The name of the X field for the shapefile.
+   :type site_x: str
+   :param site_y: The name of the Y field for the shapefile.
+   :type site_y: str
+   :param cutout_wkt: WKT for an area of the grid to be cut
+                      out.
+   :type cutout_wkt: None or str
+
+   :returns: The number of cells in the new grid.
+   :rtype: int
+
+   :raises ValueError: Raised if invalid bbox or cell sides.
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
+
+
+.. py:function:: cli()
+
+   Command-line interface to build grid.
+
+

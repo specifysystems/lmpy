@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.tools.build_grid &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.build_grid</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/lmpy/tools/build_grid/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-lmpy.tools.build_grid">
+<span id="lmpy-tools-build-grid"></span><h1><a class="reference internal" href="#module-lmpy.tools.build_grid" title="lmpy.tools.build_grid"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.build_grid</span></code></a><a class="headerlink" href="#module-lmpy.tools.build_grid" title="Permalink to this headline"></a></h1>
+<p>Tool for building grid shapefiles.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tools.build_grid.build_grid" title="lmpy.tools.build_grid.build_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_grid</span></code></a>(grid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)</p></td>
+<td><p>Build a grid with an optional cutout.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.tools.build_grid.build_parser" title="lmpy.tools.build_grid.build_parser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_parser</span></code></a>()</p></td>
+<td><p>Build an argparse.ArgumentParser object for the tool.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tools.build_grid.cli" title="lmpy.tools.build_grid.cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cli</span></code></a>()</p></td>
+<td><p>Command-line interface to build grid.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.tools.build_grid.build_grid">
+<span class="sig-prename descclassname"><span class="pre">lmpy.tools.build_grid.</span></span><span class="sig-name descname"><span class="pre">build_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsg_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_sides</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteX'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutout_wkt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/build_grid.html#build_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.build_grid.build_grid" title="Permalink to this definition"></a></dt>
+<dd><p>Build a grid with an optional cutout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_file_name</strong> (<em>str</em>) – The location to store the resulting grid.</p></li>
+<li><p><strong>min_x</strong> (<em>numeric</em>) – The minimum value for X of the grid.</p></li>
+<li><p><strong>min_y</strong> (<em>numeric</em>) – The minimum value for Y of the grid.</p></li>
+<li><p><strong>max_x</strong> (<em>numeric</em>) – The maximum value for X of the grid.</p></li>
+<li><p><strong>max_y</strong> (<em>numeric</em>) – The maximum value for Y of the grid.</p></li>
+<li><p><strong>cell_size</strong> (<em>numeric</em>) – The size of each cell (in units indicated by EPSG).</p></li>
+<li><p><strong>epsg_code</strong> (<em>int</em>) – The EPSG code for the new grid.</p></li>
+<li><p><strong>cell_sides</strong> (<em>int</em>) – The number of sides for each cell of the grid.
+4 - square cells, 6 - hexagon cells</p></li>
+<li><p><strong>site_id</strong> (<em>str</em>) – The name of the site id field for the shapefile.</p></li>
+<li><p><strong>site_x</strong> (<em>str</em>) – The name of the X field for the shapefile.</p></li>
+<li><p><strong>site_y</strong> (<em>str</em>) – The name of the Y field for the shapefile.</p></li>
+<li><p><strong>cutout_wkt</strong> (<em>None</em><em> or </em><em>str</em>) – WKT for an area of the grid to be cut
+out.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The number of cells in the new grid.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Raised if invalid bbox or cell sides.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.tools.build_grid.build_parser">
+<span class="sig-prename descclassname"><span class="pre">lmpy.tools.build_grid.</span></span><span class="sig-name descname"><span class="pre">build_parser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/build_grid.html#build_parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.build_grid.build_parser" title="Permalink to this definition"></a></dt>
+<dd><p>Build an argparse.ArgumentParser object for the tool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An argument parser for the tool’s parameters.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>argparse.ArgumentParser</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.tools.build_grid.cli">
+<span class="sig-prename descclassname"><span class="pre">lmpy.tools.build_grid.</span></span><span class="sig-name descname"><span class="pre">cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/build_grid.html#cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.build_grid.cli" title="Permalink to this definition"></a></dt>
+<dd><p>Command-line interface to build grid.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

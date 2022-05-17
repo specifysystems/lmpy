@@ -22,9 +22,12 @@ Classes
 
 
 
-.. py:class:: WranglerFactory
+.. py:class:: WranglerFactory(logger=None)
 
    Constructor for the WranglerFactory class.
+
+   :param logger: A default logger to use when wrangling.
+   :type logger: logging.Logger
 
    .. py:method:: _load_wranglers(self)
 

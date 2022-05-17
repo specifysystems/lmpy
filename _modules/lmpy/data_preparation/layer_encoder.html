@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -77,7 +77,7 @@
   <h1>Source code for lmpy.data_preparation.layer_encoder</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;This module contains a class for encoding spatial layers into a Matrix.</span>
 
-<span class="sd">The &#39;LayerEncoder&#39; class uses a shapegrid to generate a base matrix structure</span>
+<span class="sd">The &#39;LayerEncoder&#39; class uses a grid to generate a base matrix structure</span>
 <span class="sd">and then each layer is encoded as a new column (or columns) for the resulting</span>
 <span class="sd">encoded matrix.</span>
 
@@ -101,10 +101,10 @@
 
 <span class="c1"># Suppress numpy warnings</span>
 <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-<span class="c1"># DEFAULT_SCALE is the scale of the layer data array to the shapegrid cell size</span>
-<span class="c1">#     The number of data array cells in a (square) shapegrid cell is::</span>
+<span class="c1"># DEFAULT_SCALE is the scale of the layer data array to the grid cell size</span>
+<span class="c1">#     The number of data array cells in a (square) grid cell is::</span>
 <span class="c1">#         1.0 / DEFAULT_SCALE^2</span>
-<span class="n">DEFAULT_SCALE</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># Default scale for data array versus shapegrid cells</span>
+<span class="n">DEFAULT_SCALE</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># Default scale for data array versus grid cells</span>
 <span class="c1"># DEFAULT_NODATA is the default value to use when no data is present in a</span>
 <span class="c1">#    raster cell.</span>
 <span class="n">DEFAULT_NODATA</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9999</span>
@@ -286,15 +286,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># ...............................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shapegrid_filename</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for the layer encoder.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            shapegrid_filename (str): A file path for the shapegrid.</span>
+<span class="sd">            grid_filename (str): A file path for the grid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Process shapegrid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_filename</span> <span class="o">=</span> <span class="n">shapegrid_filename</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_read_shapegrid</span><span class="p">(</span><span class="n">shapegrid_filename</span><span class="p">)</span>
+        <span class="c1"># Process sgrid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_filename</span> <span class="o">=</span> <span class="n">grid_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read_grid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -316,8 +316,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list: A list of column headers for the newly encoded columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">shapegrid_dataset</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_filename</span><span class="p">)</span>
-        <span class="n">shapegrid_layer</span> <span class="o">=</span> <span class="n">shapegrid_dataset</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+        <span class="n">grid_dataset</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_filename</span><span class="p">)</span>
+        <span class="n">grid_layer</span> <span class="o">=</span> <span class="n">grid_dataset</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
 
         <span class="n">encoded_column</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">num_cells</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">num_columns</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -331,7 +331,7 @@
 
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="n">feat</span> <span class="o">=</span> <span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
+        <span class="n">feat</span> <span class="o">=</span> <span class="n">grid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">feat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">geom</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
             <span class="n">cent</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">Centroid</span><span class="p">()</span>
@@ -341,7 +341,7 @@
             <span class="n">encoded_column</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
             <span class="n">row_headers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">feat</span><span class="o">.</span><span class="n">GetFID</span><span class="p">(),</span> <span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">))</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">feat</span> <span class="o">=</span> <span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
+            <span class="n">feat</span> <span class="o">=</span> <span class="n">grid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
 
         <span class="n">col</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">encoded_column</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">row_headers</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">column_headers</span><span class="p">})</span>
 
@@ -369,7 +369,7 @@
 <span class="sd">                sizes. If a tuple is provided, the first value will be used for the</span>
 <span class="sd">                size of each cell in the x dimension and the second will be used for</span>
 <span class="sd">                the size of the cell in the y dimension.</span>
-<span class="sd">            num_cell_sides (int): The number of sides each shapegrid cell has::</span>
+<span class="sd">            num_cell_sides (int): The number of sides each grid cell has::</span>
 <span class="sd">                4 -- square</span>
 <span class="sd">                6 -- hexagon</span>
 
@@ -523,27 +523,27 @@
         <span class="n">window_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_window_function</span><span class="p">(</span>
             <span class="n">layer_array</span><span class="p">,</span>
             <span class="n">layer_bbox</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_resolution</span><span class="p">,</span>
-            <span class="n">num_cell_sides</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_sides</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid_resolution</span><span class="p">,</span>
+            <span class="n">num_cell_sides</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_sides</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span></div>
 
     <span class="c1"># ...............................</span>
-<div class="viewcode-block" id="LayerEncoder._read_shapegrid"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder._read_shapegrid">[docs]</a>    <span class="k">def</span> <span class="nf">_read_shapegrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shapegrid_filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Read the shapegrid.</span>
+<div class="viewcode-block" id="LayerEncoder._read_grid"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder._read_grid">[docs]</a>    <span class="k">def</span> <span class="nf">_read_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read the grid.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            shapegrid_filename: The file location of the shapegrid.</span>
+<span class="sd">            grid_filename: The file location of the grid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">shapegrid_dataset</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">shapegrid_filename</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_layer</span> <span class="o">=</span> <span class="n">shapegrid_dataset</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetExtent</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_bbox</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">grid_dataset</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_layer</span> <span class="o">=</span> <span class="n">grid_dataset</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_layer</span><span class="o">.</span><span class="n">GetExtent</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_bbox</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_cells</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetFeatureCount</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_cells</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_layer</span><span class="o">.</span><span class="n">GetFeatureCount</span><span class="p">()</span>
 
-        <span class="n">feature_0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetFeature</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">feature_0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_layer</span><span class="o">.</span><span class="n">GetFeature</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">geom</span> <span class="o">=</span> <span class="n">feature_0</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
 
         <span class="c1"># Get resolution and number of sides</span>
@@ -552,7 +552,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">boundary_points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
             <span class="c1"># Square</span>
             <span class="n">envelope</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">GetEnvelope</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_resolution</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid_resolution</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">envelope</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">envelope</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">envelope</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">envelope</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
             <span class="p">)</span>
@@ -563,12 +563,12 @@
             <span class="n">x_cent</span> <span class="o">=</span> <span class="n">center</span><span class="o">.</span><span class="n">GetX</span><span class="p">()</span>
             <span class="n">y_cent</span> <span class="o">=</span> <span class="n">center</span><span class="o">.</span><span class="n">GetY</span><span class="p">()</span>
             <span class="n">x_1</span><span class="p">,</span> <span class="n">y_1</span> <span class="o">=</span> <span class="n">boundary_points</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_resolution</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid_resolution</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">x_cent</span> <span class="o">-</span> <span class="n">x_1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_cent</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
             <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_sides</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">boundary_points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="c1"># self.shapegrid_layer.ResetReading()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_layer</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_sides</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">boundary_points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="c1"># self.grid_layer.ResetReading()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_layer</span> <span class="o">=</span> <span class="kc">None</span></div>
 
     <span class="c1"># ...............................</span>
 <div class="viewcode-block" id="LayerEncoder._read_vector_layer"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder._read_vector_layer">[docs]</a>    <span class="k">def</span> <span class="nf">_read_vector_layer</span><span class="p">(</span>
@@ -602,7 +602,7 @@
             <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ATTRIBUTE=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attribute_field</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">resolution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">resolution</span> <span class="o">=</span> <span class="p">[</span><span class="n">DEFAULT_SCALE</span> <span class="o">*</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_resolution</span><span class="p">]</span>
+            <span class="n">resolution</span> <span class="o">=</span> <span class="p">[</span><span class="n">DEFAULT_SCALE</span> <span class="o">*</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_resolution</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Tuple or list</span>
             <span class="n">x_res</span> <span class="o">=</span> <span class="n">resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -612,7 +612,7 @@
             <span class="n">x_res</span> <span class="o">=</span> <span class="n">y_res</span> <span class="o">=</span> <span class="n">resolution</span>
 
         <span class="k">if</span> <span class="n">bbox</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">bbox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_bbox</span>
+            <span class="n">bbox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_bbox</span>
 
         <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">bbox</span>
         <span class="n">x_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">/</span> <span class="n">x_res</span><span class="p">)</span>
@@ -639,8 +639,8 @@
         <span class="n">window_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_window_function</span><span class="p">(</span>
             <span class="n">layer_array</span><span class="p">,</span>
             <span class="n">layer_bbox</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_resolution</span><span class="p">,</span>
-            <span class="n">num_cell_sides</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_sides</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid_resolution</span><span class="p">,</span>
+            <span class="n">num_cell_sides</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_sides</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">distinct_attributes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">layer_array</span><span class="p">))</span>
@@ -840,7 +840,7 @@
 <span class="sd">            dict: A JSON dictionary for the encoded matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">geojsonify_matrix_with_shapefile</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapegrid_filename</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_filename</span>
         <span class="p">)</span></div></div>
 
 

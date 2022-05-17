@@ -19,8 +19,8 @@ Lmpy Term Glossary
     A Point object is a record of a specimen occurrence including metadata about the
     specimen and the spatial location where it was found.
 
-  Shapegrid
-    A shapegrid is a set of gridded cells representing sites to be used for matrix
+  Grid
+    A Grid is a set of gridded cells representing sites to be used for matrix
       creation.
 
   Species Distribution Model

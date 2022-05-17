@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.spatial.geojsonify &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.spatial.geojsonify &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -175,12 +175,12 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="geojsonify_matrix_with_shapefile"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/geojsonify/index.html#lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile">[docs]</a><span class="k">def</span> <span class="nf">geojsonify_matrix_with_shapefile</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">shapegrid_filename</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="geojsonify_matrix_with_shapefile"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/geojsonify/index.html#lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile">[docs]</a><span class="k">def</span> <span class="nf">geojsonify_matrix_with_shapefile</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates GeoJSON for a matrix and matching shapefile.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        matrix (Matrix): A (spatial) matrix to create GeoJSON for.</span>
-<span class="sd">        shapegrid_filename (str): A file path to a shapefile matching the matrix.</span>
+<span class="sd">        grid_filename (str): A file path to a shapefile matching the matrix.</span>
 <span class="sd">        omit_values (list): Omit properties when their value is in this list.</span>
 
 <span class="sd">    Returns:</span>
@@ -194,11 +194,11 @@
 
     <span class="n">column_enum</span> <span class="o">=</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">column_headers</span><span class="p">)]</span>
 
-    <span class="n">shapegrid_dataset</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">shapegrid_filename</span><span class="p">)</span>
-    <span class="n">shapegrid_layer</span> <span class="o">=</span> <span class="n">shapegrid_dataset</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+    <span class="n">grid_dataset</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
+    <span class="n">grid_layer</span> <span class="o">=</span> <span class="n">grid_dataset</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
 
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">feat</span> <span class="o">=</span> <span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
+    <span class="n">feat</span> <span class="o">=</span> <span class="n">grid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
     <span class="k">while</span> <span class="n">feat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ft_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">ExportToJson</span><span class="p">())</span>
         <span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
@@ -208,10 +208,10 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ft_json</span><span class="p">)</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">feat</span> <span class="o">=</span> <span class="n">shapegrid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
+        <span class="n">feat</span> <span class="o">=</span> <span class="n">grid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
 
     <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span>
-    <span class="n">shapegrid_dataset</span> <span class="o">=</span> <span class="n">shapegrid_layer</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">grid_dataset</span> <span class="o">=</span> <span class="n">grid_layer</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">ret</span></div>
 
 

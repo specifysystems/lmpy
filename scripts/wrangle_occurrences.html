@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wrangle_occurrences - CLI interface &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="wrangle_species_list - CLI interface" href="wrangle_species_list.html" />
+    <link rel="prev" title="wrangle_matrix - CLI interface" href="wrangle_matrix.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_csv_to_lmm.html">convert_csv_to_lmm - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_csv.html">convert_lmm_to_csv - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html">convert_lmm_to_geojson - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html">create_rare_species_model - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_tree_matrix.html">create_tree_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encode_layers.html">encode_layers - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpa_run.html">mcpa_run - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomize_pam.html">randomize_pam - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_occurrence_data.html">split_occurrence_data - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_matrix.html">wrangle_matrix - CLI interface</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">wrangle_occurrences - CLI interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wrangle_occurrences-positional-arguments">wrangle_occurrences positional arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wrangle_occurrences-optional-arguments">wrangle_occurrences optional arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_species_list.html">wrangle_species_list - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_tree.html">wrangle_tree - CLI interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tools.html">Tools</a> &raquo;</li>
+      <li>wrangle_occurrences - CLI interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scripts/wrangle_occurrences.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="wrangle_occurrences---CLI-interface">
+<h1>wrangle_occurrences - CLI interface<a class="headerlink" href="#wrangle_occurrences---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>Clean (filter / modify) occurrence records using data wranglers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wrangle_occurrences</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">sp</span> <span class="n">SPECIES_KEY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="n">X_KEY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">y</span> <span class="n">Y_KEY</span><span class="p">]</span>
+                    <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">REPORT_FILENAME</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">log_filename</span> <span class="n">LOG_FILENAME</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">log_console</span><span class="p">]</span>
+                    <span class="n">reader_filename</span> <span class="n">writer_filename</span> <span class="n">wrangler_config_filename</span>
+</pre></div>
+</div>
+<section id="wrangle_occurrences-positional-arguments">
+<h2>wrangle_occurrences positional arguments<a class="headerlink" href="#wrangle_occurrences-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="wrangle_occurrences-reader_filename"><a class="reference internal" href="#wrangle_occurrences-reader_filename" title="wrangle_occurrences reader_filename"><strong><code class="docutils literal notranslate"><span class="pre">reader_filename</span></code></strong></a> - Input occurrence CSV filename. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_occurrences-writer_filename"><a class="reference internal" href="#wrangle_occurrences-writer_filename" title="wrangle_occurrences writer_filename"><strong><code class="docutils literal notranslate"><span class="pre">writer_filename</span></code></strong></a> - Output cleaned occurrence CSV filename. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_occurrences-wrangler_config_filename"><a class="reference internal" href="#wrangle_occurrences-wrangler_config_filename" title="wrangle_occurrences wrangler_config_filename"><strong><code class="docutils literal notranslate"><span class="pre">wrangler_config_filename</span></code></strong></a> - Wrangler(s) configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="wrangle_occurrences-optional-arguments">
+<h2>wrangle_occurrences optional arguments<a class="headerlink" href="#wrangle_occurrences-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="wrangle_occurrences--h"><span id="wrangle_occurrences---help"></span><a class="reference internal" href="#wrangle_occurrences--h" title="wrangle_occurrences -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#wrangle_occurrences---help" title="wrangle_occurrences --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="wrangle_occurrences---config_file"><a class="reference internal" href="#wrangle_occurrences---config_file" title="wrangle_occurrences --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_occurrences--sp"><span id="wrangle_occurrences---species_key"></span><a class="reference internal" href="#wrangle_occurrences--sp" title="wrangle_occurrences -sp"><strong><code class="docutils literal notranslate"><span class="pre">-sp</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">SPECIES_KEY</span></code>, <a class="reference internal" href="#wrangle_occurrences---species_key" title="wrangle_occurrences --species_key"><strong><code class="docutils literal notranslate"><span class="pre">--species_key</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">SPECIES_KEY</span></code> - The CSV column header for species name. (default: <code class="docutils literal notranslate"><span class="pre">species_name</span></code>)</p></li>
+<li><p id="wrangle_occurrences--x"><span id="wrangle_occurrences---x_key"></span><a class="reference internal" href="#wrangle_occurrences--x" title="wrangle_occurrences -x"><strong><code class="docutils literal notranslate"><span class="pre">-x</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">X_KEY</span></code>, <a class="reference internal" href="#wrangle_occurrences---x_key" title="wrangle_occurrences --x_key"><strong><code class="docutils literal notranslate"><span class="pre">--x_key</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">X_KEY</span></code> - The CSV column header for the X (longitude) field. (default: <code class="docutils literal notranslate"><span class="pre">x</span></code>)</p></li>
+<li><p id="wrangle_occurrences--y"><span id="wrangle_occurrences---y_key"></span><a class="reference internal" href="#wrangle_occurrences--y" title="wrangle_occurrences -y"><strong><code class="docutils literal notranslate"><span class="pre">-y</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">Y_KEY</span></code>, <a class="reference internal" href="#wrangle_occurrences---y_key" title="wrangle_occurrences --y_key"><strong><code class="docutils literal notranslate"><span class="pre">--y_key</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">Y_KEY</span></code> - The CSV column header for the Y (latitude) field. (default: <code class="docutils literal notranslate"><span class="pre">y</span></code>)</p></li>
+<li><p id="wrangle_occurrences--r"><span id="wrangle_occurrences---report_filename"></span><a class="reference internal" href="#wrangle_occurrences--r" title="wrangle_occurrences -r"><strong><code class="docutils literal notranslate"><span class="pre">-r</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code>, <a class="reference internal" href="#wrangle_occurrences---report_filename" title="wrangle_occurrences --report_filename"><strong><code class="docutils literal notranslate"><span class="pre">--report_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code> - File location to write optional output report JSON. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_occurrences---log_filename"><span id="wrangle_occurrences--l"></span><a class="reference internal" href="#wrangle_occurrences---log_filename" title="wrangle_occurrences --log_filename"><strong><code class="docutils literal notranslate"><span class="pre">--log_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LOG_FILENAME</span></code>, <a class="reference internal" href="#wrangle_occurrences--l" title="wrangle_occurrences -l"><strong><code class="docutils literal notranslate"><span class="pre">-l</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LOG_FILENAME</span></code> - A file location to write logging data. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_occurrences---log_console"><a class="reference internal" href="#wrangle_occurrences---log_console" title="wrangle_occurrences --log_console"><strong><code class="docutils literal notranslate"><span class="pre">--log_console</span></code></strong></a> - If provided, write log to console.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wrangle_matrix.html" class="btn btn-neutral float-left" title="wrangle_matrix - CLI interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wrangle_species_list.html" class="btn btn-neutral float-right" title="wrangle_species_list - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

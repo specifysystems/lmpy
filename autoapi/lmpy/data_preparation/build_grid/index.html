@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -77,7 +77,7 @@
              
   <section id="module-lmpy.data_preparation.build_grid">
 <span id="lmpy-data-preparation-build-grid"></span><h1><a class="reference internal" href="#module-lmpy.data_preparation.build_grid" title="lmpy.data_preparation.build_grid"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.data_preparation.build_grid</span></code></a><a class="headerlink" href="#module-lmpy.data_preparation.build_grid" title="Permalink to this headline"></a></h1>
-<p>Module containing methods to build a shapegrid.</p>
+<p>Module containing methods to build a grid.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
 <section id="functions">
@@ -88,46 +88,45 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_preparation.build_grid.build_shapegrid" title="lmpy.data_preparation.build_grid.build_shapegrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_shapegrid</span></code></a>(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)</p></td>
-<td><p>Build a shapegrid with an optional cutout.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_preparation.build_grid.build_grid" title="lmpy.data_preparation.build_grid.build_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_grid</span></code></a>(grid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)</p></td>
+<td><p>Build a grid with an optional cutout.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.data_preparation.build_grid.hexagon_wkt_generator" title="lmpy.data_preparation.build_grid.hexagon_wkt_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hexagon_wkt_generator</span></code></a>(min_x, min_y, max_x, max_y, x_res, y_res)</p></td>
-<td><p>Generator producing hexagonal WKT for cells of the shapegrid.</p></td>
+<td><p>Generator producing hexagonal WKT for cells of the grid.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_preparation.build_grid.make_polygon_wkt_from_points" title="lmpy.data_preparation.build_grid.make_polygon_wkt_from_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_polygon_wkt_from_points</span></code></a>(points)</p></td>
 <td><p>Create a polygon WKT string from a list of points.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.data_preparation.build_grid.square_wkt_generator" title="lmpy.data_preparation.build_grid.square_wkt_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">square_wkt_generator</span></code></a>(min_x, min_y, max_x, max_y, x_res, y_res)</p></td>
-<td><p>Generator producing square WKT for cells of the shapegrid.</p></td>
+<td><p>Generator producing square WKT for cells of the grid.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt class="sig sig-object py" id="lmpy.data_preparation.build_grid.build_shapegrid">
-<span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.build_grid.</span></span><span class="sig-name descname"><span class="pre">build_shapegrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shapegrid_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsg_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_sides</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteX'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutout_wkt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/build_grid.html#build_shapegrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.build_grid.build_shapegrid" title="Permalink to this definition"></a></dt>
-<dd><p>Build a shapegrid with an optional cutout.</p>
+<dt class="sig sig-object py" id="lmpy.data_preparation.build_grid.build_grid">
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.build_grid.</span></span><span class="sig-name descname"><span class="pre">build_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsg_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_sides</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteX'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'siteY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutout_wkt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/build_grid.html#build_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.build_grid.build_grid" title="Permalink to this definition"></a></dt>
+<dd><p>Build a grid with an optional cutout.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shapegrid_file_name</strong> (<em>str</em>) – The location to store the resulting
-shapegrid.</p></li>
-<li><p><strong>min_x</strong> (<em>numeric</em>) – The minimum value for X of the shapegrid.</p></li>
-<li><p><strong>min_y</strong> (<em>numeric</em>) – The minimum value for Y of the shapegrid.</p></li>
-<li><p><strong>max_x</strong> (<em>numeric</em>) – The maximum value for X of the shapegrid.</p></li>
-<li><p><strong>max_y</strong> (<em>numeric</em>) – The maximum value for Y of the shapegrid.</p></li>
+<li><p><strong>grid_file_name</strong> (<em>str</em>) – The location to store the resulting grid.</p></li>
+<li><p><strong>min_x</strong> (<em>numeric</em>) – The minimum value for X of the grid.</p></li>
+<li><p><strong>min_y</strong> (<em>numeric</em>) – The minimum value for Y of the grid.</p></li>
+<li><p><strong>max_x</strong> (<em>numeric</em>) – The maximum value for X of the grid.</p></li>
+<li><p><strong>max_y</strong> (<em>numeric</em>) – The maximum value for Y of the grid.</p></li>
 <li><p><strong>cell_size</strong> (<em>numeric</em>) – The size of each cell (in units indicated by EPSG).</p></li>
-<li><p><strong>epsg_code</strong> (<em>int</em>) – The EPSG code for the new shapegrid.</p></li>
-<li><p><strong>cell_sides</strong> (<em>int</em>) – The number of sides for each cell of the shapegrid.
+<li><p><strong>epsg_code</strong> (<em>int</em>) – The EPSG code for the new grid.</p></li>
+<li><p><strong>cell_sides</strong> (<em>int</em>) – The number of sides for each cell of the grid.
 4 - square cells, 6 - hexagon cells</p></li>
 <li><p><strong>site_id</strong> (<em>str</em>) – The name of the site id field for the shapefile.</p></li>
 <li><p><strong>site_x</strong> (<em>str</em>) – The name of the X field for the shapefile.</p></li>
 <li><p><strong>site_y</strong> (<em>str</em>) – The name of the Y field for the shapefile.</p></li>
-<li><p><strong>cutout_wkt</strong> (<em>None</em><em> or </em><em>str</em>) – WKT for an area of the shapegrid to be cut
+<li><p><strong>cutout_wkt</strong> (<em>None</em><em> or </em><em>str</em>) – WKT for an area of the grid to be cut
 out.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The number of cells in the new shapegrid.</p>
+<dd class="field-even"><p>The number of cells in the new grid.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>int</p>
@@ -141,7 +140,7 @@ out.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.data_preparation.build_grid.hexagon_wkt_generator">
 <span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.build_grid.</span></span><span class="sig-name descname"><span class="pre">hexagon_wkt_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_res</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/build_grid.html#hexagon_wkt_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.build_grid.hexagon_wkt_generator" title="Permalink to this definition"></a></dt>
-<dd><p>Generator producing hexagonal WKT for cells of the shapegrid.</p>
+<dd><p>Generator producing hexagonal WKT for cells of the grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -185,7 +184,7 @@ out.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.data_preparation.build_grid.square_wkt_generator">
 <span class="sig-prename descclassname"><span class="pre">lmpy.data_preparation.build_grid.</span></span><span class="sig-name descname"><span class="pre">square_wkt_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_res</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/build_grid.html#square_wkt_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.build_grid.square_wkt_generator" title="Permalink to this definition"></a></dt>
-<dd><p>Generator producing square WKT for cells of the shapegrid.</p>
+<dd><p>Generator producing square WKT for cells of the grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

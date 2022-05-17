@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build Shapegrid &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>Build Grid &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -20,9 +20,7 @@
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="calculate_pam_stats - CLI interface" href="calculate_pam_stats.html" />
-    <link rel="prev" title="Tools" href="tools.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,36 +39,12 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Build Shapegrid</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#build_shapegrid---CLI-interface">build_shapegrid - CLI interface</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#build_shapegrid-positional-arguments">build_shapegrid positional arguments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#build_shapegrid-optional-arguments">build_shapegrid optional arguments</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="clean_occurrences.html">clean_occurrences - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="convert_csv_to_lmm.html">convert_csv_to_lmm - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_csv.html">convert_lmm_to_csv - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html">convert_lmm_to_geojson - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html">create_rare_species_model - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create_tree_matrix.html">create_tree_matrix - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="encode_layers.html">encode_layers - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mcpa_run.html">mcpa_run - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="randomize_pam.html">randomize_pam - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="split_occurrence_data.html">split_occurrence_data - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wrangle_matrix.html">wrangle_matrix - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wrangle_species_list.html">wrangle_species_list - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wrangle_tree.html">wrangle_tree - CLI interface</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
@@ -91,8 +65,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="tools.html">Tools</a> &raquo;</li>
-      <li>Build Shapegrid</li>
+      <li>Build Grid</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/scripts/build_shapegrid.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -102,32 +75,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="build-shapegrid">
-<h1>Build Shapegrid<a class="headerlink" href="#build-shapegrid" title="Permalink to this headline"></a></h1>
-<section id="build_shapegrid---CLI-interface">
-<h2>build_shapegrid - CLI interface<a class="headerlink" href="#build_shapegrid---CLI-interface" title="Permalink to this headline"></a></h2>
-<p>Build a Shapegrid shapefile that is used to define the sites of a PAM or other multivariate Matrix for lmpy operations.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build_shapegrid</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span>
-                <span class="n">shapegrid_filename</span> <span class="n">min_x</span> <span class="n">min_y</span> <span class="n">max_x</span> <span class="n">max_y</span> <span class="n">cell_size</span> <span class="n">epsg</span>
+  <section id="build-grid">
+<h1>Build Grid<a class="headerlink" href="#build-grid" title="Permalink to this headline"></a></h1>
+<section id="build_ggrid---CLI-interface">
+<h2>build_ggrid - CLI interface<a class="headerlink" href="#build_ggrid---CLI-interface" title="Permalink to this headline"></a></h2>
+<p>Build a grid shapefile that is used to define the sites of a PAM or other multivariate Matrix for lmpy operations.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build_ggrid</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span>
+            <span class="n">grid_filename</span> <span class="n">min_x</span> <span class="n">min_y</span> <span class="n">max_x</span> <span class="n">max_y</span> <span class="n">cell_size</span> <span class="n">epsg</span>
 </pre></div>
 </div>
-<section id="build_shapegrid-positional-arguments">
-<h3>build_shapegrid positional arguments<a class="headerlink" href="#build_shapegrid-positional-arguments" title="Permalink to this headline"></a></h3>
+<section id="build_ggrid-positional-arguments">
+<h3>build_ggrid positional arguments<a class="headerlink" href="#build_ggrid-positional-arguments" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p id="build_shapegrid-shapegrid_filename"><a class="reference internal" href="#build_shapegrid-shapegrid_filename" title="build_shapegrid shapegrid_filename"><strong><code class="docutils literal notranslate"><span class="pre">shapegrid_filename</span></code></strong></a> - File location to write shapegrid shapefile. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="build_shapegrid-min_x"><a class="reference internal" href="#build_shapegrid-min_x" title="build_shapegrid min_x"><strong><code class="docutils literal notranslate"><span class="pre">min_x</span></code></strong></a> - The minimum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="build_shapegrid-min_y"><a class="reference internal" href="#build_shapegrid-min_y" title="build_shapegrid min_y"><strong><code class="docutils literal notranslate"><span class="pre">min_y</span></code></strong></a> - The minimum y value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="build_shapegrid-max_x"><a class="reference internal" href="#build_shapegrid-max_x" title="build_shapegrid max_x"><strong><code class="docutils literal notranslate"><span class="pre">max_x</span></code></strong></a> - The maximum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="build_shapegrid-max_y"><a class="reference internal" href="#build_shapegrid-max_y" title="build_shapegrid max_y"><strong><code class="docutils literal notranslate"><span class="pre">max_y</span></code></strong></a> - The maximum y value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="build_shapegrid-cell_size"><a class="reference internal" href="#build_shapegrid-cell_size" title="build_shapegrid cell_size"><strong><code class="docutils literal notranslate"><span class="pre">cell_size</span></code></strong></a> - The resolution of each grid cell (in EPSG map units). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="build_shapegrid-epsg"><a class="reference internal" href="#build_shapegrid-epsg" title="build_shapegrid epsg"><strong><code class="docutils literal notranslate"><span class="pre">epsg</span></code></strong></a> - The EPSG code (map projection) for the shapegrid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_ggrid-grid_filename"><a class="reference internal" href="#build_ggrid-grid_filename" title="build_ggrid grid_filename"><strong><code class="docutils literal notranslate"><span class="pre">grid_filename</span></code></strong></a> - File location to write grid shapefile. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_ggrid-min_x"><a class="reference internal" href="#build_ggrid-min_x" title="build_ggrid min_x"><strong><code class="docutils literal notranslate"><span class="pre">min_x</span></code></strong></a> - The minimum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_ggrid-min_y"><a class="reference internal" href="#build_ggrid-min_y" title="build_ggrid min_y"><strong><code class="docutils literal notranslate"><span class="pre">min_y</span></code></strong></a> - The minimum y value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_ggrid-max_x"><a class="reference internal" href="#build_ggrid-max_x" title="build_ggrid max_x"><strong><code class="docutils literal notranslate"><span class="pre">max_x</span></code></strong></a> - The maximum x value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_ggrid-max_y"><a class="reference internal" href="#build_ggrid-max_y" title="build_ggrid max_y"><strong><code class="docutils literal notranslate"><span class="pre">max_y</span></code></strong></a> - The maximum y value for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_ggrid-cell_size"><a class="reference internal" href="#build_ggrid-cell_size" title="build_ggrid cell_size"><strong><code class="docutils literal notranslate"><span class="pre">cell_size</span></code></strong></a> - The resolution of each grid cell (in EPSG map units). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_ggrid-epsg"><a class="reference internal" href="#build_ggrid-epsg" title="build_ggrid epsg"><strong><code class="docutils literal notranslate"><span class="pre">epsg</span></code></strong></a> - The EPSG code (map projection) for the grid. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
-<section id="build_shapegrid-optional-arguments">
-<h3>build_shapegrid optional arguments<a class="headerlink" href="#build_shapegrid-optional-arguments" title="Permalink to this headline"></a></h3>
+<section id="build_ggrid-optional-arguments">
+<h3>build_ggrid optional arguments<a class="headerlink" href="#build_ggrid-optional-arguments" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p id="build_shapegrid--h"><span id="build_shapegrid---help"></span><a class="reference internal" href="#build_shapegrid--h" title="build_shapegrid -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#build_shapegrid---help" title="build_shapegrid --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
-<li><p id="build_shapegrid---config_file"><a class="reference internal" href="#build_shapegrid---config_file" title="build_shapegrid --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="build_ggrid--h"><span id="build_ggrid---help"></span><a class="reference internal" href="#build_ggrid--h" title="build_ggrid -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#build_ggrid---help" title="build_ggrid --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="build_ggrid---config_file"><a class="reference internal" href="#build_ggrid---config_file" title="build_ggrid --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
 </section>
@@ -136,10 +109,7 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="tools.html" class="btn btn-neutral float-left" title="Tools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="calculate_pam_stats.html" class="btn btn-neutral float-right" title="calculate_pam_stats - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

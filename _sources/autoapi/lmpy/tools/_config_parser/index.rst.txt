@@ -19,6 +19,7 @@ Functions
 .. autoapisummary::
 
    lmpy.tools._config_parser._process_arguments
+   lmpy.tools._config_parser.get_logger
 
 
 
@@ -37,5 +38,22 @@ Functions
              An augmented Namespace with any parameters specified in a
                  configuration file.
    :rtype: argparse.Namespace
+
+
+.. py:function:: get_logger(logger_name, log_filename=None, log_console=False, log_level=logging.NOTSET)
+
+   Get a logger object (or None) for the provided parameters.
+
+   :param logger_name: A name for the logger.
+   :type logger_name: str
+   :param log_filename: A file location to write logging information.
+   :type log_filename: str
+   :param log_console: Should logs be written to the console.
+   :type log_console: bool
+   :param log_level: What level of logs should be retained.
+   :type log_level: int
+
+   :returns: A logger object to use for logging information.
+   :rtype: logging.Logger
 
 

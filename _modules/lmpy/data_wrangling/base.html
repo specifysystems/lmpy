@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.base &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.data_wrangling.base &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -76,6 +76,7 @@
              
   <h1>Source code for lmpy.data_wrangling.base</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing base class for data wranglers.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -85,14 +86,16 @@
 <div class="viewcode-block" id="_DataWrangler.version"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/base/index.html#lmpy.data_wrangling.base._DataWrangler.version">[docs]</a>    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span></div>
 
     <span class="c1"># ........................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Base class constructor.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            *args (tuple): Positional arguments.</span>
+<span class="sd">            logger (logging.Logger): An optional logger to use for logging output.</span>
 <span class="sd">            **kwargs (dict): Dictionary of parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">report</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
 
     <span class="c1"># ........................</span>
     <span class="nd">@classmethod</span>
@@ -116,7 +119,28 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">report</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">report</span></div>
+
+    <span class="c1"># ........................</span>
+<div class="viewcode-block" id="_DataWrangler.log"><a class="viewcode-back" href="../../../autoapi/lmpy/data_wrangling/base/index.html#lmpy.data_wrangling.base._DataWrangler.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Log a message.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            msg (str): A message to write to the logger.</span>
+<span class="sd">            log_level (int): A level to use when logging the message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">log_func</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">,</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="n">log_level</span> <span class="ow">in</span> <span class="n">log_func</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">log_func</span><span class="p">[</span><span class="n">log_level</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">log_level</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="n">msg</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -75,7 +75,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lmpy.data_preparation.build_grid</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Module containing methods to build a shapegrid.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing methods to build a grid.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -105,7 +105,7 @@
 
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="hexagon_wkt_generator"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/build_grid/index.html#lmpy.data_preparation.build_grid.hexagon_wkt_generator">[docs]</a><span class="k">def</span> <span class="nf">hexagon_wkt_generator</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generator producing hexagonal WKT for cells of the shapegrid.</span>
+    <span class="sd">&quot;&quot;&quot;Generator producing hexagonal WKT for cells of the grid.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        min_x (numeric): The minimum x value.</span>
@@ -145,7 +145,7 @@
 
 <span class="c1"># .............................................................................</span>
 <div class="viewcode-block" id="square_wkt_generator"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/build_grid/index.html#lmpy.data_preparation.build_grid.square_wkt_generator">[docs]</a><span class="k">def</span> <span class="nf">square_wkt_generator</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generator producing square WKT for cells of the shapegrid.</span>
+    <span class="sd">&quot;&quot;&quot;Generator producing square WKT for cells of the grid.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        min_x (numeric): The minimum x value.</span>
@@ -171,8 +171,8 @@
 
 
 <span class="c1"># .............................................................................</span>
-<div class="viewcode-block" id="build_shapegrid"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/build_shapegrid/index.html#lmpy.data_preparation.build_grid.build_shapegrid">[docs]</a><span class="k">def</span> <span class="nf">build_shapegrid</span><span class="p">(</span>
-    <span class="n">shapegrid_file_name</span><span class="p">,</span>
+<div class="viewcode-block" id="build_grid"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/build_grid/index.html#lmpy.data_preparation.build_grid.build_grid">[docs]</a><span class="k">def</span> <span class="nf">build_grid</span><span class="p">(</span>
+    <span class="n">grid_file_name</span><span class="p">,</span>
     <span class="n">min_x</span><span class="p">,</span>
     <span class="n">min_y</span><span class="p">,</span>
     <span class="n">max_x</span><span class="p">,</span>
@@ -185,27 +185,26 @@
     <span class="n">site_y</span><span class="o">=</span><span class="s1">&#39;siteY&#39;</span><span class="p">,</span>
     <span class="n">cutout_wkt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Build a shapegrid with an optional cutout.</span>
+    <span class="sd">&quot;&quot;&quot;Build a grid with an optional cutout.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        shapegrid_file_name (str): The location to store the resulting</span>
-<span class="sd">            shapegrid.</span>
-<span class="sd">        min_x (numeric): The minimum value for X of the shapegrid.</span>
-<span class="sd">        min_y (numeric): The minimum value for Y of the shapegrid.</span>
-<span class="sd">        max_x (numeric): The maximum value for X of the shapegrid.</span>
-<span class="sd">        max_y (numeric): The maximum value for Y of the shapegrid.</span>
+<span class="sd">        grid_file_name (str): The location to store the resulting grid.</span>
+<span class="sd">        min_x (numeric): The minimum value for X of the grid.</span>
+<span class="sd">        min_y (numeric): The minimum value for Y of the grid.</span>
+<span class="sd">        max_x (numeric): The maximum value for X of the grid.</span>
+<span class="sd">        max_y (numeric): The maximum value for Y of the grid.</span>
 <span class="sd">        cell_size (numeric): The size of each cell (in units indicated by EPSG).</span>
-<span class="sd">        epsg_code (int): The EPSG code for the new shapegrid.</span>
-<span class="sd">        cell_sides (int): The number of sides for each cell of the shapegrid.</span>
+<span class="sd">        epsg_code (int): The EPSG code for the new grid.</span>
+<span class="sd">        cell_sides (int): The number of sides for each cell of the grid.</span>
 <span class="sd">            4 - square cells, 6 - hexagon cells</span>
 <span class="sd">        site_id (str): The name of the site id field for the shapefile.</span>
 <span class="sd">        site_x (str): The name of the X field for the shapefile.</span>
 <span class="sd">        site_y (str): The name of the Y field for the shapefile.</span>
-<span class="sd">        cutout_wkt (None or str): WKT for an area of the shapegrid to be cut</span>
+<span class="sd">        cutout_wkt (None or str): WKT for an area of the grid to be cut</span>
 <span class="sd">            out.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        int: The number of cells in the new shapegrid.</span>
+<span class="sd">        int: The number of cells in the new grid.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: Raised if invalid bbox or cell sides.</span>
@@ -227,7 +226,7 @@
     <span class="n">target_srs</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">epsg_code</span><span class="p">)</span>
 
     <span class="n">drv</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
-    <span class="n">data_set</span> <span class="o">=</span> <span class="n">drv</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">shapegrid_file_name</span><span class="p">)</span>
+    <span class="n">data_set</span> <span class="o">=</span> <span class="n">drv</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">grid_file_name</span><span class="p">)</span>
 
     <span class="n">layer</span> <span class="o">=</span> <span class="n">data_set</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span>
         <span class="n">data_set</span><span class="o">.</span><span class="n">GetName</span><span class="p">(),</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPolygon</span><span class="p">,</span> <span class="n">srs</span><span class="o">=</span><span class="n">target_srs</span>
@@ -243,7 +242,7 @@
         <span class="n">wkt_generator</span> <span class="o">=</span> <span class="n">hexagon_wkt_generator</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">x_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s1">&#39;Cannot generate shapegrid cells with </span><span class="si">{}</span><span class="s1"> sides&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cell_sides</span><span class="p">)</span>
+            <span class="s1">&#39;Cannot generate grid cells with </span><span class="si">{}</span><span class="s1"> sides&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cell_sides</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="n">shape_id</span> <span class="o">=</span> <span class="mi">0</span>
@@ -266,7 +265,7 @@
 
 <span class="c1"># .............................................................................</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;build_shapegrid&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;build_grid&#39;</span><span class="p">,</span>
     <span class="s1">&#39;hexagon_wkt_generator&#39;</span><span class="p">,</span>
     <span class="s1">&#39;make_polygon_wkt_from_points&#39;</span><span class="p">,</span>
     <span class="s1">&#39;square_wkt_generator&#39;</span><span class="p">,</span>

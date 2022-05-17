@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools._config_parser &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.tools._config_parser &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -77,6 +77,7 @@
   <h1>Source code for lmpy.tools._config_parser</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing a tool for parsing a configuration file for argparse.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 
@@ -164,6 +165,39 @@
                     <span class="c1"># Always replace existing values</span>
                     <span class="nb">setattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">args</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="get_logger"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/_config_parser/index.html#lmpy.tools._config_parser.get_logger">[docs]</a><span class="k">def</span> <span class="nf">get_logger</span><span class="p">(</span>
+    <span class="n">logger_name</span><span class="p">,</span>
+    <span class="n">log_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">log_console</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a logger object (or None) for the provided parameters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        logger_name (str): A name for the logger.</span>
+<span class="sd">        log_filename (str): A file location to write logging information.</span>
+<span class="sd">        log_console (bool): Should logs be written to the console.</span>
+<span class="sd">        log_level (int): What level of logs should be retained.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        logging.Logger: A logger object to use for logging information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">handlers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">log_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">log_console</span><span class="p">:</span>
+        <span class="n">handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">log_filename</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">log_console</span><span class="p">:</span>
+        <span class="n">handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">handlers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="n">handlers</span><span class="o">=</span><span class="n">handlers</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">log_level</span><span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">logger_name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">handlers</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">logger</span></div>
 </pre></div>
 
            </div>

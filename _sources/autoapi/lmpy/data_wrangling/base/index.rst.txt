@@ -22,12 +22,14 @@ Classes
 
 
 
-.. py:class:: _DataWrangler(*args, **kwargs)
+.. py:class:: _DataWrangler(*args, logger=None, **kwargs)
 
    Base class constructor.
 
    :param \*args: Positional arguments.
    :type \*args: tuple
+   :param logger: An optional logger to use for logging output.
+   :type logger: logging.Logger
    :param \*\*kwargs: Dictionary of parameters.
    :type \*\*kwargs: dict
 
@@ -59,6 +61,16 @@ Classes
 
       :returns: A dictionary of reporting information.
       :rtype: dict
+
+
+   .. py:method:: log(self, msg, log_level=logging.INFO)
+
+      Log a message.
+
+      :param msg: A message to write to the logger.
+      :type msg: str
+      :param log_level: A level to use when logging the message.
+      :type log_level: int
 
 
 

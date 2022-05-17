@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>wrangle_matrix - CLI interface &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>wrangle_matrix - CLI interface &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="wrangle_species_list - CLI interface" href="wrangle_species_list.html" />
+    <link rel="next" title="wrangle_occurrences - CLI interface" href="wrangle_occurrences.html" />
     <link rel="prev" title="split_occurrence_data - CLI interface" href="split_occurrence_data.html" /> 
 </head>
 
@@ -47,9 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="build_shapegrid.html">Build Shapegrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="clean_occurrences.html">clean_occurrences - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convert_csv_to_lmm.html">convert_csv_to_lmm - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_csv.html">convert_lmm_to_csv - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html">convert_lmm_to_geojson - CLI interface</a></li>
@@ -64,6 +62,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#wrangle_matrix-optional-arguments">wrangle_matrix optional arguments</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_occurrences.html">wrangle_occurrences - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrangle_species_list.html">wrangle_species_list - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrangle_tree.html">wrangle_tree - CLI interface</a></li>
 </ul>
@@ -103,6 +102,7 @@
 <h1>wrangle_matrix - CLI interface<a class="headerlink" href="#wrangle_matrix---CLI-interface" title="Permalink to this headline"></a></h1>
 <p>Perform various wrangle operations on a matrix such as subsetting and reordering.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wrangle_matrix</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">REPORT_FILENAME</span><span class="p">]</span>
+               <span class="p">[</span><span class="o">--</span><span class="n">log_filename</span> <span class="n">LOG_FILENAME</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">log_console</span><span class="p">]</span>
                <span class="n">in_matrix_filename</span> <span class="n">wrangler_configuration_file</span> <span class="n">out_matrix_filename</span>
 </pre></div>
 </div>
@@ -120,6 +120,8 @@
 <li><p id="wrangle_matrix--h"><span id="wrangle_matrix---help"></span><a class="reference internal" href="#wrangle_matrix--h" title="wrangle_matrix -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#wrangle_matrix---help" title="wrangle_matrix --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
 <li><p id="wrangle_matrix---config_file"><a class="reference internal" href="#wrangle_matrix---config_file" title="wrangle_matrix --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 <li><p id="wrangle_matrix--r"><span id="wrangle_matrix---report_filename"></span><a class="reference internal" href="#wrangle_matrix--r" title="wrangle_matrix -r"><strong><code class="docutils literal notranslate"><span class="pre">-r</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code>, <a class="reference internal" href="#wrangle_matrix---report_filename" title="wrangle_matrix --report_filename"><strong><code class="docutils literal notranslate"><span class="pre">--report_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code> - File location to write the wrangler report. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_matrix---log_filename"><span id="wrangle_matrix--l"></span><a class="reference internal" href="#wrangle_matrix---log_filename" title="wrangle_matrix --log_filename"><strong><code class="docutils literal notranslate"><span class="pre">--log_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LOG_FILENAME</span></code>, <a class="reference internal" href="#wrangle_matrix--l" title="wrangle_matrix -l"><strong><code class="docutils literal notranslate"><span class="pre">-l</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LOG_FILENAME</span></code> - A file location to write logging data. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="wrangle_matrix---log_console"><a class="reference internal" href="#wrangle_matrix---log_console" title="wrangle_matrix --log_console"><strong><code class="docutils literal notranslate"><span class="pre">--log_console</span></code></strong></a> - If provided, write log to console.</p></li>
 </ul>
 </section>
 </section>
@@ -129,7 +131,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="split_occurrence_data.html" class="btn btn-neutral float-left" title="split_occurrence_data - CLI interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="wrangle_species_list.html" class="btn btn-neutral float-right" title="wrangle_species_list - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="wrangle_occurrences.html" class="btn btn-neutral float-right" title="wrangle_occurrences - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

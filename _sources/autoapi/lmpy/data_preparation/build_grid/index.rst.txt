@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Module containing methods to build a shapegrid.
+   Module containing methods to build a grid.
 
 
 
@@ -18,33 +18,32 @@ Functions
 
 .. autoapisummary::
 
-   lmpy.data_preparation.build_grid.build_shapegrid
+   lmpy.data_preparation.build_grid.build_grid
    lmpy.data_preparation.build_grid.hexagon_wkt_generator
    lmpy.data_preparation.build_grid.make_polygon_wkt_from_points
    lmpy.data_preparation.build_grid.square_wkt_generator
 
 
 
-.. py:function:: build_shapegrid(shapegrid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)
+.. py:function:: build_grid(grid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)
 
-   Build a shapegrid with an optional cutout.
+   Build a grid with an optional cutout.
 
-   :param shapegrid_file_name: The location to store the resulting
-                               shapegrid.
-   :type shapegrid_file_name: str
-   :param min_x: The minimum value for X of the shapegrid.
+   :param grid_file_name: The location to store the resulting grid.
+   :type grid_file_name: str
+   :param min_x: The minimum value for X of the grid.
    :type min_x: numeric
-   :param min_y: The minimum value for Y of the shapegrid.
+   :param min_y: The minimum value for Y of the grid.
    :type min_y: numeric
-   :param max_x: The maximum value for X of the shapegrid.
+   :param max_x: The maximum value for X of the grid.
    :type max_x: numeric
-   :param max_y: The maximum value for Y of the shapegrid.
+   :param max_y: The maximum value for Y of the grid.
    :type max_y: numeric
    :param cell_size: The size of each cell (in units indicated by EPSG).
    :type cell_size: numeric
-   :param epsg_code: The EPSG code for the new shapegrid.
+   :param epsg_code: The EPSG code for the new grid.
    :type epsg_code: int
-   :param cell_sides: The number of sides for each cell of the shapegrid.
+   :param cell_sides: The number of sides for each cell of the grid.
                       4 - square cells, 6 - hexagon cells
    :type cell_sides: int
    :param site_id: The name of the site id field for the shapefile.
@@ -53,11 +52,11 @@ Functions
    :type site_x: str
    :param site_y: The name of the Y field for the shapefile.
    :type site_y: str
-   :param cutout_wkt: WKT for an area of the shapegrid to be cut
+   :param cutout_wkt: WKT for an area of the grid to be cut
                       out.
    :type cutout_wkt: None or str
 
-   :returns: The number of cells in the new shapegrid.
+   :returns: The number of cells in the new grid.
    :rtype: int
 
    :raises ValueError: Raised if invalid bbox or cell sides.
@@ -65,7 +64,7 @@ Functions
 
 .. py:function:: hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
 
-   Generator producing hexagonal WKT for cells of the shapegrid.
+   Generator producing hexagonal WKT for cells of the grid.
 
    :param min_x: The minimum x value.
    :type min_x: numeric
@@ -98,7 +97,7 @@ Functions
 
 .. py:function:: square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
 
-   Generator producing square WKT for cells of the shapegrid.
+   Generator producing square WKT for cells of the grid.
 
    :param min_x: The minimum x value.
    :type min_x: numeric

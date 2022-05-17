@@ -1,7 +1,7 @@
-:py:mod:`lmpy.tools.clean_occurrences`
-======================================
+:py:mod:`lmpy.tools.wrangle_occurrences`
+========================================
 
-.. py:module:: lmpy.tools.clean_occurrences
+.. py:module:: lmpy.tools.wrangle_occurrences
 
 .. autoapi-nested-parse::
 
@@ -18,9 +18,9 @@ Functions
 
 .. autoapisummary::
 
-   lmpy.tools.clean_occurrences.build_parser
-   lmpy.tools.clean_occurrences.clean_data
-   lmpy.tools.clean_occurrences.cli
+   lmpy.tools.wrangle_occurrences.build_parser
+   lmpy.tools.wrangle_occurrences.clean_data
+   lmpy.tools.wrangle_occurrences.cli
 
 
 

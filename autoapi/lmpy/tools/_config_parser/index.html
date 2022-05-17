@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools._config_parser &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.tools._config_parser &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -91,6 +91,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.tools._config_parser._process_arguments" title="lmpy.tools._config_parser._process_arguments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_process_arguments</span></code></a>(parser, config_arg=None)</p></td>
 <td><p>Process arguments including filling in those provided by configuration file.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.tools._config_parser.get_logger" title="lmpy.tools._config_parser.get_logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logger</span></code></a>(logger_name, log_filename=None, log_console=False, log_level=logging.NOTSET)</p></td>
+<td><p>Get a logger object (or None) for the provided parameters.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -114,6 +117,28 @@ arguments.</p></li>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>argparse.Namespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.tools._config_parser.get_logger">
+<span class="sig-prename descclassname"><span class="pre">lmpy.tools._config_parser.</span></span><span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_console</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">logging.NOTSET</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/_config_parser.html#get_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools._config_parser.get_logger" title="Permalink to this definition"></a></dt>
+<dd><p>Get a logger object (or None) for the provided parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logger_name</strong> (<em>str</em>) – A name for the logger.</p></li>
+<li><p><strong>log_filename</strong> (<em>str</em>) – A file location to write logging information.</p></li>
+<li><p><strong>log_console</strong> (<em>bool</em>) – Should logs be written to the console.</p></li>
+<li><p><strong>log_level</strong> (<em>int</em>) – What level of logs should be retained.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A logger object to use for logging information.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>logging.Logger</p>
 </dd>
 </dl>
 </dd></dl>

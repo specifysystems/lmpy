@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.matrix.purge_empty_slices_wrangler &mdash; Specify lmpy 3.1.14 documentation</title>
+  <title>lmpy.data_wrangling.matrix.purge_empty_slices_wrangler &mdash; Specify lmpy 3.1.14+364.g1c4535b6 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -127,6 +127,9 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;purged&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)][</span><span class="s1">&#39;purged&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span>
                     <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">sum_axes</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;Purged </span><span class="si">{}</span><span class="s1"> from axis </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)][</span><span class="s1">&#39;purged&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">axis_slice</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]))</span>
