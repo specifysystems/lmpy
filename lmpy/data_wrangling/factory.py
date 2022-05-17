@@ -10,9 +10,14 @@ class WranglerFactory:
     """Factory for configuring data wranglers."""
 
     # .......................
-    def __init__(self):
-        """Constructor for the WranglerFactory class."""
+    def __init__(self, logger=None):
+        """Constructor for the WranglerFactory class.
+
+        Args:
+            logger (logging.Logger): A default logger to use when wrangling.
+        """
         self.wrangler_types = {}
+        self.default_logger = logger
         self._load_wranglers()
 
     # .......................
@@ -60,9 +65,10 @@ class WranglerFactory:
         if isinstance(wrangler_configs, dict):
             wrangler_configs = [wrangler_configs]
 
-        return [
-            self.wrangler_types[config["wrangler_type"]].from_config(
-                config
-            )
-            for config in wrangler_configs
-        ]
+        wranglers = []
+        for config in wrangler_configs:
+            wrangler = self.wrangler_types[config['wrangler_type']].from_config(config)
+            if wrangler.logger is None and self.default_logger is not None:
+                wrangler.logger = self.default_logger
+            wranglers.append(wrangler)
+        return wranglers

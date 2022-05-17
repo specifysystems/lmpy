@@ -122,9 +122,11 @@ class _AcceptedNameWrangler(_DataWrangler):
         for name in names:
             if name in self.name_map.keys():
                 resolved_names[name] = self.name_map[name]
+                self.log(f'Resolved name {name} to {self.name_map[name]}')
             else:
                 unmatched_names.append(name)
                 resolved_names[name] = None
+                self.log(f'Could not resolve name {name}')
 
         # If we have a name resolver and names to resolve, do it
         if self._name_resolver is not None and len(unmatched_names) > 0:
@@ -156,8 +158,10 @@ class _AcceptedNameWrangler(_DataWrangler):
         if output_format.lower() == 'json':
             with open(filename, mode=mode) as out_json:
                 json.dump(self.name_map, out_json)
+            self.log(f'Wrote {len(self.name_map)} names to {filename} as JSON')
         else:
             with open(filename, mode=mode) as out_csv:
                 out_csv.write('Name,Accepted\n')
                 for in_name, out_name in self.name_map.items():
                     out_csv.write(f'{in_name},{out_name}\n')
+            self.log(f'Wrote {len(self.name_map)} names to {filename} as CSV')

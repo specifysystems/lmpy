@@ -27,6 +27,7 @@ def test_wrangle_species_list(monkeypatch, generate_temp_filename):
     report_filename = generate_temp_filename(suffix='.json')
     matrix_filename = generate_temp_filename(suffix='.lmm')
     tree_filename = generate_temp_filename(suffix='.tre')
+    log_filename = generate_temp_filename(suffix='.log')
     tree_schema = 'newick'
     num_rows = 100
 
@@ -95,6 +96,8 @@ def test_wrangle_species_list(monkeypatch, generate_temp_filename):
         'wrangle_species_list.py',
         '-r',
         report_filename,
+        '--log_filename',
+        log_filename,
         in_species_list_filename,
         wrangler_config_filename,
         out_species_list_filename,
@@ -109,6 +112,13 @@ def test_wrangle_species_list(monkeypatch, generate_temp_filename):
     assert len(out_species_list) < len(species_pool)
     for name in out_species_list:
         assert name in species_pool
+
+    # Check that log was created and has contents
+    num_log_lines = 0
+    with open(log_filename, mode='rt') as log_in:
+        for _ in log_in:
+            num_log_lines += 1
+    assert num_log_lines > 0
 
     # Load report
     with open(report_filename, mode='rt') as in_json:
