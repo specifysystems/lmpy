@@ -1,4 +1,4 @@
-"""Test the clean_occurrences tool."""
+"""Test the wrangle_occurrences tool."""
 from copy import deepcopy
 import json
 

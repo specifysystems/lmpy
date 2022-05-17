@@ -4,7 +4,7 @@ import json
 import numpy as np
 from osgeo import ogr, osr
 
-from lmpy.data_preparation.build_grid import build_shapegrid
+from lmpy.data_preparation.build_grid import build_grid
 from lmpy.data_preparation.layer_encoder import LayerEncoder, DEFAULT_NODATA
 
 
@@ -13,27 +13,27 @@ class Test_LayerEncoder:
     """Test LayerEncoder."""
 
     # ................................
-    def test_base_constructor(self, shapegrid_filename):
+    def test_base_constructor(self, grid_filename):
         """Test construction.
 
         Args:
-            shapegrid_filename (str): File path to shapegrid.
+            grid_filename (str): File path to grid.
         """
-        encoder = LayerEncoder(shapegrid_filename)
+        encoder = LayerEncoder(grid_filename)
         assert encoder.get_encoded_matrix() is None
 
     # ................................
     def test_encode_biogeographic_hypothesis(
-        self, shapegrid_filename, bio_geo_filenames
+        self, grid_filename, bio_geo_filenames
     ):
         """Test encode biogeographic hypothesis.
 
         Args:
-            shapegrid_filename (str): File path to shapegrid.
+            grid_filename (str): File path to grid.
             bio_geo_filenames (list of str): List of file paths to biogeographic
                 hypothesis layer files.
         """
-        encoder = LayerEncoder(shapegrid_filename)
+        encoder = LayerEncoder(grid_filename)
         for i, filename in enumerate(bio_geo_filenames):
             if filename.find('_attribute_') > 0:
                 attribute_field = filename.split('_attribute_')[1].split('.shp')[0]
@@ -55,16 +55,16 @@ class Test_LayerEncoder:
 
     # ................................
     def test_encode_presence_absence(
-        self, shapegrid_filename, raster_pa_filenames, vector_pa_filenames
+        self, grid_filename, raster_pa_filenames, vector_pa_filenames
     ):
         """Test encode presence absence.
 
         Args:
-            shapegrid_filename (str): File path to shapegrid.
+            grid_filename (str): File path to grid.
             raster_pa_filenames (list of str): List of file paths to raster files.
             vector_pa_filenames (list of str): List of file paths to vector files.
         """
-        encoder = LayerEncoder(shapegrid_filename)
+        encoder = LayerEncoder(grid_filename)
 
         for i, filename in enumerate(raster_pa_filenames):
             encoder.encode_presence_absence(filename, 'Raster {}'.format(i), 1, 99, 25)
@@ -87,16 +87,16 @@ class Test_LayerEncoder:
 
     # ................................
     def test_encode_mean_value(
-        self, shapegrid_filename, raster_env_filenames, vector_env_filenames
+        self, grid_filename, raster_env_filenames, vector_env_filenames
     ):
         """Test encode mean value.
 
         Args:
-            shapegrid_filename (str): File path to shapegrid.
+            grid_filename (str): File path to grid.
             raster_env_filenames (list of str): List of file paths to raster files.
             vector_env_filenames (list of str): List of file paths to vector files.
         """
-        encoder = LayerEncoder(shapegrid_filename)
+        encoder = LayerEncoder(grid_filename)
 
         for i, filename in enumerate(raster_env_filenames):
             encoder.encode_mean_value(filename, 'Raster {}'.format(i))
@@ -119,16 +119,16 @@ class Test_LayerEncoder:
 
     # ................................
     def test_encode_largest_class(
-        self, shapegrid_filename, raster_env_filenames, vector_env_filenames
+        self, grid_filename, raster_env_filenames, vector_env_filenames
     ):
         """Test encode largest class.
 
         Args:
-            shapegrid_filename (str): File path to shapegrid.
+            grid_filename (str): File path to grid.
             raster_env_filenames (list of str): List of file paths to raster files.
             vector_env_filenames (list of str): List of file paths to vector files.
         """
-        encoder = LayerEncoder(shapegrid_filename)
+        encoder = LayerEncoder(grid_filename)
 
         for i, filename in enumerate(raster_env_filenames):
             encoder.encode_largest_class(filename, 'Raster {}'.format(i), 10)
@@ -156,13 +156,13 @@ class Test_LayerEncoder:
         Args:
             generate_temp_filename (pytest.fixture): A fixture for generating filenames.
         """
-        # Create shapegrid (10 x 10 1 degree cells)
-        temp_shapegrid_filename = generate_temp_filename(suffix='.shp')
+        # Create grid (10 x 10 1 degree cells)
+        temp_grid_filename = generate_temp_filename(suffix='.shp')
         layer_filename = generate_temp_filename(suffix='.asc')
 
-        build_shapegrid(temp_shapegrid_filename, 0, 0, 10, 10, 1, 4326, 4)
+        build_grid(temp_grid_filename, 0, 0, 10, 10, 1, 4326, 4)
 
-        encoder = LayerEncoder(temp_shapegrid_filename)
+        encoder = LayerEncoder(temp_grid_filename)
 
         # Create layer
         with open(layer_filename, mode='wt') as layer_out:
@@ -196,21 +196,21 @@ class Test_LayerEncoder:
         assert np.all(enc_matrix.sum(axis=0) == np.array([55, 55, 55, 55, 45, 45, 45]))
 
     # ................................
-    def test_bigger_shapegrid(self, generate_temp_filename):
-        """Test encode methods with a larger shapegrid than layers.
+    def test_bigger_grid(self, generate_temp_filename):
+        """Test encode methods with a larger grid than layers.
 
         Args:
             generate_temp_filename (pytest.fixture): A fixture for generating filenames.
         """
         # File names
-        temp_shapegrid_filename = generate_temp_filename(suffix='.shp')
+        temp_grid_filename = generate_temp_filename(suffix='.shp')
         layer_filename = generate_temp_filename(suffix='.asc')
         biogeo_filename = generate_temp_filename(suffix='.bg.shp')
 
-        # Create a shapegrid (50 x 50 1 degree cells)
-        build_shapegrid(temp_shapegrid_filename, 0, 0, 50, 50, 1, 4326, 4)
+        # Create a grid (50 x 50 1 degree cells)
+        build_grid(temp_grid_filename, 0, 0, 50, 50, 1, 4326, 4)
 
-        encoder = LayerEncoder(temp_shapegrid_filename)
+        encoder = LayerEncoder(temp_grid_filename)
 
         # Create layer
         with open(layer_filename, mode='wt') as layer_out:

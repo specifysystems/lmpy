@@ -30,14 +30,14 @@ class SampleDataFiles(object):
     """
 
     # ...........................
-    def get_shapegrid_filenames(self):
-        """Get a list of shapegrid filenames.
+    def get_grid_filenames(self):
+        """Get a list of grid filenames.
 
         Returns:
-            A list of shapegrid filenames
+            A list of grid filenames
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
-        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'shapegrid*.shp'))
+        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'grid*.shp'))
 
     # ...........................
     def get_raster_env_filenames(self):
@@ -265,7 +265,7 @@ def pytest_generate_tests(metafunc):
         ('valid_newick_tree', df.get_trees('newick', True)),
         ('valid_nexml_tree', df.get_trees('nexml', True)),
         ('valid_nexus_tree', df.get_trees('nexus', True)),
-        ('shapegrid_filename', df.get_shapegrid_filenames()),
+        ('grid_filename', df.get_grid_filenames()),
         ('raster_env_filenames', df.get_raster_env_filenames()),
         ('vector_env_filenames', df.get_vector_env_filenames()),
         ('raster_pa_filenames', df.get_raster_pa_filenames()),
