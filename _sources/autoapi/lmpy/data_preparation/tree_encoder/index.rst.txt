@@ -12,8 +12,6 @@
            phylogenetics: separating the roles of environmental filters and
            historical biogeography. Ecology letters 13: 1290-1299.
 
-   .. todo:: Use method to get labels by matrix index when available from tree.
-
 
 
 Module Contents
@@ -217,8 +215,6 @@ Classes
 
          P in the literature, a tip (row) by internal node (column) matrix
              that needs to match the provided PAM.
-
-      .. todo:: Consider providing options for correcting the tree / pam
 
       :raises EncodingException: Raised if the PAM and tree do not match.
 

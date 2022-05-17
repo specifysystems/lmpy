@@ -11,6 +11,7 @@ Tools
     create_rare_species_model
     create_tree_matrix
     encode_layers
+    encode_tree_mcpa
     mcpa_run
     randomize_pam
     split_occurrence_data

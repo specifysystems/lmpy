@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.tree_encoder &mdash; Specify lmpy 3.1.14+367.g66501cdf documentation</title>
+  <title>lmpy.data_preparation.tree_encoder &mdash; Specify lmpy 3.1.14+371.gbe1bffe2 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -81,14 +81,11 @@
 <span class="sd">    Leibold, m.A., E.P. Economo and P.R. Peres-Neto. 2010. Metacommunity</span>
 <span class="sd">        phylogenetics: separating the roles of environmental filters and</span>
 <span class="sd">        historical biogeography. Ecology letters 13: 1290-1299.</span>
-
-<span class="sd">Todo:</span>
-<span class="sd">    Use method to get labels by matrix index when available from tree.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">shuffle</span>
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">PhyloTreeKeys</span><span class="p">,</span> <span class="n">TreeWrapper</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy.tree</span> <span class="k">import</span> <span class="n">TreeWrapper</span>
 
 
 <span class="c1"># .............................................................................</span>
@@ -109,11 +106,17 @@
 <span class="sd">            pam (Matrix): A PAM matrix object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">add_node_labels</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pam</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pam</span> <span class="o">=</span> <span class="n">pam</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">pam</span><span class="p">)</span>
+
+        <span class="c1"># Get labels from matrix or tree tips</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">tax</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">taxon_namespace</span><span class="p">]</span>
 
     <span class="c1"># ..............................</span>
     <span class="nd">@classmethod</span>
@@ -139,9 +142,6 @@
 <span class="sd">            P in the literature, a tip (row) by internal node (column) matrix</span>
 <span class="sd">                that needs to match the provided PAM.</span>
 
-<span class="sd">        Todo:</span>
-<span class="sd">            Consider providing options for correcting the tree / pam</span>
-
 <span class="sd">        Raises:</span>
 <span class="sd">            EncodingException: Raised if the PAM and tree do not match.</span>
 
@@ -166,27 +166,27 @@
 <span class="sd">            bool: Boolean indicating if the tree / pam is valid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># check if tree is ultrametric</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">has_branch_lengths</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">is_ultrametric</span><span class="p">()</span>
-        <span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">is_binary</span><span class="p">():</span>
-            <span class="c1"># Check that matrix indices in tree match PAM</span>
-            <span class="c1"># List of matrix indices (based on PAM column count)</span>
-            <span class="n">pam_mtx_indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="c1"># All matrix indices in tree</span>
-            <span class="n">tree_mtx_indices</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="nb">int</span><span class="p">(</span><span class="n">mtx_id</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">mtx_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_annotations</span><span class="p">(</span><span class="n">PhyloTreeKeys</span><span class="o">.</span><span class="n">MTX_IDX</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">mtx_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">has_branch_lengths</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">is_ultrametric</span><span class="p">()),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">is_binary</span><span class="p">(),</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">taxon_namespace</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="p">]</span>
+        <span class="p">):</span>
+            <span class="c1"># Check that the tips in the tree are the same as the column headers in the</span>
+            <span class="c1">#     matrix</span>
+            <span class="c1"># Check that matrix indices in tree match PAM</span>
+            <span class="n">tree_tips</span> <span class="o">=</span> <span class="p">[</span><span class="n">tax</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">taxon_namespace</span><span class="p">]</span>
 
             <span class="c1"># Find the intersection between the two lists</span>
-            <span class="n">intersection</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">pam_mtx_indices</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">tree_mtx_indices</span><span class="p">)</span>
+            <span class="n">intersection</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">tree_tips</span><span class="p">)</span>
 
             <span class="c1"># This checks that there are no duplicates in either of the indices</span>
             <span class="c1">#     lists and that they overlap completely</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">pam_mtx_indices</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span>
-                <span class="n">pam_mtx_indices</span>
-            <span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree_mtx_indices</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">([</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">),</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree_tips</span><span class="p">)</span>
+            <span class="p">]):</span>
                 <span class="c1"># If everything checks out to here, return true for valid</span>
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="c1"># If anything does not validate, return false</span>
@@ -222,7 +222,7 @@
         <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">num_child_nodes</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Assume this is two since binary</span>
             <span class="n">clade_p_vals</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="n">multipliers</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>  <span class="c1"># One positive, one negative</span>
-            <span class="n">shuffle</span><span class="p">(</span><span class="n">multipliers</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">multipliers</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">child_nodes</span><span class="p">():</span>
                 <span class="p">(</span>
@@ -266,7 +266,7 @@
             <span class="n">p_vals_dict</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">clade_p_vals</span>
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># We are at a tip</span>
-            <span class="n">bl_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">PhyloTreeKeys</span><span class="o">.</span><span class="n">MTX_IDX</span><span class="p">):</span> <span class="p">[]}</span>
+            <span class="n">bl_dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">label</span><span class="p">):</span> <span class="p">[]}</span>
 
         <span class="k">return</span> <span class="n">bl_dict</span><span class="p">,</span> <span class="n">bl_sum</span><span class="p">,</span> <span class="n">p_vals_dict</span></div>
 
@@ -339,15 +339,14 @@
         <span class="c1"># .......................</span>
         <span class="c1"># Initialize the matrix</span>
         <span class="n">internal_node_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="o">.</span><span class="n">is_leaf</span><span class="p">()]</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
 
         <span class="c1"># We need a mapping of node path id to matrix column.  I don&#39;t think</span>
         <span class="c1">#     order matters</span>
         <span class="n">node_col_idx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">internal_node_labels</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">internal_node_labels</span><span class="p">))))</span>
 
         <span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">internal_node_labels</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
-            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">internal_node_labels</span><span class="p">},</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">internal_node_labels</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">internal_node_labels</span><span class="p">},</span>
         <span class="p">)</span>
 
         <span class="c1"># Get the list of tip proportion lists</span>
@@ -402,9 +401,7 @@
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">tip_props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">PhyloTreeKeys</span><span class="o">.</span><span class="n">MTX_IDX</span><span class="p">),</span> <span class="n">visited</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">tip_props</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">taxon</span><span class="o">.</span><span class="n">label</span><span class="p">),</span> <span class="n">visited</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">tip_props</span></div>
 
@@ -473,10 +470,9 @@
         <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">p_val_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_p_branch_length_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">seed_node</span><span class="p">)</span>
 
         <span class="c1"># Initialize the matrix</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
         <span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_val_dict</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
-            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">p_val_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())},</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_val_dict</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">p_val_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())},</span>
         <span class="p">)</span>
 
         <span class="c1"># We need a mapping of node path id to matrix column.  I don&#39;t think</span>

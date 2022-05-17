@@ -1,0 +1,38 @@
+:py:mod:`lmpy.tools.encode_tree_mcpa`
+=====================================
+
+.. py:module:: lmpy.tools.encode_tree_mcpa
+
+.. autoapi-nested-parse::
+
+   This tool encodes a phylogenetic tree into a matrix that can be used for MCPA.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.encode_tree_mcpa.build_parser
+   lmpy.tools.encode_tree_mcpa.cli
+
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for encoding a tree for MCPA.
+
+

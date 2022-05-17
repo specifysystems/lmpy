@@ -26,6 +26,7 @@ Submodules
    create_rare_species_model/index.rst
    create_tree_matrix/index.rst
    encode_layers/index.rst
+   encode_tree_mcpa/index.rst
    mcpa_run/index.rst
    randomize_pam/index.rst
    split_occurrence_data/index.rst
