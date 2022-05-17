@@ -51,19 +51,19 @@ docker run -v "$(pwd)"/host_data:/container_data -it dlmpy bash
 
 ```commandline
 export PROJ_LIB=/usr/local/share/proj
-build_shapegrid /docker_data/twenty_shapegrid.shp -20 -20 20 20 1 4326
+build_grid /docker_data/twenty_grid.shp -20 -20 20 20 1 4326
 ```
 
 * Test the output in the docker container
 
 ```commandline
-ogrinfo -al /container_data/test_shapegrid.shp
+ogrinfo -al /container_data/test_grid.shp
 ```
 
 * Exit the container and test the output in the host system directory.
 
 ```commandline
-ogrinfo -al ./host_data/test_shapegrid.shp
+ogrinfo -al ./host_data/test_grid.shp
 ```
 
 ### Run in one-shot container, run and exit
@@ -74,13 +74,13 @@ ogrinfo -al ./host_data/test_shapegrid.shp
 docker run -v "$(pwd)"/host_data:/container_data \
            -e PROJ_LIB=/usr/local/share/proj \
            dlmpy \
-           build_shapegrid /container_data/again_shapegrid.shp -20 -20 20 20 1 4326
+           build_grid /container_data/again_grid.shp -20 -20 20 20 1 4326
 ```
 
 * Test output in local directory
 
 ```commandline
-ogrinfo -al ./host_data/again_shapegrid.shp
+ogrinfo -al ./host_data/again_grid.shp
 ```
 
 ## Project tools
