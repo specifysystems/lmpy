@@ -13,4 +13,3 @@ analyses.  There are some specialty analyses in [mcpa](mcpa.py) and
 * **pam_stats**: define different accepted measures and comparisons for a PAM matrix.
 * **running_stats**: compute common values and objects used for computing a variety of
   matrix statistics, to avoid repeating common computations and reduce memory usage.
-

@@ -1,16 +1,16 @@
 # lmpy.data_wrangling
 
 Submodules under this module define "Data Wranglers" that can be configured for
-various operations. "Data Wranglers" are tools used to filter and / or modify data.  
+various operations. "Data Wranglers" are tools used to filter and / or modify data.
 Some examples are filtering
 occurrence records that do not satisfy standards for modeling or modifying the tips of a
 phylogenetic tree so that they match accepted taxonomy.
 
 ## Configuration
 
-Data wrangling requires a JSON configuration, containing a list of one dictionary per 
-desired wrangle. Each dictionary must contain "**wrangler_type**", with the name of the 
-wrangler types. The dictionary will also contain any required parameters or optional 
+Data wrangling requires a JSON configuration, containing a list of one dictionary per
+desired wrangle. Each dictionary must contain "**wrangler_type**", with the name of the
+wrangler types. The dictionary will also contain any required parameters or optional
 parameters.
 
 ## Wrangler Factory

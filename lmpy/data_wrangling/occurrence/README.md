@@ -17,7 +17,7 @@ meets a common format for aggregation.
   * The dictionary will also contain all required parameters and any optional
     parameters.
 
-* Currently, wrangler names correspond to the wrangler class `name` attribute in this 
+* Currently, wrangler names correspond to the wrangler class `name` attribute in this
   module's files.
 * Each wrangler's parameters correspond to the constructor arguments for that wrangler.
 * Example clean_occurrences wrangler configuration:
@@ -145,7 +145,7 @@ For more complex cases, you may need to override both methods and maybe the
 
 * required
 
-  * decimal_places (int): Only keep points with at least this many decimal places of 
+  * decimal_places (int): Only keep points with at least this many decimal places of
     precision.
 
 ### DisjointGeometriesFilter
@@ -182,4 +182,3 @@ For more complex cases, you may need to override both methods and maybe the
 * optional
 
   * do_reset (bool): Reset the list of seen localities after each group.
-

@@ -78,6 +78,7 @@ docker run -v "$(pwd)"/host_data:/container_data \
 ```
 
 * Test output in local directory
+
 ```commandline
 ogrinfo -al ./host_data/again_shapegrid.shp
 ```

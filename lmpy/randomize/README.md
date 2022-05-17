@@ -7,7 +7,7 @@ randomization).  We include an implementation of the [Gotelli Swap](./swap.py) m
 as well as our own [Grady randomization method](./grady.py) that is designed to operate
 at significantly larger scales.
 
-Matrix randomization is necessary in order to measure the difference between the 
+Matrix randomization is necessary in order to measure the difference between the
 statistics of
 a matrix computed directly from research data against the statistics of a randomized
 version of that matrix.  The randomized matrix is created to have the same properties,

@@ -1,5 +1,3 @@
-# lmpy.data_wrangling.matrix
-
 # Matrix Data Wranglers
 
 Matrix data wranglers operate on `lmpy.matrix.Matrix` objects and modify / filter rows,

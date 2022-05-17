@@ -1,8 +1,17 @@
-<<<<<<< HEAD
-# Occurrence Data Wranglers
+# Tree Data Wranglers
 
-The files in this module define tree data manipulations, and parameters for each, that
-can be configured for various purposes.
+Tree data wranglers operate on `lmpy.tree.TreeWrapper` objects and modify / filter tips
+of the tree so that the tree can be used in additional analyses.  Each tree wrangler is
+a subclass of `lmpy.data_wrangling.tree.base._TreeDataWrangler` and exposes
+functionality through the `wrangle_tree` method.  This method takes a `TreeWrapper`
+object as input and returns a wrangled version of that provided tree.  Some common
+options are to purge some tips from the tree and updating the taxon name for each tip
+using a taxonomic name resolution service.
+
+## Wrangler types
+
+Use tree wranglers by defining them in a configuration file with appropriate
+required and optional parameters.
 
 * A configuration file is in JSON format, a list of one dictionary per desired
   wrangler.
@@ -15,8 +24,6 @@ can be configured for various purposes.
 * Currently, wrangler names correspond to the wrangler class `name` attribute in this
   module's files.
 * Each wrangler's parameters correspond to the constructor arguments for that wrangler.
-
-## Wrangler types
 
 ### AcceptedNameTreeWrangler
 
@@ -39,16 +46,6 @@ can be configured for various purposes.
 * required
 
   * **keep_taxa** (list of str): A list of taxon names to keep.
-=======
-# Tree Data Wranglers
-
-Tree data wranglers operate on `lmpy.tree.TreeWrapper` objects and modify / filter tips
-of the tree so that the tree can be used in additional analyses.  Each tree wrangler is
-a subclass of `lmpy.data_wrangling.tree.base._TreeDataWrangler` and exposes
-functionality through the `wrangle_tree` method.  This method takes a `TreeWrapper`
-object as input and returns a wrangled version of that provided tree.  Some common
-options are to purge some tips from the tree and updating the taxon name for each tip
-using a taxonomic name resolution service.
 
 ## Example Usage
 
@@ -87,4 +84,3 @@ for wrangler in tree_wranglers:
 Creating a new tree data wrangler requires overriding the `wrangle_tree` method.  See
 examples [accepted_name_wrangler.AcceptedNameTreeWrangler](./accepted_name_wrangler.py)
 and [subset_tree_wrangler.SubsetTreeWrangler](./subset_tree_wrangler.py).
->>>>>>> origin/main

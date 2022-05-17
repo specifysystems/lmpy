@@ -1,7 +1,7 @@
-<<<<<<< HEAD
-# lmpy.data_preparation
+# lmpy Data Preparation Submodule
 
-This module prepares data as input into lmpy biogeographical analyses.
+The data preparation submodule includes tools for preparing data for analysis.  These
+tools are generally exposed through `lmpy.tools` but can be used directly if desired.
 
 * **build_grid** prepares a geospatial vector file representing a regular grid of
 square cells covering a rectangular geospatial region of the earth, and defined by
@@ -19,9 +19,3 @@ analyses.
 
 * **tree_encoder** enables a phylogenetic tree to be encoded into a new output matrix,
 given an input tree and input matrix where the tree tip labels match the matrix labels.
-=======
-# lmpy Data Preparation Submodule
-
-The data preparation submodule includes tools for preparing data for analysis.  These
-tools are generally exposed through `lmpy.tools` but can be used directly if desired.
->>>>>>> origin/main
