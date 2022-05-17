@@ -58,10 +58,12 @@ def _process_arguments(parser, config_arg=None):
     # Check if each positional argument is present
     for pos_arg in parser._positionals._group_actions:
         # Get nargs for this positional
-        if pos_arg.nargs is None:
+        if pos_arg.nargs is None or pos_arg.nargs == '+':
             pos_nargs = 1
+        elif pos_arg.nargs == '*':
+            pos_nargs = 0
         else:
-            pos_nargs = pos_arg.nargs
+            pos_nargs = int(pos_arg.nargs)
 
         # Move pos_idx
         pos_idx += pos_nargs

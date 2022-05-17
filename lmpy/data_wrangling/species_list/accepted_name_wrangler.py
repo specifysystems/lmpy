@@ -1,15 +1,16 @@
-"""Module containing occurrence data wranglers for modifying tree tips."""
+"""Module containing occurrence data wranglers for modifying a species list."""
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
     _AcceptedNameWrangler,
     resolve_names_gbif,
 )
-from lmpy.data_wrangling.tree.base import _TreeDataWrangler
+from lmpy.data_wrangling.species_list.base import _SpeciesListDataWrangler
+from lmpy.species_list import SpeciesList
 
 
 # .....................................................................................
-class AcceptedNameTreeWrangler(_TreeDataWrangler, _AcceptedNameWrangler):
-    """Modifies tree columns to update taxon names to the "accepted" names."""
-    name = 'AcceptedNameTreeWrangler'
+class AcceptedNameSpeciesListWrangler(_SpeciesListDataWrangler, _AcceptedNameWrangler):
+    """Modifies a species list to update taxon names to the "accepted" names."""
+    name = 'AcceptedNameSpeciesListWrangler'
     version = '1.0'
 
     # .......................
@@ -23,7 +24,7 @@ class AcceptedNameTreeWrangler(_TreeDataWrangler, _AcceptedNameWrangler):
         out_map_format='json',
         **params
     ):
-        """Constructor for AcceptedNameTreeModifier class.
+        """Constructor for AcceptedNameSpeciesListModifier class.
 
         Args:
             name_map (dict): A map of original name to accepted name.
@@ -46,37 +47,29 @@ class AcceptedNameTreeWrangler(_TreeDataWrangler, _AcceptedNameWrangler):
             map_write_interval=map_write_interval,
             out_map_format=out_map_format,
         )
-        _TreeDataWrangler.__init__(self, **params)
-
-        self.purge_failures = purge_failures
+        _SpeciesListDataWrangler.__init__(self, **params)
 
     # .......................
-    def wrangle_tree(self, tree):
-        """Wrangle a tree.
+    def wrangle_species_list(self, species_list):
+        """Wrangle a species list.
 
         Args:
-            tree (TreeWrapper): A tree to wrangle.
+            species_list (SpeciesList): A species list to wrangle.
 
         Returns:
-            TreeWrapper: The tree with accepted taxon names.
+            SpeciesList: A species list with accepted names.
         """
-        failures = []
-        for taxon in tree.taxon_namespace:
-            acc_name = self.resolve_names([taxon.label])[taxon.label]
-            if acc_name is None:
-                failures.append(taxon)
-                taxon.label = ''
-            elif taxon.label != acc_name:
-                taxon.label = acc_name
-                # report
-                self._report_tip(modified=True)
-
-        # Should we purge?
-        if self.purge_failures and len(failures) > 0:
-            for _ in failures:
-                self._report_tip(purged=True)
-
-            tree.prune_taxa(failures)
-            tree.purge_taxon_namespace()
-
-        return tree
+        accepted_species = set()
+        acc_names = self.resolve_names(species_list)
+        num_unresolved = 0
+        num_duplicates = 0
+        for name in species_list:
+            if acc_names[name] is None:
+                num_unresolved += 1
+            elif acc_names[name] in accepted_species:
+                num_duplicates += 1
+            else:
+                accepted_species.add(acc_names[name])
+        self.report['unresolved'] = num_unresolved
+        self.report['duplicates'] = num_duplicates
+        return SpeciesList(accepted_species)

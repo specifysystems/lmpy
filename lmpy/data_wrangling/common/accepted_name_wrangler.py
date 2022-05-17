@@ -26,7 +26,10 @@ def resolve_names_gbif(names, wait_time=.5):
         url = 'http://api.gbif.org/v1/species/match?{}'.format(
             urllib.parse.urlencode(other_filters))
         response = requests.get(url).json()
-        if response['status'].lower() in ('accepted', 'synonym'):
+        if 'status' in response.keys() and response['status'].lower() in (
+            'accepted',
+            'synonym'
+        ):
             resolved_names[name_str] = response['canonicalName']
         else:
             resolved_names[name_str] = None
@@ -40,7 +43,14 @@ def resolve_names_gbif(names, wait_time=.5):
 class _AcceptedNameWrangler(_DataWrangler):
     """Base class for accepted taxon name wranglers."""
     # .......................
-    def __init__(self, name_map=None, name_resolver=None):
+    def __init__(
+        self,
+        name_map=None,
+        name_resolver=None,
+        out_map_filename=None,
+        map_write_interval=100,
+        out_map_format='json',
+    ):
         """Constructor for the base accepted name wrangler.
 
         Args:
@@ -48,12 +58,31 @@ class _AcceptedNameWrangler(_DataWrangler):
             name_resolver (Method or None): If provided, this should be a function that
                 takes a list of names as input and returns a dictionary of name
                 mappings.  If omitted, resolving of new names will be skipped.
+            out_map_filename (str): A file location to write the updated name map.
+            map_write_interval (int): Update the name map output file after each set of
+                this many iterations.
+            out_map_format (str): The format to write the names map (csv or json).
         """
         if name_map is not None:
             self._load_name_map(name_map)
         else:
             self.name_map = {}
         self._name_resolver = name_resolver
+        self.out_name_map_filename = out_map_filename
+        self.map_write_interval = map_write_interval
+        self._updated_since_write = 0
+        self.out_map_format = out_map_format
+
+    # .......................
+    def __del__(self):
+        """Destructor method, sync map to disk if needed."""
+        if all(
+            [
+                self.out_name_map_filename is not None,
+                self._updated_since_write >= 0
+            ]
+        ):
+            self.write_map_to_file(self.out_name_map_filename, self.out_map_format)
 
     # .......................
     def _load_name_map(self, name_map):
@@ -103,6 +132,15 @@ class _AcceptedNameWrangler(_DataWrangler):
             # Update name map and return dictionary
             self.name_map.update(new_names)
             resolved_names.update(new_names)
+            self._updated_since_write += len(new_names.keys())
+            if all(
+                [
+                    self.out_name_map_filename is not None,
+                    self._updated_since_write >= self.map_write_interval
+                ]
+            ):
+                self.write_map_to_file(self.out_name_map_filename, self.out_map_format)
+                self._updated_since_write = 0
 
         return resolved_names
 

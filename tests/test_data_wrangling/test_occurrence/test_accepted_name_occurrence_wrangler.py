@@ -1,4 +1,6 @@
 """Test the accepted_name_wrangler module."""
+import json
+
 import numpy as np
 
 from lmpy.data_wrangling.occurrence.accepted_name_wrangler import (
@@ -9,8 +11,26 @@ from tests.data_simulator import (
     generate_points,
     get_random_choice_func,
     get_random_float_func,
+    get_random_string_func,
     SimulatedField,
 )
+
+
+# .....................................................................................
+def dummy_name_resolver(names):
+    """A dummy name resolver for testing.
+
+    Args:
+        names (list of str): A list of name strings to resolve.
+
+    Returns:
+        dict: Input names are keys and resolved name or None are values.
+    """
+    resolved_names = {}
+    for name_str in names:
+        # Randomly generate an accepted name
+        resolved_names[name_str] = get_random_string_func(8, 20, do_capitalize=True)()
+    return resolved_names
 
 
 # .....................................................................................
@@ -228,3 +248,74 @@ def test_accepted_name_wrangler_from_config(generate_temp_filename):
     assert report['assessed'] == len(points)
     assert report['modified'] == len(points)
     assert report['filtered'] == 0
+
+
+# .....................................................................................
+def test_accepted_name_wrangler_write_to_file_json(generate_temp_filename):
+    """Test that writing updated name map to json file works correctly.
+
+    Args:
+        generate_temp_filename (pytest.Fixture): A fixture for generating filenames.
+    """
+    name_func = get_random_string_func(8, 20, do_capitalize=False)
+    name_pool = [name_func() for _ in range(np.random.randint(5, 20))]
+    points = generate_points(
+        100,
+        SimulatedField('species_name', '', get_random_choice_func(name_pool), 'str'),
+        SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
+        SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
+        []
+    )
+
+    # Wrangle points
+    name_map_filename = generate_temp_filename(suffix='.json')
+    wrangler = AcceptedNameOccurrenceWrangler(
+        name_resolver=dummy_name_resolver,
+        out_map_filename=name_map_filename,
+        map_write_interval=1,
+        out_map_format='json',
+    )
+    _ = wrangler.wrangle_points(points)
+    del wrangler
+
+    # Load the output name map file and just check that it is valid json
+    with open(name_map_filename, mode='rt') as out_name_file:
+        temp_map = json.load(out_name_file)
+        assert len(temp_map.keys()) > 0
+
+
+# .....................................................................................
+def test_accepted_name_wrangler_write_to_file_csv(generate_temp_filename):
+    """Test that writing updated name map to csv file works correctly.
+
+    Args:
+        generate_temp_filename (pytest.Fixture): A fixture for generating filenames.
+    """
+    name_func = get_random_string_func(8, 20, do_capitalize=False)
+    name_pool = [name_func() for _ in range(np.random.randint(5, 20))]
+    points = generate_points(
+        100,
+        SimulatedField('species_name', '', get_random_choice_func(name_pool), 'str'),
+        SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
+        SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
+        []
+    )
+
+    # Wrangle points
+    name_map_filename = generate_temp_filename(suffix='.csv')
+    wrangler = AcceptedNameOccurrenceWrangler(
+        name_resolver=dummy_name_resolver,
+        out_map_filename=name_map_filename,
+        map_write_interval=1,
+        out_map_format='csv',
+    )
+    _ = wrangler.wrangle_points(points)
+    del wrangler
+
+    # Load the output name map file and just check that it is valid json
+    with open(name_map_filename, mode='rt') as out_name_file:
+        i = 0
+        for line in out_name_file:
+            assert len(line.split(',')) == 2
+            i += 1
+        assert i > 0
