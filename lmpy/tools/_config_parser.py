@@ -116,7 +116,7 @@ def get_logger(
         handlers.append(logging.StreamHandler(stream=sys.stdout))
     if len(handlers) > 0:
         logging.basicConfig(level=logging.DEBUG, handlers=handlers)
-        logging.root.setLevel(logging.NOTSET)
+        logging.root.setLevel(log_level)
         logger = logging.getLogger(logger_name)
         for handler in handlers:
             logger.addHandler(handler)
