@@ -37,7 +37,7 @@ class SampleDataFiles(object):
             A list of grid filenames
         """
         ENCODER_DATA_PATH = os.path.join(SAMPLE_DATA_PATH, LAYER_ENCODER_DIR)
-        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'shapegrid*.shp'))
+        return glob.glob(os.path.join(ENCODER_DATA_PATH, 'grid*.shp'))
 
     # ...........................
     def get_raster_env_filenames(self):

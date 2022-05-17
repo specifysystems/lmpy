@@ -1,8 +1,8 @@
 ===============
-Build Shapegrid
+Build Grid
 ===============
 
 .. sphinx_argparse_cli::
-  :module: lmpy.tools.build_shapegrid
+  :module: lmpy.tools.build_grid
   :func: build_parser
-  :prog: build_shapegrid
+  :prog: build_ggrid

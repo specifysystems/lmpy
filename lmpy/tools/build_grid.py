@@ -1,4 +1,4 @@
-"""Tool for building shapegrid shapefiles."""
+"""Tool for building grid shapefiles."""
 import argparse
 
 from lmpy.data_preparation.build_grid import build_grid
@@ -6,7 +6,7 @@ from lmpy.tools._config_parser import _process_arguments
 
 
 DESCRIPTION = '''\
-Build a Shapegrid shapefile that is used to define the sites of a PAM or other \
+Build a grid shapefile that is used to define the sites of a PAM or other \
 multivariate Matrix for lmpy operations.'''
 
 
@@ -17,7 +17,7 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser(prog='build_shapegrid', description=DESCRIPTION)
+    parser = argparse.ArgumentParser(prog='build_grid', description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         'grid_filename',

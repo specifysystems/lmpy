@@ -1,4 +1,4 @@
-"""Module containing methods to build a shapegrid."""
+"""Module containing methods to build a grid."""
 import math
 
 import numpy as np
@@ -28,7 +28,7 @@ def make_polygon_wkt_from_points(points):
 
 # .............................................................................
 def hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
-    """Generator producing hexagonal WKT for cells of the shapegrid.
+    """Generator producing hexagonal WKT for cells of the grid.
 
     Args:
         min_x (numeric): The minimum x value.
@@ -68,7 +68,7 @@ def hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
 
 # .............................................................................
 def square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
-    """Generator producing square WKT for cells of the shapegrid.
+    """Generator producing square WKT for cells of the grid.
 
     Args:
         min_x (numeric): The minimum x value.
@@ -95,7 +95,7 @@ def square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
 
 # .............................................................................
 def build_grid(
-    shapegrid_file_name,
+    grid_file_name,
     min_x,
     min_y,
     max_x,
@@ -108,27 +108,26 @@ def build_grid(
     site_y='siteY',
     cutout_wkt=None,
 ):
-    """Build a shapegrid with an optional cutout.
+    """Build a grid with an optional cutout.
 
     Args:
-        shapegrid_file_name (str): The location to store the resulting
-            shapegrid.
-        min_x (numeric): The minimum value for X of the shapegrid.
-        min_y (numeric): The minimum value for Y of the shapegrid.
-        max_x (numeric): The maximum value for X of the shapegrid.
-        max_y (numeric): The maximum value for Y of the shapegrid.
+        grid_file_name (str): The location to store the resulting grid.
+        min_x (numeric): The minimum value for X of the grid.
+        min_y (numeric): The minimum value for Y of the grid.
+        max_x (numeric): The maximum value for X of the grid.
+        max_y (numeric): The maximum value for Y of the grid.
         cell_size (numeric): The size of each cell (in units indicated by EPSG).
-        epsg_code (int): The EPSG code for the new shapegrid.
-        cell_sides (int): The number of sides for each cell of the shapegrid.
+        epsg_code (int): The EPSG code for the new grid.
+        cell_sides (int): The number of sides for each cell of the grid.
             4 - square cells, 6 - hexagon cells
         site_id (str): The name of the site id field for the shapefile.
         site_x (str): The name of the X field for the shapefile.
         site_y (str): The name of the Y field for the shapefile.
-        cutout_wkt (None or str): WKT for an area of the shapegrid to be cut
+        cutout_wkt (None or str): WKT for an area of the grid to be cut
             out.
 
     Returns:
-        int: The number of cells in the new shapegrid.
+        int: The number of cells in the new grid.
 
     Raises:
         ValueError: Raised if invalid bbox or cell sides.
@@ -150,7 +149,7 @@ def build_grid(
     target_srs.ImportFromEPSG(epsg_code)
 
     drv = ogr.GetDriverByName('ESRI Shapefile')
-    data_set = drv.CreateDataSource(shapegrid_file_name)
+    data_set = drv.CreateDataSource(grid_file_name)
 
     layer = data_set.CreateLayer(
         data_set.GetName(), geom_type=ogr.wkbPolygon, srs=target_srs
@@ -166,7 +165,7 @@ def build_grid(
         wkt_generator = hexagon_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res)
     else:
         raise ValueError(
-            'Cannot generate shapegrid cells with {} sides'.format(cell_sides)
+            'Cannot generate grid cells with {} sides'.format(cell_sides)
         )
 
     shape_id = 0
@@ -189,7 +188,7 @@ def build_grid(
 
 # .............................................................................
 __all__ = [
-    'build_shapegrid',
+    'build_grid',
     'hexagon_wkt_generator',
     'make_polygon_wkt_from_points',
     'square_wkt_generator',

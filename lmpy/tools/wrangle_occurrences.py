@@ -79,7 +79,7 @@ def build_parser():
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
     parser = argparse.ArgumentParser(
-        prog='clean_occurrences',
+        prog='wrangle_occurrences',
         description=DESCRIPTION,
     )
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
