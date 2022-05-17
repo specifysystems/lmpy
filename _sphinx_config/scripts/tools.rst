@@ -5,7 +5,6 @@ Tools
 
     build_shapegrid
     calculate_pam_stats
-    clean_occurrences
     convert_csv_to_lmm
     convert_lmm_to_csv
     convert_lmm_to_geojson
@@ -16,5 +15,6 @@ Tools
     randomize_pam
     split_occurrence_data
     wrangle_matrix
+    wrangle_occurrences
     wrangle_species_list
     wrangle_tree
