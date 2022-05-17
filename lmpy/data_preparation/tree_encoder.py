@@ -4,9 +4,6 @@ See:
     Leibold, m.A., E.P. Economo and P.R. Peres-Neto. 2010. Metacommunity
         phylogenetics: separating the roles of environmental filters and
         historical biogeography. Ecology letters 13: 1290-1299.
-
-Todo:
-    Use method to get labels by matrix index when available from tree.
 """
 from random import shuffle
 
@@ -32,11 +29,17 @@ class TreeEncoder:
             pam (Matrix): A PAM matrix object.
         """
         self.tree = tree
+        self.tree.add_node_labels()
 
         if isinstance(pam, Matrix):
             self.pam = pam
         else:
             self.pam = Matrix(pam)
+
+        # Get labels from matrix or tree tips
+        self.labels = self.pam.get_column_headers()
+        if self.labels is None:
+            self.labels = [tax.label for tax in tree.taxon_namespace]
 
     # ..............................
     @classmethod
@@ -62,9 +65,6 @@ class TreeEncoder:
             P in the literature, a tip (row) by internal node (column) matrix
                 that needs to match the provided PAM.
 
-        Todo:
-            Consider providing options for correcting the tree / pam
-
         Raises:
             EncodingException: Raised if the PAM and tree do not match.
 
@@ -89,34 +89,34 @@ class TreeEncoder:
             bool: Boolean indicating if the tree / pam is valid.
         """
         # check if tree is ultrametric
-        if (
-            not self.tree.has_branch_lengths() or self.tree.is_ultrametric()
-        ) and self.tree.is_binary():
-            # Check that matrix indices in tree match PAM
-            # List of matrix indices (based on PAM column count)
-            pam_mtx_indices = range(self.pam.shape[1])
-            # All matrix indices in tree
-            tree_mtx_indices = [
-                int(mtx_id)
-                for _, mtx_id in self.tree.get_annotations(PhyloTreeKeys.MTX_IDX)
-                if mtx_id is not None
+        if all(
+            [
+                (not self.tree.has_branch_lengths() or self.tree.is_ultrametric()),
+                self.tree.is_binary(),
+                len(self.tree.taxon_namespace) == self.pam.shape[1]
             ]
+        ):
+            # Check that the tips in the tree are the same as the column headers in the
+            #     matrix
+            # Check that matrix indices in tree match PAM
+            tree_tips = [tax.label for tax in self.tree.taxon_namespace]
 
             # Find the intersection between the two lists
-            intersection = set(pam_mtx_indices) & set(tree_mtx_indices)
+            intersection = set(self.labels) & set(tree_tips)
 
             # This checks that there are no duplicates in either of the indices
             #     lists and that they overlap completely
-            if len(intersection) == len(pam_mtx_indices) and len(
-                pam_mtx_indices
-            ) == len(tree_mtx_indices):
+            if all([
+                len(intersection) == len(self.labels),
+                len(self.labels) == len(tree_tips)
+            ]):
                 # If everything checks out to here, return true for valid
                 return True
         # If anything does not validate, return false
         return False
 
     # ..............................
-    def _build_p_branch_length_values(self, node):
+    def _build_p_branch_length_values(self, node, ordered_species):
         """Recurse through the tree to get P matrix values for node / tips.
 
         Args:
@@ -152,7 +152,7 @@ class TreeEncoder:
                     child_bl_dict,
                     child_bl_sum,
                     child_p_val_dict,
-                ) = self._build_p_branch_length_values(child)
+                ) = self._build_p_branch_length_values(child, ordered_species)
                 multiplier = multipliers.pop(0)
 
                 # Extend the p values dictionary
@@ -189,7 +189,7 @@ class TreeEncoder:
             p_vals_dict[node.label] = clade_p_vals
 
         else:  # We are at a tip
-            bl_dict = {node.taxon.annotations.get_value(PhyloTreeKeys.MTX_IDX): []}
+            bl_dict = {ordered_species.index(node.taxon.label): []}
 
         return bl_dict, bl_sum, p_vals_dict
 
@@ -262,15 +262,14 @@ class TreeEncoder:
         # .......................
         # Initialize the matrix
         internal_node_labels = [n.label for n in self.tree.nodes() if not n.is_leaf()]
-        labels = self.pam.get_column_headers()
 
         # We need a mapping of node path id to matrix column.  I don't think
         #     order matters
         node_col_idx = dict(zip(internal_node_labels, range(len(internal_node_labels))))
 
         mtx = Matrix(
-            np.zeros((len(labels), len(internal_node_labels)), dtype=float),
-            headers={'0': labels, '1': internal_node_labels},
+            np.zeros((len(self.labels), len(internal_node_labels)), dtype=float),
+            headers={'0': self.labels, '1': internal_node_labels},
         )
 
         # Get the list of tip proportion lists
@@ -325,9 +324,7 @@ class TreeEncoder:
                 )
             )
         else:
-            tip_props.append(
-                (node.taxon.annotations.get_value(PhyloTreeKeys.MTX_IDX), visited)
-            )
+            tip_props.append((self.labels.index(node.taxon.label), visited))
 
         return tip_props
 
@@ -390,10 +387,14 @@ class TreeEncoder:
         Returns:
             Matrix: An encoded phylogeny matrix.
         """
+        labels = self.pam.get_column_headers()
         # We only need the P-values dictionary
         # TODO: Is there a better way to do this so the length of the r?
         self.tree.seed_node._set_edge_length(0.0)
-        _, _, p_val_dict = self._build_p_branch_length_values(self.tree.seed_node)
+        _, _, p_val_dict = self._build_p_branch_length_values(
+            self.tree.seed_node,
+            labels
+        )
 
         # Initialize the matrix
         labels = self.pam.get_column_headers()
