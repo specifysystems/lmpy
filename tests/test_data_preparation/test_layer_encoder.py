@@ -4,7 +4,7 @@ import json
 import numpy as np
 from osgeo import ogr, osr
 
-from lmpy.data_preparation.build_grid import build_shapegrid
+from lmpy.data_preparation.build_grid import build_grid
 from lmpy.data_preparation.layer_encoder import LayerEncoder, DEFAULT_NODATA
 
 
@@ -160,7 +160,7 @@ class Test_LayerEncoder:
         temp_shapegrid_filename = generate_temp_filename(suffix='.shp')
         layer_filename = generate_temp_filename(suffix='.asc')
 
-        build_shapegrid(temp_shapegrid_filename, 0, 0, 10, 10, 1, 4326, 4)
+        build_grid(temp_shapegrid_filename, 0, 0, 10, 10, 1, 4326, 4)
 
         encoder = LayerEncoder(temp_shapegrid_filename)
 
@@ -208,7 +208,7 @@ class Test_LayerEncoder:
         biogeo_filename = generate_temp_filename(suffix='.bg.shp')
 
         # Create a shapegrid (50 x 50 1 degree cells)
-        build_shapegrid(temp_shapegrid_filename, 0, 0, 50, 50, 1, 4326, 4)
+        build_grid(temp_shapegrid_filename, 0, 0, 50, 50, 1, 4326, 4)
 
         encoder = LayerEncoder(temp_shapegrid_filename)
 

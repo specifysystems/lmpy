@@ -94,7 +94,7 @@ def square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
 
 
 # .............................................................................
-def build_shapegrid(
+def build_grid(
     shapegrid_file_name,
     min_x,
     min_y,
