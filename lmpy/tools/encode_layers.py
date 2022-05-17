@@ -46,9 +46,9 @@ def build_parser():
         help='The maximum value that should be considered present.',
     )
     parser.add_argument(
-        'shapegrid_filename',
+        'grid_filename',
         type=str,
-        help='File location of shapegrid to use for site geometries.',
+        help='File location of grid to use for site geometries.',
     )
     parser.add_argument(
         'out_matrix_filename',
@@ -78,7 +78,7 @@ def cli():
 
     args = _process_arguments(parser, config_arg='config_file')
 
-    encoder = LayerEncoder(args.shapegrid_filename)
+    encoder = LayerEncoder(args.grid_filename)
 
     for layer_args in args.layer:
         # if there are too many layer arguments, fail

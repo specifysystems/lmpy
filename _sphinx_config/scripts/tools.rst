@@ -3,7 +3,7 @@ Tools
 
 .. toctree::
 
-    build_shapegrid
+    build_grid
     calculate_pam_stats
     convert_csv_to_lmm
     convert_lmm_to_csv

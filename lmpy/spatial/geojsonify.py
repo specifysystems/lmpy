@@ -98,12 +98,12 @@ def geojsonify_matrix(matrix, resolution=None, omit_values=None):
 
 
 # .....................................................................................
-def geojsonify_matrix_with_shapefile(matrix, shapegrid_filename, omit_values=None):
+def geojsonify_matrix_with_shapefile(matrix, grid_filename, omit_values=None):
     """Creates GeoJSON for a matrix and matching shapefile.
 
     Args:
         matrix (Matrix): A (spatial) matrix to create GeoJSON for.
-        shapegrid_filename (str): A file path to a shapefile matching the matrix.
+        grid_filename (str): A file path to a shapefile matching the matrix.
         omit_values (list): Omit properties when their value is in this list.
 
     Returns:
@@ -117,11 +117,11 @@ def geojsonify_matrix_with_shapefile(matrix, shapegrid_filename, omit_values=Non
 
     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
 
-    shapegrid_dataset = ogr.Open(shapegrid_filename)
-    shapegrid_layer = shapegrid_dataset.GetLayer()
+    grid_dataset = ogr.Open(grid_filename)
+    grid_layer = grid_dataset.GetLayer()
 
     i = 0
-    feat = shapegrid_layer.GetNextFeature()
+    feat = grid_layer.GetNextFeature()
     while feat is not None:
         ft_json = json.loads(feat.ExportToJson())
         ft_json['properties'] = {
@@ -131,10 +131,10 @@ def geojsonify_matrix_with_shapefile(matrix, shapegrid_filename, omit_values=Non
         if len(ft_json['properties'].keys()) > 0:
             features.append(ft_json)
         i += 1
-        feat = shapegrid_layer.GetNextFeature()
+        feat = grid_layer.GetNextFeature()
 
     ret['features'] = features
-    shapegrid_dataset = shapegrid_layer = None
+    grid_dataset = grid_layer = None
     return ret
 
 

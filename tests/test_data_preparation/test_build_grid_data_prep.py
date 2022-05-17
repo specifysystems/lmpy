@@ -1,8 +1,8 @@
-"""Tests build shapegrid."""
+"""Tests build grid."""
 import pytest
 
 from lmpy.data_preparation.build_grid import (
-    build_shapegrid,
+    build_grid,
     hexagon_wkt_generator,
     make_polygon_wkt_from_points,
     square_wkt_generator,
@@ -10,8 +10,8 @@ from lmpy.data_preparation.build_grid import (
 
 
 # .............................................................................
-class Test_build_shapegrid:
-    """Test build_shapegrid."""
+class Test_build_grid:
+    """Test build_grid."""
 
     # ................................
     def test_simple_square(self, generate_temp_filename):
@@ -22,7 +22,7 @@ class Test_build_shapegrid:
                 temporary filenames.
         """
         temp_filename = generate_temp_filename(suffix='.shp')
-        build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 4)
+        build_grid(temp_filename, 0, 0, 90, 90, 3, 4326, 4)
 
     # ................................
     def test_simple_hexagon(self, generate_temp_filename):
@@ -33,7 +33,7 @@ class Test_build_shapegrid:
                 temporary filenames.
         """
         temp_filename = generate_temp_filename(suffix='.shp')
-        build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 6)
+        build_grid(temp_filename, 0, 0, 90, 90, 3, 4326, 6)
 
     # ................................
     def test_invalid_shape(self, generate_temp_filename):
@@ -45,7 +45,7 @@ class Test_build_shapegrid:
         """
         temp_filename = generate_temp_filename(suffix='.shp')
         with pytest.raises(ValueError):
-            build_shapegrid(temp_filename, 0, 0, 90, 90, 3, 4326, 7)
+            build_grid(temp_filename, 0, 0, 90, 90, 3, 4326, 7)
 
 
 # .............................................................................

@@ -36,7 +36,7 @@ See: `encode_presence_absence <../autoapi/lmpy/data_preparation/layer_encoder/in
     >>> cell_size = 1.0  # Decimal degrees
     >>> grid_epsg = 4326
     >>> cell_sides = 4  # Squares
-    >>> build_shapegrid(
+    >>> build_grid(
     ...     grid_filename,
     ...     min_x,
     ...     min_y,
@@ -96,7 +96,7 @@ From new grid:
     >>> cell_size = 1.0  # Decimal degrees
     >>> grid_epsg = 4326
     >>> cell_sides = 4  # Squares
-    >>> build_shapegrid(
+    >>> build_grid(
     ...     grid_filename,
     ...     min_x,
     ...     min_y,
@@ -166,7 +166,7 @@ See `encode_biogeographic_hypothesis <../autoapi/lmpy/data_preparation/layer_enc
     >>> cell_size = 1.0  # Decimal degrees
     >>> grid_epsg = 4326
     >>> cell_sides = 4  # Squares
-    >>> build_shapegrid(
+    >>> build_grid(
     ...     grid_filename,
     ...     min_x,
     ...     min_y,

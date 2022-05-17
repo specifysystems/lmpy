@@ -74,7 +74,7 @@ def test_make_geojson_from_matrix(generate_temp_filename):
 
 # .....................................................................................
 def test_make_geojson_from_matrix_and_shapefile(
-    shapegrid_filename,
+    grid_filename,
     raster_pa_filenames,
     vector_pa_filenames,
     generate_temp_filename,
@@ -82,12 +82,12 @@ def test_make_geojson_from_matrix_and_shapefile(
     """Test getting geojson from a matrix and matching shapefile.
 
     Args:
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         raster_pa_filenames (list of str): List of file paths to raster files.
         vector_pa_filenames (list of str): List of file paths to vector files.
         generate_temp_filename (pytest.Fixture): Fixture for generating filenames.
     """
-    encoder = LayerEncoder(shapegrid_filename)
+    encoder = LayerEncoder(grid_filename)
 
     for i, filename in enumerate(raster_pa_filenames):
         encoder.encode_presence_absence(filename, 'Raster {}'.format(i), 1, 99, 25)
@@ -98,6 +98,6 @@ def test_make_geojson_from_matrix_and_shapefile(
     enc_mtx = encoder.get_encoded_matrix()
     # Validate GeoJSON
     assert _validate_geojson(
-        geojsonify_matrix_with_shapefile(enc_mtx, shapegrid_filename, omit_values=[0]),
+        geojsonify_matrix_with_shapefile(enc_mtx, grid_filename, omit_values=[0]),
         generate_temp_filename,
     )
