@@ -47,9 +47,10 @@ class _DataWrangler:
     # ........................
     def log(self, msg, log_level=logging.INFO):
         """Log a message.
+
         Args:
             msg (str): A message to write to the logger.
             log_level (int): A level to use when logging the message.
         """
         if self.logger is not None:
-            self.logger.log(log_level, self.name + ': ' + msg)
+            self.logger.info(self.name + ': ' + msg)

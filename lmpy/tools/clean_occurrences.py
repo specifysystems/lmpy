@@ -4,7 +4,7 @@ import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointCsvWriter
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, get_logger
 
 
 # .....................................................................................
@@ -111,11 +111,16 @@ def build_parser():
         help='File location to write optional output report JSON.',
     )
     parser.add_argument(
+        '--log_filename',
         '-l',
-        '--log_output',
+        type=str,
+        help='A file location to write logging data.'
+    )
+    parser.add_argument(
+        '--log_console',
         action='store_true',
         default=False,
-        help='Should output messages be written to console.',
+        help='If provided, write log to console.'
     )
     parser.add_argument(
         'reader_filename', type=str, help='Input occurrence CSV filename.'
@@ -134,9 +139,14 @@ def cli():
     """A command-line interface to the tool."""
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
+    logger = get_logger(
+        'wrangle_occurrences',
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
 
     # Get wranglers
-    wrangler_factory = WranglerFactory()
+    wrangler_factory = WranglerFactory(logger=logger)
     wranglers = wrangler_factory.get_wranglers(
         json.load(open(args.wrangler_config_filename, mode='rt'))
     )
@@ -148,7 +158,7 @@ def cli():
 
     # Clean data
     report = clean_data(
-        reader, args.writer_filename, wranglers, log_output=args.log_output
+        reader, args.writer_filename, wranglers, log_output=args.log_console
     )
 
     # If the output report was requested, write it

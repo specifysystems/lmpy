@@ -1,5 +1,6 @@
 """Module containing a tool for parsing a configuration file for argparse."""
 import json
+import logging
 import sys
 
 
@@ -87,3 +88,36 @@ def _process_arguments(parser, config_arg=None):
                     # Always replace existing values
                     setattr(args, k, config[k])
     return args
+
+
+# .....................................................................................
+def get_logger(
+    logger_name,
+    log_filename=None,
+    log_console=False,
+    log_level=logging.NOTSET
+):
+    """Get a logger object (or None) for the provided parameters.
+
+    Args:
+        logger_name (str): A name for the logger.
+        log_filename (str): A file location to write logging information.
+        log_console (bool): Should logs be written to the console.
+        log_level (int): What level of logs should be retained.
+
+    Returns:
+        logging.Logger: A logger object to use for logging information.
+    """
+    logger = None
+    handlers = []
+    if log_filename is not None or log_console:
+        handlers.append(logging.FileHandler(log_filename))
+    if log_console:
+        handlers.append(logging.StreamHandler(stream=sys.stdout))
+    if len(handlers) > 0:
+        logging.basicConfig(level=logging.DEBUG, handlers=handlers)
+        logging.root.setLevel(logging.NOTSET)
+        logger = logging.getLogger(logger_name)
+        for handler in handlers:
+            logger.addHandler(handler)
+    return logger

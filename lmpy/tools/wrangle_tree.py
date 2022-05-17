@@ -4,7 +4,7 @@ from copy import deepcopy
 import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, get_logger
 from lmpy.tree import TreeWrapper
 
 
@@ -41,6 +41,18 @@ def build_parser():
     parser = argparse.ArgumentParser(prog='wrangle_tree', description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
+        '--log_filename',
+        '-l',
+        type=str,
+        help='A file location to write logging data.'
+    )
+    parser.add_argument(
+        '--log_console',
+        action='store_true',
+        default=False,
+        help='If provided, write log to console.'
+    )
+    parser.add_argument(
         '-r', '--report_filename', type=str, help='Path to write report.'
     )
     parser.add_argument('tree_filename', type=str, help='Path to phylogenetic tree.')
@@ -74,9 +86,14 @@ def cli():
     """Command-line interface for the tool."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    logger = get_logger(
+        'wrangle_tree',
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
-        wrangler_factory = WranglerFactory()
+        wrangler_factory = WranglerFactory(logger=logger)
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
     wrangled_tree, report = wrangle_tree(tree, wranglers)
     wrangled_tree.write(path=args.out_tree_filename, schema=args.out_tree_schema)

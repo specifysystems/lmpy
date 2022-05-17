@@ -5,7 +5,7 @@ import json
 
 from lmpy import Matrix
 from lmpy.data_wrangling.factory import WranglerFactory
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, get_logger
 
 
 DESCRIPTION = '''\
@@ -47,6 +47,18 @@ def build_parser():
         help='File location to write the wrangler report.'
     )
     parser.add_argument(
+        '--log_filename',
+        '-l',
+        type=str,
+        help='A file location to write logging data.'
+    )
+    parser.add_argument(
+        '--log_console',
+        action='store_true',
+        default=False,
+        help='If provided, write log to console.'
+    )
+    parser.add_argument(
         'in_matrix_filename', type=str, help='Path to the input Matrix.'
     )
     parser.add_argument(
@@ -65,10 +77,15 @@ def cli():
     """Provide a command-line interface to the wrangle matrix tool."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    logger = get_logger(
+        'wrangle_matrix',
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
 
     in_mtx = Matrix.load(args.in_matrix_filename)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
-        wrangler_factory = WranglerFactory()
+        wrangler_factory = WranglerFactory(logger=logger)
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
 
     wrangled_mtx, report = wrangle_matrix(in_mtx, wranglers)

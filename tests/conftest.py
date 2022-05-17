@@ -3,6 +3,7 @@ import glob
 import os
 import shutil
 import tempfile
+import time
 
 import pytest
 
@@ -218,7 +219,14 @@ def generate_temp_filename(request):
         """Clean up temporary files."""
         for del_glob in delete_globs:
             for fn in glob.glob(del_glob):
-                os.remove(fn)
+                try:
+                    os.remove(fn)
+                except PermissionError:
+                    try:
+                        time.sleep(10)
+                        os.remove(fn)
+                    except PermissionError:
+                        pass
 
     request.addfinalizer(finalizer)
     return get_filename
