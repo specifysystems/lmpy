@@ -1,6 +1,6 @@
 """This module contains a class for encoding spatial layers into a Matrix.
 
-The 'LayerEncoder' class uses a shapegrid to generate a base matrix structure
+The 'LayerEncoder' class uses a grid to generate a base matrix structure
 and then each layer is encoded as a new column (or columns) for the resulting
 encoded matrix.
 
@@ -24,10 +24,10 @@ from lmpy.spatial.geojsonify import geojsonify_matrix_with_shapefile
 
 # Suppress numpy warnings
 np.seterr(all='ignore')
-# DEFAULT_SCALE is the scale of the layer data array to the shapegrid cell size
-#     The number of data array cells in a (square) shapegrid cell is::
+# DEFAULT_SCALE is the scale of the layer data array to the grid cell size
+#     The number of data array cells in a (square) grid cell is::
 #         1.0 / DEFAULT_SCALE^2
-DEFAULT_SCALE = 0.1  # Default scale for data array versus shapegrid cells
+DEFAULT_SCALE = 0.1  # Default scale for data array versus grid cells
 # DEFAULT_NODATA is the default value to use when no data is present in a
 #    raster cell.
 DEFAULT_NODATA = -9999
@@ -209,15 +209,15 @@ class LayerEncoder:
     """
 
     # ...............................
-    def __init__(self, shapegrid_filename):
+    def __init__(self, grid_filename):
         """Constructor for the layer encoder.
 
         Args:
-            shapegrid_filename (str): A file path for the shapegrid.
+            grid_filename (str): A file path for the grid.
         """
-        # Process shapegrid
-        self.shapegrid_filename = shapegrid_filename
-        self._read_shapegrid(shapegrid_filename)
+        # Process sgrid
+        self.grid_filename = grid_filename
+        self._read_grid(grid_filename)
 
         self.encoded_matrix = None
 
@@ -239,8 +239,8 @@ class LayerEncoder:
         Returns:
             list: A list of column headers for the newly encoded columns.
         """
-        shapegrid_dataset = ogr.Open(self.shapegrid_filename)
-        shapegrid_layer = shapegrid_dataset.GetLayer()
+        grid_dataset = ogr.Open(self.grid_filename)
+        grid_layer = grid_dataset.GetLayer()
 
         encoded_column = np.zeros((self.num_cells, num_columns))
         if num_columns == 1:
@@ -254,7 +254,7 @@ class LayerEncoder:
 
         i = 0
 
-        feat = shapegrid_layer.GetNextFeature()
+        feat = grid_layer.GetNextFeature()
         while feat is not None:
             geom = feat.GetGeometryRef()
             cent = geom.Centroid()
@@ -264,7 +264,7 @@ class LayerEncoder:
             encoded_column[i] = val
             row_headers.append((feat.GetFID(), x_coord, y_coord))
             i += 1
-            feat = shapegrid_layer.GetNextFeature()
+            feat = grid_layer.GetNextFeature()
 
         col = Matrix(encoded_column, headers={'0': row_headers, '1': column_headers})
 
@@ -292,7 +292,7 @@ class LayerEncoder:
                 sizes. If a tuple is provided, the first value will be used for the
                 size of each cell in the x dimension and the second will be used for
                 the size of the cell in the y dimension.
-            num_cell_sides (int): The number of sides each shapegrid cell has::
+            num_cell_sides (int): The number of sides each grid cell has::
                 4 -- square
                 6 -- hexagon
 
@@ -446,27 +446,27 @@ class LayerEncoder:
         window_func = self._get_window_function(
             layer_array,
             layer_bbox,
-            self.shapegrid_resolution,
-            num_cell_sides=self.shapegrid_sides,
+            self.grid_resolution,
+            num_cell_sides=self.grid_sides,
         )
 
         return window_func, nodata
 
     # ...............................
-    def _read_shapegrid(self, shapegrid_filename):
-        """Read the shapegrid.
+    def _read_grid(self, grid_filename):
+        """Read the grid.
 
         Args:
-            shapegrid_filename: The file location of the shapegrid.
+            grid_filename: The file location of the grid.
         """
-        shapegrid_dataset = ogr.Open(shapegrid_filename)
-        self.shapegrid_layer = shapegrid_dataset.GetLayer()
-        tmp = self.shapegrid_layer.GetExtent()
-        self.shapegrid_bbox = (tmp[0], tmp[2], tmp[1], tmp[3])
+        grid_dataset = ogr.Open(grid_filename)
+        self.grid_layer = grid_dataset.GetLayer()
+        tmp = self.grid_layer.GetExtent()
+        self.grid_bbox = (tmp[0], tmp[2], tmp[1], tmp[3])
 
-        self.num_cells = self.shapegrid_layer.GetFeatureCount()
+        self.num_cells = self.grid_layer.GetFeatureCount()
 
-        feature_0 = self.shapegrid_layer.GetFeature(0)
+        feature_0 = self.grid_layer.GetFeature(0)
         geom = feature_0.GetGeometryRef()
 
         # Get resolution and number of sides
@@ -475,7 +475,7 @@ class LayerEncoder:
         if len(boundary_points) == 5:
             # Square
             envelope = geom.GetEnvelope()
-            self.shapegrid_resolution = (
+            self.grid_resolution = (
                 envelope[1] - envelope[0],
                 envelope[3] - envelope[2],
             )
@@ -486,12 +486,12 @@ class LayerEncoder:
             x_cent = center.GetX()
             y_cent = center.GetY()
             x_1, y_1 = boundary_points[1].split(' ')
-            self.shapegrid_resolution = np.sqrt(
+            self.grid_resolution = np.sqrt(
                 (x_cent - x_1) ** 2 + (y_cent - y_1) ** 2
             )
-        self.shapegrid_sides = len(boundary_points) - 1
-        # self.shapegrid_layer.ResetReading()
-        self.shapegrid_layer = None
+        self.grid_sides = len(boundary_points) - 1
+        # self.grid_layer.ResetReading()
+        self.grid_layer = None
 
     # ...............................
     def _read_vector_layer(
@@ -525,7 +525,7 @@ class LayerEncoder:
             options.append('ATTRIBUTE={}'.format(attribute_field))
 
         if resolution is None:
-            resolution = [DEFAULT_SCALE * i for i in self.shapegrid_resolution]
+            resolution = [DEFAULT_SCALE * i for i in self.grid_resolution]
         try:
             # Tuple or list
             x_res = resolution[0]
@@ -535,7 +535,7 @@ class LayerEncoder:
             x_res = y_res = resolution
 
         if bbox is None:
-            bbox = self.shapegrid_bbox
+            bbox = self.grid_bbox
 
         min_x, min_y, max_x, max_y = bbox
         x_size = int(float(max_x - min_x) / x_res)
@@ -562,8 +562,8 @@ class LayerEncoder:
         window_func = self._get_window_function(
             layer_array,
             layer_bbox,
-            self.shapegrid_resolution,
-            num_cell_sides=self.shapegrid_sides,
+            self.grid_resolution,
+            num_cell_sides=self.grid_sides,
         )
 
         distinct_attributes = list(np.unique(layer_array))
@@ -763,7 +763,7 @@ class LayerEncoder:
             dict: A JSON dictionary for the encoded matrix.
         """
         return geojsonify_matrix_with_shapefile(
-            self.encoded_matrix, self.shapegrid_filename
+            self.encoded_matrix, self.grid_filename
         )
 
 

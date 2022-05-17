@@ -6,11 +6,11 @@ tools are generally exposed through `lmpy.tools` but can be used directly if des
 * **build_grid** prepares a geospatial vector file representing a regular grid of
 square cells covering a rectangular geospatial region of the earth, and defined by
 minimum and maximum x and y coordinates.  The resulting output is called a
-**shapegrid** and the cells in it are called **sites**.
+**grid** and the cells in it are called **sites**.
 
 * **layer_encoder** prepares a matrix from one or more geospatial layers, either raster
-or vector, and a shapegrid. Parameters define the algorithm, layer attributes and
-values to use for encoding the region covered by a shapegrid site.
+or vector, and a grid. Parameters define the algorithm, layer attributes and
+values to use for encoding the region covered by a grid site.
 
 * **occurrence_splitter** prepares a set of occurrence records, in either Darwin Core
 Archive (DwCA) or delimited text (CSV) format by splitting the data into groups, for

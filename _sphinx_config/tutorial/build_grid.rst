@@ -1,14 +1,14 @@
-===============
-Build Shapegrid
-===============
+==========
+Build Grid
+==========
 
 Introduction
 ============
-:term:`Shapegrid<Shapegrids>` are regularly spaced grids of cells that are used to
+:term:`Grid<Grids>` are regularly spaced grids of cells that are used to
 encode spatial data into a matrix such as a PAM.
 
-Build a Shapegrid
-=================
-See: `build_shapegrid <../autoapi/lmpy/data_preparation/build_grid/index.html#lmpy.data_preparation.build_grid.build_shapegrid>`_
+Build a grid
+=============
+See: `build_grid <../autoapi/lmpy/data_preparation/build_grid/index.html#lmpy.data_preparation.build_grid.build_grid>`_
 
-    >>> build_shapegrid(shapegrid_file_location, 0, 0, 90, 90, 1.0, 4326, 4)
+    >>> build_grid(grid_file_location, 0, 0, 90, 90, 1.0, 4326, 4)
