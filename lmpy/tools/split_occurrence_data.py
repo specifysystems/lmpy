@@ -85,7 +85,9 @@ def build_parser():
     )
 
     parser.add_argument(
-        'out_dir', type=str, help='Directory where the output data should be written.'
+        'out_dir',
+        type=str,
+        help='Directory where the output data should be written.',
     )
     return parser
 
