@@ -5,10 +5,10 @@ See:
         phylogenetics: separating the roles of environmental filters and
         historical biogeography. Ecology letters 13: 1290-1299.
 """
-from random import shuffle
-
 import numpy as np
-from lmpy import Matrix, PhyloTreeKeys, TreeWrapper
+
+from lmpy.matrix import Matrix
+from lmpy.tree import TreeWrapper
 
 
 # .............................................................................
@@ -116,7 +116,7 @@ class TreeEncoder:
         return False
 
     # ..............................
-    def _build_p_branch_length_values(self, node, ordered_species):
+    def _build_p_branch_length_values(self, node):
         """Recurse through the tree to get P matrix values for node / tips.
 
         Args:
@@ -145,14 +145,14 @@ class TreeEncoder:
         if node.num_child_nodes() > 0:  # Assume this is two since binary
             clade_p_vals = {}
             multipliers = [-1.0, 1.0]  # One positive, one negative
-            shuffle(multipliers)
+            np.random.shuffle(multipliers)
 
             for child in node.child_nodes():
                 (
                     child_bl_dict,
                     child_bl_sum,
                     child_p_val_dict,
-                ) = self._build_p_branch_length_values(child, ordered_species)
+                ) = self._build_p_branch_length_values(child)
                 multiplier = multipliers.pop(0)
 
                 # Extend the p values dictionary
@@ -189,7 +189,7 @@ class TreeEncoder:
             p_vals_dict[node.label] = clade_p_vals
 
         else:  # We are at a tip
-            bl_dict = {ordered_species.index(node.taxon.label): []}
+            bl_dict = {self.labels.index(node.taxon.label): []}
 
         return bl_dict, bl_sum, p_vals_dict
 
@@ -387,20 +387,15 @@ class TreeEncoder:
         Returns:
             Matrix: An encoded phylogeny matrix.
         """
-        labels = self.pam.get_column_headers()
         # We only need the P-values dictionary
         # TODO: Is there a better way to do this so the length of the r?
         self.tree.seed_node._set_edge_length(0.0)
-        _, _, p_val_dict = self._build_p_branch_length_values(
-            self.tree.seed_node,
-            labels
-        )
+        _, _, p_val_dict = self._build_p_branch_length_values(self.tree.seed_node)
 
         # Initialize the matrix
-        labels = self.pam.get_column_headers()
         mtx = Matrix(
-            np.zeros((len(labels), len(p_val_dict)), dtype=float),
-            headers={'0': labels, '1': list(p_val_dict.keys())},
+            np.zeros((len(self.labels), len(p_val_dict)), dtype=float),
+            headers={'0': self.labels, '1': list(p_val_dict.keys())},
         )
 
         # We need a mapping of node path id to matrix column.  I don't think

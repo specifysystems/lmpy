@@ -5,15 +5,6 @@ from lmpy.matrix import Matrix
 from lmpy.tools.encode_tree_mcpa import cli
 from lmpy.tree import TreeWrapper
 
-"""
-                     0     1     2      3       4
-                A -1.0  -0.5  -0.25  -0.125   0.0
-                B  1.0  -0.5  -0.25  -0.125   0.0
-                C  0.0   1.0  -0.5   -0.25    0.0
-                D  0.0   0.0   1.0   -0.5     0.0
-                E  0.0   0.0   0.0    0.5    -1.0
-                F  0.0   0.0   0.0    0.5     1.0
-"""
 
 # .....................................................................................
 def test_encode_tree_mcpa_with_branch_lengths(monkeypatch, generate_temp_filename):
