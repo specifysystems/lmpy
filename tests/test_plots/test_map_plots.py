@@ -2,7 +2,11 @@
 import numpy as np
 
 from lmpy.matrix import Matrix
-from lmpy.plots.map import create_point_heatmap_matrix, create_stat_heatmap_matrix
+from lmpy.plots.map import (
+    create_point_heatmap_matrix,
+    create_stat_heatmap_matrix,
+    plot_matrix,
+)
 from lmpy.point import Point, PointCsvReader, PointCsvWriter
 
 
@@ -131,3 +135,39 @@ def test_create_stat_heatmap_matrix():
     )
 
     assert np.all(stat_heatmap == test_heatmap_matrix)
+
+
+# .....................................................................................
+def test_plot_matrix_points(generate_temp_filename):
+    """Test the plot_matrix function with points.
+
+    Args:
+        generate_temp_filename (pytest.Fixture): A fixture to generate filenames.
+    """
+    # Generate and write points
+    point_filename = generate_temp_filename(suffix='.csv')
+    num_points = np.random.randint(20, 1000)
+    with PointCsvWriter(point_filename, ['species_name', 'x', 'y']) as writer:
+        for _ in range(num_points):
+            writer.write_points(
+                [
+                    Point(
+                        'Species A',
+                        np.random.randint(1, 99),
+                        np.random.randint(1, 99)
+                    )
+                ]
+            )
+
+    # Open point reader
+    reader = PointCsvReader(point_filename, 'species_name', 'x', 'y')
+    reader.open()
+
+    # Create heat map
+    heatmap = create_point_heatmap_matrix(reader, 0, 0, 100, 100, 2)
+    reader.close()
+
+    plot_filename = generate_temp_filename(suffix='.png')
+    plot_matrix(plot_filename, heatmap)
+    import time
+    time.sleep(1000)

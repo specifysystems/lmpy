@@ -4,6 +4,6 @@ numpy>=1.11.0
 rtree~=1.0.0
 gdal
 defusedxml~=0.7.1
-
+matplotlib
 pytest~=7.1.2
 setuptools~=62.1.0

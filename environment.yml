@@ -13,7 +13,8 @@ dependencies:
   - pytest
   - pytest-cov
   - requests
-  - pip=21.3.1
+  - matplotlib
+  - pip=22.1
   - pip:
     - sphinx-rtd-theme
     - dendropy

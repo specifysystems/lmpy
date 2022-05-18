@@ -1,4 +1,5 @@
 """Module containing tools for creating maps."""
+import matplotlib.pyplot as plt
 import numpy as np
 
 from lmpy.matrix import Matrix
@@ -124,6 +125,17 @@ def create_stat_heatmap_matrix(matrix, stat, min_x, min_y, max_x, max_y, resolut
 
     # Get the mean value by dividing by the number of hits
     return np.divide(heatmap, num_hits, where=num_hits > 0)
+
+
+# .....................................................................................
+def plot_matrix(plot_filename, heatmap_matrix, base_layer=None):
+    """Plot the heatmap.
+    """
+    fig = plt.figure()
+    if base_layer is not None:
+        plt.imshow(base_layer)
+    plt.imshow(heatmap_matrix)
+    plt.savefig(plot_filename)
 
 
 # .....................................................................................
