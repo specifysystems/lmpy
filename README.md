@@ -11,6 +11,11 @@ https://github.com/specifysystems/lmpy/blob/main/LICENSE)
 
 [![PyPI download month](https://img.shields.io/pypi/dm/specify-lmpy.svg)](
 https://pypi.python.org/pypi/specify-lmpy/)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/specifysystems/lmpy.svg?logo=lgtm&logoWidth=18
+)](https://lgtm.com/projects/g/specifysystems/lmpy/alerts/)
+[![Language grade: Python](
+https://img.shields.io/lgtm/grade/python/g/specifysystems/lmpy.svg?logo=lgtm&logoWidth=18
+)](https://lgtm.com/projects/g/specifysystems/lmpy/context:python)
 
 [![Build Status](https://github.com/specifysystems/lmpy/workflows/PyTest%20with%20Conda/badge.svg)](
 https://github.com/specifysystems/lmpy/actions)
