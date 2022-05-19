@@ -1,9 +1,9 @@
-requests~=2.27.1
-dendropy>=4.0.0
-numpy>=1.11.0
-rtree~=1.0.0
+requests
+dendropy
+numpy
+rtree
 gdal
-defusedxml~=0.7.1
+defusedxml
 matplotlib
-pytest~=7.1.2
-setuptools~=62.1.0
+pytest
+setuptools

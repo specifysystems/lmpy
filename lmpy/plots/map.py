@@ -1,4 +1,7 @@
 """Module containing tools for creating maps."""
+import math
+
+import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -19,8 +22,8 @@ def create_map_matrix(min_x, min_y, max_x, max_y, resolution):
     Returns:
         Matrix: A Matrix of zeros for the spatial extent.
     """
-    num_rows = (max_y - min_y) // resolution
-    num_cols = (max_x - min_x) // resolution
+    num_rows = math.ceil((max_y - min_y) / resolution)
+    num_cols = math.ceil((max_x - min_x) / resolution)
     map_matrix = Matrix(
         np.zeros((num_rows, num_cols), dtype=int),
         headers={
@@ -59,8 +62,8 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
         Returns:
             int, int: The row and column where the point is located.
         """
-        r = min(num_rows - 1, max(0, int((max_y - y) // resolution)))
-        c = min(num_cols - 1, max(0, int((x - min_x) // resolution)))
+        r = int(min(num_rows - 1, max(0, int((max_y - y) // resolution))))
+        c = int(min(num_cols - 1, max(0, int((x - min_x) // resolution))))
         return r, c
 
     return get_row_col_func
@@ -128,13 +131,58 @@ def create_stat_heatmap_matrix(matrix, stat, min_x, min_y, max_x, max_y, resolut
 
 
 # .....................................................................................
-def plot_matrix(plot_filename, heatmap_matrix, base_layer=None):
+def plot_matrix(
+    plot_filename,
+    heatmap_matrix,
+    base_layer=None,
+    extent=None,
+    mask_val=0,
+    title=None,
+    cmap=None,
+    vmin=None,
+    vmax=None,
+):
     """Plot the heatmap.
+
+    Args:
+        plot_filename (str): A file path to write the figure image.
+        heatmap_matrix (Matrix): A matrix of heatmap data (ordered like map grid).
+        base_layer (str): A file location of a base layer map to add.
+        extent (tuple): Image extent as (min_x, max_x, min_y, max_y) tuple.
+        mask_val (numeric): A numeric value in the heatmap to ignore when mapping.
+        title (str): A title to add to the image.
+        cmap (str or colormap): The color map to use for the heat map.
+        vmin (numeric): The minimum value to use when scaling color.
+        vmax (numeric): The maximum value to use when scaling color.
     """
+    if vmax == -1:
+        vmax = int(heatmap_matrix.max())
+        vmin = 0
+    base_layer_params = {k: v for k, v in dict(extent=extent).items() if v is not None}
+    heatmap_layer_params = {
+        k: v for k, v in dict(
+            extent=extent,
+            cmap=cmap,
+            vmin=vmin,
+            vmax=vmax,
+        ).items() if v is not None
+    }
+    print(heatmap_layer_params)
     fig = plt.figure()
+    ax = fig.add_subplot()
+    if title is not None:
+        ax.axes.set_title(title)
+    ax.axes.xaxis.set_visible(False)
+    ax.axes.yaxis.set_visible(False)
+
     if base_layer is not None:
-        plt.imshow(base_layer)
-    plt.imshow(heatmap_matrix)
+        if isinstance(base_layer, str):
+            ax.imshow(mpimg.imread(base_layer), **base_layer_params)
+
+    ax.imshow(
+        np.ma.masked_where(heatmap_matrix == mask_val, heatmap_matrix),
+        **heatmap_layer_params
+    )
     plt.savefig(plot_filename)
 
 
@@ -144,4 +192,5 @@ __all__ = [
     'create_point_heatmap_matrix',
     'create_stat_heatmap_matrix',
     'get_row_col_for_x_y_func',
+    'plot_matrix',
 ]

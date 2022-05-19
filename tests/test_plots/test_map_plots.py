@@ -169,5 +169,3 @@ def test_plot_matrix_points(generate_temp_filename):
 
     plot_filename = generate_temp_filename(suffix='.png')
     plot_matrix(plot_filename, heatmap)
-    import time
-    time.sleep(1000)
