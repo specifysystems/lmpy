@@ -91,10 +91,12 @@ def create_point_heatmap_matrix(readers, min_x, min_y, max_x, max_y, resolution)
     if not isinstance(readers, list):
         readers = [readers]
     for reader in readers:
+        reader.open()
         for points in reader:
             for point in points:
                 row, col = get_row_col_func(point.x, point.y)
                 heatmap[row, col] += 1
+        reader.close()
     return heatmap
 
 
@@ -167,7 +169,6 @@ def plot_matrix(
             vmax=vmax,
         ).items() if v is not None
     }
-    print(heatmap_layer_params)
     fig = plt.figure()
     ax = fig.add_subplot()
     if title is not None:
