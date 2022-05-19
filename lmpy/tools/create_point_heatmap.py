@@ -102,7 +102,11 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """Provide a command-line tool for creating a point heatmap."""
+    """Provide a command-line tool for creating a point heatmap.
+
+    Raises:
+        argparse.ArgumentError: Raised if neither a CSV or DWCA is provided.
+    """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
     readers = []
@@ -113,7 +117,7 @@ def cli():
         for csv_fn, sp_key, x_key, y_key in args.csv:
             readers.append(PointCsvReader(csv_fn, sp_key, x_key, y_key))
     if len(readers) == 0:
-        raise ValueError('Must provide at least one CSV and / or DWCA.')
+        raise argparse.ArgumentError('Must provide at least one CSV and / or DWCA.')
 
     point_heatmap = create_point_heatmap_matrix(
         readers,
