@@ -12,8 +12,8 @@ def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
     From: https://matplotlib.org/stable/gallery/statistics/confidence_ellipse.html
 
     Args:
-        x (array-like, shape (n,)): Input data for the x dimension.
-        y (array-like, shape (n,)): Input data for the y dimension.
+        x (array-like): Input data for the x dimension.
+        y (array-likez): Input data for the y dimension.
         ax (matplotlib.axes.Axes): The axes object to draw the ellipse into.
         n_std (float): The number of standard deviations to determine the ellipse's
             radius.
@@ -22,6 +22,9 @@ def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
 
     Returns:
         Ellipse: A matplotlib Ellipse.
+
+    Raises:
+        ValueError: Raised if sizes of x and y are not the same.
     """
     if x.size != y.size:
         raise ValueError("x and y must be the same size")
@@ -74,8 +77,8 @@ def create_scatter_plot(
 
     Args:
         plot_filename (str): A file path to write the plot image.
-        x_data (array-like, shape (n,)): Input data for the x dimension.
-        y_data (array-like, shape (n,)): Input data for the y dimension.
+        x_data (array-like): Input data for the x dimension.
+        y_data (array-like): Input data for the y dimension.
         title (str): A title to add to the plot.
         x_label (str): A label for the x-axis of the plot.
         y_label (str): A label for the y-axis of the plot.
