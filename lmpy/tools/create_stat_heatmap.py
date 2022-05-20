@@ -1,6 +1,8 @@
 """Create a stat heatmap image."""
 import argparse
 
+import numpy as np
+
 from lmpy.matrix import Matrix
 from lmpy.plots.map import create_stat_heatmap_matrix, plot_matrix
 from lmpy.tools._config_parser import _process_arguments
@@ -50,6 +52,11 @@ def build_parser():
         '--vmax',
         type=float,
         help='The maximum value for color scaling (use -1 to use maximum from data).'
+    )
+    parser.add_argument(
+        '--mask_matrix',
+        type=str,
+        help='File path to a binary matrix to use as a mask.'
     )
 
     parser.add_argument(
@@ -103,6 +110,12 @@ def cli():
     args = _process_arguments(parser, config_arg='config_file')
 
     matrix = Matrix.load(args.matrix_filename)
+    if args.mask_matrix is not None:
+        mask_matrix = Matrix.load(args.mask_matrix)
+        matrix = Matrix(
+            np.ma.masked_where(mask_matrix == 0, matrix),
+            headers=matrix.get_headers()
+        )
     matrix_heatmap = create_stat_heatmap_matrix(
         matrix,
         args.statistic,
