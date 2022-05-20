@@ -23,9 +23,10 @@ setup(
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
         'defusedxml',
-        'dendropy>=4.0.0',
-        'numpy>=1.11.0',
+        'dendropy',
+        'numpy',
         'gdal',
+        'matplotlib',
         'requests',
         'rtree',
     ],
