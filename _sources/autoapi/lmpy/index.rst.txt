@@ -17,6 +17,7 @@ Subpackages
 
    data_preparation/index.rst
    data_wrangling/index.rst
+   plots/index.rst
    randomize/index.rst
    spatial/index.rst
    statistics/index.rst

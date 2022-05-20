@@ -1,0 +1,38 @@
+:py:mod:`lmpy.tools.create_stat_heatmap`
+========================================
+
+.. py:module:: lmpy.tools.create_stat_heatmap
+
+.. autoapi-nested-parse::
+
+   Create a stat heatmap image.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.create_stat_heatmap.build_parser
+   lmpy.tools.create_stat_heatmap.cli
+
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for creating a point heatmap.
+
+

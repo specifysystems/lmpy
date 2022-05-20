@@ -23,7 +23,9 @@ Submodules
    convert_csv_to_lmm/index.rst
    convert_lmm_to_csv/index.rst
    convert_lmm_to_geojson/index.rst
+   create_point_heatmap/index.rst
    create_rare_species_model/index.rst
+   create_stat_heatmap/index.rst
    create_tree_matrix/index.rst
    encode_layers/index.rst
    encode_tree_mcpa/index.rst

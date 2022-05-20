@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>create_stat_heatmap - CLI interface &mdash; Specify lmpy 3.1.15+14.g6aeaa8d3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="create_tree_matrix - CLI interface" href="create_tree_matrix.html" />
+    <link rel="prev" title="create_rare_species_model - CLI interface" href="create_rare_species_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="aggregate_matrices.html">aggregate_matrices - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculate_p_values.html">calculate_p_values - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_csv_to_lmm.html">convert_csv_to_lmm - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_csv.html">convert_lmm_to_csv - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html">convert_lmm_to_geojson - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_point_heatmap.html">create_point_heatmap - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html">create_rare_species_model - CLI interface</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">create_stat_heatmap - CLI interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create_stat_heatmap-positional-arguments">create_stat_heatmap positional arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create_stat_heatmap-optional-arguments">create_stat_heatmap optional arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="create_tree_matrix.html">create_tree_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encode_layers.html">encode_layers - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encode_tree_mcpa.html">encode_tree_mcpa - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpa_run.html">mcpa_run - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomize_pam.html">randomize_pam - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_occurrence_data.html">split_occurrence_data - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_matrix.html">wrangle_matrix - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_occurrences.html">wrangle_occurrences - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_species_list.html">wrangle_species_list - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrangle_tree.html">wrangle_tree - CLI interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tools.html">Tools</a> &raquo;</li>
+      <li>create_stat_heatmap - CLI interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scripts/create_stat_heatmap.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="create_stat_heatmap---CLI-interface">
+<h1>create_stat_heatmap - CLI interface<a class="headerlink" href="#create_stat_heatmap---CLI-interface" title="Permalink to this headline"></a></h1>
+<p>Create a statistic heatmap image.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_stat_heatmap</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_LAYER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">TITLE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">cmap</span> <span class="n">CMAP</span><span class="p">]</span>
+                    <span class="p">[</span><span class="o">--</span><span class="n">vmin</span> <span class="n">VMIN</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">vmax</span> <span class="n">VMAX</span><span class="p">]</span>
+                    <span class="n">plot_filename</span> <span class="n">matrix_filename</span> <span class="n">statistic</span> <span class="n">min_x</span> <span class="n">min_y</span> <span class="n">max_x</span> <span class="n">max_y</span>
+                    <span class="n">resolution</span>
+</pre></div>
+</div>
+<section id="create_stat_heatmap-positional-arguments">
+<h2>create_stat_heatmap positional arguments<a class="headerlink" href="#create_stat_heatmap-positional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="create_stat_heatmap-plot_filename"><a class="reference internal" href="#create_stat_heatmap-plot_filename" title="create_stat_heatmap plot_filename"><strong><code class="docutils literal notranslate"><span class="pre">plot_filename</span></code></strong></a> - A file path to write the generated plot image. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap-matrix_filename"><a class="reference internal" href="#create_stat_heatmap-matrix_filename" title="create_stat_heatmap matrix_filename"><strong><code class="docutils literal notranslate"><span class="pre">matrix_filename</span></code></strong></a> - The file path of the matrix containing the data to map. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap-statistic"><a class="reference internal" href="#create_stat_heatmap-statistic" title="create_stat_heatmap statistic"><strong><code class="docutils literal notranslate"><span class="pre">statistic</span></code></strong></a> - The name of the statistic (must match column header) in the matrix. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap-min_x"><a class="reference internal" href="#create_stat_heatmap-min_x" title="create_stat_heatmap min_x"><strong><code class="docutils literal notranslate"><span class="pre">min_x</span></code></strong></a> - The minimum x value of the plot map range. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap-min_y"><a class="reference internal" href="#create_stat_heatmap-min_y" title="create_stat_heatmap min_y"><strong><code class="docutils literal notranslate"><span class="pre">min_y</span></code></strong></a> - The minimum y value of the plot map range. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap-max_x"><a class="reference internal" href="#create_stat_heatmap-max_x" title="create_stat_heatmap max_x"><strong><code class="docutils literal notranslate"><span class="pre">max_x</span></code></strong></a> - The maximum x value of the plot map range. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap-max_y"><a class="reference internal" href="#create_stat_heatmap-max_y" title="create_stat_heatmap max_y"><strong><code class="docutils literal notranslate"><span class="pre">max_y</span></code></strong></a> - The maximum y value of the plot map range. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap-resolution"><a class="reference internal" href="#create_stat_heatmap-resolution" title="create_stat_heatmap resolution"><strong><code class="docutils literal notranslate"><span class="pre">resolution</span></code></strong></a> - The resolution of each cell of the plot map. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+<section id="create_stat_heatmap-optional-arguments">
+<h2>create_stat_heatmap optional arguments<a class="headerlink" href="#create_stat_heatmap-optional-arguments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p id="create_stat_heatmap--h"><span id="create_stat_heatmap---help"></span><a class="reference internal" href="#create_stat_heatmap--h" title="create_stat_heatmap -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#create_stat_heatmap---help" title="create_stat_heatmap --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="create_stat_heatmap---config_file"><a class="reference internal" href="#create_stat_heatmap---config_file" title="create_stat_heatmap --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap--b"><span id="create_stat_heatmap---base_layer"></span><a class="reference internal" href="#create_stat_heatmap--b" title="create_stat_heatmap -b"><strong><code class="docutils literal notranslate"><span class="pre">-b</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">BASE_LAYER</span></code>, <a class="reference internal" href="#create_stat_heatmap---base_layer" title="create_stat_heatmap --base_layer"><strong><code class="docutils literal notranslate"><span class="pre">--base_layer</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">BASE_LAYER</span></code> - An optional base layer image for the plot.  Must have same extent. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap--t"><span id="create_stat_heatmap---title"></span><a class="reference internal" href="#create_stat_heatmap--t" title="create_stat_heatmap -t"><strong><code class="docutils literal notranslate"><span class="pre">-t</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">TITLE</span></code>, <a class="reference internal" href="#create_stat_heatmap---title" title="create_stat_heatmap --title"><strong><code class="docutils literal notranslate"><span class="pre">--title</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">TITLE</span></code> - A title to add to the plot image. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap---cmap"><a class="reference internal" href="#create_stat_heatmap---cmap" title="create_stat_heatmap --cmap"><strong><code class="docutils literal notranslate"><span class="pre">--cmap</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CMAP</span></code> - A color map to use for the image. (default: <code class="docutils literal notranslate"><span class="pre">Reds</span></code>)</p></li>
+<li><p id="create_stat_heatmap---vmin"><a class="reference internal" href="#create_stat_heatmap---vmin" title="create_stat_heatmap --vmin"><strong><code class="docutils literal notranslate"><span class="pre">--vmin</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">VMIN</span></code> - The minimum value for color scaling. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap---vmax"><a class="reference internal" href="#create_stat_heatmap---vmax" title="create_stat_heatmap --vmax"><strong><code class="docutils literal notranslate"><span class="pre">--vmax</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">VMAX</span></code> - The maximum value for color scaling (use -1 to use maximum from data). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="create_rare_species_model.html" class="btn btn-neutral float-left" title="create_rare_species_model - CLI interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="create_tree_matrix.html" class="btn btn-neutral float-right" title="create_tree_matrix - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

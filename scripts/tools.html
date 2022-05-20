@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tools &mdash; Specify lmpy 3.1.15+2.gcc6e961a documentation</title>
+  <title>Tools &mdash; Specify lmpy 3.1.15+14.g6aeaa8d3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="calculate_pam_stats - CLI interface" href="calculate_pam_stats.html" />
+    <link rel="next" title="aggregate_matrices - CLI interface" href="aggregate_matrices.html" />
     <link rel="prev" title="TreeWrapper Objects" href="../tutorial/tree.html" /> 
 </head>
 
@@ -47,11 +47,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aggregate_matrices.html">aggregate_matrices - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculate_p_values.html">calculate_p_values - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convert_csv_to_lmm.html">convert_csv_to_lmm - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_csv.html">convert_lmm_to_csv - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html">convert_lmm_to_geojson - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_point_heatmap.html">create_point_heatmap - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html">create_rare_species_model - CLI interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_stat_heatmap.html">create_stat_heatmap - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="create_tree_matrix.html">create_tree_matrix - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="encode_layers.html">encode_layers - CLI interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="encode_tree_mcpa.html">encode_tree_mcpa - CLI interface</a></li>
@@ -98,6 +102,16 @@
 <h1>Tools<a class="headerlink" href="#tools" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="aggregate_matrices.html">aggregate_matrices - CLI interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aggregate_matrices.html#aggregate_matrices-positional-arguments">aggregate_matrices positional arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aggregate_matrices.html#aggregate_matrices-optional-arguments">aggregate_matrices optional arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="calculate_p_values.html">calculate_p_values - CLI interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="calculate_p_values.html#calculate_p_values-positional-arguments">calculate_p_values positional arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculate_p_values.html#calculate_p_values-optional-arguments">calculate_p_values optional arguments</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="calculate_pam_stats.html">calculate_pam_stats - CLI interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html#calculate_pam_stats-positional-arguments">calculate_pam_stats positional arguments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="calculate_pam_stats.html#calculate_pam_stats-optional-arguments">calculate_pam_stats optional arguments</a></li>
@@ -118,9 +132,19 @@
 <li class="toctree-l2"><a class="reference internal" href="convert_lmm_to_geojson.html#convert_lmm_to_geojson-optional-arguments">convert_lmm_to_geojson optional arguments</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="create_point_heatmap.html">create_point_heatmap - CLI interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="create_point_heatmap.html#create_point_heatmap-positional-arguments">create_point_heatmap positional arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_point_heatmap.html#create_point_heatmap-optional-arguments">create_point_heatmap optional arguments</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="create_rare_species_model.html">create_rare_species_model - CLI interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html#create_rare_species_model-positional-arguments">create_rare_species_model positional arguments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="create_rare_species_model.html#create_rare_species_model-optional-arguments">create_rare_species_model optional arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="create_stat_heatmap.html">create_stat_heatmap - CLI interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="create_stat_heatmap.html#create_stat_heatmap-positional-arguments">create_stat_heatmap positional arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_stat_heatmap.html#create_stat_heatmap-optional-arguments">create_stat_heatmap optional arguments</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="create_tree_matrix.html">create_tree_matrix - CLI interface</a><ul>
@@ -182,7 +206,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../tutorial/tree.html" class="btn btn-neutral float-left" title="TreeWrapper Objects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="calculate_pam_stats.html" class="btn btn-neutral float-right" title="calculate_pam_stats - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="aggregate_matrices.html" class="btn btn-neutral float-right" title="aggregate_matrices - CLI interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

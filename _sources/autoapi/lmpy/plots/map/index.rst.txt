@@ -1,0 +1,135 @@
+:py:mod:`lmpy.plots.map`
+========================
+
+.. py:module:: lmpy.plots.map
+
+.. autoapi-nested-parse::
+
+   Module containing tools for creating maps.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.plots.map.create_map_matrix
+   lmpy.plots.map.create_point_heatmap_matrix
+   lmpy.plots.map.create_stat_heatmap_matrix
+   lmpy.plots.map.get_row_col_for_x_y_func
+   lmpy.plots.map.plot_matrix
+
+
+
+.. py:function:: create_map_matrix(min_x, min_y, max_x, max_y, resolution)
+
+   Creates an empty matrix to use for mapping.
+
+   :param min_x: The minimum x value of the heatmap range.
+   :type min_x: numeric
+   :param min_y: The minimum y value of the heatmap range.
+   :type min_y: numeric
+   :param max_x: The maximum x value of the heatmap range.
+   :type max_x: numeric
+   :param max_y: The maximum y value of the heatmap range.
+   :type max_y: numeric
+   :param resolution: The size of each matrix cell.
+   :type resolution: numeric
+
+   :returns: A Matrix of zeros for the spatial extent.
+   :rtype: Matrix
+
+
+.. py:function:: create_point_heatmap_matrix(readers, min_x, min_y, max_x, max_y, resolution)
+
+   Create a point heatmap matrix.
+
+   :param readers: A source of point data for
+                   creating the heatmap.
+   :type readers: PointReader or list of PointReader
+   :param min_x: The minimum x value of the heatmap range.
+   :type min_x: numeric
+   :param min_y: The minimum y value of the heatmap range.
+   :type min_y: numeric
+   :param max_x: The maximum x value of the heatmap range.
+   :type max_x: numeric
+   :param max_y: The maximum y value of the heatmap range.
+   :type max_y: numeric
+   :param resolution: The size of each matrix cell.
+   :type resolution: numeric
+
+   :returns: A matrix of point density.
+   :rtype: Matrix
+
+
+.. py:function:: create_stat_heatmap_matrix(matrix, stat, min_x, min_y, max_x, max_y, resolution)
+
+   Create a matrix stat heatmap matrix.
+
+   :param matrix: A matrix containing site rows and stat columns.
+   :type matrix: Matrix
+   :param stat: The column header of the stat to create the map for.
+   :type stat: str
+   :param min_x: The minimum x value of the heatmap range.
+   :type min_x: numeric
+   :param min_y: The minimum y value of the heatmap range.
+   :type min_y: numeric
+   :param max_x: The maximum x value of the heatmap range.
+   :type max_x: numeric
+   :param max_y: The maximum y value of the heatmap range.
+   :type max_y: numeric
+   :param resolution: The size of each matrix cell.
+   :type resolution: numeric
+
+   :returns: A matrix of point density.
+   :rtype: Matrix
+
+
+.. py:function:: get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution)
+
+   Get a function to return a row and column for an x, y.
+
+   :param min_x: The minimum x value of the heatmap range.
+   :type min_x: numeric
+   :param min_y: The minimum y value of the heatmap range.
+   :type min_y: numeric
+   :param max_x: The maximum x value of the heatmap range.
+   :type max_x: numeric
+   :param max_y: The maximum y value of the heatmap range.
+   :type max_y: numeric
+   :param resolution: The size of each matrix cell.
+   :type resolution: numeric
+
+   :returns: A method to generate row and column indices for an x, y.
+   :rtype: Method
+
+
+.. py:function:: plot_matrix(plot_filename, heatmap_matrix, base_layer=None, extent=None, mask_val=0, title=None, cmap=None, vmin=None, vmax=None)
+
+   Plot the heatmap.
+
+   :param plot_filename: A file path to write the figure image.
+   :type plot_filename: str
+   :param heatmap_matrix: A matrix of heatmap data (ordered like map grid).
+   :type heatmap_matrix: Matrix
+   :param base_layer: A file location of a base layer map to add.
+   :type base_layer: str
+   :param extent: Image extent as (min_x, max_x, min_y, max_y) tuple.
+   :type extent: tuple
+   :param mask_val: A numeric value in the heatmap to ignore when mapping.
+   :type mask_val: numeric
+   :param title: A title to add to the image.
+   :type title: str
+   :param cmap: The color map to use for the heat map.
+   :type cmap: str or colormap
+   :param vmin: The minimum value to use when scaling color.
+   :type vmin: numeric
+   :param vmax: The maximum value to use when scaling color.
+   :type vmax: numeric
+
+

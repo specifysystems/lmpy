@@ -1,0 +1,20 @@
+:py:mod:`lmpy.plots`
+====================
+
+.. py:module:: lmpy.plots
+
+.. autoapi-nested-parse::
+
+   Module for plots __init__.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   map/index.rst
+
+

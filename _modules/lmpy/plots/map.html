@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.plots.map &mdash; Specify lmpy 3.1.15+14.g6aeaa8d3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.plots.map</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.plots.map</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing tools for creating maps.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="k">as</span> <span class="nn">mpimg</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="create_map_matrix"><a class="viewcode-back" href="../../../autoapi/lmpy/plots/map/index.html#lmpy.plots.map.create_map_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_map_matrix</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">resolution</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an empty matrix to use for mapping.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        min_x (numeric): The minimum x value of the heatmap range.</span>
+<span class="sd">        min_y (numeric): The minimum y value of the heatmap range.</span>
+<span class="sd">        max_x (numeric): The maximum x value of the heatmap range.</span>
+<span class="sd">        max_y (numeric): The maximum y value of the heatmap range.</span>
+<span class="sd">        resolution (numeric): The size of each matrix cell.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: A Matrix of zeros for the spatial extent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">)</span>
+    <span class="n">num_cols</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">)</span>
+    <span class="n">map_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">max_y</span> <span class="o">-</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">resolution</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">)],</span>
+            <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">min_x</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">resolution</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cols</span><span class="p">)]</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">map_matrix</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="get_row_col_for_x_y_func"><a class="viewcode-back" href="../../../autoapi/lmpy/plots/map/index.html#lmpy.plots.map.get_row_col_for_x_y_func">[docs]</a><span class="k">def</span> <span class="nf">get_row_col_for_x_y_func</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">resolution</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a function to return a row and column for an x, y.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        min_x (numeric): The minimum x value of the heatmap range.</span>
+<span class="sd">        min_y (numeric): The minimum y value of the heatmap range.</span>
+<span class="sd">        max_x (numeric): The maximum x value of the heatmap range.</span>
+<span class="sd">        max_y (numeric): The maximum y value of the heatmap range.</span>
+<span class="sd">        resolution (numeric): The size of each matrix cell.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Method: A method to generate row and column indices for an x, y.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_rows</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">)</span> <span class="o">//</span> <span class="n">resolution</span>
+    <span class="n">num_cols</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">//</span> <span class="n">resolution</span>
+
+    <span class="c1"># .......................</span>
+    <span class="k">def</span> <span class="nf">get_row_col_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the row and column where the point is located.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (numeric): The x value to convert.</span>
+<span class="sd">            y (numeric): The y value to convert.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int, int: The row and column where the point is located.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">num_rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">//</span> <span class="n">resolution</span><span class="p">))))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">num_cols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span> <span class="o">//</span> <span class="n">resolution</span><span class="p">))))</span>
+        <span class="k">return</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">get_row_col_func</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="create_point_heatmap_matrix"><a class="viewcode-back" href="../../../autoapi/lmpy/plots/map/index.html#lmpy.plots.map.create_point_heatmap_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_point_heatmap_matrix</span><span class="p">(</span><span class="n">readers</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">resolution</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a point heatmap matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        readers (PointReader or list of PointReader): A source of point data for</span>
+<span class="sd">            creating the heatmap.</span>
+<span class="sd">        min_x (numeric): The minimum x value of the heatmap range.</span>
+<span class="sd">        min_y (numeric): The minimum y value of the heatmap range.</span>
+<span class="sd">        max_x (numeric): The maximum x value of the heatmap range.</span>
+<span class="sd">        max_y (numeric): The maximum y value of the heatmap range.</span>
+<span class="sd">        resolution (numeric): The size of each matrix cell.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: A matrix of point density.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">heatmap</span> <span class="o">=</span> <span class="n">create_map_matrix</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+    <span class="n">get_row_col_func</span> <span class="o">=</span> <span class="n">get_row_col_for_x_y_func</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">readers</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">readers</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="n">readers</span><span class="p">:</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+                <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">get_row_col_func</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+                <span class="n">heatmap</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">heatmap</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="create_stat_heatmap_matrix"><a class="viewcode-back" href="../../../autoapi/lmpy/plots/map/index.html#lmpy.plots.map.create_stat_heatmap_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_stat_heatmap_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">stat</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">resolution</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a matrix stat heatmap matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix (Matrix): A matrix containing site rows and stat columns.</span>
+<span class="sd">        stat (str): The column header of the stat to create the map for.</span>
+<span class="sd">        min_x (numeric): The minimum x value of the heatmap range.</span>
+<span class="sd">        min_y (numeric): The minimum y value of the heatmap range.</span>
+<span class="sd">        max_x (numeric): The maximum x value of the heatmap range.</span>
+<span class="sd">        max_y (numeric): The maximum y value of the heatmap range.</span>
+<span class="sd">        resolution (numeric): The size of each matrix cell.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: A matrix of point density.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">heatmap</span> <span class="o">=</span> <span class="n">create_map_matrix</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+    <span class="n">num_hits</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">heatmap</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="n">get_row_col_func</span> <span class="o">=</span> <span class="n">get_row_col_for_x_y_func</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+
+    <span class="n">matrix_column</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span>
+    <span class="n">site_headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">matrix_row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">site_headers</span><span class="p">[</span><span class="n">matrix_row</span><span class="p">]</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">get_row_col_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">heatmap</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">+=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">matrix_row</span><span class="p">,</span> <span class="n">matrix_column</span><span class="p">]</span>
+        <span class="n">num_hits</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Get the mean value by dividing by the number of hits</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">heatmap</span><span class="p">,</span> <span class="n">num_hits</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">num_hits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="plot_matrix"><a class="viewcode-back" href="../../../autoapi/lmpy/plots/map/index.html#lmpy.plots.map.plot_matrix">[docs]</a><span class="k">def</span> <span class="nf">plot_matrix</span><span class="p">(</span>
+    <span class="n">plot_filename</span><span class="p">,</span>
+    <span class="n">heatmap_matrix</span><span class="p">,</span>
+    <span class="n">base_layer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">extent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mask_val</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot the heatmap.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        plot_filename (str): A file path to write the figure image.</span>
+<span class="sd">        heatmap_matrix (Matrix): A matrix of heatmap data (ordered like map grid).</span>
+<span class="sd">        base_layer (str): A file location of a base layer map to add.</span>
+<span class="sd">        extent (tuple): Image extent as (min_x, max_x, min_y, max_y) tuple.</span>
+<span class="sd">        mask_val (numeric): A numeric value in the heatmap to ignore when mapping.</span>
+<span class="sd">        title (str): A title to add to the image.</span>
+<span class="sd">        cmap (str or colormap): The color map to use for the heat map.</span>
+<span class="sd">        vmin (numeric): The minimum value to use when scaling color.</span>
+<span class="sd">        vmax (numeric): The maximum value to use when scaling color.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">vmax</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">heatmap_matrix</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">base_layer_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+    <span class="n">heatmap_layer_params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span>
+            <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">}</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">base_layer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base_layer</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">base_layer</span><span class="p">),</span> <span class="o">**</span><span class="n">base_layer_params</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">heatmap_matrix</span> <span class="o">==</span> <span class="n">mask_val</span><span class="p">,</span> <span class="n">heatmap_matrix</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">heatmap_layer_params</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">plot_filename</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;create_map_matrix&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;create_point_heatmap_matrix&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;create_stat_heatmap_matrix&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;get_row_col_for_x_y_func&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;plot_matrix&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
