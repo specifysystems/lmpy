@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.create_stat_heatmap &mdash; Specify lmpy 3.1.16 documentation</title>
+  <title>lmpy.tools.create_stat_heatmap &mdash; Specify lmpy 3.1.16+2.gbed5b344 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -78,6 +78,8 @@
 <span></span><span class="sd">&quot;&quot;&quot;Create a stat heatmap image.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
 <span class="kn">from</span> <span class="nn">lmpy.plots.map</span> <span class="k">import</span> <span class="n">create_stat_heatmap_matrix</span><span class="p">,</span> <span class="n">plot_matrix</span>
 <span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span>
@@ -127,6 +129,11 @@
         <span class="s1">&#39;--vmax&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The maximum value for color scaling (use -1 to use maximum from data).&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--mask_matrix&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File path to a binary matrix to use as a mask.&#39;</span>
     <span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -180,6 +187,12 @@
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
 
     <span class="n">matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">matrix_filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">mask_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mask_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">mask_matrix</span><span class="p">)</span>
+        <span class="n">matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">mask_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">matrix</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>
+        <span class="p">)</span>
     <span class="n">matrix_heatmap</span> <span class="o">=</span> <span class="n">create_stat_heatmap_matrix</span><span class="p">(</span>
         <span class="n">matrix</span><span class="p">,</span>
         <span class="n">args</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span>

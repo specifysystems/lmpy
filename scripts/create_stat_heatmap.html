@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>create_stat_heatmap - CLI interface &mdash; Specify lmpy 3.1.16 documentation</title>
+  <title>create_stat_heatmap - CLI interface &mdash; Specify lmpy 3.1.16+2.gbed5b344 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -108,7 +108,7 @@
 <h1>create_stat_heatmap - CLI interface<a class="headerlink" href="#create_stat_heatmap---CLI-interface" title="Permalink to this headline"></a></h1>
 <p>Create a statistic heatmap image.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_stat_heatmap</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_LAYER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">TITLE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">cmap</span> <span class="n">CMAP</span><span class="p">]</span>
-                    <span class="p">[</span><span class="o">--</span><span class="n">vmin</span> <span class="n">VMIN</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">vmax</span> <span class="n">VMAX</span><span class="p">]</span>
+                    <span class="p">[</span><span class="o">--</span><span class="n">vmin</span> <span class="n">VMIN</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">vmax</span> <span class="n">VMAX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">mask_matrix</span> <span class="n">MASK_MATRIX</span><span class="p">]</span>
                     <span class="n">plot_filename</span> <span class="n">matrix_filename</span> <span class="n">statistic</span> <span class="n">min_x</span> <span class="n">min_y</span> <span class="n">max_x</span> <span class="n">max_y</span>
                     <span class="n">resolution</span>
 </pre></div>
@@ -136,6 +136,7 @@
 <li><p id="create_stat_heatmap---cmap"><a class="reference internal" href="#create_stat_heatmap---cmap" title="create_stat_heatmap --cmap"><strong><code class="docutils literal notranslate"><span class="pre">--cmap</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CMAP</span></code> - A color map to use for the image. (default: <code class="docutils literal notranslate"><span class="pre">Reds</span></code>)</p></li>
 <li><p id="create_stat_heatmap---vmin"><a class="reference internal" href="#create_stat_heatmap---vmin" title="create_stat_heatmap --vmin"><strong><code class="docutils literal notranslate"><span class="pre">--vmin</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">VMIN</span></code> - The minimum value for color scaling. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 <li><p id="create_stat_heatmap---vmax"><a class="reference internal" href="#create_stat_heatmap---vmax" title="create_stat_heatmap --vmax"><strong><code class="docutils literal notranslate"><span class="pre">--vmax</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">VMAX</span></code> - The maximum value for color scaling (use -1 to use maximum from data). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="create_stat_heatmap---mask_matrix"><a class="reference internal" href="#create_stat_heatmap---mask_matrix" title="create_stat_heatmap --mask_matrix"><strong><code class="docutils literal notranslate"><span class="pre">--mask_matrix</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">MASK_MATRIX</span></code> - File path to a binary matrix to use as a mask. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
 </section>
