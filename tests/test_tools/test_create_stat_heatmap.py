@@ -16,7 +16,6 @@ def test_create_stat_heatmap(monkeypatch, generate_temp_filename):
     plot_filename = generate_temp_filename(suffix='.png')
     matrix_filename = generate_temp_filename(suffix='.lmm')
 
-    num_points = 100000
     min_x, min_y, max_x, max_y = (-180.0, -90.0, 180.0, 90.0)
     resolution = .5
 
