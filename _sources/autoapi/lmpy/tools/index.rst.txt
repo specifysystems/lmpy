@@ -25,6 +25,7 @@ Submodules
    convert_lmm_to_geojson/index.rst
    create_point_heatmap/index.rst
    create_rare_species_model/index.rst
+   create_scatter_plot/index.rst
    create_stat_heatmap/index.rst
    create_tree_matrix/index.rst
    encode_layers/index.rst

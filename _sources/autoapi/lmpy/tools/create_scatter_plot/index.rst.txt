@@ -1,0 +1,38 @@
+:py:mod:`lmpy.tools.create_scatter_plot`
+========================================
+
+.. py:module:: lmpy.tools.create_scatter_plot
+
+.. autoapi-nested-parse::
+
+   Create a scatter plot for two matrix vectors.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.create_scatter_plot.build_parser
+   lmpy.tools.create_scatter_plot.cli
+
+
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
+
+
+.. py:function:: cli()
+
+   Provide a command-line tool for creating a scatter plot.
+
+

@@ -1,0 +1,75 @@
+:py:mod:`lmpy.plots.scatter`
+============================
+
+.. py:module:: lmpy.plots.scatter
+
+.. autoapi-nested-parse::
+
+   Module containing methods for creating scatterplots.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.plots.scatter.confidence_ellipse
+   lmpy.plots.scatter.create_scatter_plot
+
+
+
+.. py:function:: confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs)
+
+   Create a plot of the covariance confidence ellipse of *x* and *y*.
+
+   From: https://matplotlib.org/stable/gallery/statistics/confidence_ellipse.html
+
+   :param x: Input data for the x dimension.
+   :type x: array-like
+   :param y: Input data for the y dimension.
+   :type y: array-likez
+   :param ax: The axes object to draw the ellipse into.
+   :type ax: matplotlib.axes.Axes
+   :param n_std: The number of standard deviations to determine the ellipse's
+                 radius.
+   :type n_std: float
+   :param facecolor: A color argument for the Ellipse.
+   :type facecolor: str
+   :param \*\*kwargs: Keyword parameters forwarded to Ellipse.
+   :type \*\*kwargs: dict
+
+   :returns: A matplotlib Ellipse.
+   :rtype: Ellipse
+
+   :raises ValueError: Raised if sizes of x and y are not the same.
+
+
+.. py:function:: create_scatter_plot(plot_filename, x_data, y_data, title=None, x_label=None, y_label=None, std_dev_styles=None, legend=True)
+
+   Create a scatter plot for two data vectors with optional std dev ellipses.
+
+   :param plot_filename: A file path to write the plot image.
+   :type plot_filename: str
+   :param x_data: Input data for the x dimension.
+   :type x_data: array-like
+   :param y_data: Input data for the y dimension.
+   :type y_data: array-like
+   :param title: A title to add to the plot.
+   :type title: str
+   :param x_label: A label for the x-axis of the plot.
+   :type x_label: str
+   :param y_label: A label for the y-axis of the plot.
+   :type y_label: str
+   :param std_dev_styles: A list of dictionaries of keyword arguments to
+                          use for stylize each confidence ellipse.  A confidence of ellipse will be
+                          added for each dictionary.
+   :type std_dev_styles: list of dict
+   :param legend: Should a legend be added to the image.
+   :type legend: bool
+
+

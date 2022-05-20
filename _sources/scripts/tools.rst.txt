@@ -12,6 +12,7 @@ Tools
     convert_lmm_to_geojson
     create_point_heatmap
     create_rare_species_model
+    create_scatter_plot
     create_stat_heatmap
     create_tree_matrix
     encode_layers

@@ -16,5 +16,6 @@ Submodules
    :maxdepth: 1
 
    map/index.rst
+   scatter/index.rst
 
 
