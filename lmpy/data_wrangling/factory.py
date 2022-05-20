@@ -67,7 +67,15 @@ class WranglerFactory:
 
         wranglers = []
         for config in wrangler_configs:
-            wrangler = self.wrangler_types[config['wrangler_type']].from_config(config)
+            if 'module' in config.keys():
+                # If 'module' is specified, look in that module for the specified
+                #     data wrangler
+                m = importlib.import_module(config['module'])
+                wrangler = getattr(m, config['wrangler_type']).from_config(config)
+            else:
+                wrangler = self.wrangler_types[
+                    config['wrangler_type']
+                ].from_config(config)
             if wrangler.logger is None and self.default_logger is not None:
                 wrangler.logger = self.default_logger
             wranglers.append(wrangler)
