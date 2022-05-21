@@ -33,7 +33,7 @@ def encode_tree(tree):
     taxon_index_map = {val: idx for idx, val in enumerate(ordered_taxa)}
 
     tree_mtx = Matrix(
-        np.zeros((num_tips, num_nodes), dtype=np.bool),
+        np.zeros((num_tips, num_nodes), dtype=bool),
         headers={'0': ordered_taxa, '1': node_labels},
     )
 
