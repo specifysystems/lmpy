@@ -3,6 +3,11 @@ import json
 import os
 
 from lmpy.data_wrangling.factory import WranglerFactory
+from lmpy.data_wrangling.base import _DataWrangler
+from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
+from lmpy.data_wrangling.occurrence.unique_localities_wrangler import (
+    UniqueLocalitiesFilter,
+)
 
 
 # ............................................................................
@@ -31,3 +36,22 @@ class Test_wrangler_factory:
             )
         wranglers = factory.get_wranglers(config)
         assert wranglers[0]
+
+
+# .....................................................................................
+def test_wrangler_from_config_with_module(generate_temp_filename):
+    """Test that we can get a data wrangler when specifying with a module.
+
+    Args:
+        generate_temp_filename (pytest.Fixture): A fixture for generating filenames.
+    """
+    wrangler_config = {
+        'module': 'lmpy.data_wrangling.occurrence.unique_localities_wrangler',
+        'wrangler_type': 'UniqueLocalitiesFilter'
+    }
+    factory = WranglerFactory()
+    wranglers = factory.get_wranglers([wrangler_config])
+    assert len(wranglers) == 1
+    assert isinstance(wranglers[0], _DataWrangler)
+    assert isinstance(wranglers[0], _OccurrenceDataWrangler)
+    assert isinstance(wranglers[0], UniqueLocalitiesFilter)
