@@ -1,16 +1,29 @@
 """Test configuration fixtures."""
 import glob
+import importlib
 import os
 import shutil
+import subprocess
+import sys
 import tempfile
 import time
 
 import pytest
 
 
-# .............................................................................
-# .                                 Constants                                 .
-# .............................................................................
+# .....................................................................................
+# .                                      Dynamic                                      .
+# .....................................................................................
+try:
+    SCRIPT_FAIL_IF_MISSING = bool(os.environ['SCRIPT_FAIL_IF_MISSING'])
+except (KeyError, ValueError):
+    # Fail if not in environment variables or not boolean
+    SCRIPT_FAIL_IF_MISSING = False
+
+
+# .....................................................................................
+# .                                     Constants                                     .
+# .....................................................................................
 DWCA_DIR = 'dwcas'
 TREES_DIR = 'trees'
 LAYER_ENCODER_DIR = 'encoding_layers'
@@ -21,7 +34,7 @@ SAMPLE_DATA_PATH = os.path.join(THIS_DIR, 'data_dir')
 
 
 # .............................................................................
-class SampleDataFiles(object):
+class SampleDataFiles:
     """This class is used to retrieve sample data for the tests.
 
     Note:
@@ -206,7 +219,7 @@ def generate_temp_filename(request):
         Returns:
             str: A temporary filename.
         """
-        base_name = tempfile.NamedTemporaryFile(suffix=suffix).name
+        base_name = tempfile.NamedTemporaryFile().name
         fn = f'{base_name}{suffix}'
         if wildcard_delete:
             delete_globs.append(f'{base_name}*')
@@ -230,6 +243,43 @@ def generate_temp_filename(request):
 
     request.addfinalizer(finalizer)
     return get_filename
+
+
+# .....................................................................................
+@pytest.fixture(scope='function')
+def script_runner():
+    """A fixture for running a script."""
+    # .......................
+    def get_script_runner(console_script, script_module, args):
+        """Run a script, installed or with python.
+
+        Args:
+            console_script (str): The name of a script to run.
+            script_module (str): Module path (with periods) to script.
+            args (list): A list of arguments to pass to the script.
+
+        Raises:
+            FileNotFoundError: Raised if console script does not exist and fail if
+                missing is toggled to True.
+        """
+        cmd_args = []
+        # Determine if we should run console or python
+        if shutil.which(console_script) is None:
+            cmd_args.extend(
+                [sys.executable, importlib.import_module(script_module).__file__]
+            )
+            # If SCRIPT_FAIL_IF_MISSING is true, raise exception
+            if SCRIPT_FAIL_IF_MISSING:
+                raise FileNotFoundError(f'{console_script} was not found')
+        else:
+            cmd_args.append(console_script)
+        # Build command
+        cmd_args.extend(args)
+
+        # Run command
+        subprocess.run(cmd_args)
+
+    return get_script_runner
 
 
 # .....................................................................................
