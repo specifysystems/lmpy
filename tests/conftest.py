@@ -248,7 +248,11 @@ def generate_temp_filename(request):
 # .....................................................................................
 @pytest.fixture(scope='function')
 def script_runner():
-    """A fixture for running a script."""
+    """A fixture for running a script.
+
+    Returns:
+        Method: Returns a method to run a script.
+    """
     # .......................
     def get_script_runner(console_script, script_module, args):
         """Run a script, installed or with python.
