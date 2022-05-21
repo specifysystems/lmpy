@@ -34,7 +34,7 @@ Functions
 
 .. py:function:: cli()
 
-   Provide a command-line interface to the wrangle matrix tool.
+   Provide a command-line interface to the wrangle species list tool.
 
 
 .. py:function:: wrangle_species_list(species_list, wranglers)
