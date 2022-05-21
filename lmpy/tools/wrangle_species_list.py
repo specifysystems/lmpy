@@ -37,7 +37,10 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser(prog='wrangle_matrix', description=DESCRIPTION)
+    parser = argparse.ArgumentParser(
+        prog='wrangle_species_list',
+        description=DESCRIPTION
+    )
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
         '--log_filename',
@@ -73,7 +76,7 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """Provide a command-line interface to the wrangle matrix tool."""
+    """Provide a command-line interface to the wrangle species list tool."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
     logger = get_logger(
