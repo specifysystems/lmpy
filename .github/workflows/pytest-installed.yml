@@ -1,0 +1,41 @@
+name: PyTest Installed Library
+
+on: push
+
+jobs:
+  pytest:
+    name: PyTest Conda (${{ matrix.os }}, - python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest"]  # , "macos-latest", "windows-latest"]
+        python-version: ['3.10']  # "["3.7", "3.8", "3.9", "3.10"]
+    env:
+      SCRIPT_FAIL_IF_MISSING: 1
+    steps:
+      # Checkout code
+      - uses: actions/checkout@v2
+
+      # Set up Conda environment
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: lmpy-test
+          auto-activate-base: false
+          auto-update-conda: true
+          environment-file: environment.yml
+          python-version: ${{ matrix.python-version }}
+
+      # Get info
+      - name: Debugging info
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+
+      # Run pytest
+      - name: Test with Pytest
+        shell: bash -l {0}
+        run: |
+          python setup.py install
+          PYTHONPATH=. coverage run --source=lmpy -m pytest tests/
