@@ -28,5 +28,5 @@ deleted once the test completes.
 The `script_runner` test fixture is used to call a script from the command line using
 `subprocess.run`.  This fixture takes the name of a console script as well as the
 module path for that script and runs the appropriate call at runtime.  Setting the
-environment variable, `SCRIPT_FAIL_IF_MISSING=0` will cause the fixture to fail if the
+environment variable, `SCRIPT_FAIL_IF_MISSING=1` will cause the fixture to fail if the
 specified console script does not exist.
