@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.factory &mdash; Specify lmpy 3.1.16+6.g4355c364 documentation</title>
+  <title>lmpy.data_wrangling.factory &mdash; Specify lmpy 3.1.16+10.g2169014f documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -144,7 +144,15 @@
 
         <span class="n">wranglers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">wrangler_configs</span><span class="p">:</span>
-            <span class="n">wrangler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrangler_types</span><span class="p">[</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;wrangler_type&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;module&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="c1"># If &#39;module&#39; is specified, look in that module for the specified</span>
+                <span class="c1">#     data wrangler</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;module&#39;</span><span class="p">])</span>
+                <span class="n">wrangler</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;wrangler_type&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">wrangler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrangler_types</span><span class="p">[</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;wrangler_type&#39;</span><span class="p">]</span>
+                <span class="p">]</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">logger</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">wrangler</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_logger</span>
             <span class="n">wranglers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wrangler</span><span class="p">)</span>
