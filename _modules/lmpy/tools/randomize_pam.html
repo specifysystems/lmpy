@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.randomize_pam &mdash; Specify lmpy 3.1.18+2.gfbf93162 documentation</title>
+  <title>lmpy.tools.randomize_pam &mdash; Specify lmpy 3.1.19+3.g27794bdb documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -77,6 +77,7 @@
   <h1>Source code for lmpy.tools.randomize_pam</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;This script will randomize a PAM while maintaining marginal totals.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
 
 <span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span>
 <span class="kn">from</span> <span class="nn">lmpy.randomize.grady</span> <span class="k">import</span> <span class="n">grady_randomize</span>
@@ -118,6 +119,7 @@
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;output_pam_filename&#39;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location to write the randomized PAM.&#39;</span><span class="p">,</span>
     <span class="p">)</span>
@@ -130,8 +132,11 @@
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
     <span class="n">in_pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_pam_filename</span><span class="p">)</span>
-    <span class="n">rand_pam</span> <span class="o">=</span> <span class="n">randomize_pam</span><span class="p">(</span><span class="n">in_pam</span><span class="p">)</span>
-    <span class="n">rand_pam</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">out_fn</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">:</span>
+        <span class="n">rand_pam</span> <span class="o">=</span> <span class="n">randomize_pam</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">in_pam</span><span class="p">))</span>
+        <span class="n">rand_pam</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">out_fn</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
