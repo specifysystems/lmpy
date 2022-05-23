@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.split_occurrence_data &mdash; Specify lmpy 3.1.19+5.g4e05a7f1 documentation</title>
+  <title>lmpy.tools.split_occurrence_data &mdash; Specify lmpy 3.1.19+7.g945eaa62 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -160,6 +160,11 @@
             <span class="s1">&#39;a species header key, an x header key, and a y header key.&#39;</span>
         <span class="p">),</span>
     <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--species_list_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write list of species seen (after wrangling).&#39;</span>
+    <span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;out_dir&#39;</span><span class="p">,</span>
@@ -207,7 +212,9 @@
                 <span class="n">reader</span> <span class="o">=</span> <span class="n">PointCsvReader</span><span class="p">(</span><span class="n">csv_fn</span><span class="p">,</span> <span class="n">sp_key</span><span class="p">,</span> <span class="n">x_key</span><span class="p">,</span> <span class="n">y_key</span><span class="p">)</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">wranglers_fn</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_json</span><span class="p">:</span>
                     <span class="n">wranglers</span> <span class="o">=</span> <span class="n">wrangler_factory</span><span class="o">.</span><span class="n">get_wranglers</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_json</span><span class="p">))</span>
-                <span class="n">occurrence_processor</span><span class="o">.</span><span class="n">process_reader</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">)</span></div>
+                <span class="n">occurrence_processor</span><span class="o">.</span><span class="n">process_reader</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">species_list_filename</span><span class="p">:</span>
+            <span class="n">occurrence_processor</span><span class="o">.</span><span class="n">write_species_list</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">species_list_filename</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>

@@ -100,6 +100,14 @@ Functions
       :type points: list
 
 
+   .. py:method:: write_species_list(self, species_list_filename)
+
+      Write a species list of species seen (after wrangling).
+
+      :param species_list_filename: File location to write the species list.
+      :type species_list_filename: str
+
+
 
 .. py:function:: get_writer_filename_func(base_dir)
 
