@@ -31,6 +31,7 @@ OCCURRENCE_WRANGLER_DIR = 'data_wranglers/occurrence'
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 SAMPLE_DATA_PATH = os.path.join(THIS_DIR, 'data_dir')
+TUTORIAL_DATA_DIR_PATH = os.path.join(THIS_DIR, '..', 'sample_data')
 
 
 # .............................................................................
@@ -301,7 +302,18 @@ def temp_directory():
     shutil.rmtree(dir_name)
 
 
-# .............................................................................
+# .....................................................................................
+@pytest.fixture(scope='session')
+def tutorial_data_dir():
+    """Get the tutorial data directory.
+
+    Returns:
+        str: The tutorial data directory path.
+    """
+    return TUTORIAL_DATA_DIR_PATH
+
+
+# .....................................................................................
 def pytest_generate_tests(metafunc):
     """Pytest function for generating tests.
 
