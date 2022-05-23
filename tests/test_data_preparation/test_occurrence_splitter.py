@@ -50,6 +50,7 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
     """
     # Temporary files
     dwca_filename = generate_temp_filename()
+    species_list_filename = generate_temp_filename(suffix='.txt')
 
     # Generate a DWCA and wranglers
     dwca_fields = [
@@ -91,12 +92,17 @@ def test_one_dwca(monkeypatch, generate_temp_filename, temp_directory):
     splitter.process_reader(
         PointDwcaReader(dwca_filename), factory.get_wranglers(wrangler_config)
     )
+    splitter.write_species_list(species_list_filename)
     splitter.close()
 
     # Check output
     assert validate_point_csvs(
         glob.glob(f'{temp_directory}/*.csv'), 'taxonname', 'longitude', 'latitude'
     )
+    # Check that species in species list are accepted
+    with open(species_list_filename, mode='rt') as species_in:
+        for line in species_in:
+            assert line.strip() in list(SPECIES_MAP.values())
 
 
 # .....................................................................................
@@ -179,6 +185,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     dwca_2_filename = generate_temp_filename()
     csv_1_filename = generate_temp_filename()
     csv_2_filename = generate_temp_filename()
+    species_list_filename = generate_temp_filename(suffix='.txt')
 
     # Reader and wrangler configurations
     # DWCA 1
@@ -413,8 +420,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
             PointCsvReader(csv_2_filename, 'taxname', 'dec_lon', 'dec_lat'),
             factory.get_wranglers(csv_2_wrangler_conf)
         )
+        splitter.write_species_list(species_list_filename)
 
     # Check output
     assert validate_point_csvs(
         glob.glob(f'{temp_directory}/*.csv'), 'species', 'longitude', 'latitude'
     )
+    # Check that species in species list are accepted
+    with open(species_list_filename, mode='rt') as species_in:
+        for line in species_in:
+            assert line.strip() in list(SPECIES_MAP.values())

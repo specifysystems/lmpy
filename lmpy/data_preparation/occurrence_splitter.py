@@ -97,6 +97,7 @@ class OccurrenceSplitter:
         self.writer_fields = write_fields
         self.max_writers = max_writers
         self.writers = {}
+        self.seen_taxa = set()
 
     # .......................
     def __enter__(self):
@@ -176,11 +177,23 @@ class OccurrenceSplitter:
         """
         if points:
             writer_key = self.get_writer_key(points[0])
+            self.seen_taxa.add(points[0].species_name)
             if writer_key not in self.writers.keys():
                 if self.writer_fields is None:
                     self.writer_fields = list(points[0].attributes.keys())
                 self.open_writer(writer_key)
             self.writers[writer_key].write_points(points)
+
+    # .......................
+    def write_species_list(self, species_list_filename):
+        """Write a species list of species seen (after wrangling).
+
+        Args:
+            species_list_filename (str): File location to write the species list.
+        """
+        with open(species_list_filename, mode='wt') as species_out:
+            for sp in list(self.seen_taxa):
+                species_out.write(f'{sp}\n')
 
 
 # .....................................................................................

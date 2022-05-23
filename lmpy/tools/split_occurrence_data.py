@@ -83,6 +83,11 @@ def build_parser():
             'a species header key, an x header key, and a y header key.'
         ),
     )
+    parser.add_argument(
+        '--species_list_filename',
+        type=str,
+        help='File location to write list of species seen (after wrangling).'
+    )
 
     parser.add_argument(
         'out_dir',
@@ -131,6 +136,8 @@ def cli():
                 with open(wranglers_fn, mode='rt') as in_json:
                     wranglers = wrangler_factory.get_wranglers(json.load(in_json))
                 occurrence_processor.process_reader(reader, wranglers)
+        if args.species_list_filename:
+            occurrence_processor.write_species_list(args.species_list_filename)
 
 
 # .....................................................................................
