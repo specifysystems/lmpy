@@ -274,6 +274,8 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     wrangler_3_filename = generate_temp_filename()
     wrangler_4_filename = generate_temp_filename()
 
+    species_list_filename = generate_temp_filename(suffix='.txt')
+
     # Reader and wrangler configurations
     # DWCA 1
     dwca_1_fields = [
@@ -518,6 +520,8 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
         'taxname',
         'dec_lon',
         'dec_lat',
+        '--species_list_filename',
+        species_list_filename,
         temp_directory
     ]
 
@@ -528,3 +532,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     assert validate_point_csvs(
         glob.glob(f'{temp_directory}/*.csv'), 'species_name', 'x', 'y'
     )
+    # Check that species in species list are accepted
+    with open(species_list_filename, mode='rt') as species_in:
+        for line in species_in:
+            assert line.strip() in list(SPECIES_MAP.values())
