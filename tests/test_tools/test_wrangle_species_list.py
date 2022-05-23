@@ -52,6 +52,7 @@ def test_wrangle_species_list(monkeypatch, generate_temp_filename):
     val_2 = np.random.randint(0, val_1)
     matrix_species = list(subset_pool)[:val_1]
     tree_species = list(subset_pool)[val_2:]
+    tree_species.append('Removethis species')  # Ensure 1+ will be removed
     common_species = set(matrix_species).intersection(set(tree_species))
 
     # Create matrix
@@ -184,6 +185,7 @@ def test_wrangle_species_list_script(script_runner, generate_temp_filename):
     val_2 = np.random.randint(0, val_1)
     matrix_species = list(subset_pool)[:val_1]
     tree_species = list(subset_pool)[val_2:]
+    tree_species.append('Removethis species')  # Ensure 1+ will be removed
     common_species = set(matrix_species).intersection(set(tree_species))
 
     # Create matrix
