@@ -1,5 +1,6 @@
 """This script will randomize a PAM while maintaining marginal totals."""
 import argparse
+from copy import deepcopy
 
 from lmpy import Matrix
 from lmpy.randomize.grady import grady_randomize
@@ -41,6 +42,7 @@ def build_parser():
     )
     parser.add_argument(
         'output_pam_filename',
+        nargs='+',
         type=str,
         help='The file location to write the randomized PAM.',
     )
@@ -53,8 +55,11 @@ def cli():
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
     in_pam = Matrix.load(args.input_pam_filename)
-    rand_pam = randomize_pam(in_pam)
-    rand_pam.write(args.output_pam_filename)
+    if isinstance(args.output_pam_filename, str):
+        args.output_pam_filename = [args.output_pam_filename]
+    for out_fn in args.output_pam_filename:
+        rand_pam = randomize_pam(deepcopy(in_pam))
+        rand_pam.write(out_fn)
 
 
 # .....................................................................................
