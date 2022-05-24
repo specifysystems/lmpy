@@ -144,32 +144,33 @@ def test_instructions_python(
 
     factory = WranglerFactory()
     readers_and_wranglers = [
-      (
-          PointDwcaReader(gbif_dwca_filename),
-          factory.get_wranglers(wrangler_configs(tutorial_data_dir)['gbif'])
-      ),
-      (
-          PointDwcaReader(idigbio_dwca_filename),
-          factory.get_wranglers(wrangler_configs(tutorial_data_dir)['idigbio'])
-      ),
-      (
-          PointCsvReader(
-              ala_csv_filename,
-              'scientificName',
-              'decimalLongitude',
-              'decimalLatitude'
-          ),
-          factory.get_wranglers(wrangler_configs(tutorial_data_dir)['ala']))
+        (
+            PointDwcaReader(gbif_dwca_filename),
+            factory.get_wranglers(wrangler_configs(tutorial_data_dir)['gbif'])
+        ),
+        (
+            PointDwcaReader(idigbio_dwca_filename),
+            factory.get_wranglers(wrangler_configs(tutorial_data_dir)['idigbio'])
+        ),
+        (
+            PointCsvReader(
+                ala_csv_filename,
+                'scientificName',
+                'decimalLongitude',
+                'decimalLatitude'
+            ),
+            factory.get_wranglers(wrangler_configs(tutorial_data_dir)['ala'])
+        )
     ]
     write_fields = ['species_name', 'x', 'y', 'data_source']
 
     # Initialize processor
     with OccurrenceSplitter(
-      writer_key_func,
-      writer_filename_func,
-      write_fields=write_fields,
+        writer_key_func,
+        writer_filename_func,
+        write_fields=write_fields,
     ) as occurrence_processor:
-        for reader, wranglers in readers_and_wranglers[2:]:
+        for reader, wranglers in readers_and_wranglers:
             occurrence_processor.process_reader(reader, wranglers)
         occurrence_processor.write_species_list(species_list_filename)
 
