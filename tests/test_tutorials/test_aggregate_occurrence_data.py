@@ -25,10 +25,7 @@ def wrangler_configs(data_dir):
         'gbif': [
             dict(
                 wrangler_type='AcceptedNameOccurrenceWrangler',
-                name_resolver='gbif',
-                out_map_filename=os.path.join(
-                    data_dir, 'name_map/croc_name_map.json'
-                )
+                name_map=os.path.join(data_dir, 'name_map/croc_name_map.json'),
             ),
             dict(
                 wrangler_type='AttributeFilterWrangler',
@@ -56,7 +53,7 @@ def wrangler_configs(data_dir):
         'idigbio': [
             dict(
                 wrangler_type='AcceptedNameOccurrenceWrangler',
-                name_map=os.path.join(data_dir, 'name_map/croc_name_map.json')
+                name_map=os.path.join(data_dir, 'name_map/croc_name_map.json'),
             ),
             dict(
                 wrangler_type='AttributeFilterWrangler',
@@ -98,10 +95,7 @@ def wrangler_configs(data_dir):
         'ala': [
             dict(
                 wrangler_type='AcceptedNameOccurrenceWrangler',
-                out_map_filename=os.path.join(
-                    data_dir,
-                    'name_map/croc_name_map.json'
-                )
+                name_map=os.path.join(data_dir, 'name_map/croc_name_map.json'),
             ),
             dict(
                 wrangler_type='AttributeModifierWrangler',
@@ -122,11 +116,17 @@ def wrangler_configs(data_dir):
 
 
 # .....................................................................................
-def test_instructions_python(tutorial_data_dir, generate_temp_filename, temp_directory):
+def test_instructions_python(
+    tutorial_data_dir,
+    generate_temp_filename,
+    temp_directory
+):
     """Test the python instructions.
 
     Args:
         tutorial_data_dir (pytest.Fixture): The tutorial data directory.
+        generate_temp_filename (pytest.Fixture): A fixture to generate filenames.
+        temp_directory (pytest.Fixture): A temporary directory to write outputs.
     """
     gbif_dwca_filename = os.path.join(tutorial_data_dir, 'occurrence/gbif.zip')
     idigbio_dwca_filename = os.path.join(tutorial_data_dir, 'occurrence/idigbio.zip')
@@ -169,9 +169,16 @@ def test_instructions_python(tutorial_data_dir, generate_temp_filename, temp_dir
       writer_filename_func,
       write_fields=write_fields,
     ) as occurrence_processor:
-        for reader, wranglers in readers_and_wranglers[1:2]:
+        for reader, wranglers in readers_and_wranglers[2:]:
             occurrence_processor.process_reader(reader, wranglers)
         occurrence_processor.write_species_list(species_list_filename)
+
+    # Check the outputs
+    _validate_outputs(
+        species_list_filename,
+        out_dir,
+        speces_name_map
+    )
 
 
 # .....................................................................................
@@ -216,7 +223,7 @@ def test_instructions_console_script(
         )
 
     script_args = [
-        f'--species_list_fileanme={species_list_filename}',
+        f'--species_list_filename={species_list_filename}',
         '--dwca',
         gbif_dwca_filename,
         gbif_wranglers_filename,
@@ -236,3 +243,40 @@ def test_instructions_console_script(
         'lmpy.tools.split_occurrence_data',
         script_args
     )
+
+    # Check the outputs
+    _validate_outputs(
+        species_list_filename,
+        output_dir,
+        os.path.join(tutorial_data_dir, 'name_map/croc_name_map.json')
+    )
+
+
+# .....................................................................................
+def _validate_outputs(species_list_filename, output_dir, accepted_names_filename):
+    """Validate outputs to ensure they are what we expect.
+
+    Args:
+        species_list_filename (str): File containing species seen.
+        output_dir (str): Directory where outputs are stored.
+        accepted_names_filename (str): File containing accepted names mapping.
+    """
+    # Load accepted names
+    with open(accepted_names_filename, mode='rt') as in_species:
+        accepted_names = [
+            val.lower() for val in json.load(in_species).values() if val is not None
+        ]
+
+    with open(species_list_filename, mode='rt') as species_list_in:
+        for line in species_list_in:
+            species = line.strip()
+            assert species.lower() not in ['null', 'none']
+            species_filename = os.path.join(output_dir, f'{species}.csv')
+            assert os.path.exists(species_filename)
+            sp_point_count = 0
+            with PointCsvReader(species_filename, 'species_name', 'x', 'y') as reader:
+                for points in reader:
+                    for point in points:
+                        sp_point_count += 1
+                        assert point.species_name.lower() in accepted_names
+            assert sp_point_count > 0

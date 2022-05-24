@@ -282,7 +282,7 @@ def script_runner():
         cmd_args.extend(args)
 
         # Run command
-        subprocess.run(cmd_args)
+        subprocess.run(cmd_args, capture_output=True, check=True)
 
     return get_script_runner
 
