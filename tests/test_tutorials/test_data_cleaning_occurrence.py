@@ -1,3 +1,4 @@
+"""Test the occurrence data cleaning tutorial."""
 import json
 import os
 from lmpy.data_wrangling.factory import WranglerFactory
@@ -95,7 +96,11 @@ def test_instructions_python(generate_temp_filename, tutorial_data_dir):
 
 # .....................................................................................
 def _validate_outputs(clean_occurrences_filename):
-    """Validate that the output occurrence records are clean."""
+    """Validate that the output occurrence records are clean.
+
+    Args:
+        clean_occurrences_filename (str): File location of cleaned data to test.
+    """
     with PointCsvReader(clean_occurrences_filename, 'species_name', 'x', 'y') as reader:
         seen_localities = []
         for points in reader:

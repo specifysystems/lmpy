@@ -26,6 +26,9 @@ class AttributeModifierWrangler(_OccurrenceDataWrangler):
     def _get_constant_func(val):
         """Get a function that returns a constant.
 
+        Args:
+            val (object): A constant value to return.
+
         Returns:
             Method: A method that returns a constant.
         """
