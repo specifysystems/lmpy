@@ -157,7 +157,7 @@ class _AcceptedNameWrangler(_DataWrangler):
         """
         if output_format.lower() == 'json':
             with open(filename, mode=mode) as out_json:
-                json.dump(self.name_map, out_json)
+                json.dump(self.name_map, out_json, indent=4)
             self.log(f'Wrote {len(self.name_map)} names to {filename} as JSON')
         else:
             with open(filename, mode=mode) as out_csv:

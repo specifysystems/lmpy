@@ -103,6 +103,10 @@ def cli():
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
 
+    # Default key field is 'species_name'
+    if args.key_field is None:
+        args.key_field = ['species_name']
+
     # Establish functions for getting writer key and filename
     writer_key_func = get_writer_key_from_fields_func(*tuple(args.key_field))
     writer_filename_func = get_writer_filename_func(args.out_dir)

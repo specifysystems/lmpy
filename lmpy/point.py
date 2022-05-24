@@ -174,6 +174,7 @@ class PointCsvReader:
         y_field,
         geopoint=None,
         group_field='species_name',
+        encoding='utf8',
     ):
         """Constructor for a Point CSV retriever.
 
@@ -188,6 +189,7 @@ class PointCsvReader:
             geopoint (:obj:`str`): The field name of the column containing geopoint
                 data.
             group_field (:obj:`str`): The name of the field to use for grouping points.
+            encoding (str): The encoding to use when opening the file.
         """
         self.filename = filename
         self.file = None
@@ -199,6 +201,7 @@ class PointCsvReader:
         self.group_field = group_field
         self._next_points = []
         self._curr_val = None
+        self.encoding = encoding
 
     # .......................
     def __enter__(self):
@@ -275,7 +278,7 @@ class PointCsvReader:
     # .......................
     def open(self):
         """Open the file and initialize."""
-        self.file = open(self.filename, 'r')
+        self.file = open(self.filename, 'r', encoding=self.encoding)
         temp_lines = []
         try:
             for _ in range(3):
@@ -494,8 +497,10 @@ class PointDwcaReader:
         Raises:
             StopIteration: Raised when there are no additional objects.
         """
-        for point_row in self.reader:
+        more_rows = True
+        while more_rows:
             try:
+                point_row = next(self.reader)
                 point_dict = {
                     term: self.fields[term](point_row) for term in self.fields.keys()
                 }
@@ -514,9 +519,15 @@ class PointDwcaReader:
                         return tmp
                     self._curr_val = test_val
                 self._next_points.append(pt)
+            except IndexError:
+                pass
             except KeyError:
                 pass
             except TypeError:
+                pass
+            except StopIteration:
+                more_rows = False
+            except csv.Error:
                 pass
 
         if self._next_points:
