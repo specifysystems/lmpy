@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.attribute_modifier_wrangler &mdash; Specify lmpy 3.1.19+7.g945eaa62 documentation</title>
+  <title>lmpy.data_wrangling.occurrence.attribute_modifier_wrangler &mdash; Specify lmpy 3.1.19+12.g4ddc91e6 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
@@ -116,6 +116,40 @@
 <dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler.version">
 <span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">1.0</span></em><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/attribute_modifier_wrangler.html#AttributeModifierWrangler.version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler.version" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler._get_attribute_func">
+<span class="sig-name descname"><span class="pre">_get_attribute_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/attribute_modifier_wrangler.html#AttributeModifierWrangler._get_attribute_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler._get_attribute_func" title="Permalink to this definition"></a></dt>
+<dd><p>Get the attribute function for generating values for a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>attribute_func</strong> (<em>Method</em><em> or </em><em>dict</em>) – A function or dictionary of parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A method for getting attribute value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler._get_constant_func">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_constant_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/occurrence/attribute_modifier_wrangler.html#AttributeModifierWrangler._get_constant_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler._get_constant_func" title="Permalink to this definition"></a></dt>
+<dd><p>Get a function that returns a constant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>val</strong> (<em>object</em>) – A constant value to return.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A method that returns a constant.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Method</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler._modify_point">

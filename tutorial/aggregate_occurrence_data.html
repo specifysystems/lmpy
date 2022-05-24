@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aggregating Occurrence Data &mdash; Specify lmpy 3.1.19+12.g4ddc91e6 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Aggregating Occurrence Data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/aggregate_occurrence_data.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aggregating-occurrence-data">
+<h1>Aggregating Occurrence Data<a class="headerlink" href="#aggregating-occurrence-data" title="Permalink to this headline"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<p>Performing large-scale analyses often requires using data from multiple sources.
+However, the data coming from multiple sources is often in different formats.  We
+provide tools for aggregating these heterogeneous occurrence datasets so that they can
+be used in combination for analysis.  We can use data wranglers to perform specific
+data manipulations and / or filtering on data from each source before then converting
+the data into a common format.</p>
+</section>
+<section id="data-formats">
+<h2>Data Formats<a class="headerlink" href="#data-formats" title="Permalink to this headline"></a></h2>
+<p>The two primary formats supported by lmpy are text-delimited data and Darwin Core
+Archives.  It is possible to use other data formats if needed but we will focus on CSV
+and Darwin Core Archive.
+<a class="reference external" href="https://github.com/specifysystems/lmpy/issues/new?assignees=&amp;labels=&amp;template=feature_request.md&amp;title=">Submit a Feature Request</a>
+if you need help with another format.  Data from <a class="reference external" href="https://www.gbif.org/">GBIF</a>,
+<a class="reference external" href="https://www.idigbio.org/">iDigBio</a>, <a class="reference external" href="https://www.ala.org.au/">ALA</a> and others is
+supported.</p>
+</section>
+<section id="wrangling-data-for-aggregation">
+<h2>Wrangling Data For Aggregation<a class="headerlink" href="#wrangling-data-for-aggregation" title="Permalink to this headline"></a></h2>
+<p>You will need to perform some manipulations on each dataset individually before they
+can be aggregated together.  Do this by specifying a set of occurrence data wranglers
+for each dataset.  A common use-case is to resolve the taxonomy of a dataset, perform
+any provider-specific actions, like filtering points flagged by the provider as
+invalid, and then convert the data into a common format.</p>
+<p>Example wrangler configuration</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name_resolver&quot;</span><span class="p">:</span> <span class="s2">&quot;gbif&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;out_map_filename&quot;</span><span class="p">:</span> <span class="s2">&quot;name_map.json&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;taxonname&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;decimallongitude&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;decimallatitude&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="example-console-scripts">
+<h2>Example - Console Scripts<a class="headerlink" href="#example-console-scripts" title="Permalink to this headline"></a></h2>
+<p>This example shows how data from three files, a GBIF DWCA file, an iDigBio DWCA file,
+and an ALA CSV file, can be combined and split into one CSV file per species in the
+data.  See <a class="reference external" href="../scripts/split_occurrence_data">split_occurrence_data</a> for usage
+documentation.</p>
+<section id="gbif-dwca-file">
+<h3>GBIF DWCA File<a class="headerlink" href="#gbif-dwca-file" title="Permalink to this headline"></a></h3>
+<p>The wrangling steps for GBIF data will be to resolve taxon names, filter records GBIF
+has flagged as having spatial or taxonomic issues, add a field indicating that the
+record comes from GBIF, and then convert to a common format.</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name_map&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name_map.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeFilterWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;issue&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter_func&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;for-each&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;condition&quot;</span><span class="p">:</span> <span class="s2">&quot;not-in&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="s2">&quot;TAXON_MATCH_FUZZY&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;TAXON_MATCH_HIGHERRANK&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;TAXON_MATCH_NONE&quot;</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;constant&quot;</span><span class="p">:</span> <span class="s2">&quot;gbif&quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;species_name&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="idigbio-dwca-file">
+<h3>iDigBio DWCA File<a class="headerlink" href="#idigbio-dwca-file" title="Permalink to this headline"></a></h3>
+<p>The wrangling steps for iDigBio data will be to resolve taxon names, filter records
+iDigBio has flagged as having spatial or taxonomic issues, add a field indicating that
+the record comes from iDigBio, and then convert to a common format.</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name_map&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name_map.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeFilterWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;flags&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;filter_func&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;for-each&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;condition&quot;</span><span class="p">:</span> <span class="s2">&quot;not-in&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="s2">&quot;geopoint_datum_missing&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;geopoint_bounds&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;geopoint_datum_error&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;geopoint_similar_coord&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;rev_geocode_mismatch&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;rev_geocode_failure&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;geopoint_0_coord&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;taxon_match_failed&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;dwc_kingdom_suspect&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;dwc_taxonrank_invalid&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;dwc_taxonrank_removed&quot;</span>                    <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;constant&quot;</span><span class="p">:</span> <span class="s2">&quot;idigbio&quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;species_name&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="ala-csv-file">
+<h3>ALA CSV file<a class="headerlink" href="#ala-csv-file" title="Permalink to this headline"></a></h3>
+<p>The wrangling steps for ALA data will be to resolve taxon names, add a field indicating
+that the record comes from ALA, and then convert to a common format.</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name_map&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name_map.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;constant&quot;</span><span class="p">:</span> <span class="s2">&quot;idigbio&quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;species_name&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="example-console-script">
+<h3>Example - Console Script<a class="headerlink" href="#example-console-script" title="Permalink to this headline"></a></h3>
+<p>For this example, we will use the data and example data wranglers as inputs and we will
+write the output datasets to the <cite>./species_info/</cite> directory and write out a species
+list of the species seen while processing the data.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ split_occurrence_data <span class="se">\</span>
+      --species_list_filename<span class="o">=</span>./seen_species.txt <span class="se">\</span>
+      --dwca sample_data/gbif.zip gbif_wrangler_config.json <span class="se">\</span>
+      --dwca sample_data/idigbio.zip idigbio_wrangler_config.json <span class="se">\</span>
+      --csv sample_data/ala.csv ala_wrangler_config.json scientificName decimalLongitude decimalLatitude <span class="se">\</span>
+      ./species_info/
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="example-python">
+<h3>Example - Python<a class="headerlink" href="#example-python" title="Permalink to this headline"></a></h3>
+<p>For this example, we will use the data and example data wranglers as inputs and we will
+write the output datasets to the <cite>./species_info/</cite> directory and write out a species
+list of the species seen while processing the data.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_preparation.occurrence_splitter</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_writer_key_from_fields_func</span><span class="p">,</span>
+    <span class="n">get_writer_filename_func</span><span class="p">,</span>
+    <span class="n">OccurrenceSplitter</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="kn">import</span> <span class="n">WranglerFactory</span>
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="kn">import</span> <span class="n">PointCsvReader</span><span class="p">,</span> <span class="n">PointDwcaReader</span>
+
+<span class="n">sample_data_dir</span> <span class="o">=</span> <span class="s1">&#39;./sample_data/&#39;</span>
+<span class="n">gbif_dwca_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sample_data_dir</span><span class="p">,</span> <span class="s1">&#39;occurrence/gbif.zip&#39;</span><span class="p">)</span>
+<span class="n">idigbio_dwca_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sample_data_dir</span><span class="p">,</span> <span class="s1">&#39;occurrence/idigbio.zip&#39;</span><span class="p">)</span>
+<span class="n">ala_csv_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sample_data_dir</span><span class="p">,</span> <span class="s1">&#39;occurrence/ala.csv&#39;</span><span class="p">)</span>
+
+<span class="n">species_list_filename</span> <span class="o">=</span> <span class="s1">&#39;./seen_species.txt&#39;</span>
+<span class="n">key_field</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;species_name&#39;</span><span class="p">]</span>
+<span class="n">out_dir</span> <span class="o">=</span> <span class="s1">&#39;./species_info/&#39;</span>
+<span class="c1"># Wrangler configuration dictionaries</span>
+<span class="n">gbif_wrangler_conf</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name_resolver&quot;</span><span class="p">:</span> <span class="s2">&quot;gbif&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;out_map_filename&quot;</span><span class="p">:</span> <span class="s2">&quot;name_map.json&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;taxonname&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;decimallongitude&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;decimallatitude&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="n">idigbio_wrangler_conf</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name_map&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name_map.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeFilterWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;flags&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filter_func&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;for-each&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;not-in&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="s2">&quot;geopoint_datum_missing&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;geopoint_bounds&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;geopoint_datum_error&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;geopoint_similar_coord&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;rev_geocode_mismatch&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;rev_geocode_failure&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;geopoint_0_coord&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;taxon_match_failed&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;dwc_kingdom_suspect&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;dwc_taxonrank_invalid&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;dwc_taxonrank_removed&quot;</span>                    <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attribute_func&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;constant&quot;</span><span class="p">:</span> <span class="s2">&quot;idigbio&quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;species_name&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="n">ala_wrangler_conf</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name_map&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name_map.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attribute_func&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;constant&quot;</span><span class="p">:</span> <span class="s2">&quot;idigbio&quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;species_name&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="c1"># Establish functions for getting writer key and filename</span>
+<span class="n">writer_key_func</span> <span class="o">=</span> <span class="n">get_writer_key_from_fields_func</span><span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">key_field</span><span class="p">))</span>
+<span class="n">writer_filename_func</span> <span class="o">=</span> <span class="n">get_writer_filename_func</span><span class="p">(</span><span class="n">out_dir</span><span class="p">)</span>
+
+<span class="n">factory</span> <span class="o">=</span> <span class="n">WranglerFactory</span><span class="p">()</span>
+<span class="n">readers_and_wranglers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="n">PointDwcaReader</span><span class="p">(</span><span class="n">gbif_dwca_filename</span><span class="p">),</span> <span class="n">factory</span><span class="o">.</span><span class="n">get_wranglers</span><span class="p">(</span><span class="n">gbif_wrangler_conf</span><span class="p">)),</span>
+    <span class="p">(</span>
+        <span class="n">PointDwcaReader</span><span class="p">(</span><span class="n">idigbio_dwca_filename</span><span class="p">),</span>
+        <span class="n">factory</span><span class="o">.</span><span class="n">get_wranglers</span><span class="p">(</span><span class="n">idigbio_wrangler_conf</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="p">(</span>
+        <span class="n">PointCsvReader</span><span class="p">(</span>
+            <span class="n">ala_csv_filename</span><span class="p">,</span>
+            <span class="s1">&#39;scientificName&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;decimalLongitude&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;decimalLatitude&#39;</span>
+        <span class="p">),</span>
+        <span class="n">factory</span><span class="o">.</span><span class="n">get_wranglers</span><span class="p">(</span><span class="n">ala_wrangler_conf</span><span class="p">))</span>
+<span class="p">]</span>
+<span class="n">write_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;data_source&#39;</span><span class="p">]</span>
+
+<span class="c1"># Initialize processor</span>
+<span class="k">with</span> <span class="n">OccurrenceSplitter</span><span class="p">(</span>
+    <span class="n">writer_key_func</span><span class="p">,</span>
+    <span class="n">writer_filename_func</span><span class="p">,</span>
+    <span class="n">write_fields</span><span class="o">=</span><span class="n">write_fields</span><span class="p">,</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">occurrence_processor</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">reader</span><span class="p">,</span> <span class="n">wranglers</span> <span class="ow">in</span> <span class="n">readers_and_wranglers</span><span class="p">:</span>
+        <span class="n">occurrence_processor</span><span class="o">.</span><span class="n">process_reader</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">)</span>
+    <span class="n">occurrence_processor</span><span class="o">.</span><span class="n">write_species_list</span><span class="p">(</span><span class="n">species_list_filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

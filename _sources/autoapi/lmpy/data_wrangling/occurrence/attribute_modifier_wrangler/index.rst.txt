@@ -45,6 +45,29 @@ Classes
 
       
 
+   .. py:method:: _get_attribute_func(self, attribute_func)
+
+      Get the attribute function for generating values for a point.
+
+      :param attribute_func: A function or dictionary of parameters.
+      :type attribute_func: Method or dict
+
+      :returns: A method for getting attribute value.
+      :rtype: Method
+
+
+   .. py:method:: _get_constant_func(val)
+      :staticmethod:
+
+      Get a function that returns a constant.
+
+      :param val: A constant value to return.
+      :type val: object
+
+      :returns: A method that returns a constant.
+      :rtype: Method
+
+
    .. py:method:: _modify_point(self, point)
 
       Update point attributes.

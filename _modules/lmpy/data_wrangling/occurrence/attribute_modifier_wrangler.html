@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.attribute_modifier_wrangler &mdash; Specify lmpy 3.1.19+7.g945eaa62 documentation</title>
+  <title>lmpy.data_wrangling.occurrence.attribute_modifier_wrangler &mdash; Specify lmpy 3.1.19+12.g4ddc91e6 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -95,8 +95,44 @@
 <span class="sd">            **params (dict): Extra parameters to be sent to the base class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">attribute_name</span> <span class="o">=</span> <span class="n">attribute_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attribute_func</span> <span class="o">=</span> <span class="n">attribute_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attribute_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_attribute_func</span><span class="p">(</span><span class="n">attribute_func</span><span class="p">)</span>
         <span class="n">_OccurrenceDataWrangler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="c1"># .......................</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AttributeModifierWrangler._get_constant_func"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/attribute_modifier_wrangler/index.html#lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler._get_constant_func">[docs]</a>    <span class="k">def</span> <span class="nf">_get_constant_func</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a function that returns a constant.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            val (object): A constant value to return.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Method: A method that returns a constant.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># .......................</span>
+        <span class="k">def</span> <span class="nf">const_func</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Return a constant.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                object: A constant value.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">val</span>
+
+        <span class="k">return</span> <span class="n">const_func</span></div>
+
+    <span class="c1"># .......................</span>
+<div class="viewcode-block" id="AttributeModifierWrangler._get_attribute_func"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/attribute_modifier_wrangler/index.html#lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler._get_attribute_func">[docs]</a>    <span class="k">def</span> <span class="nf">_get_attribute_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the attribute function for generating values for a point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            attribute_func (Method or dict): A function or dictionary of parameters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Method: A method for getting attribute value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attribute_func</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;constant&#39;</span> <span class="ow">in</span> <span class="n">attribute_func</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_constant_func</span><span class="p">(</span><span class="n">attribute_func</span><span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">attribute_func</span></div>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="AttributeModifierWrangler._modify_point"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/attribute_modifier_wrangler/index.html#lmpy.data_wrangling.occurrence.attribute_modifier_wrangler.AttributeModifierWrangler._modify_point">[docs]</a>    <span class="k">def</span> <span class="nf">_modify_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.19+7.g945eaa62 documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.19+12.g4ddc91e6 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -372,7 +372,7 @@ None: Returned if the attribute does not exist for the Point.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.point.PointCsvReader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointCsvReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geopoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'species_name'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointCsvReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geopoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'species_name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor for a Point CSV retriever.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -387,6 +387,7 @@ coordinates.</p></li>
 <li><p><strong>geopoint</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The field name of the column containing geopoint
 data.</p></li>
 <li><p><strong>group_field</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The name of the field to use for grouping points.</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) – The encoding to use when opening the file.</p></li>
 </ul>
 </dd>
 </dl>
