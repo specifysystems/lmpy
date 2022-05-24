@@ -3,7 +3,7 @@
 All tests may be run at the top directory level with
 
 ```commandline
-pytest --cov
+pytest tests/ -v --cov lmpy --cov-report term-missing
 ```
 
 ## Github hook
