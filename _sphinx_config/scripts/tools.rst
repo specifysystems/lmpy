@@ -3,7 +3,7 @@ Tools
 
 .. toctree::
 
-    build_shapegrid
+    build_grid
     calculate_pam_stats
     convert_csv_to_lmm
     convert_lmm_to_csv
@@ -11,6 +11,7 @@ Tools
     create_rare_species_model
     create_tree_matrix
     encode_layers
+    encode_tree_mcpa
     mcpa_run
     randomize_pam
     split_occurrence_data

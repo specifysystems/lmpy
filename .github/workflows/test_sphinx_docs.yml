@@ -1,0 +1,37 @@
+name: Test Sphinx Build
+on:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+    # Install GDAL
+    - name: Install GDAL
+      run: |
+        pip install numpy
+        sudo add-apt-repository --yes ppa:ubuntugis/ppa
+        sudo apt-get --quiet update
+        sudo apt-get install --yes libgdal-dev gdal-bin libspatialindex-dev
+        export CPLUS_INCLUDE_PATH=/usr/include/gdal
+        export C_INCLUDE_PATH=/usr/include/gdal
+        pip install GDAL==`gdal-config --version`
+    - name: Install library dependencies
+      run: |
+        pip install -r requirements.txt
+    - name: Install documentation dependencies
+      #uses: py-actions/py-dependency-install@v2
+      #with:
+      #  path: "requirements-docs.txt"
+      run: |
+        pip install -r requirements-docs.txt
+    - name: Debugging
+      run: |
+        export PYTHONPATH=lmpy; echo $PYTHONPATH; ls -lah lmpy/
+    - name: Build and Commit
+      uses: sphinx-notes/pages@2.0
+      with:
+        documentation_path: _sphinx_config/

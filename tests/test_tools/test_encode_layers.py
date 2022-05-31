@@ -11,7 +11,7 @@ from lmpy.tools.encode_layers import cli
 def test_encode_biogeographic_hypotheses(
     monkeypatch,
     generate_temp_filename,
-    shapegrid_filename,
+    grid_filename,
     bio_geo_filenames
 ):
     """Test encode biogeographic hypotheses through tool.
@@ -19,7 +19,7 @@ def test_encode_biogeographic_hypotheses(
     Args:
         monkeypatch (pytest.fixture): A fixture for monkeypatching code.
         generate_temp_filename (pytest.fixture): A fixture for making temp filenames.
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         bio_geo_filenames (list of str): List of file paths to biogeographic
             hypothesis layer files.
     """
@@ -33,7 +33,7 @@ def test_encode_biogeographic_hypotheses(
         'biogeo',
         '--min_coverage',
         '10',
-        shapegrid_filename,
+        grid_filename,
         matrix_filename,
     ]
     # Add layers
@@ -64,7 +64,7 @@ def test_encode_biogeographic_hypotheses(
 def test_encode_presence_absence(
     monkeypatch,
     generate_temp_filename,
-    shapegrid_filename,
+    grid_filename,
     raster_pa_filenames,
     vector_pa_filenames
 ):
@@ -73,7 +73,7 @@ def test_encode_presence_absence(
     Args:
         monkeypatch (pytest.fixture): A fixture for monkeypatching code.
         generate_temp_filename (pytest.fixture): A fixture for making temp filenames.
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         raster_pa_filenames (list of str): List of file paths to raster files.
         vector_pa_filenames (list of str): List of file paths to vector files.
     """
@@ -91,7 +91,7 @@ def test_encode_presence_absence(
         '1',
         '--max_presence',
         '99',
-        shapegrid_filename,
+        grid_filename,
         matrix_filename,
     ]
     # Add layers
@@ -124,7 +124,7 @@ def test_encode_presence_absence(
 def test_encode_largest_class(
     monkeypatch,
     generate_temp_filename,
-    shapegrid_filename,
+    grid_filename,
     raster_env_filenames,
     vector_env_filenames
 ):
@@ -133,7 +133,7 @@ def test_encode_largest_class(
     Args:
         monkeypatch (pytest.fixture): A fixture for monkeypatching code.
         generate_temp_filename (pytest.fixture): A fixture for making temp filenames.
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         raster_env_filenames (list of str): List of file paths to raster files.
         vector_env_filenames (list of str): List of file paths to vector files.
     """
@@ -147,7 +147,7 @@ def test_encode_largest_class(
         'largest_class',
         '--min_coverage',
         '10',
-        shapegrid_filename,
+        grid_filename,
         matrix_filename,
     ]
     # Add layers
@@ -179,7 +179,7 @@ def test_encode_largest_class(
 def test_encode_mean_value(
     monkeypatch,
     generate_temp_filename,
-    shapegrid_filename,
+    grid_filename,
     raster_env_filenames,
     vector_env_filenames
 ):
@@ -188,7 +188,7 @@ def test_encode_mean_value(
     Args:
         monkeypatch (pytest.fixture): A fixture for monkeypatching code.
         generate_temp_filename (pytest.fixture): A fixture for making temp filenames.
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         raster_env_filenames (list of str): List of file paths to raster files.
         vector_env_filenames (list of str): List of file paths to vector files.
     """
@@ -200,7 +200,7 @@ def test_encode_mean_value(
         'encode_layers.py',
         '-m',
         'mean_value',
-        shapegrid_filename,
+        grid_filename,
         matrix_filename,
     ]
     # Add layers
@@ -232,7 +232,7 @@ def test_encode_mean_value(
 def test_encode_biogeographic_hypotheses_config(
     monkeypatch,
     generate_temp_filename,
-    shapegrid_filename,
+    grid_filename,
     bio_geo_filenames
 ):
     """Test encode biogeographic hypotheses through tool with config file.
@@ -240,7 +240,7 @@ def test_encode_biogeographic_hypotheses_config(
     Args:
         monkeypatch (pytest.fixture): A fixture for monkeypatching code.
         generate_temp_filename (pytest.fixture): A fixture for making temp filenames.
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         bio_geo_filenames (list of str): List of file paths to biogeographic
             hypothesis layer files.
     """
@@ -251,7 +251,7 @@ def test_encode_biogeographic_hypotheses_config(
     config_fn = generate_temp_filename(suffix='.json')
     script_config = dict(
         encode_method='biogeo',
-        shapegrid_filename=shapegrid_filename,
+        grid_filename=grid_filename,
         out_matrix_filename=matrix_filename,
         min_coverage=10,
         layer=[]
@@ -295,7 +295,7 @@ def test_encode_biogeographic_hypotheses_config(
 def test_encode_presence_absence_config(
     monkeypatch,
     generate_temp_filename,
-    shapegrid_filename,
+    grid_filename,
     raster_pa_filenames,
     vector_pa_filenames
 ):
@@ -304,7 +304,7 @@ def test_encode_presence_absence_config(
     Args:
         monkeypatch (pytest.fixture): A fixture for monkeypatching code.
         generate_temp_filename (pytest.fixture): A fixture for making temp filenames.
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         raster_pa_filenames (list of str): List of file paths to raster files.
         vector_pa_filenames (list of str): List of file paths to vector files.
     """
@@ -315,7 +315,7 @@ def test_encode_presence_absence_config(
     config_fn = generate_temp_filename(suffix='.json')
     script_config = dict(
         encode_method='presence_absence',
-        shapegrid_filename=shapegrid_filename,
+        grid_filename=grid_filename,
         out_matrix_filename=matrix_filename,
         min_coverage=25,
         min_presence=1,
@@ -362,7 +362,7 @@ def test_encode_presence_absence_config(
 def test_encode_largest_class_config(
     monkeypatch,
     generate_temp_filename,
-    shapegrid_filename,
+    grid_filename,
     raster_env_filenames,
     vector_env_filenames
 ):
@@ -371,7 +371,7 @@ def test_encode_largest_class_config(
     Args:
         monkeypatch (pytest.fixture): A fixture for monkeypatching code.
         generate_temp_filename (pytest.fixture): A fixture for making temp filenames.
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         raster_env_filenames (list of str): List of file paths to raster files.
         vector_env_filenames (list of str): List of file paths to vector files.
     """
@@ -382,7 +382,7 @@ def test_encode_largest_class_config(
     config_fn = generate_temp_filename(suffix='.json')
     script_config = dict(
         encode_method='largest_class',
-        shapegrid_filename=shapegrid_filename,
+        grid_filename=grid_filename,
         out_matrix_filename=matrix_filename,
         min_coverage=10,
         layer=[]
@@ -426,7 +426,7 @@ def test_encode_largest_class_config(
 def test_encode_mean_value_config(
     monkeypatch,
     generate_temp_filename,
-    shapegrid_filename,
+    grid_filename,
     raster_env_filenames,
     vector_env_filenames
 ):
@@ -435,7 +435,7 @@ def test_encode_mean_value_config(
     Args:
         monkeypatch (pytest.fixture): A fixture for monkeypatching code.
         generate_temp_filename (pytest.fixture): A fixture for making temp filenames.
-        shapegrid_filename (str): File path to shapegrid.
+        grid_filename (str): File path to grid.
         raster_env_filenames (list of str): List of file paths to raster files.
         vector_env_filenames (list of str): List of file paths to vector files.
     """
@@ -446,7 +446,7 @@ def test_encode_mean_value_config(
     config_fn = generate_temp_filename(suffix='.json')
     script_config = dict(
         encode_method='mean_value',
-        shapegrid_filename=shapegrid_filename,
+        grid_filename=grid_filename,
         out_matrix_filename=matrix_filename,
         layer=[]
     )

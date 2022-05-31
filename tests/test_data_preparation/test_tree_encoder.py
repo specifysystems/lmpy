@@ -16,7 +16,7 @@ class Test_EncodingException:
         assert EncodingException('Testing') is not None
 
 
-# ............................................................................
+# .....................................................................................
 class Test_TreeEncoder:
     """Test the TreeEncoder class."""
 
@@ -57,3 +57,65 @@ class Test_TreeEncoder:
         te = TreeEncoder(tree, pam)
         with pytest.raises(EncodingException):
             te.encode_phylogeny()
+
+    # ............................
+    def test_encode_branch_lengths(self):
+        """Test encoding a tree with branch lengths."""
+        tree_data = '((((A:0.2,B:0.2):0.65,C:0.85):0.15,D:1.0):0.4,(E:0.5,F:0.5):0.9);'
+        tree = TreeWrapper.get(data=tree_data, schema='newick')
+        pam = Matrix(
+            np.ones((5, 6)),
+            headers={
+                '0': [f'{i}' for i in range(5)],
+                '1': ['A', 'B', 'C', 'D', 'E', 'F']
+            }
+        )
+        encoder = TreeEncoder(tree, pam)
+        tree_mtx = encoder.encode_phylogeny()
+        test_tree_matrix = Matrix(
+            np.array(
+                [
+                    [-1.0, -0.5, -0.28, -0.196, 0.0],
+                    [1.0, -0.5, -0.28, -0.196, 0.0],
+                    [0.0, 1.0, -0.439, -0.29, 0.0],
+                    [0.0, 0.0, 1.0, -0.319, 0.0],
+                    [0.0, 0.0, 0.0, 0.5, -1.0],
+                    [0.0, 0.0, 0.0, 0.5, 1.0]
+                ]
+            )
+        )
+        for i in range(tree_mtx.shape[0]):
+            a = sorted(np.abs(tree_mtx[i]))
+            b = sorted(np.abs(test_tree_matrix[i]))
+            assert np.all(np.isclose(a, b, atol=0.001))
+
+    # ............................
+    def test_encode_no_branch_lengths(self):
+        """Test encoding a tree without branch lengths."""
+        tree_data = '((((A,B),C),D),(E,F));'
+        tree = TreeWrapper.get(data=tree_data, schema='newick')
+        pam = Matrix(
+            np.ones((5, 6)),
+            headers={
+                '0': [f'{i}' for i in range(5)],
+                '1': ['A', 'B', 'C', 'D', 'E', 'F']
+            }
+        )
+        encoder = TreeEncoder(tree, pam)
+        tree_mtx = encoder.encode_phylogeny()
+        test_tree_matrix = Matrix(
+            np.array(
+                [
+                    [-1.0, -0.5, -0.25, -0.125, 0.0],
+                    [1.0, -0.5, -0.25, -0.125, 0.0],
+                    [0.0, 1.0, -0.5, -0.25, 0.0],
+                    [0.0, 0.0, 1.0, -0.5, 0.0],
+                    [0.0, 0.0, 0.0, 0.5, -1.0],
+                    [0.0, 0.0, 0.0, 0.5, 1.0]
+                ]
+            )
+        )
+        for i in range(tree_mtx.shape[0]):
+            a = sorted(np.abs(tree_mtx[i]))
+            b = sorted(np.abs(test_tree_matrix[i]))
+            assert np.all(np.isclose(a, b, atol=0.001))
