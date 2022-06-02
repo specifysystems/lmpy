@@ -59,7 +59,7 @@ def get_writer_key_from_fields_func(*fields):
         Returns:
             Object: An object representing the key for the particular point.
         """
-        writer_key = [point.get_attribute(fld) for fld in key_fields]
+        writer_key = tuple([point.get_attribute(fld) for fld in key_fields])
         if len(writer_key) == 1:
             return writer_key[0]
         return writer_key

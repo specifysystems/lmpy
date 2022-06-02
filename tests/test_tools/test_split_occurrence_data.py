@@ -536,3 +536,91 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     with open(species_list_filename, mode='rt') as species_in:
         for line in species_in:
             assert line.strip() in list(SPECIES_MAP.values())
+
+
+# .....................................................................................
+def test_multiple_key_fields_config(
+    monkeypatch,
+    generate_temp_filename,
+    temp_directory
+):
+    """Tests specifying the key_field parameter.
+
+    Args:
+        monkeypatch (pytest.fixture): A fixture for monkeypatching.
+        generate_temp_filename (pytest.fixture): A fixture for generating filenames.
+        temp_directory (pytest.fixture): A fixture to get a temporary directory.
+    """
+    # Temporary files
+    dwca_filename = generate_temp_filename()
+    wrangler_config_filename = generate_temp_filename()
+
+    # Generate a DWCA and wranglers
+    dwca_fields = [
+        SimulatedField(
+            'scientificName',
+            'http://rs.tdwg.org/dwc/terms/specificEpithet',
+            get_random_choice_func(list(SPECIES_MAP.keys())),
+            'str'
+        ),
+        SimulatedField(
+            'genus',
+            '',
+            get_random_choice_func(['GenusA', 'GenusB']),
+            'str'
+        ),
+        SimulatedField(
+            'sp',
+            '',
+            get_random_choice_func(['SpeciesA', 'SpeciesB', 'SpeciesB']),
+            'str'
+        ),
+        SimulatedField(
+            'latitude',
+            'http://rs.tdwg.org/dwc/terms/decimalLatitude',
+            get_random_float_func(-90.0, 90.0, 2, 6),
+            'float'
+        ),
+        SimulatedField(
+            'longitude',
+            'http://rs.tdwg.org/dwc/terms/decimalLongitude',
+            get_random_float_func(-180.0, 180.0, 2, 6),
+            'float'
+        )
+    ]
+    generate_dwca(dwca_filename, 1000, dwca_fields)
+    with open(wrangler_config_filename, mode='wt') as json_out:
+        json.dump([], json_out)
+
+    # Create config file for script
+    script_config_filename = generate_temp_filename(suffix='.json')
+    with open(script_config_filename, mode='wt') as json_out:
+        json.dump(
+            {
+                'max_open_writers': 100,
+                'key_field': ['genus', 'scientificName'],
+                'dwca': [
+                    [
+                        dwca_filename,
+                        wrangler_config_filename
+                    ]
+                ],
+                'out_dir': temp_directory
+            },
+            json_out
+        )
+
+    # Run script
+    params = [
+        'split_occurrence_data.py',
+        '--config_file',
+        script_config_filename,
+    ]
+
+    monkeypatch.setattr('sys.argv', params)
+    cli()
+
+    # Check output
+    assert validate_point_csvs(
+        glob.glob(f'{temp_directory}/*.csv'), 'species_name', 'x', 'y'
+    )

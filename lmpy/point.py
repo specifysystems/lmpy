@@ -300,7 +300,15 @@ class PointCsvWriter:
     """Class for writing Points to a CSV file."""
 
     # .......................
-    def __init__(self, filename, fields, write_headers=True, mode='w', **kwargs):
+    def __init__(
+        self,
+        filename,
+        fields,
+        write_headers=True,
+        mode='w',
+        encoding='utf8',
+        **kwargs
+    ):
         """Constructor for writing points to csv file.
 
         Args:
@@ -308,6 +316,7 @@ class PointCsvWriter:
             fields (:obj:`list`): A list of fields to include in the csv headers.
             write_headers (:obj:`bool`): Should headers be written.
             mode (:obj:`str`): File write mode.
+            encoding (str): The encoding to use when writing data.
             **kwargs (:obj:`dict`): Keyword parameters that will be passed to the
                 DictWriter instance from the csv module.
         """
@@ -315,6 +324,7 @@ class PointCsvWriter:
         self.file = None
         self.writer = None
         self.field_names = fields
+        self.encoding = encoding
         self.kwargs = kwargs
         self.write_headers = write_headers
         self.file_mode = mode
@@ -346,7 +356,7 @@ class PointCsvWriter:
     # .......................
     def open(self):
         """Open file for writing."""
-        self.file = open(self.filename, self.file_mode)
+        self.file = open(self.filename, self.file_mode, encoding=self.encoding)
         self.writer = csv.DictWriter(self.file, self.field_names, **self.kwargs)
         if self.write_headers:
             self.writer.writeheader()
