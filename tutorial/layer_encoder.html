@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Layer Encoder &mdash; Specify lmpy 3.1.20 documentation</title>
+  <title>Layer Encoder &mdash; Specify lmpy 3.1.20+4.g088235f9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -17,6 +17,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -98,9 +99,9 @@
            <div itemprop="articleBody">
              
   <section id="layer-encoder">
-<h1>Layer Encoder<a class="headerlink" href="#layer-encoder" title="Permalink to this headline"></a></h1>
+<h1>Layer Encoder<a class="headerlink" href="#layer-encoder" title="Permalink to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
 <p>The layer encoder provides functionality for converting spatial data into a
 site by layer matrix.  This is useful for creating presence absence matrices,
 PAMs, as well as other matrices that have the same spatial composition, so
@@ -108,7 +109,7 @@ that you may join species presence with environment or test biogeographic
 hypotheses.</p>
 </section>
 <section id="creating-a-pam">
-<h2>Creating a PAM<a class="headerlink" href="#creating-a-pam" title="Permalink to this headline"></a></h2>
+<h2>Creating a PAM<a class="headerlink" href="#creating-a-pam" title="Permalink to this heading"></a></h2>
 <p>Creating a PAM requires encoding each species layer (raster or vector) into a
 matrix column of presence or absence values for each site.  This operation
 requires that you create an encoder for a grid of cells and then encode each
@@ -172,7 +173,7 @@ you would set the value to 10 or 25 percent.</p>
 </section>
 <hr class="docutils" />
 <section id="encoding-environmental-data">
-<h2>Encoding Environmental Data<a class="headerlink" href="#encoding-environmental-data" title="Permalink to this headline"></a></h2>
+<h2>Encoding Environmental Data<a class="headerlink" href="#encoding-environmental-data" title="Permalink to this heading"></a></h2>
 <p>You may want to encode environmental data using the same grid used to create a
 PAM.  To do so, you can use the encode_mean_value and encode_largest_class
 methods to store either the average non-NODATA value for continuous values or
@@ -239,7 +240,7 @@ the most prevalent non-NODATA value for categorical data respectively.</p>
 </section>
 <hr class="docutils" />
 <section id="encoding-biogeographic-hypotheses">
-<h2>Encoding Biogeographic Hypotheses<a class="headerlink" href="#encoding-biogeographic-hypotheses" title="Permalink to this headline"></a></h2>
+<h2>Encoding Biogeographic Hypotheses<a class="headerlink" href="#encoding-biogeographic-hypotheses" title="Permalink to this heading"></a></h2>
 <p>You can encode biogeographic hypothesis layers as binary (0, 1) or tertiary
 (-1, 0, 1) values in a matrix.  This is used by computations such as MCPA
 (Metacommunity Phylogenetic Analysis) for determining if presences are found

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Cleaning &mdash; Specify lmpy 3.1.20 documentation</title>
+  <title>Data Cleaning &mdash; Specify lmpy 3.1.20+4.g088235f9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -17,6 +17,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -101,11 +102,11 @@
            <div itemprop="articleBody">
              
   <section id="data-cleaning">
-<h1>Data Cleaning<a class="headerlink" href="#data-cleaning" title="Permalink to this headline"></a></h1>
+<h1>Data Cleaning<a class="headerlink" href="#data-cleaning" title="Permalink to this heading"></a></h1>
 <section id="cleaning-occurrences">
-<h2>Cleaning Occurrences<a class="headerlink" href="#cleaning-occurrences" title="Permalink to this headline"></a></h2>
+<h2>Cleaning Occurrences<a class="headerlink" href="#cleaning-occurrences" title="Permalink to this heading"></a></h2>
 <section id="introduction">
-<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h3>
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h3>
 <p>One of the first steps in creating
 <a class="reference internal" href="../pages/glossary.html#term-Species-Distribution-Model"><span class="xref std std-term">species distribution models</span></a>, let alone
 multi-species analyses, is acquiring and preparing specimen occurrence records.  There
@@ -116,7 +117,7 @@ The lmpy library provides tools for performing these aggregation and cleaning st
 greatly simplify the process for the user.</p>
 </section>
 <section id="occurrence-data-wrangler-configuration">
-<h3>Occurrence Data Wrangler Configuration<a class="headerlink" href="#occurrence-data-wrangler-configuration" title="Permalink to this headline"></a></h3>
+<h3>Occurrence Data Wrangler Configuration<a class="headerlink" href="#occurrence-data-wrangler-configuration" title="Permalink to this heading"></a></h3>
 <p>You can either use the Data
 <a class="reference external" href="../autoapi/lmpy/data_wrangling/factory/index.html#lmpy.data_wrangling.factory.WranglerFactory">Wrangler Factory</a>
 or instantiate occurrence data wrangler classes directly.  We will use the factory for
@@ -144,7 +145,7 @@ this example with the configuration below.</p>
 </div></blockquote>
 </section>
 <section id="example-console-script">
-<h3>Example - Console Script<a class="headerlink" href="#example-console-script" title="Permalink to this headline"></a></h3>
+<h3>Example - Console Script<a class="headerlink" href="#example-console-script" title="Permalink to this heading"></a></h3>
 <p>For this example, we will use the raw occurrence data found in the sample data
 directory in lmpy at <cite>occurrence/Crocodylus porosus.csv</cite> and the example wrangler
 configuration should be written to <cite>./occurrence_wrangler_config.json</cite>.  The cleaned
@@ -158,7 +159,7 @@ data will be written to <cite>./clean_data.csv</cite>.</p>
 </div></blockquote>
 </section>
 <section id="example-python">
-<h3>Example - Python<a class="headerlink" href="#example-python" title="Permalink to this headline"></a></h3>
+<h3>Example - Python<a class="headerlink" href="#example-python" title="Permalink to this heading"></a></h3>
 <p>For this example, we will use the raw occurrence data found in the sample data
 directory in lmpy at <cite>occurrence/Crocodylus porosus.csv</cite> and the example wrangler
 configuration.  The cleaned data will be written to <cite>./clean_data.csv</cite>.</p>

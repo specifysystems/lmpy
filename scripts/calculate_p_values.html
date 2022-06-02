@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>calculate_p_values - CLI interface &mdash; Specify lmpy 3.1.20 documentation</title>
+  <title>calculate_p_values - CLI interface &mdash; Specify lmpy 3.1.20+4.g088235f9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -17,6 +17,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -105,7 +106,7 @@
            <div itemprop="articleBody">
              
   <section id="calculate_p_values---CLI-interface">
-<h1>calculate_p_values - CLI interface<a class="headerlink" href="#calculate_p_values---CLI-interface" title="Permalink to this headline"></a></h1>
+<h1>calculate_p_values - CLI interface<a class="headerlink" href="#calculate_p_values---CLI-interface" title="Permalink to this heading"></a></h1>
 <p>Calculate p-values for observed data compared with random.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">calculate_p_values</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="p">{</span><span class="n">bonferroni</span><span class="p">,</span><span class="n">fdr</span><span class="p">,</span><span class="n">raw</span><span class="p">}]</span>
                    <span class="p">[</span><span class="o">--</span><span class="n">num_permutations</span> <span class="n">NUM_PERMUTATIONS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">abs</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">alpha</span> <span class="n">ALPHA</span><span class="p">]</span>
@@ -114,7 +115,7 @@
 </pre></div>
 </div>
 <section id="calculate_p_values-positional-arguments">
-<h2>calculate_p_values positional arguments<a class="headerlink" href="#calculate_p_values-positional-arguments" title="Permalink to this headline"></a></h2>
+<h2>calculate_p_values positional arguments<a class="headerlink" href="#calculate_p_values-positional-arguments" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p id="calculate_p_values-p_values_matrix"><a class="reference internal" href="#calculate_p_values-p_values_matrix" title="calculate_p_values p_values_matrix"><strong><code class="docutils literal notranslate"><span class="pre">p_values_matrix</span></code></strong></a> - Path to write the computed p-values matrix. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 <li><p id="calculate_p_values-observed_matrix"><a class="reference internal" href="#calculate_p_values-observed_matrix" title="calculate_p_values observed_matrix"><strong><code class="docutils literal notranslate"><span class="pre">observed_matrix</span></code></strong></a> - Path to the observed data matrix. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
@@ -122,7 +123,7 @@
 </ul>
 </section>
 <section id="calculate_p_values-optional-arguments">
-<h2>calculate_p_values optional arguments<a class="headerlink" href="#calculate_p_values-optional-arguments" title="Permalink to this headline"></a></h2>
+<h2>calculate_p_values optional arguments<a class="headerlink" href="#calculate_p_values-optional-arguments" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p id="calculate_p_values--h"><span id="calculate_p_values---help"></span><a class="reference internal" href="#calculate_p_values--h" title="calculate_p_values -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#calculate_p_values---help" title="calculate_p_values --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
 <li><p id="calculate_p_values---config_file"><a class="reference internal" href="#calculate_p_values---config_file" title="calculate_p_values --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>

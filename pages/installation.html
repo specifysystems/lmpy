@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; Specify lmpy 3.1.20 documentation</title>
+  <title>Installation &mdash; Specify lmpy 3.1.20+4.g088235f9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -17,6 +17,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -90,7 +91,7 @@
            <div itemprop="articleBody">
              
   <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
 <p><cite>lmpy</cite> can be installed via multiple methods.  Before installation, your environment
 must have prerequisite libraries installed.</p>
 <dl class="simple">
@@ -103,7 +104,7 @@ must have prerequisite libraries installed.</p>
 <p>If you install the libraries with <cite>apt</cite> or from source, you can install lmpy via pip.
 Alternatively, you can install all of the prerequisites using <cite>conda</cite>.</p>
 <section id="apt-requirements-installation">
-<h2>Apt Requirements Installation<a class="headerlink" href="#apt-requirements-installation" title="Permalink to this headline"></a></h2>
+<h2>Apt Requirements Installation<a class="headerlink" href="#apt-requirements-installation" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install --upgrade pip
 pip install numpy
 add-apt-repository --yes ppa:ubuntugis/ppa
@@ -115,7 +116,7 @@ pip install -r requirements.txt
 </div>
 </section>
 <section id="conda-requirements-installation">
-<h2>Conda Requirements Installation<a class="headerlink" href="#conda-requirements-installation" title="Permalink to this headline"></a></h2>
+<h2>Conda Requirements Installation<a class="headerlink" href="#conda-requirements-installation" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda update -n base -c conda-forge conda
 conda env create -f environment.yml
 conda activate lmpy
@@ -124,27 +125,27 @@ conda activate lmpy
 </section>
 </section>
 <section id="lmpy-installation">
-<h1>lmpy Installation<a class="headerlink" href="#lmpy-installation" title="Permalink to this headline"></a></h1>
+<h1>lmpy Installation<a class="headerlink" href="#lmpy-installation" title="Permalink to this heading"></a></h1>
 <p>After installing the prerequisites are installed, you can install lmpy using pip.</p>
 <section id="install-latest">
-<h2>Install latest<a class="headerlink" href="#install-latest" title="Permalink to this headline"></a></h2>
+<h2>Install latest<a class="headerlink" href="#install-latest" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/specifysystems/lmpy.git
 pip install lmpy/
 </pre></div>
 </div>
 </section>
 <section id="install-latest-release">
-<h2>Install latest release<a class="headerlink" href="#install-latest-release" title="Permalink to this headline"></a></h2>
+<h2>Install latest release<a class="headerlink" href="#install-latest-release" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install specify-lmpy
 </pre></div>
 </div>
 </section>
 </section>
 <section id="alternative-install-and-run-with-a-docker-container">
-<h1>Alternative: Install and run with a Docker Container<a class="headerlink" href="#alternative-install-and-run-with-a-docker-container" title="Permalink to this headline"></a></h1>
+<h1>Alternative: Install and run with a Docker Container<a class="headerlink" href="#alternative-install-and-run-with-a-docker-container" title="Permalink to this heading"></a></h1>
 <p>You can avoid installing locally and just run <cite>lmpy</cite> using a Docker container.  We distribute containers through DockerHub as well as the GitHub Container Registry.</p>
 <section id="get-from-dockerhub">
-<h2>Get from DockerHub<a class="headerlink" href="#get-from-dockerhub" title="Permalink to this headline"></a></h2>
+<h2>Get from DockerHub<a class="headerlink" href="#get-from-dockerhub" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull specifyconsortium/specify-lmpy:latest
 </pre></div>
 </div>
@@ -154,7 +155,7 @@ pip install lmpy/
 </div>
 </section>
 <section id="get-from-github-container-registry">
-<h2>Get from GitHub Container Registry<a class="headerlink" href="#get-from-github-container-registry" title="Permalink to this headline"></a></h2>
+<h2>Get from GitHub Container Registry<a class="headerlink" href="#get-from-github-container-registry" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull ghcr.io/specifysystems/lmpy:latest
 </pre></div>
 </div>

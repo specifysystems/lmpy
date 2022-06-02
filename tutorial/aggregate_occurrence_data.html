@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aggregating Occurrence Data &mdash; Specify lmpy 3.1.20 documentation</title>
+  <title>Aggregating Occurrence Data &mdash; Specify lmpy 3.1.20+4.g088235f9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -17,6 +17,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -76,9 +77,9 @@
            <div itemprop="articleBody">
              
   <section id="aggregating-occurrence-data">
-<h1>Aggregating Occurrence Data<a class="headerlink" href="#aggregating-occurrence-data" title="Permalink to this headline"></a></h1>
+<h1>Aggregating Occurrence Data<a class="headerlink" href="#aggregating-occurrence-data" title="Permalink to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
 <p>Performing large-scale analyses often requires using data from multiple sources.
 However, the data coming from multiple sources is often in different formats.  We
 provide tools for aggregating these heterogeneous occurrence datasets so that they can
@@ -87,7 +88,7 @@ data manipulations and / or filtering on data from each source before then conve
 the data into a common format.</p>
 </section>
 <section id="data-formats">
-<h2>Data Formats<a class="headerlink" href="#data-formats" title="Permalink to this headline"></a></h2>
+<h2>Data Formats<a class="headerlink" href="#data-formats" title="Permalink to this heading"></a></h2>
 <p>The two primary formats supported by lmpy are text-delimited data and Darwin Core
 Archives.  It is possible to use other data formats if needed but we will focus on CSV
 and Darwin Core Archive.
@@ -97,7 +98,7 @@ if you need help with another format.  Data from <a class="reference external" h
 supported.</p>
 </section>
 <section id="wrangling-data-for-aggregation">
-<h2>Wrangling Data For Aggregation<a class="headerlink" href="#wrangling-data-for-aggregation" title="Permalink to this headline"></a></h2>
+<h2>Wrangling Data For Aggregation<a class="headerlink" href="#wrangling-data-for-aggregation" title="Permalink to this heading"></a></h2>
 <p>You will need to perform some manipulations on each dataset individually before they
 can be aggregated together.  Do this by specifying a set of occurrence data wranglers
 for each dataset.  A common use-case is to resolve the taxonomy of a dataset, perform
@@ -125,13 +126,13 @@ invalid, and then convert the data into a common format.</p>
 </div></blockquote>
 </section>
 <section id="example-console-scripts">
-<h2>Example - Console Scripts<a class="headerlink" href="#example-console-scripts" title="Permalink to this headline"></a></h2>
+<h2>Example - Console Scripts<a class="headerlink" href="#example-console-scripts" title="Permalink to this heading"></a></h2>
 <p>This example shows how data from three files, a GBIF DWCA file, an iDigBio DWCA file,
 and an ALA CSV file, can be combined and split into one CSV file per species in the
 data.  See <a class="reference external" href="../scripts/split_occurrence_data">split_occurrence_data</a> for usage
 documentation.</p>
 <section id="gbif-dwca-file">
-<h3>GBIF DWCA File<a class="headerlink" href="#gbif-dwca-file" title="Permalink to this headline"></a></h3>
+<h3>GBIF DWCA File<a class="headerlink" href="#gbif-dwca-file" title="Permalink to this heading"></a></h3>
 <p>The wrangling steps for GBIF data will be to resolve taxon names, filter records GBIF
 has flagged as having spatial or taxonomic issues, add a field indicating that the
 record comes from GBIF, and then convert to a common format.</p>
@@ -177,7 +178,7 @@ record comes from GBIF, and then convert to a common format.</p>
 </div></blockquote>
 </section>
 <section id="idigbio-dwca-file">
-<h3>iDigBio DWCA File<a class="headerlink" href="#idigbio-dwca-file" title="Permalink to this headline"></a></h3>
+<h3>iDigBio DWCA File<a class="headerlink" href="#idigbio-dwca-file" title="Permalink to this heading"></a></h3>
 <p>The wrangling steps for iDigBio data will be to resolve taxon names, filter records
 iDigBio has flagged as having spatial or taxonomic issues, add a field indicating that
 the record comes from iDigBio, and then convert to a common format.</p>
@@ -230,7 +231,7 @@ the record comes from iDigBio, and then convert to a common format.</p>
 </div></blockquote>
 </section>
 <section id="ala-csv-file">
-<h3>ALA CSV file<a class="headerlink" href="#ala-csv-file" title="Permalink to this headline"></a></h3>
+<h3>ALA CSV file<a class="headerlink" href="#ala-csv-file" title="Permalink to this heading"></a></h3>
 <p>The wrangling steps for ALA data will be to resolve taxon names, add a field indicating
 that the record comes from ALA, and then convert to a common format.</p>
 <blockquote>
@@ -261,7 +262,7 @@ that the record comes from ALA, and then convert to a common format.</p>
 </div></blockquote>
 </section>
 <section id="example-console-script">
-<h3>Example - Console Script<a class="headerlink" href="#example-console-script" title="Permalink to this headline"></a></h3>
+<h3>Example - Console Script<a class="headerlink" href="#example-console-script" title="Permalink to this heading"></a></h3>
 <p>For this example, we will use the data and example data wranglers as inputs and we will
 write the output datasets to the <cite>./species_info/</cite> directory and write out a species
 list of the species seen while processing the data.</p>
@@ -277,7 +278,7 @@ list of the species seen while processing the data.</p>
 </div></blockquote>
 </section>
 <section id="example-python">
-<h3>Example - Python<a class="headerlink" href="#example-python" title="Permalink to this headline"></a></h3>
+<h3>Example - Python<a class="headerlink" href="#example-python" title="Permalink to this heading"></a></h3>
 <p>For this example, we will use the data and example data wranglers as inputs and we will
 write the output datasets to the <cite>./species_info/</cite> directory and write out a species
 list of the species seen while processing the data.</p>

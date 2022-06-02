@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PAM Statistics &mdash; Specify lmpy 3.1.20 documentation</title>
+  <title>PAM Statistics &mdash; Specify lmpy 3.1.20+4.g088235f9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -17,6 +17,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -143,9 +144,9 @@
            <div itemprop="articleBody">
              
   <section id="pam-statistics">
-<h1>PAM Statistics<a class="headerlink" href="#pam-statistics" title="Permalink to this headline"></a></h1>
+<h1>PAM Statistics<a class="headerlink" href="#pam-statistics" title="Permalink to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
 <p>The PAM data structure can be used to generate many diversity statistics.  By
 default, many of the statistics presented in Soberon and Cavner (2015) are
 generated as well as some phylogenetic diversity metrics if a tree is provided.
@@ -154,7 +155,7 @@ appropriate statistic type and adding them to the stats instance.</p>
 </section>
 <hr class="docutils" />
 <section id="generating-default-statistics">
-<h2>Generating Default Statistics<a class="headerlink" href="#generating-default-statistics" title="Permalink to this headline"></a></h2>
+<h2>Generating Default Statistics<a class="headerlink" href="#generating-default-statistics" title="Permalink to this heading"></a></h2>
 <p>You can generate the base statistics without any special configuration of a
 PamStats instance.  Simply supply the PAM and optionally a tree then request
 the category of statistics you would like to be returned.</p>
@@ -167,7 +168,7 @@ the category of statistics you would like to be returned.</p>
 </section>
 <hr class="docutils" />
 <section id="generate-statistics-and-write-to-geojson-file">
-<h2>Generate Statistics and Write to GeoJSON File<a class="headerlink" href="#generate-statistics-and-write-to-geojson-file" title="Permalink to this headline"></a></h2>
+<h2>Generate Statistics and Write to GeoJSON File<a class="headerlink" href="#generate-statistics-and-write-to-geojson-file" title="Permalink to this heading"></a></h2>
 <p>If you wish to visualize the outputs of the statistics in a GIS software like QGIS,
 you can do so by writing the outputs as GeoJSON.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
@@ -187,7 +188,7 @@ you can do so by writing the outputs as GeoJSON.</p>
 </section>
 <hr class="docutils" />
 <section id="adding-new-statistics">
-<h2>Adding New Statistics<a class="headerlink" href="#adding-new-statistics" title="Permalink to this headline"></a></h2>
+<h2>Adding New Statistics<a class="headerlink" href="#adding-new-statistics" title="Permalink to this heading"></a></h2>
 <p>It is fairly simple at add new metrics to the computations.  The first step is
 to identify which class of metrics the new metric belongs to, this will
 determine how the metric is called within the statistics package and what the
@@ -218,158 +219,158 @@ inputs.</p>
 </section>
 <hr class="docutils" />
 <section id="covariance-matrix-metrics">
-<h2>Covariance Matrix Metrics<a class="headerlink" href="#covariance-matrix-metrics" title="Permalink to this headline"></a></h2>
+<h2>Covariance Matrix Metrics<a class="headerlink" href="#covariance-matrix-metrics" title="Permalink to this heading"></a></h2>
 <p>Covariance matrix metrics take a PAM as input and produce a site by site or
 species by species matrix of metric values.</p>
 <section id="sigma-sites">
-<h3>sigma_sites<a class="headerlink" href="#sigma-sites" title="Permalink to this headline"></a></h3>
+<h3>sigma_sites<a class="headerlink" href="#sigma-sites" title="Permalink to this heading"></a></h3>
 <p>Matrix of covariance of composition of sites.
 <span class="math notranslate nohighlight">\(\mathbf{\Sigma}_{sites}(j,k) = \frac{1}{S}\sum_{i=1}^{S}\delta_{j,l}\delta_{k,l} - \frac{\alpha_j\alpha_k}{S^2}\)</span></p>
 </section>
 <section id="sigma-species">
-<h3>sigma_species<a class="headerlink" href="#sigma-species" title="Permalink to this headline"></a></h3>
+<h3>sigma_species<a class="headerlink" href="#sigma-species" title="Permalink to this heading"></a></h3>
 <p>Matrix of covariance of ranges of species.
 <span class="math notranslate nohighlight">\(\mathbf{\Sigma}_{species}(h,i) = \frac{1}{N}\sum_{j=i}^{N}\delta_{i,j}\delta_{h,j} - \frac{\omega_i\omega_h}{N^2}\)</span></p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="diversity-metrics">
-<h2>Diversity Metrics<a class="headerlink" href="#diversity-metrics" title="Permalink to this headline"></a></h2>
+<h2>Diversity Metrics<a class="headerlink" href="#diversity-metrics" title="Permalink to this heading"></a></h2>
 <p>Diversity metrics take a PAM as input and produce a single metric value for the
 entire study.</p>
 <section id="schluter-species-variance-ratio">
-<h3>schluter_species_variance_ratio<a class="headerlink" href="#schluter-species-variance-ratio" title="Permalink to this headline"></a></h3>
+<h3>schluter_species_variance_ratio<a class="headerlink" href="#schluter-species-variance-ratio" title="Permalink to this heading"></a></h3>
 <p>Schluter species-ranges covariance.
 <span class="math notranslate nohighlight">\(V_{species} = \frac{\bar{\psi}^* - N /\beta_W^2}{1/\beta_W - \bar{\varphi}^* / S}\)</span></p>
 </section>
 <section id="schluter-site-variance-ratio">
-<h3>schluter_site_variance_ratio<a class="headerlink" href="#schluter-site-variance-ratio" title="Permalink to this headline"></a></h3>
+<h3>schluter_site_variance_ratio<a class="headerlink" href="#schluter-site-variance-ratio" title="Permalink to this heading"></a></h3>
 <p>Schluter sites-composition covariance.
 <span class="math notranslate nohighlight">\(V_{sites} = \frac{\bar{\varphi}^* - S /\beta_W^2}{1/\beta_W - \bar{\psi}^* / N}\)</span></p>
 </section>
 <section id="num-sites">
-<h3>num_sites<a class="headerlink" href="#num-sites" title="Permalink to this headline"></a></h3>
+<h3>num_sites<a class="headerlink" href="#num-sites" title="Permalink to this heading"></a></h3>
 <p>Num sites is the total number of sites in the study area that have any species
 present.</p>
 </section>
 <section id="num-species">
-<h3>num_species<a class="headerlink" href="#num-species" title="Permalink to this headline"></a></h3>
+<h3>num_species<a class="headerlink" href="#num-species" title="Permalink to this heading"></a></h3>
 <p>Num species is the total number of species in the study that are present at any
 site.</p>
 </section>
 <section id="whittaker">
-<h3>whittaker<a class="headerlink" href="#whittaker" title="Permalink to this headline"></a></h3>
+<h3>whittaker<a class="headerlink" href="#whittaker" title="Permalink to this heading"></a></h3>
 <p>Whittaker’s multaplicative beta diversity metric for a PAM.
 <span class="math notranslate nohighlight">\(\beta_W = \frac{1}{\bar{\omega}^{*}}\)</span></p>
 </section>
 <section id="lande">
-<h3>lande<a class="headerlink" href="#lande" title="Permalink to this headline"></a></h3>
+<h3>lande<a class="headerlink" href="#lande" title="Permalink to this heading"></a></h3>
 <p>Lande is Lande’s addative beta diversity metric for a PAM.
 <span class="math notranslate nohighlight">\(\beta_A = S(1 - 1/\beta_W)\)</span></p>
 </section>
 <section id="legendre">
-<h3>legendre<a class="headerlink" href="#legendre" title="Permalink to this headline"></a></h3>
+<h3>legendre<a class="headerlink" href="#legendre" title="Permalink to this heading"></a></h3>
 <p>Legendre is Legendre’s beta diversity metric for a PAM.
 <span class="math notranslate nohighlight">\(\beta_L = SS(\mathbf{X}) = SN / \beta_W - \left (\sum_{j=1}^{S}\omega_j^2 \right ) / N\)</span></p>
 </section>
 <section id="c-score">
-<h3>c_score<a class="headerlink" href="#c-score" title="Permalink to this headline"></a></h3>
+<h3>c_score<a class="headerlink" href="#c-score" title="Permalink to this heading"></a></h3>
 <p>C-score is the Stone &amp; Robers checkerboard score for the PAM.
 <span class="math notranslate nohighlight">\(C = \frac{2}{S(S-1)}\left [ \sum_{i=1}^{N} \sum_{h&lt;i}(\omega_i - \omega_{i,h})(\omega_h - \omega_{i,h}) \right ]\)</span></p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="species-matrix-metrics">
-<h2>Species Matrix Metrics<a class="headerlink" href="#species-matrix-metrics" title="Permalink to this headline"></a></h2>
+<h2>Species Matrix Metrics<a class="headerlink" href="#species-matrix-metrics" title="Permalink to this heading"></a></h2>
 <p>Species matrix metrics take a PAM as input and return a column of metric values
 for each species in the study.</p>
 <section id="omega">
-<h3>omega<a class="headerlink" href="#omega" title="Permalink to this headline"></a></h3>
+<h3>omega<a class="headerlink" href="#omega" title="Permalink to this heading"></a></h3>
 <p>Omega is the range size for each species.</p>
 </section>
 <section id="omega-proportional">
-<h3>omega_proportional<a class="headerlink" href="#omega-proportional" title="Permalink to this headline"></a></h3>
+<h3>omega_proportional<a class="headerlink" href="#omega-proportional" title="Permalink to this heading"></a></h3>
 <p>Omega proportional is the range size of each species as a proportion of the
 total number of sites.
 <span class="math notranslate nohighlight">\(\omega_i^* = \frac{\bar{\rho}_i}{\bar{\psi}_i^* - \beta_W^{-1}}\)</span></p>
 </section>
 <section id="psi">
-<h3>psi<a class="headerlink" href="#psi" title="Permalink to this headline"></a></h3>
+<h3>psi<a class="headerlink" href="#psi" title="Permalink to this heading"></a></h3>
 <p>Psi is the range richness of each species.
 <span class="math notranslate nohighlight">\(\psi_j = \sum_{i=1}^{N}\delta_{i,j} \alpha_i\)</span></p>
 </section>
 <section id="psi-average-proportional">
-<h3>psi_average_proportional<a class="headerlink" href="#psi-average-proportional" title="Permalink to this headline"></a></h3>
+<h3>psi_average_proportional<a class="headerlink" href="#psi-average-proportional" title="Permalink to this heading"></a></h3>
 <p>Psi average proportional is the mean proportional species diversity.</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="site-matrix-metrics">
-<h2>Site Matrix Metrics<a class="headerlink" href="#site-matrix-metrics" title="Permalink to this headline"></a></h2>
+<h2>Site Matrix Metrics<a class="headerlink" href="#site-matrix-metrics" title="Permalink to this heading"></a></h2>
 <p>Site matrix metrics take a PAM as input and return a column of values for each
 site in the study area.</p>
 <section id="alpha">
-<h3>alpha<a class="headerlink" href="#alpha" title="Permalink to this headline"></a></h3>
+<h3>alpha<a class="headerlink" href="#alpha" title="Permalink to this heading"></a></h3>
 <p>Alpha diversity is the number of species present at each site.</p>
 </section>
 <section id="alpha-proportional">
-<h3>alpha_proportional<a class="headerlink" href="#alpha-proportional" title="Permalink to this headline"></a></h3>
+<h3>alpha_proportional<a class="headerlink" href="#alpha-proportional" title="Permalink to this heading"></a></h3>
 <p>Alpha proportional diversity is the ratio of the number of species present at
 each site to the total number of species in the entire study area.
 <span class="math notranslate nohighlight">\(\alpha_j^* = \frac{\tau_j}{\bar{\varphi}_j^*-\beta_W^{-1}}\)</span></p>
 </section>
 <section id="phi">
-<h3>phi<a class="headerlink" href="#phi" title="Permalink to this headline"></a></h3>
+<h3>phi<a class="headerlink" href="#phi" title="Permalink to this heading"></a></h3>
 <p>Phi is the sum of the range size of the species present at each site.
 <span class="math notranslate nohighlight">\(\varphi_i = \sum_{j=1}^{S}\delta_{i,j} \omega_j\)</span></p>
 </section>
 <section id="phi-average-proportional">
-<h3>phi_average_proportional<a class="headerlink" href="#phi-average-proportional" title="Permalink to this headline"></a></h3>
+<h3>phi_average_proportional<a class="headerlink" href="#phi-average-proportional" title="Permalink to this heading"></a></h3>
 <p>Phi average proportional is the mean proportional range size of the species
 present at each site.</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="pam-distance-matrix-metrics">
-<h2>PAM Distance Matrix Metrics<a class="headerlink" href="#pam-distance-matrix-metrics" title="Permalink to this headline"></a></h2>
+<h2>PAM Distance Matrix Metrics<a class="headerlink" href="#pam-distance-matrix-metrics" title="Permalink to this heading"></a></h2>
 <p>PAM distance matrix metrics are site-based metrics generated using a PAM and a
 distance matrix for the tree over the entire study area.  These statistics
 return a single column of values for each site.</p>
 <section id="pearson-correlation">
-<h3>pearson_correlation<a class="headerlink" href="#pearson-correlation" title="Permalink to this headline"></a></h3>
+<h3>pearson_correlation<a class="headerlink" href="#pearson-correlation" title="Permalink to this heading"></a></h3>
 <p>Pearson correlation is the pearson correlation coefficient for each site.</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="tree-metrics">
-<h2>Tree Metrics<a class="headerlink" href="#tree-metrics" title="Permalink to this headline"></a></h2>
+<h2>Tree Metrics<a class="headerlink" href="#tree-metrics" title="Permalink to this heading"></a></h2>
 <p>Tree metrics are site-based metrics generated from a phylogenetic tree that
 only contains tips for species present at a site.  These metrics return a
 single value for the current site.</p>
 <section id="phylogenetic-diversity">
-<h3>phylogenetic_diversity<a class="headerlink" href="#phylogenetic-diversity" title="Permalink to this headline"></a></h3>
+<h3>phylogenetic_diversity<a class="headerlink" href="#phylogenetic-diversity" title="Permalink to this heading"></a></h3>
 <p>Phylogenetic diversity is the sum of all of the branch lengths in the tree that
 only contains species present at a site.</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="tree-distance-matrix-metrics">
-<h2>Tree Distance Matrix Metrics<a class="headerlink" href="#tree-distance-matrix-metrics" title="Permalink to this headline"></a></h2>
+<h2>Tree Distance Matrix Metrics<a class="headerlink" href="#tree-distance-matrix-metrics" title="Permalink to this heading"></a></h2>
 <p>Tree distance matrix metrics are site-based statistics generated from a species
 by species distance matrix for the species present at a particular site.  A
 single value is returned for these metrics for the current site.</p>
 <section id="mean-nearest-taxon-distance">
-<h3>mean_nearest_taxon_distance<a class="headerlink" href="#mean-nearest-taxon-distance" title="Permalink to this headline"></a></h3>
+<h3>mean_nearest_taxon_distance<a class="headerlink" href="#mean-nearest-taxon-distance" title="Permalink to this heading"></a></h3>
 <p>Mean nearest taxon distance, or MNTD, is the mean of the distance from each tip
 to the closest tip to it for a tree of all species present at a site.</p>
 </section>
 <section id="mean-pairwise-distance">
-<h3>mean_pairwise_distance<a class="headerlink" href="#mean-pairwise-distance" title="Permalink to this headline"></a></h3>
+<h3>mean_pairwise_distance<a class="headerlink" href="#mean-pairwise-distance" title="Permalink to this heading"></a></h3>
 <p>Mean pairwise distance, or MPD, is the mean of the distances of each tip to all
 other tips in the tree of species present at a site.</p>
 </section>
 <section id="sum-pairwise-distance">
-<h3>sum_pairwise_distance<a class="headerlink" href="#sum-pairwise-distance" title="Permalink to this headline"></a></h3>
+<h3>sum_pairwise_distance<a class="headerlink" href="#sum-pairwise-distance" title="Permalink to this heading"></a></h3>
 <p>Sum pairwise distance is the sum of the distances from each tip to all other
 tips in a tree of the species present at a site.</p>
 </section>

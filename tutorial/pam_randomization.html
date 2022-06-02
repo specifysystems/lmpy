@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PAM Randomization and Null Models &mdash; Specify lmpy 3.1.20 documentation</title>
+  <title>PAM Randomization and Null Models &mdash; Specify lmpy 3.1.20+4.g088235f9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -17,6 +17,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -104,9 +105,9 @@
            <div itemprop="articleBody">
              
   <section id="pam-randomization-and-null-models">
-<h1>PAM Randomization and Null Models<a class="headerlink" href="#pam-randomization-and-null-models" title="Permalink to this headline"></a></h1>
+<h1>PAM Randomization and Null Models<a class="headerlink" href="#pam-randomization-and-null-models" title="Permalink to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
 <p>Researchers and users generally want to explore various indices that can be
 derived from presence-absence matrices (PAMs).  These indices may be based on
 sites or species and can utilize additional data structures, such as
@@ -132,9 +133,9 @@ that criteria are often computationally complex.  Each of the methods that
 Lifemapper exposes is described below.</p>
 </section>
 <section id="randomization-algorithms">
-<h2>Randomization algorithms<a class="headerlink" href="#randomization-algorithms" title="Permalink to this headline"></a></h2>
+<h2>Randomization algorithms<a class="headerlink" href="#randomization-algorithms" title="Permalink to this heading"></a></h2>
 <section id="swap">
-<h3>Swap<a class="headerlink" href="#swap" title="Permalink to this headline"></a></h3>
+<h3>Swap<a class="headerlink" href="#swap" title="Permalink to this heading"></a></h3>
 <p>The swap method, or “Gotelli Swap” as it is sometimes called, looks for row and
 column combinations that have diagonal or anti-diagonal patterns of zeros and
 ones like
@@ -161,7 +162,7 @@ algorithm for use and study because it is so commonly used.</p>
 </div>
 </section>
 <section id="trial-swap">
-<h3>Trial Swap<a class="headerlink" href="#trial-swap" title="Permalink to this headline"></a></h3>
+<h3>Trial Swap<a class="headerlink" href="#trial-swap" title="Permalink to this heading"></a></h3>
 <p>The Trial Swap method is very similar to the regular swap method, with the
 primary difference being the iteration control method.  Where swap counts the
 number of swaps performed, trial swap counts the number of row and column
@@ -176,7 +177,7 @@ is also commonly used in other tools and by researchers.</p>
 </div>
 </section>
 <section id="grady-s-heuristic-fill">
-<h3>Grady’s Heuristic Fill<a class="headerlink" href="#grady-s-heuristic-fill" title="Permalink to this headline"></a></h3>
+<h3>Grady’s Heuristic Fill<a class="headerlink" href="#grady-s-heuristic-fill" title="Permalink to this heading"></a></h3>
 <p>Lifemapper is designed to operate on very large PAMs, far larger than those
 possible with any other software that we know of.  We have found in testing
 that other PAM randomization methods are far too slow to operate on these large
@@ -213,7 +214,7 @@ of time.</p>
 </div>
 </section>
 <section id="strona-s-curveball-method">
-<h3>Strona’s Curveball Method<a class="headerlink" href="#strona-s-curveball-method" title="Permalink to this headline"></a></h3>
+<h3>Strona’s Curveball Method<a class="headerlink" href="#strona-s-curveball-method" title="Permalink to this heading"></a></h3>
 <p>Another method of note is the “Curve Ball” method presented by
 <a class="reference external" href="https://www.nature.com/articles/ncomms5114">Strona et al. (2014)</a>.  This
 method uses pair extractions to perform several swaps at once between a pair of
@@ -230,7 +231,7 @@ started.</p>
 </section>
 <hr class="docutils" />
 <section id="generating-a-null-model">
-<h2>Generating a null model<a class="headerlink" href="#generating-a-null-model" title="Permalink to this headline"></a></h2>
+<h2>Generating a null model<a class="headerlink" href="#generating-a-null-model" title="Permalink to this heading"></a></h2>
 <p>There are a couple of ways to organize computations to generate a null model.
 Lifemapper utilizes a workflow management system called Makeflow to manage
 dependent computations and spread them across computational units in a cluster.
@@ -259,7 +260,7 @@ Matrix objects for each index calculated.</p>
 </section>
 <hr class="docutils" />
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Grady (in preparation). A parallel, heuristic-based fill method for creating presence-absence matrix randomizations.</p></li>
 <li><p><a class="reference external" href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/0012-9658(2000)081%5B2606:NMAOSC%5D2.0.CO%3B2">Gotelli, N. J. (2000). Null model analysis of species co‐occurrence patterns. Ecology, 81(9), 2606-2621.</a></p></li>
