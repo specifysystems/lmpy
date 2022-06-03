@@ -99,7 +99,11 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """Command-line interface for splitting occurrence datasets."""
+    """Command-line interface for splitting occurrence datasets.
+
+    Raises:
+        FileNotFoundError: on missing wrangler file
+    """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
 
@@ -130,15 +134,23 @@ def cli():
         if args.dwca:
             for dwca_fn, wranglers_fn in args.dwca:
                 reader = PointDwcaReader(dwca_fn)
-                with open(wranglers_fn, mode='rt') as in_json:
-                    wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                try:
+                    with open(wranglers_fn, mode='rt') as in_json:
+                        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                except FileNotFoundError:
+                    raise FileNotFoundError(
+                        f"Occurrence wrangler file {wranglers_fn} does not exist.")
                 occurrence_processor.process_reader(reader, wranglers)
         if args.csv:
             # For each csv file
             for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
                 reader = PointCsvReader(csv_fn, sp_key, x_key, y_key)
-                with open(wranglers_fn, mode='rt') as in_json:
-                    wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                try:
+                    with open(wranglers_fn, mode='rt') as in_json:
+                        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                except FileNotFoundError:
+                    raise FileNotFoundError(
+                        f"Occurrence wrangler file {wranglers_fn} does not exist.")
                 occurrence_processor.process_reader(reader, wranglers)
         if args.species_list_filename:
             occurrence_processor.write_species_list(args.species_list_filename)

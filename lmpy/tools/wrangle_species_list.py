@@ -76,7 +76,13 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """Provide a command-line interface to the wrangle species list tool."""
+    """Provide a command-line interface to the wrangle species list tool.
+
+    Raises:
+        FileNotFoundError: on missing wrangler_configuration_file.
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
+    """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
     logger = get_logger(
@@ -86,16 +92,26 @@ def cli():
     )
 
     in_species_list = SpeciesList.from_file(args.in_species_list_filename)
-    with open(args.wrangler_configuration_file, mode='rt') as in_json:
-        wrangler_factory = WranglerFactory(logger=logger)
-        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+    try:
+        with open(args.wrangler_configuration_file, mode='rt') as in_json:
+            wrangler_factory = WranglerFactory(logger=logger)
+            wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            f"SpeciesList wrangler file {args.wrangler_config_filename} \
+            does not exist.")
 
     wrangled_species_list, report = wrangle_species_list(in_species_list, wranglers)
     wrangled_species_list.write(args.out_species_list_filename)
 
     if args.report_filename is not None:
-        with open(args.report_filename, mode='wt') as report_out:
-            json.dump(report, report_out)
+        try:
+            with open(args.report_filename, mode='wt') as report_out:
+                json.dump(report, report_out)
+        except OSError as e:
+            raise OSError(f"Unable to write to {args.report_filename}: {e.strerror}.")
+        except IOError as e:
+            raise IOError(f"Unable to write to {args.report_filename}: {e.strerror}.")
 
 
 # .....................................................................................

@@ -136,7 +136,13 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """A command-line interface to the tool."""
+    """A command-line interface to the tool.
+
+    Raises:
+        FileNotFoundError: on missing wrangler filename.
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
+    """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
     logger = get_logger(
@@ -147,9 +153,13 @@ def cli():
 
     # Get wranglers
     wrangler_factory = WranglerFactory(logger=logger)
-    wranglers = wrangler_factory.get_wranglers(
-        json.load(open(args.wrangler_config_filename, mode='rt'))
-    )
+    try:
+        wranglers = wrangler_factory.get_wranglers(
+            json.load(open(args.wrangler_config_filename, mode='rt'))
+        )
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            f"Occurrence wrangler file {args.wrangler_config_filename} does not exist.")
 
     # Get reader
     reader = PointCsvReader(
@@ -163,8 +173,13 @@ def cli():
 
     # If the output report was requested, write it
     if args.report_filename:
-        with open(args.report_filename, mode='wt') as out_file:
-            json.dump(report, out_file, indent=4)
+        try:
+            with open(args.report_filename, mode='wt') as out_file:
+                json.dump(report, out_file, indent=4)
+        except OSError as e:
+            raise OSError(f"Unable to write to {args.report_filename}: {e.strerror}.")
+        except IOError as e:
+            raise IOError(f"Unable to write to {args.report_filename}: {e.strerror}.")
 
 
 # .....................................................................................
