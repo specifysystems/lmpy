@@ -16,6 +16,9 @@ def _process_arguments(parser, config_arg=None):
     Returns:
         argparse.Namespace: An augmented Namespace with any parameters specified in a
             configuration file.
+
+    Raises:
+        FileNotFoundError: on non-existent config_file.
     """
     # If positional arguments are not specified, we need to create dummy values so
     #     argparse doesn't fail.  To do that, we need to find where they should start
@@ -82,11 +85,15 @@ def _process_arguments(parser, config_arg=None):
     if config_arg is not None and hasattr(args, config_arg):
         config_filename = getattr(args, config_arg)
         if config_filename is not None:
-            with open(config_filename, mode='rt') as in_json:
-                config = json.load(in_json)
-                for k in config.keys():
-                    # Always replace existing values
-                    setattr(args, k, config[k])
+            try:
+                with open(config_filename, mode='rt') as in_json:
+                    config = json.load(in_json)
+                    for k in config.keys():
+                        # Always replace existing values
+                        setattr(args, k, config[k])
+            except FileNotFoundError:
+                raise FileNotFoundError(
+                    f"Config_file {config_filename} does not exist.")
     return args
 
 

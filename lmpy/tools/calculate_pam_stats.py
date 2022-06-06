@@ -57,16 +57,28 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """Provide a command-line tool for computing statistics."""
+    """Provide a command-line tool for computing statistics.
+
+    Raises:
+        FileNotFoundError: on missing PAM file.
+        FileNotFoundError: on missing Tree file.
+    """
     parser = build_parser()
 
     args = _process_arguments(parser, 'config_file')
 
     tree = tree_matrix = node_heights_matrix = tip_lengths_matrix = None
-    pam = Matrix.load(args.pam_filename)
-
+    try:
+        pam = Matrix.load(args.pam_filename)
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            f"PAM file {args.pam_filename} does not exist.")
     if args.tree_filename is not None:
-        tree = TreeWrapper.from_filename(args.tree_filename)
+        try:
+            tree = TreeWrapper.from_filename(args.tree_filename)
+        except FileNotFoundError:
+            raise FileNotFoundError(
+                f"Tree file {args.tree_filename} does not exist.")
 
     if args.tree_matrix is not None:
         tree_matrix = Matrix.load(args.tree_matrix[0])

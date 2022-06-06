@@ -533,9 +533,18 @@ class Matrix(np.ndarray):
 
         Args:
             filename (:obj:`str`): The file location to save to.
+
+        Raises:
+            OSError: on failure to write to filename.
+            IOError: on failure to write to filename.
         """
-        with open(filename, 'wb') as out_file:
-            self.save(out_file)
+        try:
+            with open(filename, 'wb') as out_file:
+                self.save(out_file)
+        except OSError as e:
+            raise OSError(f"Unable to write to {filename}: {e.strerror}.")
+        except IOError as e:
+            raise IOError(f"Unable to write to {filename}: {e.strerror}.")
 
     # ...........................
     def write_csv(self, flo, *slice_args):

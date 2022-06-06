@@ -55,11 +55,22 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """Provide a command-line tool for aggregating matrices."""
+    """Provide a command-line tool for aggregating matrices.
+
+    Raises:
+        FileNotFoundError: on missing input_matrix_filename.
+    """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
     out_matrix = None
-    input_matrices = [Matrix.load(fn) for fn in args.input_matrix_filename]
+    # input_matrices = [Matrix.load(fn) for fn in args.input_matrix_filename]
+    input_matrices = []
+    try:
+        for fn in args.input_matrix_filename:
+            input_matrices.append(Matrix.load(fn))
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Missing input matrix file {fn}.")
+
     if args.method == 'add':
         if args.ndim > 0:
             n_dims = args.ndim
