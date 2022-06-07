@@ -98,7 +98,7 @@ def cli():
             wranglers = wrangler_factory.get_wranglers(json.load(in_json))
     except FileNotFoundError:
         raise FileNotFoundError(
-            f"SpeciesList wrangler file {args.wrangler_config_filename} \
+            f"SpeciesList wrangler file {args.wrangler_configuration_file} \
             does not exist.")
 
     wrangled_species_list, report = wrangle_species_list(in_species_list, wranglers)
