@@ -69,7 +69,7 @@ def cli():
         for fn in args.input_matrix_filename:
             input_matrices.append(Matrix.load(fn))
     except FileNotFoundError:
-        raise FileNotFoundError(f"Missing input matrix file {fn}.")
+        raise FileNotFoundError(f"Input matrix file {fn} does not exist.")
 
     if args.method == 'add':
         if args.ndim > 0:

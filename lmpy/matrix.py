@@ -111,9 +111,15 @@ class Matrix(np.ndarray):
 
         Returns:
             Matrix: The matrix read from the file.
+
+        Raises:
+            FileNotFoundError: on missing filename.
         """
-        with open(filename, 'rb') as in_file:
-            return Matrix.load_flo(in_file)
+        try:
+            with open(filename, 'rb') as in_file:
+                return Matrix.load_flo(in_file)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Matrix file {filename} does not exist.")
 
     # ...........................
     @classmethod

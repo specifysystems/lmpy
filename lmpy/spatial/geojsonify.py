@@ -1,5 +1,6 @@
 """Module containing tools for creating GeoJSON from matrices."""
 import json
+import os.path
 
 from osgeo import ogr
 
@@ -108,6 +109,9 @@ def geojsonify_matrix_with_shapefile(matrix, grid_filename, omit_values=None):
 
     Returns:
         dict: A GeoJSON compatible dictionary.
+
+    Raises:
+        FileNotFoundError: on missing grid_filename.
     """
     omit_values = _process_omit_values(omit_values, matrix.dtype.type)
     ret = {'type': 'FeatureCollection'}
@@ -117,6 +121,8 @@ def geojsonify_matrix_with_shapefile(matrix, grid_filename, omit_values=None):
 
     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
 
+    if not os.path.exists(grid_filename):
+        raise FileNotFoundError(f"Grid shapefile {grid_filename} does not exist.")
     grid_dataset = ogr.Open(grid_filename)
     grid_layer = grid_dataset.GetLayer()
 

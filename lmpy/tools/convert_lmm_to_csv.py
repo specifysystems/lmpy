@@ -15,9 +15,18 @@ def convert_lmm_to_csv(mtx, csv_filename):
     Args:
         mtx (Matrix): A lmpy matrix to convert to csv.
         csv_filename (str): The file location of the csv to convert.
+
+    Raises:
+        OSError: on failure to write to csv_filename.
+        IOError: on failure to write to csv_filename.
     """
-    with open(csv_filename, mode='wt') as csv_out:
-        mtx.write_csv(csv_out)
+    try:
+        with open(csv_filename, mode='wt') as csv_out:
+            mtx.write_csv(csv_out)
+    except OSError as e:
+        raise OSError(f"Unable to write to {csv_filename}: {e.strerror}.")
+    except IOError as e:
+        raise IOError(f"Unable to write to {csv_filename}: {e.strerror}.")
 
 
 # .....................................................................................

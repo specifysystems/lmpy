@@ -19,11 +19,17 @@ def convert_csv_to_lmm(csv_filename, num_header_rows, num_header_cols):
 
     Returns:
         Matrix: A matrix from the converted csv file.
+
+    Raises:
+        FileNotFoundError: on missing csv_filename.
     """
-    with open(csv_filename, mode='rt') as csv_in:
-        mtx = Matrix.load_csv(
-            csv_in, num_header_rows=num_header_rows, num_header_cols=num_header_cols
-        )
+    try:
+        with open(csv_filename, mode='rt') as csv_in:
+            mtx = Matrix.load_csv(
+                csv_in, num_header_rows=num_header_rows, num_header_cols=num_header_cols
+            )
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Input CSV file {csv_filename} does not exist.")
     return mtx
 
 
