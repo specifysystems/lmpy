@@ -66,19 +66,15 @@ class _AcceptedNameWrangler(_DataWrangler):
         Raises:
             FileNotFoundError: on missing name_map file
         """
-        if name_map is not None:
-            try:
-                self._load_name_map(name_map)
-            except FileNotFoundError:
-                raise FileNotFoundError(
-                    f"File {name_map} for _AcceptedNameWrangler does not exist")
-        else:
-            self.name_map = {}
         self._name_resolver = name_resolver
         self.out_name_map_filename = out_map_filename
         self.map_write_interval = map_write_interval
         self._updated_since_write = 0
         self.out_map_format = out_map_format
+        if name_map is not None:
+            self._load_name_map(name_map)
+        else:
+            self.name_map = {}
 
     # .......................
     def __del__(self):

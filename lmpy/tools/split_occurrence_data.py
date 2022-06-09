@@ -10,7 +10,7 @@ from lmpy.data_preparation.occurrence_splitter import (
 )
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointDwcaReader
-from lmpy.tools._config_parser import _process_arguments, get_logger
+from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
 
 
 # .....................................................................................
@@ -156,25 +156,40 @@ def cli():
         # For each dwca file
         if args.dwca:
             for dwca_fn, wranglers_fn in args.dwca:
-                reader = PointDwcaReader(dwca_fn)
-                try:
-                    with open(wranglers_fn, mode='rt') as in_json:
-                        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
-                except FileNotFoundError:
-                    raise FileNotFoundError(
-                        f"Occurrence wrangler file {wranglers_fn} does not exist.")
-                occurrence_processor.process_reader(reader, wranglers)
+                errs = test_files(
+                    (dwca_fn, "occurrence csv data"),
+                    (wranglers_fn, "occurrence wrangler"))
+                if not errs:
+                    reader = PointDwcaReader(dwca_fn)
+                    try:
+                        with open(wranglers_fn, mode='rt') as in_json:
+                            wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                    except FileNotFoundError as e:
+                        raise FileNotFoundError(f"Missing file specified in wrangler {wranglers_fn}: {e}")
+                    except:
+                        raise
+                    occurrence_processor.process_reader(reader, wranglers)
+                else:
+                    raise FileNotFoundError(errs)
         if args.csv:
             # For each csv file
             for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
-                reader = PointCsvReader(csv_fn, sp_key, x_key, y_key)
-                try:
+                errs = test_files(
+                    (csv_fn, "occurrence csv data"),
+                    (wranglers_fn, "occurrence wrangler"))
+                if not errs:
+                    reader = PointCsvReader(csv_fn, sp_key, x_key, y_key)
                     with open(wranglers_fn, mode='rt') as in_json:
-                        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
-                except FileNotFoundError:
-                    raise FileNotFoundError(
-                        f"Occurrence wrangler file {wranglers_fn} does not exist.")
-                occurrence_processor.process_reader(reader, wranglers)
+                        try:
+                            wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                        except FileNotFoundError as e:
+                            exit(f"Missing file specified in wrangler {wranglers_fn}: {e}")
+                        except Exception:
+                            raise
+                    occurrence_processor.process_reader(reader, wranglers)
+                else:
+                    print("Errors, exiting program")
+                    exit('\n'.join(errs))
         if args.species_list_filename:
             occurrence_processor.write_species_list(args.species_list_filename)
 

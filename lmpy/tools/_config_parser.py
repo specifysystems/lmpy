@@ -1,6 +1,7 @@
 """Module containing a tool for parsing a configuration file for argparse."""
 import json
 import logging
+import os.path
 import sys
 
 
@@ -128,3 +129,19 @@ def get_logger(
         for handler in handlers:
             logger.addHandler(handler)
     return logger
+
+# .....................................................................................
+def test_files(*filename_filefunction):
+    """Get a logger object (or None) for the provided parameters.
+
+    Args:
+        filename_filefunction (str): One or more filename/filefunction tuples
+
+    Returns:
+        A message indicating missing files.  If all exist, the message is empty string.
+    """
+    err_msgs = []
+    for filename, filefunction in filename_filefunction:
+        if not os.path.exists(filename):
+            err_msgs.append(f"File {filename}, {filefunction}, does not exist.")
+    return err_msgs
