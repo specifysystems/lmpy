@@ -10,7 +10,7 @@ from lmpy.data_preparation.occurrence_splitter import (
 )
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointDwcaReader
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, get_logger
 
 
 # .....................................................................................
@@ -34,6 +34,24 @@ def build_parser():
         '--config_file',
         type=str,
         help='Configuration file containing script arguments.'
+    )
+    parser.add_argument(
+        '--log_filename',
+        '-l',
+        type=str,
+        help='A file location to write logging data.'
+    )
+    parser.add_argument(
+        '--log_console',
+        action='store_true',
+        default=False,
+        help='If provided, write log to console.'
+    )
+    parser.add_argument(
+        '-r',
+        '--report_filename',
+        type=str,
+        help='File location to write the wrangler report.'
     )
     parser.add_argument(
         '-m',
@@ -106,6 +124,11 @@ def cli():
     """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
+    logger = get_logger(
+        'wrangle_occurrences',
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
 
     # Default key field is 'species_name'
     if args.key_field is None:
@@ -121,7 +144,7 @@ def cli():
         write_fields = args.out_field
 
     # Wrangler Factory
-    wrangler_factory = WranglerFactory()
+    wrangler_factory = WranglerFactory(logger=logger)
 
     # Initialize processor
     with OccurrenceSplitter(
