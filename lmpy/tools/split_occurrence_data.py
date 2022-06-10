@@ -170,7 +170,8 @@ def cli():
                         raise
                     occurrence_processor.process_reader(reader, wranglers)
                 else:
-                    raise FileNotFoundError(errs)
+                    print("Errors, exiting program")
+                    exit('\n'.join(errs))
         if args.csv:
             # For each csv file
             for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
