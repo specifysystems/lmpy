@@ -19,7 +19,6 @@ def resolve_names_gbif(names, wait_time=1):
     Returns:
         dict: Input names are keys and resolved name or None are values.
     """
-    attempt = 1
     resolved_names = {}
     for name_str in names:
         # Get name
@@ -82,7 +81,11 @@ class _AcceptedNameWrangler(_DataWrangler):
 
     # .......................
     def __del__(self):
-        """Destructor method, sync map to disk if needed."""
+        """Destructor method, sync map to disk if needed.
+
+        Raises:
+            Exception: Raised if writing name map fails.
+        """
         if all(
             [
                 self.out_name_map_filename is not None,
@@ -94,10 +97,8 @@ class _AcceptedNameWrangler(_DataWrangler):
             except Exception as err:
                 print(f'Failed to write names map on destruction: {err}.')
                 print(
-                    (
-                        'If this happened due to a crash, '
-                        'the "open" builtin may have already been removed.'
-                    )
+                    'If this happened due to a crash, '
+                    'the "open" builtin may have already been removed.'
                 )
                 raise err
 
