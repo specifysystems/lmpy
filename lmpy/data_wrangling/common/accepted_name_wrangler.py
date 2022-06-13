@@ -8,7 +8,7 @@ from lmpy.data_wrangling.base import _DataWrangler
 
 
 # .....................................................................................
-def resolve_names_gbif(names, wait_time=.5):
+def resolve_names_gbif(names, wait_time=1):
     """Resolve names using GBIF's taxonomic name resolution service.
 
     Args:
@@ -19,13 +19,20 @@ def resolve_names_gbif(names, wait_time=.5):
     Returns:
         dict: Input names are keys and resolved name or None are values.
     """
+    attempt = 1
     resolved_names = {}
     for name_str in names:
         # Get name
         other_filters = {'name': name_str.strip(), 'verbose': 'true'}
         url = 'http://api.gbif.org/v1/species/match?{}'.format(
             urllib.parse.urlencode(other_filters))
-        response = requests.get(url).json()
+        try:
+            response = requests.get(url).json()
+        except Exception as err:
+            print(err)
+            print('Sleep and try again...')
+            time.sleep(60)
+            response = requests.get(url).json()
         if 'status' in response.keys() and response['status'].lower() in (
             'accepted',
             'synonym'
