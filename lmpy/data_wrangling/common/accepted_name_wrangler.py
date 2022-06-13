@@ -89,7 +89,17 @@ class _AcceptedNameWrangler(_DataWrangler):
                 self._updated_since_write >= 0
             ]
         ):
-            self.write_map_to_file(self.out_name_map_filename, self.out_map_format)
+            try:
+                self.write_map_to_file(self.out_name_map_filename, self.out_map_format)
+            except Exception as err:
+                print(f'Failed to write names map on destruction: {err}.')
+                print(
+                    (
+                        'If this happened due to a crash, '
+                        'the "open" builtin may have already been removed.'
+                    )
+                )
+                raise err
 
     # .......................
     def _load_name_map(self, name_map):
