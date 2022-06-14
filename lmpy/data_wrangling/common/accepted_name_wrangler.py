@@ -8,7 +8,7 @@ from lmpy.data_wrangling.base import _DataWrangler
 
 
 # .....................................................................................
-def resolve_names_gbif(names, wait_time=.5):
+def resolve_names_gbif(names, wait_time=1):
     """Resolve names using GBIF's taxonomic name resolution service.
 
     Args:
@@ -25,7 +25,13 @@ def resolve_names_gbif(names, wait_time=.5):
         other_filters = {'name': name_str.strip(), 'verbose': 'true'}
         url = 'http://api.gbif.org/v1/species/match?{}'.format(
             urllib.parse.urlencode(other_filters))
-        response = requests.get(url).json()
+        try:
+            response = requests.get(url).json()
+        except Exception as err:
+            print(err)
+            print('Sleep and try again...')
+            time.sleep(60)
+            response = requests.get(url).json()
         if 'status' in response.keys() and response['status'].lower() in (
             'accepted',
             'synonym'
@@ -75,14 +81,26 @@ class _AcceptedNameWrangler(_DataWrangler):
 
     # .......................
     def __del__(self):
-        """Destructor method, sync map to disk if needed."""
+        """Destructor method, sync map to disk if needed.
+
+        Raises:
+            Exception: Raised if writing name map fails.
+        """
         if all(
             [
                 self.out_name_map_filename is not None,
                 self._updated_since_write >= 0
             ]
         ):
-            self.write_map_to_file(self.out_name_map_filename, self.out_map_format)
+            try:
+                self.write_map_to_file(self.out_name_map_filename, self.out_map_format)
+            except Exception as err:
+                print(f'Failed to write names map on destruction: {err}.')
+                print(
+                    'If this happened due to a crash, '
+                    'the "open" builtin may have already been removed.'
+                )
+                raise err
 
     # .......................
     def _load_name_map(self, name_map):

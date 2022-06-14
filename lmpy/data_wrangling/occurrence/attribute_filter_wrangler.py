@@ -35,6 +35,8 @@ class AttributeFilterWrangler(_OccurrenceDataWrangler):
                     bad_values = filter_func['for-each']['values']
 
                     def _each_value_not_in(point):
+                        if point.get_attribute(self.attribute_name) is None:
+                            return True
                         return all(
                             [
                                 val not in bad_values
