@@ -54,6 +54,8 @@ Functions
 
       Destructor method, sync map to disk if needed.
 
+      :raises Exception: Raised if writing name map fails.
+
 
    .. py:method:: _load_name_map(self, name_map)
 
@@ -87,7 +89,7 @@ Functions
 
 
 
-.. py:function:: resolve_names_gbif(names, wait_time=0.5)
+.. py:function:: resolve_names_gbif(names, wait_time=1)
 
    Resolve names using GBIF's taxonomic name resolution service.
 

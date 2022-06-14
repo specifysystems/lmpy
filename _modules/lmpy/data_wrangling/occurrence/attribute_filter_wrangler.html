@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.attribute_filter_wrangler &mdash; Specify lmpy 3.1.21+7.g6b36b2cb documentation</title>
+  <title>lmpy.data_wrangling.occurrence.attribute_filter_wrangler &mdash; Specify lmpy 3.1.21+13.ga65b2fac documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -113,6 +113,8 @@
                     <span class="n">bad_values</span> <span class="o">=</span> <span class="n">filter_func</span><span class="p">[</span><span class="s1">&#39;for-each&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]</span>
 
                     <span class="k">def</span> <span class="nf">_each_value_not_in</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attribute_name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">True</span>
                         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
                             <span class="p">[</span>
                                 <span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bad_values</span>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+7.g6b36b2cb documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+13.ga65b2fac documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
@@ -103,7 +103,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif" title="lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_names_gbif</span></code></a>(names, wait_time=0.5)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif" title="lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_names_gbif</span></code></a>(names, wait_time=1)</p></td>
 <td><p>Resolve names using GBIF's taxonomic name resolution service.</p></td>
 </tr>
 </tbody>
@@ -131,6 +131,11 @@ this many iterations.</p></li>
 <dt class="sig sig-object py" id="lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__">
 <span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler.__del__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__" title="Permalink to this definition"></a></dt>
 <dd><p>Destructor method, sync map to disk if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Raised if writing name map fails.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -180,7 +185,7 @@ this many iterations.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif">
-<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.common.accepted_name_wrangler.</span></span><span class="sig-name descname"><span class="pre">resolve_names_gbif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#resolve_names_gbif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.data_wrangling.common.accepted_name_wrangler.</span></span><span class="sig-name descname"><span class="pre">resolve_names_gbif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#resolve_names_gbif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif" title="Permalink to this definition"></a></dt>
 <dd><p>Resolve names using GBIF’s taxonomic name resolution service.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

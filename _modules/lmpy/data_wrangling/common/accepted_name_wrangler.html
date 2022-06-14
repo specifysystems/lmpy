@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+7.g6b36b2cb documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+13.ga65b2fac documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -86,7 +86,7 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="resolve_names_gbif"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif">[docs]</a><span class="k">def</span> <span class="nf">resolve_names_gbif</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">wait_time</span><span class="o">=.</span><span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="resolve_names_gbif"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif">[docs]</a><span class="k">def</span> <span class="nf">resolve_names_gbif</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">wait_time</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Resolve names using GBIF&#39;s taxonomic name resolution service.</span>
 
 <span class="sd">    Args:</span>
@@ -103,7 +103,13 @@
         <span class="n">other_filters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name_str</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://api.gbif.org/v1/species/match?</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">other_filters</span><span class="p">))</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sleep and try again...&#39;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="k">if</span> <span class="s1">&#39;status&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span>
             <span class="s1">&#39;accepted&#39;</span><span class="p">,</span>
             <span class="s1">&#39;synonym&#39;</span>
@@ -153,14 +159,26 @@
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="_AcceptedNameWrangler.__del__"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__">[docs]</a>    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Destructor method, sync map to disk if needed.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Destructor method, sync map to disk if needed.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: Raised if writing name map fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_updated_since_write</span> <span class="o">&gt;=</span> <span class="mi">0</span>
             <span class="p">]</span>
         <span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">write_map_to_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_map_format</span><span class="p">)</span></div>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_map_to_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_map_format</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Failed to write names map on destruction: </span><span class="si">{err}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s1">&#39;If this happened due to a crash, &#39;</span>
+                    <span class="s1">&#39;the &quot;open&quot; builtin may have already been removed.&#39;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">err</span></div>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="_AcceptedNameWrangler._load_name_map"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler._load_name_map">[docs]</a>    <span class="k">def</span> <span class="nf">_load_name_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_map</span><span class="p">):</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.21+7.g6b36b2cb documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.21+13.ga65b2fac documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -615,6 +615,8 @@
                 <span class="k">pass</span>
             <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
                 <span class="n">more_rows</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
             <span class="k">except</span> <span class="n">csv</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
                 <span class="k">pass</span>
 
@@ -638,6 +640,11 @@
         <span class="c1"># If core element is missing (iDigBio) look in extensions</span>
         <span class="k">if</span> <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">is_idigbio</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="c1"># Set spatial values for iDigBio if not provided</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="o">=</span> <span class="s1">&#39;geoPoint&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x_term</span> <span class="o">=</span> <span class="s1">&#39;lon&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">y_term</span> <span class="o">=</span> <span class="s1">&#39;lat&#39;</span>
             <span class="k">for</span> <span class="n">extension_el</span> <span class="ow">in</span> <span class="n">root_element</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">EXTENSION_TAG</span><span class="p">):</span>
                 <span class="k">if</span> <span class="p">(</span>
                         <span class="n">core_element</span> <span class="ow">is</span> <span class="kc">None</span>
