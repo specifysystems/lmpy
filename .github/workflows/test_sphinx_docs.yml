@@ -32,6 +32,6 @@ jobs:
       run: |
         export PYTHONPATH=lmpy; echo $PYTHONPATH; ls -lah lmpy/
     - name: Build and Commit
-      uses: sphinx-notes/pages@2.0
+      uses: sphinx-notes/pages@2.1
       with:
         documentation_path: _sphinx_config/
