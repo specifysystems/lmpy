@@ -130,7 +130,8 @@ class _AcceptedNameWrangler(_DataWrangler):
         for name in names:
             if name in self.name_map.keys():
                 resolved_names[name] = self.name_map[name]
-                self.log(f'Resolved name {name} to {self.name_map[name]}')
+                if name != self.name_map[name]:
+                    self.log(f'Resolved name {name} to {self.name_map[name]}')
             else:
                 unmatched_names.append(name)
                 resolved_names[name] = None

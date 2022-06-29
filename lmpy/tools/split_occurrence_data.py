@@ -125,7 +125,7 @@ def cli():
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
     logger = get_logger(
-        'wrangle_occurrences',
+        'split_occurrences',
         log_filename=args.log_filename,
         log_console=args.log_console
     )
@@ -152,6 +152,7 @@ def cli():
         writer_filename_func,
         write_fields=write_fields,
         max_writers=args.max_open_writers,
+        logger=logger
     ) as occurrence_processor:
         # For each dwca file
         if args.dwca:

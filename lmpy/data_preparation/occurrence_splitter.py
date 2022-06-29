@@ -1,5 +1,6 @@
 """Module containing functions for splitting occurrence data."""
 import os
+import logging
 
 from lmpy.point import PointCsvWriter
 
@@ -78,6 +79,7 @@ class OccurrenceSplitter:
         writer_filename_func,
         write_fields=None,
         max_writers=DEFAULT_MAX_WRITERS,
+        logger=None
     ):
         """Constructor.
 
@@ -91,6 +93,7 @@ class OccurrenceSplitter:
                 use all fields in the first output Point object.
             max_writers (int): The maximum number of open writers (files) at any given
                 time.
+            logger (logging.Logger): An optional logger to use for logging output.
         """
         self.get_writer_key = writer_key_func
         self.get_writer_filename = writer_filename_func
@@ -98,6 +101,7 @@ class OccurrenceSplitter:
         self.max_writers = max_writers
         self.writers = {}
         self.seen_taxa = set()
+        self.logger = logger
 
     # .......................
     def __enter__(self):
@@ -163,7 +167,10 @@ class OccurrenceSplitter:
         for points in reader:
             for wrangler in wranglers:
                 if points:
+                    in_count = len(points)
                     points = wrangler.wrangle_points(points)
+                    self.log(
+                        f"Wrangle {in_count} points with {wrangler.name} from {reader.filename} for {len(points)} points")
             if points:
                 self.write_points(points)
         reader.close()
@@ -194,6 +201,28 @@ class OccurrenceSplitter:
         with open(species_list_filename, mode='wt') as species_out:
             for sp in list(self.seen_taxa):
                 species_out.write(f'{sp}\n')
+
+    # ........................
+    def log(self, msg, log_level=logging.INFO):
+        """Log a message.
+
+        Args:
+            msg (str): A message to write to the logger.
+            log_level (int): A level to use when logging the message.
+        """
+        if self.logger is not None:
+            # self.logger.log(log_level, self.__class__.__name__ + ': ' + msg)
+            log_func = {
+                logging.DEBUG: self.logger.debug,
+                logging.INFO: self.logger.info,
+                logging.WARNING: self.logger.warning,
+                logging.ERROR: self.logger.error,
+                logging.CRITICAL: self.logger.critical,
+            }
+            if log_level in log_func.keys():
+                log_func[log_level](self.__class__.__name__ + ': ' + msg)
+            else:
+                self.logger.log(log_level, self.__class__.__name__ + ': ' + msg)
 
 
 # .....................................................................................
