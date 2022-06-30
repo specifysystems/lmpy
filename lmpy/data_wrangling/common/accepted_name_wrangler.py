@@ -167,23 +167,24 @@ class _AcceptedNameWrangler(_DataWrangler):
             OSError: on failure to write to filename.
             IOError: on failure to write to filename.
         """
-        if output_format.lower() == 'json':
-            try:
-                with open(filename, mode=mode) as out_json:
-                    json.dump(self.name_map, out_json, indent=4)
-                self.log(f'Wrote {len(self.name_map)} names to {filename} as JSON')
-            except OSError as e:
-                raise OSError(f"Unable to write to {filename}: {e.strerror}.")
-            except IOError as e:
-                raise IOError(f"Unable to write to {filename}: {e.strerror}.")
-        else:
-            try:
-                with open(filename, mode=mode) as out_csv:
-                    out_csv.write('Name,Accepted\n')
-                    for in_name, out_name in self.name_map.items():
-                        out_csv.write(f'{in_name},{out_name}\n')
-                self.log(f'Wrote {len(self.name_map)} names to {filename} as CSV')
-            except OSError as e:
-                raise OSError(f"Unable to write to {filename}: {e.strerror}.")
-            except IOError as e:
-                raise IOError(f"Unable to write to {filename}: {e.strerror}.")
+        if self.name_map:
+            if output_format.lower() == 'json':
+                try:
+                    with open(filename, mode=mode) as out_json:
+                        json.dump(self.name_map, out_json, indent=4)
+                    self.log(f'Wrote {len(self.name_map)} names to {filename} as JSON')
+                except OSError:
+                    raise
+                except IOError:
+                    raise
+            else:
+                try:
+                    with open(filename, mode=mode) as out_csv:
+                        out_csv.write('Name,Accepted\n')
+                        for in_name, out_name in self.name_map.items():
+                            out_csv.write(f'{in_name},{out_name}\n')
+                    self.log(f'Wrote {len(self.name_map)} names to {filename} as CSV')
+                except OSError:
+                    raise
+                except IOError:
+                    raise
