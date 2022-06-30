@@ -132,9 +132,6 @@ def test_inputs(args):
                 (dwca_fn, "DwCA input"),
                 (wranglers_fn, "Occurrence Wrangler configuration"))
             all_missing_inputs.extend(errs)
-        if errs:
-            print("Errors, exiting program")
-            exit('\n'.join(errs))
     if args.csv:
         # For each csv file
         for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
@@ -155,10 +152,10 @@ def cli():
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
 
-    missing_file_messages = test_inputs(args)
-    if missing_file_messages:
+    errs = test_inputs(args)
+    if errs:
         print("Errors, exiting program")
-        exit('\n'.join(missing_file_messages))
+        exit('\n'.join(errs))
 
     logger = get_logger(
         'wrangle_occurrences',
@@ -196,9 +193,7 @@ def cli():
                 try:
                     with open(wranglers_fn, mode='rt') as in_json:
                         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
-                except FileNotFoundError as e:
-                    raise FileNotFoundError(f"Missing file specified in wrangler {wranglers_fn}: {e}")
-                except:
+                except Exception:
                     raise
                 occurrence_processor.process_reader(reader, wranglers)
         if args.csv:
@@ -208,8 +203,6 @@ def cli():
                 with open(wranglers_fn, mode='rt') as in_json:
                     try:
                         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
-                    except FileNotFoundError as e:
-                        exit(f"Missing file specified in wrangler {wranglers_fn}: {e}")
                     except Exception:
                         raise
                     occurrence_processor.process_reader(reader, wranglers)

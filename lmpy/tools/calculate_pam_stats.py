@@ -4,7 +4,7 @@ import json
 
 from lmpy.matrix import Matrix
 from lmpy.statistics.pam_stats import PamStats
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 from lmpy.tree import TreeWrapper
 
 
@@ -56,29 +56,38 @@ def build_parser():
 
 
 # .....................................................................................
-def cli():
-    """Provide a command-line tool for computing statistics.
+def test_inputs(args):
+    """Test input data and configuration files for existence.
 
-    Raises:
-        FileNotFoundError: on missing PAM file.
-        FileNotFoundError: on missing Tree file.
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
     """
+    all_missing_inputs = test_files((args.pam_filename, "PAM file"))
+    if args.tree_filename is not None:
+        all_missing_inputs.extend(test_files((args.tree_filename, "Tree file")))
+    if args.tree_matrix is not None:
+        all_missing_inputs.extend(test_files((args.tree_matrix[0], "Tree matrix file")))
+    return all_missing_inputs
+
+
+# .....................................................................................
+def cli():
+    """Provide a command-line tool for computing statistics."""
     parser = build_parser()
 
     args = _process_arguments(parser, 'config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
 
     tree = tree_matrix = node_heights_matrix = tip_lengths_matrix = None
-    try:
-        pam = Matrix.load(args.pam_filename)
-    except FileNotFoundError:
-        raise FileNotFoundError(
-            f"PAM file {args.pam_filename} does not exist.")
+    pam = Matrix.load(args.pam_filename)
     if args.tree_filename is not None:
-        try:
-            tree = TreeWrapper.from_filename(args.tree_filename)
-        except FileNotFoundError:
-            raise FileNotFoundError(
-                f"Tree file {args.tree_filename} does not exist.")
+        tree = TreeWrapper.from_filename(args.tree_filename)
 
     if args.tree_matrix is not None:
         tree_matrix = Matrix.load(args.tree_matrix[0])

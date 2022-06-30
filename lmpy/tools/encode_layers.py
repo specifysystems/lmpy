@@ -3,7 +3,7 @@ import argparse
 import os
 
 from lmpy.data_preparation.layer_encoder import LayerEncoder
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 # .....................................................................................
@@ -67,6 +67,27 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_errors: Error messages for display on exit.
+    """
+    all_errors = []
+    for layer_args in args.layer:
+        # if there are too many layer arguments, fail
+        if len(layer_args) > 3:
+            all_errors.append(f"Too many layer arguments {layer_args}.")
+        # Process layer arguments, get filename for sure, try label and attribute field
+        lyr_fn = layer_args[0]
+        all_errors.extend(test_files((lyr_fn, "Input layer")))
+    return all_errors
+
+
+# .....................................................................................
 def cli():
     """Command line interface for layer encoding.
 
@@ -77,16 +98,14 @@ def cli():
     parser = build_parser()
 
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
 
     encoder = LayerEncoder(args.grid_filename)
 
     for layer_args in args.layer:
-        # if there are too many layer arguments, fail
-        if len(layer_args) > 3:
-            raise ValueError(
-                'Too many layer arguments {}.'
-                'Hint: Specify layer args last in command.'.format(layer_args)
-            )
         # Process layer arguments, get filename for sure, try label and attribute field
         lyr_fn = layer_args[0]
         layer_attribute = None

@@ -93,8 +93,7 @@ def _process_arguments(parser, config_arg=None):
                         # Always replace existing values
                         setattr(args, k, config[k])
             except FileNotFoundError:
-                raise FileNotFoundError(
-                    f"Config_file {config_filename} does not exist.")
+                raise
     return args
 
 

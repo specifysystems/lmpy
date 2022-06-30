@@ -2,7 +2,7 @@
 import argparse
 
 from lmpy.matrix import Matrix
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Convert a CSV file of numerical values into a lmpy Matrix.'
@@ -29,7 +29,7 @@ def convert_csv_to_lmm(csv_filename, num_header_rows, num_header_cols):
                 csv_in, num_header_rows=num_header_rows, num_header_cols=num_header_cols
             )
     except FileNotFoundError:
-        raise FileNotFoundError(f"Input CSV file {csv_filename} does not exist.")
+        raise
     return mtx
 
 
@@ -66,10 +66,29 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.in_csv_filename, "CSV input"))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Provide a command-line tool for converting csvs to lmms."""
     parser = build_parser()
     args = _process_arguments(parser)
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     mtx = convert_csv_to_lmm(args.in_csv_filename, args.header_rows, args.header_cols)
     mtx.write(args.out_lmm_filename)
 

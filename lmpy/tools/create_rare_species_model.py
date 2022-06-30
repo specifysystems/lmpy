@@ -7,7 +7,7 @@ import numpy as np
 from osgeo import gdal, gdalconst, ogr, osr
 
 from lmpy.point import PointCsvReader
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = '''\
@@ -368,10 +368,25 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+    """
+    all_missing_inputs = test_files((args.point_csv_filename, "CSV data"))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Command-line interface for creating a rare species model."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
 
     # Read points
     points = read_points(

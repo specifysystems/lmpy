@@ -5,7 +5,7 @@ import numpy as np
 
 from lmpy.matrix import Matrix
 from lmpy.plots.map import create_stat_heatmap_matrix, plot_matrix
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Create a statistic heatmap image.'
@@ -104,10 +104,30 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.matrix_filename, "Matrix input"))
+    if args.mask_matrix is not None:
+        all_missing_inputs.extend(test_files((args.mask_matrix, "Mask Matrix")))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Provide a command-line tool for creating a point heatmap."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
 
     matrix = Matrix.load(args.matrix_filename)
     if args.mask_matrix is not None:

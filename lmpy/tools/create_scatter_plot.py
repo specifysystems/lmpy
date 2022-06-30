@@ -4,7 +4,7 @@ import json
 
 from lmpy.matrix import Matrix
 from lmpy.plots.scatter import create_scatter_plot
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Create a scatter plot for two matrix statistics.'
@@ -59,10 +59,28 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.matrix_filename, "Matrix input"))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Provide a command-line tool for creating a scatter plot."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
 
     data = Matrix.load(args.matrix_filename)
     col_headers = data.get_column_headers()

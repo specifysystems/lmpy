@@ -32,7 +32,7 @@ class SpeciesList(set):
             with open(filename, mode='rt') as in_file:
                 species = [line.replace('\n', '').strip() for line in in_file]
         except FileNotFoundError:
-            raise FileNotFoundError(f"Species List file {filename} does not exist.")
+            raise
         return SpeciesList(species)
 
     # .......................
@@ -50,7 +50,7 @@ class SpeciesList(set):
             with open(filename, mode='wt') as out_file:
                 for name in self:
                     out_file.write(f'{name}\n')
-        except OSError as e:
-            raise OSError(f"Unable to write to {filename}: {e.strerror}.")
-        except IOError as e:
-            raise IOError(f"Unable to write to {filename}: {e.strerror}.")
+        except OSError:
+            raise
+        except IOError:
+            raise

@@ -2,7 +2,7 @@
 import argparse
 
 from lmpy.matrix import Matrix
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Aggregate matrices.'
@@ -54,6 +54,23 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = []
+    for fn in args.input_matrix_filename:
+        errs = test_files((fn, "Matrix input"))
+        all_missing_inputs.extend(errs)
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Provide a command-line tool for aggregating matrices.
 
@@ -62,14 +79,16 @@ def cli():
     """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     out_matrix = None
     # input_matrices = [Matrix.load(fn) for fn in args.input_matrix_filename]
     input_matrices = []
-    try:
-        for fn in args.input_matrix_filename:
-            input_matrices.append(Matrix.load(fn))
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Input matrix file {fn} does not exist.")
+    for fn in args.input_matrix_filename:
+        input_matrices.append(Matrix.load(fn))
 
     if args.method == 'add':
         if args.ndim > 0:

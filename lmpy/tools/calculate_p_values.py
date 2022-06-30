@@ -9,7 +9,7 @@ from lmpy.statistics.significance import (
     PermutationTests,
     SignificanceMethod,
 )
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Calculate p-values for observed data compared with random.'
@@ -88,38 +88,51 @@ def build_parser():
 
 
 # .....................................................................................
-def cli():
-    """Provide a command-line tool for calculating p-values.
+def test_inputs(args):
+    """Test input data and configuration files for existence.
 
-    Raises:
-        FileNotFoundError: on missing observed_matrix file.
-        FileNotFoundError: on missing random_matrix file.
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
     """
+    all_missing_inputs = []
+    errs = test_files((args.observed_matrix, "Observed Matrix"))
+    all_missing_inputs.extend(errs)
+    for fn in args.random_matrix:
+        errs = test_files((fn, "Random Matrix"))
+        all_missing_inputs.extend(errs)
+    return all_missing_inputs
+
+
+# .....................................................................................
+def cli():
+    """Provide a command-line tool for calculating p-values."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     # Compare method
     if args.abs:
         compare_func = compare_absolute_values
     else:
         compare_func = compare_signed_values
     # Load observed matrix
-    try:
-        obs = Matrix.load(args.observed_matrix)
-    except FileNotFoundError:
-        raise FileNotFoundError(
-            f"Matrix file {args.observed_matrix} does not exist.")
+    obs = Matrix.load(args.observed_matrix)
+
     # Create running stats
     perm_testing = PermutationTests(obs, compare_fn=compare_func)
     # For each random matrix
     for rand_mtx_filename in args.random_matrix:
         # Load matrix
-        try:
-            rand_mtx = Matrix.load(rand_mtx_filename)
-        except FileNotFoundError:
-            raise FileNotFoundError(
-                f"Random Matrix file {rand_mtx_filename} does not exist.")
+        rand_mtx = Matrix.load(rand_mtx_filename)
         # Add to running stats
         perm_testing.add_permutation(rand_mtx)
+
     # Get p-values, scaled if desired
     p_values = perm_testing.get_p_values(num_iterations=args.num_permutations)
     # If correction, do it
