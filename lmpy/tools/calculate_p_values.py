@@ -97,12 +97,9 @@ def test_inputs(args):
     Returns:
         all_missing_inputs: Error messages for display on exit.
     """
-    all_missing_inputs = []
-    errs = test_files((args.observed_matrix, "Observed Matrix"))
-    all_missing_inputs.extend(errs)
+    all_missing_inputs = test_files((args.observed_matrix, "Observed Matrix"))
     for fn in args.random_matrix:
-        errs = test_files((fn, "Random Matrix"))
-        all_missing_inputs.extend(errs)
+        all_missing_inputs.extend(test_files((fn, "Random Matrix")))
     return all_missing_inputs
 
 

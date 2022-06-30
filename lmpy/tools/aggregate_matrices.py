@@ -85,10 +85,7 @@ def cli():
         exit('\n'.join(errs))
 
     out_matrix = None
-    # input_matrices = [Matrix.load(fn) for fn in args.input_matrix_filename]
-    input_matrices = []
-    for fn in args.input_matrix_filename:
-        input_matrices.append(Matrix.load(fn))
+    input_matrices = [Matrix.load(fn) for fn in args.input_matrix_filename]
 
     if args.method == 'add':
         if args.ndim > 0:

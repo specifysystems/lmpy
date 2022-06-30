@@ -96,7 +96,6 @@ def cli():
     """Provide a command-line interface to the wrangle species list tool.
 
     Raises:
-        FileNotFoundError: on missing wrangler_configuration_file.
         OSError: on failure to write to report_filename.
         IOError: on failure to write to report_filename.
     """
@@ -125,10 +124,10 @@ def cli():
         try:
             with open(args.report_filename, mode='wt') as report_out:
                 json.dump(report, report_out)
-        except OSError as e:
-            raise OSError(f"Unable to write to {args.report_filename}: {e.strerror}.")
-        except IOError as e:
-            raise IOError(f"Unable to write to {args.report_filename}: {e.strerror}.")
+        except OSError:
+            raise
+        except IOError:
+            raise
 
 
 # .....................................................................................

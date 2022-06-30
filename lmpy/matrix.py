@@ -119,7 +119,9 @@ class Matrix(np.ndarray):
             with open(filename, 'rb') as in_file:
                 return Matrix.load_flo(in_file)
         except FileNotFoundError:
-            raise FileNotFoundError(f"Matrix file {filename} does not exist.")
+            raise
+        except Exception:
+            raise
 
     # ...........................
     @classmethod
