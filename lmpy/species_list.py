@@ -24,9 +24,15 @@ class SpeciesList(set):
 
         Returns:
             SpeciesList: A species list loaded from a file.
+
+        Raises:
+            FileNotFoundError: on missing species list filename.
         """
-        with open(filename, mode='rt') as in_file:
-            species = [line.replace('\n', '').strip() for line in in_file]
+        try:
+            with open(filename, mode='rt') as in_file:
+                species = [line.replace('\n', '').strip() for line in in_file]
+        except FileNotFoundError:
+            raise
         return SpeciesList(species)
 
     # .......................
@@ -35,7 +41,16 @@ class SpeciesList(set):
 
         Args:
             filename (str): Path where the species list data should be written.
+
+        Raises:
+            OSError: on failure to write.
+            IOError: on failure to write.
         """
-        with open(filename, mode='wt') as out_file:
-            for name in self:
-                out_file.write(f'{name}\n')
+        try:
+            with open(filename, mode='wt') as out_file:
+                for name in self:
+                    out_file.write(f'{name}\n')
+        except OSError:
+            raise
+        except IOError:
+            raise

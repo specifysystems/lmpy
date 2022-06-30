@@ -3,7 +3,7 @@ import argparse
 
 from lmpy.plots.map import create_point_heatmap_matrix, plot_matrix
 from lmpy.point import PointCsvReader, PointDwcaReader
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Create a point map image.'
@@ -101,6 +101,26 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = []
+    if args.dwca is not None:
+        for dwca_fn in args.dwca:
+            all_missing_inputs.extend(test_files((dwca_fn, "DwCA file")))
+    if args.csv is not None:
+        for csv_fn, _, _, _ in args.csv:
+            all_missing_inputs.extend(test_files((csv_fn, "CSV file")))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Provide a command-line tool for creating a point heatmap.
 
@@ -109,6 +129,11 @@ def cli():
     """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     readers = []
     if args.dwca is not None:
         for dwca_fn in args.dwca:

@@ -111,9 +111,17 @@ class Matrix(np.ndarray):
 
         Returns:
             Matrix: The matrix read from the file.
+
+        Raises:
+            FileNotFoundError: on missing filename.
         """
-        with open(filename, 'rb') as in_file:
-            return Matrix.load_flo(in_file)
+        try:
+            with open(filename, 'rb') as in_file:
+                return Matrix.load_flo(in_file)
+        except FileNotFoundError:
+            raise
+        except Exception:
+            raise
 
     # ...........................
     @classmethod
@@ -533,9 +541,18 @@ class Matrix(np.ndarray):
 
         Args:
             filename (:obj:`str`): The file location to save to.
+
+        Raises:
+            OSError: on failure to write to filename.
+            IOError: on failure to write to filename.
         """
-        with open(filename, 'wb') as out_file:
-            self.save(out_file)
+        try:
+            with open(filename, 'wb') as out_file:
+                self.save(out_file)
+        except OSError as e:
+            raise OSError(f"Unable to write to {filename}: {e.strerror}.")
+        except IOError as e:
+            raise IOError(f"Unable to write to {filename}: {e.strerror}.")
 
     # ...........................
     def write_csv(self, flo, *slice_args):

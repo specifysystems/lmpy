@@ -10,7 +10,7 @@ from lmpy.data_preparation.occurrence_splitter import (
 )
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointDwcaReader
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
 
 
 # .....................................................................................
@@ -34,6 +34,24 @@ def build_parser():
         '--config_file',
         type=str,
         help='Configuration file containing script arguments.'
+    )
+    parser.add_argument(
+        '--log_filename',
+        '-l',
+        type=str,
+        help='A file location to write logging data.'
+    )
+    parser.add_argument(
+        '--log_console',
+        action='store_true',
+        default=False,
+        help='If provided, write log to console.'
+    )
+    parser.add_argument(
+        '-r',
+        '--report_filename',
+        type=str,
+        help='File location to write the wrangler report.'
     )
     parser.add_argument(
         '-m',
@@ -98,10 +116,52 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = []
+    if args.dwca:
+        for dwca_fn, wranglers_fn in args.dwca:
+            errs = test_files(
+                (dwca_fn, "DwCA input"),
+                (wranglers_fn, "Occurrence Wrangler configuration"))
+            all_missing_inputs.extend(errs)
+    if args.csv:
+        # For each csv file
+        for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
+            errs = test_files(
+                (csv_fn, "CSV data"),
+                (wranglers_fn, "Occurrence Wrangler configuration"))
+            all_missing_inputs.extend(errs)
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
-    """Command-line interface for splitting occurrence datasets."""
+    """Command-line interface for splitting occurrence datasets.
+
+    Raises:
+        FileNotFoundError: on missing wrangler file
+    """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
+
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
+    logger = get_logger(
+        'wrangle_occurrences',
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
 
     # Default key field is 'species_name'
     if args.key_field is None:
@@ -117,7 +177,7 @@ def cli():
         write_fields = args.out_field
 
     # Wrangler Factory
-    wrangler_factory = WranglerFactory()
+    wrangler_factory = WranglerFactory(logger=logger)
 
     # Initialize processor
     with OccurrenceSplitter(
@@ -130,16 +190,22 @@ def cli():
         if args.dwca:
             for dwca_fn, wranglers_fn in args.dwca:
                 reader = PointDwcaReader(dwca_fn)
-                with open(wranglers_fn, mode='rt') as in_json:
-                    wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                try:
+                    with open(wranglers_fn, mode='rt') as in_json:
+                        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                except Exception:
+                    raise
                 occurrence_processor.process_reader(reader, wranglers)
         if args.csv:
             # For each csv file
             for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
                 reader = PointCsvReader(csv_fn, sp_key, x_key, y_key)
                 with open(wranglers_fn, mode='rt') as in_json:
-                    wranglers = wrangler_factory.get_wranglers(json.load(in_json))
-                occurrence_processor.process_reader(reader, wranglers)
+                    try:
+                        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                    except Exception:
+                        raise
+                    occurrence_processor.process_reader(reader, wranglers)
         if args.species_list_filename:
             occurrence_processor.write_species_list(args.species_list_filename)
 

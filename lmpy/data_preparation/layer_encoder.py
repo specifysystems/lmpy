@@ -79,6 +79,12 @@ def _get_mean_value_method(nodata):
 
     Returns:
         Method: A function for getting the mean value of a window.
+
+    Todo:
+        This function often outputs the following:
+            RuntimeWarning: Mean of empty slice
+                window_mean = np.nanmean(window[np.where(window != nodata)])
+        Consider wrapping the warning if this is a non-problematic occurrence.
     """
     # ...............................
     def get_mean(window):

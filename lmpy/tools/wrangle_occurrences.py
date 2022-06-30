@@ -4,7 +4,7 @@ import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointCsvWriter
-from lmpy.tools._config_parser import _process_arguments, get_logger
+from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
 
 
 # .....................................................................................
@@ -135,10 +135,36 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.reader_filename, "Occurrence CSV input"))
+    all_missing_inputs.extend(
+        test_files((args.wrangler_configuration_file, "Wrangler configuration")))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
-    """A command-line interface to the tool."""
+    """A command-line interface to the tool.
+
+    Raises:
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
+    """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     logger = get_logger(
         'wrangle_occurrences',
         log_filename=args.log_filename,
@@ -147,9 +173,8 @@ def cli():
 
     # Get wranglers
     wrangler_factory = WranglerFactory(logger=logger)
-    wranglers = wrangler_factory.get_wranglers(
-        json.load(open(args.wrangler_config_filename, mode='rt'))
-    )
+    with open(args.wrangler_config_filename, mode='rt') as in_json:
+        wranglers = wrangler_factory.get_wranglers(json.load(in_json))
 
     # Get reader
     reader = PointCsvReader(
@@ -163,8 +188,13 @@ def cli():
 
     # If the output report was requested, write it
     if args.report_filename:
-        with open(args.report_filename, mode='wt') as out_file:
-            json.dump(report, out_file, indent=4)
+        try:
+            with open(args.report_filename, mode='wt') as out_file:
+                json.dump(report, out_file, indent=4)
+        except OSError:
+            raise
+        except IOError:
+            raise
 
 
 # .....................................................................................

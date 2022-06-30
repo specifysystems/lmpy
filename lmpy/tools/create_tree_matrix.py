@@ -4,7 +4,7 @@ import argparse
 import numpy as np
 
 from lmpy import Matrix, TreeWrapper
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 # .....................................................................................
@@ -119,10 +119,28 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.tree_filename, "Tree input"))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Main controlling method for script."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
 
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
     tree_mtx, node_heights, tip_lengths = encode_tree(tree)

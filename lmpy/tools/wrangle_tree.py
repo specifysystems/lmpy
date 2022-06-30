@@ -4,7 +4,7 @@ from copy import deepcopy
 import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
-from lmpy.tools._config_parser import _process_arguments, get_logger
+from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
 from lmpy.tree import TreeWrapper
 
 
@@ -82,18 +82,39 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.tree_filename, "Tree input"))
+    all_missing_inputs.extend(
+        test_files((args.wrangler_configuration_file, "Wrangler configuration")))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Command-line interface for the tool."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     logger = get_logger(
         'wrangle_tree',
         log_filename=args.log_filename,
         log_console=args.log_console
     )
     tree = TreeWrapper.get(path=args.tree_filename, schema=args.tree_schema)
+    wrangler_factory = WranglerFactory(logger=logger)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
-        wrangler_factory = WranglerFactory(logger=logger)
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
     wrangled_tree, report = wrangle_tree(tree, wranglers)
     wrangled_tree.write(path=args.out_tree_filename, schema=args.out_tree_schema)

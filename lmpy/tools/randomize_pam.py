@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from lmpy import Matrix
 from lmpy.randomize.grady import grady_randomize
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = '''\
@@ -50,10 +50,29 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.pam_filename, "PAM input"))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Function providing a command line interface to the tool."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     in_pam = Matrix.load(args.input_pam_filename)
     if isinstance(args.output_pam_filename, str):
         args.output_pam_filename = [args.output_pam_filename]

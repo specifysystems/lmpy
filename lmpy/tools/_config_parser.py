@@ -1,6 +1,7 @@
 """Module containing a tool for parsing a configuration file for argparse."""
 import json
 import logging
+import os.path
 import sys
 
 
@@ -16,6 +17,9 @@ def _process_arguments(parser, config_arg=None):
     Returns:
         argparse.Namespace: An augmented Namespace with any parameters specified in a
             configuration file.
+
+    Raises:
+        FileNotFoundError: on non-existent config_file.
     """
     # If positional arguments are not specified, we need to create dummy values so
     #     argparse doesn't fail.  To do that, we need to find where they should start
@@ -82,11 +86,14 @@ def _process_arguments(parser, config_arg=None):
     if config_arg is not None and hasattr(args, config_arg):
         config_filename = getattr(args, config_arg)
         if config_filename is not None:
-            with open(config_filename, mode='rt') as in_json:
-                config = json.load(in_json)
-                for k in config.keys():
-                    # Always replace existing values
-                    setattr(args, k, config[k])
+            try:
+                with open(config_filename, mode='rt') as in_json:
+                    config = json.load(in_json)
+                    for k in config.keys():
+                        # Always replace existing values
+                        setattr(args, k, config[k])
+            except FileNotFoundError:
+                raise
     return args
 
 
@@ -121,3 +128,19 @@ def get_logger(
         for handler in handlers:
             logger.addHandler(handler)
     return logger
+
+# .....................................................................................
+def test_files(*filename_filefunction):
+    """Get a logger object (or None) for the provided parameters.
+
+    Args:
+        filename_filefunction (str): One or more filename/filefunction tuples
+
+    Returns:
+        A message indicating missing files.  If all exist, the message is empty string.
+    """
+    err_msgs = []
+    for filename, filefunction in filename_filefunction:
+        if not os.path.exists(filename):
+            err_msgs.append(f"File {filename}, {filefunction}, does not exist.")
+    return err_msgs

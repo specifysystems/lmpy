@@ -6,6 +6,7 @@ import copy
 import csv
 import io
 import json
+import os
 import zipfile
 
 import defusedxml.ElementTree as ET
@@ -190,6 +191,9 @@ class PointCsvReader:
                 data.
             group_field (:obj:`str`): The name of the field to use for grouping points.
             encoding (str): The encoding to use when opening the file.
+
+        Raises:
+            FileNotFoundError: on missing filename.
         """
         self.filename = filename
         self.file = None
@@ -202,6 +206,8 @@ class PointCsvReader:
         self._next_points = []
         self._curr_val = None
         self.encoding = encoding
+        if not os.path.exists(self.filename):
+            raise FileNotFoundError(f"Point CSV file {self.filename} does not exist")
 
     # .......................
     def __enter__(self):
@@ -279,6 +285,7 @@ class PointCsvReader:
     def open(self):
         """Open the file and initialize."""
         self.file = open(self.filename, 'r', encoding=self.encoding)
+
         temp_lines = []
         try:
             for _ in range(3):
@@ -402,6 +409,9 @@ class PointDwcaReader:
             y_term (:obj:`str`): Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.
             geopoint_term (:obj:`str`): Geopoint term in the DWCA file.
                 Default is None.
+
+        Raises:
+            FileNotFoundError: on missing dwca_filename.
         """
         self.is_idigbio = False
         self.meta_filename = meta_filename
@@ -416,6 +426,9 @@ class PointDwcaReader:
         self.y_term = y_term
         self.geopoint_term = geopoint_term
         self.group_field = self.species_term
+        if not os.path.exists(self.archive_filename):
+            raise FileNotFoundError(
+                f"Darwin Core Archive {self.archive_filename} file does not exist.")
 
     # .......................
     def _get_species_name(self, point_dict):

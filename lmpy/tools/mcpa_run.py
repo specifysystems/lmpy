@@ -3,7 +3,7 @@ import argparse
 
 from lmpy.matrix import Matrix
 from lmpy.statistics.mcpa import mcpa
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Compute a single run of MCPA metric.'
@@ -38,10 +38,33 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.pam_filename, "PAM input"))
+    all_missing_inputs.extend(test_files((args.tree_matrix_filename, "Tree Matrix")))
+    all_missing_inputs.extend(
+        test_files((args.env_matrix_filename, "Environmental Matrix")))
+    all_missing_inputs.extend(
+        test_files((args.biogeo_matrix_filename, "Biogeographic Hypothesis Matrix")))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Provide a command-line tool for computing statistics."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
 
     pam = Matrix.load(args.pam_filename)
     tree_mtx = Matrix.load(args.tree_matrix_filename)

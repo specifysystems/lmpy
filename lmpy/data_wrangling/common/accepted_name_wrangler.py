@@ -68,16 +68,19 @@ class _AcceptedNameWrangler(_DataWrangler):
             map_write_interval (int): Update the name map output file after each set of
                 this many iterations.
             out_map_format (str): The format to write the names map (csv or json).
+
+        Raises:
+            FileNotFoundError: on missing name_map file
         """
-        if name_map is not None:
-            self._load_name_map(name_map)
-        else:
-            self.name_map = {}
         self._name_resolver = name_resolver
         self.out_name_map_filename = out_map_filename
         self.map_write_interval = map_write_interval
         self._updated_since_write = 0
         self.out_map_format = out_map_format
+        if name_map is not None:
+            self._load_name_map(name_map)
+        else:
+            self.name_map = {}
 
     # .......................
     def __del__(self):
@@ -108,6 +111,9 @@ class _AcceptedNameWrangler(_DataWrangler):
 
         Args:
             name_map (dict or str): A mapping dictionary or a filename with names.
+
+        Raises:
+            FileNotFoundError: on missing name_map file
         """
         if isinstance(name_map, dict):
             self.name_map = name_map
@@ -122,6 +128,8 @@ class _AcceptedNameWrangler(_DataWrangler):
                     for line in in_csv:
                         in_name, out_name = line.strip().split(',')
                         self.name_map[in_name] = out_name
+            except FileNotFoundError:
+                raise
 
     # .......................
     def resolve_names(self, names):
@@ -172,14 +180,29 @@ class _AcceptedNameWrangler(_DataWrangler):
             filename (str): A file location where the map should be written.
             output_format (str): The format to write the map, either 'csv' or 'json'.
             mode (str): How the file should be opened.
+
+        Raises:
+            OSError: on failure to write to filename.
+            IOError: on failure to write to filename.
         """
-        if output_format.lower() == 'json':
-            with open(filename, mode=mode) as out_json:
-                json.dump(self.name_map, out_json, indent=4)
-            self.log(f'Wrote {len(self.name_map)} names to {filename} as JSON')
-        else:
-            with open(filename, mode=mode) as out_csv:
-                out_csv.write('Name,Accepted\n')
-                for in_name, out_name in self.name_map.items():
-                    out_csv.write(f'{in_name},{out_name}\n')
-            self.log(f'Wrote {len(self.name_map)} names to {filename} as CSV')
+        if self.name_map:
+            if output_format.lower() == 'json':
+                try:
+                    with open(filename, mode=mode) as out_json:
+                        json.dump(self.name_map, out_json, indent=4)
+                    self.log(f'Wrote {len(self.name_map)} names to {filename} as JSON')
+                except OSError:
+                    raise
+                except IOError:
+                    raise
+            else:
+                try:
+                    with open(filename, mode=mode) as out_csv:
+                        out_csv.write('Name,Accepted\n')
+                        for in_name, out_name in self.name_map.items():
+                            out_csv.write(f'{in_name},{out_name}\n')
+                    self.log(f'Wrote {len(self.name_map)} names to {filename} as CSV')
+                except OSError:
+                    raise
+                except IOError:
+                    raise

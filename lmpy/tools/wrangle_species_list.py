@@ -5,7 +5,7 @@ import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.species_list import SpeciesList
-from lmpy.tools._config_parser import _process_arguments, get_logger
+from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
 
 
 DESCRIPTION = 'Perform various wrangle operations on a species list.'
@@ -75,10 +75,37 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files(
+        (args.in_species_list_filename, "Species List input"))
+    all_missing_inputs.extend(
+        test_files((args.wrangler_configuration_file, "Wrangler configuration")))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
-    """Provide a command-line interface to the wrangle species list tool."""
+    """Provide a command-line interface to the wrangle species list tool.
+
+    Raises:
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
+    """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     logger = get_logger(
         'wrangle_species_list',
         log_filename=args.log_filename,
@@ -86,16 +113,21 @@ def cli():
     )
 
     in_species_list = SpeciesList.from_file(args.in_species_list_filename)
+    wrangler_factory = WranglerFactory(logger=logger)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
-        wrangler_factory = WranglerFactory(logger=logger)
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
 
     wrangled_species_list, report = wrangle_species_list(in_species_list, wranglers)
     wrangled_species_list.write(args.out_species_list_filename)
 
     if args.report_filename is not None:
-        with open(args.report_filename, mode='wt') as report_out:
-            json.dump(report, report_out)
+        try:
+            with open(args.report_filename, mode='wt') as report_out:
+                json.dump(report, report_out)
+        except OSError:
+            raise
+        except IOError:
+            raise
 
 
 # .....................................................................................

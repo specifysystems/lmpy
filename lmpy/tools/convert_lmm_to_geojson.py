@@ -6,7 +6,7 @@ from lmpy.matrix import Matrix
 from lmpy.spatial.geojsonify import (
     geojsonify_matrix, geojsonify_matrix_with_shapefile,
 )
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Convert a lmpy Matrix to a GeoJSON file.'
@@ -62,10 +62,37 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.in_lmm_filename, "Matrix input"))
+    if args.shapefile_filename is not None:
+        errs = test_files((args.shapefile_filename, "Input shapefile"))
+        all_missing_inputs.extend(errs)
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
-    """Provide a command-line tool for converting LMM to GeoJSON."""
+    """Provide a command-line tool for converting LMM to GeoJSON.
+
+    Raises:
+        OSError: on failure to write to out_geojson_filename.
+        IOError: on failure to write to out_geojson_filename.
+    """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
     mtx = Matrix.load(args.in_lmm_filename)
     if args.shapefile_filename is not None:
         matrix_geojson = geojsonify_matrix_with_shapefile(
@@ -75,8 +102,13 @@ def cli():
         matrix_geojson = geojsonify_matrix(
             mtx, resolution=args.resolution, omit_values=args.omit_value
         )
-    with open(args.out_geojson_filename, mode='wt') as out_json:
-        json.dump(matrix_geojson, out_json)
+    try:
+        with open(args.out_geojson_filename, mode='wt') as out_json:
+            json.dump(matrix_geojson, out_json)
+    except OSError:
+        raise
+    except IOError:
+        raise
 
 
 # .....................................................................................
