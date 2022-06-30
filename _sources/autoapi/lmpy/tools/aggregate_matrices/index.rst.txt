@@ -35,4 +35,6 @@ Functions
 
    Provide a command-line tool for aggregating matrices.
 
+   :raises FileNotFoundError: on missing input_matrix_filename.
+
 

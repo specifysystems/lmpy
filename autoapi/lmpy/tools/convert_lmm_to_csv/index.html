@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.convert_lmm_to_csv &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.tools.convert_lmm_to_csv &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -129,6 +129,12 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mtx</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A lmpy matrix to convert to csv.</p></li>
 <li><p><strong>csv_filename</strong> (<em>str</em>) – The file location of the csv to convert.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>OSError</strong> – on failure to write to csv_filename.</p></li>
+<li><p><strong>IOError</strong> – on failure to write to csv_filename.</p></li>
 </ul>
 </dd>
 </dl>

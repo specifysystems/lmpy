@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.wrangle_species_list &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.tools.wrangle_species_list &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -83,7 +83,7 @@
 
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="k">import</span> <span class="n">WranglerFactory</span>
 <span class="kn">from</span> <span class="nn">lmpy.species_list</span> <span class="k">import</span> <span class="n">SpeciesList</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">test_files</span>
 
 
 <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;Perform various wrangle operations on a species list.&#39;</span>
@@ -153,10 +153,37 @@
 
 
 <span class="c1"># .....................................................................................</span>
+<span class="k">def</span> <span class="nf">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test input data and configuration files for existence.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        args: arguments pre-processed for this tool.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        all_missing_inputs: Error messages for display on exit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_missing_inputs</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">in_species_list_filename</span><span class="p">,</span> <span class="s2">&quot;Species List input&quot;</span><span class="p">))</span>
+    <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">wrangler_configuration_file</span><span class="p">,</span> <span class="s2">&quot;Wrangler configuration&quot;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">all_missing_inputs</span>
+
+
+<span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/wrangle_species_list/index.html#lmpy.tools.wrangle_species_list.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Provide a command-line interface to the wrangle species list tool.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Provide a command-line interface to the wrangle species list tool.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        OSError: on failure to write to report_filename.</span>
+<span class="sd">        IOError: on failure to write to report_filename.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="n">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
+
     <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span>
         <span class="s1">&#39;wrangle_species_list&#39;</span><span class="p">,</span>
         <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
@@ -164,16 +191,21 @@
     <span class="p">)</span>
 
     <span class="n">in_species_list</span> <span class="o">=</span> <span class="n">SpeciesList</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">in_species_list_filename</span><span class="p">)</span>
+    <span class="n">wrangler_factory</span> <span class="o">=</span> <span class="n">WranglerFactory</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">wrangler_configuration_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_json</span><span class="p">:</span>
-        <span class="n">wrangler_factory</span> <span class="o">=</span> <span class="n">WranglerFactory</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
         <span class="n">wranglers</span> <span class="o">=</span> <span class="n">wrangler_factory</span><span class="o">.</span><span class="n">get_wranglers</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_json</span><span class="p">))</span>
 
     <span class="n">wrangled_species_list</span><span class="p">,</span> <span class="n">report</span> <span class="o">=</span> <span class="n">wrangle_species_list</span><span class="p">(</span><span class="n">in_species_list</span><span class="p">,</span> <span class="n">wranglers</span><span class="p">)</span>
     <span class="n">wrangled_species_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_species_list_filename</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">report_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">report_out</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">report_out</span><span class="p">)</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">report_out</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">report_out</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">raise</span></div>
 
 
 <span class="c1"># .....................................................................................</span>

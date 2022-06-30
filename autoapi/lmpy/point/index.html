@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -391,6 +391,9 @@ data.</p></li>
 <li><p><strong>encoding</strong> (<em>str</em>) – The encoding to use when opening the file.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – on missing filename.</p>
+</dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.point.PointCsvReader.__enter__">
@@ -549,6 +552,9 @@ DEFAULT_SPECIES_TERM.</p></li>
 <li><p><strong>geopoint_term</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Geopoint term in the DWCA file.
 Default is None.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – on missing dwca_filename.</p>
 </dd>
 </dl>
 <dl class="py method">

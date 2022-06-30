@@ -35,4 +35,7 @@ Functions
 
    Provide a command-line tool for converting LMM to GeoJSON.
 
+   :raises OSError: on failure to write to out_geojson_filename.
+   :raises IOError: on failure to write to out_geojson_filename.
+
 

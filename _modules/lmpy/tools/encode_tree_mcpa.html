@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.encode_tree_mcpa &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.tools.encode_tree_mcpa &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -81,7 +81,7 @@
 
 <span class="kn">from</span> <span class="nn">lmpy.data_preparation.tree_encoder</span> <span class="k">import</span> <span class="n">TreeEncoder</span>
 <span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
 <span class="kn">from</span> <span class="nn">lmpy.tree</span> <span class="k">import</span> <span class="n">TreeWrapper</span>
 
 
@@ -123,10 +123,31 @@
 
 
 <span class="c1"># .....................................................................................</span>
+<span class="k">def</span> <span class="nf">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test input data and configuration files for existence.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        args: arguments pre-processed for this tool.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        all_missing_inputs: Error messages for display on exit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_missing_inputs</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">tree_filename</span><span class="p">,</span> <span class="s2">&quot;Tree input&quot;</span><span class="p">))</span>
+    <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">pam_filename</span><span class="p">,</span> <span class="s2">&quot;Matrix input&quot;</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">all_missing_inputs</span>
+
+
+<span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/encode_tree_mcpa/index.html#lmpy.tools.encode_tree_mcpa.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Provide a command-line tool for encoding a tree for MCPA.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="n">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
+
     <span class="n">tree</span> <span class="o">=</span> <span class="n">TreeWrapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">tree_filename</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">tree_schema</span><span class="p">)</span>
     <span class="n">pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pam_filename</span><span class="p">)</span>
     <span class="n">tree_encoder</span> <span class="o">=</span> <span class="n">TreeEncoder</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">pam</span><span class="p">)</span>

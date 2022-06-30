@@ -35,4 +35,6 @@ Functions
 
    Command-line interface for splitting occurrence datasets.
 
+   :raises FileNotFoundError: on missing wrangler file
+
 

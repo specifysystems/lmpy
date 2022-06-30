@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
@@ -126,6 +126,9 @@ this many iterations.</p></li>
 <li><p><strong>out_map_format</strong> (<em>str</em>) – The format to write the names map (csv or json).</p></li>
 </ul>
 </dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – on missing name_map file</p>
+</dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__">
@@ -145,6 +148,9 @@ this many iterations.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name_map</strong> (<em>dict</em><em> or </em><em>str</em>) – A mapping dictionary or a filename with names.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – on missing name_map file</p>
 </dd>
 </dl>
 </dd></dl>
@@ -176,6 +182,12 @@ this many iterations.</p></li>
 <li><p><strong>filename</strong> (<em>str</em>) – A file location where the map should be written.</p></li>
 <li><p><strong>output_format</strong> (<em>str</em>) – The format to write the map, either ‘csv’ or ‘json’.</p></li>
 <li><p><strong>mode</strong> (<em>str</em>) – How the file should be opened.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>OSError</strong> – on failure to write to filename.</p></li>
+<li><p><strong>IOError</strong> – on failure to write to filename.</p></li>
 </ul>
 </dd>
 </dl>

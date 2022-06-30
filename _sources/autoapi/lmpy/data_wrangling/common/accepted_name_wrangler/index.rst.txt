@@ -50,6 +50,8 @@ Functions
    :param out_map_format: The format to write the names map (csv or json).
    :type out_map_format: str
 
+   :raises FileNotFoundError: on missing name_map file
+
    .. py:method:: __del__(self)
 
       Destructor method, sync map to disk if needed.
@@ -63,6 +65,8 @@ Functions
 
       :param name_map: A mapping dictionary or a filename with names.
       :type name_map: dict or str
+
+      :raises FileNotFoundError: on missing name_map file
 
 
    .. py:method:: resolve_names(self, names)
@@ -86,6 +90,9 @@ Functions
       :type output_format: str
       :param mode: How the file should be opened.
       :type mode: str
+
+      :raises OSError: on failure to write to filename.
+      :raises IOError: on failure to write to filename.
 
 
 

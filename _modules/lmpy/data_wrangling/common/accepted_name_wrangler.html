@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -146,16 +146,19 @@
 <span class="sd">            map_write_interval (int): Update the name map output file after each set of</span>
 <span class="sd">                this many iterations.</span>
 <span class="sd">            out_map_format (str): The format to write the names map (csv or json).</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: on missing name_map file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">name_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_load_name_map</span><span class="p">(</span><span class="n">name_map</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span> <span class="o">=</span> <span class="n">name_resolver</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span> <span class="o">=</span> <span class="n">out_map_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">map_write_interval</span> <span class="o">=</span> <span class="n">map_write_interval</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_updated_since_write</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">out_map_format</span> <span class="o">=</span> <span class="n">out_map_format</span>
+        <span class="k">if</span> <span class="n">name_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_name_map</span><span class="p">(</span><span class="n">name_map</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="_AcceptedNameWrangler.__del__"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__">[docs]</a>    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -186,6 +189,9 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            name_map (dict or str): A mapping dictionary or a filename with names.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: on missing name_map file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="n">name_map</span>
@@ -199,7 +205,9 @@
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_csv</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">in_csv</span><span class="p">:</span>
                         <span class="n">in_name</span><span class="p">,</span> <span class="n">out_name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">in_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_name</span></div>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">in_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_name</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="k">raise</span></div>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="_AcceptedNameWrangler.resolve_names"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.resolve_names">[docs]</a>    <span class="k">def</span> <span class="nf">resolve_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
@@ -250,17 +258,32 @@
 <span class="sd">            filename (str): A file location where the map should be written.</span>
 <span class="sd">            output_format (str): The format to write the map, either &#39;csv&#39; or &#39;json&#39;.</span>
 <span class="sd">            mode (str): How the file should be opened.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            OSError: on failure to write to filename.</span>
+<span class="sd">            IOError: on failure to write to filename.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">output_format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">,</span> <span class="n">out_json</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Wrote {len(self.name_map)} names to </span><span class="si">{filename}</span><span class="s1"> as JSON&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_csv</span><span class="p">:</span>
-                <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Name,Accepted</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">in_name</span><span class="p">,</span> <span class="n">out_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{in_name}</span><span class="s1">,</span><span class="si">{out_name}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Wrote {len(self.name_map)} names to </span><span class="si">{filename}</span><span class="s1"> as CSV&#39;</span><span class="p">)</span></div></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">output_format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
+                        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">,</span> <span class="n">out_json</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Wrote {len(self.name_map)} names to </span><span class="si">{filename}</span><span class="s1"> as JSON&#39;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                    <span class="k">raise</span>
+                <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                    <span class="k">raise</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_csv</span><span class="p">:</span>
+                        <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Name,Accepted</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">in_name</span><span class="p">,</span> <span class="n">out_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{in_name}</span><span class="s1">,</span><span class="si">{out_name}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Wrote {len(self.name_map)} names to </span><span class="si">{filename}</span><span class="s1"> as CSV&#39;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                    <span class="k">raise</span>
+                <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                    <span class="k">raise</span></div></div>
 </pre></div>
 
            </div>

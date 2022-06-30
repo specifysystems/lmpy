@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -157,6 +157,12 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Method: A function for getting the mean value of a window.</span>
+
+<span class="sd">    Todo:</span>
+<span class="sd">        This function often outputs the following:</span>
+<span class="sd">            RuntimeWarning: Mean of empty slice</span>
+<span class="sd">                window_mean = np.nanmean(window[np.where(window != nodata)])</span>
+<span class="sd">        Consider wrapping the warning if this is a non-problematic occurrence.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># ...............................</span>
     <span class="k">def</span> <span class="nf">get_mean</span><span class="p">(</span><span class="n">window</span><span class="p">):</span>

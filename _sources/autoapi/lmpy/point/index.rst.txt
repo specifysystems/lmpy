@@ -233,6 +233,8 @@ Attributes
    :param encoding: The encoding to use when opening the file.
    :type encoding: str
 
+   :raises FileNotFoundError: on missing filename.
+
    .. py:method:: __enter__(self)
 
       Context manager magic method.
@@ -349,6 +351,8 @@ Attributes
    :param geopoint_term: Geopoint term in the DWCA file.
                          Default is None.
    :type geopoint_term: :obj:`str`
+
+   :raises FileNotFoundError: on missing dwca_filename.
 
    .. py:method:: __enter__(self)
 

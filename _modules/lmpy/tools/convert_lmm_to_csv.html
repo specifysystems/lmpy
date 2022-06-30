@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.convert_lmm_to_csv &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.tools.convert_lmm_to_csv &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -80,7 +80,7 @@
 <span class="kn">import</span> <span class="nn">argparse</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
 
 
 <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;Convert a lmpy Matrix to a CSV file with numerical values.&#39;</span>
@@ -93,9 +93,18 @@
 <span class="sd">    Args:</span>
 <span class="sd">        mtx (Matrix): A lmpy matrix to convert to csv.</span>
 <span class="sd">        csv_filename (str): The file location of the csv to convert.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        OSError: on failure to write to csv_filename.</span>
+<span class="sd">        IOError: on failure to write to csv_filename.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_out</span><span class="p">:</span>
-        <span class="n">mtx</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="n">csv_out</span><span class="p">)</span></div>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_out</span><span class="p">:</span>
+            <span class="n">mtx</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="n">csv_out</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="k">raise</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -119,10 +128,28 @@
 
 
 <span class="c1"># .....................................................................................</span>
+<span class="k">def</span> <span class="nf">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test input data and configuration files for existence.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        args: arguments pre-processed for this tool.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        all_missing_inputs: Error messages for display on exit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_missing_inputs</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">in_lmm_filename</span><span class="p">,</span> <span class="s2">&quot;Matrix input&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">all_missing_inputs</span>
+
+
+<span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/convert_lmm_to_csv/index.html#lmpy.tools.convert_lmm_to_csv.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Provide a command-line tool for converting lmms to csvs.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="n">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
     <span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">in_lmm_filename</span><span class="p">)</span>
     <span class="n">convert_lmm_to_csv</span><span class="p">(</span><span class="n">mtx</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">out_csv_filename</span><span class="p">)</span></div>
 

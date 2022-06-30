@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -84,6 +84,7 @@
 <span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">zipfile</span>
 
 <span class="kn">import</span> <span class="nn">defusedxml.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
@@ -268,6 +269,9 @@
 <span class="sd">                data.</span>
 <span class="sd">            group_field (:obj:`str`): The name of the field to use for grouping points.</span>
 <span class="sd">            encoding (str): The encoding to use when opening the file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: on missing filename.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
@@ -280,6 +284,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_next_points</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_curr_val</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Point CSV file </span><span class="si">{self.filename}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="PointCsvReader.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -357,6 +363,7 @@
 <div class="viewcode-block" id="PointCsvReader.open"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Open the file and initialize.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+
         <span class="n">temp_lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
@@ -480,6 +487,9 @@
 <span class="sd">            y_term (:obj:`str`): Y term in the DWCA file.  Defaults to DEFAULT_Y_TERM.</span>
 <span class="sd">            geopoint_term (:obj:`str`): Geopoint term in the DWCA file.</span>
 <span class="sd">                Default is None.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: on missing dwca_filename.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_idigbio</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_filename</span> <span class="o">=</span> <span class="n">meta_filename</span>
@@ -494,6 +504,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">y_term</span> <span class="o">=</span> <span class="n">y_term</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">geopoint_term</span> <span class="o">=</span> <span class="n">geopoint_term</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">group_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_term</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">&quot;Darwin Core Archive </span><span class="si">{self.archive_filename}</span><span class="s2"> file does not exist.&quot;</span><span class="p">)</span>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="PointDwcaReader._get_species_name"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader._get_species_name">[docs]</a>    <span class="k">def</span> <span class="nf">_get_species_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_dict</span><span class="p">):</span>

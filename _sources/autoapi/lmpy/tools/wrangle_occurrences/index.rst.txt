@@ -57,4 +57,7 @@ Functions
 
    A command-line interface to the tool.
 
+   :raises OSError: on failure to write to report_filename.
+   :raises IOError: on failure to write to report_filename.
+
 

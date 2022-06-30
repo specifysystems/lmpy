@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.matrix &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.matrix &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -189,9 +189,17 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Matrix: The matrix read from the file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: on missing filename.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_file</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load_flo</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_file</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load_flo</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span></div>
 
     <span class="c1"># ...........................</span>
     <span class="nd">@classmethod</span>
@@ -611,9 +619,18 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename (:obj:`str`): The file location to save to.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            OSError: on failure to write to filename.</span>
+<span class="sd">            IOError: on failure to write to filename.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unable to write to </span><span class="si">{filename}</span><span class="s2">: </span><span class="si">{e.strerror}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unable to write to </span><span class="si">{filename}</span><span class="s2">: </span><span class="si">{e.strerror}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
     <span class="c1"># ...........................</span>
 <div class="viewcode-block" id="Matrix.write_csv"><a class="viewcode-back" href="../../autoapi/lmpy/matrix/index.html#lmpy.matrix.Matrix.write_csv">[docs]</a>    <span class="k">def</span> <span class="nf">write_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flo</span><span class="p">,</span> <span class="o">*</span><span class="n">slice_args</span><span class="p">):</span>

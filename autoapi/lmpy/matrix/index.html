@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.matrix &mdash; Specify lmpy 3.1.21+15.g647ef78f documentation</title>
+  <title>lmpy.matrix &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -292,6 +292,9 @@ list: If axis is int, A list of headers for the specified axis.</p>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – on missing filename.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -474,6 +477,12 @@ the axes in the transposition. see: ndarray.transpose</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – The file location to save to.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>OSError</strong> – on failure to write to filename.</p></li>
+<li><p><strong>IOError</strong> – on failure to write to filename.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

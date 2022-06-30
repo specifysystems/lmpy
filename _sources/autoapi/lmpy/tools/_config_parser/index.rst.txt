@@ -20,6 +20,7 @@ Functions
 
    lmpy.tools._config_parser._process_arguments
    lmpy.tools._config_parser.get_logger
+   lmpy.tools._config_parser.test_files
 
 
 
@@ -39,6 +40,8 @@ Functions
                  configuration file.
    :rtype: argparse.Namespace
 
+   :raises FileNotFoundError: on non-existent config_file.
+
 
 .. py:function:: get_logger(logger_name, log_filename=None, log_console=False, log_level=logging.NOTSET)
 
@@ -55,5 +58,15 @@ Functions
 
    :returns: A logger object to use for logging information.
    :rtype: logging.Logger
+
+
+.. py:function:: test_files(*filename_filefunction)
+
+   Get a logger object (or None) for the provided parameters.
+
+   :param filename_filefunction: One or more filename/filefunction tuples
+   :type filename_filefunction: str
+
+   :returns: A message indicating missing files.  If all exist, the message is empty string.
 
 

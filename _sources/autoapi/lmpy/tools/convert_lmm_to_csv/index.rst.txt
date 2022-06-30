@@ -46,4 +46,7 @@ Functions
    :param csv_filename: The file location of the csv to convert.
    :type csv_filename: str
 
+   :raises OSError: on failure to write to csv_filename.
+   :raises IOError: on failure to write to csv_filename.
+
 

@@ -161,6 +161,8 @@ Classes
       :returns: The matrix read from the file.
       :rtype: Matrix
 
+      :raises FileNotFoundError: on missing filename.
+
 
    .. py:method:: load_csv(cls, flo, dtype=float, num_header_rows=0, num_header_cols=0)
       :classmethod:
@@ -296,6 +298,9 @@ Classes
 
       :param filename: The file location to save to.
       :type filename: :obj:`str`
+
+      :raises OSError: on failure to write to filename.
+      :raises IOError: on failure to write to filename.
 
 
    .. py:method:: write_csv(self, flo, *slice_args)

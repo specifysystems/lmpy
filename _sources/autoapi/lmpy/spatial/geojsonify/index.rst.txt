@@ -52,4 +52,6 @@ Functions
    :returns: A GeoJSON compatible dictionary.
    :rtype: dict
 
+   :raises FileNotFoundError: on missing grid_filename.
+
 

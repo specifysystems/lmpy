@@ -44,6 +44,8 @@ Classes
       :returns: A species list loaded from a file.
       :rtype: SpeciesList
 
+      :raises FileNotFoundError: on missing species list filename.
+
 
    .. py:method:: write(self, filename)
 
@@ -51,6 +53,9 @@ Classes
 
       :param filename: Path where the species list data should be written.
       :type filename: str
+
+      :raises OSError: on failure to write.
+      :raises IOError: on failure to write.
 
 
 

@@ -36,6 +36,9 @@ Functions
 
    Provide a command-line interface to the wrangle species list tool.
 
+   :raises OSError: on failure to write to report_filename.
+   :raises IOError: on failure to write to report_filename.
+
 
 .. py:function:: wrangle_species_list(species_list, wranglers)
 
