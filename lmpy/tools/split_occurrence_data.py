@@ -134,7 +134,7 @@ def test_inputs(args):
             all_missing_inputs.extend(errs)
     if args.csv:
         # For each csv file
-        for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
+        for csv_fn, wranglers_fn, _, _, _ in args.csv:
             errs = test_files(
                 (csv_fn, "CSV data"),
                 (wranglers_fn, "Occurrence Wrangler configuration"))
@@ -147,7 +147,7 @@ def cli():
     """Command-line interface for splitting occurrence datasets.
 
     Raises:
-        FileNotFoundError: on missing wrangler file
+        Exception: on failure to load wranglers
     """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')

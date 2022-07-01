@@ -114,6 +114,7 @@ class Matrix(np.ndarray):
 
         Raises:
             FileNotFoundError: on missing filename.
+            Exception: on unexpected matrix load error.
         """
         try:
             with open(filename, 'rb') as in_file:

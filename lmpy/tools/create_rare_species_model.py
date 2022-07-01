@@ -373,6 +373,9 @@ def test_inputs(args):
 
     Args:
         args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
     """
     all_missing_inputs = test_files((args.point_csv_filename, "CSV data"))
     return all_missing_inputs

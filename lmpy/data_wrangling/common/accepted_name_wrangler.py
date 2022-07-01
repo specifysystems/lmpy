@@ -68,9 +68,6 @@ class _AcceptedNameWrangler(_DataWrangler):
             map_write_interval (int): Update the name map output file after each set of
                 this many iterations.
             out_map_format (str): The format to write the names map (csv or json).
-
-        Raises:
-            FileNotFoundError: on missing name_map file
         """
         self._name_resolver = name_resolver
         self.out_name_map_filename = out_map_filename

@@ -129,6 +129,7 @@ def get_logger(
             logger.addHandler(handler)
     return logger
 
+
 # .....................................................................................
 def test_files(*filename_filefunction):
     """Get a logger object (or None) for the provided parameters.
