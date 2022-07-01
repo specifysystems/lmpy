@@ -220,7 +220,9 @@ def generate_temp_filename(request):
         Returns:
             str: A temporary filename.
         """
-        base_name = tempfile.NamedTemporaryFile().name
+        # Must close file-like-object
+        with tempfile.NamedTemporaryFile() as tmpf:
+            base_name = tmpf.name
         fn = f'{base_name}{suffix}'
         if wildcard_delete:
             delete_globs.append(f'{base_name}*')
