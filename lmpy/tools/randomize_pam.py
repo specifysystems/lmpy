@@ -59,7 +59,7 @@ def test_inputs(args):
     Returns:
         all_missing_inputs: Error messages for display on exit.
     """
-    all_missing_inputs = test_files((args.pam_filename, "PAM input"))
+    all_missing_inputs = test_files((args.input_pam_filename, "PAM input"))
     return all_missing_inputs
 
 
