@@ -50,8 +50,6 @@ Functions
    :param out_map_format: The format to write the names map (csv or json).
    :type out_map_format: str
 
-   :raises FileNotFoundError: on missing name_map file
-
    .. py:method:: __del__(self)
 
       Destructor method, sync map to disk if needed.

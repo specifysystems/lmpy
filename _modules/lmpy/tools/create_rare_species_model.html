@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.create_rare_species_model &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
+  <title>lmpy.tools.create_rare_species_model &mdash; Specify lmpy 3.1.21+36.g1c3a047e documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -208,8 +208,11 @@
 <span class="sd">        numpy.ndarray: Convex hull data converted to an array.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">buffered_convex_hull</span> <span class="o">=</span> <span class="n">convex_hull_geom</span><span class="o">.</span><span class="n">Buffer</span><span class="p">(</span><span class="n">buffer_distance</span><span class="p">,</span> <span class="n">num_quad_segs</span><span class="p">)</span>
-    <span class="n">tmp_shp_filename</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.shp&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
-    <span class="n">tmp_tif_filename</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+    <span class="c1"># Must close file-like-object</span>
+    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.shp&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf</span><span class="p">:</span>
+        <span class="n">tmp_shp_filename</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf2</span><span class="p">:</span>
+        <span class="n">tmp_tif_filename</span> <span class="o">=</span> <span class="n">tf2</span><span class="o">.</span><span class="n">name</span>
 
     <span class="n">shp_drv</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
 
@@ -451,6 +454,9 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        args: arguments pre-processed for this tool.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        all_missing_inputs: Error messages for display on exit.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">all_missing_inputs</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">point_csv_filename</span><span class="p">,</span> <span class="s2">&quot;CSV data&quot;</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">all_missing_inputs</span>

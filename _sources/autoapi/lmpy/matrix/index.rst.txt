@@ -162,6 +162,7 @@ Classes
       :rtype: Matrix
 
       :raises FileNotFoundError: on missing filename.
+      :raises Exception: on unexpected matrix load error.
 
 
    .. py:method:: load_csv(cls, flo, dtype=float, num_header_rows=0, num_header_cols=0)

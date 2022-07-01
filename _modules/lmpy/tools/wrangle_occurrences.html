@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.wrangle_occurrences &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
+  <title>lmpy.tools.wrangle_occurrences &mdash; Specify lmpy 3.1.21+36.g1c3a047e documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -224,7 +224,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">all_missing_inputs</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">reader_filename</span><span class="p">,</span> <span class="s2">&quot;Occurrence CSV input&quot;</span><span class="p">))</span>
     <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-        <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">wrangler_configuration_file</span><span class="p">,</span> <span class="s2">&quot;Wrangler configuration&quot;</span><span class="p">)))</span>
+        <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">wrangler_config_filename</span><span class="p">,</span> <span class="s2">&quot;Wrangler configuration&quot;</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">all_missing_inputs</span>
 
 

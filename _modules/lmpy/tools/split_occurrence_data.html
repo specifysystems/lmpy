@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.split_occurrence_data &mdash; Specify lmpy 3.1.21+28.g1ec988af documentation</title>
+  <title>lmpy.tools.split_occurrence_data &mdash; Specify lmpy 3.1.21+36.g1c3a047e documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -212,7 +212,7 @@
             <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">errs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">csv</span><span class="p">:</span>
         <span class="c1"># For each csv file</span>
-        <span class="k">for</span> <span class="n">csv_fn</span><span class="p">,</span> <span class="n">wranglers_fn</span><span class="p">,</span> <span class="n">sp_key</span><span class="p">,</span> <span class="n">x_key</span><span class="p">,</span> <span class="n">y_key</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">csv</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">csv_fn</span><span class="p">,</span> <span class="n">wranglers_fn</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">csv</span><span class="p">:</span>
             <span class="n">errs</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">csv_fn</span><span class="p">,</span> <span class="s2">&quot;CSV data&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">wranglers_fn</span><span class="p">,</span> <span class="s2">&quot;Occurrence Wrangler configuration&quot;</span><span class="p">))</span>
@@ -225,7 +225,7 @@
     <span class="sd">&quot;&quot;&quot;Command-line interface for splitting occurrence datasets.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        FileNotFoundError: on missing wrangler file</span>
+<span class="sd">        Exception: on failure to load wranglers</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
