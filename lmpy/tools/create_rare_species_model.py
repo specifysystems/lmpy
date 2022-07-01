@@ -130,8 +130,11 @@ def get_convex_hull_array(
         numpy.ndarray: Convex hull data converted to an array.
     """
     buffered_convex_hull = convex_hull_geom.Buffer(buffer_distance, num_quad_segs)
-    tmp_shp_filename = tempfile.NamedTemporaryFile(suffix='.shp', delete=True).name
-    tmp_tif_filename = tempfile.NamedTemporaryFile(suffix='.tif', delete=True).name
+    # Must close file-like-object
+    with tempfile.NamedTemporaryFile(suffix='.shp', delete=True) as tf:
+        tmp_shp_filename = tf.name
+    with tempfile.NamedTemporaryFile(suffix='.tif', delete=True) as tf2:
+        tmp_tif_filename = tf2.name
 
     shp_drv = ogr.GetDriverByName('ESRI Shapefile')
 
@@ -373,6 +376,9 @@ def test_inputs(args):
 
     Args:
         args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
     """
     all_missing_inputs = test_files((args.point_csv_filename, "CSV data"))
     return all_missing_inputs

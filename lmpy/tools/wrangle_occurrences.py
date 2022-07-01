@@ -146,7 +146,7 @@ def test_inputs(args):
     """
     all_missing_inputs = test_files((args.reader_filename, "Occurrence CSV input"))
     all_missing_inputs.extend(
-        test_files((args.wrangler_configuration_file, "Wrangler configuration")))
+        test_files((args.wrangler_config_filename, "Wrangler configuration")))
     return all_missing_inputs
 
 

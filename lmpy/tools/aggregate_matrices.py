@@ -72,11 +72,7 @@ def test_inputs(args):
 
 # .....................................................................................
 def cli():
-    """Provide a command-line tool for aggregating matrices.
-
-    Raises:
-        FileNotFoundError: on missing input_matrix_filename.
-    """
+    """Provide a command-line tool for aggregating matrices."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
     errs = test_inputs(args)

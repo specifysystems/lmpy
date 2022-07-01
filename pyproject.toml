@@ -7,3 +7,11 @@ paths = ["lmpy", "tests"]
 ignore_names = ["__module__", "__new__"]
 # make_whitelist = true
 min_confidence = 80
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::RuntimeWarning",
+    "ignore::DeprecationWarning",
+    # note the use of single quote below to denote "raw" strings in TOML
+    'ignore:Mean of empty slice:RuntimeWarning',
+    'ignore:the imp module is deprecated in favour of importlib:DeprecationWarning']
