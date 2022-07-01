@@ -10,8 +10,8 @@ min_confidence = 80
 
 [tool.pytest.ini_options]
 filterwarnings = [
-    "error",
     "ignore::RuntimeWarning",
+    "ignore::DeprecationWarning",
     # note the use of single quote below to denote "raw" strings in TOML
-    'ignore:Mean of empty slice:RuntimeWarning'
-]
+    'ignore:Mean of empty slice:RuntimeWarning',
+    'ignore:the imp module is deprecated in favour of importlib:DeprecationWarning']
