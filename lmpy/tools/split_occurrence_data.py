@@ -121,6 +121,8 @@ def cli():
 
     Raises:
         FileNotFoundError: on missing wrangler file
+        Exception: on failure to load wrangler from wrangler file for DwCA data
+        Exception: on failure to load wrangler from wrangler file for CSV data
     """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
@@ -164,10 +166,12 @@ def cli():
                     reader = PointDwcaReader(dwca_fn)
                     try:
                         with open(wranglers_fn, mode='rt') as in_json:
-                            wranglers = wrangler_factory.get_wranglers(json.load(in_json))
+                            wranglers = wrangler_factory.get_wranglers(
+                                json.load(in_json))
                     except FileNotFoundError as e:
-                        raise FileNotFoundError(f"Missing file specified in wrangler {wranglers_fn}: {e}")
-                    except:
+                        raise FileNotFoundError(
+                            f"Missing file specified in wrangler {wranglers_fn}: {e}")
+                    except Exception:
                         raise
                     occurrence_processor.process_reader(reader, wranglers)
                 else:
@@ -183,9 +187,11 @@ def cli():
                     reader = PointCsvReader(csv_fn, sp_key, x_key, y_key)
                     with open(wranglers_fn, mode='rt') as in_json:
                         try:
-                            wranglers = wrangler_factory.get_wranglers(json.load(in_json))
-                        except FileNotFoundError as e:
-                            exit(f"Missing file specified in wrangler {wranglers_fn}: {e}")
+                            wranglers = wrangler_factory.get_wranglers(
+                                json.load(in_json))
+                        except FileNotFoundError:
+                            exit(
+                                f"Missing file specified in wrangler {wranglers_fn}")
                         except Exception:
                             raise
                     occurrence_processor.process_reader(reader, wranglers)

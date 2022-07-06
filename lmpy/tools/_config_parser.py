@@ -116,6 +116,7 @@ def get_logger(
     Returns:
         logging.Logger: A logger object to use for logging information.
     """
+    logger = None
     handlers = []
     if log_filename is not None:
         handlers.append(logging.FileHandler(log_filename))
@@ -129,6 +130,7 @@ def get_logger(
             logger.addHandler(handler)
         logger.propagate = False
     return logger
+
 
 # .....................................................................................
 def test_files(*filename_filefunction):
