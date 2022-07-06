@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.1.21+36.g1c3a047e documentation</title>
+  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.1.21+42.g366129cd documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -78,6 +78,7 @@
   <h1>Source code for lmpy.data_preparation.occurrence_splitter</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing functions for splitting occurrence data.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">INFO</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointCsvWriter</span>
 
@@ -156,6 +157,7 @@
         <span class="n">writer_filename_func</span><span class="p">,</span>
         <span class="n">write_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">max_writers</span><span class="o">=</span><span class="n">DEFAULT_MAX_WRITERS</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor.</span>
 
@@ -169,6 +171,7 @@
 <span class="sd">                use all fields in the first output Point object.</span>
 <span class="sd">            max_writers (int): The maximum number of open writers (files) at any given</span>
 <span class="sd">                time.</span>
+<span class="sd">            logger (logging.Logger): An optional logger to use for logging output.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_writer_key</span> <span class="o">=</span> <span class="n">writer_key_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_writer_filename</span> <span class="o">=</span> <span class="n">writer_filename_func</span>
@@ -176,6 +179,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">max_writers</span> <span class="o">=</span> <span class="n">max_writers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">writers</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">seen_taxa</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="OccurrenceSplitter.__enter__"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -241,7 +245,11 @@
         <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">wrangler</span> <span class="ow">in</span> <span class="n">wranglers</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
+                    <span class="n">in_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
                     <span class="n">points</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">wrangle_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                        <span class="n">f</span><span class="s2">&quot;Wrangle </span><span class="si">{in_count}</span><span class="s2"> points with </span><span class="si">{wrangler.name}</span><span class="s2"> from&quot;</span>
+                        <span class="o">+</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{reader.filename}</span><span class="s2"> resulting in {len(points)} points&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">write_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="n">reader</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
@@ -271,7 +279,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">species_list_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">species_out</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seen_taxa</span><span class="p">):</span>
-                <span class="n">species_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{sp}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+                <span class="n">species_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{sp}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+    <span class="c1"># ........................</span>
+<div class="viewcode-block" id="OccurrenceSplitter.log"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/occurrence_splitter/index.html#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Log a message.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            msg (str): A message to write to the logger.</span>
+<span class="sd">            log_level (int): A level to use when logging the message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">log_level</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="n">msg</span><span class="p">)</span></div></div>
 
 
 <span class="c1"># .....................................................................................</span>

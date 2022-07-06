@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.minimum_points_wrangler &mdash; Specify lmpy 3.1.21+36.g1c3a047e documentation</title>
+  <title>lmpy.data_wrangling.occurrence.minimum_points_wrangler &mdash; Specify lmpy 3.1.21+42.g366129cd documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -119,12 +119,19 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list of Point: Either an empty list or all of the points passed in.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">spname</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">species_name</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">spname</span> <span class="o">=</span> <span class="s2">&quot;unable to retrieve species name&quot;</span>
+
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum_count</span><span class="p">:</span>
             <span class="c1"># Enough points, so all pass</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_pass_condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_pass_condition</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Minimum points passed by {len(points)} for </span><span class="si">{spname}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Not enough points to all fail</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_pass_condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_fail_condition</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Minimum points failed by {len(points)} for </span><span class="si">{spname}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># Call parent class wrangle_points function</span>
         <span class="k">return</span> <span class="n">_OccurrenceDataWrangler</span><span class="o">.</span><span class="n">wrangle_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span></div></div>

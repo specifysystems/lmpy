@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+36.g1c3a047e documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+42.g366129cd documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -223,11 +223,15 @@
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">resolved_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Resolved name </span><span class="si">{name}</span><span class="s1"> to </span><span class="si">{self.name_map[name]}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="c1"># Do not log if name is identical</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Resolved name </span><span class="si">{name}</span><span class="s1"> to </span><span class="si">{self.name_map[name]}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">unmatched_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-                <span class="n">resolved_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not resolve name </span><span class="si">{name}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="c1"># Action on first instance of unmatched name</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unmatched_names</span><span class="p">:</span>
+                    <span class="n">unmatched_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not resolve name </span><span class="si">{name}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="n">resolved_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># If we have a name resolver and names to resolve, do it</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">unmatched_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>

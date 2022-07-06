@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.wrangle_occurrences &mdash; Specify lmpy 3.1.21+36.g1c3a047e documentation</title>
+  <title>lmpy.tools.wrangle_occurrences &mdash; Specify lmpy 3.1.21+42.g366129cd documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -79,6 +79,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;This tool cleans occurrence records according to the wranglers specified.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="k">import</span> <span class="n">WranglerFactory</span>
 <span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointCsvReader</span><span class="p">,</span> <span class="n">PointCsvWriter</span>
@@ -129,10 +130,13 @@
             <span class="n">wrangler_name</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">name</span>
             <span class="c1"># If there are points, wrangle them</span>
             <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
-                <span class="n">tmp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+                <span class="n">in_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
                 <span class="n">sp_name</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">species_name</span>
                 <span class="n">points</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">wrangle_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-                <span class="n">log_msg</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{wrangler_name}</span><span class="s1"> removed {tmp - len(points)} </span><span class="si">{sp_name}</span><span class="s1"> points&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">in_count</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">log_msg</span><span class="p">(</span>
+                        <span class="n">f</span><span class="s2">&quot;</span><span class="si">{wrangler_name}</span><span class="s2"> removed {in_count - len(points)} </span><span class="si">{sp_name}</span><span class="s2">&quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot; points&quot;</span><span class="p">)</span>
         <span class="c1"># If any points are left, write them</span>
         <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
             <span class="n">report</span><span class="p">[</span><span class="s1">&#39;output_records&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
@@ -243,11 +247,14 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
         <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
 
+    <span class="n">script_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span>
-        <span class="s1">&#39;wrangle_occurrences&#39;</span><span class="p">,</span>
+        <span class="n">script_name</span><span class="p">,</span>
         <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
         <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
     <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">INFO</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">INFO</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;Starting </span><span class="si">{script_name}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Get wranglers</span>
     <span class="n">wrangler_factory</span> <span class="o">=</span> <span class="n">WranglerFactory</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>

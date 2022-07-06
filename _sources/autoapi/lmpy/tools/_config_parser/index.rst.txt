@@ -43,7 +43,7 @@ Functions
    :raises FileNotFoundError: on non-existent config_file.
 
 
-.. py:function:: get_logger(logger_name, log_filename=None, log_console=False, log_level=logging.NOTSET)
+.. py:function:: get_logger(logger_name, log_filename=None, log_console=False, log_level=logging.DEBUG)
 
    Get a logger object (or None) for the provided parameters.
 
