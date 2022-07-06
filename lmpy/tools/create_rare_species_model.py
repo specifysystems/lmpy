@@ -7,7 +7,7 @@ import numpy as np
 from osgeo import gdal, gdalconst, ogr, osr
 
 from lmpy.point import PointCsvReader
-from lmpy.tools._config_parser import _process_arguments
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = '''\
@@ -130,8 +130,11 @@ def get_convex_hull_array(
         numpy.ndarray: Convex hull data converted to an array.
     """
     buffered_convex_hull = convex_hull_geom.Buffer(buffer_distance, num_quad_segs)
-    tmp_shp_filename = tempfile.NamedTemporaryFile(suffix='.shp', delete=True).name
-    tmp_tif_filename = tempfile.NamedTemporaryFile(suffix='.tif', delete=True).name
+    # Must close file-like-object
+    with tempfile.NamedTemporaryFile(suffix='.shp', delete=True) as tf:
+        tmp_shp_filename = tf.name
+    with tempfile.NamedTemporaryFile(suffix='.tif', delete=True) as tf2:
+        tmp_tif_filename = tf2.name
 
     shp_drv = ogr.GetDriverByName('ESRI Shapefile')
 
@@ -368,10 +371,28 @@ def build_parser():
 
 
 # .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_missing_inputs = test_files((args.point_csv_filename, "CSV data"))
+    return all_missing_inputs
+
+
+# .....................................................................................
 def cli():
     """Command-line interface for creating a rare species model."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
 
     # Read points
     points = read_points(

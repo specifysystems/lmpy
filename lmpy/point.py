@@ -550,6 +550,8 @@ class PointDwcaReader:
                 pass
             except StopIteration:
                 more_rows = False
+            except ValueError:
+                pass
             except csv.Error:
                 pass
 
@@ -573,6 +575,11 @@ class PointDwcaReader:
         # If core element is missing (iDigBio) look in extensions
         if core_element is None:
             self.is_idigbio = True
+            # Set spatial values for iDigBio if not provided
+            if self.geopoint_term is None:
+                self.geopoint_term = 'geoPoint'
+                self.x_term = 'lon'
+                self.y_term = 'lat'
             for extension_el in root_element.findall(EXTENSION_TAG):
                 if (
                         core_element is None
