@@ -170,7 +170,8 @@ class OccurrenceSplitter:
                     in_count = len(points)
                     points = wrangler.wrangle_points(points)
                     self.log(
-                        f"Wrangle {in_count} points with {wrangler.name} from {reader.filename} for {len(points)} points")
+                        f"Wrangle {in_count} points with {wrangler.name} from"
+                        + f"{reader.filename} resulting in {len(points)} points")
             if points:
                 self.write_points(points)
         reader.close()

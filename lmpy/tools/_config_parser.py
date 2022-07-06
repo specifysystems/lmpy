@@ -103,7 +103,7 @@ def get_logger(
     logger_name,
     log_filename=None,
     log_console=False,
-    log_level=logging.NOTSET
+    log_level=logging.DEBUG
 ):
     """Get a logger object (or None) for the provided parameters.
 
@@ -116,18 +116,18 @@ def get_logger(
     Returns:
         logging.Logger: A logger object to use for logging information.
     """
-    logger = None
     handlers = []
-    if log_filename is not None or log_console:
+    if log_filename is not None:
         handlers.append(logging.FileHandler(log_filename))
     if log_console:
         handlers.append(logging.StreamHandler(stream=sys.stdout))
     if len(handlers) > 0:
-        logging.basicConfig(level=logging.DEBUG, handlers=handlers)
-        logging.root.setLevel(log_level)
         logger = logging.getLogger(logger_name)
+        logger.setLevel(logging.DEBUG)
         for handler in handlers:
+            handler.setLevel(log_level)
             logger.addHandler(handler)
+        logger.propagate = False
     return logger
 
 # .....................................................................................

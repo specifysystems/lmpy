@@ -150,6 +150,7 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
+    logger.log(f"Starting {file}")
 
     # Get wranglers
     wrangler_factory = WranglerFactory(logger=logger)

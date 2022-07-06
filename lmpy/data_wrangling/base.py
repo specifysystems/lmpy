@@ -53,14 +53,19 @@ class _DataWrangler:
             log_level (int): A level to use when logging the message.
         """
         if self.logger is not None:
-            log_func = {
-                logging.DEBUG: self.logger.debug,
-                logging.INFO: self.logger.info,
-                logging.WARNING: self.logger.warning,
-                logging.ERROR: self.logger.error,
-                logging.CRITICAL: self.logger.critical,
-            }
-            if log_level in log_func.keys():
-                log_func[log_level](self.name + ': ' + msg)
-            else:
-                self.logger.log(log_level, self.name + ': ' + msg)
+            # wrangler_message = self.name + ': ' + msg
+            wrangler_message = 'test_dupes: ' + msg
+            print("Printing", wrangler_message, f"Propagate is {self.logger.propagate}; {len(self.logger.handlers)} handlers", )
+            self.logger.log(log_level, wrangler_message)
+            # log_func = {
+            #     logging.DEBUG: self.logger.debug,
+            #     logging.INFO: self.logger.info,
+            #     logging.WARNING: self.logger.warning,
+            #     logging.ERROR: self.logger.error,
+            #     logging.CRITICAL: self.logger.critical,
+            # }
+            # wrangler_message = self.name + ': ' + msg
+            # if log_level in log_func.keys():
+            #     log_func[log_level](wrangler_message)
+            # else:
+            #     self.logger.log(log_level, wrangler_message)
