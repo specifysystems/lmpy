@@ -1,6 +1,7 @@
 """Split occurrence data files into groups for processing."""
 import argparse
 import json
+import os
 
 from lmpy.data_preparation.occurrence_splitter import (
     DEFAULT_MAX_WRITERS,
@@ -120,14 +121,13 @@ def cli():
     """Command-line interface for splitting occurrence datasets.
 
     Raises:
-        FileNotFoundError: on missing wrangler file
-        Exception: on failure to load wrangler from wrangler file for DwCA data
-        Exception: on failure to load wrangler from wrangler file for CSV data
+        Exception: on failure to load wrangler from wrangler file for DwCA or CSV data
     """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     logger = get_logger(
-        'split_occurrences',
+        script_name,
         log_filename=args.log_filename,
         log_console=args.log_console
     )
@@ -169,7 +169,7 @@ def cli():
                             wranglers = wrangler_factory.get_wranglers(
                                 json.load(in_json))
                     except FileNotFoundError as e:
-                        raise FileNotFoundError(
+                        exit(
                             f"Missing file specified in wrangler {wranglers_fn}: {e}")
                     except Exception:
                         raise

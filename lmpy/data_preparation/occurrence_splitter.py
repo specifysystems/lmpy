@@ -1,6 +1,6 @@
 """Module containing functions for splitting occurrence data."""
 import os
-import logging
+from logging import INFO
 
 from lmpy.point import PointCsvWriter
 
@@ -204,7 +204,7 @@ class OccurrenceSplitter:
                 species_out.write(f'{sp}\n')
 
     # ........................
-    def log(self, msg, log_level=logging.INFO):
+    def log(self, msg, log_level=INFO):
         """Log a message.
 
         Args:
@@ -212,18 +212,7 @@ class OccurrenceSplitter:
             log_level (int): A level to use when logging the message.
         """
         if self.logger is not None:
-            # self.logger.log(log_level, self.__class__.__name__ + ': ' + msg)
-            log_func = {
-                logging.DEBUG: self.logger.debug,
-                logging.INFO: self.logger.info,
-                logging.WARNING: self.logger.warning,
-                logging.ERROR: self.logger.error,
-                logging.CRITICAL: self.logger.critical,
-            }
-            if log_level in log_func.keys():
-                log_func[log_level](self.__class__.__name__ + ': ' + msg)
-            else:
-                self.logger.log(log_level, self.__class__.__name__ + ': ' + msg)
+            self.logger.log(log_level, self.__class__.__name__ + ': ' + msg)
 
 
 # .....................................................................................
