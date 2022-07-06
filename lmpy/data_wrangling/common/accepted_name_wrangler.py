@@ -145,11 +145,15 @@ class _AcceptedNameWrangler(_DataWrangler):
         for name in names:
             if name in self.name_map.keys():
                 resolved_names[name] = self.name_map[name]
-                self.log(f'Resolved name {name} to {self.name_map[name]}')
+                # Do not log if name is identical
+                if name != self.name_map[name]:
+                    self.log(f'Resolved name {name} to {self.name_map[name]}')
             else:
-                unmatched_names.append(name)
-                resolved_names[name] = None
-                self.log(f'Could not resolve name {name}')
+                # Action on first instance of unmatched name
+                if name not in unmatched_names:
+                    unmatched_names.append(name)
+                    self.log(f'Could not resolve name {name}')
+                    resolved_names[name] = None
 
         # If we have a name resolver and names to resolve, do it
         if self._name_resolver is not None and len(unmatched_names) > 0:

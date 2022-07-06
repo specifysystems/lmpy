@@ -41,12 +41,19 @@ class MinimumPointsFilter(_OccurrenceDataWrangler):
         Returns:
             list of Point: Either an empty list or all of the points passed in.
         """
+        try:
+            spname = points[0].species_name
+        except Exception:
+            spname = "unable to retrieve species name"
+
         if len(points) >= self.minimum_count:
             # Enough points, so all pass
             self._pass_condition = self._get_all_pass_condition()
+            self.log(f"Minimum points passed by {len(points)} for {spname}")
         else:
             # Not enough points to all fail
             self._pass_condition = self._get_all_fail_condition()
+            self.log(f"Minimum points failed by {len(points)} for {spname}")
 
         # Call parent class wrangle_points function
         return _OccurrenceDataWrangler.wrangle_points(self, points)

@@ -1,6 +1,7 @@
 """Split occurrence data files into groups for processing."""
 import argparse
 import json
+import os
 
 from lmpy.data_preparation.occurrence_splitter import (
     DEFAULT_MAX_WRITERS,
@@ -158,7 +159,7 @@ def cli():
         exit('\n'.join(errs))
 
     logger = get_logger(
-        'wrangle_occurrences',
+        script_name,
         log_filename=args.log_filename,
         log_console=args.log_console
     )
@@ -185,10 +186,12 @@ def cli():
         writer_filename_func,
         write_fields=write_fields,
         max_writers=args.max_open_writers,
+        logger=logger
     ) as occurrence_processor:
         # For each dwca file
         if args.dwca:
             for dwca_fn, wranglers_fn in args.dwca:
+
                 reader = PointDwcaReader(dwca_fn)
                 try:
                     with open(wranglers_fn, mode='rt') as in_json:

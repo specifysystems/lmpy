@@ -1,6 +1,7 @@
 """This tool cleans occurrence records according to the wranglers specified."""
 import argparse
 import json
+import os.path
 
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.point import PointCsvReader, PointCsvWriter
@@ -51,10 +52,13 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
             wrangler_name = wrangler.name
             # If there are points, wrangle them
             if points:
-                tmp = len(points)
+                in_count = len(points)
                 sp_name = points[0].species_name
                 points = wrangler.wrangle_points(points)
-                log_msg(f'{wrangler_name} removed {tmp - len(points)} {sp_name} points')
+                if in_count - len(points) > 0:
+                    log_msg(
+                        f"{wrangler_name} removed {in_count - len(points)} {sp_name}"
+                        + " points")
         # If any points are left, write them
         if points:
             report['output_records'] += len(points)
@@ -165,11 +169,14 @@ def cli():
         print("Errors, exiting program")
         exit('\n'.join(errs))
 
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     logger = get_logger(
-        'wrangle_occurrences',
+        script_name,
         log_filename=args.log_filename,
         log_console=args.log_console
     )
+    from logging import INFO
+    logger.log(INFO, f"Starting {script_name}")
 
     # Get wranglers
     wrangler_factory = WranglerFactory(logger=logger)

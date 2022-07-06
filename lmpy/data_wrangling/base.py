@@ -53,14 +53,4 @@ class _DataWrangler:
             log_level (int): A level to use when logging the message.
         """
         if self.logger is not None:
-            log_func = {
-                logging.DEBUG: self.logger.debug,
-                logging.INFO: self.logger.info,
-                logging.WARNING: self.logger.warning,
-                logging.ERROR: self.logger.error,
-                logging.CRITICAL: self.logger.critical,
-            }
-            if log_level in log_func.keys():
-                log_func[log_level](self.name + ': ' + msg)
-            else:
-                self.logger.log(log_level, self.name + ': ' + msg)
+            self.logger.log(log_level, self.name + ': ' + msg)
