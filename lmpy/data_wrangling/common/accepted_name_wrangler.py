@@ -6,6 +6,38 @@ import urllib
 
 from lmpy.data_wrangling.base import _DataWrangler
 
+# .....................................................................................
+def _resolve_gbif_synonym_match(match_response, wait_time=1):
+    """Resolve names using GBIF's taxonomic name resolution service.
+
+    Args:
+        names (list of str): A list of name strings to resolve.
+        wait_time (number): A number of seconds to wait after each request to avoid
+            server ire.
+
+    Returns:
+        dict: Input names are keys and resolved name or None are values.
+    """
+    name_str = None
+    if wait_time is not None:
+        time.sleep(wait_time)
+    if 'usageKey' in match_response.keys():
+        taxon_key = match_response['usageKey']
+        # Get name
+        url = f'http://api.gbif.org/v1/species/{taxon_key}'
+        try:
+            response = requests.get(url).json()
+        except Exception as err:
+            print(err)
+            print('Sleep and try again...')
+            time.sleep(60)
+            response = requests.get(url).json()
+        if ('taxonomicStatus' in response.keys()
+                and response['taxonomicStatus'].lower()  == 'accepted'):
+            name_str = response['canonicalName']
+
+    return name_str
+
 
 # .....................................................................................
 def resolve_names_gbif(names, wait_time=1):
@@ -32,13 +64,16 @@ def resolve_names_gbif(names, wait_time=1):
             print('Sleep and try again...')
             time.sleep(60)
             response = requests.get(url).json()
-        if 'status' in response.keys() and response['status'].lower() in (
-            'accepted',
-            'synonym'
-        ):
-            resolved_names[name_str] = response['canonicalName']
-        else:
-            resolved_names[name_str] = None
+
+        resolved_names[name_str] = None
+        if 'status' in response.keys():
+            if response['status'].lower() == 'accepted':
+                resolved_names[name_str] = response['canonicalName']
+            # TODO: Discuss: query returned usageKey of synonym for accepted taxa
+            elif  response['status'].lower() == 'synonym':
+                canonical = _resolve_gbif_synonym_match(response, wait_time=wait_time)
+                resolved_names[name_str] = canonical
+
         if wait_time is not None:
             time.sleep(wait_time)
 
@@ -145,14 +180,11 @@ class _AcceptedNameWrangler(_DataWrangler):
         for name in names:
             if name in self.name_map.keys():
                 resolved_names[name] = self.name_map[name]
-                # Do not log if name is identical
-                if name != self.name_map[name]:
-                    self.log(f'Resolved name {name} to {self.name_map[name]}')
+
             else:
                 # Action on first instance of unmatched name
                 if name not in unmatched_names:
                     unmatched_names.append(name)
-                    self.log(f'Could not resolve name {name}')
                     resolved_names[name] = None
 
         # If we have a name resolver and names to resolve, do it
