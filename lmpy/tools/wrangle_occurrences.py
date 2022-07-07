@@ -1,6 +1,7 @@
 """This tool cleans occurrence records according to the wranglers specified."""
 import argparse
 import json
+from logging import INFO
 import os.path
 
 from lmpy.data_wrangling.factory import WranglerFactory
@@ -175,7 +176,6 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
-    from logging import INFO
     logger.log(INFO, f"Starting {script_name}")
 
     # Get wranglers

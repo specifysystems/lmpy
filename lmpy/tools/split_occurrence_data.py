@@ -158,6 +158,7 @@ def cli():
         print("Errors, exiting program")
         exit('\n'.join(errs))
 
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     logger = get_logger(
         script_name,
         log_filename=args.log_filename,
@@ -191,7 +192,6 @@ def cli():
         # For each dwca file
         if args.dwca:
             for dwca_fn, wranglers_fn in args.dwca:
-
                 reader = PointDwcaReader(dwca_fn)
                 try:
                     with open(wranglers_fn, mode='rt') as in_json:

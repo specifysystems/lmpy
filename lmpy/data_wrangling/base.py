@@ -1,5 +1,5 @@
 """Module containing base class for data wranglers."""
-import logging
+from logging import INFO
 
 
 # .....................................................................................
@@ -45,7 +45,7 @@ class _DataWrangler:
         return self.report
 
     # ........................
-    def log(self, msg, log_level=logging.INFO):
+    def log(self, msg, log_level=INFO):
         """Log a message.
 
         Args:
