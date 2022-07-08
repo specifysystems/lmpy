@@ -85,6 +85,10 @@ class AcceptedNameOccurrenceWrangler(_OccurrenceDataWrangler, _AcceptedNameWrang
             is_modified = True
 
         if point.species_name != acc_name:
+            if self._pass_condition(point):
+                self.log(f"Updated {point.species_name}, accepted name {acc_name}.")
+            else:
+                self.log(f"Filtered {point.species_name}, accepted name {acc_name}.")
             point.species_name = acc_name
             is_modified = True
 

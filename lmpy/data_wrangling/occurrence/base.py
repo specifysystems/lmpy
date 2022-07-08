@@ -136,7 +136,7 @@ class _OccurrenceDataWrangler(_DataWrangler):
         self.report_point(filtered=is_filtered, modified=is_modified)
         if is_filtered:
             self.log('Filtered a point.')
-        if is_modified:
+        elif is_modified:
             self.log('Modified a point.')
 
         return mod_point
