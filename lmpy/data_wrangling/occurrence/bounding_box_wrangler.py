@@ -1,4 +1,5 @@
 """Module containing occurrence data wranglers for filtering points."""
+from logging import INFO
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
 
@@ -35,6 +36,11 @@ class BoundingBoxFilter(_OccurrenceDataWrangler):
         Returns:
             bool: Indication if the point passed assessment.
         """
-        return all(
+        if not all(
             [self.min_x <= point.x <= self.max_x, self.min_y <= point.y <= self.max_y]
-        )
+        ):
+            self.log(
+                f"{point.species_name} {point.x}, {point.y} fails boundary test.",
+                log_level=INFO)
+            return False
+        return True

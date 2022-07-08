@@ -1,4 +1,6 @@
 """Module containing occurrence data wranglers for filtering points."""
+from logging import INFO
+
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
 
@@ -39,4 +41,9 @@ class DecimalPrecisionFilter(_OccurrenceDataWrangler):
         except ValueError:
             # TODO: Handle numbers with 'e' example: 1e-05
             return False
-        return min([lat_decimals, lon_decimals]) >= self.decimal_places
+        if min([lat_decimals, lon_decimals]) < self.decimal_places:
+            self.log(
+                f"{point.species_name} {point.x}, {point.y} fails precision test.",
+                log_level=INFO)
+            return False
+        return True

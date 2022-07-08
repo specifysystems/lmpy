@@ -1,6 +1,6 @@
 """Module containing functions for splitting occurrence data."""
 import os
-from logging import INFO
+from logging import DEBUG
 
 from lmpy.point import PointCsvWriter
 
@@ -171,7 +171,8 @@ class OccurrenceSplitter:
                     points = wrangler.wrangle_points(points)
                     self.log(
                         f"Wrangle {in_count} points with {wrangler.name} from"
-                        + f"{reader.filename} resulting in {len(points)} points")
+                        + f"{reader.filename} resulting in {len(points)} points",
+                        log_level=DEBUG)
             if points:
                 self.write_points(points)
         reader.close()
@@ -204,7 +205,7 @@ class OccurrenceSplitter:
                 species_out.write(f'{sp}\n')
 
     # ........................
-    def log(self, msg, log_level=INFO):
+    def log(self, msg, log_level=DEBUG):
         """Log a message.
 
         Args:

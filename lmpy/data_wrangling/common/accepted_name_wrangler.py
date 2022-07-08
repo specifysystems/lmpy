@@ -1,5 +1,6 @@
 """Module containing a data wrangler base class for resolving taxon names."""
 import json
+from logging import DEBUG
 import requests
 import time
 import urllib
@@ -192,9 +193,9 @@ class _AcceptedNameWrangler(_DataWrangler):
             new_names = self._name_resolver(unmatched_names)
             for uname in unmatched_names:
                 if uname == new_names[uname]:
-                    self.log(f"Resolution identical: {uname}")
+                    self.log(f"Resolution identical: {uname}", log_level=DEBUG)
                 else:
-                    self.log(f"Resolved {uname} to {new_names[uname]}")
+                    self.log(f"Resolved {uname} to {new_names[uname]}", log_level=DEBUG)
             # Update name map and return dictionary
             self.name_map.update(new_names)
             resolved_names.update(new_names)
@@ -228,7 +229,9 @@ class _AcceptedNameWrangler(_DataWrangler):
                 try:
                     with open(filename, mode=mode) as out_json:
                         json.dump(self.name_map, out_json, indent=4)
-                    self.log(f'Wrote {len(self.name_map)} names to {filename} as JSON')
+                    self.log(
+                        f'Wrote {len(self.name_map)} names to {filename} as JSON',
+                        log_level=DEBUG)
                 except OSError:
                     raise
                 except IOError:
@@ -239,7 +242,9 @@ class _AcceptedNameWrangler(_DataWrangler):
                         out_csv.write('Name,Accepted\n')
                         for in_name, out_name in self.name_map.items():
                             out_csv.write(f'{in_name},{out_name}\n')
-                    self.log(f'Wrote {len(self.name_map)} names to {filename} as CSV')
+                    self.log(
+                        f'Wrote {len(self.name_map)} names to {filename} as CSV',
+                        log_level=DEBUG)
                 except OSError:
                     raise
                 except IOError:

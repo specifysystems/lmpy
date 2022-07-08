@@ -1,6 +1,8 @@
 """Module containing a coordinate converter modifier."""
 from copy import deepcopy
 
+from logging import INFO
+
 from osgeo import osr
 
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
@@ -117,5 +119,9 @@ class CoordinateConverterWrangler(_OccurrenceDataWrangler):
             bool: Indication if the point passes the test condition.
         """
         if point.x is None or point.y is None:
+            self.log(
+                f"Missing coordinate x {point.x} or y {point.y} for" +
+                f"{point.species_name}, transform fails.",
+                log_level=INFO)
             return False
         return True

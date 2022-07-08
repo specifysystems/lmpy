@@ -1,4 +1,6 @@
 """Module containing attribute filter occurrence data wrangler."""
+from logging import INFO
+
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
 
@@ -35,14 +37,24 @@ class AttributeFilterWrangler(_OccurrenceDataWrangler):
                     bad_values = filter_func['for-each']['values']
 
                     def _each_value_not_in(point):
+                        # TODO: None always passes??
                         if point.get_attribute(self.attribute_name) is None:
                             return True
-                        return all(
-                            [
-                                val not in bad_values
-                                for val in point.get_attribute(self.attribute_name)
-                            ]
-                        )
+                        for val in point.get_attribute(self.attribute_name):
+                            if val in bad_values:
+                                self.log(
+                                    f"{point.species_name} with " +
+                                    f"{self.attribute_name} = {val} fails filter.",
+                                    log_level=INFO)
+                                return False
+                        return True
+
+                        # return all(
+                        #     [
+                        #         val not in bad_values
+                        #         for val in point.get_attribute(self.attribute_name)
+                        #     ]
+                        # )
 
                     self._pass_condition = _each_value_not_in
         else:

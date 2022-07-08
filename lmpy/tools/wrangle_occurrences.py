@@ -53,13 +53,9 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
             wrangler_name = wrangler.name
             # If there are points, wrangle them
             if points:
-                in_count = len(points)
-                sp_name = points[0].species_name
                 points = wrangler.wrangle_points(points)
-                if in_count - len(points) > 0:
-                    log_msg(
-                        f"{wrangler_name} removed {in_count - len(points)} {sp_name}"
-                        + " points")
+                log_msg(f"{wrangler_name} processed file {reader.filename}")
+
         # If any points are left, write them
         if points:
             report['output_records'] += len(points)
@@ -69,6 +65,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
                 writer = PointCsvWriter(writer_filename, write_fields)
                 writer.open()
             writer.write_points(points)
+            log_msg(f"Wrote {len(points)} points to {writer.filename}.")
     # Close reader and writer
     reader.close()
     if writer:
