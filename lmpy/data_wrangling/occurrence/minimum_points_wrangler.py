@@ -1,5 +1,5 @@
 """Module containing occurrence data wranglers for filtering points."""
-from logging import INFO
+from logging import DEBUG
 
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
@@ -55,8 +55,8 @@ class MinimumPointsFilter(_OccurrenceDataWrangler):
             # Not enough points to all fail
             self._pass_condition = self._get_all_fail_condition()
             self.log(
-                f"{spname} {len(points)} fails minimum points threshold.",
-                log_level=INFO)
+                f"{spname} {len(points)} fails minimum {self.minimum_count} points.",
+                log_level=DEBUG)
 
         # Call parent class wrangle_points function
         return _OccurrenceDataWrangler.wrangle_points(self, points)

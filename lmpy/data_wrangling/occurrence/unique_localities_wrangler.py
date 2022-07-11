@@ -37,7 +37,7 @@ class UniqueLocalitiesFilter(_OccurrenceDataWrangler):
         test_val = (point.species_name, point.x, point.y)
         if test_val in self.seen_localities:
             self.log(
-                f"Replicated {point.x}, {point.y} for {point.species_name} fails.",
+                f"{point.species_name} {point.x}, {point.y} fails unique test.",
                 log_level=INFO)
             return False
         self.seen_localities.append(test_val)
