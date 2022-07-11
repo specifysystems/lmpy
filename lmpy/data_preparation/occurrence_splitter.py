@@ -174,6 +174,9 @@ class OccurrenceSplitter:
                         + f"{reader.filename} resulting in {len(points)} points",
                         log_level=DEBUG)
             if points:
+                self.log(
+                    f"Found {len(points)} points from {reader.filename} to write.",
+                    log_level=DEBUG)
                 self.write_points(points)
         reader.close()
 
@@ -186,11 +189,15 @@ class OccurrenceSplitter:
         """
         if points:
             writer_key = self.get_writer_key(points[0])
+            writer_filename = self.get_writer_filename(writer_key)
             self.seen_taxa.add(points[0].species_name)
             if writer_key not in self.writers.keys():
                 if self.writer_fields is None:
                     self.writer_fields = list(points[0].attributes.keys())
                 self.open_writer(writer_key)
+            self.log(
+                f"Wrote {len(points)} points to {writer_filename}.",
+                log_level=DEBUG)
             self.writers[writer_key].write_points(points)
 
     # .......................
