@@ -1,4 +1,6 @@
 """Module containing data wranglers for subsetting a species list to match a matrix."""
+from logging import DEBUG
+
 from lmpy.matrix import Matrix
 
 from lmpy.data_wrangling.species_list.base import _SpeciesListDataWrangler
@@ -42,5 +44,7 @@ class MatchMatrixSpeciesListWrangler(_SpeciesListDataWrangler):
         """
         ret_sl = SpeciesList(species_list.intersection(self.keep_names))
         self.report['removed'] = len(species_list) - len(ret_sl)
-        self.log(f'Removed {self.report["removed"]} names from species list.')
+        self.log(
+            f'Removed {self.report["removed"]} names from species list.',
+            log_level=DEBUG)
         return ret_sl

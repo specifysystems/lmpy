@@ -1,4 +1,5 @@
 """Module containing data wranglers for subsetting a tree to match a matrix."""
+from logging import DEBUG
 from lmpy.matrix import Matrix
 
 from lmpy.data_wrangling.tree.base import _TreeDataWrangler
@@ -44,5 +45,6 @@ class MatchMatrixTreeWrangler(_TreeDataWrangler):
         tree.purge_taxon_namespace()
         num_purged = original_taxa_count - len(tree.taxon_namespace)
         self._purged += num_purged
-        self.log(f'removed {self._purged} tips.')
+        self.log(
+            f'Removed {self._purged} of {original_taxa_count} tips.', log_level=DEBUG)
         return tree

@@ -1,4 +1,6 @@
 """Module containing species data wranglers for creating a intersect species list."""
+from logging import DEBUG
+
 from lmpy.data_wrangling.species_list.base import _SpeciesListDataWrangler
 from lmpy.species_list import SpeciesList
 
@@ -38,5 +40,7 @@ class IntersectionSpeciesListWrangler(_SpeciesListDataWrangler):
         """
         ret_sl = SpeciesList(species_list.intersection(self.other_species_list))
         self.report['removed'] = len(species_list) - len(ret_sl)
-        self.log(f'Removed {self.report["removed"]} names from species list.')
+        self.log(
+            f'Removed {self.report["removed"]} names from species list.',
+            log_level=DEBUG)
         return ret_sl
