@@ -1,4 +1,6 @@
 """Module containing occurrence data wranglers for purging empty matrix slices."""
+from logging import DEBUG
+
 import numpy as np
 
 from lmpy.data_wrangling.matrix.base import _MatrixDataWrangler
@@ -51,9 +53,10 @@ class PurgeEmptySlicesWrangler(_MatrixDataWrangler):
                 self.report['changes'][str(axis)]['purged'] += len(
                     np.where(matrix.sum(axis=tuple(sum_axes)) == 0)[0]
                 )
-                self.log('Purged {} from axis {}.'.format(
-                    self.report['changes'][str(axis)]['purged'], axis)
-                )
+                self.log(
+                    f"Purged {self.report['changes'][str(axis)]['purged']} " +
+                    f"from axis {axis}.",
+                    log_level=DEBUG)
             else:
                 axis_slice = list(range(matrix.shape[axis]))
             slices.append(axis_slice)

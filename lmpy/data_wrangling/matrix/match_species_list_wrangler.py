@@ -1,4 +1,6 @@
 """Module containing data wranglers for matching a matrix to a species list."""
+from logging import DEBUG
+
 from lmpy.species_list import SpeciesList
 
 from lmpy.data_wrangling.matrix.base import _MatrixDataWrangler
@@ -48,18 +50,29 @@ class MatchSpeciesListMatrixWrangler(_MatrixDataWrangler):
                 axis_slice = []
                 axis_headers = matrix.get_headers(axis=str(axis))
 
+                unmatched_list_taxa = []
                 for name in self.species_list:
                     if name in axis_headers:
                         axis_slice.append(axis_headers.index(name))
+                    else:
+                        unmatched_list_taxa.append(name)
+                unmatched_matrix_taxa = set(axis_headers).difference(
+                    set(self.species_list))
 
                 if str(axis) not in self.report['changes'].keys():
                     self.report['changes'][str(axis)] = {'purged': 0}
                 self.report[
                     'changes'
                 ][str(axis)]['purged'] += (len(axis_headers) - len(axis_slice))
-                self.log('Purged {} species.'.format(
-                    self.report['changes'][str(axis)]['purged'])
-                )
+                self.log(
+                    f"Species list names {unmatched_list_taxa} not present in matrix",
+                    log_level=DEBUG)
+                self.log(
+                    f"Matrix columns {unmatched_matrix_taxa} not present in tree",
+                    log_level=DEBUG)
+                self.log(
+                    f"Purged {self.report['changes'][str(axis)]['purged']} species.",
+                    log_level=DEBUG)
             else:
                 axis_slice = list(range(matrix.shape[axis]))
 
