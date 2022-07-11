@@ -72,4 +72,8 @@ class AcceptedNameSpeciesListWrangler(_SpeciesListDataWrangler, _AcceptedNameWra
                 accepted_species.add(acc_names[name])
         self.report['unresolved'] = num_unresolved
         self.report['duplicates'] = num_duplicates
+        self.log(
+            f"Returned {len(accepted_species)} accepted species with " +
+            f"{self.report['duplicates']} duplicates.")
+        self.log(f"Failed to resolve {self.report['num_unresolved']} names.")
         return SpeciesList(accepted_species)
