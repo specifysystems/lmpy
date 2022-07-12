@@ -78,6 +78,6 @@ class AcceptedNameSpeciesListWrangler(_SpeciesListDataWrangler, _AcceptedNameWra
             f"Returned {len(accepted_species)} accepted species with " +
             f"{self.report['duplicates']} duplicates.", log_level=DEBUG)
         self.log(
-            f"Failed to resolve {self.report['num_unresolved']} names.",
+            f"Failed to resolve {self.report['unresolved']} names.",
             log_level=DEBUG)
         return SpeciesList(accepted_species)
