@@ -1,5 +1,5 @@
 """Module containing occurrence data wranglers for modifying a species list."""
-from logging import DEBUG
+from logging import DEBUG, INFO
 
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
     _AcceptedNameWrangler,
@@ -67,6 +67,7 @@ class AcceptedNameSpeciesListWrangler(_SpeciesListDataWrangler, _AcceptedNameWra
         num_duplicates = 0
         for name in species_list:
             if acc_names[name] is None:
+                self.log(f"Unable to resolve {name}.", log_level=INFO)
                 num_unresolved += 1
             elif acc_names[name] in accepted_species:
                 num_duplicates += 1
