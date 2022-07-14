@@ -14,7 +14,7 @@ DESCRIPTION = 'Clean (filter / modify) occurrence records using data wranglers.'
 
 
 # .....................................................................................
-def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output=False):
+def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=None):
     """Clean occurrence data.
 
     Args:
@@ -29,10 +29,10 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
     Returns:
         dict: Output report from data wrangling.
     """
-    if log_output:
+    if logger:
 
         def log_msg(msg):
-            print(msg)
+            logger.info(msg)
 
     else:
 
@@ -173,7 +173,6 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
-    logger.log(INFO, f"Starting {script_name}")
 
     # Get wranglers
     wrangler_factory = WranglerFactory(logger=logger)
@@ -186,9 +185,7 @@ def cli():
     )
 
     # Clean data
-    report = clean_data(
-        reader, args.writer_filename, wranglers, log_output=args.log_console
-    )
+    report = clean_data(reader, args.writer_filename, wranglers, logger=logger)
 
     # If the output report was requested, write it
     if args.report_filename:

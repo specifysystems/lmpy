@@ -164,6 +164,11 @@ class OccurrenceSplitter:
             wranglers (list): A list of occurrence data wranglers.
         """
         reader.open()
+        try:
+            in_filename = reader.filename
+        except AttributeError:
+            in_filename = reader.archive_filename
+
         for points in reader:
             for wrangler in wranglers:
                 if points:
@@ -171,12 +176,12 @@ class OccurrenceSplitter:
                     points = wrangler.wrangle_points(points)
                     self.log(
                         f"Wrangle {in_count} points with {wrangler.name} from"
-                        + f"{reader.filename} resulting in {len(points)} points",
+                        + f"{in_filename} resulting in {len(points)} points",
                         log_level=INFO)
             if points:
                 self.log(
                     f"Found {len(points)} {points[0].species_name} points from " +
-                    f"{reader.filename} to write.",
+                    f"{in_filename} to write.",
                     log_level=INFO)
                 self.write_points(points)
         reader.close()
