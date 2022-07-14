@@ -1,4 +1,6 @@
 """Module containing Occurrence Data Wrangler base class."""
+from logging import DEBUG
+
 from lmpy.data_wrangling.base import _DataWrangler
 
 
@@ -74,6 +76,9 @@ class _OccurrenceDataWrangler(_DataWrangler):
         self.report['assessed'] = self.assessed
         self.report['modified'] = self.modified
         self.report['filtered'] = self.filtered
+        self.log(
+            f"Filtered {self.filtered}, modified {self.modified} of {self.assessed} " +
+            "assessed points.")
         return self.report
 
     # .......................
@@ -103,6 +108,9 @@ class _OccurrenceDataWrangler(_DataWrangler):
             pt = self.wrangle_single_point(point)
             if pt is not None:
                 wrangled_points.append(pt)
+        self.log(
+            f"Return {len(wrangled_points)} of {len(points)} points, " +
+            f"{self.modified} modified", log_level=DEBUG)
         return wrangled_points
 
     # .......................
@@ -125,6 +133,7 @@ class _OccurrenceDataWrangler(_DataWrangler):
             is_filtered = True
             val = self.fail_value
 
+        # TODO: Does store_attribute always mean do not filter??
         # If we should just assess the point, set the attribute
         if self.store_attribute is not None:
             mod_point.set_attribute(self.store_attribute, val)
@@ -134,9 +143,5 @@ class _OccurrenceDataWrangler(_DataWrangler):
             mod_point = None
 
         self.report_point(filtered=is_filtered, modified=is_modified)
-        if is_filtered:
-            self.log('Filtered a point.')
-        if is_modified:
-            self.log('Modified a point.')
 
         return mod_point

@@ -1,4 +1,6 @@
 """Module containing occurrence data wranglers for modifying matrices."""
+from logging import INFO, DEBUG
+
 import numpy as np
 
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
@@ -71,8 +73,11 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
             acc_name = self.resolve_names([hdr])[hdr]
             if acc_name is None:
                 failures.append(i)
+                self.log(f"Failed to resolve matrix column {hdr}.", log_level=INFO)
             elif hdr != acc_name:
                 matrix.headers[str(self.taxon_axis)][i] = acc_name
+                self.log(
+                    f"Updated matrix column {hdr} to {acc_name}.", log_level=INFO)
                 # report
                 self._report_slice(self.taxon_axis, i, modified=True)
 
@@ -84,6 +89,7 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
         if self.purge_failures:
             new_headers = matrix.get_headers(str(self.taxon_axis))
             matrix = np.delete(matrix, failures, axis=self.taxon_axis)
+            self.log(f"Purged {len(failures)} from matrix.", log_level=DEBUG)
             # Go through failures and pop each, reverse list to start at biggest to
             #     maintain indices
             for i in sorted(failures, reverse=True):

@@ -1,6 +1,7 @@
 """This tool cleans occurrence records according to the wranglers specified."""
 import argparse
 import json
+from logging import INFO
 import os.path
 
 from lmpy.data_wrangling.factory import WranglerFactory
@@ -13,7 +14,7 @@ DESCRIPTION = 'Clean (filter / modify) occurrence records using data wranglers.'
 
 
 # .....................................................................................
-def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output=False):
+def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=None):
     """Clean occurrence data.
 
     Args:
@@ -28,10 +29,10 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
     Returns:
         dict: Output report from data wrangling.
     """
-    if log_output:
+    if logger:
 
         def log_msg(msg):
-            print(msg)
+            logger.info(msg)
 
     else:
 
@@ -52,13 +53,9 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
             wrangler_name = wrangler.name
             # If there are points, wrangle them
             if points:
-                in_count = len(points)
-                sp_name = points[0].species_name
                 points = wrangler.wrangle_points(points)
-                if in_count - len(points) > 0:
-                    log_msg(
-                        f"{wrangler_name} removed {in_count - len(points)} {sp_name}"
-                        + " points")
+                log_msg(f"{wrangler_name} processed file {reader.filename}")
+
         # If any points are left, write them
         if points:
             report['output_records'] += len(points)
@@ -68,6 +65,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, log_output
                 writer = PointCsvWriter(writer_filename, write_fields)
                 writer.open()
             writer.write_points(points)
+            log_msg(f"Wrote {len(points)} points to {writer.filename}.")
     # Close reader and writer
     reader.close()
     if writer:
@@ -175,8 +173,6 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
-    from logging import INFO
-    logger.log(INFO, f"Starting {script_name}")
 
     # Get wranglers
     wrangler_factory = WranglerFactory(logger=logger)
@@ -189,9 +185,7 @@ def cli():
     )
 
     # Clean data
-    report = clean_data(
-        reader, args.writer_filename, wranglers, log_output=args.log_console
-    )
+    report = clean_data(reader, args.writer_filename, wranglers, logger=logger)
 
     # If the output report was requested, write it
     if args.report_filename:

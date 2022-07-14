@@ -1,4 +1,5 @@
 """Module containing occurrence data wranglers for filtering points."""
+from logging import INFO
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
 
@@ -35,6 +36,9 @@ class UniqueLocalitiesFilter(_OccurrenceDataWrangler):
         """
         test_val = (point.species_name, point.x, point.y)
         if test_val in self.seen_localities:
+            self.log(
+                f"{point.species_name} {point.x}, {point.y} fails unique test.",
+                log_level=INFO)
             return False
         self.seen_localities.append(test_val)
         return True
@@ -53,4 +57,6 @@ class UniqueLocalitiesFilter(_OccurrenceDataWrangler):
         """
         if self.do_reset:
             self.seen_localities = []
-        return _OccurrenceDataWrangler.wrangle_points(self, points)
+
+        unique_points = _OccurrenceDataWrangler.wrangle_points(self, points)
+        return unique_points

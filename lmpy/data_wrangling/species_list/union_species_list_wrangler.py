@@ -1,4 +1,6 @@
 """Module containing species data wranglers for creating a union species list."""
+from logging import DEBUG
+
 from lmpy.data_wrangling.species_list.base import _SpeciesListDataWrangler
 from lmpy.species_list import SpeciesList
 
@@ -38,5 +40,6 @@ class UnionSpeciesListWrangler(_SpeciesListDataWrangler):
         """
         ret_sl = SpeciesList(species_list.union(self.other_species_list))
         self.report['added'] = len(ret_sl) - len(species_list)
-        self.log(f'added {self.report["added"]} tips.')
+        self.log(
+            f'Added {self.report["added"]} names to species list.', log_level=DEBUG)
         return ret_sl

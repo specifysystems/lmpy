@@ -1,4 +1,6 @@
 """Module containing occurrence data wranglers for filtering points."""
+from logging import INFO
+
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 from lmpy.spatial import SpatialIndex
 
@@ -35,4 +37,8 @@ class DisjointGeometriesFilter(_OccurrenceDataWrangler):
             bool: Indication if the point passes assessment.
         """
         hits = self.geom_index.search(point.x, point.y)
+        if bool(hits):
+            self.log(
+                f"{point.species_name} {point.x}, {point.y} fails disjoint test.",
+                log_level=INFO)
         return not bool(hits)

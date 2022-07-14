@@ -115,17 +115,22 @@ def get_logger(
     Returns:
         logging.Logger: A logger object to use for logging information.
     """
+    FORMAT = ' '.join(["%(asctime)s", "%(levelname)-8s", "%(message)s"])
+    DATE_FORMAT = "%d %b %Y %H:%M"
     logger = None
     handlers = []
     if log_filename is not None:
-        handlers.append(logging.FileHandler(log_filename))
+        handlers.append(logging.FileHandler(log_filename, mode="w"))
     if log_console:
         handlers.append(logging.StreamHandler(stream=sys.stdout))
     if len(handlers) > 0:
         logger = logging.getLogger(logger_name)
         logger.setLevel(logging.DEBUG)
+
+        formatter = logging.Formatter(FORMAT, DATE_FORMAT)
         for handler in handlers:
             handler.setLevel(log_level)
+            handler.setFormatter(formatter)
             logger.addHandler(handler)
         logger.propagate = False
     return logger

@@ -1,4 +1,6 @@
 """Module containing occurrence data wranglers for modifying point data."""
+from logging import INFO
+
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
     _AcceptedNameWrangler,
@@ -63,6 +65,9 @@ class AcceptedNameOccurrenceWrangler(_OccurrenceDataWrangler, _AcceptedNameWrang
             bool: An indication if the point passed the test.
         """
         if point.species_name is None or len(point.species_name) == 0:
+            self.log(
+                f"Point with {point.species_name} fails with no accepted name.",
+                log_level=INFO)
             return False
         return True
 
@@ -85,6 +90,9 @@ class AcceptedNameOccurrenceWrangler(_OccurrenceDataWrangler, _AcceptedNameWrang
             is_modified = True
 
         if point.species_name != acc_name:
+            self.log(
+                f"{point.species_name} updated to accepted name {acc_name}.",
+                log_level=INFO)
             point.species_name = acc_name
             is_modified = True
 

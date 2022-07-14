@@ -1,4 +1,5 @@
 """Module containing data wranglers for subsetting and reordering matrix slices."""
+from logging import DEBUG
 from lmpy.data_wrangling.matrix.base import _MatrixDataWrangler
 
 
@@ -51,9 +52,10 @@ class SubsetReorderSlicesWrangler(_MatrixDataWrangler):
                 self.report[
                     'changes'
                 ][str(axis)]['purged'] += (len(axis_headers) - len(axis_slice))
-                self.log('Purged {} from axis {}.'.format(
-                    self.report['changes'][str(axis)]['purged'], axis)
-                )
+                self.log(
+                    f"Purged {self.report['changes'][str(axis)]['purged']} " +
+                    f"from axis {axis}.",
+                    log_level=DEBUG)
             else:
                 axis_slice = list(range(matrix.shape[axis]))
 

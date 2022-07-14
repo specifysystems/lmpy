@@ -1,10 +1,43 @@
 """Module containing a data wrangler base class for resolving taxon names."""
 import json
+from logging import DEBUG
 import requests
 import time
 import urllib
 
 from lmpy.data_wrangling.base import _DataWrangler
+
+
+# .....................................................................................
+def _resolve_gbif_synonym_match(match_response, wait_time=1):
+    """Resolve names using GBIF's taxonomic name resolution service.
+
+    Args:
+        match_response (urllib.Response): A response from a GBIF species match query.
+        wait_time (number): A number of seconds to before request to avoid server ire.
+
+    Returns:
+        namestr: An accepted canonical name for the GBIF acceptedUsageKey.
+    """
+    name_str = None
+    if wait_time is not None:
+        time.sleep(wait_time)
+    if 'acceptedUsageKey' in match_response.keys():
+        taxon_key = match_response['acceptedUsageKey']
+        # Get name
+        url = f'http://api.gbif.org/v1/species/{taxon_key}'
+        try:
+            response = requests.get(url).json()
+        except Exception as err:
+            print(err)
+            print('Sleep and try again...')
+            time.sleep(60)
+            response = requests.get(url).json()
+        if ('taxonomicStatus' in response.keys() and
+                response['taxonomicStatus'].lower() == 'accepted'):
+            name_str = response['canonicalName']
+
+    return name_str
 
 
 # .....................................................................................
@@ -32,13 +65,16 @@ def resolve_names_gbif(names, wait_time=1):
             print('Sleep and try again...')
             time.sleep(60)
             response = requests.get(url).json()
-        if 'status' in response.keys() and response['status'].lower() in (
-            'accepted',
-            'synonym'
-        ):
-            resolved_names[name_str] = response['canonicalName']
-        else:
-            resolved_names[name_str] = None
+
+        resolved_names[name_str] = None
+        if 'status' in response.keys():
+            if response['status'].lower() == 'accepted':
+                resolved_names[name_str] = response['canonicalName']
+            # TODO: Discuss: query returned usageKey of synonym for accepted taxa
+            elif response['status'].lower() == 'synonym':
+                canonical = _resolve_gbif_synonym_match(response, wait_time=wait_time)
+                resolved_names[name_str] = canonical
+
         if wait_time is not None:
             time.sleep(wait_time)
 
@@ -145,19 +181,21 @@ class _AcceptedNameWrangler(_DataWrangler):
         for name in names:
             if name in self.name_map.keys():
                 resolved_names[name] = self.name_map[name]
-                # Do not log if name is identical
-                if name != self.name_map[name]:
-                    self.log(f'Resolved name {name} to {self.name_map[name]}')
+
             else:
                 # Action on first instance of unmatched name
                 if name not in unmatched_names:
                     unmatched_names.append(name)
-                    self.log(f'Could not resolve name {name}')
                     resolved_names[name] = None
 
         # If we have a name resolver and names to resolve, do it
         if self._name_resolver is not None and len(unmatched_names) > 0:
             new_names = self._name_resolver(unmatched_names)
+            for uname in unmatched_names:
+                if uname == new_names[uname]:
+                    self.log(f"Resolution identical: {uname}", log_level=DEBUG)
+                else:
+                    self.log(f"Resolved {uname} to {new_names[uname]}", log_level=DEBUG)
             # Update name map and return dictionary
             self.name_map.update(new_names)
             resolved_names.update(new_names)
@@ -191,7 +229,9 @@ class _AcceptedNameWrangler(_DataWrangler):
                 try:
                     with open(filename, mode=mode) as out_json:
                         json.dump(self.name_map, out_json, indent=4)
-                    self.log(f'Wrote {len(self.name_map)} names to {filename} as JSON')
+                    self.log(
+                        f'Wrote {len(self.name_map)} names to {filename} as JSON',
+                        log_level=DEBUG)
                 except OSError:
                     raise
                 except IOError:
@@ -202,7 +242,9 @@ class _AcceptedNameWrangler(_DataWrangler):
                         out_csv.write('Name,Accepted\n')
                         for in_name, out_name in self.name_map.items():
                             out_csv.write(f'{in_name},{out_name}\n')
-                    self.log(f'Wrote {len(self.name_map)} names to {filename} as CSV')
+                    self.log(
+                        f'Wrote {len(self.name_map)} names to {filename} as CSV',
+                        log_level=DEBUG)
                 except OSError:
                     raise
                 except IOError:

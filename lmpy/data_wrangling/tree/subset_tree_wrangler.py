@@ -1,4 +1,6 @@
 """Module containing data wranglers for subsetting a tree."""
+from logging import DEBUG
+
 from lmpy.data_wrangling.tree.base import _TreeDataWrangler
 
 
@@ -37,5 +39,6 @@ class SubsetTreeWrangler(_TreeDataWrangler):
         tree.retain_taxa_with_labels(self.keep_taxon_names)
         tree.purge_taxon_namespace()
         self._purged += (original_taxa_count - len(tree.taxon_namespace))
-        self.log(f'removed {self._purged} tips.')
+        self.log(
+            f'Removed {self._purged} of {original_taxa_count} tips.', log_level=DEBUG)
         return tree

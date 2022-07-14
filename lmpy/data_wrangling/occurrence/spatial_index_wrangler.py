@@ -1,4 +1,6 @@
 """Module containing occurrence data wranglers for filtering points."""
+from logging import INFO
+
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 from lmpy.spatial import SpatialIndex
 
@@ -56,4 +58,7 @@ class SpatialIndexFilter(_OccurrenceDataWrangler):
         for hit in self.spatial_index.search(point.x, point.y).values():
             if self.check_hit_func(hit, self.intersections_map[point.species_name]):
                 return True
+        self.log(
+            f"{point.species_name} {point.x}, {point.y} fails spatial filter.",
+            log_level=INFO)
         return False
