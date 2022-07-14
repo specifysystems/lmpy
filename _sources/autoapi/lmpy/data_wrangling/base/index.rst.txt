@@ -63,7 +63,7 @@ Classes
       :rtype: dict
 
 
-   .. py:method:: log(self, msg, log_level=logging.INFO)
+   .. py:method:: log(self, msg, log_level=INFO)
 
       Log a message.
 

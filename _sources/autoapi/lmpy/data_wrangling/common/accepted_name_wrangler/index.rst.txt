@@ -26,6 +26,7 @@ Functions
 
 .. autoapisummary::
 
+   lmpy.data_wrangling.common.accepted_name_wrangler._resolve_gbif_synonym_match
    lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif
 
 
@@ -92,6 +93,19 @@ Functions
       :raises OSError: on failure to write to filename.
       :raises IOError: on failure to write to filename.
 
+
+
+.. py:function:: _resolve_gbif_synonym_match(match_response, wait_time=1)
+
+   Resolve names using GBIF's taxonomic name resolution service.
+
+   :param match_response: A response from a GBIF species match query.
+   :type match_response: urllib.Response
+   :param wait_time: A number of seconds to before request to avoid server ire.
+   :type wait_time: number
+
+   :returns: An accepted canonical name for the GBIF acceptedUsageKey.
+   :rtype: namestr
 
 
 .. py:function:: resolve_names_gbif(names, wait_time=1)

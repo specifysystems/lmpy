@@ -32,7 +32,7 @@ Functions
    :rtype: argparse.ArgumentParser
 
 
-.. py:function:: clean_data(reader, writer_filename, wranglers, write_fields=None, log_output=False)
+.. py:function:: clean_data(reader, writer_filename, wranglers, write_fields=None, logger=None)
 
    Clean occurrence data.
 

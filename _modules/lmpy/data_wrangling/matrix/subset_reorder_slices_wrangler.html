@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.matrix.subset_reorder_slices_wrangler &mdash; Specify lmpy 3.1.21+42.g366129cd documentation</title>
+  <title>lmpy.data_wrangling.matrix.subset_reorder_slices_wrangler &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -77,6 +77,7 @@
              
   <h1>Source code for lmpy.data_wrangling.matrix.subset_reorder_slices_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing data wranglers for subsetting and reordering matrix slices.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">DEBUG</span>
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.matrix.base</span> <span class="k">import</span> <span class="n">_MatrixDataWrangler</span>
 
 
@@ -129,9 +130,10 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span>
                     <span class="s1">&#39;changes&#39;</span>
                 <span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)][</span><span class="s1">&#39;purged&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axis_headers</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">axis_slice</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;Purged </span><span class="si">{}</span><span class="s1"> from axis </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;changes&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">)][</span><span class="s1">&#39;purged&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                    <span class="n">f</span><span class="s2">&quot;Purged </span><span class="si">{self.report[&#39;changes&#39;][str(axis)][&#39;purged&#39;]}</span><span class="s2"> &quot;</span> <span class="o">+</span>
+                    <span class="n">f</span><span class="s2">&quot;from axis </span><span class="si">{axis}</span><span class="s2">.&quot;</span><span class="p">,</span>
+                    <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">axis_slice</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]))</span>
 

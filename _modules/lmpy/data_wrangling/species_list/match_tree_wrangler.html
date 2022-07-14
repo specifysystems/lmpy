@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.species_list.match_tree_wrangler &mdash; Specify lmpy 3.1.21+42.g366129cd documentation</title>
+  <title>lmpy.data_wrangling.species_list.match_tree_wrangler &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -77,6 +77,8 @@
              
   <h1>Source code for lmpy.data_wrangling.species_list.match_tree_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing data wranglers for subsetting a species list to match a tree.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">DEBUG</span>
+
 <span class="kn">from</span> <span class="nn">lmpy.tree</span> <span class="k">import</span> <span class="n">TreeWrapper</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.species_list.base</span> <span class="k">import</span> <span class="n">_SpeciesListDataWrangler</span>
@@ -118,7 +120,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ret_sl</span> <span class="o">=</span> <span class="n">SpeciesList</span><span class="p">(</span><span class="n">species_list</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keep_names</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;removed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">species_list</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret_sl</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;removed </span><span class="si">{self.report[&quot;removed&quot;]}</span><span class="s1"> tips.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;Removed </span><span class="si">{self.report[&quot;removed&quot;]}</span><span class="s1"> names from species list.&#39;</span><span class="p">,</span>
+            <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret_sl</span></div></div>
 </pre></div>
 

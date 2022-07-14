@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.coordinate_conversion_wrangler &mdash; Specify lmpy 3.1.21+42.g366129cd documentation</title>
+  <title>lmpy.data_wrangling.occurrence.coordinate_conversion_wrangler &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -78,6 +78,8 @@
   <h1>Source code for lmpy.data_wrangling.occurrence.coordinate_conversion_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing a coordinate converter modifier.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">INFO</span>
 
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">osr</span>
 
@@ -195,6 +197,10 @@
 <span class="sd">            bool: Indication if the point passes the test condition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">&quot;Missing coordinate x </span><span class="si">{point.x}</span><span class="s2"> or y </span><span class="si">{point.y}</span><span class="s2"> for&quot;</span> <span class="o">+</span>
+                <span class="n">f</span><span class="s2">&quot;</span><span class="si">{point.species_name}</span><span class="s2">, transform fails.&quot;</span><span class="p">,</span>
+                <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
 </pre></div>

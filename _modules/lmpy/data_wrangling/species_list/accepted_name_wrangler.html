@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.species_list.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+42.g366129cd documentation</title>
+  <title>lmpy.data_wrangling.species_list.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -77,6 +77,8 @@
              
   <h1>Source code for lmpy.data_wrangling.species_list.accepted_name_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing occurrence data wranglers for modifying a species list.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">DEBUG</span><span class="p">,</span> <span class="n">INFO</span>
+
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.common.accepted_name_wrangler</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">_AcceptedNameWrangler</span><span class="p">,</span>
     <span class="n">resolve_names_gbif</span><span class="p">,</span>
@@ -143,6 +145,7 @@
         <span class="n">num_duplicates</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">species_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">acc_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unable to resolve </span><span class="si">{name}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
                 <span class="n">num_unresolved</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">elif</span> <span class="n">acc_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">in</span> <span class="n">accepted_species</span><span class="p">:</span>
                 <span class="n">num_duplicates</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -150,6 +153,12 @@
                 <span class="n">accepted_species</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">acc_names</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;unresolved&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_unresolved</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;duplicates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_duplicates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;Returned {len(accepted_species)} accepted species with &quot;</span> <span class="o">+</span>
+            <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.report[&#39;duplicates&#39;]}</span><span class="s2"> duplicates.&quot;</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;Failed to resolve </span><span class="si">{self.report[&#39;unresolved&#39;]}</span><span class="s2"> names.&quot;</span><span class="p">,</span>
+            <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SpeciesList</span><span class="p">(</span><span class="n">accepted_species</span><span class="p">)</span></div></div>
 </pre></div>
 
