@@ -1,7 +1,6 @@
 """This tool cleans occurrence records according to the wranglers specified."""
 import argparse
 import json
-from logging import INFO
 import os.path
 
 from lmpy.data_wrangling.factory import WranglerFactory
@@ -24,7 +23,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
             and / or filter Points for cleaning.
         write_fields (list or None): A list of Point attributes to write to output CSV.
             If None, determine from first cleaned Point.
-        log_output (bool): Should output be logged to console.
+        logger (logging.Logger): A default logger to use when wrangling.
 
     Returns:
         dict: Output report from data wrangling.

@@ -7,7 +7,7 @@ import numpy as np
 from osgeo import gdal, gdalconst, ogr, osr
 
 from lmpy.point import PointCsvReader
-from lmpy.tools._config_parser import _process_arguments, test_files
+from lmpy.tools._config_parser import get_logger, _process_arguments, test_files
 
 
 DESCRIPTION = '''\
@@ -23,12 +23,8 @@ TIF_FORMAT = 'GTiff'
 
 # .....................................................................................
 def create_rare_species_model(
-    points,
-    ecoregions_filename,
-    model_raster_filename,
-    raster_format=AUTO_FORMAT,
-    nodata_value=-9999,
-    burn_value=50,
+    points, ecoregions_filename, model_raster_filename, raster_format=AUTO_FORMAT,
+    nodata_value=-9999, burn_value=50, logger=None
 ):
     """Create a rare species model from a convex hull intersected with ecoregions.
 
@@ -39,6 +35,7 @@ def create_rare_species_model(
         raster_format (str): The output raster format (default: auto - use filename).
         nodata_value (int): The value to use for nodata in the model raster.
         burn_value (int): The burn value to use for model presence.
+        logger (logging.Logger): A default logger to use when wrangling.
     """
     # Get the desired output raster format, either provided or determine
     raster_format = get_raster_format(raster_format, model_raster_filename)
@@ -54,6 +51,8 @@ def create_rare_species_model(
         epsg,
     ) = get_ecoregions_array(ecoregions_filename)
     num_rows, num_cols = ecoregion_data.shape
+    if logger:
+        logger.info(f"Created ecoregions array from file {ecoregions_filename}.")
 
     # Get convex hull array
     val_set = set()
@@ -71,6 +70,9 @@ def create_rare_species_model(
     # Convex hull
     convex_hull_raw = geom_collection.ConvexHull()
 
+    if logger:
+        logger.info(f"Created convex hull from {len(points)} points.")
+
     convex_hull_data = get_convex_hull_array(
         convex_hull_raw, num_cols, num_rows, cell_size, min_x, max_y, epsg, burn_value
     )
@@ -81,6 +83,8 @@ def create_rare_species_model(
         for j in range(ecoregion_data.shape[1]):
             if ecoregion_data[i, j] in val_set and convex_hull_data[i, j] == burn_value:
                 model_data[i, j] = burn_value
+    if logger:
+        logger.info(f"Created model_data from file {ecoregions_filename}.")
 
     # Write model
     if raster_format == ASC_FORMAT:
@@ -97,6 +101,8 @@ def create_rare_species_model(
             epsg,
             nodata_value,
         )
+    if logger:
+        logger.info(f"Wrote model to {model_raster_filename}.")
 
 
 # .....................................................................................
@@ -311,6 +317,24 @@ def build_parser():
     )
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
+        '--log_filename',
+        '-l',
+        type=str,
+        help='A file location to write logging data.'
+    )
+    parser.add_argument(
+        '--log_console',
+        action='store_true',
+        default=False,
+        help='If provided, write log to console.'
+    )
+    parser.add_argument(
+        '-r',
+        '--report_filename',
+        type=str,
+        help='File location to write the wrangler report.'
+    )
+    parser.add_argument(
         '--species_column',
         '-sp',
         type=str,
@@ -389,10 +413,18 @@ def cli():
     """Command-line interface for creating a rare species model."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+
     errs = test_inputs(args)
     if errs:
         print("Errors, exiting program")
         exit('\n'.join(errs))
+
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
+    logger = get_logger(
+        script_name,
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
 
     # Read points
     points = read_points(
@@ -406,6 +438,7 @@ def cli():
         raster_format=args.output_format,
         nodata_value=args.nodata_value,
         burn_value=args.burn_value,
+        logger=logger
     )
 
 
