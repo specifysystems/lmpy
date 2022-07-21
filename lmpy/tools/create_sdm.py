@@ -85,7 +85,7 @@ def build_parser():
         '--species_name',
         type=str,
         default=None,
-        help='Header of CSV column containing species information.'
+        help='Name of taxon to be modeled.'
     )
     # parser.add_argument(
     #     '-z', '--package_filename', type=str, help='Output package zip file.'
@@ -147,8 +147,12 @@ def cli():
         log_console=args.log_console
     )
 
+    species_name = args.species_name
+    if species_name is None:
+        species_name = os.path.splitext(os.path.basename(args.points_filename))[0]
+
     output_filename = args.model_raster_filename
-    outname, _ = os.path.splitext(os.path.basename(output_filename))
+    # outname = os.path.splitext(os.path.basename(output_filename))[0]
 
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
@@ -160,7 +164,7 @@ def cli():
         args.env_dir,
         args.ecoregions_filename,
         args.work_dir,
-        args.species_name,
+        species_name,
         maxent_arguments=maxent_params,
         sp_key=args.species_key,
         x_key=args.x_key,

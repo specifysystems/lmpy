@@ -79,7 +79,8 @@ def create_sdm(
         logger (logging.logger): Logger for writing messages to console and/or file.
 
     Returns:
-        model_raster_filename: output filename
+                output_filename: either model raster filename for rare species model
+                    or lambdas filename for Maxent
         report (dict): dictionary containing relevant metadata about the model
     """
     point_tuples = read_points(csv_filename, sp_key, x_key, y_key)
@@ -91,40 +92,52 @@ def create_sdm(
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
+    maxent_lambdas_filename = None
     if len(point_tuples) < min_points:
-        model_raster_filename = os.path.join(work_dir, f'{species_name}.asc')
+        projected_distribution_filename = os.path.join(work_dir, f'{species_name}.asc')
         log("Create rare species model and map", logger, log_level=INFO)
         create_rare_species_model(
-            point_tuples, ecoregions_filename, model_raster_filename)
+            point_tuples, ecoregions_filename, projected_distribution_filename)
         report["method"] = "rare_species_model"
     else:
-        model_raster_filename = None
         report["method"] = "maxent"
         report["operation"] = "model"
         # Create model env layer directory in work dir
         work_env_dir = os.path.join(work_dir, 'model_layers')
-        os.symlink(env_dir, work_env_dir)
+        try:
+            os.symlink(env_dir, work_env_dir)
+        except FileExistsError:
+            pass
 
         if create_mask:
             maxent_arguments = _create_mask(
                 point_tuples, ecoregions_filename, work_dir, maxent_arguments)
 
-        me_csv_filename = os.path.join(work_dir, "species_points.csv")
+        me_csv_filename = os.path.join(work_dir, f"{species_name}.csv")
         with PointCsvWriter(me_csv_filename, ["species_name", "x", "y"]) as writer:
             writer.write_points([Point(species_name, x, y) for x, y in point_tuples])
         log("Create Maxent model", logger, log_level=INFO)
         create_maxent_model(me_csv_filename, work_env_dir, work_dir, maxent_arguments)
-        log("Completed Maxent model", logger, log_level=INFO)
+        maxent_lambdas_filename = os.path.join(work_dir, f"{species_name}.lambdas")
+        projected_distribution_filename = os.path.join(work_dir, f"{species_name}.asc")
+        if os.path.exists(maxent_lambdas_filename):
+            log(f"Completed Maxent model with lambdas file {maxent_lambdas_filename}",
+                logger, log_level=INFO)
 
-        # project_maxent_model(maxent_lambdas_file, work_env_dir, model_raster_filename)
+        # project_maxent_model(lambdas_filename, work_env_dir, model_raster_filename)
 
         os.unlink(work_env_dir)
-    return model_raster_filename, report
+    return projected_distribution_filename, maxent_lambdas_filename, report
 
 
 # .....................................................................................
 def project_sdm(maxent_lambdas_file, env_dir, species_name, work_dir, logger=None):
     """Project a Maxent model onto env. layers for a potential distribution map.
+
+    Note:
+        create_sdm creates a raster projected distribution map using the same
+        environmental layers as were used for modeling.  This function is intended to
+        project an pre-created model onto different environmental layres.
 
     Args:
         maxent_lambdas_file (str): input filename with Maxent rules
@@ -139,17 +152,19 @@ def project_sdm(maxent_lambdas_file, env_dir, species_name, work_dir, logger=Non
     """
     report = {"species": species_name, "method": "maxent", "operation": "project"}
 
-    tmp_proj_raster_filename = os.path.join(work_dir, f'{species_name}.asc')
+    maxent_raster_filename = os.path.join(work_dir, f'{species_name}.asc')
     # Create model env layer directory in work dir
     work_env_dir = os.path.join(work_dir, "proj_layers")
     os.symlink(env_dir, work_env_dir)
 
-    log("Projecting Maxent model onto map", logger, log_level=INFO)
-    project_maxent_model(maxent_lambdas_file, env_dir, tmp_proj_raster_filename)
-    log("Completed projecting Maxent model onto map", logger, log_level=INFO)
+    log(f"Projecting Maxent model {maxent_lambdas_file} onto map",
+        logger, log_level=INFO)
+    project_maxent_model(maxent_lambdas_file, env_dir, maxent_raster_filename)
+    log(f"Completed projecting Maxent model onto map {maxent_raster_filename}",
+        logger, log_level=INFO)
 
     os.unlink(work_env_dir)
-    return tmp_proj_raster_filename, report
+    return maxent_raster_filename, report
 
 
 # .....................................................................................

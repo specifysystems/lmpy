@@ -53,11 +53,11 @@ def build_parser():
         '--species_name',
         type=str,
         default=None,
-        help='Header of CSV column containing species information.'
+        help='Name of taxon to be projected.'
     )
-    parser.add_argument(
-        '-z', '--package_filename', type=str, help='Output package zip file.'
-    )
+    # parser.add_argument(
+    #     '-z', '--package_filename', type=str, help='Output package zip file.'
+    # )
     parser.add_argument(
         'maxent_lambdas_file',
         type=str,
@@ -94,11 +94,17 @@ def build_parser():
 
 # .....................................................................................
 def cli():
-    """Provide a command-line interface for SDM modeling."""
+    """Provide a command-line interface for SDM modeling.
+
+    Note:
+        create_sdm creates a raster projected distribution map using the same
+        environmental layers as were used for modeling.  This function is intended to
+        project an pre-created model onto different environmental layres.
+    """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
 
-    maxent_lambdas_file = f"{args.work_dir}/*.lambdas"
+    maxent_lambdas_file = f"{args.maxent_lambdas_file}"
     errs = test_files([maxent_lambdas_file, "Maxent model file"])
     if errs:
         print("Errors, exiting program")
@@ -111,10 +117,14 @@ def cli():
         log_console=args.log_console
     )
 
-    tmp_proj_raster_filename, report = project_sdm(
+    species_name = args.species_name
+    if species_name is None:
+        species_name = os.path.splitext(os.path.basename(args.model_raster_filename))[0]
+
+    output_raster_filename, report = project_sdm(
         maxent_lambdas_file,
         args.env_dir,
-        args.species_name,
+        species_name,
         args.work_dir,
         logger=logger
     )
@@ -123,7 +133,7 @@ def cli():
     output_dir = os.path.dirname(args.output_map_filename)
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    shutil.copy(tmp_proj_raster_filename, args.output_map_filename)
+    shutil.copy(output_raster_filename, args.output_map_filename)
 
     # Conditionally write report file
     if args.report_filename is not None:

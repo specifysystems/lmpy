@@ -13,7 +13,7 @@ try:
 except KeyError:
     JAVA_OPTS = ''
 MAXENT_VERSION = "3.4.4"
-MAXENT_JAR = f"/home/astewart/git/Maxent/ArchivedReleases/{MAXENT_VERSION}/maxent.jar"
+MAXENT_JAR = f"/git/Maxent/ArchivedReleases/{MAXENT_VERSION}/maxent.jar"
 # MAXENT_JAR = os.environ['MAXENT_JAR']
 MAXENT_MODEL_TOOL = 'density.MaxEnt'
 MAXENT_PROJECT_TOOL = 'density.Project'
