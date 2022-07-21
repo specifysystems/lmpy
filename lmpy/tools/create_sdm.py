@@ -156,7 +156,7 @@ def cli():
     if args.points_dir is not None:
         import glob
         pfiles = glob.glob(os.path.join(args.points_dir, "*.csv"))
-        point_files.extend(pfiles[0:10])
+        point_files.extend(pfiles)
     for fn in args.points_layer:
         point_files.append(fn)
 
