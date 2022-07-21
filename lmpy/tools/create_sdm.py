@@ -104,11 +104,11 @@ def build_parser():
         'ecoregions_filename', type=str, help='Ecoregions raster filename.'
     )
     parser.add_argument('work_dir', type=str, help='Directory where work can be done.')
-    # parser.add_argument(
-    #     'model_raster_filename',
-    #     type=str,
-    #     help='File location to write final model raster.'
-    # )
+    parser.add_argument(
+        'model_raster_filename',
+        type=str,
+        help='File location to write final model raster.'
+    )
     return parser
 
 
@@ -151,14 +151,11 @@ def cli():
     if species_name is None:
         species_name = os.path.splitext(os.path.basename(args.points_filename))[0]
 
-    output_filename = args.model_raster_filename
-    # outname = os.path.splitext(os.path.basename(output_filename))[0]
-
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
         maxent_params += f" {args.maxent_params}"
 
-    model_raster_filename, report = create_sdm(
+    projected_distribution_filename, maxent_lambdas_filename, report = create_sdm(
         args.min_points,
         args.points_filename,
         args.env_dir,
@@ -173,13 +170,10 @@ def cli():
         logger=logger
     )
 
-    # If Maxent, raster projection is None, must be done in 2nd step.
-    # If rare-species model, copy (or move?) to final location
-    if report["method"] == "rare_species_model":
-        model_dir = os.path.dirname(args.model_raster_filename)
-        if not os.path.exists(model_dir):
-            os.makedirs(model_dir)
-        shutil.copy(model_raster_filename, output_filename)
+    model_dir = os.path.dirname(args.model_raster_filename)
+    if not os.path.exists(model_dir):
+        os.makedirs(model_dir)
+    shutil.copy(projected_distribution_filename, args.model_raster_filename)
 
     # Conditionally write report file
     if args.report_filename is not None:

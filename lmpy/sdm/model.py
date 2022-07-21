@@ -83,6 +83,7 @@ def create_sdm(
                     or lambdas filename for Maxent
         report (dict): dictionary containing relevant metadata about the model
     """
+    species_name = Point.standardize_species_name(species_name)
     point_tuples = read_points(csv_filename, sp_key, x_key, y_key)
     report = {
         "species": species_name,
@@ -123,8 +124,6 @@ def create_sdm(
         if os.path.exists(maxent_lambdas_filename):
             log(f"Completed Maxent model with lambdas file {maxent_lambdas_filename}",
                 logger, log_level=INFO)
-
-        # project_maxent_model(lambdas_filename, work_env_dir, model_raster_filename)
 
         os.unlink(work_env_dir)
     return projected_distribution_filename, maxent_lambdas_filename, report
