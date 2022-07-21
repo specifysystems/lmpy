@@ -2,7 +2,6 @@
 import argparse
 import json
 import os
-import shutil
 
 from lmpy.sdm.maxent import DEFAULT_MAXENT_OPTIONS
 from lmpy.sdm.model import create_sdm
@@ -81,20 +80,28 @@ def build_parser():
         default='y',
         help='Header of CSV column containing Y value for record.'
     )
-    parser.add_argument(
-        '--species_name',
-        type=str,
-        default=None,
-        help='Name of taxon to be modeled.'
-    )
     # parser.add_argument(
     #     '-z', '--package_filename', type=str, help='Output package zip file.'
     # )
+    # Layers to encode
     parser.add_argument(
-        'points_filename',
+        '--points_layer',
         type=str,
-        help='File containing occurrences in species, x, y format.'
+        default=[],
+        nargs='+',
+        help='One or more CSV files containing occurrences in species, x, y format.',
     )
+    parser.add_argument(
+        '--points_dir',
+        type=str,
+        default=None,
+        help='Directory of CSV files containing occurrences in species, x, y format.',
+    )
+    # parser.add_argument(
+    #     'points_filename',
+    #     type=str,
+    #     help='File containing occurrences in species, x, y format.'
+    # )
     parser.add_argument(
         'env_dir',
         type=str,
@@ -104,11 +111,12 @@ def build_parser():
         'ecoregions_filename', type=str, help='Ecoregions raster filename.'
     )
     parser.add_argument('work_dir', type=str, help='Directory where work can be done.')
-    parser.add_argument(
-        'model_raster_filename',
-        type=str,
-        help='File location to write final model raster.'
-    )
+    parser.add_argument('out_dir', type=str, help='Directory for completed outputs.')
+    # parser.add_argument(
+    #     'model_raster_filename',
+    #     type=str,
+    #     help='File location to write final model raster.'
+    # )
     return parser
 
 
@@ -122,11 +130,21 @@ def test_inputs(args):
     Returns:
         all_missing_inputs: Error messages for display on exit.
     """
-    # for fn in os.path.args.env_dir
-    errs = test_files(
-        (args.points_filename, "Occurrence data input"),
+    all_errors = test_files(
+        # (args.points_filename, "Occurrence data input"),
         (args.ecoregions_filename, "Ecoregion input file"))
-    return errs
+    point_names = {}
+    for fn in args.points_layer:
+        outname = os.path.splitext(os.path.basename(fn))[0]
+        try:
+            other_fn = point_names[outname]
+            all_errors.append(
+                f"File {fn}, Point input has base name {outname} used by {other_fn}.")
+        except KeyError:
+            point_names[outname] = fn
+        errs = test_files((fn, "Point layer input"))
+        all_errors.extend(errs)
+    return all_errors
 
 
 # .....................................................................................
@@ -134,6 +152,13 @@ def cli():
     """Provide a command-line interface for SDM modeling."""
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
+    point_files = []
+    if args.points_dir is not None:
+        import glob
+        pfiles = glob.glob(os.path.join(args.points_dir, "*.csv"))
+        point_files.extend(pfiles[0:10])
+    for fn in args.points_layer:
+        point_files.append(fn)
 
     errs = test_inputs(args)
     if errs:
@@ -147,38 +172,34 @@ def cli():
         log_console=args.log_console
     )
 
-    species_name = args.species_name
-    if species_name is None:
-        species_name = os.path.splitext(os.path.basename(args.points_filename))[0]
-
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
         maxent_params += f" {args.maxent_params}"
 
-    projected_distribution_filename, maxent_lambdas_filename, report = create_sdm(
-        args.min_points,
-        args.points_filename,
-        args.env_dir,
-        args.ecoregions_filename,
-        args.work_dir,
-        species_name,
-        maxent_arguments=maxent_params,
-        sp_key=args.species_key,
-        x_key=args.x_key,
-        y_key=args.y_key,
-        create_mask=True,
-        logger=logger
-    )
-
-    model_dir = os.path.dirname(args.model_raster_filename)
-    if not os.path.exists(model_dir):
-        os.makedirs(model_dir)
-    shutil.copy(projected_distribution_filename, args.model_raster_filename)
+    full_report = {}
+    for point_filename in point_files:
+        species_name = os.path.splitext(os.path.basename(point_filename))[0]
+        work_dir = os.path.join(args.work_dir, species_name.replace(' ', '_'))
+        report = create_sdm(
+            args.min_points,
+            point_filename,
+            args.env_dir,
+            args.ecoregions_filename,
+            work_dir,
+            species_name,
+            maxent_arguments=maxent_params,
+            sp_key=args.species_key,
+            x_key=args.x_key,
+            y_key=args.y_key,
+            create_mask=True,
+            logger=logger
+        )
+        full_report[point_filename] = report
 
     # Conditionally write report file
     if args.report_filename is not None:
         with open(args.report_filename, mode='wt') as out_json:
-            json.dump(report, out_json)
+            json.dump(full_report, out_json)
 
 
 # .....................................................................................

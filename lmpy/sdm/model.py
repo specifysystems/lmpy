@@ -93,7 +93,6 @@ def create_sdm(
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
-    maxent_lambdas_filename = None
     if len(point_tuples) < min_points:
         projected_distribution_filename = os.path.join(work_dir, f'{species_name}.asc')
         log("Create rare species model and map", logger, log_level=INFO)
@@ -102,7 +101,6 @@ def create_sdm(
         report["method"] = "rare_species_model"
     else:
         report["method"] = "maxent"
-        report["operation"] = "model"
         # Create model env layer directory in work dir
         work_env_dir = os.path.join(work_dir, 'model_layers')
         try:
@@ -114,19 +112,23 @@ def create_sdm(
             maxent_arguments = _create_mask(
                 point_tuples, ecoregions_filename, work_dir, maxent_arguments)
 
-        me_csv_filename = os.path.join(work_dir, f"{species_name}.csv")
+        me_csv_filename = os.path.join(
+            work_dir, f"{species_name.replace(' ', '_')}.csv")
         with PointCsvWriter(me_csv_filename, ["species_name", "x", "y"]) as writer:
             writer.write_points([Point(species_name, x, y) for x, y in point_tuples])
         log("Create Maxent model", logger, log_level=INFO)
         create_maxent_model(me_csv_filename, work_env_dir, work_dir, maxent_arguments)
-        maxent_lambdas_filename = os.path.join(work_dir, f"{species_name}.lambdas")
-        projected_distribution_filename = os.path.join(work_dir, f"{species_name}.asc")
-        if os.path.exists(maxent_lambdas_filename):
-            log(f"Completed Maxent model with lambdas file {maxent_lambdas_filename}",
+        try:
+            model_file = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
+            log(f"Completed Maxent model with lambdas file {model_file}",
+                logger, log_level=INFO)
+        except IndexError:
+            log(f"Failed to produce Maxent model for {csv_filename}",
                 logger, log_level=INFO)
 
         os.unlink(work_env_dir)
-    return projected_distribution_filename, maxent_lambdas_filename, report
+
+    return report
 
 
 # .....................................................................................
