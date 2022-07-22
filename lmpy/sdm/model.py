@@ -33,7 +33,7 @@ def match_headers(mask_filename, tmp_mask_filename, template_layer_filename):
 
 # .....................................................................................
 def _create_mask(
-        point_tuples, ecoregions_filename, work_dir, env_dir, maxent_arguments):
+        point_tuples, ecoregions_filename, work_dir, env_dir, maxent_arguments, logger):
     work_env_dir = os.path.join(work_dir, 'model_layers')
     mask_filename = os.path.join(work_env_dir, 'mask.asc')
     tmp_mask_filename = os.path.join(work_dir, 'tmp_mask.asc')
@@ -43,8 +43,12 @@ def _create_mask(
         tmp_mask_filename
     )
     # Copy headers from one of the environment layers so that they match
+    files = glob.glob(os.path.join(env_dir, '*.asc'))
+    log(f"{len(files)} ascii files in {env_dir}", logger, log_level=INFO)
 
-    first_env_layer = glob.glob(os.path.join(env_dir, '*.asc'))[0]
+    first_env_layer = files[0]
+    log(f"Matching headers in {mask_filename} to {first_env_layer}",
+        logger, log_level=INFO)
     match_headers(
         mask_filename,
         tmp_mask_filename,
@@ -115,13 +119,10 @@ def create_sdm(
         log(f"work_dir is {work_dir}", logger, log_level=INFO)
         log(f"env_dir is {env_dir}", logger, log_level=INFO)
         log(f"work_env_dir is {work_env_dir}", logger, log_level=INFO)
-        file_pattern = os.path.join(env_dir, '*.asc')
-        files = glob.glob(file_pattern)
-        log(f"Files in {file_pattern} are {files}", logger, log_level=INFO)
         if create_mask:
             maxent_arguments = _create_mask(
                 point_tuples, ecoregions_filename, work_dir, env_dir,
-                maxent_arguments)
+                maxent_arguments, logger=logger)
 
         me_csv_filename = os.path.join(
             work_dir, f"{species_name.replace(' ', '_')}.csv")
