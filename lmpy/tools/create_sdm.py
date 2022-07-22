@@ -180,6 +180,7 @@ def cli():
     for point_filename in point_files:
         species_name = os.path.splitext(os.path.basename(point_filename))[0]
         work_dir = os.path.join(args.work_dir, species_name.replace(' ', '_'))
+        logger.info(f"Starting SDM computation for {species_name}")
         report = create_sdm(
             args.min_points,
             point_filename,
@@ -194,6 +195,7 @@ def cli():
             create_mask=True,
             logger=logger
         )
+        logger.info(f"Completed SDM computation for {species_name}")
         full_report[point_filename] = report
 
     # Conditionally write report file

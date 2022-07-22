@@ -55,6 +55,39 @@ def create_maxent_model(
     )
 
     model_command.extend(maxent_arguments.split(' '))
+    subprocess.run(model_command, shell=False, capture_output=True, check=True)
+
+
+# .....................................................................................
+def test_subprocess(
+    points_filename,
+    layer_dir,
+    work_dir='.',
+    maxent_arguments=DEFAULT_MAXENT_OPTIONS
+):
+    """Run Maxent.
+
+    Args:
+        points_filename: filename containing occurrence point data
+        layer_dir: directory containing environmental layer input
+        work_dir:  directory for computations.
+        maxent_arguments: parameters for the Maxent program.
+    """
+    model_command = ["java"]
+    model_command.extend(
+        [
+            '-cp',
+            MAXENT_JAR,
+            MAXENT_MODEL_TOOL,
+            f'samplesfile={points_filename}',
+            '-e',
+            layer_dir,
+            '-o',
+            work_dir
+        ]
+    )
+
+    model_command.extend(maxent_arguments.split(' '))
     subprocess.run(model_command, capture_output=True, check=True)
 
 
