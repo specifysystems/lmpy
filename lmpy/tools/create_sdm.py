@@ -171,6 +171,7 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
+    logger.info(f"Point files: {point_files}")
 
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
