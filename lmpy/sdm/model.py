@@ -56,9 +56,12 @@ def _create_mask(
         # glob.glob(os.path.join(env_dir, '*.asc'))[0]
         # glob.glob(os.path.join(work_env_dir, '*.asc'))[0]
     )
+    # Remove tmp_mask after mask is created and matched
+    if os.path.exists(tmp_mask_filename):
+        os.remove(tmp_mask_filename)
     maxent_arguments += ' togglelayertype=mask'
 
-    return maxent_arguments
+    return maxent_arguments, mask_filename
 
 
 # .....................................................................................
@@ -120,7 +123,7 @@ def create_sdm(
         log(f"env_dir is {env_dir}", logger, log_level=INFO)
         log(f"work_env_dir is {work_env_dir}", logger, log_level=INFO)
         if create_mask:
-            maxent_arguments = _create_mask(
+            maxent_arguments, mask_filename = _create_mask(
                 point_tuples, ecoregions_filename, work_dir, env_dir,
                 maxent_arguments, logger=logger)
 
@@ -130,6 +133,10 @@ def create_sdm(
             writer.write_points([Point(species_name, x, y) for x, y in point_tuples])
         log("Create Maxent model", logger, log_level=INFO)
         create_maxent_model(me_csv_filename, work_env_dir, work_dir, maxent_arguments)
+        # If used a mask, remove it from common env dir
+        if os.path.exists(mask_filename):
+            os.remove(mask_filename)
+
         try:
             model_file = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
             log(f"Completed Maxent model with lambdas file {model_file}",
