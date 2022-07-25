@@ -2,6 +2,7 @@
 import glob
 from logging import INFO
 import os
+# import shutil
 
 from lmpy.point import Point, PointCsvWriter
 from lmpy.sdm.maxent import (
@@ -133,9 +134,6 @@ def create_sdm(
             writer.write_points([Point(species_name, x, y) for x, y in point_tuples])
         log("Create Maxent model", logger, log_level=INFO)
         create_maxent_model(me_csv_filename, work_env_dir, work_dir, maxent_arguments)
-        # If used a mask, remove it from common env dir
-        if os.path.exists(mask_filename):
-            os.remove(mask_filename)
 
         try:
             model_file = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
@@ -145,6 +143,12 @@ def create_sdm(
             log(f"Failed to produce Maxent model for {csv_filename}",
                 logger, log_level=INFO)
 
+        # If used a mask, move it from common env dir to work_dir
+        if os.path.exists(mask_filename):
+            log(f"Moving mask {mask_filename} to {work_dir}", logger, log_level=INFO)
+            # shutil.move(mask_filename, work_dir)
+            os.remove(mask_filename)
+        log(f"Unlinking env dir in work_dir: {work_env_dir}", logger, log_level=INFO)
         os.unlink(work_env_dir)
 
     return report
