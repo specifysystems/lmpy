@@ -151,7 +151,12 @@ def test_inputs(args):
 def cli():
     """Provide a command-line interface for SDM modeling."""
     parser = build_parser()
-    args = _process_arguments(parser, 'config_file')
+    try:
+        args = _process_arguments(parser, 'config_file')
+    except FileNotFoundError as e:
+        print("Missing file, exiting program")
+        exit(f"{str(e)}")
+
     point_files = []
     if args.points_dir is not None:
         import glob
