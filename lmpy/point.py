@@ -62,13 +62,8 @@ class Point:
             y (:obj:`float`): The value of the y coordinate for this occurrence point.
             attributes (:obj:`dict`): A dictionary of attributes associated with this
                 point.
-
-        Raises:
-            ValueError: Raised if the species name is omitted.
         """
-        if species_name is None or len(species_name) < 1:
-            raise ValueError('Species name must be provided')
-        self.species_name = species_name.capitalize()
+        self.species_name = self.standardize_species_name(species_name)
         self.x = float(x)
         self.y = float(y)
         if attributes is None:
@@ -79,6 +74,24 @@ class Point:
         self.attributes['species_name'] = self.species_name
         self.attributes['x'] = self.x
         self.attributes['y'] = self.y
+
+    # .......................
+    @classmethod
+    def standardize_species_name(cls, species_name):
+        """Standardizes a species name to be used for point and file naming.
+
+        Args:
+            species_name (:obj:`str`): The species name for a point.
+
+        Returns:
+            capitalized version of the species_name
+
+        Raises:
+            ValueError: Raised if the species name is omitted.
+        """
+        if species_name is None or len(species_name) < 1:
+            raise ValueError('Species name must be provided')
+        return species_name.capitalize()
 
     # .......................
     def __eq__(self, other):
