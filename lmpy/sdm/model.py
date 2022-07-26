@@ -32,11 +32,40 @@ def match_headers(mask_filename, tmp_mask_filename, template_layer_filename):
                     mask_out.write(line)
 
 
+# # ..................................................................................
+# def _create_mask(
+#         point_tuples, ecoregions_filename, work_dir, env_dir, maxent_arguments,
+#         logger):
+#     work_env_dir = os.path.join(work_dir, 'model_layers')
+#     mask_filename = os.path.join(work_env_dir, 'mask.asc')
+#     tmp_mask_filename = os.path.join(work_dir, 'tmp_mask.asc')
+#     create_rare_species_model(
+#         point_tuples,
+#         ecoregions_filename,
+#         tmp_mask_filename
+#     )
+#     # Copy headers from one of the environment layers so that they match
+#     files = glob.glob(os.path.join(env_dir, '*.asc'))
+#     first_env_layer = files[0]
+#     match_headers(
+#         mask_filename,
+#         tmp_mask_filename,
+#         first_env_layer
+#         # glob.glob(os.path.join(env_dir, '*.asc'))[0]
+#         # glob.glob(os.path.join(work_env_dir, '*.asc'))[0]
+#     )
+#     # Remove tmp_mask after mask is created and matched
+#     if os.path.exists(tmp_mask_filename):
+#         os.remove(tmp_mask_filename)
+#     maxent_arguments += ' togglelayertype=mask'
+#
+#     return maxent_arguments, mask_filename
+
 # .....................................................................................
 def _create_mask(
         point_tuples, ecoregions_filename, work_dir, env_dir, maxent_arguments, logger):
-    work_env_dir = os.path.join(work_dir, 'model_layers')
-    mask_filename = os.path.join(work_env_dir, 'mask.asc')
+    # work_env_dir = os.path.join(work_dir, 'model_layers')
+    mask_filename = os.path.join(work_dir, 'mask.asc')
     tmp_mask_filename = os.path.join(work_dir, 'tmp_mask.asc')
     create_rare_species_model(
         point_tuples,
@@ -50,8 +79,6 @@ def _create_mask(
         mask_filename,
         tmp_mask_filename,
         first_env_layer
-        # glob.glob(os.path.join(env_dir, '*.asc'))[0]
-        # glob.glob(os.path.join(work_env_dir, '*.asc'))[0]
     )
     # Remove tmp_mask after mask is created and matched
     if os.path.exists(tmp_mask_filename):
@@ -109,12 +136,12 @@ def create_sdm(
         report["method"] = "rare_species_model"
     else:
         report["method"] = "maxent"
-        # Create model env layer directory in work dir
-        work_env_dir = os.path.join(work_dir, 'model_layers')
-        try:
-            os.symlink(env_dir, work_env_dir)
-        except FileExistsError:
-            pass
+        # # Create model env layer directory in work dir
+        # work_env_dir = os.path.join(work_dir, 'model_layers')
+        # try:
+        #     os.symlink(env_dir, work_env_dir)
+        # except FileExistsError:
+        #     pass
 
         if create_mask:
             maxent_arguments, mask_filename = _create_mask(
@@ -126,7 +153,8 @@ def create_sdm(
         with PointCsvWriter(me_csv_filename, ["species_name", "x", "y"]) as writer:
             writer.write_points([Point(species_name, x, y) for x, y in point_tuples])
         log("Create Maxent model", logger, log_level=INFO)
-        create_maxent_model(me_csv_filename, work_env_dir, work_dir, maxent_arguments)
+        create_maxent_model(me_csv_filename, env_dir, work_dir, maxent_arguments)
+        # create_maxent_model(me_csv_filename, work_env_dir, work_dir, maxent_arguments)
 
         try:
             model_file = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
@@ -141,7 +169,7 @@ def create_sdm(
             log(f"Delete mask {mask_filename}", logger, log_level=INFO)
             # shutil.move(mask_filename, work_dir)
             os.remove(mask_filename)
-        os.unlink(work_env_dir)
+        # os.unlink(work_env_dir)
 
     return report
 
