@@ -19,6 +19,7 @@ Subpackages
    data_wrangling/index.rst
    plots/index.rst
    randomize/index.rst
+   sdm/index.rst
    spatial/index.rst
    statistics/index.rst
    tools/index.rst

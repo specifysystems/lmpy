@@ -43,7 +43,7 @@ Classes
 
       
 
-   .. py:method:: from_config(cls, config)
+   .. py:method:: from_config(config)
       :classmethod:
 
       Get an instance generated from the provided configuration.
@@ -55,7 +55,7 @@ Classes
       :rtype: _DataWrangler
 
 
-   .. py:method:: get_report(self)
+   .. py:method:: get_report()
 
       Get a report of the results of the wrangler.
 
@@ -63,7 +63,7 @@ Classes
       :rtype: dict
 
 
-   .. py:method:: log(self, msg, log_level=INFO)
+   .. py:method:: log(msg, log_level=INFO)
 
       Log a message.
 

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.sdm.maxent &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.sdm.maxent</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.sdm.maxent</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing MaxEnt constants.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">try</span><span class="p">:</span>
+<div class="viewcode-block" id="JAVA_CMD"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.JAVA_CMD">[docs]</a>    <span class="n">JAVA_CMD</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;JAVA_CMD&#39;</span><span class="p">]</span></div>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">JAVA_CMD</span> <span class="o">=</span> <span class="s1">&#39;java&#39;</span>
+<span class="k">try</span><span class="p">:</span>
+<div class="viewcode-block" id="JAVA_OPTS"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.JAVA_OPTS">[docs]</a>    <span class="n">JAVA_OPTS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;JAVA_OPTIONS&#39;</span><span class="p">]</span></div>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">JAVA_OPTS</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<div class="viewcode-block" id="MAXENT_VERSION"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_VERSION">[docs]</a><span class="n">MAXENT_VERSION</span> <span class="o">=</span> <span class="s2">&quot;3.4.4&quot;</span></div>
+<div class="viewcode-block" id="MAXENT_JAR"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_JAR">[docs]</a><span class="n">MAXENT_JAR</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;/git/Maxent/ArchivedReleases/</span><span class="si">{MAXENT_VERSION}</span><span class="s2">/maxent.jar&quot;</span></div>
+<span class="c1"># MAXENT_JAR = os.environ[&#39;MAXENT_JAR&#39;]</span>
+<div class="viewcode-block" id="MAXENT_MODEL_TOOL"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_MODEL_TOOL">[docs]</a><span class="n">MAXENT_MODEL_TOOL</span> <span class="o">=</span> <span class="s1">&#39;density.MaxEnt&#39;</span></div>
+<div class="viewcode-block" id="MAXENT_PROJECT_TOOL"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_PROJECT_TOOL">[docs]</a><span class="n">MAXENT_PROJECT_TOOL</span> <span class="o">=</span> <span class="s1">&#39;density.Project&#39;</span></div>
+<div class="viewcode-block" id="MAXENT_CONVERT_TOOL"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_CONVERT_TOOL">[docs]</a><span class="n">MAXENT_CONVERT_TOOL</span> <span class="o">=</span> <span class="s1">&#39;density.Convert&#39;</span></div>
+<span class="c1"># MAXENT_VERSION = os.environ[&#39;MAXENT_VERSION&#39;]</span>
+
+<div class="viewcode-block" id="DEFAULT_MAXENT_OPTIONS"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.DEFAULT_MAXENT_OPTIONS">[docs]</a><span class="n">DEFAULT_MAXENT_OPTIONS</span> <span class="o">=</span> <span class="s1">&#39;nowarnings nocache autorun -z&#39;</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="create_maxent_model"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.create_maxent_model">[docs]</a><span class="k">def</span> <span class="nf">create_maxent_model</span><span class="p">(</span>
+    <span class="n">points_filename</span><span class="p">,</span>
+    <span class="n">layer_dir</span><span class="p">,</span>
+    <span class="n">work_dir</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span>
+    <span class="n">maxent_arguments</span><span class="o">=</span><span class="n">DEFAULT_MAXENT_OPTIONS</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run Maxent.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        points_filename: filename containing occurrence point data</span>
+<span class="sd">        layer_dir: directory containing environmental layer input</span>
+<span class="sd">        work_dir:  directory for computations.</span>
+<span class="sd">        maxent_arguments: parameters for the Maxent program.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model_command</span> <span class="o">=</span> <span class="p">[</span><span class="n">JAVA_CMD</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">JAVA_OPTS</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">model_command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">JAVA_OPTS</span><span class="p">)</span>
+    <span class="n">model_command</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="s1">&#39;-cp&#39;</span><span class="p">,</span>
+            <span class="n">MAXENT_JAR</span><span class="p">,</span>
+            <span class="n">MAXENT_MODEL_TOOL</span><span class="p">,</span>
+            <span class="n">f</span><span class="s1">&#39;samplesfile=</span><span class="si">{points_filename}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;-e&#39;</span><span class="p">,</span>
+            <span class="n">layer_dir</span><span class="p">,</span>
+            <span class="s1">&#39;-o&#39;</span><span class="p">,</span>
+            <span class="n">work_dir</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">model_command</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">maxent_arguments</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">model_command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="test_subprocess"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.test_subprocess">[docs]</a><span class="k">def</span> <span class="nf">test_subprocess</span><span class="p">(</span>
+    <span class="n">points_filename</span><span class="p">,</span>
+    <span class="n">layer_dir</span><span class="p">,</span>
+    <span class="n">work_dir</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span>
+    <span class="n">maxent_arguments</span><span class="o">=</span><span class="n">DEFAULT_MAXENT_OPTIONS</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run Maxent.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        points_filename: filename containing occurrence point data</span>
+<span class="sd">        layer_dir: directory containing environmental layer input</span>
+<span class="sd">        work_dir:  directory for computations.</span>
+<span class="sd">        maxent_arguments: parameters for the Maxent program.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model_command</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;java&quot;</span><span class="p">]</span>
+    <span class="n">model_command</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="s1">&#39;-cp&#39;</span><span class="p">,</span>
+            <span class="n">MAXENT_JAR</span><span class="p">,</span>
+            <span class="n">MAXENT_MODEL_TOOL</span><span class="p">,</span>
+            <span class="n">f</span><span class="s1">&#39;samplesfile=</span><span class="si">{points_filename}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;-e&#39;</span><span class="p">,</span>
+            <span class="n">layer_dir</span><span class="p">,</span>
+            <span class="s1">&#39;-o&#39;</span><span class="p">,</span>
+            <span class="n">work_dir</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">model_command</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">maxent_arguments</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">model_command</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="project_maxent_model"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.project_maxent_model">[docs]</a><span class="k">def</span> <span class="nf">project_maxent_model</span><span class="p">(</span>
+    <span class="n">maxent_lambdas_file</span><span class="p">,</span>
+    <span class="n">layer_dir</span><span class="p">,</span>
+    <span class="n">proj_raster_filename</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Project a maxent model onto environmental layers to produce a predicted map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        maxent_lambdas_file: Maxent model file</span>
+<span class="sd">        layer_dir: directory containing environmental layers to project onto.</span>
+<span class="sd">        proj_raster_filename: filename for output raster</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">project_command</span> <span class="o">=</span> <span class="p">[</span><span class="n">JAVA_CMD</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">JAVA_OPTS</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">project_command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">JAVA_OPTS</span><span class="p">)</span>
+    <span class="n">project_command</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="s1">&#39;-cp&#39;</span><span class="p">,</span>
+            <span class="n">MAXENT_JAR</span><span class="p">,</span>
+            <span class="n">MAXENT_PROJECT_TOOL</span><span class="p">,</span>
+            <span class="n">maxent_lambdas_file</span><span class="p">,</span>
+            <span class="n">layer_dir</span><span class="p">,</span>
+            <span class="n">proj_raster_filename</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">project_command</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

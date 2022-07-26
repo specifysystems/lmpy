@@ -1,0 +1,127 @@
+:py:mod:`lmpy.sdm.model`
+========================
+
+.. py:module:: lmpy.sdm.model
+
+.. autoapi-nested-parse::
+
+   Module containing tools for creating an SDM.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.sdm.model._create_mask
+   lmpy.sdm.model.callersname
+   lmpy.sdm.model.create_sdm
+   lmpy.sdm.model.log
+   lmpy.sdm.model.match_headers
+   lmpy.sdm.model.project_sdm
+
+
+
+.. py:function:: _create_mask(point_tuples, ecoregions_filename, work_dir, env_dir, maxent_arguments, logger)
+
+
+.. py:function:: callersname()
+
+   Find the name of the function from which this method is called.
+
+   :returns: The function name.
+
+
+.. py:function:: create_sdm(min_points, csv_filename, env_dir, ecoregions_filename, work_dir, species_name, maxent_arguments=DEFAULT_MAXENT_OPTIONS, sp_key='species_name', x_key='x', y_key='y', create_mask=True, logger=None)
+
+   Create an SDM, Maxent model if there are enough points, `rare species` if not.
+
+   :param min_points: Number of points to determine whether to use Maxent or
+                      rare-species modeling
+   :type min_points: int
+   :param csv_filename: input filename with species points
+   :type csv_filename: str
+   :param env_dir: directory containing environmental layers for model creation
+   :type env_dir: str
+   :param ecoregions_filename: Vector file containing ecoregions or other
+                               environmental regions for masking in Maxent or intersecting with a convex
+                               hull in rare-species model
+   :type ecoregions_filename: str
+   :param work_dir: directory for temporary modeling files
+   :type work_dir: str
+   :param maxent_arguments: space-separated values for Maxent parameters
+   :type maxent_arguments: str
+   :param species_name: name to use for the output model filename
+   :type species_name: str
+   :param sp_key: fieldname of the column containing the species name for grouping
+   :type sp_key: str
+   :param x_key: fieldname of the column containing the longitude coordinate
+   :type x_key: str
+   :param y_key: fieldname of the column containing the latitude coordinate
+   :type y_key: str
+   :param create_mask: flag indicating whether to create a mask for Maxent
+   :type create_mask: bool
+   :param logger: Logger for writing messages to console and/or file.
+   :type logger: logging.logger
+
+   :returns:
+
+             either model raster filename for rare species model
+                 or lambdas filename for Maxent
+   :rtype: output_filename
+
+       report (dict): dictionary containing relevant metadata about the model
+
+
+.. py:function:: log(msg, logger, log_level=INFO)
+
+   Log a message.
+
+   :param msg: A message to write to the logger.
+   :type msg: str
+   :param logger: Logger for writing messages to console and/or file.
+   :type logger: logging.logger
+   :param log_level: A level to use when logging the message.
+   :type log_level: int
+
+
+.. py:function:: match_headers(mask_filename, tmp_mask_filename, template_layer_filename)
+
+   Match headers with template layer.
+
+   :param mask_filename: Input filename to update with headers
+   :param tmp_mask_filename: Raster filename fromm which to copy the values above the 6th
+   :param template_layer_filename: Layer filename from which to copy the first 6 values
+
+
+.. py:function:: project_sdm(maxent_lambdas_file, env_dir, species_name, work_dir, logger=None)
+
+   Project a Maxent model onto env. layers for a potential distribution map.
+
+   .. note::
+
+      create_sdm creates a raster projected distribution map using the same
+      environmental layers as were used for modeling.  This function is intended to
+      project an pre-created model onto different environmental layres.
+
+   :param maxent_lambdas_file: input filename with Maxent rules
+   :type maxent_lambdas_file: str
+   :param env_dir: directory containing environmental layers for model projection
+   :type env_dir: str
+   :param work_dir: directory for temporary modeling files
+   :type work_dir: str
+   :param species_name: name to use for the output model filename
+   :type species_name: str
+   :param logger: Logger for writing messages to console and/or file.
+   :type logger: logging.logger
+
+   :returns: output filename
+             report (dict): dictionary containing relevant metadata about the model
+   :rtype: projection_raster_filename
+
+

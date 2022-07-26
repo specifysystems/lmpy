@@ -50,7 +50,7 @@ Classes
 
       
 
-   .. py:method:: _pass_condition(self, point)
+   .. py:method:: _pass_condition(point)
 
       Assess a point to see if it passes the spatial index filter.
 

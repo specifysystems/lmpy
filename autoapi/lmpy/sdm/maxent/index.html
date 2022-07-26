@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.sdm.maxent &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.sdm.maxent</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/lmpy/sdm/maxent/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-lmpy.sdm.maxent">
+<span id="lmpy-sdm-maxent"></span><h1><a class="reference internal" href="#module-lmpy.sdm.maxent" title="lmpy.sdm.maxent"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.sdm.maxent</span></code></a><a class="headerlink" href="#module-lmpy.sdm.maxent" title="Permalink to this heading"></a></h1>
+<p>Module containing MaxEnt constants.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.create_maxent_model" title="lmpy.sdm.maxent.create_maxent_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_maxent_model</span></code></a>(points_filename, layer_dir[, ...])</p></td>
+<td><p>Run Maxent.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.project_maxent_model" title="lmpy.sdm.maxent.project_maxent_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_maxent_model</span></code></a>(maxent_lambdas_file, layer_dir, ...)</p></td>
+<td><p>Project a maxent model onto environmental layers to produce a predicted map.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.test_subprocess" title="lmpy.sdm.maxent.test_subprocess"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_subprocess</span></code></a>(points_filename, layer_dir[, ...])</p></td>
+<td><p>Run Maxent.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.DEFAULT_MAXENT_OPTIONS" title="lmpy.sdm.maxent.DEFAULT_MAXENT_OPTIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MAXENT_OPTIONS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.JAVA_CMD" title="lmpy.sdm.maxent.JAVA_CMD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JAVA_CMD</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.JAVA_OPTS" title="lmpy.sdm.maxent.JAVA_OPTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JAVA_OPTS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.MAXENT_CONVERT_TOOL" title="lmpy.sdm.maxent.MAXENT_CONVERT_TOOL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAXENT_CONVERT_TOOL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.MAXENT_JAR" title="lmpy.sdm.maxent.MAXENT_JAR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAXENT_JAR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.MAXENT_MODEL_TOOL" title="lmpy.sdm.maxent.MAXENT_MODEL_TOOL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAXENT_MODEL_TOOL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.MAXENT_PROJECT_TOOL" title="lmpy.sdm.maxent.MAXENT_PROJECT_TOOL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAXENT_PROJECT_TOOL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.maxent.MAXENT_VERSION" title="lmpy.sdm.maxent.MAXENT_VERSION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAXENT_VERSION</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.DEFAULT_MAXENT_OPTIONS">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_MAXENT_OPTIONS</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">nowarnings</span> <span class="pre">nocache</span> <span class="pre">autorun</span> <span class="pre">-z</span></em><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#DEFAULT_MAXENT_OPTIONS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.DEFAULT_MAXENT_OPTIONS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.JAVA_CMD">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">JAVA_CMD</span></span><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#JAVA_CMD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.JAVA_CMD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.JAVA_OPTS">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">JAVA_OPTS</span></span><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#JAVA_OPTS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.JAVA_OPTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.MAXENT_CONVERT_TOOL">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">MAXENT_CONVERT_TOOL</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">density.Convert</span></em><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#MAXENT_CONVERT_TOOL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.MAXENT_CONVERT_TOOL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.MAXENT_JAR">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">MAXENT_JAR</span></span><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#MAXENT_JAR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.MAXENT_JAR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.MAXENT_MODEL_TOOL">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">MAXENT_MODEL_TOOL</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">density.MaxEnt</span></em><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#MAXENT_MODEL_TOOL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.MAXENT_MODEL_TOOL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.MAXENT_PROJECT_TOOL">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">MAXENT_PROJECT_TOOL</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">density.Project</span></em><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#MAXENT_PROJECT_TOOL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.MAXENT_PROJECT_TOOL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.MAXENT_VERSION">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">MAXENT_VERSION</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">3.4.4</span></em><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#MAXENT_VERSION"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.MAXENT_VERSION" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.create_maxent_model">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">create_maxent_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">work_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxent_arguments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_MAXENT_OPTIONS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#create_maxent_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.create_maxent_model" title="Permalink to this definition"></a></dt>
+<dd><p>Run Maxent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points_filename</strong> – filename containing occurrence point data</p></li>
+<li><p><strong>layer_dir</strong> – directory containing environmental layer input</p></li>
+<li><p><strong>work_dir</strong> – directory for computations.</p></li>
+<li><p><strong>maxent_arguments</strong> – parameters for the Maxent program.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.project_maxent_model">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">project_maxent_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxent_lambdas_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj_raster_filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#project_maxent_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.project_maxent_model" title="Permalink to this definition"></a></dt>
+<dd><p>Project a maxent model onto environmental layers to produce a predicted map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maxent_lambdas_file</strong> – Maxent model file</p></li>
+<li><p><strong>layer_dir</strong> – directory containing environmental layers to project onto.</p></li>
+<li><p><strong>proj_raster_filename</strong> – filename for output raster</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lmpy.sdm.maxent.test_subprocess">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.maxent.</span></span><span class="sig-name descname"><span class="pre">test_subprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">work_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxent_arguments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_MAXENT_OPTIONS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/sdm/maxent.html#test_subprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.maxent.test_subprocess" title="Permalink to this definition"></a></dt>
+<dd><p>Run Maxent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points_filename</strong> – filename containing occurrence point data</p></li>
+<li><p><strong>layer_dir</strong> – directory containing environmental layer input</p></li>
+<li><p><strong>work_dir</strong> – directory for computations.</p></li>
+<li><p><strong>maxent_arguments</strong> – parameters for the Maxent program.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

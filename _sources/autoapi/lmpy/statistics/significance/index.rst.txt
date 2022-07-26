@@ -42,7 +42,7 @@ Functions
    :param compare_fn: A function used to compare values.
    :type compare_fn: Method
 
-   .. py:method:: add_permutation(self, test_val)
+   .. py:method:: add_permutation(test_val)
 
       Compare the observed value with a test value and add to tracking.
 
@@ -50,7 +50,7 @@ Functions
       :type test_val: Matrix
 
 
-   .. py:method:: get_p_values(self, num_iterations=None)
+   .. py:method:: get_p_values(num_iterations=None)
 
       Compute raw p-values from the permutations.
 

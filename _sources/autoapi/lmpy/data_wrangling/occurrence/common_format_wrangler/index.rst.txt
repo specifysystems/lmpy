@@ -43,7 +43,7 @@ Classes
 
       
 
-   .. py:method:: _modify_point(self, point)
+   .. py:method:: _modify_point(point)
 
       Update point attributes.
 

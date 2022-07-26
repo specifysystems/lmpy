@@ -1,0 +1,110 @@
+:py:mod:`lmpy.sdm.maxent`
+=========================
+
+.. py:module:: lmpy.sdm.maxent
+
+.. autoapi-nested-parse::
+
+   Module containing MaxEnt constants.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.sdm.maxent.create_maxent_model
+   lmpy.sdm.maxent.project_maxent_model
+   lmpy.sdm.maxent.test_subprocess
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.sdm.maxent.DEFAULT_MAXENT_OPTIONS
+   lmpy.sdm.maxent.JAVA_CMD
+   lmpy.sdm.maxent.JAVA_OPTS
+   lmpy.sdm.maxent.MAXENT_CONVERT_TOOL
+   lmpy.sdm.maxent.MAXENT_JAR
+   lmpy.sdm.maxent.MAXENT_MODEL_TOOL
+   lmpy.sdm.maxent.MAXENT_PROJECT_TOOL
+   lmpy.sdm.maxent.MAXENT_VERSION
+
+
+.. py:data:: DEFAULT_MAXENT_OPTIONS
+   :annotation: = nowarnings nocache autorun -z
+
+   
+
+.. py:data:: JAVA_CMD
+   
+
+   
+
+.. py:data:: JAVA_OPTS
+   
+
+   
+
+.. py:data:: MAXENT_CONVERT_TOOL
+   :annotation: = density.Convert
+
+   
+
+.. py:data:: MAXENT_JAR
+   
+
+   
+
+.. py:data:: MAXENT_MODEL_TOOL
+   :annotation: = density.MaxEnt
+
+   
+
+.. py:data:: MAXENT_PROJECT_TOOL
+   :annotation: = density.Project
+
+   
+
+.. py:data:: MAXENT_VERSION
+   :annotation: = 3.4.4
+
+   
+
+.. py:function:: create_maxent_model(points_filename, layer_dir, work_dir='.', maxent_arguments=DEFAULT_MAXENT_OPTIONS)
+
+   Run Maxent.
+
+   :param points_filename: filename containing occurrence point data
+   :param layer_dir: directory containing environmental layer input
+   :param work_dir: directory for computations.
+   :param maxent_arguments: parameters for the Maxent program.
+
+
+.. py:function:: project_maxent_model(maxent_lambdas_file, layer_dir, proj_raster_filename)
+
+   Project a maxent model onto environmental layers to produce a predicted map.
+
+   :param maxent_lambdas_file: Maxent model file
+   :param layer_dir: directory containing environmental layers to project onto.
+   :param proj_raster_filename: filename for output raster
+
+
+.. py:function:: test_subprocess(points_filename, layer_dir, work_dir='.', maxent_arguments=DEFAULT_MAXENT_OPTIONS)
+
+   Run Maxent.
+
+   :param points_filename: filename containing occurrence point data
+   :param layer_dir: directory containing environmental layer input
+   :param work_dir: directory for computations.
+   :param maxent_arguments: parameters for the Maxent program.
+
+

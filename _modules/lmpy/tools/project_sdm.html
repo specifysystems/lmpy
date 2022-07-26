@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.tools.project_sdm &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.tools.project_sdm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.tools.project_sdm</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Create an SDM using a method determined by the data.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.sdm.model</span> <span class="k">import</span> <span class="n">project_sdm</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">test_files</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="DESCRIPTION"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/project_sdm/index.html#lmpy.tools.project_sdm.DESCRIPTION">[docs]</a><span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Create a species distribution model (SDM) from species data and environmental data and</span>
+<span class="s2">project the model back onto the environmental data of the same type, but the same or</span>
+<span class="s2">different values.&quot;&quot;&quot;</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="build_parser"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/project_sdm/index.html#lmpy.tools.project_sdm.build_parser">[docs]</a><span class="k">def</span> <span class="nf">build_parser</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Build an argparse.ArgumentParser object for the tool.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        argparse.ArgumentParser: An argument parser for the tool&#39;s parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;project_sdm&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--config_file&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Configuration file containing script arguments.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--log_filename&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-l&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A file location to write logging data.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--log_console&#39;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If provided, write log to console.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;-r&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--report_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write the wrangler report.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--species_name&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Name of taxon to be projected.&#39;</span>
+    <span class="p">)</span>
+    <span class="c1"># parser.add_argument(</span>
+    <span class="c1">#     &#39;-z&#39;, &#39;--package_filename&#39;, type=str, help=&#39;Output package zip file.&#39;</span>
+    <span class="c1"># )</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;maxent_lambdas_file&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File containing Maxent SDM lambdas file.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;env_dir&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Directory containing environment layers for modeling.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;work_dir&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Directory where work can be done.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;model_raster_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write final model raster.&#39;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="c1"># def test_inputs(args):</span>
+<span class="c1">#     &quot;&quot;&quot;Test input data and configuration files for existence.</span>
+<span class="c1">#</span>
+<span class="c1">#     Args:</span>
+<span class="c1">#         args: arguments pre-processed for this tool.</span>
+<span class="c1">#</span>
+<span class="c1">#     Returns:</span>
+<span class="c1">#         all_missing_inputs: Error messages for display on exit.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     # for fn in os.path.args.env_dir</span>
+<span class="c1">#     errs = test_files([args.maxent_lambdas_file, &quot;Maxent model file&quot;])</span>
+<span class="c1">#     return errs</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/project_sdm/index.html#lmpy.tools.project_sdm.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Provide a command-line interface for SDM modeling.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        create_sdm creates a raster projected distribution map using the same</span>
+<span class="sd">        environmental layers as were used for modeling.  This function is intended to</span>
+<span class="sd">        project an pre-created model onto different environmental layres.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
+
+    <span class="n">maxent_lambdas_file</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{args.maxent_lambdas_file}</span><span class="s2">&quot;</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">([</span><span class="n">maxent_lambdas_file</span><span class="p">,</span> <span class="s2">&quot;Maxent model file&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">errs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
+
+    <span class="n">script_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span>
+        <span class="n">script_name</span><span class="p">,</span>
+        <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
+        <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
+    <span class="p">)</span>
+
+    <span class="n">species_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">species_name</span>
+    <span class="k">if</span> <span class="n">species_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">species_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_raster_filename</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">output_raster_filename</span><span class="p">,</span> <span class="n">report</span> <span class="o">=</span> <span class="n">project_sdm</span><span class="p">(</span>
+        <span class="n">maxent_lambdas_file</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">env_dir</span><span class="p">,</span>
+        <span class="n">species_name</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">work_dir</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">logger</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Move model raster</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_map_filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">output_raster_filename</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_map_filename</span><span class="p">)</span>
+
+    <span class="c1"># Conditionally write report file</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">report_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">report</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">out_json</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="workdir"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/project_sdm/index.html#lmpy.tools.project_sdm.workdir">[docs]</a>    <span class="n">workdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;PWD is </span><span class="si">{workdir}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">cli</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.wrangle_occurrences &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
+  <title>lmpy.tools.wrangle_occurrences &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -79,7 +79,6 @@
 <span></span><span class="sd">&quot;&quot;&quot;This tool cleans occurrence records according to the wranglers specified.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">INFO</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="k">import</span> <span class="n">WranglerFactory</span>
@@ -102,7 +101,7 @@
 <span class="sd">            and / or filter Points for cleaning.</span>
 <span class="sd">        write_fields (list or None): A list of Point attributes to write to output CSV.</span>
 <span class="sd">            If None, determine from first cleaned Point.</span>
-<span class="sd">        log_output (bool): Should output be logged to console.</span>
+<span class="sd">        logger (logging.Logger): A default logger to use when wrangling.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict: Output report from data wrangling.</span>

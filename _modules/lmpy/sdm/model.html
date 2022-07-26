@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lmpy.sdm.model &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Specify lmpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#lmpy-installation">lmpy Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/installation.html#alternative-install-and-run-with-a-docker-container">Alternative: Install and run with a Docker Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scripts/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/glossary.html">Lmpy Term Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pages/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Specify lmpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>lmpy.sdm.model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lmpy.sdm.model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing tools for creating an SDM.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">INFO</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># import shutil</span>
+
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">PointCsvWriter</span>
+<span class="kn">from</span> <span class="nn">lmpy.sdm.maxent</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">create_maxent_model</span><span class="p">,</span> <span class="n">DEFAULT_MAXENT_OPTIONS</span><span class="p">,</span> <span class="n">project_maxent_model</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools.create_rare_species_model</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">create_rare_species_model</span><span class="p">,</span> <span class="n">read_points</span><span class="p">)</span>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="match_headers"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.match_headers">[docs]</a><span class="k">def</span> <span class="nf">match_headers</span><span class="p">(</span><span class="n">mask_filename</span><span class="p">,</span> <span class="n">tmp_mask_filename</span><span class="p">,</span> <span class="n">template_layer_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Match headers with template layer.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mask_filename: Input filename to update with headers</span>
+<span class="sd">        tmp_mask_filename: Raster filename fromm which to copy the values above the 6th</span>
+<span class="sd">        template_layer_filename: Layer filename from which to copy the first 6 values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mask_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mask_out</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template_layer_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">template_in</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                <span class="n">mask_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">template_in</span><span class="p">))</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmp_mask_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp_mask_in</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">tmp_mask_in</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
+                    <span class="n">mask_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="_create_mask"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model._create_mask">[docs]</a><span class="k">def</span> <span class="nf">_create_mask</span><span class="p">(</span>
+        <span class="n">point_tuples</span><span class="p">,</span> <span class="n">ecoregions_filename</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span> <span class="n">maxent_arguments</span><span class="p">,</span> <span class="n">logger</span><span class="p">):</span>
+    <span class="n">work_env_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s1">&#39;model_layers&#39;</span><span class="p">)</span>
+    <span class="n">mask_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_env_dir</span><span class="p">,</span> <span class="s1">&#39;mask.asc&#39;</span><span class="p">)</span>
+    <span class="n">tmp_mask_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s1">&#39;tmp_mask.asc&#39;</span><span class="p">)</span>
+    <span class="n">create_rare_species_model</span><span class="p">(</span>
+        <span class="n">point_tuples</span><span class="p">,</span>
+        <span class="n">ecoregions_filename</span><span class="p">,</span>
+        <span class="n">tmp_mask_filename</span>
+    <span class="p">)</span>
+    <span class="c1"># Copy headers from one of the environment layers so that they match</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env_dir</span><span class="p">,</span> <span class="s1">&#39;*.asc&#39;</span><span class="p">))</span>
+    <span class="n">first_env_layer</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">match_headers</span><span class="p">(</span>
+        <span class="n">mask_filename</span><span class="p">,</span>
+        <span class="n">tmp_mask_filename</span><span class="p">,</span>
+        <span class="n">first_env_layer</span>
+        <span class="c1"># glob.glob(os.path.join(env_dir, &#39;*.asc&#39;))[0]</span>
+        <span class="c1"># glob.glob(os.path.join(work_env_dir, &#39;*.asc&#39;))[0]</span>
+    <span class="p">)</span>
+    <span class="c1"># Remove tmp_mask after mask is created and matched</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmp_mask_filename</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tmp_mask_filename</span><span class="p">)</span>
+    <span class="n">maxent_arguments</span> <span class="o">+=</span> <span class="s1">&#39; togglelayertype=mask&#39;</span>
+
+    <span class="k">return</span> <span class="n">maxent_arguments</span><span class="p">,</span> <span class="n">mask_filename</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="create_sdm"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.create_sdm">[docs]</a><span class="k">def</span> <span class="nf">create_sdm</span><span class="p">(</span>
+    <span class="n">min_points</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span> <span class="n">ecoregions_filename</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">,</span> <span class="n">species_name</span><span class="p">,</span>
+    <span class="n">maxent_arguments</span><span class="o">=</span><span class="n">DEFAULT_MAXENT_OPTIONS</span><span class="p">,</span> <span class="n">sp_key</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+    <span class="n">y_key</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">create_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an SDM, Maxent model if there are enough points, `rare species` if not.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        min_points (int): Number of points to determine whether to use Maxent or</span>
+<span class="sd">            rare-species modeling</span>
+<span class="sd">        csv_filename (str): input filename with species points</span>
+<span class="sd">        env_dir (str): directory containing environmental layers for model creation</span>
+<span class="sd">        ecoregions_filename (str): Vector file containing ecoregions or other</span>
+<span class="sd">            environmental regions for masking in Maxent or intersecting with a convex</span>
+<span class="sd">            hull in rare-species model</span>
+<span class="sd">        work_dir (str): directory for temporary modeling files</span>
+<span class="sd">        maxent_arguments (str): space-separated values for Maxent parameters</span>
+<span class="sd">        species_name (str): name to use for the output model filename</span>
+<span class="sd">        sp_key (str): fieldname of the column containing the species name for grouping</span>
+<span class="sd">        x_key (str): fieldname of the column containing the longitude coordinate</span>
+<span class="sd">        y_key (str): fieldname of the column containing the latitude coordinate</span>
+<span class="sd">        create_mask (bool): flag indicating whether to create a mask for Maxent</span>
+<span class="sd">        logger (logging.logger): Logger for writing messages to console and/or file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">                output_filename: either model raster filename for rare species model</span>
+<span class="sd">                    or lambdas filename for Maxent</span>
+<span class="sd">        report (dict): dictionary containing relevant metadata about the model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">species_name</span> <span class="o">=</span> <span class="n">Point</span><span class="o">.</span><span class="n">standardize_species_name</span><span class="p">(</span><span class="n">species_name</span><span class="p">)</span>
+    <span class="n">point_tuples</span> <span class="o">=</span> <span class="n">read_points</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">sp_key</span><span class="p">,</span> <span class="n">x_key</span><span class="p">,</span> <span class="n">y_key</span><span class="p">)</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">species_name</span><span class="p">,</span>
+        <span class="s2">&quot;num_points&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">point_tuples</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">work_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">work_dir</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">point_tuples</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_points</span><span class="p">:</span>
+        <span class="n">projected_distribution_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{species_name}</span><span class="s1">.asc&#39;</span><span class="p">)</span>
+        <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Create rare species model and map&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="n">create_rare_species_model</span><span class="p">(</span>
+            <span class="n">point_tuples</span><span class="p">,</span> <span class="n">ecoregions_filename</span><span class="p">,</span> <span class="n">projected_distribution_filename</span><span class="p">)</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rare_species_model&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;maxent&quot;</span>
+        <span class="c1"># Create model env layer directory in work dir</span>
+        <span class="n">work_env_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s1">&#39;model_layers&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">symlink</span><span class="p">(</span><span class="n">env_dir</span><span class="p">,</span> <span class="n">work_env_dir</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">create_mask</span><span class="p">:</span>
+            <span class="n">maxent_arguments</span><span class="p">,</span> <span class="n">mask_filename</span> <span class="o">=</span> <span class="n">_create_mask</span><span class="p">(</span>
+                <span class="n">point_tuples</span><span class="p">,</span> <span class="n">ecoregions_filename</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span>
+                <span class="n">maxent_arguments</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+
+        <span class="n">me_csv_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">work_dir</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;{species_name.replace(&#39; &#39;, &#39;_&#39;)}.csv&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">PointCsvWriter</span><span class="p">(</span><span class="n">me_csv_filename</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;species_name&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">write_points</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="n">species_name</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">point_tuples</span><span class="p">])</span>
+        <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Create Maxent model&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="n">create_maxent_model</span><span class="p">(</span><span class="n">me_csv_filename</span><span class="p">,</span> <span class="n">work_env_dir</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">,</span> <span class="n">maxent_arguments</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">model_file</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s2">&quot;*.lambdas&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Completed Maxent model with lambdas file </span><span class="si">{model_file}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Failed to produce Maxent model for </span><span class="si">{csv_filename}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+
+        <span class="c1"># If used a mask, move it from common env dir to work_dir</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">mask_filename</span><span class="p">):</span>
+            <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Delete mask </span><span class="si">{mask_filename}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+            <span class="c1"># shutil.move(mask_filename, work_dir)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">mask_filename</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">work_env_dir</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">report</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="project_sdm"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.project_sdm">[docs]</a><span class="k">def</span> <span class="nf">project_sdm</span><span class="p">(</span><span class="n">maxent_lambdas_file</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span> <span class="n">species_name</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Project a Maxent model onto env. layers for a potential distribution map.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        create_sdm creates a raster projected distribution map using the same</span>
+<span class="sd">        environmental layers as were used for modeling.  This function is intended to</span>
+<span class="sd">        project an pre-created model onto different environmental layres.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        maxent_lambdas_file (str): input filename with Maxent rules</span>
+<span class="sd">        env_dir (str): directory containing environmental layers for model projection</span>
+<span class="sd">        work_dir (str): directory for temporary modeling files</span>
+<span class="sd">        species_name (str): name to use for the output model filename</span>
+<span class="sd">        logger (logging.logger): Logger for writing messages to console and/or file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        projection_raster_filename: output filename</span>
+<span class="sd">        report (dict): dictionary containing relevant metadata about the model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">species_name</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;maxent&quot;</span><span class="p">,</span> <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;project&quot;</span><span class="p">}</span>
+
+    <span class="n">maxent_raster_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{species_name}</span><span class="s1">.asc&#39;</span><span class="p">)</span>
+    <span class="c1"># Create model env layer directory in work dir</span>
+    <span class="n">work_env_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s2">&quot;proj_layers&quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">symlink</span><span class="p">(</span><span class="n">env_dir</span><span class="p">,</span> <span class="n">work_env_dir</span><span class="p">)</span>
+
+    <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Projecting Maxent model </span><span class="si">{maxent_lambdas_file}</span><span class="s2"> onto map&quot;</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">project_maxent_model</span><span class="p">(</span><span class="n">maxent_lambdas_file</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span> <span class="n">maxent_raster_filename</span><span class="p">)</span>
+    <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Completed projecting Maxent model onto map </span><span class="si">{maxent_raster_filename}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">work_env_dir</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">maxent_raster_filename</span><span class="p">,</span> <span class="n">report</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="log"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.log">[docs]</a><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Log a message.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msg (str): A message to write to the logger.</span>
+<span class="sd">        logger (logging.logger): Logger for writing messages to console and/or file.</span>
+<span class="sd">        log_level (int): A level to use when logging the message.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">caller</span> <span class="o">=</span> <span class="n">callersname</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">log_level</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{caller}</span><span class="s2">: </span><span class="si">{msg}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="callersname"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.callersname">[docs]</a><span class="k">def</span> <span class="nf">callersname</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Find the name of the function from which this method is called.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The function name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Specify Lifemapper Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

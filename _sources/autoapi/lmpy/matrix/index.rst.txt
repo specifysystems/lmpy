@@ -62,7 +62,7 @@ Classes
    :returns: A converted numpy array to Matrix.
    :rtype: Matrix
 
-   .. py:method:: T(self)
+   .. py:method:: T()
       :property:
 
       Get the transpose of the matrix.
@@ -71,7 +71,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: __array_finalize__(self, obj)
+   .. py:method:: __array_finalize__(obj)
 
       Overridden function from ndarray.
 
@@ -83,7 +83,7 @@ Classes
                     metadata.
 
 
-   .. py:method:: concatenate(cls, mtx_list, axis=0)
+   .. py:method:: concatenate(mtx_list, axis=0)
       :classmethod:
 
       Concatenates multiple Matrix objects together to form a new Matrix.
@@ -102,7 +102,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: flatten_2d(self)
+   .. py:method:: flatten_2d()
 
       Flattens a higher dimension Matrix object into a 2D matrix.
 
@@ -115,14 +115,14 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: get_column_headers(self)
+   .. py:method:: get_column_headers()
 
       Shortcut to get column headers.
 
       :returns: A list of headers for each column.
 
 
-   .. py:method:: get_headers(self, axis=None)
+   .. py:method:: get_headers(axis=None)
 
       Gets the headers associated with this Matrix.
 
@@ -135,7 +135,7 @@ Classes
       :rtype: dict
 
 
-   .. py:method:: get_metadata(self)
+   .. py:method:: get_metadata()
 
       Retrieves matrix metadata.
 
@@ -143,14 +143,14 @@ Classes
       :rtype: dict
 
 
-   .. py:method:: get_row_headers(self)
+   .. py:method:: get_row_headers()
 
       Shortcut to get row headers.
 
       :returns: A list of headers for the rows in the matrix.
 
 
-   .. py:method:: load(cls, filename)
+   .. py:method:: load(filename)
       :classmethod:
 
       Load a matrix from a filename.
@@ -165,7 +165,7 @@ Classes
       :raises Exception: on unexpected matrix load error.
 
 
-   .. py:method:: load_csv(cls, flo, dtype=float, num_header_rows=0, num_header_cols=0)
+   .. py:method:: load_csv(flo, dtype=float, num_header_rows=0, num_header_cols=0)
       :classmethod:
 
       Attempts to load a Matrix object from a CSV file-like object.
@@ -186,7 +186,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: load_flo(cls, flo)
+   .. py:method:: load_flo(flo)
       :classmethod:
 
       Attempts to load a Matrix object from a file.
@@ -198,7 +198,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: save(self, flo)
+   .. py:method:: save(flo)
 
       Saves the Matrix to a file-like object.
 
@@ -209,7 +209,7 @@ Classes
       :type flo: file-like
 
 
-   .. py:method:: set_column_headers(self, headers)
+   .. py:method:: set_column_headers(headers)
 
       Shortcut to set column headers.
 
@@ -217,7 +217,7 @@ Classes
       :type headers: :obj:`list` of :obj:`str`
 
 
-   .. py:method:: set_headers(self, headers, axis=None)
+   .. py:method:: set_headers(headers, axis=None)
 
       Sets the headers for this Matrix.
 
@@ -238,7 +238,7 @@ Classes
              axes.
 
 
-   .. py:method:: set_row_headers(self, headers)
+   .. py:method:: set_row_headers(headers)
 
       Shortcut to set row headers.
 
@@ -246,7 +246,7 @@ Classes
       :type headers: :obj:`list` of :obj:`str`
 
 
-   .. py:method:: slice(self, *args)
+   .. py:method:: slice(*args)
 
       Subsets the matrix and returns a new instance.
 
@@ -262,7 +262,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: slice_by_header(self, header, axis)
+   .. py:method:: slice_by_header(header, axis)
 
       Gets a slice of the Matrix matching the header provided.
 
@@ -281,7 +281,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: transpose(self, *axes)
+   .. py:method:: transpose(*axes)
 
       Transposes the Matrix.
 
@@ -293,7 +293,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: write(self, filename)
+   .. py:method:: write(filename)
 
       Write the matrix to the specified file location.
 
@@ -304,7 +304,7 @@ Classes
       :raises IOError: on failure to write to filename.
 
 
-   .. py:method:: write_csv(self, flo, *slice_args)
+   .. py:method:: write_csv(flo, *slice_args)
 
       Writes the Matrix object to a CSV file-like object.
 

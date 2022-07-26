@@ -1,0 +1,79 @@
+:py:mod:`lmpy.tools.project_sdm`
+================================
+
+.. py:module:: lmpy.tools.project_sdm
+
+.. autoapi-nested-parse::
+
+   Create an SDM using a method determined by the data.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.project_sdm.build_parser
+   lmpy.tools.project_sdm.cli
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.tools.project_sdm.DESCRIPTION
+   lmpy.tools.project_sdm.workdir
+
+
+.. py:data:: DESCRIPTION
+   :annotation: = Multiline-String
+
+    .. raw:: html
+
+        <details><summary>Show Value</summary>
+
+    .. code-block:: text
+        :linenos:
+
+        
+        Create a species distribution model (SDM) from species data and environmental data and
+        project the model back onto the environmental data of the same type, but the same or
+        different values.
+
+    .. raw:: html
+
+        </details>
+
+   
+
+.. py:function:: build_parser()
+
+   Build an argparse.ArgumentParser object for the tool.
+
+   :returns: An argument parser for the tool's parameters.
+   :rtype: argparse.ArgumentParser
+
+
+.. py:function:: cli()
+
+   Provide a command-line interface for SDM modeling.
+
+   .. note::
+
+      create_sdm creates a raster projected distribution map using the same
+      environmental layers as were used for modeling.  This function is intended to
+      project an pre-created model onto different environmental layres.
+
+
+.. py:data:: workdir
+   
+
+   
+

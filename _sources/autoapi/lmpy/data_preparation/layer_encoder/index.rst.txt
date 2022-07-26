@@ -41,7 +41,7 @@ Classes
    :param grid_filename: A file path for the grid.
    :type grid_filename: str
 
-   .. py:method:: _encode_layer(self, window_func, encode_func, column_name, num_columns=1)
+   .. py:method:: _encode_layer(window_func, encode_func, column_name, num_columns=1)
 
       Encodes the layer using the provided encoding function.
 
@@ -97,14 +97,14 @@ Classes
       .. todo:: CJ - Enable hexagonal windows by masking data.
 
 
-   .. py:method:: _read_grid(self, grid_filename)
+   .. py:method:: _read_grid(grid_filename)
 
       Read the grid.
 
       :param grid_filename: The file location of the grid.
 
 
-   .. py:method:: _read_layer(self, layer_filename, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
+   .. py:method:: _read_layer(layer_filename, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
 
       Reads a layer for processing.
 
@@ -131,7 +131,7 @@ Classes
       :rtype: tuple
 
 
-   .. py:method:: _read_raster_layer(self, raster_filename)
+   .. py:method:: _read_raster_layer(raster_filename)
 
       Reads a raster layer for processing.
 
@@ -145,7 +145,7 @@ Classes
       :rtype: tuple
 
 
-   .. py:method:: _read_vector_layer(self, vector_filename, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
+   .. py:method:: _read_vector_layer(vector_filename, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
 
       Reads a vector layer for processing.
 
@@ -171,7 +171,7 @@ Classes
       :rtype: tuple
 
 
-   .. py:method:: encode_biogeographic_hypothesis(self, layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
+   .. py:method:: encode_biogeographic_hypothesis(layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
 
       Encodes a biogeographic hypothesis layer.
 
@@ -195,7 +195,7 @@ Classes
       :rtype: list of str
 
 
-   .. py:method:: encode_largest_class(self, layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_largest_class(layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
 
       Encodes a layer based on the largest class in each data window.
 
@@ -216,7 +216,7 @@ Classes
       :rtype: list of str
 
 
-   .. py:method:: encode_mean_value(self, layer_filename, column_name, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_mean_value(layer_filename, column_name, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
 
       Encodes a layer based on the mean value for each data window.
 
@@ -235,7 +235,7 @@ Classes
       :rtype: list of str
 
 
-   .. py:method:: encode_presence_absence(self, layer_filename, column_name, min_presence, max_presence, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_presence_absence(layer_filename, column_name, min_presence, max_presence, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
 
       Encodes a distribution layer into a presence absence column.
 
@@ -258,7 +258,7 @@ Classes
       :rtype: list of str
 
 
-   .. py:method:: get_encoded_matrix(self)
+   .. py:method:: get_encoded_matrix()
 
       Returns the encoded matrix.
 
@@ -266,7 +266,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: get_geojson(self)
+   .. py:method:: get_geojson()
 
       Formats the encoded matrix as GeoJSON.
 

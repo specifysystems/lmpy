@@ -137,7 +137,7 @@ Functions
 
       
 
-   .. py:method:: calculate_covariance_statistics(self)
+   .. py:method:: calculate_covariance_statistics()
 
       Calculate covariance statistics matrices.
 
@@ -145,7 +145,7 @@ Functions
       :rtype: list of tuple
 
 
-   .. py:method:: calculate_diversity_statistics(self)
+   .. py:method:: calculate_diversity_statistics()
 
       Calculate diversity statistics.
 
@@ -153,7 +153,7 @@ Functions
       :rtype: list of tuple
 
 
-   .. py:method:: calculate_site_statistics(self)
+   .. py:method:: calculate_site_statistics()
 
       Calculate site-based statistics.
 
@@ -161,7 +161,7 @@ Functions
       :rtype: Matrix
 
 
-   .. py:method:: calculate_species_statistics(self)
+   .. py:method:: calculate_species_statistics()
 
       Calculate species-based statistics.
 
@@ -169,7 +169,7 @@ Functions
       :rtype: Matrix
 
 
-   .. py:method:: register_metric(self, name, metric_function)
+   .. py:method:: register_metric(name, metric_function)
 
       Register a new metric.
 
@@ -188,7 +188,7 @@ Functions
 
    :param func: The function to call.
 
-   .. py:method:: __call__(self, *args, **kwargs)
+   .. py:method:: __call__(*args, **kwargs)
 
       Call the wrapped function.
 

@@ -44,7 +44,7 @@ Classes
 
       
 
-   .. py:method:: _pass_condition(self, point)
+   .. py:method:: _pass_condition(point)
 
       Assessment condition for a point.
 

@@ -33,7 +33,7 @@ Classes
    :param \*\*kwargs: A dictionary of keyword arguments to send to `list`.
    :type \*\*kwargs: dict
 
-   .. py:method:: from_file(cls, filename)
+   .. py:method:: from_file(filename)
       :classmethod:
 
       Get a species list from a file.
@@ -47,7 +47,7 @@ Classes
       :raises FileNotFoundError: on missing species list filename.
 
 
-   .. py:method:: write(self, filename)
+   .. py:method:: write(filename)
 
       Write the species list to a file.
 

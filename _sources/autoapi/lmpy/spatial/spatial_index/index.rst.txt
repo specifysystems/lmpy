@@ -47,7 +47,7 @@ Classes
       :rtype: bool
 
 
-   .. py:method:: add_feature(self, identifier, geom, att_dict)
+   .. py:method:: add_feature(identifier, geom, att_dict)
 
       Add a feature to the index.
 
@@ -59,17 +59,17 @@ Classes
       :type att_dict: dict
 
 
-   .. py:method:: close(self)
+   .. py:method:: close()
 
       Close the index.
 
 
-   .. py:method:: save(self)
+   .. py:method:: save()
 
       Save the index attributes.
 
 
-   .. py:method:: search(self, x, y)
+   .. py:method:: search(x, y)
 
       Search for x, y and return attributes in lookup if found.
 

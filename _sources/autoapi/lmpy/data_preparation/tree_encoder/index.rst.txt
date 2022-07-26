@@ -43,7 +43,7 @@ Classes
    :param pam: A PAM matrix object.
    :type pam: Matrix
 
-   .. py:method:: _build_p_branch_length_values(self, node)
+   .. py:method:: _build_p_branch_length_values(node)
 
       Recurse through the tree to get P matrix values for node / tips.
 
@@ -57,7 +57,7 @@ Classes
       :rtype: tuple
 
 
-   .. py:method:: _build_p_matrix_no_branch_lengths(self)
+   .. py:method:: _build_p_matrix_no_branch_lengths()
 
       Creates a P matrix when no branch lengths are present.
 
@@ -126,7 +126,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: _build_p_matrix_tip_proportion_list(self, node, visited=None)
+   .. py:method:: _build_p_matrix_tip_proportion_list(node, visited=None)
 
       Builds a list of tip proportions for the p matrix w/o branch lengths.
 
@@ -145,7 +145,7 @@ Classes
       :rtype: list
 
 
-   .. py:method:: _build_p_matrix_with_branch_lengths(self)
+   .. py:method:: _build_p_matrix_with_branch_lengths()
 
       Creates a P matrix when branch lengths are present.
 
@@ -207,7 +207,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: encode_phylogeny(self)
+   .. py:method:: encode_phylogeny()
 
       Encode the phylogenetic tree into a matrix.
 
@@ -222,7 +222,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: from_file(cls, tree_file_name, pam_file_name)
+   .. py:method:: from_file(tree_file_name, pam_file_name)
       :classmethod:
 
       Creates an instance of the PhyloEncoding class from tree and pam.
@@ -236,7 +236,7 @@ Classes
       :rtype: TreeEncoder
 
 
-   .. py:method:: validate(self)
+   .. py:method:: validate()
 
       Validates the tree / PAM combination.
 

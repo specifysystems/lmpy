@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.significance &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
+  <title>lmpy.statistics.significance &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -112,7 +112,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.significance.compare_signed_values" title="lmpy.statistics.significance.compare_signed_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_signed_values</span></code></a>(observed, test_data)</p></td>
 <td><p>Compares the signed values of the observed and random data.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.significance.get_significant_values" title="lmpy.statistics.significance.get_significant_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_significant_values</span></code></a>(p_values, alpha=0.05, correction_method=SignificanceMethod.RAW)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.significance.get_significant_values" title="lmpy.statistics.significance.get_significant_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_significant_values</span></code></a>(p_values[, alpha, ...])</p></td>
 <td><p>Get significant values in a p-values matrix.</p></td>
 </tr>
 </tbody>
@@ -131,7 +131,7 @@
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.statistics.significance.PermutationTests.add_permutation">
-<span class="sig-name descname"><span class="pre">add_permutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/significance.html#PermutationTests.add_permutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.significance.PermutationTests.add_permutation" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_permutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/significance.html#PermutationTests.add_permutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.significance.PermutationTests.add_permutation" title="Permalink to this definition"></a></dt>
 <dd><p>Compare the observed value with a test value and add to tracking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -142,7 +142,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.statistics.significance.PermutationTests.get_p_values">
-<span class="sig-name descname"><span class="pre">get_p_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/significance.html#PermutationTests.get_p_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.significance.PermutationTests.get_p_values" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_p_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/statistics/significance.html#PermutationTests.get_p_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.statistics.significance.PermutationTests.get_p_values" title="Permalink to this definition"></a></dt>
 <dd><p>Compute raw p-values from the permutations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

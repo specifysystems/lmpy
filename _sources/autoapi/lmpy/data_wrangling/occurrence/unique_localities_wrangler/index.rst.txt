@@ -43,7 +43,7 @@ Classes
 
       
 
-   .. py:method:: _pass_condition(self, point)
+   .. py:method:: _pass_condition(point)
 
       Assess a point to see if it is unique spatially.
 
@@ -54,7 +54,7 @@ Classes
       :rtype: bool
 
 
-   .. py:method:: wrangle_points(self, points)
+   .. py:method:: wrangle_points(points)
 
       Wrangle points.
 

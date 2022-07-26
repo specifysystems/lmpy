@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -140,13 +140,8 @@
 <span class="sd">            y (:obj:`float`): The value of the y coordinate for this occurrence point.</span>
 <span class="sd">            attributes (:obj:`dict`): A dictionary of attributes associated with this</span>
 <span class="sd">                point.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Raised if the species name is omitted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">species_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">species_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Species name must be provided&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span> <span class="o">=</span> <span class="n">species_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_species_name</span><span class="p">(</span><span class="n">species_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">attributes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -157,6 +152,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;species_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+
+    <span class="c1"># .......................</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Point.standardize_species_name"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.standardize_species_name">[docs]</a>    <span class="k">def</span> <span class="nf">standardize_species_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">species_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Standardizes a species name to be used for point and file naming.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            species_name (:obj:`str`): The species name for a point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            capitalized version of the species_name</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Raised if the species name is omitted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">species_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">species_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Species name must be provided&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">species_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="Point.__eq__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.__eq__">[docs]</a>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>

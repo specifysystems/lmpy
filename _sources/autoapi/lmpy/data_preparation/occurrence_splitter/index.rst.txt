@@ -51,7 +51,7 @@ Functions
    :param logger: An optional logger to use for logging output.
    :type logger: logging.Logger
 
-   .. py:method:: __enter__(self)
+   .. py:method:: __enter__()
 
       Context manager magic method.
 
@@ -59,24 +59,24 @@ Functions
       :rtype: OccurrenceSplitter
 
 
-   .. py:method:: __exit__(self, *args)
+   .. py:method:: __exit__(*args)
 
       Context manager magic method on exit.
 
       :param \*args: Position arguments passed to the method.
 
 
-   .. py:method:: close(self)
+   .. py:method:: close()
 
       Close all open writers.
 
 
-   .. py:method:: flush_writers(self)
+   .. py:method:: flush_writers()
 
       Close all open occurrence writers.
 
 
-   .. py:method:: log(self, msg, log_level=INFO)
+   .. py:method:: log(msg, log_level=INFO)
 
       Log a message.
 
@@ -86,7 +86,7 @@ Functions
       :type log_level: int
 
 
-   .. py:method:: open_writer(self, writer_key)
+   .. py:method:: open_writer(writer_key)
 
       Open an occurrence writer for the provided key.
 
@@ -94,7 +94,7 @@ Functions
       :type writer_key: object
 
 
-   .. py:method:: process_reader(self, reader, wranglers)
+   .. py:method:: process_reader(reader, wranglers)
 
       Process an occurrence reader.
 
@@ -104,7 +104,7 @@ Functions
       :type wranglers: list
 
 
-   .. py:method:: write_points(self, points)
+   .. py:method:: write_points(points)
 
       Write points using the appropriate writer.
 
@@ -112,7 +112,7 @@ Functions
       :type points: list
 
 
-   .. py:method:: write_species_list(self, species_list_filename)
+   .. py:method:: write_species_list(species_list_filename)
 
       Write a species list of species seen (after wrangling).
 

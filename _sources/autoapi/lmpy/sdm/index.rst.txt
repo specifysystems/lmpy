@@ -1,0 +1,21 @@
+:py:mod:`lmpy.sdm`
+==================
+
+.. py:module:: lmpy.sdm
+
+.. autoapi-nested-parse::
+
+   SDM __init__ module.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   maxent/index.rst
+   model/index.rst
+
+

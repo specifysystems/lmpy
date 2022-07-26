@@ -49,7 +49,7 @@ Classes
 
       
 
-   .. py:method:: _pass_condition(self, point)
+   .. py:method:: _pass_condition(point)
 
       Pass condition for a point.
 

@@ -43,7 +43,7 @@ Classes
 
       
 
-   .. py:method:: wrangle_tree(self, tree)
+   .. py:method:: wrangle_tree(tree)
 
       Wrangle a tree.
 

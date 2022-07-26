@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
@@ -103,10 +103,10 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.common.accepted_name_wrangler._resolve_gbif_synonym_match" title="lmpy.data_wrangling.common.accepted_name_wrangler._resolve_gbif_synonym_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_resolve_gbif_synonym_match</span></code></a>(match_response, wait_time=1)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.data_wrangling.common.accepted_name_wrangler._resolve_gbif_synonym_match" title="lmpy.data_wrangling.common.accepted_name_wrangler._resolve_gbif_synonym_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_resolve_gbif_synonym_match</span></code></a>(match_response[, wait_time])</p></td>
 <td><p>Resolve names using GBIF's taxonomic name resolution service.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif" title="lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_names_gbif</span></code></a>(names, wait_time=1)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif" title="lmpy.data_wrangling.common.accepted_name_wrangler.resolve_names_gbif"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_names_gbif</span></code></a>(names[, wait_time])</p></td>
 <td><p>Resolve names using GBIF's taxonomic name resolution service.</p></td>
 </tr>
 </tbody>
@@ -132,7 +132,7 @@ this many iterations.</p></li>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__">
-<span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler.__del__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler.__del__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__" title="Permalink to this definition"></a></dt>
 <dd><p>Destructor method, sync map to disk if needed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -143,7 +143,7 @@ this many iterations.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler._load_name_map">
-<span class="sig-name descname"><span class="pre">_load_name_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler._load_name_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler._load_name_map" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">_load_name_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler._load_name_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler._load_name_map" title="Permalink to this definition"></a></dt>
 <dd><p>Attempt to load names from the name_map provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -157,7 +157,7 @@ this many iterations.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.resolve_names">
-<span class="sig-name descname"><span class="pre">resolve_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler.resolve_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.resolve_names" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">resolve_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler.resolve_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.resolve_names" title="Permalink to this definition"></a></dt>
 <dd><p>Attempts to resolve a list of names.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -174,7 +174,7 @@ this many iterations.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.write_map_to_file">
-<span class="sig-name descname"><span class="pre">write_map_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler.write_map_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.write_map_to_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">write_map_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/lmpy/data_wrangling/common/accepted_name_wrangler.html#_AcceptedNameWrangler.write_map_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.write_map_to_file" title="Permalink to this definition"></a></dt>
 <dd><p>Write the name map to a file so it can be reused.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

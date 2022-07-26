@@ -36,7 +36,7 @@ Classes
 
       
 
-   .. py:method:: wrangle_species_list(self, species_list)
+   .. py:method:: wrangle_species_list(species_list)
       :abstractmethod:
 
       Wrangle a species list.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.create_rare_species_model &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
+  <title>lmpy.tools.create_rare_species_model &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -85,7 +85,7 @@
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">gdalconst</span><span class="p">,</span> <span class="n">ogr</span><span class="p">,</span> <span class="n">osr</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">PointCsvReader</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
 
 
 <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
@@ -101,12 +101,8 @@
 
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="create_rare_species_model"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_rare_species_model/index.html#lmpy.tools.create_rare_species_model.create_rare_species_model">[docs]</a><span class="k">def</span> <span class="nf">create_rare_species_model</span><span class="p">(</span>
-    <span class="n">points</span><span class="p">,</span>
-    <span class="n">ecoregions_filename</span><span class="p">,</span>
-    <span class="n">model_raster_filename</span><span class="p">,</span>
-    <span class="n">raster_format</span><span class="o">=</span><span class="n">AUTO_FORMAT</span><span class="p">,</span>
-    <span class="n">nodata_value</span><span class="o">=-</span><span class="mi">9999</span><span class="p">,</span>
-    <span class="n">burn_value</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">points</span><span class="p">,</span> <span class="n">ecoregions_filename</span><span class="p">,</span> <span class="n">model_raster_filename</span><span class="p">,</span> <span class="n">raster_format</span><span class="o">=</span><span class="n">AUTO_FORMAT</span><span class="p">,</span>
+    <span class="n">nodata_value</span><span class="o">=-</span><span class="mi">9999</span><span class="p">,</span> <span class="n">burn_value</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a rare species model from a convex hull intersected with ecoregions.</span>
 
@@ -117,6 +113,7 @@
 <span class="sd">        raster_format (str): The output raster format (default: auto - use filename).</span>
 <span class="sd">        nodata_value (int): The value to use for nodata in the model raster.</span>
 <span class="sd">        burn_value (int): The burn value to use for model presence.</span>
+<span class="sd">        logger (logging.Logger): A default logger to use when wrangling.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Get the desired output raster format, either provided or determine</span>
     <span class="n">raster_format</span> <span class="o">=</span> <span class="n">get_raster_format</span><span class="p">(</span><span class="n">raster_format</span><span class="p">,</span> <span class="n">model_raster_filename</span><span class="p">)</span>
@@ -132,6 +129,8 @@
         <span class="n">epsg</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">=</span> <span class="n">get_ecoregions_array</span><span class="p">(</span><span class="n">ecoregions_filename</span><span class="p">)</span>
     <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="n">ecoregion_data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">logger</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Created ecoregions array from file </span><span class="si">{ecoregions_filename}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Get convex hull array</span>
     <span class="n">val_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -149,6 +148,9 @@
     <span class="c1"># Convex hull</span>
     <span class="n">convex_hull_raw</span> <span class="o">=</span> <span class="n">geom_collection</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">()</span>
 
+    <span class="k">if</span> <span class="n">logger</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Created convex hull from {len(points)} points.&quot;</span><span class="p">)</span>
+
     <span class="n">convex_hull_data</span> <span class="o">=</span> <span class="n">get_convex_hull_array</span><span class="p">(</span>
         <span class="n">convex_hull_raw</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">epsg</span><span class="p">,</span> <span class="n">burn_value</span>
     <span class="p">)</span>
@@ -159,6 +161,8 @@
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ecoregion_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">if</span> <span class="n">ecoregion_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="ow">in</span> <span class="n">val_set</span> <span class="ow">and</span> <span class="n">convex_hull_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">burn_value</span><span class="p">:</span>
                 <span class="n">model_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">burn_value</span>
+    <span class="k">if</span> <span class="n">logger</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Created model_data from file </span><span class="si">{ecoregions_filename}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Write model</span>
     <span class="k">if</span> <span class="n">raster_format</span> <span class="o">==</span> <span class="n">ASC_FORMAT</span><span class="p">:</span>
@@ -174,7 +178,9 @@
             <span class="n">max_y</span><span class="p">,</span>
             <span class="n">epsg</span><span class="p">,</span>
             <span class="n">nodata_value</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">logger</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Wrote model to </span><span class="si">{model_raster_filename}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -389,6 +395,24 @@
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--config_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to configuration file.&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--log_filename&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-l&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A file location to write logging data.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--log_console&#39;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If provided, write log to console.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;-r&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--report_filename&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location to write the wrangler report.&#39;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--species_column&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-sp&#39;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
@@ -467,10 +491,18 @@
     <span class="sd">&quot;&quot;&quot;Command-line interface for creating a rare species model.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
+
     <span class="n">errs</span> <span class="o">=</span> <span class="n">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">errs</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
         <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
+
+    <span class="n">script_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span>
+        <span class="n">script_name</span><span class="p">,</span>
+        <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
+        <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
+    <span class="p">)</span>
 
     <span class="c1"># Read points</span>
     <span class="n">points</span> <span class="o">=</span> <span class="n">read_points</span><span class="p">(</span>
@@ -484,6 +516,7 @@
         <span class="n">raster_format</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
         <span class="n">nodata_value</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">nodata_value</span><span class="p">,</span>
         <span class="n">burn_value</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">burn_value</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">logger</span>
     <span class="p">)</span></div>
 
 

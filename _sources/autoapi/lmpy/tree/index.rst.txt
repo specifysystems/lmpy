@@ -192,7 +192,7 @@ Classes
        t12 = Tree(seed_node=seed)
        assert t12.seed_node is seed
 
-   .. py:method:: _annotate_node(self, node, annotation_attribute, annotation_value, update=False)
+   .. py:method:: _annotate_node(node, annotation_attribute, annotation_value, update=False)
 
       Annotates a node with the given value.
 
@@ -208,7 +208,7 @@ Classes
       :type update: :obj:`bool`, optional
 
 
-   .. py:method:: _annotation_method(self, label_attribute)
+   .. py:method:: _annotation_method(label_attribute)
 
       Use the label attribute as the node label.
 
@@ -220,7 +220,7 @@ Classes
       :rtype: Method
 
 
-   .. py:method:: _get_label_method(self, label_attribute)
+   .. py:method:: _get_label_method(label_attribute)
 
       Gets the function to be used for retrieving labels.
 
@@ -244,7 +244,7 @@ Classes
       :rtype: str
 
 
-   .. py:method:: _label_tree_nodes(self, node, i, prefix=None, overwrite=False)
+   .. py:method:: _label_tree_nodes(node, i, prefix=None, overwrite=False)
 
       Private function to do the work when labeling nodes.
 
@@ -265,7 +265,7 @@ Classes
       .. note:: * Recursive.
 
 
-   .. py:method:: add_node_labels(self, prefix=None, overwrite=False)
+   .. py:method:: add_node_labels(prefix=None, overwrite=False)
 
       Add labels to the nodes in the tree.
 
@@ -282,7 +282,7 @@ Classes
       .. note:: * This labels nodes the way that R does.
 
 
-   .. py:method:: annotate_tree(self, annotation_dict, annotation_attribute=None, label_attribute=None, update=False)
+   .. py:method:: annotate_tree(annotation_dict, annotation_attribute=None, label_attribute=None, update=False)
 
       Annotates tree tips and nodes.
 
@@ -307,7 +307,7 @@ Classes
       :type update: :obj:`bool`, optional
 
 
-   .. py:method:: annotate_tree_tips(self, attribute_name, annotation_pairs, label_attribute='label', update=False)
+   .. py:method:: annotate_tree_tips(attribute_name, annotation_pairs, label_attribute='label', update=False)
 
       Annotates the tips of the tree.
 
@@ -328,7 +328,7 @@ Classes
       :type update: :obj:`bool`, optional
 
 
-   .. py:method:: from_base_tree(cls, tree)
+   .. py:method:: from_base_tree(tree)
       :classmethod:
 
       Creates a TreeWrapper object from a base dendropy.Tree.
@@ -341,7 +341,7 @@ Classes
       :rtype: TreeWrapper
 
 
-   .. py:method:: from_filename(cls, filename)
+   .. py:method:: from_filename(filename)
       :classmethod:
 
       Creates a TreeWrapper object by loading a file.
@@ -356,7 +356,7 @@ Classes
           extension.
 
 
-   .. py:method:: get_annotations(self, annotation_attribute)
+   .. py:method:: get_annotations(annotation_attribute)
 
       Gets a list of (label, annotation) pairs.
 
@@ -367,7 +367,7 @@ Classes
       :rtype: list
 
 
-   .. py:method:: get_distance_matrix(self, label_attribute='label', ordered_labels=None)
+   .. py:method:: get_distance_matrix(label_attribute='label', ordered_labels=None)
 
       Gets a Matrix object of phylogenetic distances.
 
@@ -388,7 +388,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: get_distance_matrix_dendropy(self, label_attribute='label', ordered_labels=None)
+   .. py:method:: get_distance_matrix_dendropy(label_attribute='label', ordered_labels=None)
 
       Gets a Matrix object of phylogenetic distances between tips.
 
@@ -414,7 +414,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: get_labels(self)
+   .. py:method:: get_labels()
 
       Gets tip labels for a clade.
 
@@ -423,7 +423,7 @@ Classes
       :returns: A list of taxon labels for the taxa in the tree.
 
 
-   .. py:method:: get_variance_covariance_matrix(self, label_attribute='label', ordered_labels=None)
+   .. py:method:: get_variance_covariance_matrix(label_attribute='label', ordered_labels=None)
 
       Gets a Matrix object of variance / co-variance for tips in tree.
 
@@ -443,7 +443,7 @@ Classes
       :raises LmTreeException: If the tree does not have branch lengths.
 
 
-   .. py:method:: has_branch_lengths(self)
+   .. py:method:: has_branch_lengths()
 
       Returns a boolean indicating if the entire tree has branch lengths.
 
@@ -451,7 +451,7 @@ Classes
       :rtype: bool
 
 
-   .. py:method:: has_polytomies(self)
+   .. py:method:: has_polytomies()
 
       Returns boolean indicating if the tree has polytomies.
 
@@ -459,7 +459,7 @@ Classes
       :rtype: bool
 
 
-   .. py:method:: is_binary(self)
+   .. py:method:: is_binary()
 
       Checks if the tree is binary.
 
@@ -469,7 +469,7 @@ Classes
       .. note:: * Checks that every clade has either zero or two children.
 
 
-   .. py:method:: is_ultrametric(self, rel_tol=0.001)
+   .. py:method:: is_ultrametric(rel_tol=0.001)
 
       Checks if the tree is ultrametric.
 
@@ -489,7 +489,7 @@ Classes
              equal for all tips.
 
 
-   .. py:method:: prune_tips_without_attribute(self, search_attribute=PhyloTreeKeys.MTX_IDX)
+   .. py:method:: prune_tips_without_attribute(search_attribute=PhyloTreeKeys.MTX_IDX)
 
       Prunes the tree of any tips that don't have the specified attribute.
 

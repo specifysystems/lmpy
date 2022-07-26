@@ -45,7 +45,7 @@ Classes
 
       
 
-   .. py:method:: _get_pass_condition_func(self, filter_func)
+   .. py:method:: _get_pass_condition_func(filter_func)
 
       Get the pass condition function.
 

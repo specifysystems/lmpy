@@ -45,7 +45,7 @@ Classes
 
       
 
-   .. py:method:: _modify_point(self, point)
+   .. py:method:: _modify_point(point)
 
       A function that modifies a Point object as needed.
 
@@ -61,7 +61,7 @@ Classes
       :rtype: Point, bool
 
 
-   .. py:method:: _pass_condition(self, point)
+   .. py:method:: _pass_condition(point)
 
       A function that determines if a point passes some criteria.
 
@@ -74,7 +74,7 @@ Classes
       :rtype: bool
 
 
-   .. py:method:: get_report(self)
+   .. py:method:: get_report()
 
       Get a report of the wrangler's functioning.
 
@@ -82,7 +82,7 @@ Classes
       :rtype: dict
 
 
-   .. py:method:: report_point(self, filtered=False, modified=False)
+   .. py:method:: report_point(filtered=False, modified=False)
 
       Report the result of wrangling a point.
 
@@ -92,7 +92,7 @@ Classes
       :type modified: bool
 
 
-   .. py:method:: wrangle_points(self, points)
+   .. py:method:: wrangle_points(points)
 
       Wrangle occurrence `Point` objects.
 
@@ -103,7 +103,7 @@ Classes
       :rtype: list of point
 
 
-   .. py:method:: wrangle_single_point(self, point)
+   .. py:method:: wrangle_single_point(point)
 
       Wrangle a single point.
 

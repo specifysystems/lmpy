@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.matrix &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
+  <title>lmpy.matrix &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -151,7 +151,7 @@ axis.  (Ex:</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.T">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.T"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.T" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">T</span></span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.T"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.T" title="Permalink to this definition"></a></dt>
 <dd><p>Get the transpose of the matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -165,7 +165,7 @@ axis.  (Ex:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.__array_finalize__">
-<span class="sig-name descname"><span class="pre">__array_finalize__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.__array_finalize__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.__array_finalize__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__array_finalize__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.__array_finalize__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.__array_finalize__" title="Permalink to this definition"></a></dt>
 <dd><p>Overridden function from ndarray.</p>
 <p><code class="docutils literal notranslate"><span class="pre">self</span></code> is a new object resulting from ndarray.__new__(Matrix, …),
 therefore it only has the attributes that the ndarray.__new__
@@ -180,7 +180,7 @@ metadata.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.concatenate">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concatenate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mtx_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.concatenate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.concatenate" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concatenate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.concatenate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.concatenate" title="Permalink to this definition"></a></dt>
 <dd><p>Concatenates multiple Matrix objects together to form a new Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -211,7 +211,7 @@ This will be converted to a string where needed for headers.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.flatten_2d">
-<span class="sig-name descname"><span class="pre">flatten_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.flatten_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.flatten_2d" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">flatten_2d</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.flatten_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.flatten_2d" title="Permalink to this definition"></a></dt>
 <dd><p>Flattens a higher dimension Matrix object into a 2D matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -225,7 +225,7 @@ This will be converted to a string where needed for headers.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.get_column_headers">
-<span class="sig-name descname"><span class="pre">get_column_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.get_column_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_column_headers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_column_headers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.get_column_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_column_headers" title="Permalink to this definition"></a></dt>
 <dd><p>Shortcut to get column headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -236,7 +236,7 @@ This will be converted to a string where needed for headers.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.get_headers">
-<span class="sig-name descname"><span class="pre">get_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.get_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_headers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.get_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_headers" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the headers associated with this Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -255,7 +255,7 @@ list: If axis is int, A list of headers for the specified axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.get_metadata">
-<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.get_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.get_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_metadata" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves matrix metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -269,7 +269,7 @@ list: If axis is int, A list of headers for the specified axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.get_row_headers">
-<span class="sig-name descname"><span class="pre">get_row_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.get_row_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_row_headers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_row_headers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.get_row_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.get_row_headers" title="Permalink to this definition"></a></dt>
 <dd><p>Shortcut to get row headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -280,7 +280,7 @@ list: If axis is int, A list of headers for the specified axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.load">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load" title="Permalink to this definition"></a></dt>
 <dd><p>Load a matrix from a filename.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -303,7 +303,7 @@ list: If axis is int, A list of headers for the specified axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.load_csv">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_header_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_header_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_csv" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_header_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_header_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_csv" title="Permalink to this definition"></a></dt>
 <dd><p>Attempts to load a Matrix object from a CSV file-like object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -328,7 +328,7 @@ columns in the CSV file.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.load_flo">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_flo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load_flo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_flo" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_flo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.load_flo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.load_flo" title="Permalink to this definition"></a></dt>
 <dd><p>Attempts to load a Matrix object from a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -345,7 +345,7 @@ columns in the CSV file.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.save" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.save" title="Permalink to this definition"></a></dt>
 <dd><p>Saves the Matrix to a file-like object.</p>
 <p>Saves the Matrix object in a JSON / Numpy zip file to the file-like
 object.</p>
@@ -358,7 +358,7 @@ object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.set_column_headers">
-<span class="sig-name descname"><span class="pre">set_column_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.set_column_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_column_headers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_column_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.set_column_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_column_headers" title="Permalink to this definition"></a></dt>
 <dd><p>Shortcut to set column headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -369,7 +369,7 @@ object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.set_headers">
-<span class="sig-name descname"><span class="pre">set_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.set_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_headers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.set_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_headers" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the headers for this Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -394,7 +394,7 @@ Duck types to use list of lists or dictionary to set values for different</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.set_row_headers">
-<span class="sig-name descname"><span class="pre">set_row_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.set_row_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_row_headers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_row_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.set_row_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.set_row_headers" title="Permalink to this definition"></a></dt>
 <dd><p>Shortcut to set row headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -405,7 +405,7 @@ Duck types to use list of lists or dictionary to set values for different</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.slice">
-<span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.slice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.slice" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.slice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.slice" title="Permalink to this definition"></a></dt>
 <dd><p>Subsets the matrix and returns a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -435,7 +435,7 @@ to retrieve for each axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.slice_by_header">
-<span class="sig-name descname"><span class="pre">slice_by_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.slice_by_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.slice_by_header" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">slice_by_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.slice_by_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.slice_by_header" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a slice of the Matrix matching the header provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -457,7 +457,7 @@ to retrieve for each axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.transpose">
-<span class="sig-name descname"><span class="pre">transpose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.transpose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.transpose" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transpose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.transpose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.transpose" title="Permalink to this definition"></a></dt>
 <dd><p>Transposes the Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -475,7 +475,7 @@ the axes in the transposition. see: ndarray.transpose</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.write" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.write" title="Permalink to this definition"></a></dt>
 <dd><p>Write the matrix to the specified file location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -492,7 +492,7 @@ the axes in the transposition. see: ndarray.transpose</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.matrix.Matrix.write_csv">
-<span class="sig-name descname"><span class="pre">write_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flo</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">slice_args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.write_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.write_csv" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">write_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flo</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">slice_args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/matrix.html#Matrix.write_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.matrix.Matrix.write_csv" title="Permalink to this definition"></a></dt>
 <dd><p>Writes the Matrix object to a CSV file-like object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

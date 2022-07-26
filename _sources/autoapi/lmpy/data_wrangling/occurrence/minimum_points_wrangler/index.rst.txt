@@ -43,13 +43,13 @@ Classes
 
       
 
-   .. py:method:: _get_all_fail_condition(self)
+   .. py:method:: _get_all_fail_condition()
 
 
-   .. py:method:: _get_all_pass_condition(self)
+   .. py:method:: _get_all_pass_condition()
 
 
-   .. py:method:: wrangle_points(self, points)
+   .. py:method:: wrangle_points(points)
 
       Wrangle points.  Return all or none based on how many are present.
 

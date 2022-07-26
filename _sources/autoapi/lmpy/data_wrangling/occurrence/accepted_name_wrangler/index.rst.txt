@@ -56,7 +56,7 @@ Classes
 
       
 
-   .. py:method:: _modify_point(self, point)
+   .. py:method:: _modify_point(point)
 
       Update taxon name if necessary.
 
@@ -67,7 +67,7 @@ Classes
       :rtype: Point, bool
 
 
-   .. py:method:: _pass_condition(self, point)
+   .. py:method:: _pass_condition(point)
 
       Determine if a point has an accepted name.
 

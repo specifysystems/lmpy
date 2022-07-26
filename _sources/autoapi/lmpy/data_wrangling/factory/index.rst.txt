@@ -29,12 +29,12 @@ Classes
    :param logger: A default logger to use when wrangling.
    :type logger: logging.Logger
 
-   .. py:method:: _load_wranglers(self)
+   .. py:method:: _load_wranglers()
 
       Load possible data wrangler types.
 
 
-   .. py:method:: get_wranglers(self, wrangler_configs)
+   .. py:method:: get_wranglers(wrangler_configs)
 
       Get configured data wranglers.
 

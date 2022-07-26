@@ -144,9 +144,7 @@ Attributes
                       point.
    :type attributes: :obj:`dict`
 
-   :raises ValueError: Raised if the species name is omitted.
-
-   .. py:method:: __eq__(self, other)
+   .. py:method:: __eq__(other)
 
       Test if this point equals the other.
 
@@ -157,7 +155,7 @@ Attributes
       :rtype: bool
 
 
-   .. py:method:: __lt__(self, other)
+   .. py:method:: __lt__(other)
 
       Test if this point is less than the other.
 
@@ -171,7 +169,7 @@ Attributes
       :rtype: bool
 
 
-   .. py:method:: __repr__(self)
+   .. py:method:: __repr__()
 
       Get a string representation of this Point object.
 
@@ -179,7 +177,7 @@ Attributes
       :rtype: str
 
 
-   .. py:method:: get_attribute(self, attribute_name)
+   .. py:method:: get_attribute(attribute_name)
 
       Get an attribute for the point.
 
@@ -191,7 +189,7 @@ Attributes
       :rtype: object
 
 
-   .. py:method:: get_attribute_names(self)
+   .. py:method:: get_attribute_names()
 
       Get the point's attributes.
 
@@ -199,7 +197,7 @@ Attributes
       :rtype: list of str
 
 
-   .. py:method:: set_attribute(self, attribute_name, value)
+   .. py:method:: set_attribute(attribute_name, value)
 
       Set an attribute for the point.
 
@@ -207,6 +205,19 @@ Attributes
       :type attribute_name: :obj:`str`
       :param value: The value to set the attribute to.
       :type value: :obj:`object`
+
+
+   .. py:method:: standardize_species_name(species_name)
+      :classmethod:
+
+      Standardizes a species name to be used for point and file naming.
+
+      :param species_name: The species name for a point.
+      :type species_name: :obj:`str`
+
+      :returns: capitalized version of the species_name
+
+      :raises ValueError: Raised if the species name is omitted.
 
 
 
@@ -235,7 +246,7 @@ Attributes
 
    :raises FileNotFoundError: on missing filename.
 
-   .. py:method:: __enter__(self)
+   .. py:method:: __enter__()
 
       Context manager magic method.
 
@@ -243,14 +254,14 @@ Attributes
       :rtype: PointCsvReader
 
 
-   .. py:method:: __exit__(self, *args)
+   .. py:method:: __exit__(*args)
 
       Context manager magic method on exit.
 
       :param \*args: Positional arguments passed to the exit function.
 
 
-   .. py:method:: __iter__(self)
+   .. py:method:: __iter__()
 
       Iterator magic method.
 
@@ -258,7 +269,7 @@ Attributes
       :rtype: PointCsvReader
 
 
-   .. py:method:: __next__(self)
+   .. py:method:: __next__()
 
       Get lists of consecutive points with the same attribute value.
 
@@ -269,12 +280,12 @@ Attributes
       :raises StopIteration: Raised when there are no additional objects.
 
 
-   .. py:method:: close(self)
+   .. py:method:: close()
 
       Close the file.
 
 
-   .. py:method:: open(self)
+   .. py:method:: open()
 
       Open the file and initialize.
 
@@ -298,7 +309,7 @@ Attributes
                       DictWriter instance from the csv module.
    :type \*\*kwargs: :obj:`dict`
 
-   .. py:method:: __enter__(self)
+   .. py:method:: __enter__()
 
       Context manager magic method.
 
@@ -306,24 +317,24 @@ Attributes
       :rtype: PointCsvWriter
 
 
-   .. py:method:: __exit__(self, *args)
+   .. py:method:: __exit__(*args)
 
       Context manager magic method on exit.
 
       :param \*args: Positional arguments passed to the exit function.
 
 
-   .. py:method:: close(self)
+   .. py:method:: close()
 
       Close file.
 
 
-   .. py:method:: open(self)
+   .. py:method:: open()
 
       Open file for writing.
 
 
-   .. py:method:: write_points(self, points)
+   .. py:method:: write_points(points)
 
       Write a Point object to the CSV file.
 
@@ -354,7 +365,7 @@ Attributes
 
    :raises FileNotFoundError: on missing dwca_filename.
 
-   .. py:method:: __enter__(self)
+   .. py:method:: __enter__()
 
       Context manager magic method.
 
@@ -362,14 +373,14 @@ Attributes
       :rtype: PointDwcaReader
 
 
-   .. py:method:: __exit__(self, *args)
+   .. py:method:: __exit__(*args)
 
       Context manager magic method on exit.
 
       :param \*args: Positional arguments passed to the exit function.
 
 
-   .. py:method:: __iter__(self)
+   .. py:method:: __iter__()
 
       Iterator magic method.
 
@@ -377,7 +388,7 @@ Attributes
       :rtype: PointDwcaReader
 
 
-   .. py:method:: __next__(self)
+   .. py:method:: __next__()
 
       Get lists of consecutive points with the same attribute value.
 
@@ -387,7 +398,7 @@ Attributes
       :raises StopIteration: Raised when there are no additional objects.
 
 
-   .. py:method:: _get_species_name(self, point_dict)
+   .. py:method:: _get_species_name(point_dict)
 
       Get the species name from the attribute dictionary.
 
@@ -398,7 +409,7 @@ Attributes
       :rtype: str
 
 
-   .. py:method:: _get_x_value(self, point_dict)
+   .. py:method:: _get_x_value(point_dict)
 
       Get the x coordinate value from the attribute dictionary.
 
@@ -410,7 +421,7 @@ Attributes
       :rtype: numeric
 
 
-   .. py:method:: _get_y_value(self, point_dict)
+   .. py:method:: _get_y_value(point_dict)
 
       Get the y coordinate value from the attribute dictionary.
 
@@ -422,7 +433,7 @@ Attributes
       :rtype: numeric
 
 
-   .. py:method:: _process_metadata(self, meta_contents)
+   .. py:method:: _process_metadata(meta_contents)
 
       Process the metadata file contained in the archive.
 
@@ -431,12 +442,12 @@ Attributes
       :type meta_contents: :obj:`str`
 
 
-   .. py:method:: close(self)
+   .. py:method:: close()
 
       Close the file.
 
 
-   .. py:method:: open(self)
+   .. py:method:: open()
 
       Open the file and initialize.
 
@@ -449,7 +460,7 @@ Attributes
    :param filename: A file location to write the points to.
    :type filename: :obj:`str`
 
-   .. py:method:: __enter__(self)
+   .. py:method:: __enter__()
 
       Context manager magic method.
 
@@ -457,24 +468,24 @@ Attributes
       :rtype: PointJsonWriter
 
 
-   .. py:method:: __exit__(self, *args)
+   .. py:method:: __exit__(*args)
 
       Exit and write JSON.
 
       :param \*args: Positional arguments sent to the exit function.
 
 
-   .. py:method:: close(self)
+   .. py:method:: close()
 
       Close the writer.
 
 
-   .. py:method:: open(self)
+   .. py:method:: open()
 
       Dummy method for consistency.
 
 
-   .. py:method:: write_points(self, points)
+   .. py:method:: write_points(points)
 
       Add a point to the JSON output.
 
@@ -495,7 +506,7 @@ Attributes
    :param reader: An open FLO that emits rows of data.
    :type reader: File-like object
 
-   .. py:method:: __enter__(self)
+   .. py:method:: __enter__()
 
       Context manager magic method.
 
@@ -503,14 +514,14 @@ Attributes
       :rtype: _IdigBioCsvReader
 
 
-   .. py:method:: __exit__(self, *args)
+   .. py:method:: __exit__(*args)
 
       Context manager magic method on exit.
 
       :param \*args: Positional arguments passed to the exit function.
 
 
-   .. py:method:: __iter__(self)
+   .. py:method:: __iter__()
 
       Iterator magic method.
 
@@ -518,7 +529,7 @@ Attributes
       :rtype: _IdigBioCsvReader
 
 
-   .. py:method:: __next__(self)
+   .. py:method:: __next__()
 
       Get the next row of data.
 
@@ -528,12 +539,12 @@ Attributes
       :raises StopIteration: Raised when there are no additional objects.
 
 
-   .. py:method:: close(self)
+   .. py:method:: close()
 
       Close the reader.
 
 
-   .. py:method:: open(self)
+   .. py:method:: open()
 
       Do nothing, the reader should be open already.
 

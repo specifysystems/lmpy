@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.mcpa &mdash; Specify lmpy 3.1.21+57.g027e0b33 documentation</title>
+  <title>lmpy.statistics.mcpa &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -100,7 +100,7 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._beta_helper" title="lmpy.statistics.mcpa._beta_helper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_beta_helper</span></code></a>(mtx1, mtx2, weights)</p></td>
 <td><p>This helper function avoids creating large temporary matrices.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._calculate_beta" title="lmpy.statistics.mcpa._calculate_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_calculate_beta</span></code></a>(pred_std, weights, phylo_std, use_lock=True)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._calculate_beta" title="lmpy.statistics.mcpa._calculate_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_calculate_beta</span></code></a>(pred_std, weights, phylo_std[, use_lock])</p></td>
 <td><p>Calculates the regression model (beta) for the provided inputs.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._calculate_r_squared" title="lmpy.statistics.mcpa._calculate_r_squared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_calculate_r_squared</span></code></a>(y_hat, phylo_std)</p></td>
@@ -109,7 +109,7 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._calculate_y_hat" title="lmpy.statistics.mcpa._calculate_y_hat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_calculate_y_hat</span></code></a>(pred_std, beta)</p></td>
 <td><p>Calculates the predicted value for a regression (Y hat).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._mcpa_for_node" title="lmpy.statistics.mcpa._mcpa_for_node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_mcpa_for_node</span></code></a>(incidence_mtx, env_mtx, bg_mtx, phylo_col, use_locks=False)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._mcpa_for_node" title="lmpy.statistics.mcpa._mcpa_for_node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_mcpa_for_node</span></code></a>(incidence_mtx, env_mtx, bg_mtx, phylo_col)</p></td>
 <td><p>Runs MCPA computations for a single tree node.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._standardize_matrix" title="lmpy.statistics.mcpa._standardize_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_standardize_matrix</span></code></a>(mtx, weights)</p></td>
@@ -118,7 +118,7 @@ historical biogeography. Ecology letters 13: 1290-1299.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa._trace_mtx_by_transverse" title="lmpy.statistics.mcpa._trace_mtx_by_transverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_trace_mtx_by_transverse</span></code></a>(mtx)</p></td>
 <td><p>Prevent a memory bomb by performing trace(mtx . mtx.T) in a smarter way.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa.get_p_values" title="lmpy.statistics.mcpa.get_p_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_p_values</span></code></a>(observed_value, test_values, num_permutations=None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa.get_p_values" title="lmpy.statistics.mcpa.get_p_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_p_values</span></code></a>(observed_value, test_values[, ...])</p></td>
 <td><p>Gets an array of P-Values.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.statistics.mcpa.mcpa" title="lmpy.statistics.mcpa.mcpa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mcpa</span></code></a>(incidence_matrix, phylo_mtx, env_mtx, bg_mtx)</p></td>

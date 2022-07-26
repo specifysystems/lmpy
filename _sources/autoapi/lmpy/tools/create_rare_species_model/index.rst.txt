@@ -38,7 +38,7 @@ Functions
    Command-line interface for creating a rare species model.
 
 
-.. py:function:: create_rare_species_model(points, ecoregions_filename, model_raster_filename, raster_format=AUTO_FORMAT, nodata_value=-9999, burn_value=50)
+.. py:function:: create_rare_species_model(points, ecoregions_filename, model_raster_filename, raster_format=AUTO_FORMAT, nodata_value=-9999, burn_value=50, logger=None)
 
    Create a rare species model from a convex hull intersected with ecoregions.
 
@@ -54,6 +54,8 @@ Functions
    :type nodata_value: int
    :param burn_value: The burn value to use for model presence.
    :type burn_value: int
+   :param logger: A default logger to use when wrangling.
+   :type logger: logging.Logger
 
 
 .. py:function:: write_tiff(out_filename, model_data, cell_size, min_x, max_y, epsg, nodata_value)

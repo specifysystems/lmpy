@@ -51,14 +51,14 @@ Functions
    :param out_map_format: The format to write the names map (csv or json).
    :type out_map_format: str
 
-   .. py:method:: __del__(self)
+   .. py:method:: __del__()
 
       Destructor method, sync map to disk if needed.
 
       :raises Exception: Raised if writing name map fails.
 
 
-   .. py:method:: _load_name_map(self, name_map)
+   .. py:method:: _load_name_map(name_map)
 
       Attempt to load names from the name_map provided.
 
@@ -68,7 +68,7 @@ Functions
       :raises FileNotFoundError: on missing name_map file
 
 
-   .. py:method:: resolve_names(self, names)
+   .. py:method:: resolve_names(names)
 
       Attempts to resolve a list of names.
 
@@ -79,7 +79,7 @@ Functions
       :rtype: dict
 
 
-   .. py:method:: write_map_to_file(self, filename, output_format, mode='wt')
+   .. py:method:: write_map_to_file(filename, output_format, mode='wt')
 
       Write the name map to a file so it can be reused.
 

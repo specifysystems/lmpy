@@ -57,7 +57,7 @@ Classes
 
       
 
-   .. py:method:: wrangle_matrix(self, matrix)
+   .. py:method:: wrangle_matrix(matrix)
 
       Wrangle a matrix.
 

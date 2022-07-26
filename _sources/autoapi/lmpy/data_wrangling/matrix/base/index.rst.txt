@@ -36,7 +36,7 @@ Classes
 
       
 
-   .. py:method:: _report_slice(self, axis, idx, modified=False, purged=False)
+   .. py:method:: _report_slice(axis, idx, modified=False, purged=False)
 
       Report what is done on a matrix slice.
 
@@ -50,7 +50,7 @@ Classes
       :type purged: bool
 
 
-   .. py:method:: reorder(self, matrix, *axes_order)
+   .. py:method:: reorder(matrix, *axes_order)
 
       Reorder / subset a matrix for a number of dimensions.
 
@@ -64,7 +64,7 @@ Classes
       :rtype: Matrix
 
 
-   .. py:method:: wrangle_matrix(self, matrix)
+   .. py:method:: wrangle_matrix(matrix)
       :abstractmethod:
 
       Wrangle a matrix.
