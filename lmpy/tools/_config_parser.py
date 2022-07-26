@@ -120,6 +120,7 @@ def get_logger(
     logger = None
     handlers = []
     if log_filename is not None:
+        os.makedirs(os.path.dirname(log_filename), exist_ok=True)
         handlers.append(logging.FileHandler(log_filename, mode="w"))
     if log_console:
         handlers.append(logging.StreamHandler(stream=sys.stdout))
