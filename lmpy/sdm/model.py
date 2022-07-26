@@ -45,11 +45,7 @@ def _create_mask(
     )
     # Copy headers from one of the environment layers so that they match
     files = glob.glob(os.path.join(env_dir, '*.asc'))
-    log(f"{len(files)} ascii files in {env_dir}", logger, log_level=INFO)
-
     first_env_layer = files[0]
-    log(f"Matching headers in {mask_filename} to {first_env_layer}",
-        logger, log_level=INFO)
     match_headers(
         mask_filename,
         tmp_mask_filename,
@@ -120,9 +116,6 @@ def create_sdm(
         except FileExistsError:
             pass
 
-        log(f"work_dir is {work_dir}", logger, log_level=INFO)
-        log(f"env_dir is {env_dir}", logger, log_level=INFO)
-        log(f"work_env_dir is {work_env_dir}", logger, log_level=INFO)
         if create_mask:
             maxent_arguments, mask_filename = _create_mask(
                 point_tuples, ecoregions_filename, work_dir, env_dir,
@@ -145,10 +138,9 @@ def create_sdm(
 
         # If used a mask, move it from common env dir to work_dir
         if os.path.exists(mask_filename):
-            log(f"Moving mask {mask_filename} to {work_dir}", logger, log_level=INFO)
+            log(f"Delete mask {mask_filename}", logger, log_level=INFO)
             # shutil.move(mask_filename, work_dir)
             os.remove(mask_filename)
-        log(f"Unlinking env dir in work_dir: {work_env_dir}", logger, log_level=INFO)
         os.unlink(work_env_dir)
 
     return report

@@ -183,10 +183,13 @@ def cli():
         maxent_params += f" {args.maxent_params}"
 
     full_report = {}
+    i = 0
+    ct = len(point_files)
     for point_filename in point_files:
+        i += 1
         species_name = os.path.splitext(os.path.basename(point_filename))[0]
         work_dir = os.path.join(args.work_dir, species_name.replace(' ', '_'))
-        logger.info(f"Starting SDM computation for {species_name}")
+        logger.info(f"*** Starting SDM for {species_name}, file {i} of {ct}")
         report = create_sdm(
             args.min_points,
             point_filename,
@@ -201,7 +204,7 @@ def cli():
             create_mask=True,
             logger=logger
         )
-        logger.info(f"Completed SDM computation for {species_name}")
+        logger.info(f"*** Completed SDM computation for {species_name}")
         full_report[point_filename] = report
 
     # Conditionally write report file
