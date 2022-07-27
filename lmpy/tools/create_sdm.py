@@ -166,7 +166,9 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
-    logger.log(f"Point files: {point_files}", refname=create_sdm)
+    logger.log(
+        f"Create SDMs for {len(point_files)} species occurrence CSVs",
+        refname=ref)
 
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
@@ -180,7 +182,7 @@ def cli():
         species_name = os.path.splitext(os.path.basename(point_filename))[0]
         work_dir = os.path.join(args.out_dir, species_name.replace(" ", "_"))
         logger.log(
-            f"*** Starting SDM for {species_name}, file {i} of {ct}",
+            f"\n*** Starting SDM for {species_name}, file {i} of {ct}",
             refname=ref)
         report = create_sdm(
             args.min_points,
