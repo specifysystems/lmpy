@@ -4,8 +4,9 @@ import argparse
 import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
+from lmpy.log import Logger
 from lmpy.species_list import SpeciesList
-from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = 'Perform various wrangle operations on a species list.'
@@ -106,7 +107,7 @@ def cli():
         print("Errors, exiting program")
         exit('\n'.join(errs))
 
-    logger = get_logger(
+    logger = Logger(
         'wrangle_species_list',
         log_filename=args.log_filename,
         log_console=args.log_console

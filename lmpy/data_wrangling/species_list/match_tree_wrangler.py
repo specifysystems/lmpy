@@ -42,7 +42,7 @@ class MatchTreeSpeciesListWrangler(_SpeciesListDataWrangler):
         """
         ret_sl = SpeciesList(species_list.intersection(self.keep_names))
         self.report['removed'] = len(species_list) - len(ret_sl)
-        self.log(
+        self.logger.log(
             f'Removed {self.report["removed"]} names from species list.',
-            log_level=DEBUG)
+            refname=self.__class__.__name__, log_level=DEBUG)
         return ret_sl

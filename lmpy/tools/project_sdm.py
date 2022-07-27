@@ -4,8 +4,9 @@ import json
 import os
 import shutil
 
+from lmpy.log import Logger
 from lmpy.sdm.model import project_sdm
-from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 # .....................................................................................
@@ -111,7 +112,7 @@ def cli():
         exit('\n'.join(errs))
 
     script_name = os.path.splitext(os.path.basename(__file__))[0]
-    logger = get_logger(
+    logger = Logger(
         script_name,
         log_filename=args.log_filename,
         log_console=args.log_console

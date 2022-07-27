@@ -1,7 +1,10 @@
 """Tool for building grid shapefiles."""
 import argparse
+import os
+import sqlite3
 
 from lmpy.data_preparation.build_grid import build_grid
+from lmpy.log import Logger
 from lmpy.tools._config_parser import _process_arguments
 
 
@@ -40,10 +43,62 @@ def build_parser():
 
 
 # .....................................................................................
+def _test_epsg_code(code):
+    err = None
+    proj_db_file = "/usr/share/proj/proj.db"
+    if not os.path.exists(proj_db_file):
+        from osgeo import osr
+        err = f"Missing proj4 database {proj_db_file}"
+
+    conn = sqlite3.connect(proj_db_file)
+    cursor = conn.cursor()
+    q = "select code from crs_view where auth_name = 'EPSG'"
+    results = cursor.execute(q).fetchall()
+    valid_codes = [int(row[0]) for row in results]
+    if code not in valid_codes:
+        ver = f"{osr.GetPROJVersionMajor()}.{osr.GetPROJVersionMinor()}"
+        err = f"Code {code} os not a valid EPSG code in proj4 version {ver}"
+    return err
+
+
+# .....................................................................................
+def test_inputs(args):
+    """Test input data and configuration files for existence.
+
+    Args:
+        args: arguments pre-processed for this tool.
+
+    Returns:
+        all_missing_inputs: Error messages for display on exit.
+    """
+    all_errors = []
+    if args.min_x >= args.max_x or args.min_y >= args.max_y:
+        all_errors.append(
+            f'Illegal bounds: ({args.min_x}, {args.min_y}, {args.max_x}, {args.max_y})')
+    err = _test_epsg_code(args.epsg)
+    if err is not None:
+        all_errors.append(err)
+    return all_errors
+
+
+# .....................................................................................
 def cli():
     """Command-line interface to build grid."""
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
+
+    errs = test_inputs(args)
+    if errs:
+        print("Errors, exiting program")
+        exit('\n'.join(errs))
+
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
+    logger = Logger(
+        script_name,
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
+
     cell_sides = 4  # Add this to parameters if we enable hexagons again
     build_grid(
         args.grid_filename,
@@ -54,6 +109,7 @@ def cli():
         args.cell_size,
         args.epsg,
         cell_sides,
+        logger=logger
     )
 
 

@@ -1,5 +1,4 @@
 """Module containing occurrence data wranglers for filtering points."""
-from logging import INFO
 from osgeo import ogr
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 
@@ -38,9 +37,9 @@ class IntersectGeometriesFilter(_OccurrenceDataWrangler):
         for geom in self.geometries:
             if not geom.Intersection(point_geometry).IsEmpty():
                 return True
-        self.log(
+        self.logger.log(
             f"{point.species_name} {point.x}, {point.y} fails intersect test.",
-            log_level=INFO)
+            refname=self.__class__.__name__)
         return False
 
     # return any(

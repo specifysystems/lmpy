@@ -1,5 +1,4 @@
 """Module containing base class for data wranglers."""
-from logging import INFO
 
 
 # .....................................................................................
@@ -14,7 +13,8 @@ class _DataWrangler:
 
         Args:
             *args (tuple): Positional arguments.
-            logger (logging.Logger): An optional logger to use for logging output.
+            logger (lmpy.log.Logger): An optional local logger to use for logging output
+                with consistent options
             **kwargs (dict): Dictionary of parameters.
         """
         self.report = {}
@@ -43,14 +43,3 @@ class _DataWrangler:
         self.report['name'] = self.name
         self.report['version'] = self.version
         return self.report
-
-    # ........................
-    def log(self, msg, log_level=INFO):
-        """Log a message.
-
-        Args:
-            msg (str): A message to write to the logger.
-            log_level (int): A level to use when logging the message.
-        """
-        if self.logger is not None:
-            self.logger.log(log_level, self.name + ': ' + msg)

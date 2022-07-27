@@ -10,8 +10,9 @@ from lmpy.data_preparation.occurrence_splitter import (
     OccurrenceSplitter,
 )
 from lmpy.data_wrangling.factory import WranglerFactory
+from lmpy.log import Logger
 from lmpy.point import PointCsvReader, PointDwcaReader
-from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 # .....................................................................................
@@ -159,7 +160,7 @@ def cli():
         exit('\n'.join(errs))
 
     script_name = os.path.splitext(os.path.basename(__file__))[0]
-    logger = get_logger(
+    logger = Logger(
         script_name,
         log_filename=args.log_filename,
         log_console=args.log_console

@@ -107,6 +107,7 @@ def build_grid(
     site_x='siteX',
     site_y='siteY',
     cutout_wkt=None,
+    logger=None
 ):
     """Build a grid with an optional cutout.
 
@@ -125,6 +126,8 @@ def build_grid(
         site_y (str): The name of the Y field for the shapefile.
         cutout_wkt (None or str): WKT for an area of the grid to be cut
             out.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
 
     Returns:
         int: The number of cells in the new grid.
@@ -132,6 +135,7 @@ def build_grid(
     Raises:
         ValueError: Raised if invalid bbox or cell sides.
     """
+    ref = "build_grid"
     if min_x >= max_x or min_y >= max_y:
         raise ValueError(f'Illegal bounds: ({min_x}, {min_y}, {max_x}, {max_y})')
     # We'll always check for intersection to reduce amount of work
@@ -168,6 +172,11 @@ def build_grid(
             'Cannot generate grid cells with {} sides'.format(cell_sides)
         )
 
+    logger.log(
+        f"Build {grid_file_name} in EPSG:{epsg_code} with {cell_sides}-sided cells " +
+        f"of {cell_size} size and x-extent {min_x} - {max_x}, " +
+        f"y-extent {min_y} - {max_y}.", refname=ref)
+
     shape_id = 0
     for cell_wkt in wkt_generator:
         geom = ogr.CreateGeometryFromWkt(cell_wkt)
@@ -183,6 +192,7 @@ def build_grid(
             shape_id += 1
         feat.Destroy()
     data_set.Destroy()
+    logger.log(f"Wrote {grid_file_name} with {shape_id} sites.", refname=ref)
     return shape_id
 
 

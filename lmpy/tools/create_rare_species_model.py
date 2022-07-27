@@ -6,8 +6,9 @@ import tempfile
 import numpy as np
 from osgeo import gdal, gdalconst, ogr, osr
 
+from lmpy.log import Logger
 from lmpy.point import PointCsvReader
-from lmpy.tools._config_parser import get_logger, _process_arguments, test_files
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 DESCRIPTION = '''\
@@ -37,6 +38,7 @@ def create_rare_species_model(
         burn_value (int): The burn value to use for model presence.
         logger (logging.Logger): A default logger to use when wrangling.
     """
+    ref = "create_rare_species_model"
     # Get the desired output raster format, either provided or determine
     raster_format = get_raster_format(raster_format, model_raster_filename)
 
@@ -52,7 +54,8 @@ def create_rare_species_model(
     ) = get_ecoregions_array(ecoregions_filename)
     num_rows, num_cols = ecoregion_data.shape
     if logger:
-        logger.info(f"Created ecoregions array from file {ecoregions_filename}.")
+        logger.log(
+            f"Created ecoregions array from file {ecoregions_filename}.", refname=ref)
 
     # Get convex hull array
     val_set = set()
@@ -71,7 +74,8 @@ def create_rare_species_model(
     convex_hull_raw = geom_collection.ConvexHull()
 
     if logger:
-        logger.info(f"Created convex hull from {len(points)} points.")
+        logger.log(
+            f"Created convex hull from {len(points)} points.", refname=ref)
 
     convex_hull_data = get_convex_hull_array(
         convex_hull_raw, num_cols, num_rows, cell_size, min_x, max_y, epsg, burn_value
@@ -84,7 +88,8 @@ def create_rare_species_model(
             if ecoregion_data[i, j] in val_set and convex_hull_data[i, j] == burn_value:
                 model_data[i, j] = burn_value
     if logger:
-        logger.info(f"Created model_data from file {ecoregions_filename}.")
+        logger.log(
+            f"Created model_data from file {ecoregions_filename}.", refname=ref)
 
     # Write model
     if raster_format == ASC_FORMAT:
@@ -102,7 +107,8 @@ def create_rare_species_model(
             nodata_value,
         )
     if logger:
-        logger.info(f"Wrote model to {model_raster_filename}.")
+        logger.log(
+            f"Wrote model to {model_raster_filename}.", refname=ref)
 
 
 # .....................................................................................
@@ -420,7 +426,7 @@ def cli():
         exit('\n'.join(errs))
 
     script_name = os.path.splitext(os.path.basename(__file__))[0]
-    logger = get_logger(
+    logger = Logger(
         script_name,
         log_filename=args.log_filename,
         log_console=args.log_console

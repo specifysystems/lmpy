@@ -64,15 +64,15 @@ class MatchSpeciesListMatrixWrangler(_MatrixDataWrangler):
                 self.report[
                     'changes'
                 ][str(axis)]['purged'] += (len(axis_headers) - len(axis_slice))
-                self.log(
+                self.logger.log(
                     f"Species list names {unmatched_list_taxa} not present in matrix",
-                    log_level=DEBUG)
-                self.log(
+                    refname=self.__class__.__name__, log_level=DEBUG)
+                self.logger.log(
                     f"Matrix columns {unmatched_matrix_taxa} not present in tree",
-                    log_level=DEBUG)
-                self.log(
+                    refname=self.__class__.__name__, log_level=DEBUG)
+                self.logger.log(
                     f"Purged {self.report['changes'][str(axis)]['purged']} species.",
-                    log_level=DEBUG)
+                    refname=self.__class__.__name__, log_level=DEBUG)
             else:
                 axis_slice = list(range(matrix.shape[axis]))
 

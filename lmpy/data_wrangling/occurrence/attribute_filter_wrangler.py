@@ -42,10 +42,10 @@ class AttributeFilterWrangler(_OccurrenceDataWrangler):
                             return True
                         for val in point.get_attribute(self.attribute_name):
                             if val in bad_values:
-                                self.log(
+                                self.logger.log(
                                     f"{point.species_name} with " +
                                     f"{self.attribute_name} = {val} fails filter.",
-                                    log_level=INFO)
+                                    refname=self.__class__.__name__, log_level=INFO)
                                 return False
                         return True
 

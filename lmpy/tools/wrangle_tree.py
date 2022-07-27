@@ -4,7 +4,8 @@ from copy import deepcopy
 import json
 
 from lmpy.data_wrangling.factory import WranglerFactory
-from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
+from lmpy.log import Logger
+from lmpy.tools._config_parser import _process_arguments, test_files
 from lmpy.tree import TreeWrapper
 
 
@@ -107,7 +108,7 @@ def cli():
         print("Errors, exiting program")
         exit('\n'.join(errs))
 
-    logger = get_logger(
+    logger = Logger(
         'wrangle_tree',
         log_filename=args.log_filename,
         log_console=args.log_console

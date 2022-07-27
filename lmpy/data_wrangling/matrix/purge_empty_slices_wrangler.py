@@ -53,9 +53,9 @@ class PurgeEmptySlicesWrangler(_MatrixDataWrangler):
                 self.report['changes'][str(axis)]['purged'] += len(
                     np.where(matrix.sum(axis=tuple(sum_axes)) == 0)[0]
                 )
-                self.log(
+                self.logger.log(
                     f"Purged {self.report['changes'][str(axis)]['purged']} " +
-                    f"from axis {axis}.",
+                    f"from axis {axis}.", refname=self.__class__.__name__,
                     log_level=DEBUG)
             else:
                 axis_slice = list(range(matrix.shape[axis]))

@@ -71,6 +71,8 @@ class AttributeModifierWrangler(_OccurrenceDataWrangler):
         """
         new_val = self.attribute_func(point)
         point.set_attribute(self.attribute_name, new_val)
-        self.log(f"{self.attribute_name} set to {new_val}.", log_level=INFO)
+        self.logger.log(
+            f"{self.attribute_name} set to {new_val}.",
+            refname=self.__class__.__name__, log_level=INFO)
 
         return point, True

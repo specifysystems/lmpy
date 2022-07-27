@@ -1,6 +1,4 @@
 """Module containing occurrence data wranglers for modifying tree tips."""
-from logging import INFO
-
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
     _AcceptedNameWrangler,
     resolve_names_gbif,
@@ -68,17 +66,21 @@ class AcceptedNameTreeWrangler(_TreeDataWrangler, _AcceptedNameWrangler):
             if acc_name is None:
                 failures.append(taxon)
                 taxon.label = ''
-                self.log(f"Failed to resolve tree tip {taxon.label}.", log_level=INFO)
+                self.logger.log(
+                    f"Failed to resolve tree tip {taxon.label}.",
+                    refname=self.__class__.__name__)
             elif taxon.label != acc_name:
-                self.log(
-                    f"Updated tree tip {taxon.label} to {acc_name}.", log_level=INFO)
+                self.logger.log(
+                    f"Updated tree tip {taxon.label} to {acc_name}.",
+                    refname=self.__class__.__name__)
                 taxon.label = acc_name
                 # report
                 self._report_tip(modified=True)
 
         # Should we purge?
         if self.purge_failures and len(failures) > 0:
-            self.log(f"Purged {len(failures)} from tree.", log_level=INFO)
+            self.logger.log(
+                f"Purged {len(failures)} from tree.", refname=self.__class__.__name__)
             for _ in failures:
                 self._report_tip(purged=True)
 

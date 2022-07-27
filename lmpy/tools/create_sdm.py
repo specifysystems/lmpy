@@ -3,9 +3,10 @@ import argparse
 import json
 import os
 
+from lmpy.log import Logger
 from lmpy.sdm.maxent import DEFAULT_MAXENT_OPTIONS
 from lmpy.sdm.model import create_sdm
-from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 # .....................................................................................
@@ -138,6 +139,7 @@ def test_inputs(args):
 # .....................................................................................
 def cli():
     """Provide a command-line interface for SDM modeling."""
+    ref = "create_sdm"
     parser = build_parser()
     try:
         args = _process_arguments(parser, "config_file")
@@ -159,12 +161,12 @@ def cli():
         exit("\n".join(errs))
 
     script_name = os.path.splitext(os.path.basename(__file__))[0]
-    logger = get_logger(
+    logger = Logger(
         script_name,
         log_filename=args.log_filename,
         log_console=args.log_console
     )
-    logger.info(f"Point files: {point_files}")
+    logger.log(f"Point files: {point_files}", refname=create_sdm)
 
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
@@ -177,7 +179,9 @@ def cli():
         i += 1
         species_name = os.path.splitext(os.path.basename(point_filename))[0]
         work_dir = os.path.join(args.out_dir, species_name.replace(" ", "_"))
-        logger.info(f"*** Starting SDM for {species_name}, file {i} of {ct}")
+        logger.log(
+            f"*** Starting SDM for {species_name}, file {i} of {ct}",
+            refname=ref)
         report = create_sdm(
             args.min_points,
             point_filename,
@@ -192,7 +196,9 @@ def cli():
             create_mask=True,
             logger=logger
         )
-        logger.info(f"*** Completed SDM computation for {species_name}")
+        logger.log(
+            f"*** Completed SDM computation for {species_name}",
+            refname=ref)
         full_report[point_filename] = report
 
     # Conditionally write report file
