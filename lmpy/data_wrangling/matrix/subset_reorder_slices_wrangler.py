@@ -52,9 +52,9 @@ class SubsetReorderSlicesWrangler(_MatrixDataWrangler):
                 self.report[
                     'changes'
                 ][str(axis)]['purged'] += (len(axis_headers) - len(axis_slice))
-                self.log(
+                self.logger.log(
                     f"Purged {self.report['changes'][str(axis)]['purged']} " +
-                    f"from axis {axis}.",
+                    f"from axis {axis}.", refname=self.__class__.__name__,
                     log_level=DEBUG)
             else:
                 axis_slice = list(range(matrix.shape[axis]))

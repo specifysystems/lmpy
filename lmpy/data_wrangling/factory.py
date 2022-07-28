@@ -14,7 +14,8 @@ class WranglerFactory:
         """Constructor for the WranglerFactory class.
 
         Args:
-            logger (logging.Logger): A default logger to use when wrangling.
+            logger (lmpy.log.Logger): An optional local logger to use for logging output
+                with consistent options
         """
         self.wrangler_types = {}
         self.default_logger = logger

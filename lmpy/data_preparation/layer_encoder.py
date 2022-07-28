@@ -215,14 +215,17 @@ class LayerEncoder:
     """
 
     # ...............................
-    def __init__(self, grid_filename):
+    def __init__(self, grid_filename, logger=None):
         """Constructor for the layer encoder.
 
         Args:
             grid_filename (str): A file path for the grid.
+            logger (lmpy.log.Logger): An optional local logger to use for logging output
+                with consistent options
         """
         # Process sgrid
         self.grid_filename = grid_filename
+        self.logger = logger
         self._read_grid(grid_filename)
 
         self.encoded_matrix = None
@@ -619,6 +622,9 @@ class LayerEncoder:
         Returns:
             list of str: A list of column headers for the newly encoded columns.
         """
+        self.logger.log(
+            f"Encode layer to {column_name} with min_coverage = {min_coverage}",
+            refname=self.__class__.__name__)
         window_func, nodata, distinct_attributes = self._read_layer(
             layer_filename,
             resolution=resolution,
@@ -669,6 +675,10 @@ class LayerEncoder:
         Returns:
             list of str: A list of column headers for the newly encoded columns.
         """
+        self.logger.log(
+            f"Encode layer to {column_name} with min_coverage={min_presence}, " +
+            f"max_coverage={max_presence}, min_coverage={min_coverage}",
+            refname=self.__class__.__name__)
         window_func, nodata, _ = self._read_layer(layer_filename, resolution=resolution,
                                                   bbox=bbox, nodata=nodata)
         encode_func = _get_presence_absence_method(
@@ -703,7 +713,10 @@ class LayerEncoder:
         Returns:
             list of str: A list of column headers for the newly encoded columns
         """
-        print((layer_filename, nodata, bbox, resolution, attribute_name))
+        self.logger.log(
+            f"Encode layer to {column_name} with mean value",
+            refname=self.__class__.__name__)
+        # print((layer_filename, nodata, bbox, resolution, attribute_name))
         window_func, nodata, _ = self._read_layer(
             layer_filename,
             resolution=resolution,
@@ -743,6 +756,9 @@ class LayerEncoder:
         Returns:
             list of str: A list of column headers for the newly encoded columns.
         """
+        self.logger.log(
+            f"Encode layer to {column_name} with largest class",
+            refname=self.__class__.__name__)
         window_func, nodata, _ = self._read_layer(
             layer_filename,
             resolution=resolution,

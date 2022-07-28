@@ -39,8 +39,8 @@ class BoundingBoxFilter(_OccurrenceDataWrangler):
         if not all(
             [self.min_x <= point.x <= self.max_x, self.min_y <= point.y <= self.max_y]
         ):
-            self.log(
+            self.logger.log(
                 f"{point.species_name} {point.x}, {point.y} fails boundary test.",
-                log_level=INFO)
+                refname=self.__class__.__name__, log_level=INFO)
             return False
         return True

@@ -4,8 +4,9 @@ import json
 import os.path
 
 from lmpy.data_wrangling.factory import WranglerFactory
+from lmpy.log import Logger
 from lmpy.point import PointCsvReader, PointCsvWriter
-from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 # .....................................................................................
@@ -28,16 +29,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
     Returns:
         dict: Output report from data wrangling.
     """
-    if logger:
-
-        def log_msg(msg):
-            logger.info(msg)
-
-    else:
-
-        def log_msg(msg):
-            pass
-
+    ref = "clean_data"
     report = {
         'input_records': 0,
         'output_records': 0,
@@ -53,7 +45,8 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
             # If there are points, wrangle them
             if points:
                 points = wrangler.wrangle_points(points)
-                log_msg(f"{wrangler_name} processed file {reader.filename}")
+                logger.log(
+                    f"{wrangler_name} processed file {reader.filename}", refname=ref)
 
         # If any points are left, write them
         if points:
@@ -64,7 +57,8 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
                 writer = PointCsvWriter(writer_filename, write_fields)
                 writer.open()
             writer.write_points(points)
-            log_msg(f"Wrote {len(points)} points to {writer.filename}.")
+            logger.log(
+                f"Wrote {len(points)} points to {writer.filename}.", refname=ref)
     # Close reader and writer
     reader.close()
     if writer:
@@ -167,7 +161,7 @@ def cli():
         exit('\n'.join(errs))
 
     script_name = os.path.splitext(os.path.basename(__file__))[0]
-    logger = get_logger(
+    logger = Logger(
         script_name,
         log_filename=args.log_filename,
         log_console=args.log_console

@@ -76,9 +76,9 @@ class _OccurrenceDataWrangler(_DataWrangler):
         self.report['assessed'] = self.assessed
         self.report['modified'] = self.modified
         self.report['filtered'] = self.filtered
-        self.log(
+        self.logger.log(
             f"Filtered {self.filtered}, modified {self.modified} of {self.assessed} " +
-            "assessed points.")
+            "assessed points.", refname=self.__class__.__name__)
         return self.report
 
     # .......................
@@ -108,9 +108,10 @@ class _OccurrenceDataWrangler(_DataWrangler):
             pt = self.wrangle_single_point(point)
             if pt is not None:
                 wrangled_points.append(pt)
-        self.log(
+        self.logger.log(
             f"Return {len(wrangled_points)} of {len(points)} points, " +
-            f"{self.modified} modified", log_level=DEBUG)
+            f"{self.modified} modified", refname=self.__class__.__name__,
+            log_level=DEBUG)
         return wrangled_points
 
     # .......................

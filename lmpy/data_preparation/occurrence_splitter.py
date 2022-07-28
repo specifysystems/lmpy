@@ -93,7 +93,8 @@ class OccurrenceSplitter:
                 use all fields in the first output Point object.
             max_writers (int): The maximum number of open writers (files) at any given
                 time.
-            logger (logging.Logger): An optional logger to use for logging output.
+            logger (lmpy.log.Logger): An optional local logger to use for logging output
+                with consistent options
         """
         self.get_writer_key = writer_key_func
         self.get_writer_filename = writer_filename_func
@@ -174,14 +175,14 @@ class OccurrenceSplitter:
                 if points:
                     in_count = len(points)
                     points = wrangler.wrangle_points(points)
-                    self.log(
-                        f"Wrangle {in_count} points with {wrangler.name} from"
-                        + f"{in_filename} resulting in {len(points)} points",
-                        log_level=INFO)
+                    self.logger.log(
+                        f"Wrangle {in_count} points with {wrangler.name} "
+                        + f"from {in_filename} resulting in {len(points)} points",
+                        refname=self.__class__.__name__, log_level=INFO)
             if points:
-                self.log(
+                self.logger.log(
                     f"Found {len(points)} {points[0].species_name} points from " +
-                    f"{in_filename} to write.",
+                    f"{in_filename} to write.", refname=self.__class__.__name__,
                     log_level=INFO)
                 self.write_points(points)
         reader.close()
@@ -201,9 +202,9 @@ class OccurrenceSplitter:
                 if self.writer_fields is None:
                     self.writer_fields = list(points[0].attributes.keys())
                 self.open_writer(writer_key)
-            self.log(
+            self.logger.log(
                 f"Wrote {len(points)} points to {writer_filename}.",
-                log_level=INFO)
+                refname=self.__class__.__name__, log_level=INFO)
             self.writers[writer_key].write_points(points)
 
     # .......................
@@ -216,17 +217,6 @@ class OccurrenceSplitter:
         with open(species_list_filename, mode='wt') as species_out:
             for sp in list(self.seen_taxa):
                 species_out.write(f'{sp}\n')
-
-    # ........................
-    def log(self, msg, log_level=INFO):
-        """Log a message.
-
-        Args:
-            msg (str): A message to write to the logger.
-            log_level (int): A level to use when logging the message.
-        """
-        if self.logger is not None:
-            self.logger.log(log_level, self.__class__.__name__ + ': ' + msg)
 
 
 # .....................................................................................

@@ -1,6 +1,4 @@
 """Module containing occurrence data wranglers for matching a species list."""
-from logging import INFO
-
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 from lmpy.species_list import SpeciesList
 
@@ -35,9 +33,9 @@ class MatchSpeciesListWrangler(_OccurrenceDataWrangler):
             bool: Indication if the point passed assessment.
         """
         if point.species_name not in self.species_list:
-            self.log(
+            self.logger.log(
                 f"{point.species_name} fails to match species list.",
-                log_level=INFO)
+                refname=self.__class__.__name__)
             return False
         return True
         # return point.species_name in self.species_list

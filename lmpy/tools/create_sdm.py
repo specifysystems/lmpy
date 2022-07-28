@@ -3,9 +3,10 @@ import argparse
 import json
 import os
 
+from lmpy.log import Logger
 from lmpy.sdm.maxent import DEFAULT_MAXENT_OPTIONS
 from lmpy.sdm.model import create_sdm
-from lmpy.tools._config_parser import _process_arguments, get_logger, test_files
+from lmpy.tools._config_parser import _process_arguments, test_files
 
 
 # .....................................................................................
@@ -23,100 +24,88 @@ def build_parser():
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
     parser = argparse.ArgumentParser(
-        prog='create_sdm',
+        prog="create_sdm",
         description=DESCRIPTION,
     )
     parser.add_argument(
-        '--config_file',
+        "--config_file",
         type=str,
-        help='Configuration file containing script arguments.'
+        help="Configuration file containing script arguments."
     )
     parser.add_argument(
-        '--log_filename',
-        '-l',
+        "--log_filename",
+        "-l",
         type=str,
-        help='A file location to write logging data.'
+        help="A file location to write logging data."
     )
     parser.add_argument(
-        '--log_console',
-        action='store_true',
+        "--log_console",
+        action="store_true",
         default=False,
-        help='If provided, write log to console.'
+        help="If provided, write log to console."
     )
     parser.add_argument(
-        '-r',
-        '--report_filename',
+        "-r",
+        "--report_filename",
         type=str,
-        help='File location to write the wrangler report.'
+        help="File location to write the wrangler report."
     )
     parser.add_argument(
-        '-n',
-        '--min_points',
+        "-n",
+        "--min_points",
         type=int,
         default=12,
-        help='Minimum number of points to use Maxent.',
+        help="Minimum number of points to use Maxent.",
     )
     parser.add_argument(
-        '-p',
-        '--maxent_params',
+        "-p",
+        "--maxent_params",
         type=str,
-        help=f'Extra options to send to Maxent (added to {DEFAULT_MAXENT_OPTIONS}.',
+        help=f"Extra options to send to Maxent (added to {DEFAULT_MAXENT_OPTIONS}.",
     )
     parser.add_argument(
-        '--species_key',
+        "--species_key",
         type=str,
-        default='species_name',
-        help='Header of CSV column containing species information.'
+        default="species_name",
+        help="Header of CSV column containing species information."
     )
     parser.add_argument(
-        '--x_key',
+        "--x_key",
         type=str,
-        default='x',
-        help='Header of CSV column containing X value for record.'
+        default="x",
+        help="Header of CSV column containing X value for record."
     )
     parser.add_argument(
-        '--y_key',
+        "--y_key",
         type=str,
-        default='y',
-        help='Header of CSV column containing Y value for record.'
+        default="y",
+        help="Header of CSV column containing Y value for record."
     )
-    # parser.add_argument(
-    #     '-z', '--package_filename', type=str, help='Output package zip file.'
-    # )
-    # Layers to encode
     parser.add_argument(
-        '--points_layer',
+        "--points_layer",
         type=str,
         default=[],
-        nargs='+',
-        help='One or more CSV files containing occurrences in species, x, y format.',
+        nargs="+",
+        help="One or more CSV files containing occurrences in species, x, y format.",
     )
     parser.add_argument(
-        '--points_dir',
+        "--points_dir",
         type=str,
         default=None,
-        help='Directory of CSV files containing occurrences in species, x, y format.',
+        help="Directory of CSV files containing occurrences in species, x, y format.",
     )
-    # parser.add_argument(
-    #     'points_filename',
-    #     type=str,
-    #     help='File containing occurrences in species, x, y format.'
-    # )
     parser.add_argument(
-        'env_dir',
+        "env_dir",
         type=str,
-        help='Directory containing environment layers for modeling.'
+        help="Directory containing environment layers for modeling."
     )
     parser.add_argument(
-        'ecoregions_filename', type=str, help='Ecoregions raster filename.'
+        "ecoregions_filename", type=str, help="Ecoregions raster filename."
     )
-    parser.add_argument('work_dir', type=str, help='Directory where work can be done.')
-    parser.add_argument('out_dir', type=str, help='Directory for completed outputs.')
-    # parser.add_argument(
-    #     'model_raster_filename',
-    #     type=str,
-    #     help='File location to write final model raster.'
-    # )
+    parser.add_argument(
+        "out_dir", type=str,
+        help="Parent directory for species directories of" +
+             "computations and completed outputs.")
     return parser
 
 
@@ -150,9 +139,10 @@ def test_inputs(args):
 # .....................................................................................
 def cli():
     """Provide a command-line interface for SDM modeling."""
+    ref = "create_sdm"
     parser = build_parser()
     try:
-        args = _process_arguments(parser, 'config_file')
+        args = _process_arguments(parser, "config_file")
     except FileNotFoundError as e:
         print("Missing file, exiting program")
         exit(f"{str(e)}")
@@ -168,15 +158,17 @@ def cli():
     errs = test_inputs(args)
     if errs:
         print("Errors, exiting program")
-        exit('\n'.join(errs))
+        exit("\n".join(errs))
 
     script_name = os.path.splitext(os.path.basename(__file__))[0]
-    logger = get_logger(
+    logger = Logger(
         script_name,
         log_filename=args.log_filename,
         log_console=args.log_console
     )
-    logger.info(f"Point files: {point_files}")
+    logger.log(
+        f"Create SDMs for {len(point_files)} species occurrence CSVs",
+        refname=ref)
 
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
@@ -188,8 +180,10 @@ def cli():
     for point_filename in point_files:
         i += 1
         species_name = os.path.splitext(os.path.basename(point_filename))[0]
-        work_dir = os.path.join(args.work_dir, species_name.replace(' ', '_'))
-        logger.info(f"*** Starting SDM for {species_name}, file {i} of {ct}")
+        work_dir = os.path.join(args.out_dir, species_name.replace(" ", "_"))
+        logger.log(
+            f"\n*** Starting SDM for {species_name}, file {i} of {ct}",
+            refname=ref)
         report = create_sdm(
             args.min_points,
             point_filename,
@@ -204,17 +198,19 @@ def cli():
             create_mask=True,
             logger=logger
         )
-        logger.info(f"*** Completed SDM computation for {species_name}")
+        logger.log(
+            f"*** Completed SDM computation for {species_name}",
+            refname=ref)
         full_report[point_filename] = report
 
     # Conditionally write report file
     if args.report_filename is not None:
-        with open(args.report_filename, mode='wt') as out_json:
+        with open(args.report_filename, mode="wt") as out_json:
             json.dump(full_report, out_json)
 
 
 # .....................................................................................
-if __name__ == '__main__':
+if __name__ == "__main__":
     workdir = os.getcwd()
     print(f"PWD is {workdir}")
     cli()

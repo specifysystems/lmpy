@@ -34,10 +34,9 @@ def match_headers(mask_filename, tmp_mask_filename, template_layer_filename):
 
 # .....................................................................................
 def _create_mask(
-        point_tuples, ecoregions_filename, work_dir, env_dir, maxent_arguments, logger):
-    work_env_dir = os.path.join(work_dir, 'model_layers')
-    mask_filename = os.path.join(work_env_dir, 'mask.asc')
-    tmp_mask_filename = os.path.join(work_dir, 'tmp_mask.asc')
+        point_tuples, ecoregions_filename, env_dir, maxent_arguments, logger):
+    mask_filename = os.path.join(env_dir, 'mask.asc')
+    tmp_mask_filename = os.path.join(env_dir, 'tmp_mask.asc')
     create_rare_species_model(
         point_tuples,
         ecoregions_filename,
@@ -50,9 +49,8 @@ def _create_mask(
         mask_filename,
         tmp_mask_filename,
         first_env_layer
-        # glob.glob(os.path.join(env_dir, '*.asc'))[0]
-        # glob.glob(os.path.join(work_env_dir, '*.asc'))[0]
     )
+    log(f"Created mask {mask_filename} for current SDM", logger, log_level=INFO)
     # Remove tmp_mask after mask is created and matched
     if os.path.exists(tmp_mask_filename):
         os.remove(tmp_mask_filename)
@@ -91,10 +89,11 @@ def create_sdm(
                     or lambdas filename for Maxent
         report (dict): dictionary containing relevant metadata about the model
     """
-    species_name = Point.standardize_species_name(species_name)
+    std_species_name = Point.standardize_species_name(species_name)
+    std_file_basename = f"{std_species_name.replace(' ', '_')}"
     point_tuples = read_points(csv_filename, sp_key, x_key, y_key)
     report = {
-        "species": species_name,
+        "species": std_species_name,
         "num_points": len(point_tuples)
     }
 
@@ -102,46 +101,52 @@ def create_sdm(
         os.makedirs(work_dir)
 
     if len(point_tuples) < min_points:
-        projected_distribution_filename = os.path.join(work_dir, f'{species_name}.asc')
+        proj_distribution_filename = os.path.join(work_dir, f'{std_file_basename}.asc')
         log("Create rare species model and map", logger, log_level=INFO)
         create_rare_species_model(
-            point_tuples, ecoregions_filename, projected_distribution_filename)
+            point_tuples, ecoregions_filename, proj_distribution_filename)
         report["method"] = "rare_species_model"
+        report["projected_distribution_file"] = proj_distribution_filename
     else:
         report["method"] = "maxent"
-        # Create model env layer directory in work dir
-        work_env_dir = os.path.join(work_dir, 'model_layers')
-        try:
-            os.symlink(env_dir, work_env_dir)
-        except FileExistsError:
-            pass
 
         if create_mask:
             maxent_arguments, mask_filename = _create_mask(
-                point_tuples, ecoregions_filename, work_dir, env_dir,
-                maxent_arguments, logger=logger)
+                point_tuples, ecoregions_filename, env_dir, maxent_arguments,
+                logger=logger)
 
         me_csv_filename = os.path.join(
-            work_dir, f"{species_name.replace(' ', '_')}.csv")
+            work_dir, f"{std_file_basename}.csv")
         with PointCsvWriter(me_csv_filename, ["species_name", "x", "y"]) as writer:
-            writer.write_points([Point(species_name, x, y) for x, y in point_tuples])
+            writer.write_points(
+                [Point(std_species_name, x, y) for x, y in point_tuples])
         log("Create Maxent model", logger, log_level=INFO)
-        create_maxent_model(me_csv_filename, work_env_dir, work_dir, maxent_arguments)
+        create_maxent_model(me_csv_filename, env_dir, work_dir, maxent_arguments)
 
         try:
-            model_file = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
-            log(f"Completed Maxent model with lambdas file {model_file}",
-                logger, log_level=INFO)
+            model_filename = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
         except IndexError:
             log(f"Failed to produce Maxent model for {csv_filename}",
                 logger, log_level=INFO)
+        else:
+            log(f"Completed Maxent model with file {model_filename}",
+                logger, log_level=INFO)
+            report["model_file"] = model_filename
+
+        try:
+            proj_distribution_filename = glob.glob(os.path.join(work_dir, "*.asc"))[0]
+        except IndexError:
+            log(f"Failed to produce Maxent model for {csv_filename}",
+                logger, log_level=INFO)
+        else:
+            log(f"Completed Maxent map with file {proj_distribution_filename}",
+                logger, log_level=INFO)
+            report["projected_distribution_file"] = proj_distribution_filename
 
         # If used a mask, move it from common env dir to work_dir
         if os.path.exists(mask_filename):
             log(f"Delete mask {mask_filename}", logger, log_level=INFO)
-            # shutil.move(mask_filename, work_dir)
             os.remove(mask_filename)
-        os.unlink(work_env_dir)
 
     return report
 

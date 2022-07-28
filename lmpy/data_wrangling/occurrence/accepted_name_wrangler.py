@@ -65,9 +65,9 @@ class AcceptedNameOccurrenceWrangler(_OccurrenceDataWrangler, _AcceptedNameWrang
             bool: An indication if the point passed the test.
         """
         if point.species_name is None or len(point.species_name) == 0:
-            self.log(
+            self.logger.log(
                 f"Point with {point.species_name} fails with no accepted name.",
-                log_level=INFO)
+                refname=self.__class__.__name__, log_level=INFO)
             return False
         return True
 
@@ -90,9 +90,9 @@ class AcceptedNameOccurrenceWrangler(_OccurrenceDataWrangler, _AcceptedNameWrang
             is_modified = True
 
         if point.species_name != acc_name:
-            self.log(
+            self.logger.log(
                 f"{point.species_name} updated to accepted name {acc_name}.",
-                log_level=INFO)
+                refname=self.__class__.__name__, log_level=INFO)
             point.species_name = acc_name
             is_modified = True
 

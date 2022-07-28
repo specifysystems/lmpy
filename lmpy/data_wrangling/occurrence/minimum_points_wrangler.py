@@ -54,9 +54,9 @@ class MinimumPointsFilter(_OccurrenceDataWrangler):
         else:
             # Not enough points to all fail
             self._pass_condition = self._get_all_fail_condition()
-            self.log(
+            self.logger.log(
                 f"{spname} {len(points)} fails minimum {self.minimum_count} points.",
-                log_level=DEBUG)
+                refname=self.__class__.__name__, log_level=DEBUG)
 
         # Call parent class wrangle_points function
         return _OccurrenceDataWrangler.wrangle_points(self, points)
