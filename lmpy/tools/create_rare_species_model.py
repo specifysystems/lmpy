@@ -38,7 +38,6 @@ def create_rare_species_model(
         burn_value (int): The burn value to use for model presence.
         logger (logging.Logger): A default logger to use when wrangling.
     """
-    ref = "create_rare_species_model"
     # Get the desired output raster format, either provided or determine
     raster_format = get_raster_format(raster_format, model_raster_filename)
 
@@ -55,7 +54,8 @@ def create_rare_species_model(
     num_rows, num_cols = ecoregion_data.shape
     if logger:
         logger.log(
-            f"Created ecoregions array from file {ecoregions_filename}.", refname=ref)
+            f"Created ecoregions array from file {ecoregions_filename}.",
+            refname=logger.name)
 
     # Get convex hull array
     val_set = set()
@@ -75,7 +75,7 @@ def create_rare_species_model(
 
     if logger:
         logger.log(
-            f"Created convex hull from {len(points)} points.", refname=ref)
+            f"Created convex hull from {len(points)} points.", refname=logger.name)
 
     convex_hull_data = get_convex_hull_array(
         convex_hull_raw, num_cols, num_rows, cell_size, min_x, max_y, epsg, burn_value
@@ -89,7 +89,7 @@ def create_rare_species_model(
                 model_data[i, j] = burn_value
     if logger:
         logger.log(
-            f"Created model_data from file {ecoregions_filename}.", refname=ref)
+            f"Created model_data from file {ecoregions_filename}.", refname=logger.name)
 
     # Write model
     if raster_format == ASC_FORMAT:
@@ -108,7 +108,7 @@ def create_rare_species_model(
         )
     if logger:
         logger.log(
-            f"Wrote model to {model_raster_filename}.", refname=ref)
+            f"Wrote model to {model_raster_filename}.", refname=logger.name)
 
 
 # .....................................................................................

@@ -130,7 +130,7 @@ def cli():
         ValueError: Raised if an unknown encoding method is provided or too many layer
             arguments.
     """
-    ref = "encode_layers"
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     parser = build_parser()
 
     args = _process_arguments(parser, config_arg='config_file')
@@ -169,13 +169,13 @@ def cli():
     )
     logger.log(
         f"Encode {len(layers)} layers for matrix {args.out_matrix_filename}",
-        refname=ref)
+        refname=script_name)
 
     encoder = LayerEncoder(args.grid_filename, logger=logger)
 
     logger.log(
         f"Start encoding {len(layers)} layers to matrix {args.out_matrix_filename} " +
-        f"with {args.encode_method}", refname=ref)
+        f"with {args.encode_method}", refname=script_name)
     for lyr_fn, lyr_args in layers.items():
         if args.encode_method == 'biogeo':
             encoder.encode_biogeographic_hypothesis(
@@ -204,11 +204,11 @@ def cli():
             )
         else:
             raise ValueError('Unknown encoding method: {}'.format(args.encode_method))
-        logger.log(f"Completed encode {lyr_fn}", refname=ref)
+        logger.log(f"Completed encode {lyr_fn}", refname=script_name)
 
     enc_mtx = encoder.get_encoded_matrix()
     enc_mtx.write(args.out_matrix_filename)
-    logger.log(f"***Completed matrix {args.out_matrix_filename}", refname=ref)
+    logger.log(f"***Completed matrix {args.out_matrix_filename}", refname=script_name)
 
 
 # .....................................................................................

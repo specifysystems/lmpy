@@ -1,7 +1,7 @@
 """Module containing methods to build a grid."""
 import math
-
 import numpy as np
+import os
 from osgeo import ogr, osr
 
 # Calculate this once and store as a constant instead of for every cell
@@ -124,8 +124,7 @@ def build_grid(
         site_id (str): The name of the site id field for the shapefile.
         site_x (str): The name of the X field for the shapefile.
         site_y (str): The name of the Y field for the shapefile.
-        cutout_wkt (None or str): WKT for an area of the grid to be cut
-            out.
+        cutout_wkt (None or str): WKT for an area of the grid to be cut out.
         logger (lmpy.log.Logger): An optional local logger to use for logging output
             with consistent options
 
@@ -135,7 +134,7 @@ def build_grid(
     Raises:
         ValueError: Raised if invalid bbox or cell sides.
     """
-    ref = "build_grid"
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     if min_x >= max_x or min_y >= max_y:
         raise ValueError(f'Illegal bounds: ({min_x}, {min_y}, {max_x}, {max_y})')
     # We'll always check for intersection to reduce amount of work
@@ -175,7 +174,7 @@ def build_grid(
     logger.log(
         f"Build {grid_file_name} in EPSG:{epsg_code} with {cell_sides}-sided cells " +
         f"of {cell_size} size and x-extent {min_x} - {max_x}, " +
-        f"y-extent {min_y} - {max_y}.", refname=ref)
+        f"y-extent {min_y} - {max_y}.", refname=script_name)
 
     shape_id = 0
     for cell_wkt in wkt_generator:
@@ -192,7 +191,7 @@ def build_grid(
             shape_id += 1
         feat.Destroy()
     data_set.Destroy()
-    logger.log(f"Wrote {grid_file_name} with {shape_id} sites.", refname=ref)
+    logger.log(f"Wrote {grid_file_name} with {shape_id} sites.", refname=script_name)
     return shape_id
 
 

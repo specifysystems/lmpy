@@ -29,7 +29,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
     Returns:
         dict: Output report from data wrangling.
     """
-    ref = "clean_data"
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     report = {
         'input_records': 0,
         'output_records': 0,
@@ -46,7 +46,8 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
             if points:
                 points = wrangler.wrangle_points(points)
                 logger.log(
-                    f"{wrangler_name} processed file {reader.filename}", refname=ref)
+                    f"{wrangler_name} processed file {reader.filename}",
+                    refname=script_name)
 
         # If any points are left, write them
         if points:
@@ -58,7 +59,8 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
                 writer.open()
             writer.write_points(points)
             logger.log(
-                f"Wrote {len(points)} points to {writer.filename}.", refname=ref)
+                f"Wrote {len(points)} points to {writer.filename}.",
+                refname=script_name)
     # Close reader and writer
     reader.close()
     if writer:

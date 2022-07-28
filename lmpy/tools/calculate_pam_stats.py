@@ -1,7 +1,8 @@
 """Tool for creating PAM statistics."""
 import argparse
-import json
+import os
 
+from lmpy.log import Logger
 from lmpy.matrix import Matrix
 from lmpy.statistics.pam_stats import PamStats
 from lmpy.tools._config_parser import _process_arguments, test_files
@@ -102,6 +103,15 @@ def cli():
         print("Errors, exiting program")
         exit('\n'.join(errs))
 
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
+    logger = Logger(
+        script_name,
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
+    logger.log(
+        f"Calculate statistics for PAM {args.pam_filename}.", refname=script_name)
+
     tree = tree_matrix = node_heights_matrix = tip_lengths_matrix = None
     pam = Matrix.load(args.pam_filename)
     if args.tree_filename is not None:
@@ -118,21 +128,34 @@ def cli():
         tree_matrix=tree_matrix,
         node_heights_matrix=node_heights_matrix,
         tip_lengths_matrix=tip_lengths_matrix,
+        logger=logger
     )
 
     # Write requested stats
     if args.covariance_matrix is not None:
-        with open(args.covariance_matrix, mode='wt') as out_json:
-            json.dump(stats.calculate_covariance_statistics(), out_json)
+        logger.log(
+            f"Calculate covariance statistics for PAM {args.pam_filename}.",
+            refname=script_name)
+        pth, fname = os.path.split(args.covariance_matrix)
+        basename, ext = os.path.splitext(fname)
+        covariance_stats = stats.calculate_covariance_statistics()
+        for name, mtx in covariance_stats:
+            fn = os.path.join(pth, f"{basename}_{name}.{ext}")
+            mtx.write(fn)
+        # with open(args.covariance_matrix, mode='wt') as f:
+        #     json.dump(covariance_stats, f)
 
     if args.diversity_matrix is not None:
-        stats.calculate_diversity_statistics().write(args.diversity_matrix)
+        diversity_stats = stats.calculate_diversity_statistics()
+        diversity_stats.write(args.diversity_matrix)
 
     if args.site_stats_matrix is not None:
-        stats.calculate_site_statistics().write(args.site_stats_matrix)
+        site_stats = stats.calculate_site_statistics()
+        site_stats.write(args.site_stats_matrix)
 
     if args.species_stats_matrix is not None:
-        stats.calculate_species_statistics().write(args.species_stats_matrix)
+        species_stats = stats.calculate_species_statistics()
+        species_stats.write(args.species_stats_matrix)
 
 
 # .....................................................................................

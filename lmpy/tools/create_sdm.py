@@ -139,7 +139,6 @@ def test_inputs(args):
 # .....................................................................................
 def cli():
     """Provide a command-line interface for SDM modeling."""
-    ref = "create_sdm"
     parser = build_parser()
     try:
         args = _process_arguments(parser, "config_file")
@@ -168,7 +167,7 @@ def cli():
     )
     logger.log(
         f"Create SDMs for {len(point_files)} species occurrence CSVs",
-        refname=ref)
+        refname=script_name)
 
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
@@ -183,7 +182,7 @@ def cli():
         work_dir = os.path.join(args.out_dir, species_name.replace(" ", "_"))
         logger.log(
             f"\n*** Starting SDM for {species_name}, file {i} of {ct}",
-            refname=ref)
+            refname=script_name)
         report = create_sdm(
             args.min_points,
             point_filename,
@@ -200,7 +199,7 @@ def cli():
         )
         logger.log(
             f"*** Completed SDM computation for {species_name}",
-            refname=ref)
+            refname=script_name)
         full_report[point_filename] = report
 
     # Conditionally write report file
