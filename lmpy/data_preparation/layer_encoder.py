@@ -716,7 +716,7 @@ class LayerEncoder:
         self.logger.log(
             f"Encode layer to {column_name} with mean value",
             refname=self.__class__.__name__)
-        print((layer_filename, nodata, bbox, resolution, attribute_name))
+        # print((layer_filename, nodata, bbox, resolution, attribute_name))
         window_func, nodata, _ = self._read_layer(
             layer_filename,
             resolution=resolution,

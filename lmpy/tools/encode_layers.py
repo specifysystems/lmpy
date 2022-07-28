@@ -155,10 +155,10 @@ def cli():
 
     encoder = LayerEncoder(args.grid_filename, logger=logger)
 
+    logger.log(
+        f"Start encoding {len(layers)} layers to matrix {args.out_matrix_filename} " +
+        f"with {args.encode_method}", refname=ref)
     for lyr_fn, lyr_args in layers.items():
-        logger.log(
-            f"\nStart encode {lyr_fn} layer with {args.encode_method}",
-            refname=ref)
         if args.encode_method == 'biogeo':
             encoder.encode_biogeographic_hypothesis(
                 lyr_fn, lyr_args['label'], args.min_coverage,
