@@ -23,6 +23,24 @@ def build_parser():
     parser = argparse.ArgumentParser(prog='build_grid', description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
+        "--log_filename",
+        "-l",
+        type=str,
+        help="A file location to write logging data."
+    )
+    parser.add_argument(
+        "--log_console",
+        action="store_true",
+        default=False,
+        help="If provided, write log to console."
+    )
+    parser.add_argument(
+        "-r",
+        "--report_filename",
+        type=str,
+        help="File location to write the wrangler report."
+    )
+    parser.add_argument(
         'grid_filename',
         type=str,
         help='File location to write grid shapefile.',
