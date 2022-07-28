@@ -133,29 +133,37 @@ def cli():
 
     # Write requested stats
     if args.covariance_matrix is not None:
-        logger.log(
-            f"Calculate covariance statistics for PAM {args.pam_filename}.",
-            refname=script_name)
         pth, fname = os.path.split(args.covariance_matrix)
         basename, ext = os.path.splitext(fname)
         covariance_stats = stats.calculate_covariance_statistics()
         for name, mtx in covariance_stats:
             fn = os.path.join(pth, f"{basename}_{name.replace(' ', '_')}{ext}")
             mtx.write(fn)
+            logger.log(
+                f"Wrote covariance {name} statistics to {fn}.", refname=script_name)
         # with open(args.covariance_matrix, mode='wt') as f:
         #     json.dump(covariance_stats, f)
 
     if args.diversity_matrix is not None:
         diversity_stats = stats.calculate_diversity_statistics()
         diversity_stats.write(args.diversity_matrix)
+        logger.log(
+            f"Wrote diversity statistics to {args.diversity_matrix}.",
+            refname=script_name)
 
     if args.site_stats_matrix is not None:
         site_stats = stats.calculate_site_statistics()
         site_stats.write(args.site_stats_matrix)
+        logger.log(
+            f"Wrote site statistics to {args.site_stats_matrix}.",
+            refname=script_name)
 
     if args.species_stats_matrix is not None:
         species_stats = stats.calculate_species_statistics()
         species_stats.write(args.species_stats_matrix)
+        logger.log(
+            f"Wrote species statistics to {args.species_stats_matrix}.",
+            refname=script_name)
 
 
 # .....................................................................................
