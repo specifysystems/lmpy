@@ -28,8 +28,9 @@ Classes
 
    :param \*args: Positional arguments.
    :type \*args: tuple
-   :param logger: An optional logger to use for logging output.
-   :type logger: logging.Logger
+   :param logger: An optional local logger to use for logging output
+                  with consistent options
+   :type logger: lmpy.log.Logger
    :param \*\*kwargs: Dictionary of parameters.
    :type \*\*kwargs: dict
 
@@ -61,16 +62,6 @@ Classes
 
       :returns: A dictionary of reporting information.
       :rtype: dict
-
-
-   .. py:method:: log(msg, log_level=INFO)
-
-      Log a message.
-
-      :param msg: A message to write to the logger.
-      :type msg: str
-      :param log_level: A level to use when logging the message.
-      :type log_level: int
 
 
 

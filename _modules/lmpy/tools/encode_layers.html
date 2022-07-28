@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.encode_layers &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+  <title>lmpy.tools.encode_layers &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -81,6 +81,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.data_preparation.layer_encoder</span> <span class="k">import</span> <span class="n">LayerEncoder</span>
+<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="k">import</span> <span class="n">Logger</span>
 <span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
 
 
@@ -141,6 +142,12 @@
         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File location of layer [ LABEL [ ATTRIBUTE FIELD ]].&#39;</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="c1"># Layers to encode</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--layer_file_pattern&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;File pattern to one or more layers.&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span></div>
 
 
@@ -155,13 +162,23 @@
 <span class="sd">        all_errors: Error messages for display on exit.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">all_errors</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">layer_args</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">layer</span><span class="p">:</span>
-        <span class="c1"># if there are too many layer arguments, fail</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">all_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Too many layer arguments </span><span class="si">{layer_args}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="c1"># Process layer arguments, get filename for sure, try label and attribute field</span>
-        <span class="n">lyr_fn</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">all_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">test_files</span><span class="p">((</span><span class="n">lyr_fn</span><span class="p">,</span> <span class="s2">&quot;Input layer&quot;</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+        <span class="n">all_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;Argument min_coverage </span><span class="si">{args.min_coverage}</span><span class="s2"> is not between 0 and 100&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">min_presence</span> <span class="o">&gt;=</span> <span class="n">args</span><span class="o">.</span><span class="n">max_presence</span><span class="p">:</span>
+        <span class="n">all_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;Argument min_presence </span><span class="si">{args.args.min_presence}</span><span class="s2"> is not less than &quot;</span> <span class="o">+</span>
+            <span class="n">f</span><span class="s2">&quot;max_presence </span><span class="si">{args.max_presence}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">grid_filename</span><span class="p">):</span>
+        <span class="n">all_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">grid_filename</span><span class="p">,</span> <span class="s2">&quot;Input grid file&quot;</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">layer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">layer_args</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">layer</span><span class="p">:</span>
+            <span class="c1"># if there are too many layer arguments, fail</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">all_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Too many layer arguments </span><span class="si">{layer_args}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="c1"># Test all layer files</span>
+            <span class="n">lyr_fn</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">all_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">test_files</span><span class="p">((</span><span class="n">lyr_fn</span><span class="p">,</span> <span class="s2">&quot;Input layer&quot;</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">all_errors</span>
 
 
@@ -173,6 +190,7 @@
 <span class="sd">        ValueError: Raised if an unknown encoding method is provided or too many layer</span>
 <span class="sd">            arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="s2">&quot;encode_layers&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
@@ -181,50 +199,76 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
         <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
 
-    <span class="n">encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">grid_filename</span><span class="p">)</span>
+    <span class="n">layers</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">layer_file_pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">glob</span>
+        <span class="n">lyrfiles</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">layer_file_pattern</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">lyrfiles</span><span class="p">:</span>
+            <span class="n">layers</span><span class="p">[</span><span class="n">fn</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;attribute&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fn</span><span class="p">))[</span><span class="mi">0</span><span class="p">]}</span>
 
-    <span class="k">for</span> <span class="n">layer_args</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">layer</span><span class="p">:</span>
-        <span class="c1"># Process layer arguments, get filename for sure, try label and attribute field</span>
-        <span class="n">lyr_fn</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">layer_attribute</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">layer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">layer_args</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">layer</span><span class="p">:</span>
+            <span class="n">lyr_fn</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">layers</span><span class="p">[</span><span class="n">lyr_fn</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;attribute&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">lyr_fn</span><span class="p">))[</span><span class="mi">0</span><span class="p">]}</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># First optional arg is label</span>
+                <span class="n">layers</span><span class="p">[</span><span class="n">lyr_fn</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="c1"># Second optional arg is attribute</span>
+                    <span class="n">layers</span><span class="p">[</span><span class="n">lyr_fn</span><span class="p">][</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
-        <span class="c1"># Label</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">lyr_label</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">layer_attribute</span> <span class="o">=</span> <span class="n">layer_args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">lyr_label</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">lyr_fn</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">script_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span>
+        <span class="n">script_name</span><span class="p">,</span>
+        <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
+        <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
+    <span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="n">f</span><span class="s2">&quot;Encode {len(layers)} layers for matrix </span><span class="si">{args.out_matrix_filename}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
 
+    <span class="n">encoder</span> <span class="o">=</span> <span class="n">LayerEncoder</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">grid_filename</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="n">f</span><span class="s2">&quot;Start encoding {len(layers)} layers to matrix </span><span class="si">{args.out_matrix_filename}</span><span class="s2"> &quot;</span> <span class="o">+</span>
+        <span class="n">f</span><span class="s2">&quot;with </span><span class="si">{args.encode_method}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_args</span> <span class="ow">in</span> <span class="n">layers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;biogeo&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_biogeographic_hypothesis</span><span class="p">(</span>
-                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span> <span class="n">attribute_field</span><span class="o">=</span><span class="n">layer_attribute</span>
+                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_args</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span> <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span>
+                <span class="n">attribute_field</span><span class="o">=</span><span class="n">lyr_args</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;presence_absence&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_presence_absence</span><span class="p">(</span>
                 <span class="n">lyr_fn</span><span class="p">,</span>
-                <span class="n">lyr_label</span><span class="p">,</span>
+                <span class="n">lyr_args</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">min_presence</span><span class="p">,</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">max_presence</span><span class="p">,</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span>
-                <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_attribute</span><span class="p">,</span>
+                <span class="n">attribute_name</span><span class="o">=</span><span class="n">lyr_args</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;largest_class&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_largest_class</span><span class="p">(</span>
                 <span class="n">lyr_fn</span><span class="p">,</span>
-                <span class="n">lyr_label</span><span class="p">,</span>
+                <span class="n">lyr_args</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">min_coverage</span><span class="p">,</span>
-                <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_attribute</span><span class="p">,</span>
+                <span class="n">attribute_name</span><span class="o">=</span><span class="n">lyr_args</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">encode_method</span> <span class="o">==</span> <span class="s1">&#39;mean_value&#39;</span><span class="p">:</span>
             <span class="n">encoder</span><span class="o">.</span><span class="n">encode_mean_value</span><span class="p">(</span>
-                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_label</span><span class="p">,</span> <span class="n">attribute_name</span><span class="o">=</span><span class="n">layer_attribute</span>
+                <span class="n">lyr_fn</span><span class="p">,</span> <span class="n">lyr_args</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span> <span class="n">attribute_name</span><span class="o">=</span><span class="n">lyr_args</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown encoding method: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">encode_method</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Completed encode </span><span class="si">{lyr_fn}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
 
     <span class="n">enc_mtx</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">get_encoded_matrix</span><span class="p">()</span>
-    <span class="n">enc_mtx</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_matrix_filename</span><span class="p">)</span></div>
+    <span class="n">enc_mtx</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_matrix_filename</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;***Completed matrix </span><span class="si">{args.out_matrix_filename}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>

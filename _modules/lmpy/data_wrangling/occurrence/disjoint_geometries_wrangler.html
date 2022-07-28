@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.disjoint_geometries_wrangler &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+  <title>lmpy.data_wrangling.occurrence.disjoint_geometries_wrangler &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -77,8 +77,6 @@
              
   <h1>Source code for lmpy.data_wrangling.occurrence.disjoint_geometries_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing occurrence data wranglers for filtering points.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">INFO</span>
-
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.occurrence.base</span> <span class="k">import</span> <span class="n">_OccurrenceDataWrangler</span>
 <span class="kn">from</span> <span class="nn">lmpy.spatial</span> <span class="k">import</span> <span class="n">SpatialIndex</span>
 
@@ -116,9 +114,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">hits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom_index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">hits</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
                 <span class="n">f</span><span class="s2">&quot;</span><span class="si">{point.species_name}</span><span class="s2"> </span><span class="si">{point.x}</span><span class="s2">, </span><span class="si">{point.y}</span><span class="s2"> fails disjoint test.&quot;</span><span class="p">,</span>
-                <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+                <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">hits</span><span class="p">)</span></div></div>
 </pre></div>
 

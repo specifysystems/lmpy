@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -127,7 +127,8 @@ key and return a string.</p></li>
 use all fields in the first output Point object.</p></li>
 <li><p><strong>max_writers</strong> (<em>int</em>) – The maximum number of open writers (files) at any given
 time.</p></li>
-<li><p><strong>logger</strong> (<em>logging.Logger</em>) – An optional logger to use for logging output.</p></li>
+<li><p><strong>logger</strong> (<a class="reference internal" href="../../log/index.html#lmpy.log.Logger" title="lmpy.log.Logger"><em>lmpy.log.Logger</em></a>) – An optional local logger to use for logging output
+with consistent options</p></li>
 </ul>
 </dd>
 </dl>
@@ -166,20 +167,6 @@ time.</p></li>
 <dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.flush_writers">
 <span class="sig-name descname"><span class="pre">flush_writers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.flush_writers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.flush_writers" title="Permalink to this definition"></a></dt>
 <dd><p>Close all open occurrence writers.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.log">
-<span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">INFO</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.log" title="Permalink to this definition"></a></dt>
-<dd><p>Log a message.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>msg</strong> (<em>str</em>) – A message to write to the logger.</p></li>
-<li><p><strong>log_level</strong> (<em>int</em>) – A level to use when logging the message.</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">

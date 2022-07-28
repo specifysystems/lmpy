@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>encode_layers - CLI interface &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+  <title>encode_layers - CLI interface &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -112,6 +112,7 @@
               <span class="p">[</span><span class="o">--</span><span class="n">encode_method</span> <span class="p">{</span><span class="n">biogeo</span><span class="p">,</span><span class="n">presence_absence</span><span class="p">,</span><span class="n">largest_class</span><span class="p">,</span><span class="n">mean_value</span><span class="p">}]</span>
               <span class="p">[</span><span class="o">--</span><span class="n">min_coverage</span> <span class="n">MIN_COVERAGE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">min_presence</span> <span class="n">MIN_PRESENCE</span><span class="p">]</span>
               <span class="p">[</span><span class="o">--</span><span class="n">max_presence</span> <span class="n">MAX_PRESENCE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">layer</span> <span class="p">[</span><span class="n">LAYER</span> <span class="p">[</span><span class="n">LAYER</span> <span class="o">...</span><span class="p">]]]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">layer_file_pattern</span> <span class="n">LAYER_FILE_PATTERN</span><span class="p">]</span>
               <span class="n">grid_filename</span> <span class="n">out_matrix_filename</span>
 </pre></div>
 </div>
@@ -132,6 +133,7 @@
 <li><p id="encode_layers---min_presence"><a class="reference internal" href="#encode_layers---min_presence" title="encode_layers --min_presence"><strong><code class="docutils literal notranslate"><span class="pre">--min_presence</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">MIN_PRESENCE</span></code> - Minimum value to be considered present when encoding presence absence. (default: <code class="docutils literal notranslate"><span class="pre">10</span></code>)</p></li>
 <li><p id="encode_layers---max_presence"><a class="reference internal" href="#encode_layers---max_presence" title="encode_layers --max_presence"><strong><code class="docutils literal notranslate"><span class="pre">--max_presence</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">MAX_PRESENCE</span></code> - The maximum value that should be considered present. (default: <code class="docutils literal notranslate"><span class="pre">127</span></code>)</p></li>
 <li><p id="encode_layers---layer"><span id="encode_layers--l"></span><a class="reference internal" href="#encode_layers---layer" title="encode_layers --layer"><strong><code class="docutils literal notranslate"><span class="pre">--layer</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LAYER</span></code>, <a class="reference internal" href="#encode_layers--l" title="encode_layers -l"><strong><code class="docutils literal notranslate"><span class="pre">-l</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LAYER</span></code> - File location of layer [ LABEL [ ATTRIBUTE FIELD ]]. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="encode_layers---layer_file_pattern"><a class="reference internal" href="#encode_layers---layer_file_pattern" title="encode_layers --layer_file_pattern"><strong><code class="docutils literal notranslate"><span class="pre">--layer_file_pattern</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LAYER_FILE_PATTERN</span></code> - File pattern to one or more layers. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
 </section>

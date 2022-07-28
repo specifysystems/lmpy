@@ -1,0 +1,69 @@
+:py:mod:`lmpy.log`
+==================
+
+.. py:module:: lmpy.log
+
+.. autoapi-nested-parse::
+
+   Module containing standardized logging class for lmpy.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.log.Logger
+
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.log.DATE_FORMAT
+   lmpy.log.FORMAT
+
+
+.. py:data:: DATE_FORMAT
+   :annotation: = %d %b %Y %H:%M
+
+   
+
+.. py:data:: FORMAT
+   
+
+   
+
+.. py:class:: Logger(logger_name, log_filename=None, log_console=False, log_level=logging.DEBUG)
+
+   Constructor.
+
+   :param logger_name: A name for the logger.
+   :type logger_name: str
+   :param log_filename: A file location to write logging information.
+   :type log_filename: str
+   :param log_console: Should logs be written to the console.
+   :type log_console: bool
+   :param log_level: What level of logs should be retained.
+   :type log_level: int
+
+   .. py:method:: log(msg, refname='', log_level=logging.INFO)
+
+      Log a message.
+
+      :param msg: A message to write to the logger.
+      :type msg: str
+      :param refname: Class or function name to use in logging message.
+      :type refname: str
+      :param log_level: A level to use when logging the message.
+      :type log_level: int
+
+
+

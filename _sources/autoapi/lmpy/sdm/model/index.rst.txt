@@ -27,7 +27,7 @@ Functions
 
 
 
-.. py:function:: _create_mask(point_tuples, ecoregions_filename, work_dir, env_dir, maxent_arguments, logger)
+.. py:function:: _create_mask(point_tuples, ecoregions_filename, env_dir, maxent_arguments, logger)
 
 
 .. py:function:: callersname()

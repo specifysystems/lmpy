@@ -34,12 +34,15 @@ Classes
 
 
 
-.. py:class:: LayerEncoder(grid_filename)
+.. py:class:: LayerEncoder(grid_filename, logger=None)
 
    Constructor for the layer encoder.
 
    :param grid_filename: A file path for the grid.
    :type grid_filename: str
+   :param logger: An optional local logger to use for logging output
+                  with consistent options
+   :type logger: lmpy.log.Logger
 
    .. py:method:: _encode_layer(window_func, encode_func, column_name, num_columns=1)
 

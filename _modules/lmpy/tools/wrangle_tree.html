@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.wrangle_tree &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+  <title>lmpy.tools.wrangle_tree &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -82,7 +82,8 @@
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="k">import</span> <span class="n">WranglerFactory</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">test_files</span>
+<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="k">import</span> <span class="n">Logger</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
 <span class="kn">from</span> <span class="nn">lmpy.tree</span> <span class="k">import</span> <span class="n">TreeWrapper</span>
 
 
@@ -185,7 +186,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
         <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
 
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span>
         <span class="s1">&#39;wrangle_tree&#39;</span><span class="p">,</span>
         <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
         <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>

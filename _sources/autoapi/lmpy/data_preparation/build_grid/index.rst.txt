@@ -25,7 +25,7 @@ Functions
 
 
 
-.. py:function:: build_grid(grid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None)
+.. py:function:: build_grid(grid_file_name, min_x, min_y, max_x, max_y, cell_size, epsg_code, cell_sides, site_id='siteid', site_x='siteX', site_y='siteY', cutout_wkt=None, logger=None)
 
    Build a grid with an optional cutout.
 
@@ -55,6 +55,9 @@ Functions
    :param cutout_wkt: WKT for an area of the grid to be cut
                       out.
    :type cutout_wkt: None or str
+   :param logger: An optional local logger to use for logging output
+                  with consistent options
+   :type logger: lmpy.log.Logger
 
    :returns: The number of cells in the new grid.
    :rtype: int

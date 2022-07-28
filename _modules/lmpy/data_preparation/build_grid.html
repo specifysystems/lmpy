@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -185,6 +185,7 @@
     <span class="n">site_x</span><span class="o">=</span><span class="s1">&#39;siteX&#39;</span><span class="p">,</span>
     <span class="n">site_y</span><span class="o">=</span><span class="s1">&#39;siteY&#39;</span><span class="p">,</span>
     <span class="n">cutout_wkt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">logger</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Build a grid with an optional cutout.</span>
 
@@ -203,6 +204,8 @@
 <span class="sd">        site_y (str): The name of the Y field for the shapefile.</span>
 <span class="sd">        cutout_wkt (None or str): WKT for an area of the grid to be cut</span>
 <span class="sd">            out.</span>
+<span class="sd">        logger (lmpy.log.Logger): An optional local logger to use for logging output</span>
+<span class="sd">            with consistent options</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        int: The number of cells in the new grid.</span>
@@ -210,6 +213,7 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: Raised if invalid bbox or cell sides.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="s2">&quot;build_grid&quot;</span>
     <span class="k">if</span> <span class="n">min_x</span> <span class="o">&gt;=</span> <span class="n">max_x</span> <span class="ow">or</span> <span class="n">min_y</span> <span class="o">&gt;=</span> <span class="n">max_y</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Illegal bounds: (</span><span class="si">{min_x}</span><span class="s1">, </span><span class="si">{min_y}</span><span class="s1">, </span><span class="si">{max_x}</span><span class="s1">, </span><span class="si">{max_y}</span><span class="s1">)&#39;</span><span class="p">)</span>
     <span class="c1"># We&#39;ll always check for intersection to reduce amount of work</span>
@@ -246,6 +250,11 @@
             <span class="s1">&#39;Cannot generate grid cells with </span><span class="si">{}</span><span class="s1"> sides&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cell_sides</span><span class="p">)</span>
         <span class="p">)</span>
 
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="n">f</span><span class="s2">&quot;Build </span><span class="si">{grid_file_name}</span><span class="s2"> in EPSG:</span><span class="si">{epsg_code}</span><span class="s2"> with </span><span class="si">{cell_sides}</span><span class="s2">-sided cells &quot;</span> <span class="o">+</span>
+        <span class="n">f</span><span class="s2">&quot;of </span><span class="si">{cell_size}</span><span class="s2"> size and x-extent </span><span class="si">{min_x}</span><span class="s2"> - </span><span class="si">{max_x}</span><span class="s2">, &quot;</span> <span class="o">+</span>
+        <span class="n">f</span><span class="s2">&quot;y-extent </span><span class="si">{min_y}</span><span class="s2"> - </span><span class="si">{max_y}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
+
     <span class="n">shape_id</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">cell_wkt</span> <span class="ow">in</span> <span class="n">wkt_generator</span><span class="p">:</span>
         <span class="n">geom</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">cell_wkt</span><span class="p">)</span>
@@ -261,6 +270,7 @@
             <span class="n">shape_id</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">feat</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
     <span class="n">data_set</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Wrote </span><span class="si">{grid_file_name}</span><span class="s2"> with </span><span class="si">{shape_id}</span><span class="s2"> sites.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">shape_id</span></div>
 
 

@@ -48,8 +48,9 @@ Functions
    :param max_writers: The maximum number of open writers (files) at any given
                        time.
    :type max_writers: int
-   :param logger: An optional logger to use for logging output.
-   :type logger: logging.Logger
+   :param logger: An optional local logger to use for logging output
+                  with consistent options
+   :type logger: lmpy.log.Logger
 
    .. py:method:: __enter__()
 
@@ -74,16 +75,6 @@ Functions
    .. py:method:: flush_writers()
 
       Close all open occurrence writers.
-
-
-   .. py:method:: log(msg, log_level=INFO)
-
-      Log a message.
-
-      :param msg: A message to write to the logger.
-      :type msg: str
-      :param log_level: A level to use when logging the message.
-      :type log_level: int
 
 
    .. py:method:: open_writer(writer_key)

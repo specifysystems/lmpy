@@ -19,7 +19,6 @@ Functions
 .. autoapisummary::
 
    lmpy.tools._config_parser._process_arguments
-   lmpy.tools._config_parser.get_logger
    lmpy.tools._config_parser.test_files
 
 
@@ -41,23 +40,6 @@ Functions
    :rtype: argparse.Namespace
 
    :raises FileNotFoundError: on non-existent config_file.
-
-
-.. py:function:: get_logger(logger_name, log_filename=None, log_console=False, log_level=logging.DEBUG)
-
-   Get a logger object (or None) for the provided parameters.
-
-   :param logger_name: A name for the logger.
-   :type logger_name: str
-   :param log_filename: A file location to write logging information.
-   :type log_filename: str
-   :param log_console: Should logs be written to the console.
-   :type log_console: bool
-   :param log_level: What level of logs should be retained.
-   :type log_level: int
-
-   :returns: A logger object to use for logging information.
-   :rtype: logging.Logger
 
 
 .. py:function:: test_files(*filename_filefunction)

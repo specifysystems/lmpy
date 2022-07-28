@@ -26,8 +26,9 @@ Classes
 
    Constructor for the WranglerFactory class.
 
-   :param logger: A default logger to use when wrangling.
-   :type logger: logging.Logger
+   :param logger: An optional local logger to use for logging output
+                  with consistent options
+   :type logger: lmpy.log.Logger
 
    .. py:method:: _load_wranglers()
 

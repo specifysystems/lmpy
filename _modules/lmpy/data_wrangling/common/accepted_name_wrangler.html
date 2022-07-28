@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -271,9 +271,13 @@
             <span class="n">new_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span><span class="p">(</span><span class="n">unmatched_names</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">uname</span> <span class="ow">in</span> <span class="n">unmatched_names</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">uname</span> <span class="o">==</span> <span class="n">new_names</span><span class="p">[</span><span class="n">uname</span><span class="p">]:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Resolution identical: </span><span class="si">{uname}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                        <span class="n">f</span><span class="s2">&quot;Resolution identical: </span><span class="si">{uname}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Resolved </span><span class="si">{uname}</span><span class="s2"> to </span><span class="si">{new_names[uname]}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                        <span class="n">f</span><span class="s2">&quot;Resolved </span><span class="si">{uname}</span><span class="s2"> to </span><span class="si">{new_names[uname]}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
             <span class="c1"># Update name map and return dictionary</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
             <span class="n">resolved_names</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
@@ -307,9 +311,9 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
                         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">,</span> <span class="n">out_json</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
                         <span class="n">f</span><span class="s1">&#39;Wrote {len(self.name_map)} names to </span><span class="si">{filename}</span><span class="s1"> as JSON&#39;</span><span class="p">,</span>
-                        <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
+                        <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                     <span class="k">raise</span>
                 <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
@@ -320,9 +324,9 @@
                         <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Name,Accepted</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">in_name</span><span class="p">,</span> <span class="n">out_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                             <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{in_name}</span><span class="s1">,</span><span class="si">{out_name}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
                         <span class="n">f</span><span class="s1">&#39;Wrote {len(self.name_map)} names to </span><span class="si">{filename}</span><span class="s1"> as CSV&#39;</span><span class="p">,</span>
-                        <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
+                        <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                     <span class="k">raise</span>
                 <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>

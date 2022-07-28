@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.21+70.ga4cf3dd1 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -293,14 +293,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># ...............................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for the layer encoder.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            grid_filename (str): A file path for the grid.</span>
+<span class="sd">            logger (lmpy.log.Logger): An optional local logger to use for logging output</span>
+<span class="sd">                with consistent options</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Process sgrid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_filename</span> <span class="o">=</span> <span class="n">grid_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_read_grid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span> <span class="o">=</span> <span class="kc">None</span>
@@ -697,6 +700,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{column_name}</span><span class="s2"> with min_coverage = </span><span class="si">{min_coverage}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">distinct_attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span>
             <span class="n">layer_filename</span><span class="p">,</span>
             <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
@@ -747,6 +753,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{column_name}</span><span class="s2"> with min_coverage=</span><span class="si">{min_presence}</span><span class="s2">, &quot;</span> <span class="o">+</span>
+            <span class="n">f</span><span class="s2">&quot;max_coverage=</span><span class="si">{max_presence}</span><span class="s2">, min_coverage=</span><span class="si">{min_coverage}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span><span class="n">layer_filename</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
                                                   <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="n">nodata</span><span class="p">)</span>
         <span class="n">encode_func</span> <span class="o">=</span> <span class="n">_get_presence_absence_method</span><span class="p">(</span>
@@ -781,7 +791,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">((</span><span class="n">layer_filename</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{column_name}</span><span class="s2"> with mean value&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="c1"># print((layer_filename, nodata, bbox, resolution, attribute_name))</span>
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span>
             <span class="n">layer_filename</span><span class="p">,</span>
             <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
@@ -821,6 +834,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{column_name}</span><span class="s2"> with largest class&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span>
             <span class="n">layer_filename</span><span class="p">,</span>
             <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
