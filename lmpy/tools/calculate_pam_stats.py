@@ -140,7 +140,7 @@ def cli():
         basename, ext = os.path.splitext(fname)
         covariance_stats = stats.calculate_covariance_statistics()
         for name, mtx in covariance_stats:
-            fn = os.path.join(pth, f"{basename}_{name}.{ext}")
+            fn = os.path.join(pth, f"{basename}_{name.replace(' ', '_')}{ext}")
             mtx.write(fn)
         # with open(args.covariance_matrix, mode='wt') as f:
         #     json.dump(covariance_stats, f)
