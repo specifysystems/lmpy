@@ -205,7 +205,7 @@ def cli():
     # Conditionally write report file
     if args.report_filename is not None:
         with open(args.report_filename, mode="wt") as out_json:
-            json.dump(full_report, out_json)
+            json.dump(full_report, out_json, indent=4)
 
 
 # .....................................................................................

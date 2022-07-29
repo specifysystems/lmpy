@@ -56,22 +56,32 @@ class MatchTreeMatrixWrangler(_MatrixDataWrangler):
                         axis_slice.append(axis_headers.index(taxon.label))
                     else:
                         unmatched_tree_taxa.add(taxon.label)
+                        self.logger.log(
+                            f"Tree taxon {taxon.label} not present in matrix",
+                            refname=self.__class__.__name__)
                 unmatched_matrix_taxa = set(axis_headers).difference(
                     set(self.tree.taxon_namespace))
+                for mtaxa in unmatched_matrix_taxa:
+                    self.logger.log(
+                        f"Matrix taxon {mtaxa} not present in tree",
+                        refname=self.__class__.__name__)
 
                 if str(axis) not in self.report['changes'].keys():
-                    self.report['changes'][str(axis)] = {'purged': 0}
-                self.report[
-                    'changes'
-                ][str(axis)]['purged'] += (len(axis_headers) - len(axis_slice))
+                    self.report['changes'][str(axis)] = {
+                        'purged': {'count': 0}}
+                self.report['changes'][str(axis)]['purged'] = {
+                    'count': (len(axis_headers) - len(axis_slice)),
+                    'species': list(unmatched_tree_taxa)}
+
+                # Logging
                 self.logger.log(
-                    f"Tree tips {unmatched_tree_taxa} not present in matrix",
+                    f"{len(unmatched_tree_taxa)} tree tips not present in matrix",
                     refname=self.__class__.__name__, log_level=DEBUG)
                 self.logger.log(
-                    f"Matrix columns {unmatched_matrix_taxa} not present in tree",
+                    f"{len(unmatched_matrix_taxa)} matrix columns not present in tree",
                     refname=self.__class__.__name__, log_level=DEBUG)
                 self.logger.log(
-                    f"Purged {self.report['changes'][str(axis)]['purged']} species.",
+                    f"Purging {self.report['changes'][str(axis)]['purged']} species.",
                     refname=self.__class__.__name__, log_level=DEBUG)
 
             else:

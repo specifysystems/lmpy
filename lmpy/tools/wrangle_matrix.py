@@ -114,7 +114,7 @@ def cli():
 
     if args.report_filename is not None:
         with open(args.report_filename, mode='wt') as report_out:
-            json.dump(report, report_out)
+            json.dump(report, report_out, indent=4)
 
 
 # .....................................................................................

@@ -121,7 +121,7 @@ def cli():
     wrangled_tree.write(path=args.out_tree_filename, schema=args.out_tree_schema)
     if args.report_filename:
         with open(args.report_filename, mode='wt') as report_out:
-            json.dump(report, report_out)
+            json.dump(report, report_out, indent=4)
 
 
 # .....................................................................................
