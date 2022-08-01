@@ -26,7 +26,7 @@ wrangler_config = [
     {
         "wrangler_type": "AcceptedNameMatrixWrangler",
         "name_resolver": "gbif",
-        "taxon_axis": 1
+        "species_axis": 1
     },
     {
         "wrangler_type": "MatchTreeMatrixWrangler",
