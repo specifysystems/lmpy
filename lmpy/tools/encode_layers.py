@@ -77,7 +77,6 @@ def build_parser():
     # Layers to encode
     parser.add_argument(
         '--layer',
-        '-l',
         nargs='*',
         action='append',
         help='File location of layer [ LABEL [ ATTRIBUTE FIELD ]].',
