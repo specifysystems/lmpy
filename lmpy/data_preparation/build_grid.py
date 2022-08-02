@@ -173,8 +173,8 @@ def build_grid(
 
     logger.log(
         f"Build {grid_file_name} in EPSG:{epsg_code} with {cell_sides}-sided cells " +
-        f"of {cell_size} size and x-extent {min_x} - {max_x}, " +
-        f"y-extent {min_y} - {max_y}.", refname=script_name)
+        f"of {cell_size} size and x-extent {min_x} to {max_x}, " +
+        f"y-extent {min_y} to {max_y}.", refname=script_name)
 
     shape_id = 0
     for cell_wkt in wkt_generator:
