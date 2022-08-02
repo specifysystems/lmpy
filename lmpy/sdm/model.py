@@ -11,6 +11,9 @@ from lmpy.tools.create_rare_species_model import (
     create_rare_species_model, read_points)
 
 
+script_name = os.path.splitext(os.path.basename(__file__))[0]
+
+
 # .....................................................................................
 def match_headers(mask_filename, tmp_mask_filename, template_layer_filename):
     """Match headers with template layer.
@@ -37,20 +40,25 @@ def _create_mask(
         point_tuples, ecoregions_filename, env_dir, maxent_arguments, logger):
     mask_filename = os.path.join(env_dir, 'mask.asc')
     tmp_mask_filename = os.path.join(env_dir, 'tmp_mask.asc')
+
+    # Identify one environment layer (not a mask or temp mask) to copy headers from
+    files = glob.glob(os.path.join(env_dir, '*.asc'))
+    env_lyr_filename = files[0]
+
     create_rare_species_model(
         point_tuples,
         ecoregions_filename,
         tmp_mask_filename
     )
-    # Copy headers from one of the environment layers so that they match
-    files = glob.glob(os.path.join(env_dir, '*.asc'))
-    first_env_layer = files[0]
+    # Copy headers
     match_headers(
         mask_filename,
         tmp_mask_filename,
-        first_env_layer
+        env_lyr_filename
     )
-    log(f"Created mask {mask_filename} for current SDM", logger, log_level=INFO)
+    logger.log(
+        f"Created mask {mask_filename} for current SDM",
+        refname=script_name, log_level=INFO)
     # Remove tmp_mask after mask is created and matched
     if os.path.exists(tmp_mask_filename):
         os.remove(tmp_mask_filename)
@@ -102,7 +110,8 @@ def create_sdm(
 
     if len(point_tuples) < min_points:
         proj_distribution_filename = os.path.join(work_dir, f'{std_file_basename}.asc')
-        log("Create rare species model and map", logger, log_level=INFO)
+        logger.log(
+            "Create rare species model and map", refname=script_name, log_level=INFO)
         create_rare_species_model(
             point_tuples, ecoregions_filename, proj_distribution_filename)
         report["method"] = "rare_species_model"
@@ -120,32 +129,37 @@ def create_sdm(
         with PointCsvWriter(me_csv_filename, ["species_name", "x", "y"]) as writer:
             writer.write_points(
                 [Point(std_species_name, x, y) for x, y in point_tuples])
-        log("Create Maxent model", logger, log_level=INFO)
+        logger.log("Create Maxent model", refname=script_name, log_level=INFO)
         create_maxent_model(me_csv_filename, env_dir, work_dir, maxent_arguments)
 
         try:
             model_filename = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
         except IndexError:
-            log(f"Failed to produce Maxent model for {csv_filename}",
-                logger, log_level=INFO)
+            logger.log(
+                f"Failed to produce Maxent model for {csv_filename}",
+                refname=script_name, log_level=INFO)
         else:
-            log(f"Completed Maxent model with file {model_filename}",
-                logger, log_level=INFO)
+            logger.log(
+                f"Completed Maxent model with file {model_filename}",
+                refname=script_name, log_level=INFO)
             report["model_file"] = model_filename
 
         try:
             proj_distribution_filename = glob.glob(os.path.join(work_dir, "*.asc"))[0]
         except IndexError:
-            log(f"Failed to produce Maxent model for {csv_filename}",
-                logger, log_level=INFO)
+            logger.log(
+                f"Failed to produce Maxent model for {csv_filename}",
+                refname=script_name, log_level=INFO)
         else:
-            log(f"Completed Maxent map with file {proj_distribution_filename}",
-                logger, log_level=INFO)
+            logger.log(
+                f"Completed Maxent map with file {proj_distribution_filename}",
+                refname=script_name, log_level=INFO)
             report["projected_distribution_file"] = proj_distribution_filename
 
         # If used a mask, move it from common env dir to work_dir
         if os.path.exists(mask_filename):
-            log(f"Delete mask {mask_filename}", logger, log_level=INFO)
+            logger.log(
+                f"Delete mask {mask_filename}", refname=script_name, log_level=INFO)
             os.remove(mask_filename)
 
     return report
@@ -178,36 +192,13 @@ def project_sdm(maxent_lambdas_file, env_dir, species_name, work_dir, logger=Non
     work_env_dir = os.path.join(work_dir, "proj_layers")
     os.symlink(env_dir, work_env_dir)
 
-    log(f"Projecting Maxent model {maxent_lambdas_file} onto map",
-        logger, log_level=INFO)
+    logger.log(
+        f"Projecting Maxent model {maxent_lambdas_file} onto map",
+        refname=script_name, log_level=INFO)
     project_maxent_model(maxent_lambdas_file, env_dir, maxent_raster_filename)
-    log(f"Completed projecting Maxent model onto map {maxent_raster_filename}",
-        logger, log_level=INFO)
+    logger.log(
+        f"Completed projecting Maxent model onto map {maxent_raster_filename}",
+        refname=script_name, log_level=INFO)
 
     os.unlink(work_env_dir)
     return maxent_raster_filename, report
-
-
-# .....................................................................................
-def log(msg, logger, log_level=INFO):
-    """Log a message.
-
-    Args:
-        msg (str): A message to write to the logger.
-        logger (logging.logger): Logger for writing messages to console and/or file.
-        log_level (int): A level to use when logging the message.
-    """
-    if logger is not None:
-        caller = callersname()
-        logger.log(log_level, f"{caller}: {msg}")
-
-
-# .....................................................................................
-def callersname():
-    """Find the name of the function from which this method is called.
-
-    Returns:
-        The function name.
-    """
-    import sys
-    return sys._getframe(2).f_code.co_name
