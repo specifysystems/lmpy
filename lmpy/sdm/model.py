@@ -2,7 +2,7 @@
 import glob
 from logging import INFO
 import os
-# import shutil
+from pathlib import Path
 
 from lmpy.point import Point, PointCsvWriter
 from lmpy.sdm.maxent import (
@@ -98,7 +98,7 @@ def create_sdm(
         report (dict): dictionary containing relevant metadata about the model
     """
     std_species_name = Point.standardize_species_name(species_name)
-    std_file_basename = f"{std_species_name.replace(' ', '_')}"
+    # std_file_basename = f"{std_species_name.replace(' ', '_')}"
     point_tuples = read_points(csv_filename, sp_key, x_key, y_key)
     report = {
         "species": std_species_name,
@@ -109,7 +109,7 @@ def create_sdm(
         os.makedirs(work_dir)
 
     if len(point_tuples) < min_points:
-        proj_distribution_filename = os.path.join(work_dir, f'{std_file_basename}.asc')
+        proj_distribution_filename = os.path.join(work_dir, f'{std_species_name}.asc')
         logger.log(
             "Create rare species model and map", refname=script_name, log_level=INFO)
         create_rare_species_model(
@@ -118,6 +118,11 @@ def create_sdm(
         report["projected_distribution_file"] = proj_distribution_filename
     else:
         report["method"] = "maxent"
+        # Maxent creates SDM filenames from occurrence filenames replacing spaces
+        # with underscores.  To keep track of the correct label, create an empty file
+        # in the same directory with the original name.  This can inform the label used
+        # on a species column when encoding a layer for a PAM.
+        Path(os.path.join(work_dir, f'{std_species_name}.label')).touch(exist_ok=True)
 
         if create_mask:
             maxent_arguments, mask_filename = _create_mask(
@@ -125,7 +130,7 @@ def create_sdm(
                 logger=logger)
 
         me_csv_filename = os.path.join(
-            work_dir, f"{std_file_basename}.csv")
+            work_dir, f"{std_species_name}.csv")
         with PointCsvWriter(me_csv_filename, ["species_name", "x", "y"]) as writer:
             writer.write_points(
                 [Point(std_species_name, x, y) for x, y in point_tuples])

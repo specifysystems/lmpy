@@ -178,7 +178,9 @@ def cli():
     ct = len(point_files)
     for point_filename in point_files:
         i += 1
+        # species_name contains spaces
         species_name = os.path.splitext(os.path.basename(point_filename))[0]
+        # work_dir contains underscores
         work_dir = os.path.join(args.out_dir, species_name.replace(" ", "_"))
         logger.log(
             f"\n*** Starting SDM for {species_name}, file {i} of {ct}",

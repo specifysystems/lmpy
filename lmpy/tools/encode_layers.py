@@ -1,5 +1,6 @@
 """Script to encode layers into a Matrix."""
 import argparse
+import glob
 import os
 
 from lmpy.data_preparation.layer_encoder import LayerEncoder
@@ -122,6 +123,22 @@ def test_inputs(args):
 
 
 # .....................................................................................
+def _get_default_label(lyr_filename):
+
+    # Default matrix column label:
+    #   basename for a *.label file, or
+    #   basename of the layer file
+    label_pattern = os.path.join(os.path.dirname(lyr_filename), "*.label")
+    label_files = glob.glob(label_pattern)
+    try:
+        file_with_label = label_files[0]
+    except IndexError:
+        file_with_label = lyr_filename
+
+    return os.path.splitext(os.path.basename(file_with_label))[0]
+
+
+# .....................................................................................
 def cli():
     """Command line interface for layer encoding.
 
@@ -140,21 +157,23 @@ def cli():
 
     layers = {}
     if args.layer_file_pattern is not None:
-        import glob
         lyrfiles = glob.glob(os.path.join(args.layer_file_pattern))
         for fn in lyrfiles:
+            lyr_label = _get_default_label(fn)
             layers[fn] = {
                 'attribute': None,
-                'label': os.path.splitext(os.path.basename(fn))[0]}
+                'label': lyr_label}
 
     if args.layer is not None:
         for layer_args in args.layer:
             lyr_fn = layer_args[0]
+            lyr_label = _get_default_label(lyr_fn)
             layers[lyr_fn] = {
                 'attribute': None,
-                'label': os.path.splitext(os.path.basename(lyr_fn))[0]}
+                'label': lyr_label}
             if len(layer_args) > 1:
-                # First optional arg is label
+                # First optional arg is label,
+                # overrides default from layer or label filename
                 layers[lyr_fn]['label'] = layer_args[1]
                 if len(layer_args) > 2:
                     # Second optional arg is attribute
@@ -203,7 +222,8 @@ def cli():
             )
         else:
             raise ValueError('Unknown encoding method: {}'.format(args.encode_method))
-        logger.log(f"Completed encode {lyr_fn}", refname=script_name)
+        logger.log(
+            f"Completed encode of {lyr_args['label']}", refname=script_name)
 
     enc_mtx = encoder.get_encoded_matrix()
     enc_mtx.write(args.out_matrix_filename)

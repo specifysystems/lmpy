@@ -62,13 +62,15 @@ def _get_geojson_geometry_func(resolution=None):
 
 
 # .....................................................................................
-def geojsonify_matrix(matrix, resolution=None, omit_values=None):
+def geojsonify_matrix(matrix, resolution=None, omit_values=None, logger=None):
     """Creates GeoJSON for a matrix and matching shapefile.
 
     Args:
         matrix (Matrix): A (spatial) matrix to create GeoJSON for.
         resolution (Numeric): The size of the grid cells in decimal degrees
         omit_values (list): Omit properties when their value is in this list.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
 
     Returns:
         dict: A GeoJSON compatible dictionary.
@@ -99,13 +101,16 @@ def geojsonify_matrix(matrix, resolution=None, omit_values=None):
 
 
 # .....................................................................................
-def geojsonify_matrix_with_shapefile(matrix, grid_filename, omit_values=None):
+def geojsonify_matrix_with_shapefile(
+        matrix, grid_filename, omit_values=None, logger=None):
     """Creates GeoJSON for a matrix and matching shapefile.
 
     Args:
         matrix (Matrix): A (spatial) matrix to create GeoJSON for.
         grid_filename (str): A file path to a shapefile matching the matrix.
         omit_values (list): Omit properties when their value is in this list.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
 
     Returns:
         dict: A GeoJSON compatible dictionary.

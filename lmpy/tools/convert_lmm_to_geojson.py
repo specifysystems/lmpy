@@ -1,7 +1,9 @@
 """Convert a lmpy Matrix to a GeoJSON (.geojson) file."""
 import argparse
 import json
+import os
 
+from lmpy.log import Logger
 from lmpy.matrix import Matrix
 from lmpy.spatial.geojsonify import (
     geojsonify_matrix, geojsonify_matrix_with_shapefile,
@@ -25,6 +27,24 @@ def build_parser():
     )
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
+        '-r',
+        '--report_filename',
+        type=str,
+        help='File location to write the wrangler report.'
+    )
+    parser.add_argument(
+        '--log_filename',
+        '-l',
+        type=str,
+        help='A file location to write logging data.'
+    )
+    parser.add_argument(
+        '--log_console',
+        action='store_true',
+        default=False,
+        help='If provided, write log to console.'
+    )
+    parser.add_argument(
         '--shapefile_filename',
         '-s',
         type=str,
@@ -35,7 +55,6 @@ def build_parser():
     )
     parser.add_argument(
         '--resolution',
-        '-r',
         type=float,
         help=(
             'Resolution of the polygons in the GeoJSON if a shapefile was not provided.'
@@ -93,14 +112,21 @@ def cli():
         print("Errors, exiting program")
         exit('\n'.join(errs))
 
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
+    logger = Logger(
+        script_name,
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
+
     mtx = Matrix.load(args.in_lmm_filename)
     if args.shapefile_filename is not None:
         matrix_geojson = geojsonify_matrix_with_shapefile(
-            mtx, args.shapefile_filename, omit_values=args.omit_value
+            mtx, args.shapefile_filename, omit_values=args.omit_value, logger=logger
         )
     else:
         matrix_geojson = geojsonify_matrix(
-            mtx, resolution=args.resolution, omit_values=args.omit_value
+            mtx, resolution=args.resolution, omit_values=args.omit_value, logger=logger
         )
     try:
         with open(args.out_geojson_filename, mode='wt') as out_json:

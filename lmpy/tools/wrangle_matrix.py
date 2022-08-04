@@ -1,7 +1,7 @@
 """Tool for wrangling a Matrix."""
 import argparse
-
 import json
+import os
 
 from lmpy.log import Logger
 from lmpy import Matrix
@@ -99,11 +99,13 @@ def cli():
         print("Errors, exiting program")
         exit('\n'.join(errs))
 
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     logger = Logger(
-        'wrangle_matrix',
+        script_name,
         log_filename=args.log_filename,
         log_console=args.log_console
     )
+
     in_mtx = Matrix.load(args.in_matrix_filename)
     wrangler_factory = WranglerFactory(logger=logger)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
