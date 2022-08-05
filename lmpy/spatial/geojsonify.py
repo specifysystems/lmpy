@@ -106,7 +106,7 @@ def geojsonify_matrix_with_shapefile(
     """Creates GeoJSON for a matrix and matching shapefile.
 
     Args:
-        matrix (Matrix): A (spatial) matrix to create GeoJSON for.
+        matrix (Matrix): A 2 dimensional (spatial) matrix to create GeoJSON for.
         grid_filename (str): A file path to a shapefile matching the matrix.
         omit_values (list): Omit properties when their value is in this list.
         logger (lmpy.log.Logger): An optional local logger to use for logging output
@@ -118,6 +118,7 @@ def geojsonify_matrix_with_shapefile(
     Raises:
         FileNotFoundError: on missing grid_filename.
     """
+    site_axis = 0
     omit_values = _process_omit_values(omit_values, matrix.dtype.type)
     ret = {'type': 'FeatureCollection'}
     features = []
@@ -130,10 +131,31 @@ def geojsonify_matrix_with_shapefile(
         raise FileNotFoundError(f"Grid shapefile {grid_filename} does not exist.")
     grid_dataset = ogr.Open(grid_filename)
     grid_layer = grid_dataset.GetLayer()
+    # ldf = grid_layer.GetLayerDefn()
+    # Find the feature values to match grid sites with matrix sites
+    # TODO: get these dynamically?
+    id_fld = "siteid"
+    x_fld = "siteX"
+    y_fld = "siteY"
+
+    # Find the feature ids in matrix
+    headers = matrix.get_headers(axis=site_axis)
+    sites_in_matrix = []
+    for _, site in enumerate(headers):
+        sites_in_matrix.append(site)
+    fids_in_matrix = [fid for fid, x, y in sites_in_matrix]
+    coords_in_matrix = [[x, y] for fid, x, y in sites_in_matrix]
 
     i = 0
     feat = grid_layer.GetNextFeature()
     while feat is not None:
+        site_id = feat.GetField(id_fld)
+        site_x = feat.GetField(x_fld)
+        site_y = feat.GetField(y_fld)
+        if site_id in fids_in_matrix:
+            pass
+        if [site_x, site_y] in coords_in_matrix:
+            pass
         ft_json = json.loads(feat.ExportToJson())
         ft_json['properties'] = {
             k: matrix[i, j].item() for j, k in column_enum
