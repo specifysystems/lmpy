@@ -131,12 +131,9 @@ def geojsonify_matrix_with_shapefile(
         raise FileNotFoundError(f"Grid shapefile {grid_filename} does not exist.")
     grid_dataset = ogr.Open(grid_filename)
     grid_layer = grid_dataset.GetLayer()
-    # ldf = grid_layer.GetLayerDefn()
     # Find the feature values to match grid sites with matrix sites
-    # TODO: get these dynamically?
+    # TODO: get dynamically?
     id_fld = "siteid"
-    x_fld = "siteX"
-    y_fld = "siteY"
 
     # Find the feature ids in matrix
     headers = matrix.get_headers(axis=site_axis)
@@ -144,25 +141,28 @@ def geojsonify_matrix_with_shapefile(
     for _, site in enumerate(headers):
         sites_in_matrix.append(site)
     fids_in_matrix = [fid for fid, x, y in sites_in_matrix]
-    coords_in_matrix = [[x, y] for fid, x, y in sites_in_matrix]
 
     i = 0
     feat = grid_layer.GetNextFeature()
     while feat is not None:
+        # Make sure this grid site is in the matrix
         site_id = feat.GetField(id_fld)
-        site_x = feat.GetField(x_fld)
-        site_y = feat.GetField(y_fld)
-        if site_id in fids_in_matrix:
-            pass
-        if [site_x, site_y] in coords_in_matrix:
-            pass
-        ft_json = json.loads(feat.ExportToJson())
-        ft_json['properties'] = {
-            k: matrix[i, j].item() for j, k in column_enum
-            if matrix[i, j].item() not in omit_values
-        }
-        if len(ft_json['properties'].keys()) > 0:
-            features.append(ft_json)
+        if site_id not in fids_in_matrix:
+            try:
+                logger.log(
+                    f"fid {site_id} missing, last site {sites_in_matrix[site_id-1]}",
+                    refname="geojsonify_matrix_with_shapefile")
+            except IndexError:
+                pass
+            break
+        else:
+            ft_json = json.loads(feat.ExportToJson())
+            ft_json['properties'] = {
+                k: matrix[i, j].item() for j, k in column_enum
+                if matrix[i, j].item() not in omit_values
+            }
+            if len(ft_json['properties'].keys()) > 0:
+                features.append(ft_json)
         i += 1
         feat = grid_layer.GetNextFeature()
 
