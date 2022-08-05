@@ -166,7 +166,7 @@ def cli():
         log_console=args.log_console
     )
     logger.log(
-        f"Create SDMs for {len(point_files)} species occurrence CSVs",
+        f"\n\n***Create SDMs for {len(point_files)} species occurrence CSVs",
         refname=script_name)
 
     maxent_params = DEFAULT_MAXENT_OPTIONS
@@ -200,7 +200,7 @@ def cli():
             logger=logger
         )
         logger.log(
-            f"*** Completed SDM computation for {species_name}",
+            f"\n*** Completed SDM computation for {species_name}\n",
             refname=script_name)
         full_report[point_filename] = report
 
