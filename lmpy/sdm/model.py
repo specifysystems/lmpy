@@ -68,6 +68,28 @@ def _create_mask(
 
 
 # .....................................................................................
+def create_maxent_layer_label(sdm_dir, label_name, touch_file=True):
+    """Return a filename to indicate a layer label for an SDM raster in the directory.
+
+    Args:
+        sdm_dir (str): Path for output file, same as the dir for associated matrix input
+        label_name (str): Name to use in matrix headers
+        touch_file (bool): True to create the file
+
+    Returns:
+        label_filename (str): File signaling the
+
+    Note:
+        This function assumes that only one SDM to be encoded will be in the same
+            directory.
+    """
+    label_filename = os.path.join(sdm_dir, f'{label_name}.label')
+    if touch_file is True:
+        Path(label_filename).touch(exist_ok=True)
+    return label_filename
+
+
+# .....................................................................................
 def create_sdm(
     min_points, csv_filename, env_dir, ecoregions_filename, work_dir, species_name,
     maxent_arguments=DEFAULT_MAXENT_OPTIONS, sp_key='species_name', x_key='x',
@@ -122,7 +144,7 @@ def create_sdm(
         # with underscores.  To keep track of the correct label, create an empty file
         # in the same directory with the original name.  This can inform the label used
         # on a species column when encoding a layer for a PAM.
-        Path(os.path.join(work_dir, f'{std_species_name}.label')).touch(exist_ok=True)
+        _ = create_maxent_layer_label(work_dir, std_species_name, touch_file=True)
 
         if create_mask:
             maxent_arguments, mask_filename = _create_mask(
