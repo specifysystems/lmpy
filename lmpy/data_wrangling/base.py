@@ -17,7 +17,10 @@ class _DataWrangler:
                 with consistent options
             **kwargs (dict): Dictionary of parameters.
         """
-        self.report = {}
+        self.report = {
+            'name': self.name,
+            'version': self.version
+        }
         self.logger = logger
 
     # ........................
@@ -40,6 +43,4 @@ class _DataWrangler:
         Returns:
             dict: A dictionary of reporting information.
         """
-        self.report['name'] = self.name
-        self.report['version'] = self.version
         return self.report

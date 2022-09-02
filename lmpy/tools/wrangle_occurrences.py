@@ -38,6 +38,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
     # Open reader
     reader.open()
     writer = None
+    # "points" is a set of consecutive points with the same species_key value
     for points in reader:
         report['input_records'] += len(points)
         for wrangler in wranglers:
@@ -175,6 +176,7 @@ def cli():
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
 
     # Get reader
+    # The reader iterator returns a set of consecutive points with the same species_key
     reader = PointCsvReader(
         args.reader_filename, args.species_key, args.x_key, args.y_key
     )
