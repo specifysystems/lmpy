@@ -47,7 +47,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
             if points:
                 points = wrangler.wrangle_points(points)
                 logger.log(
-                    f"{wrangler_name} processed file {reader.filename}",
+                    f"{wrangler_name} wrangled {len(points)} from {reader.filename}",
                     refname=script_name)
 
         # If any points are left, write them

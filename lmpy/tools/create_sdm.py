@@ -4,6 +4,7 @@ import json
 import os
 
 from lmpy.log import Logger
+from lmpy.point import Point
 from lmpy.sdm.maxent import DEFAULT_MAXENT_OPTIONS
 from lmpy.sdm.model import create_sdm
 from lmpy.tools._config_parser import _process_arguments, test_files
@@ -66,19 +67,19 @@ def build_parser():
     parser.add_argument(
         "--species_key",
         type=str,
-        default="species_name",
+        default=Point.SPECIES_ATTRIBUTE,
         help="Header of CSV column containing species information."
     )
     parser.add_argument(
         "--x_key",
         type=str,
-        default="x",
+        default=Point.X_ATTRIBUTE,
         help="Header of CSV column containing X value for record."
     )
     parser.add_argument(
         "--y_key",
         type=str,
-        default="y",
+        default=Point.Y_ATTRIBUTE,
         help="Header of CSV column containing Y value for record."
     )
     parser.add_argument(

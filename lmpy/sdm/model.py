@@ -153,7 +153,10 @@ def create_sdm(
 
         me_csv_filename = os.path.join(
             work_dir, f"{std_species_name}.csv")
-        with PointCsvWriter(me_csv_filename, ["species_name", "x", "y"]) as writer:
+        with PointCsvWriter(
+                me_csv_filename, [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
+                                  Point.Y_ATTRIBUTE]
+        ) as writer:
             writer.write_points(
                 [Point(std_species_name, x, y) for x, y in point_tuples])
         logger.log("Create Maxent model", refname=script_name, log_level=INFO)
