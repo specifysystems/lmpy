@@ -1,11 +1,10 @@
 """Module containing occurrence data wranglers for modifying point data."""
 from logging import INFO
 
+from lmpy.point import Point
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
-    _AcceptedNameWrangler,
-    resolve_names_gbif,
-)
+    _AcceptedNameWrangler, resolve_names_gbif)
 
 
 # .....................................................................................

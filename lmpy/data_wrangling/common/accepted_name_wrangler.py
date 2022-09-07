@@ -190,15 +190,16 @@ class _AcceptedNameWrangler(_DataWrangler):
         unmatched_names = []
         for name in names:
             if name in self.name_map.keys():
+                # Use previously resolved name if present
                 resolved_names[name] = self.name_map[name]
 
             else:
-                # Action on first instance of unmatched name
+                # Save all unmatched names
                 if name not in unmatched_names:
                     unmatched_names.append(name)
                     resolved_names[name] = None
 
-        # If we have a name resolver and names to resolve, do it
+        # If we have a name resolver and unmatched names, resolve them
         if self._name_resolver is not None and len(unmatched_names) > 0:
             new_names = self._name_resolver(unmatched_names)
             for uname in unmatched_names:
