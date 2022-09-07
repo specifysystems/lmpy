@@ -5,6 +5,8 @@ from lmpy.data_wrangling.occurrence.attribute_modifier_wrangler import (
     AttributeModifierWrangler,
 )
 
+from lmpy.point import Point
+
 from tests.data_simulator import (
     generate_points,
     get_random_choice_func,
@@ -32,7 +34,7 @@ def test_attribute_modifier_wrangler():
     points = generate_points(
         1000,
         SimulatedField(
-            'species_name', '', get_random_choice_func(['Species A']), 'str'
+            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(['Species A']), 'str'
         ),
         SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
         SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),

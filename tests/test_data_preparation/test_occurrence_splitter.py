@@ -7,7 +7,7 @@ from lmpy.data_preparation.occurrence_splitter import (
     OccurrenceSplitter,
 )
 from lmpy.data_wrangling.factory import WranglerFactory
-from lmpy.point import PointCsvReader, PointDwcaReader
+from lmpy.point import Point, PointCsvReader, PointDwcaReader
 
 from tests.data_simulator import (
     generate_csv,
@@ -244,7 +244,7 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     # DWCA 2
     dwca_2_fields = [
         SimulatedField(
-            'species_name',
+            Point.SPECIES_ATTRIBUTE,
             'http://rs.tdwg.org/dwc/terms/specificEpithet',
             get_random_choice_func(list(SPECIES_MAP.keys())),
             'str'
@@ -278,13 +278,13 @@ def test_complex(monkeypatch, generate_temp_filename, temp_directory):
     dwca_2_wrangler_conf = [
         {
             'wrangler_type': 'AcceptedNameOccurrenceWrangler',
-            'attribute_name': 'species_name',
+            'attribute_name': Point.SPECIES_ATTRIBUTE,
             'accepted_name_map': SPECIES_MAP
         },
         {
             'wrangler_type': 'CommonFormatWrangler',
             'attribute_map': {
-                'species_name': 'species',
+                Point.SPECIES_ATTRIBUTE: 'species',
                 'decimallatitude': 'latitude',
                 'decimallongitude': 'longitude',
                 'occ_collection': 'collection'

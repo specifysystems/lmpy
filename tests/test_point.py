@@ -205,12 +205,16 @@ class Test_PointCsvWriter:
             Point('species', 20, 20),
             Point('species', -30, -30),
         ]
-        with PointCsvWriter(filename, ['species_name', 'x', 'y']) as writer:
+        with PointCsvWriter(
+                filename, [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
+                           Point.Y_ATTRIBUTE]) as writer:
             writer.write_points(test_points[0])
             writer.write_points(test_points[1:])
 
         # Check that there are the correct number of points read
-        with PointCsvReader(filename, 'species_name', 'x', 'y') as reader:
+        with PointCsvReader(
+                filename, Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
+                Point.Y_ATTRIBUTE) as reader:
             points = []
             for read_points in reader:
                 points.extend(read_points)
@@ -234,17 +238,21 @@ class Test_PointCsvWriter:
             ) for _ in range(np.random.randint(20, 100))
         ]
         # Write some points
-        with PointCsvWriter(filename, ['species_name', 'x', 'y']) as writer:
+        with PointCsvWriter(
+                filename, [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
+                Point.Y_ATTRIBUTE]) as writer:
             writer.write_points(test_points[:15])
 
         # Reopen
         with PointCsvWriter(
-            filename, ['species_name', 'x', 'y'], mode='at', write_headers=False
+            filename, [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
+            Point.Y_ATTRIBUTE], mode='at', write_headers=False
         ) as writer:
             writer.write_points(test_points[15:])
 
         # Check that there are the correct number of points read
-        with PointCsvReader(filename, 'species_name', 'x', 'y') as reader:
+        with PointCsvReader(filename, Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
+                Point.Y_ATTRIBUTE) as reader:
             points = []
             for read_points in reader:
                 points.extend(read_points)
