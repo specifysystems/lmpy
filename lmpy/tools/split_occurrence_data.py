@@ -11,7 +11,7 @@ from lmpy.data_preparation.occurrence_splitter import (
 )
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.log import Logger
-from lmpy.point import PointCsvReader, PointDwcaReader
+from lmpy.point import Point, PointCsvReader, PointDwcaReader
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
@@ -170,7 +170,7 @@ def cli():
 
     # Default key field is 'species_name'
     if args.key_field is None:
-        args.key_field = ['species_name']
+        args.key_field = [Point.SPECIES_ATTRIBUTE]
 
     # Establish functions for getting writer key and filename
     writer_key_func = get_writer_key_from_fields_func(*tuple(args.key_field))

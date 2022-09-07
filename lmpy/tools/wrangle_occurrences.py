@@ -5,7 +5,7 @@ import os.path
 
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.log import Logger
-from lmpy.point import PointCsvReader, PointCsvWriter
+from lmpy.point import Point, PointCsvReader, PointCsvWriter
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
@@ -85,7 +85,7 @@ def build_parser():
         '-sp',
         '--species_key',
         type=str,
-        default='species_name',
+        default=Point.SPECIES_ATTRIBUTE,
         help='The CSV column header for species name.',
     )
     parser.add_argument(
@@ -106,7 +106,7 @@ def build_parser():
         '--geopoint',
         type=str,
         help='The CSV column header for the GeoPoint (containing longitude and '
-             'latitude) field.',
+             'latitude) field.'
     )
     parser.add_argument(
         '-r',
@@ -187,7 +187,6 @@ def cli():
         args.reader_filename, args.species_key, args.x_key, args.y_key,
         geopoint=args.geopoint
     )
-
     # Clean data
     report = clean_data(reader, args.writer_filename, wranglers, logger=logger)
 

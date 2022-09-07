@@ -92,8 +92,8 @@ def create_maxent_layer_label(sdm_dir, label_name, touch_file=True):
 # .....................................................................................
 def create_sdm(
     min_points, csv_filename, env_dir, ecoregions_filename, work_dir, species_name,
-    maxent_arguments=DEFAULT_MAXENT_OPTIONS, sp_key='species_name', x_key='x',
-    y_key='y', create_mask=True, logger=None
+    maxent_arguments=DEFAULT_MAXENT_OPTIONS, sp_key=Point.SPECIES_ATTRIBUTE,
+    x_key=Point.X_ATTRIBUTE, y_key=Point.Y_ATTRIBUTE, create_mask=True, logger=None
 ):
     """Create an SDM, Maxent model if there are enough points, `rare species` if not.
 

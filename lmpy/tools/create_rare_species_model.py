@@ -7,7 +7,7 @@ import numpy as np
 from osgeo import gdal, gdalconst, ogr, osr
 
 from lmpy.log import Logger
-from lmpy.point import PointCsvReader
+from lmpy.point import PointCsvReader, Point
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
@@ -344,7 +344,7 @@ def build_parser():
         '--species_column',
         '-sp',
         type=str,
-        default='species_name',
+        default=Point.SPECIES_ATTRIBUTE,
         help='CSV column for species or group name.',
     )
     parser.add_argument(
