@@ -103,6 +103,12 @@ def build_parser():
         help='The CSV column header for the Y (latitude) field.',
     )
     parser.add_argument(
+        '--geopoint',
+        type=str,
+        help='The CSV column header for the GeoPoint (containing longitude and '
+             'latitude) field.',
+    )
+    parser.add_argument(
         '-r',
         '--report_filename',
         type=str,
@@ -178,7 +184,8 @@ def cli():
     # Get reader
     # The reader iterator returns a set of consecutive points with the same species_key
     reader = PointCsvReader(
-        args.reader_filename, args.species_key, args.x_key, args.y_key
+        args.reader_filename, args.species_key, args.x_key, args.y_key,
+        geopoint=args.geopoint
     )
 
     # Clean data
