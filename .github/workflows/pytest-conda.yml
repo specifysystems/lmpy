@@ -13,7 +13,7 @@ jobs:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
     steps:
       # Checkout code
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Set up Conda environment
       - uses: conda-incubator/setup-miniconda@v2
