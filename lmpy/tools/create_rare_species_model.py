@@ -69,7 +69,9 @@ def create_rare_species_model(
         # Add to value set
         col = int((pt[0] - min_x) / cell_size)
         row = int((max_y - pt[1]) / cell_size)
-        val_set.add(ecoregion_data[row, col])
+        # Stay within the bounds of ecoregion_data
+        if col < num_cols and row < num_rows:
+            val_set.add(ecoregion_data[row, col])
     # Convex hull
     convex_hull_raw = geom_collection.ConvexHull()
 
