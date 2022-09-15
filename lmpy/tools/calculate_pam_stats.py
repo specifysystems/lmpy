@@ -1,5 +1,6 @@
 """Tool for creating PAM statistics."""
 import argparse
+import json
 import os
 
 from lmpy.log import Logger
@@ -89,12 +90,26 @@ def test_inputs(args):
         all_missing_inputs.extend(test_files((args.tree_filename, "Tree file")))
     if args.tree_matrix is not None:
         all_missing_inputs.extend(test_files((args.tree_matrix[0], "Tree matrix file")))
+        if len(args.tree_matrix) != 3:
+            all_missing_inputs.append(
+                "Tree matrix option requires 3 matrix files: tree, node heights" +
+                "and tip lengths")
+        else:
+            all_missing_inputs.extend(
+                test_files((args.tree_matrix[1], "Node heights matrix file")))
+            all_missing_inputs.extend(
+                test_files((args.tree_matrix[2], "Tip lengths matrix file")))
     return all_missing_inputs
 
 
 # .....................................................................................
 def cli():
-    """Provide a command-line tool for computing statistics."""
+    """Provide a command-line tool for computing statistics.
+
+    Raises:
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
+    """
     parser = build_parser()
 
     args = _process_arguments(parser, 'config_file')
@@ -112,15 +127,24 @@ def cli():
     logger.log(
         f"Calculate statistics for PAM {args.pam_filename}.", refname=script_name)
 
+    report = {
+        "pam_filename": args.pam_filename
+    }
+
     tree = tree_matrix = node_heights_matrix = tip_lengths_matrix = None
     pam = Matrix.load(args.pam_filename)
     if args.tree_filename is not None:
         tree = TreeWrapper.from_filename(args.tree_filename)
+        report["tree_filename"] = args.tree_filename
 
     if args.tree_matrix is not None:
         tree_matrix = Matrix.load(args.tree_matrix[0])
         node_heights_matrix = Matrix.load(args.tree_matrix[1])
         tip_lengths_matrix = Matrix.load(args.tree_matrix[2])
+        # Add to report
+        report["input tree_matrix"] = args.tree_matrix[0]
+        report["input tip_lengths_matrix"] = args.tree_matrix[1]
+        report["input tree_filename"] = args.tree_matrix[2]
 
     stats = PamStats(
         pam,
@@ -141,6 +165,7 @@ def cli():
             mtx.write(fn)
             logger.log(
                 f"Wrote covariance {name} statistics to {fn}.", refname=script_name)
+            report[f"output covariance matrix {name}"] = fn
         # with open(args.covariance_matrix, mode='wt') as f:
         #     json.dump(covariance_stats, f)
 
@@ -150,6 +175,7 @@ def cli():
         logger.log(
             f"Wrote diversity statistics to {args.diversity_matrix}.",
             refname=script_name)
+        report["output diversity_matrix"] = args.diversity_matrix
 
     if args.site_stats_matrix is not None:
         site_stats = stats.calculate_site_statistics()
@@ -157,6 +183,7 @@ def cli():
         logger.log(
             f"Wrote site statistics to {args.site_stats_matrix}.",
             refname=script_name)
+        report["output site_stats_matrix"] = args.site_stats_matrix
 
     if args.species_stats_matrix is not None:
         species_stats = stats.calculate_species_statistics()
@@ -164,6 +191,17 @@ def cli():
         logger.log(
             f"Wrote species statistics to {args.species_stats_matrix}.",
             refname=script_name)
+        report["output species_stats_matrix"] = args.species_stats_matrix
+
+    # If the output report was requested, write it
+    if args.report_filename:
+        try:
+            with open(args.report_filename, mode='wt') as out_file:
+                json.dump(report, out_file, indent=4)
+        except OSError:
+            raise
+        except IOError:
+            raise
 
 
 # .....................................................................................

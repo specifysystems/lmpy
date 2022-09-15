@@ -227,6 +227,10 @@ class LayerEncoder:
         self.grid_filename = grid_filename
         self.logger = logger
         self._read_grid(grid_filename)
+        self._report = {
+            "grid_filename": grid_filename,
+            "layers": {}
+        }
 
         self.encoded_matrix = None
 
@@ -625,11 +629,21 @@ class LayerEncoder:
         self.logger.log(
             f"Encode layer to {column_name} with min_coverage = {min_coverage}",
             refname=self.__class__.__name__)
+
+        self._report["layers"][column_name] = {
+            "filename": layer_filename,
+            "encode_method": "biogeographic_hypothesis",
+            "min_coverage": min_coverage
+        }
+        if attribute_field is not None:
+            self._report["layers"][column_name]["attribute_field"] = attribute_field
+
         window_func, nodata, distinct_attributes = self._read_layer(
             layer_filename,
             resolution=resolution,
             bbox=bbox,
-            nodata=nodata
+            nodata=nodata,
+            attribute_field=attribute_field
         )
         if len(distinct_attributes) == 2:
             # Set the attributes to be opposite sides of same hypothesis
@@ -652,7 +666,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        attribute_name=None,
+        attribute_field=None,
     ):
         """Encodes a distribution layer into a presence absence column.
 
@@ -669,7 +683,7 @@ class LayerEncoder:
                 for the data grid.
             nodata: If the layer is a vector, optionally use this as the data
                 grid nodata value.
-            attribute_name: If the layer is a vector, use this field to
+            attribute_field: If the layer is a vector, use this field to
                 determine presence.
 
         Returns:
@@ -679,6 +693,17 @@ class LayerEncoder:
             f"Encode layer to {column_name} with min_coverage={min_presence}, " +
             f"max_coverage={max_presence}, min_coverage={min_coverage}",
             refname=self.__class__.__name__)
+
+        self._report["layers"][column_name] = {
+            "filename": layer_filename,
+            "encode_method": "presence_absence",
+            "min_presence": min_presence,
+            "max_presence": max_presence,
+            "min_coverage": min_coverage,
+        }
+        if attribute_field is not None:
+            self._report["layers"][column_name]["attribute_field"] = attribute_field
+
         window_func, nodata, _ = self._read_layer(layer_filename, resolution=resolution,
                                                   bbox=bbox, nodata=nodata)
         encode_func = _get_presence_absence_method(
@@ -694,7 +719,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        attribute_name=None,
+        attribute_field=None,
     ):
         """Encodes a layer based on the mean value for each data window.
 
@@ -707,7 +732,7 @@ class LayerEncoder:
                 for the data grid.
             nodata: If the layer is a vector, optionally use this as the data
                 grid nodata value.
-            attribute_name: If the layer is a vector, use this field to
+            attribute_field: If the layer is a vector, use this field to
                 determine value.
 
         Returns:
@@ -716,6 +741,12 @@ class LayerEncoder:
         self.logger.log(
             f"Encode layer to {column_name} with mean value",
             refname=self.__class__.__name__)
+        self._report["layers"][column_name] = {
+            "filename": layer_filename,
+            "encode_method": "mean_value",
+        }
+        if attribute_field is not None:
+            self._report["layers"][column_name]["attribute_field"] = attribute_field
         # print((layer_filename, nodata, bbox, resolution, attribute_name))
         window_func, nodata, _ = self._read_layer(
             layer_filename,
@@ -735,7 +766,7 @@ class LayerEncoder:
         resolution=None,
         bbox=None,
         nodata=DEFAULT_NODATA,
-        attribute_name=None,
+        attribute_field=None,
     ):
         """Encodes a layer based on the largest class in each data window.
 
@@ -750,7 +781,7 @@ class LayerEncoder:
                 for the data grid.
             nodata: If the layer is a vector, optionally use this as the data
                 grid nodata value.
-            attribute_name: If the layer is a vector, use this field to
+            attribute_field: If the layer is a vector, use this field to
                 determine the largest class.
 
         Returns:
@@ -759,6 +790,14 @@ class LayerEncoder:
         self.logger.log(
             f"Encode layer to {column_name} with largest class",
             refname=self.__class__.__name__)
+        self._report["layers"][column_name] = {
+            "filename": layer_filename,
+            "encode_method": "largest_class",
+            "min_coverage": min_coverage
+        }
+        if attribute_field is not None:
+            self._report["layers"][column_name]["attribute_field"] = attribute_field
+
         window_func, nodata, _ = self._read_layer(
             layer_filename,
             resolution=resolution,
@@ -776,6 +815,15 @@ class LayerEncoder:
             Matrix: The encoded matrix as a Matrix object
         """
         return self.encoded_matrix
+
+    # ...............................
+    def get_report(self):
+        """Returns the encoded matrix.
+
+        Returns:
+            Matrix: The encoded matrix as a Matrix object
+        """
+        return self._report
 
     # ...............................
     def get_geojson(self):

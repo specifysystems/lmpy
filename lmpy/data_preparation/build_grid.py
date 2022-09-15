@@ -134,6 +134,19 @@ def build_grid(
     Raises:
         ValueError: Raised if invalid bbox or cell sides.
     """
+    report = {
+        "gridname": grid_file_name,
+        "site_id_field": site_id,
+        "x_field": site_x,
+        "y_field": site_y,
+        "epsg_code": epsg_code,
+        "min_x_coordinate": min_x,
+        "max_x_coordinate": max_x,
+        "min_y_coordinate": min_y,
+        "max_y_coordinate": max_y,
+        "cell_sides": cell_sides,
+        "size": None
+    }
     script_name = os.path.splitext(os.path.basename(__file__))[0]
     if min_x >= max_x or min_y >= max_y:
         raise ValueError(f'Illegal bounds: ({min_x}, {min_y}, {max_x}, {max_y})')
@@ -191,8 +204,9 @@ def build_grid(
             shape_id += 1
         feat.Destroy()
     data_set.Destroy()
+    report["size"] = shape_id
     logger.log(f"Wrote {grid_file_name} with {shape_id} sites.", refname=script_name)
-    return shape_id
+    return report
 
 
 # .............................................................................

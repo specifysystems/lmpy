@@ -547,6 +547,7 @@ class PamStats:
         self.node_heights_matrix = node_heights_matrix
         self.tip_lengths_matrix = tip_lengths_matrix
         self.logger = logger
+        self._report = {}
 
     # ...........................
     def calculate_covariance_statistics(self):
