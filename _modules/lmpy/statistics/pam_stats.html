@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.pam_stats &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.statistics.pam_stats &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -78,7 +79,8 @@
   <h1>Source code for lmpy.statistics.pam_stats</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing base PAM statistic functionality.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">DEBUG</span>
 
 
 <span class="c1"># .............................................................................</span>
@@ -92,7 +94,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># .........................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor.</span>
 
 <span class="sd">        Args:</span>
@@ -102,7 +104,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
 
     <span class="c1"># .........................</span>
-<div class="viewcode-block" id="PamStatsMetric.__call__"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStatsMetric.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="PamStatsMetric.__call__"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStatsMetric.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Call the wrapped function.</span>
 
 <span class="sd">        Args:</span>
@@ -598,13 +600,14 @@
     <span class="p">]</span></div>
 
     <span class="c1"># ...........................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">pam</span><span class="p">,</span>
             <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">tree_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">node_heights_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">tip_lengths_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">logger</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for PAM stats computations.</span>
 
@@ -614,12 +617,16 @@
 <span class="sd">            tree_matrix (Matrix): A matrix of tip / node presence absence values.</span>
 <span class="sd">            node_heights_matrix (Matrix): A matrix of node height values.</span>
 <span class="sd">            tip_lengths_matrix (Matrix): A matrix of tip length values.</span>
+<span class="sd">            logger (lmpy.log.Logger): An optional local logger to use for logging output</span>
+<span class="sd">                with consistent options</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pam</span> <span class="o">=</span> <span class="n">pam</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree_matrix</span> <span class="o">=</span> <span class="n">tree_matrix</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">node_heights_matrix</span> <span class="o">=</span> <span class="n">node_heights_matrix</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tip_lengths_matrix</span> <span class="o">=</span> <span class="n">tip_lengths_matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># ...........................</span>
 <div class="viewcode-block" id="PamStats.calculate_covariance_statistics"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/pam_stats/index.html#lmpy.statistics.pam_stats.PamStats.calculate_covariance_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_covariance_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -628,6 +635,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list of tuple: A list of metric name, value tuples for covariance stats.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cov_stats_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance_stats</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Calculate </span><span class="si">{</span><span class="n">cov_stats_names</span><span class="si">}</span><span class="s2"> covariance stats for PAM&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance_stats</span><span class="p">]</span></div>
 
     <span class="c1"># ...........................</span>
@@ -637,10 +648,15 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list of tuple: A list of metric name, value tuples for diversity metrics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">])</span>
+        <span class="n">diversity_stat_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">]</span>
+        <span class="n">diversity_stat_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Calculate </span><span class="si">{</span><span class="n">diversity_stat_names</span><span class="si">}</span><span class="s2"> diversity stats for PAM &quot;</span> <span class="o">+</span>
+            <span class="sa">f</span><span class="s2">&quot;resulting in </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">diversity_stat_vals</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="n">diversity_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">]),</span>
-            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diversity_stats</span><span class="p">]},</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">diversity_stat_names</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">diversity_matrix</span></div>
 
@@ -652,20 +668,25 @@
 <span class="sd">            Matrix: A matrix of site-based statistics for the selected metrics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Matrix based</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Start&#39;</span><span class="p">)</span>
+        <span class="n">site_stat_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Calculate </span><span class="si">{</span><span class="n">site_stat_names</span><span class="si">}</span><span class="s2"> site stats for PAM&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="n">site_stats_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">))),</span>
             <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
                 <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">(),</span>
-                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">],</span>
+                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">site_stat_names</span><span class="p">],</span>
             <span class="p">},</span>
         <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Site matrix stats&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;Start site stats&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">)):</span>
             <span class="n">site_stats_matrix</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_matrix_stats</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Tree stuff&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="s2">&quot;Tree stuff&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
             <span class="n">squid_annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_annotations</span><span class="p">(</span><span class="s1">&#39;squid&#39;</span><span class="p">)</span>
             <span class="n">squid_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">squid</span><span class="p">:</span> <span class="n">label</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">squid</span> <span class="ow">in</span> <span class="n">squid_annotations</span><span class="p">}</span>
             <span class="n">ordered_labels</span> <span class="o">=</span> <span class="p">[]</span>
@@ -695,9 +716,11 @@
             <span class="p">)</span>
 
             <span class="c1"># PAM / Tree stats</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Get distance matrix&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="s2">&quot;Get distance matrix&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
             <span class="n">phylo_dist_mtx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_distance_matrix</span><span class="p">()</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PAM dist mtx stats&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="s2">&quot;PAM dist mtx stats&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
             <span class="n">site_pam_tree_matrix</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_pam_dist_mtx_stats</span><span class="p">:</span>
                 <span class="n">site_pam_tree_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
@@ -713,7 +736,8 @@
                     <span class="p">},</span>
                 <span class="p">)</span>
 
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Site by site&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="s2">&quot;Site by site&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
             <span class="c1"># Loop through PAM</span>
             <span class="k">for</span> <span class="n">site_idx</span><span class="p">,</span> <span class="n">site_row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="p">):</span>
                 <span class="c1"># Get present species</span>
@@ -747,9 +771,10 @@
                             <span class="n">func</span><span class="p">(</span><span class="n">site_tree</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_tree_stats</span>
                         <span class="p">]</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">present_labels</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Site index: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">site_idx</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">present_labels</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Site index: </span><span class="si">{</span><span class="n">site_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 
             <span class="n">all_stat_matrices</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">if</span> <span class="n">site_stats_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -771,12 +796,16 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Matrix: A matrix of species-based statistics for the selected metrics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">species_stats_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Calculate </span><span class="si">{</span><span class="n">species_stats_names</span><span class="si">}</span><span class="s2"> species stats for PAM&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="c1"># Matrix based</span>
         <span class="n">species_stats_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">))),</span>
             <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
                 <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pam</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">(),</span>
-                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">],</span>
+                <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">species_stats_names</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species_matrix_stats</span><span class="p">)):</span>

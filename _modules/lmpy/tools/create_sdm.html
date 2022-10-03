@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.create_sdm &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.tools.create_sdm &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -81,10 +82,11 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="k">import</span> <span class="n">Logger</span>
-<span class="kn">from</span> <span class="nn">lmpy.sdm.maxent</span> <span class="k">import</span> <span class="n">DEFAULT_MAXENT_OPTIONS</span>
-<span class="kn">from</span> <span class="nn">lmpy.sdm.model</span> <span class="k">import</span> <span class="n">create_sdm</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
+<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="kn">import</span> <span class="n">Logger</span>
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="kn">import</span> <span class="n">Point</span>
+<span class="kn">from</span> <span class="nn">lmpy.sdm.maxent</span> <span class="kn">import</span> <span class="n">DEFAULT_MAXENT_OPTIONS</span>
+<span class="kn">from</span> <span class="nn">lmpy.sdm.model</span> <span class="kn">import</span> <span class="n">create_sdm</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="kn">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -139,24 +141,24 @@
         <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
         <span class="s2">&quot;--maxent_params&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;Extra options to send to Maxent (added to </span><span class="si">{DEFAULT_MAXENT_OPTIONS}</span><span class="s2">.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Extra options to send to Maxent (added to </span><span class="si">{</span><span class="n">DEFAULT_MAXENT_OPTIONS</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--species_key&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">SPECIES_ATTRIBUTE</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Header of CSV column containing species information.&quot;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--x_key&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">X_ATTRIBUTE</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Header of CSV column containing X value for record.&quot;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--y_key&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">Y_ATTRIBUTE</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Header of CSV column containing Y value for record.&quot;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -206,7 +208,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">other_fn</span> <span class="o">=</span> <span class="n">point_names</span><span class="p">[</span><span class="n">outname</span><span class="p">]</span>
             <span class="n">all_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">&quot;File </span><span class="si">{fn}</span><span class="s2">, Point input has base name </span><span class="si">{outname}</span><span class="s2"> used by </span><span class="si">{other_fn}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">fn</span><span class="si">}</span><span class="s2">, Point input has base name </span><span class="si">{</span><span class="n">outname</span><span class="si">}</span><span class="s2"> used by </span><span class="si">{</span><span class="n">other_fn</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">point_names</span><span class="p">[</span><span class="n">outname</span><span class="p">]</span> <span class="o">=</span> <span class="n">fn</span>
         <span class="n">errs</span> <span class="o">=</span> <span class="n">test_files</span><span class="p">((</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot;Point layer input&quot;</span><span class="p">))</span>
@@ -217,13 +219,12 @@
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_sdm/index.html#lmpy.tools.create_sdm.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Provide a command-line interface for SDM modeling.&quot;&quot;&quot;</span>
-    <span class="n">ref</span> <span class="o">=</span> <span class="s2">&quot;create_sdm&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="s2">&quot;config_file&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Missing file, exiting program&quot;</span><span class="p">)</span>
-        <span class="n">exit</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{str(e)}&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">point_files</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">points_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -245,23 +246,25 @@
         <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
     <span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-        <span class="n">f</span><span class="s2">&quot;Create SDMs for {len(point_files)} species occurrence CSVs&quot;</span><span class="p">,</span>
-        <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">***Create SDMs for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">point_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> species occurrence CSVs&quot;</span><span class="p">,</span>
+        <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
 
     <span class="n">maxent_params</span> <span class="o">=</span> <span class="n">DEFAULT_MAXENT_OPTIONS</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">maxent_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">maxent_params</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot; </span><span class="si">{args.maxent_params}</span><span class="s2">&quot;</span>
+        <span class="n">maxent_params</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">maxent_params</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="n">full_report</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">ct</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">point_files</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">point_filename</span> <span class="ow">in</span> <span class="n">point_files</span><span class="p">:</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1"># species_name contains spaces</span>
         <span class="n">species_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">point_filename</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># work_dir contains underscores</span>
         <span class="n">work_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">species_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Starting SDM for </span><span class="si">{species_name}</span><span class="s2">, file </span><span class="si">{i}</span><span class="s2"> of </span><span class="si">{ct}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Starting SDM for </span><span class="si">{</span><span class="n">species_name</span><span class="si">}</span><span class="s2">, file </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
         <span class="n">report</span> <span class="o">=</span> <span class="n">create_sdm</span><span class="p">(</span>
             <span class="n">args</span><span class="o">.</span><span class="n">min_points</span><span class="p">,</span>
             <span class="n">point_filename</span><span class="p">,</span>
@@ -277,20 +280,20 @@
             <span class="n">logger</span><span class="o">=</span><span class="n">logger</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">&quot;*** Completed SDM computation for </span><span class="si">{species_name}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">refname</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Completed SDM computation for </span><span class="si">{</span><span class="n">species_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
         <span class="n">full_report</span><span class="p">[</span><span class="n">point_filename</span><span class="p">]</span> <span class="o">=</span> <span class="n">report</span>
 
     <span class="c1"># Conditionally write report file</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">report_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">full_report</span><span class="p">,</span> <span class="n">out_json</span><span class="p">)</span></div>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">full_report</span><span class="p">,</span> <span class="n">out_json</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 <div class="viewcode-block" id="workdir"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/create_sdm/index.html#lmpy.tools.create_sdm.workdir">[docs]</a>    <span class="n">workdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span></div>
-    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;PWD is </span><span class="si">{workdir}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PWD is </span><span class="si">{</span><span class="n">workdir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">cli</span><span class="p">()</span>
 </pre></div>
 

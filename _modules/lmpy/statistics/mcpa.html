@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.mcpa &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.statistics.mcpa &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -83,13 +84,13 @@
 <span class="sd">         phylogenetics: separating the roles of environmental filters and</span>
 <span class="sd">         historical biogeography. Ecology letters 13: 1290-1299.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="k">import</span> <span class="n">ThreadPoolExecutor</span> <span class="k">as</span> <span class="n">ExecutorClass</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span> <span class="k">as</span> <span class="n">ExecutorClass</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy</span> <span class="kn">import</span> <span class="n">Matrix</span>
 
 <span class="c1"># Note: This lock is used when calculating beta to keep memory usage down</span>
 <div class="viewcode-block" id="lock"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/mcpa/index.html#lmpy.statistics.mcpa.lock">[docs]</a><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span></div>

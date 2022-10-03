@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -19,6 +19,7 @@
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -318,7 +319,7 @@ hypotheses, use this field to separate the vector file.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class">
-<span class="sig-name descname"><span class="pre">encode_largest_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_largest_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">encode_largest_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_largest_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_largest_class" title="Permalink to this definition"></a></dt>
 <dd><p>Encodes a layer based on the largest class in each data window.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -333,7 +334,7 @@ resolution of the data grid.</p></li>
 for the data grid.</p></li>
 <li><p><strong>nodata</strong> – If the layer is a vector, optionally use this as the data
 grid nodata value.</p></li>
-<li><p><strong>attribute_name</strong> – If the layer is a vector, use this field to
+<li><p><strong>attribute_field</strong> – If the layer is a vector, use this field to
 determine the largest class.</p></li>
 </ul>
 </dd>
@@ -348,7 +349,7 @@ determine the largest class.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value">
-<span class="sig-name descname"><span class="pre">encode_mean_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_mean_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">encode_mean_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_mean_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_mean_value" title="Permalink to this definition"></a></dt>
 <dd><p>Encodes a layer based on the mean value for each data window.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -361,7 +362,7 @@ resolution of the data grid.</p></li>
 for the data grid.</p></li>
 <li><p><strong>nodata</strong> – If the layer is a vector, optionally use this as the data
 grid nodata value.</p></li>
-<li><p><strong>attribute_name</strong> – If the layer is a vector, use this field to
+<li><p><strong>attribute_field</strong> – If the layer is a vector, use this field to
 determine value.</p></li>
 </ul>
 </dd>
@@ -376,7 +377,7 @@ determine value.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence">
-<span class="sig-name descname"><span class="pre">encode_presence_absence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_presence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_presence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_presence_absence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">encode_presence_absence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_presence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_presence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_NODATA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.encode_presence_absence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.encode_presence_absence" title="Permalink to this definition"></a></dt>
 <dd><p>Encodes a distribution layer into a presence absence column.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -393,7 +394,7 @@ resolution of the data grid.</p></li>
 for the data grid.</p></li>
 <li><p><strong>nodata</strong> – If the layer is a vector, optionally use this as the data
 grid nodata value.</p></li>
-<li><p><strong>attribute_name</strong> – If the layer is a vector, use this field to
+<li><p><strong>attribute_field</strong> – If the layer is a vector, use this field to
 determine presence.</p></li>
 </ul>
 </dd>
@@ -430,6 +431,20 @@ determine presence.</p></li>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.layer_encoder.LayerEncoder.get_report">
+<span class="sig-name descname"><span class="pre">get_report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/layer_encoder.html#LayerEncoder.get_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.layer_encoder.LayerEncoder.get_report" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the encoded matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The encoded matrix as a Matrix object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>

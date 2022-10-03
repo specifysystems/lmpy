@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -19,6 +19,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -268,6 +269,21 @@ point.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.point.Point.SPECIES_ATTRIBUTE">
+<span class="sig-name descname"><span class="pre">SPECIES_ATTRIBUTE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">species_name</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.SPECIES_ATTRIBUTE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.SPECIES_ATTRIBUTE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.point.Point.X_ATTRIBUTE">
+<span class="sig-name descname"><span class="pre">X_ATTRIBUTE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">x</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.X_ATTRIBUTE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.X_ATTRIBUTE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lmpy.point.Point.Y_ATTRIBUTE">
+<span class="sig-name descname"><span class="pre">Y_ATTRIBUTE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">y</span></em><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.Y_ATTRIBUTE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.Y_ATTRIBUTE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="lmpy.point.Point.__eq__">
 <span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#Point.__eq__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.Point.__eq__" title="Permalink to this definition"></a></dt>
@@ -387,7 +403,7 @@ None: Returned if the attribute does not exist for the Point.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lmpy.point.PointCsvReader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointCsvReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geopoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'species_name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lmpy.point.</span></span><span class="sig-name descname"><span class="pre">PointCsvReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geopoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Point.SPECIES_ATTRIBUTE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/lmpy/point.html#PointCsvReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.point.PointCsvReader" title="Permalink to this definition"></a></dt>
 <dd><p>Constructor for a Point CSV retriever.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

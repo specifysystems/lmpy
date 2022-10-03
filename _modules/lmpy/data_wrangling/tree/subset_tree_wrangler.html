@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.tree.subset_tree_wrangler &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.data_wrangling.tree.subset_tree_wrangler &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -77,9 +78,9 @@
              
   <h1>Source code for lmpy.data_wrangling.tree.subset_tree_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing data wranglers for subsetting a tree.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">DEBUG</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">DEBUG</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.tree.base</span> <span class="k">import</span> <span class="n">_TreeDataWrangler</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.tree.base</span> <span class="kn">import</span> <span class="n">_TreeDataWrangler</span>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -89,7 +90,7 @@
 <div class="viewcode-block" id="SubsetTreeWrangler.version"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/tree/subset_tree_wrangler/index.html#lmpy.data_wrangling.tree.subset_tree_wrangler.SubsetTreeWrangler.version">[docs]</a>    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span></div>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">keep_taxa</span><span class="p">,</span>
         <span class="o">**</span><span class="n">params</span>
@@ -118,7 +119,7 @@
         <span class="n">tree</span><span class="o">.</span><span class="n">purge_taxon_namespace</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_purged</span> <span class="o">+=</span> <span class="p">(</span><span class="n">original_taxa_count</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">taxon_namespace</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="n">f</span><span class="s1">&#39;Removed </span><span class="si">{self._purged}</span><span class="s1"> of </span><span class="si">{original_taxa_count}</span><span class="s1"> tips.&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;Removed </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_purged</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="n">original_taxa_count</span><span class="si">}</span><span class="s1"> tips.&#39;</span><span class="p">,</span>
             <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tree</span></div></div>
 </pre></div>

@@ -48,8 +48,7 @@ Functions
    :param compare_fn (: obj:method): A function used to compare pushed values
                         to the observed statistic value.
 
-   .. py:method:: p_values()
-      :property:
+   .. py:property:: p_values
 
       Retrieve p-values from the test values greater than the f-statistic.
 
@@ -58,6 +57,19 @@ Functions
 
       :raises Exception: Raised if there are no observed values.
 
+   .. py:property:: standard_deviation
+
+      Retrieve the standard deviation of the test values.
+
+      :returns: The standard deviation of the test values.
+      :rtype: float
+
+   .. py:property:: variance
+
+      Retrieve the variance of the test values.
+
+      :returns: The variance of the test values.
+      :rtype: float
 
    .. py:method:: push(val)
 
@@ -66,24 +78,6 @@ Functions
       :param val: A value to use for the
                   running statistics.
       :type val: Matrix, Numpy array, or numeric
-
-
-   .. py:method:: standard_deviation()
-      :property:
-
-      Retrieve the standard deviation of the test values.
-
-      :returns: The standard deviation of the test values.
-      :rtype: float
-
-
-   .. py:method:: variance()
-      :property:
-
-      Retrieve the variance of the test values.
-
-      :returns: The variance of the test values.
-      :rtype: float
 
 
 

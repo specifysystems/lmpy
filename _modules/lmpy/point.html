@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.point &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.point &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -125,13 +126,15 @@
 <span class="p">]</span></div>
 <div class="viewcode-block" id="DELIMITED_BY_ATT"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.DELIMITED_BY_ATT">[docs]</a><span class="n">DELIMITED_BY_ATT</span> <span class="o">=</span> <span class="s1">&#39;delimitedBy&#39;</span></div>
 
-
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class representing an occurrence data point.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Point.SPECIES_ATTRIBUTE"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.SPECIES_ATTRIBUTE">[docs]</a>    <span class="n">SPECIES_ATTRIBUTE</span> <span class="o">=</span> <span class="s2">&quot;species_name&quot;</span></div>
+<div class="viewcode-block" id="Point.X_ATTRIBUTE"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.X_ATTRIBUTE">[docs]</a>    <span class="n">X_ATTRIBUTE</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span></div>
+<div class="viewcode-block" id="Point.Y_ATTRIBUTE"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.Y_ATTRIBUTE">[docs]</a>    <span class="n">Y_ATTRIBUTE</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span></div>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species_name</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species_name</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor.</span>
 
 <span class="sd">        Args:</span>
@@ -149,9 +152,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span> <span class="o">=</span> <span class="n">attributes</span>
         <span class="c1"># Set attributes for species name, x, and y</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;species_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">Point</span><span class="o">.</span><span class="n">SPECIES_ATTRIBUTE</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">Point</span><span class="o">.</span><span class="n">X_ATTRIBUTE</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">Point</span><span class="o">.</span><span class="n">Y_ATTRIBUTE</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
 
     <span class="c1"># .......................</span>
     <span class="nd">@classmethod</span>
@@ -172,7 +175,7 @@
         <span class="k">return</span> <span class="n">species_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="Point.__eq__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.__eq__">[docs]</a>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Point.__eq__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.__eq__">[docs]</a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Test if this point equals the other.</span>
 
 <span class="sd">        Args:</span>
@@ -188,7 +191,7 @@
         <span class="p">)</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="Point.__lt__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.__lt__">[docs]</a>    <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Point.__lt__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.__lt__">[docs]</a>    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Test if this point is less than the other.</span>
 
 <span class="sd">        Args:</span>
@@ -208,7 +211,7 @@
         <span class="k">return</span> <span class="kc">False</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="Point.__repr__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Point.__repr__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.Point.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get a string representation of this Point object.</span>
 
 <span class="sd">        Returns:</span>
@@ -258,14 +261,14 @@
     <span class="sd">&quot;&quot;&quot;Class for reading Points from a CSV file.&quot;&quot;&quot;</span>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">filename</span><span class="p">,</span>
         <span class="n">species_field</span><span class="p">,</span>
         <span class="n">x_field</span><span class="p">,</span>
         <span class="n">y_field</span><span class="p">,</span>
         <span class="n">geopoint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">group_field</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span>
+        <span class="n">group_field</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">SPECIES_ATTRIBUTE</span><span class="p">,</span>
         <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for a Point CSV retriever.</span>
@@ -298,10 +301,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_curr_val</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Point CSV file </span><span class="si">{self.filename}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Point CSV file </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvReader.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvReader.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__enter__">[docs]</a>    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method.</span>
 
 <span class="sd">        Returns:</span>
@@ -311,7 +314,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvReader.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvReader.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__exit__">[docs]</a>    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method on exit.</span>
 
 <span class="sd">        Args:</span>
@@ -320,7 +323,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvReader.__iter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__iter__">[docs]</a>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvReader.__iter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__iter__">[docs]</a>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Iterator magic method.</span>
 
 <span class="sd">        Returns:</span>
@@ -329,7 +332,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvReader.__next__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__next__">[docs]</a>    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvReader.__next__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvReader.__next__">[docs]</a>    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get lists of consecutive points with the same attribute value.</span>
 
 <span class="sd">        Returns:</span>
@@ -398,7 +401,7 @@
     <span class="sd">&quot;&quot;&quot;Class for writing Points to a CSV file.&quot;&quot;&quot;</span>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">filename</span><span class="p">,</span>
         <span class="n">fields</span><span class="p">,</span>
@@ -428,7 +431,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">file_mode</span> <span class="o">=</span> <span class="n">mode</span>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvWriter.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvWriter.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter.__enter__">[docs]</a>    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method.</span>
 
 <span class="sd">        Returns:</span>
@@ -438,7 +441,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointCsvWriter.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCsvWriter.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointCsvWriter.__exit__">[docs]</a>    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method on exit.</span>
 
 <span class="sd">        Args:</span>
@@ -479,7 +482,7 @@
     <span class="sd">&quot;&quot;&quot;Class for reading Darwin Core Archives.&quot;&quot;&quot;</span>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dwca_filename</span><span class="p">,</span>
         <span class="n">meta_filename</span><span class="o">=</span><span class="n">DEFAULT_META_FILENAME</span><span class="p">,</span>
@@ -519,7 +522,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">group_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">species_term</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">&quot;Darwin Core Archive </span><span class="si">{self.archive_filename}</span><span class="s2"> file does not exist.&quot;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;Darwin Core Archive </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">archive_filename</span><span class="si">}</span><span class="s2"> file does not exist.&quot;</span><span class="p">)</span>
 
     <span class="c1"># .......................</span>
 <div class="viewcode-block" id="PointDwcaReader._get_species_name"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader._get_species_name">[docs]</a>    <span class="k">def</span> <span class="nf">_get_species_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_dict</span><span class="p">):</span>
@@ -574,7 +577,7 @@
         <span class="k">return</span> <span class="n">point_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y_term</span><span class="p">]</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointDwcaReader.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointDwcaReader.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.__enter__">[docs]</a>    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method.</span>
 
 <span class="sd">        Returns:</span>
@@ -584,7 +587,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointDwcaReader.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="PointDwcaReader.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.__exit__">[docs]</a>    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method on exit.</span>
 
 <span class="sd">        Args:</span>
@@ -593,7 +596,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointDwcaReader.__iter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.__iter__">[docs]</a>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointDwcaReader.__iter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.__iter__">[docs]</a>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Iterator magic method.</span>
 
 <span class="sd">        Returns:</span>
@@ -602,7 +605,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointDwcaReader.__next__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.__next__">[docs]</a>    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointDwcaReader.__next__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointDwcaReader.__next__">[docs]</a>    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get lists of consecutive points with the same attribute value.</span>
 
 <span class="sd">        Returns:</span>
@@ -798,7 +801,7 @@
     <span class="sd">&quot;&quot;&quot;Class for writing Points to JSON.&quot;&quot;&quot;</span>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for writing JSON points.</span>
 
 <span class="sd">        Args:</span>
@@ -808,7 +811,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointJsonWriter.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PointJsonWriter.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter.__enter__">[docs]</a>    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method.</span>
 
 <span class="sd">        Returns:</span>
@@ -818,7 +821,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="PointJsonWriter.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="PointJsonWriter.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point.PointJsonWriter.__exit__">[docs]</a>    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Exit and write JSON.</span>
 
 <span class="sd">        Args:</span>
@@ -929,7 +932,7 @@
 <div class="viewcode-block" id="_IdigBioCsvReader"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader">[docs]</a><span class="k">class</span> <span class="nc">_IdigBioCsvReader</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A class for pre-processing incoming row data form iDigBio DWCAs.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for _IdigBioCsvReader.</span>
 
 <span class="sd">        Args:</span>
@@ -938,7 +941,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">reader</span>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="_IdigBioCsvReader.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.__enter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__enter__">[docs]</a>    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method.</span>
 
 <span class="sd">        Returns:</span>
@@ -948,7 +951,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="_IdigBioCsvReader.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.__exit__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__exit__">[docs]</a>    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Context manager magic method on exit.</span>
 
 <span class="sd">        Args:</span>
@@ -957,7 +960,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="_IdigBioCsvReader.__iter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__iter__">[docs]</a>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.__iter__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__iter__">[docs]</a>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Iterator magic method.</span>
 
 <span class="sd">        Returns:</span>
@@ -966,7 +969,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="_IdigBioCsvReader.__next__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__next__">[docs]</a>    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="_IdigBioCsvReader.__next__"><a class="viewcode-back" href="../../autoapi/lmpy/point/index.html#lmpy.point._IdigBioCsvReader.__next__">[docs]</a>    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the next row of data.</span>
 
 <span class="sd">        Returns:</span>

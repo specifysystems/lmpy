@@ -19,25 +19,45 @@ Functions
 .. autoapisummary::
 
    lmpy.sdm.model._create_mask
-   lmpy.sdm.model.callersname
+   lmpy.sdm.model.create_maxent_layer_label
    lmpy.sdm.model.create_sdm
-   lmpy.sdm.model.log
    lmpy.sdm.model.match_headers
    lmpy.sdm.model.project_sdm
 
 
 
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   lmpy.sdm.model.script_name
+
+
 .. py:function:: _create_mask(point_tuples, ecoregions_filename, env_dir, maxent_arguments, logger)
 
 
-.. py:function:: callersname()
+.. py:function:: create_maxent_layer_label(sdm_dir, label_name, touch_file=True)
 
-   Find the name of the function from which this method is called.
+   Return a filename to indicate a layer label for an SDM raster in the directory.
 
-   :returns: The function name.
+   :param sdm_dir: Path for output file, same as the dir for associated matrix input
+   :type sdm_dir: str
+   :param label_name: Name to use in matrix headers
+   :type label_name: str
+   :param touch_file: True to create the file
+   :type touch_file: bool
+
+   :returns: File signaling the
+   :rtype: label_filename (str)
+
+   .. note::
+
+      This function assumes that only one SDM to be encoded will be in the same
+          directory.
 
 
-.. py:function:: create_sdm(min_points, csv_filename, env_dir, ecoregions_filename, work_dir, species_name, maxent_arguments=DEFAULT_MAXENT_OPTIONS, sp_key='species_name', x_key='x', y_key='y', create_mask=True, logger=None)
+.. py:function:: create_sdm(min_points, csv_filename, env_dir, ecoregions_filename, work_dir, species_name, maxent_arguments=DEFAULT_MAXENT_OPTIONS, sp_key=Point.SPECIES_ATTRIBUTE, x_key=Point.X_ATTRIBUTE, y_key=Point.Y_ATTRIBUTE, create_mask=True, logger=None)
 
    Create an SDM, Maxent model if there are enough points, `rare species` if not.
 
@@ -78,18 +98,6 @@ Functions
        report (dict): dictionary containing relevant metadata about the model
 
 
-.. py:function:: log(msg, logger, log_level=INFO)
-
-   Log a message.
-
-   :param msg: A message to write to the logger.
-   :type msg: str
-   :param logger: Logger for writing messages to console and/or file.
-   :type logger: logging.logger
-   :param log_level: A level to use when logging the message.
-   :type log_level: int
-
-
 .. py:function:: match_headers(mask_filename, tmp_mask_filename, template_layer_filename)
 
    Match headers with template layer.
@@ -124,4 +132,9 @@ Functions
              report (dict): dictionary containing relevant metadata about the model
    :rtype: projection_raster_filename
 
+
+.. py:data:: script_name
+   
+
+   
 

@@ -52,8 +52,7 @@ Functions
    :type site_x: str
    :param site_y: The name of the Y field for the shapefile.
    :type site_y: str
-   :param cutout_wkt: WKT for an area of the grid to be cut
-                      out.
+   :param cutout_wkt: WKT for an area of the grid to be cut out.
    :type cutout_wkt: None or str
    :param logger: An optional local logger to use for logging output
                   with consistent options

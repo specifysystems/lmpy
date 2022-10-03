@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.calculate_pam_stats &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.tools.calculate_pam_stats &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -79,11 +80,13 @@
 <span></span><span class="sd">&quot;&quot;&quot;Tool for creating PAM statistics.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
-<span class="kn">from</span> <span class="nn">lmpy.statistics.pam_stats</span> <span class="k">import</span> <span class="n">PamStats</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
-<span class="kn">from</span> <span class="nn">lmpy.tree</span> <span class="k">import</span> <span class="n">TreeWrapper</span>
+<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="kn">import</span> <span class="n">Logger</span>
+<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy.statistics.pam_stats</span> <span class="kn">import</span> <span class="n">PamStats</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="kn">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
+<span class="kn">from</span> <span class="nn">lmpy.tree</span> <span class="kn">import</span> <span class="n">TreeWrapper</span>
 
 
 <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;Compute statistics for a PAM and optionally a tree.&#39;</span>
@@ -101,6 +104,24 @@
         <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--config_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to configuration file.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--log_filename&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-l&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A file location to write logging data.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--log_console&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If provided, write log to console.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--report_filename&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;File location to write the wrangler report.&quot;</span>
+    <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tree_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to matching tree.&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--tree_matrix&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to tree matrix.&#39;</span>
@@ -148,12 +169,26 @@
         <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">tree_filename</span><span class="p">,</span> <span class="s2">&quot;Tree file&quot;</span><span class="p">)))</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Tree matrix file&quot;</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Tree matrix option requires 3 matrix files: tree, node heights&quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;and tip lengths&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;Node heights matrix file&quot;</span><span class="p">)))</span>
+            <span class="n">all_missing_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="n">test_files</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;Tip lengths matrix file&quot;</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">all_missing_inputs</span>
 
 
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/calculate_pam_stats/index.html#lmpy.tools.calculate_pam_stats.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Provide a command-line tool for computing statistics.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Provide a command-line tool for computing statistics.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        OSError: on failure to write to report_filename.</span>
+<span class="sd">        IOError: on failure to write to report_filename.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
@@ -162,15 +197,33 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
         <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
 
+    <span class="n">script_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span>
+        <span class="n">script_name</span><span class="p">,</span>
+        <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
+        <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
+    <span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Calculate statistics for PAM </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">pam_filename</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+
+    <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;pam_filename&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">pam_filename</span>
+    <span class="p">}</span>
+
     <span class="n">tree</span> <span class="o">=</span> <span class="n">tree_matrix</span> <span class="o">=</span> <span class="n">node_heights_matrix</span> <span class="o">=</span> <span class="n">tip_lengths_matrix</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pam_filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">tree_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">tree</span> <span class="o">=</span> <span class="n">TreeWrapper</span><span class="o">.</span><span class="n">from_filename</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">tree_filename</span><span class="p">)</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;tree_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">tree_filename</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">tree_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">node_heights_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">tip_lengths_matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="c1"># Add to report</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;input tree_matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;input tip_lengths_matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;input tree_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">tree_matrix</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
     <span class="n">stats</span> <span class="o">=</span> <span class="n">PamStats</span><span class="p">(</span>
         <span class="n">pam</span><span class="p">,</span>
@@ -178,21 +231,56 @@
         <span class="n">tree_matrix</span><span class="o">=</span><span class="n">tree_matrix</span><span class="p">,</span>
         <span class="n">node_heights_matrix</span><span class="o">=</span><span class="n">node_heights_matrix</span><span class="p">,</span>
         <span class="n">tip_lengths_matrix</span><span class="o">=</span><span class="n">tip_lengths_matrix</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">logger</span>
     <span class="p">)</span>
 
     <span class="c1"># Write requested stats</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">covariance_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">covariance_matrix</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">calculate_covariance_statistics</span><span class="p">(),</span> <span class="n">out_json</span><span class="p">)</span>
+        <span class="n">pth</span><span class="p">,</span> <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">covariance_matrix</span><span class="p">)</span>
+        <span class="n">basename</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="n">covariance_stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">calculate_covariance_statistics</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mtx</span> <span class="ow">in</span> <span class="n">covariance_stats</span><span class="p">:</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">basename</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">ext</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">mtx</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Wrote covariance </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> statistics to </span><span class="si">{</span><span class="n">fn</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+            <span class="n">report</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;output covariance matrix </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fn</span>
+        <span class="c1"># with open(args.covariance_matrix, mode=&#39;wt&#39;) as f:</span>
+        <span class="c1">#     json.dump(covariance_stats, f)</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">diversity_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">stats</span><span class="o">.</span><span class="n">calculate_diversity_statistics</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">diversity_matrix</span><span class="p">)</span>
+        <span class="n">diversity_stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">calculate_diversity_statistics</span><span class="p">()</span>
+        <span class="n">diversity_stats</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">diversity_matrix</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Wrote diversity statistics to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">diversity_matrix</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;output diversity_matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">diversity_matrix</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">site_stats_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">stats</span><span class="o">.</span><span class="n">calculate_site_statistics</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">site_stats_matrix</span><span class="p">)</span>
+        <span class="n">site_stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">calculate_site_statistics</span><span class="p">()</span>
+        <span class="n">site_stats</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">site_stats_matrix</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Wrote site statistics to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">site_stats_matrix</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;output site_stats_matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">site_stats_matrix</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">species_stats_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">stats</span><span class="o">.</span><span class="n">calculate_species_statistics</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">species_stats_matrix</span><span class="p">)</span></div>
+        <span class="n">species_stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">calculate_species_statistics</span><span class="p">()</span>
+        <span class="n">species_stats</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">species_stats_matrix</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Wrote species statistics to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">species_stats_matrix</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;output species_stats_matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">species_stats_matrix</span>
+
+    <span class="c1"># If the output report was requested, write it</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">raise</span></div>
 
 
 <span class="c1"># .....................................................................................</span>

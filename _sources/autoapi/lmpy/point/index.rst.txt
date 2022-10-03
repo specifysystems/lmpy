@@ -144,6 +144,21 @@ Attributes
                       point.
    :type attributes: :obj:`dict`
 
+   .. py:attribute:: SPECIES_ATTRIBUTE
+      :annotation: = species_name
+
+      
+
+   .. py:attribute:: X_ATTRIBUTE
+      :annotation: = x
+
+      
+
+   .. py:attribute:: Y_ATTRIBUTE
+      :annotation: = y
+
+      
+
    .. py:method:: __eq__(other)
 
       Test if this point equals the other.
@@ -221,7 +236,7 @@ Attributes
 
 
 
-.. py:class:: PointCsvReader(filename, species_field, x_field, y_field, geopoint=None, group_field='species_name', encoding='utf8')
+.. py:class:: PointCsvReader(filename, species_field, x_field, y_field, geopoint=None, group_field=Point.SPECIES_ATTRIBUTE, encoding='utf8')
 
    Constructor for a Point CSV retriever.
 

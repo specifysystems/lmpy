@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.sdm.maxent &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.sdm.maxent &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -91,7 +92,7 @@
 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
     <span class="n">JAVA_OPTS</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 <div class="viewcode-block" id="MAXENT_VERSION"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_VERSION">[docs]</a><span class="n">MAXENT_VERSION</span> <span class="o">=</span> <span class="s2">&quot;3.4.4&quot;</span></div>
-<div class="viewcode-block" id="MAXENT_JAR"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_JAR">[docs]</a><span class="n">MAXENT_JAR</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;/git/Maxent/ArchivedReleases/</span><span class="si">{MAXENT_VERSION}</span><span class="s2">/maxent.jar&quot;</span></div>
+<div class="viewcode-block" id="MAXENT_JAR"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_JAR">[docs]</a><span class="n">MAXENT_JAR</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/git/Maxent/ArchivedReleases/</span><span class="si">{</span><span class="n">MAXENT_VERSION</span><span class="si">}</span><span class="s2">/maxent.jar&quot;</span></div>
 <span class="c1"># MAXENT_JAR = os.environ[&#39;MAXENT_JAR&#39;]</span>
 <div class="viewcode-block" id="MAXENT_MODEL_TOOL"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_MODEL_TOOL">[docs]</a><span class="n">MAXENT_MODEL_TOOL</span> <span class="o">=</span> <span class="s1">&#39;density.MaxEnt&#39;</span></div>
 <div class="viewcode-block" id="MAXENT_PROJECT_TOOL"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/maxent/index.html#lmpy.sdm.maxent.MAXENT_PROJECT_TOOL">[docs]</a><span class="n">MAXENT_PROJECT_TOOL</span> <span class="o">=</span> <span class="s1">&#39;density.Project&#39;</span></div>
@@ -124,7 +125,7 @@
             <span class="s1">&#39;-cp&#39;</span><span class="p">,</span>
             <span class="n">MAXENT_JAR</span><span class="p">,</span>
             <span class="n">MAXENT_MODEL_TOOL</span><span class="p">,</span>
-            <span class="n">f</span><span class="s1">&#39;samplesfile=</span><span class="si">{points_filename}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;samplesfile=</span><span class="si">{</span><span class="n">points_filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
             <span class="s1">&#39;-e&#39;</span><span class="p">,</span>
             <span class="n">layer_dir</span><span class="p">,</span>
             <span class="s1">&#39;-o&#39;</span><span class="p">,</span>
@@ -157,7 +158,7 @@
             <span class="s1">&#39;-cp&#39;</span><span class="p">,</span>
             <span class="n">MAXENT_JAR</span><span class="p">,</span>
             <span class="n">MAXENT_MODEL_TOOL</span><span class="p">,</span>
-            <span class="n">f</span><span class="s1">&#39;samplesfile=</span><span class="si">{points_filename}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;samplesfile=</span><span class="si">{</span><span class="n">points_filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
             <span class="s1">&#39;-e&#39;</span><span class="p">,</span>
             <span class="n">layer_dir</span><span class="p">,</span>
             <span class="s1">&#39;-o&#39;</span><span class="p">,</span>

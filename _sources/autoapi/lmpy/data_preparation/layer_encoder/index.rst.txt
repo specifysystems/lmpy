@@ -198,7 +198,7 @@ Classes
       :rtype: list of str
 
 
-   .. py:method:: encode_largest_class(layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_largest_class(layer_filename, column_name, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
 
       Encodes a layer based on the largest class in each data window.
 
@@ -212,14 +212,14 @@ Classes
                    for the data grid.
       :param nodata: If the layer is a vector, optionally use this as the data
                      grid nodata value.
-      :param attribute_name: If the layer is a vector, use this field to
-                             determine the largest class.
+      :param attribute_field: If the layer is a vector, use this field to
+                              determine the largest class.
 
       :returns: A list of column headers for the newly encoded columns.
       :rtype: list of str
 
 
-   .. py:method:: encode_mean_value(layer_filename, column_name, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_mean_value(layer_filename, column_name, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
 
       Encodes a layer based on the mean value for each data window.
 
@@ -231,14 +231,14 @@ Classes
                    for the data grid.
       :param nodata: If the layer is a vector, optionally use this as the data
                      grid nodata value.
-      :param attribute_name: If the layer is a vector, use this field to
-                             determine value.
+      :param attribute_field: If the layer is a vector, use this field to
+                              determine value.
 
       :returns: A list of column headers for the newly encoded columns
       :rtype: list of str
 
 
-   .. py:method:: encode_presence_absence(layer_filename, column_name, min_presence, max_presence, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_name=None)
+   .. py:method:: encode_presence_absence(layer_filename, column_name, min_presence, max_presence, min_coverage, resolution=None, bbox=None, nodata=DEFAULT_NODATA, attribute_field=None)
 
       Encodes a distribution layer into a presence absence column.
 
@@ -254,8 +254,8 @@ Classes
                    for the data grid.
       :param nodata: If the layer is a vector, optionally use this as the data
                      grid nodata value.
-      :param attribute_name: If the layer is a vector, use this field to
-                             determine presence.
+      :param attribute_field: If the layer is a vector, use this field to
+                              determine presence.
 
       :returns: A list of column headers for the newly encoded columns.
       :rtype: list of str
@@ -275,6 +275,14 @@ Classes
 
       :returns: A JSON dictionary for the encoded matrix.
       :rtype: dict
+
+
+   .. py:method:: get_report()
+
+      Returns the encoded matrix.
+
+      :returns: The encoded matrix as a Matrix object
+      :rtype: Matrix
 
 
 

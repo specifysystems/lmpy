@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.occurrence.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.data_wrangling.occurrence.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -77,13 +78,12 @@
              
   <h1>Source code for lmpy.data_wrangling.occurrence.accepted_name_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing occurrence data wranglers for modifying point data.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">INFO</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">INFO</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.occurrence.base</span> <span class="k">import</span> <span class="n">_OccurrenceDataWrangler</span>
-<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.common.accepted_name_wrangler</span> <span class="k">import</span> <span class="p">(</span>
-    <span class="n">_AcceptedNameWrangler</span><span class="p">,</span>
-    <span class="n">resolve_names_gbif</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="kn">import</span> <span class="n">Point</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.occurrence.base</span> <span class="kn">import</span> <span class="n">_OccurrenceDataWrangler</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.common.accepted_name_wrangler</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_AcceptedNameWrangler</span><span class="p">,</span> <span class="n">resolve_names_gbif</span><span class="p">)</span>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -93,7 +93,7 @@
 <div class="viewcode-block" id="AcceptedNameOccurrenceWrangler.version"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/occurrence/accepted_name_wrangler/index.html#lmpy.data_wrangling.occurrence.accepted_name_wrangler.AcceptedNameOccurrenceWrangler.version">[docs]</a>    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span></div>
 
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -144,7 +144,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">species_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">&quot;Point with </span><span class="si">{point.species_name}</span><span class="s2"> fails with no accepted name.&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;Point with </span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="si">}</span><span class="s2"> fails with no accepted name.&quot;</span><span class="p">,</span>
                 <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span></div>
@@ -162,16 +162,21 @@
         <span class="n">is_modified</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">acc_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_names</span><span class="p">([</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">])[</span><span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">]</span>
 
-        <span class="c1"># If we should keep original, add a new attribute</span>
+        <span class="c1"># If we should keep original value, store in the provided new</span>
+        <span class="c1"># fieldname (store_original_attribute)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_original_attribute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">point</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_original_attribute</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">species_name</span><span class="p">)</span>
             <span class="n">is_modified</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">species_name</span> <span class="o">!=</span> <span class="n">acc_name</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">&quot;</span><span class="si">{point.species_name}</span><span class="s2"> updated to accepted name </span><span class="si">{acc_name}</span><span class="s2">.&quot;</span><span class="p">,</span>
-                <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+            <span class="n">old_name</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">species_name</span>
             <span class="n">point</span><span class="o">.</span><span class="n">species_name</span> <span class="o">=</span> <span class="n">acc_name</span>
+            <span class="n">point</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">Point</span><span class="o">.</span><span class="n">SPECIES_ATTRIBUTE</span><span class="p">,</span> <span class="n">acc_name</span><span class="p">)</span>
+            <span class="c1"># TODO: Do we change original attribute??</span>
+            <span class="c1"># point.set_attribute(point.species_field, acc_name)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2"> updated to accepted name </span><span class="si">{</span><span class="n">acc_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
             <span class="n">is_modified</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="n">point</span><span class="p">,</span> <span class="n">is_modified</span></div></div>

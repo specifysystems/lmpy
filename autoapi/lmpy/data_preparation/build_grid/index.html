@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -19,6 +19,7 @@
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -122,8 +123,7 @@
 <li><p><strong>site_id</strong> (<em>str</em>) – The name of the site id field for the shapefile.</p></li>
 <li><p><strong>site_x</strong> (<em>str</em>) – The name of the X field for the shapefile.</p></li>
 <li><p><strong>site_y</strong> (<em>str</em>) – The name of the Y field for the shapefile.</p></li>
-<li><p><strong>cutout_wkt</strong> (<em>None</em><em> or </em><em>str</em>) – WKT for an area of the grid to be cut
-out.</p></li>
+<li><p><strong>cutout_wkt</strong> (<em>None</em><em> or </em><em>str</em>) – WKT for an area of the grid to be cut out.</p></li>
 <li><p><strong>logger</strong> (<a class="reference internal" href="../../log/index.html#lmpy.log.Logger" title="lmpy.log.Logger"><em>lmpy.log.Logger</em></a>) – An optional local logger to use for logging output
 with consistent options</p></li>
 </ul>
@@ -167,7 +167,7 @@ with consistent options</p></li>
 <dd><p>Create a polygon WKT string from a list of points.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>points</strong> (<em>list of tuple</em>) – A list of (x,y) points for each vertex of the polygon.</p>
+<dd class="field-odd"><p><strong>points</strong> (<em>list</em><em> of </em><em>tuple</em>) – A list of (x,y) points for each vertex of the polygon.</p>
 </dd>
 </dl>
 <div class="admonition note">

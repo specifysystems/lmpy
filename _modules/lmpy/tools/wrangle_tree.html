@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.wrangle_tree &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.tools.wrangle_tree &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -78,13 +79,13 @@
   <h1>Source code for lmpy.tools.wrangle_tree</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;A tool for wrangling phylogenetic trees.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="k">import</span> <span class="n">WranglerFactory</span>
-<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="k">import</span> <span class="n">Logger</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="k">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
-<span class="kn">from</span> <span class="nn">lmpy.tree</span> <span class="k">import</span> <span class="n">TreeWrapper</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.factory</span> <span class="kn">import</span> <span class="n">WranglerFactory</span>
+<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="kn">import</span> <span class="n">Logger</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="kn">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
+<span class="kn">from</span> <span class="nn">lmpy.tree</span> <span class="kn">import</span> <span class="n">TreeWrapper</span>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -199,7 +200,7 @@
     <span class="n">wrangled_tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">out_tree_filename</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">out_tree_schema</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">report_out</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">report_out</span><span class="p">)</span></div>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">report_out</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>

@@ -62,14 +62,12 @@ Classes
    :returns: A converted numpy array to Matrix.
    :rtype: Matrix
 
-   .. py:method:: T()
-      :property:
+   .. py:property:: T
 
       Get the transpose of the matrix.
 
       :returns: The matrix transpose.
       :rtype: Matrix
-
 
    .. py:method:: __array_finalize__(obj)
 

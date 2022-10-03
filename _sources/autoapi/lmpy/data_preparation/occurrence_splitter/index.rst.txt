@@ -77,6 +77,13 @@ Functions
       Close all open occurrence writers.
 
 
+   .. py:method:: get_species_seen()
+
+      Write a species list of species seen (after wrangling).
+
+      :returns: list of taxa that have processed into output files
+
+
    .. py:method:: open_writer(writer_key)
 
       Open an occurrence writer for the provided key.
@@ -93,6 +100,9 @@ Functions
       :type reader: PointCsvReader or PointDwcaReader
       :param wranglers: A list of occurrence data wranglers.
       :type wranglers: list
+
+      :returns: Output report from data splitting.
+      :rtype: dict
 
 
    .. py:method:: write_points(points)

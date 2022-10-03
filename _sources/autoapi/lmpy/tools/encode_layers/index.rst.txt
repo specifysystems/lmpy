@@ -38,4 +38,7 @@ Functions
    :raises ValueError: Raised if an unknown encoding method is provided or too many layer
        arguments.
 
+   :raises OSError: on failure to write to report_filename.
+   :raises IOError: on failure to write to report_filename.
+
 

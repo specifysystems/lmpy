@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.sdm.model &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.sdm.model &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -78,15 +79,18 @@
   <h1>Source code for lmpy.sdm.model</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing tools for creating an SDM.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">INFO</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">INFO</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="c1"># import shutil</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="k">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">PointCsvWriter</span>
-<span class="kn">from</span> <span class="nn">lmpy.sdm.maxent</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">lmpy.point</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">PointCsvWriter</span>
+<span class="kn">from</span> <span class="nn">lmpy.sdm.maxent</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">create_maxent_model</span><span class="p">,</span> <span class="n">DEFAULT_MAXENT_OPTIONS</span><span class="p">,</span> <span class="n">project_maxent_model</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lmpy.tools.create_rare_species_model</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">lmpy.tools.create_rare_species_model</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">create_rare_species_model</span><span class="p">,</span> <span class="n">read_points</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="script_name"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.script_name">[docs]</a><span class="n">script_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -115,20 +119,25 @@
         <span class="n">point_tuples</span><span class="p">,</span> <span class="n">ecoregions_filename</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span> <span class="n">maxent_arguments</span><span class="p">,</span> <span class="n">logger</span><span class="p">):</span>
     <span class="n">mask_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env_dir</span><span class="p">,</span> <span class="s1">&#39;mask.asc&#39;</span><span class="p">)</span>
     <span class="n">tmp_mask_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env_dir</span><span class="p">,</span> <span class="s1">&#39;tmp_mask.asc&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Identify one environment layer (not a mask or temp mask) to copy headers from</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env_dir</span><span class="p">,</span> <span class="s1">&#39;*.asc&#39;</span><span class="p">))</span>
+    <span class="n">env_lyr_filename</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="n">create_rare_species_model</span><span class="p">(</span>
         <span class="n">point_tuples</span><span class="p">,</span>
         <span class="n">ecoregions_filename</span><span class="p">,</span>
         <span class="n">tmp_mask_filename</span>
     <span class="p">)</span>
-    <span class="c1"># Copy headers from one of the environment layers so that they match</span>
-    <span class="n">files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env_dir</span><span class="p">,</span> <span class="s1">&#39;*.asc&#39;</span><span class="p">))</span>
-    <span class="n">first_env_layer</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Copy headers</span>
     <span class="n">match_headers</span><span class="p">(</span>
         <span class="n">mask_filename</span><span class="p">,</span>
         <span class="n">tmp_mask_filename</span><span class="p">,</span>
-        <span class="n">first_env_layer</span>
+        <span class="n">env_lyr_filename</span>
     <span class="p">)</span>
-    <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Created mask </span><span class="si">{mask_filename}</span><span class="s2"> for current SDM&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Created mask </span><span class="si">{</span><span class="n">mask_filename</span><span class="si">}</span><span class="s2"> for current SDM&quot;</span><span class="p">,</span>
+        <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
     <span class="c1"># Remove tmp_mask after mask is created and matched</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmp_mask_filename</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tmp_mask_filename</span><span class="p">)</span>
@@ -138,10 +147,32 @@
 
 
 <span class="c1"># .....................................................................................</span>
+<div class="viewcode-block" id="create_maxent_layer_label"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.create_maxent_layer_label">[docs]</a><span class="k">def</span> <span class="nf">create_maxent_layer_label</span><span class="p">(</span><span class="n">sdm_dir</span><span class="p">,</span> <span class="n">label_name</span><span class="p">,</span> <span class="n">touch_file</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a filename to indicate a layer label for an SDM raster in the directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sdm_dir (str): Path for output file, same as the dir for associated matrix input</span>
+<span class="sd">        label_name (str): Name to use in matrix headers</span>
+<span class="sd">        touch_file (bool): True to create the file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        label_filename (str): File signaling the</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This function assumes that only one SDM to be encoded will be in the same</span>
+<span class="sd">            directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">label_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sdm_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">label_name</span><span class="si">}</span><span class="s1">.label&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">touch_file</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">label_filename</span><span class="p">)</span><span class="o">.</span><span class="n">touch</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">label_filename</span></div>
+
+
+<span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="create_sdm"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.create_sdm">[docs]</a><span class="k">def</span> <span class="nf">create_sdm</span><span class="p">(</span>
     <span class="n">min_points</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span> <span class="n">ecoregions_filename</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">,</span> <span class="n">species_name</span><span class="p">,</span>
-    <span class="n">maxent_arguments</span><span class="o">=</span><span class="n">DEFAULT_MAXENT_OPTIONS</span><span class="p">,</span> <span class="n">sp_key</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
-    <span class="n">y_key</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">create_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">maxent_arguments</span><span class="o">=</span><span class="n">DEFAULT_MAXENT_OPTIONS</span><span class="p">,</span> <span class="n">sp_key</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">SPECIES_ATTRIBUTE</span><span class="p">,</span>
+    <span class="n">x_key</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">X_ATTRIBUTE</span><span class="p">,</span> <span class="n">y_key</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">Y_ATTRIBUTE</span><span class="p">,</span> <span class="n">create_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create an SDM, Maxent model if there are enough points, `rare species` if not.</span>
 
@@ -168,7 +199,7 @@
 <span class="sd">        report (dict): dictionary containing relevant metadata about the model</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">std_species_name</span> <span class="o">=</span> <span class="n">Point</span><span class="o">.</span><span class="n">standardize_species_name</span><span class="p">(</span><span class="n">species_name</span><span class="p">)</span>
-    <span class="n">std_file_basename</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{std_species_name.replace(&#39; &#39;, &#39;_&#39;)}&quot;</span>
+    <span class="c1"># std_file_basename = f&quot;{std_species_name.replace(&#39; &#39;, &#39;_&#39;)}&quot;</span>
     <span class="n">point_tuples</span> <span class="o">=</span> <span class="n">read_points</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">sp_key</span><span class="p">,</span> <span class="n">x_key</span><span class="p">,</span> <span class="n">y_key</span><span class="p">)</span>
     <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">std_species_name</span><span class="p">,</span>
@@ -179,14 +210,20 @@
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">work_dir</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">point_tuples</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_points</span><span class="p">:</span>
-        <span class="n">proj_distribution_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{std_file_basename}</span><span class="s1">.asc&#39;</span><span class="p">)</span>
-        <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Create rare species model and map&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="n">proj_distribution_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">std_species_name</span><span class="si">}</span><span class="s1">.asc&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;Create rare species model and map&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
         <span class="n">create_rare_species_model</span><span class="p">(</span>
             <span class="n">point_tuples</span><span class="p">,</span> <span class="n">ecoregions_filename</span><span class="p">,</span> <span class="n">proj_distribution_filename</span><span class="p">)</span>
         <span class="n">report</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rare_species_model&quot;</span>
         <span class="n">report</span><span class="p">[</span><span class="s2">&quot;projected_distribution_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">proj_distribution_filename</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">report</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;maxent&quot;</span>
+        <span class="c1"># Maxent creates SDM filenames from occurrence filenames replacing spaces</span>
+        <span class="c1"># with underscores.  To keep track of the correct label, create an empty file</span>
+        <span class="c1"># in the same directory with the original name.  This can inform the label used</span>
+        <span class="c1"># on a species column when encoding a layer for a PAM.</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">create_maxent_layer_label</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">std_species_name</span><span class="p">,</span> <span class="n">touch_file</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">create_mask</span><span class="p">:</span>
             <span class="n">maxent_arguments</span><span class="p">,</span> <span class="n">mask_filename</span> <span class="o">=</span> <span class="n">_create_mask</span><span class="p">(</span>
@@ -194,36 +231,44 @@
                 <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
 
         <span class="n">me_csv_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">work_dir</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{std_file_basename}</span><span class="s2">.csv&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">PointCsvWriter</span><span class="p">(</span><span class="n">me_csv_filename</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;species_name&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+            <span class="n">work_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">std_species_name</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">PointCsvWriter</span><span class="p">(</span>
+                <span class="n">me_csv_filename</span><span class="p">,</span> <span class="p">[</span><span class="n">Point</span><span class="o">.</span><span class="n">SPECIES_ATTRIBUTE</span><span class="p">,</span> <span class="n">Point</span><span class="o">.</span><span class="n">X_ATTRIBUTE</span><span class="p">,</span>
+                                  <span class="n">Point</span><span class="o">.</span><span class="n">Y_ATTRIBUTE</span><span class="p">]</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
             <span class="n">writer</span><span class="o">.</span><span class="n">write_points</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="n">std_species_name</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">point_tuples</span><span class="p">])</span>
-        <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Create Maxent model&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Create Maxent model&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
         <span class="n">create_maxent_model</span><span class="p">(</span><span class="n">me_csv_filename</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">,</span> <span class="n">maxent_arguments</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">model_filename</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s2">&quot;*.lambdas&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-            <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Failed to produce Maxent model for </span><span class="si">{csv_filename}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed to produce Maxent model for </span><span class="si">{</span><span class="n">csv_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Completed Maxent model with file </span><span class="si">{model_filename}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Completed Maxent model with file </span><span class="si">{</span><span class="n">model_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
             <span class="n">report</span><span class="p">[</span><span class="s2">&quot;model_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_filename</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">proj_distribution_filename</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s2">&quot;*.asc&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-            <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Failed to produce Maxent model for </span><span class="si">{csv_filename}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed to produce Maxent model for </span><span class="si">{</span><span class="n">csv_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Completed Maxent map with file </span><span class="si">{proj_distribution_filename}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Completed Maxent map with file </span><span class="si">{</span><span class="n">proj_distribution_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
             <span class="n">report</span><span class="p">[</span><span class="s2">&quot;projected_distribution_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">proj_distribution_filename</span>
 
         <span class="c1"># If used a mask, move it from common env dir to work_dir</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">mask_filename</span><span class="p">):</span>
-            <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Delete mask </span><span class="si">{mask_filename}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Delete mask </span><span class="si">{</span><span class="n">mask_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
             <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">mask_filename</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">report</span></div>
@@ -251,44 +296,21 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">report</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">species_name</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;maxent&quot;</span><span class="p">,</span> <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;project&quot;</span><span class="p">}</span>
 
-    <span class="n">maxent_raster_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{species_name}</span><span class="s1">.asc&#39;</span><span class="p">)</span>
+    <span class="n">maxent_raster_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">species_name</span><span class="si">}</span><span class="s1">.asc&#39;</span><span class="p">)</span>
     <span class="c1"># Create model env layer directory in work dir</span>
     <span class="n">work_env_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s2">&quot;proj_layers&quot;</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">symlink</span><span class="p">(</span><span class="n">env_dir</span><span class="p">,</span> <span class="n">work_env_dir</span><span class="p">)</span>
 
-    <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Projecting Maxent model </span><span class="si">{maxent_lambdas_file}</span><span class="s2"> onto map&quot;</span><span class="p">,</span>
-        <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Projecting Maxent model </span><span class="si">{</span><span class="n">maxent_lambdas_file</span><span class="si">}</span><span class="s2"> onto map&quot;</span><span class="p">,</span>
+        <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">project_maxent_model</span><span class="p">(</span><span class="n">maxent_lambdas_file</span><span class="p">,</span> <span class="n">env_dir</span><span class="p">,</span> <span class="n">maxent_raster_filename</span><span class="p">)</span>
-    <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Completed projecting Maxent model onto map </span><span class="si">{maxent_raster_filename}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Completed projecting Maxent model onto map </span><span class="si">{</span><span class="n">maxent_raster_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">)</span>
 
     <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">work_env_dir</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">maxent_raster_filename</span><span class="p">,</span> <span class="n">report</span></div>
-
-
-<span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="log"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.log">[docs]</a><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">INFO</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Log a message.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        msg (str): A message to write to the logger.</span>
-<span class="sd">        logger (logging.logger): Logger for writing messages to console and/or file.</span>
-<span class="sd">        log_level (int): A level to use when logging the message.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">caller</span> <span class="o">=</span> <span class="n">callersname</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">log_level</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{caller}</span><span class="s2">: </span><span class="si">{msg}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-
-<span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="callersname"><a class="viewcode-back" href="../../../autoapi/lmpy/sdm/model/index.html#lmpy.sdm.model.callersname">[docs]</a><span class="k">def</span> <span class="nf">callersname</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Find the name of the function from which this method is called.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        The function name.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">sys</span>
-    <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span></div>
 </pre></div>
 
            </div>

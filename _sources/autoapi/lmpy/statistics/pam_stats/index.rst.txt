@@ -87,7 +87,7 @@ Functions
    :param func: The function to call.
 
 
-.. py:class:: PamStats(pam, tree=None, tree_matrix=None, node_heights_matrix=None, tip_lengths_matrix=None)
+.. py:class:: PamStats(pam, tree=None, tree_matrix=None, node_heights_matrix=None, tip_lengths_matrix=None, logger=None)
 
    Constructor for PAM stats computations.
 
@@ -101,6 +101,9 @@ Functions
    :type node_heights_matrix: Matrix
    :param tip_lengths_matrix: A matrix of tip length values.
    :type tip_lengths_matrix: Matrix
+   :param logger: An optional local logger to use for logging output
+                  with consistent options
+   :type logger: lmpy.log.Logger
 
    .. py:attribute:: covariance_stats
       :annotation: = [None, None]

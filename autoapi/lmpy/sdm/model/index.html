@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.sdm.model &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.sdm.model &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -19,6 +19,7 @@
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -92,20 +93,31 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.model._create_mask" title="lmpy.sdm.model._create_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_create_mask</span></code></a>(point_tuples, ecoregions_filename, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.model.callersname" title="lmpy.sdm.model.callersname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">callersname</span></code></a>()</p></td>
-<td><p>Find the name of the function from which this method is called.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.model.create_maxent_layer_label" title="lmpy.sdm.model.create_maxent_layer_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_maxent_layer_label</span></code></a>(sdm_dir, label_name[, ...])</p></td>
+<td><p>Return a filename to indicate a layer label for an SDM raster in the directory.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.model.create_sdm" title="lmpy.sdm.model.create_sdm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_sdm</span></code></a>(min_points, csv_filename, env_dir, ...[, ...])</p></td>
 <td><p>Create an SDM, Maxent model if there are enough points, <cite>rare species</cite> if not.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.model.log" title="lmpy.sdm.model.log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log</span></code></a>(msg, logger[, log_level])</p></td>
-<td><p>Log a message.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.model.match_headers" title="lmpy.sdm.model.match_headers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">match_headers</span></code></a>(mask_filename, tmp_mask_filename, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.model.match_headers" title="lmpy.sdm.model.match_headers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">match_headers</span></code></a>(mask_filename, tmp_mask_filename, ...)</p></td>
 <td><p>Match headers with template layer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.sdm.model.project_sdm" title="lmpy.sdm.model.project_sdm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_sdm</span></code></a>(maxent_lambdas_file, env_dir, ...[, logger])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.model.project_sdm" title="lmpy.sdm.model.project_sdm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_sdm</span></code></a>(maxent_lambdas_file, env_dir, ...[, logger])</p></td>
 <td><p>Project a Maxent model onto env. layers for a potential distribution map.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.sdm.model.script_name" title="lmpy.sdm.model.script_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">script_name</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -115,19 +127,36 @@
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="lmpy.sdm.model.callersname">
-<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.model.</span></span><span class="sig-name descname"><span class="pre">callersname</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/sdm/model.html#callersname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.model.callersname" title="Permalink to this definition"></a></dt>
-<dd><p>Find the name of the function from which this method is called.</p>
+<dt class="sig sig-object py" id="lmpy.sdm.model.create_maxent_layer_label">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.model.</span></span><span class="sig-name descname"><span class="pre">create_maxent_layer_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sdm_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">touch_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/sdm/model.html#create_maxent_layer_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.model.create_maxent_layer_label" title="Permalink to this definition"></a></dt>
+<dd><p>Return a filename to indicate a layer label for an SDM raster in the directory.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The function name.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sdm_dir</strong> (<em>str</em>) – Path for output file, same as the dir for associated matrix input</p></li>
+<li><p><strong>label_name</strong> (<em>str</em>) – Name to use in matrix headers</p></li>
+<li><p><strong>touch_file</strong> (<em>bool</em>) – True to create the file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>File signaling the</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>label_filename (str)</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>This function assumes that only one SDM to be encoded will be in the same</dt><dd><p>directory.</p>
+</dd>
+</dl>
+</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.sdm.model.create_sdm">
-<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.model.</span></span><span class="sig-name descname"><span class="pre">create_sdm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ecoregions_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">work_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxent_arguments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_MAXENT_OPTIONS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'species_name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'y'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/sdm/model.html#create_sdm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.model.create_sdm" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.model.</span></span><span class="sig-name descname"><span class="pre">create_sdm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ecoregions_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">work_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxent_arguments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_MAXENT_OPTIONS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Point.SPECIES_ATTRIBUTE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Point.X_ATTRIBUTE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Point.Y_ATTRIBUTE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/sdm/model.html#create_sdm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.model.create_sdm" title="Permalink to this definition"></a></dt>
 <dd><p>Create an SDM, Maxent model if there are enough points, <cite>rare species</cite> if not.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -160,21 +189,6 @@ hull in rare-species model</p></li>
 <dd class="field-odd"><p><p>output_filename</p>
 <p>report (dict): dictionary containing relevant metadata about the model</p>
 </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lmpy.sdm.model.log">
-<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.model.</span></span><span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">INFO</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/sdm/model.html#log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.model.log" title="Permalink to this definition"></a></dt>
-<dd><p>Log a message.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>msg</strong> (<em>str</em>) – A message to write to the logger.</p></li>
-<li><p><strong>logger</strong> (<em>logging.logger</em>) – Logger for writing messages to console and/or file.</p></li>
-<li><p><strong>log_level</strong> (<em>int</em>) – A level to use when logging the message.</p></li>
-</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -223,6 +237,11 @@ report (dict): dictionary containing relevant metadata about the model</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="lmpy.sdm.model.script_name">
+<span class="sig-prename descclassname"><span class="pre">lmpy.sdm.model.</span></span><span class="sig-name descname"><span class="pre">script_name</span></span><a class="reference internal" href="../../../../_modules/lmpy/sdm/model.html#script_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.sdm.model.script_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 </section>

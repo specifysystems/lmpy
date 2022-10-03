@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.statistics.significance &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.statistics.significance &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -77,12 +78,12 @@
              
   <h1>Source code for lmpy.statistics.significance</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing tools for evaluating statistical significance.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">lmpy</span> <span class="k">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy</span> <span class="kn">import</span> <span class="n">Matrix</span>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -170,14 +171,14 @@
             <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;significance_method&#39;</span><span class="p">:</span> <span class="s1">&#39;Benjamini and Hochberg&#39;</span><span class="p">},</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown significance method (</span><span class="si">{correction_method}</span><span class="s1">).&#39;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown significance method (</span><span class="si">{</span><span class="n">correction_method</span><span class="si">}</span><span class="s1">).&#39;</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="PermutationTests"><a class="viewcode-back" href="../../../autoapi/lmpy/statistics/significance/index.html#lmpy.statistics.significance.PermutationTests">[docs]</a><span class="k">class</span> <span class="nc">PermutationTests</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Tool for performing permutation tests.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_signed_values</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">compare_fn</span><span class="o">=</span><span class="n">compare_signed_values</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for PermutationTests class.</span>
 
 <span class="sd">        Args:</span>

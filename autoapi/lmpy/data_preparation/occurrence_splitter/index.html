@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.data_preparation.occurrence_splitter &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -19,6 +19,7 @@
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -170,6 +171,17 @@ with consistent options</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.get_species_seen">
+<span class="sig-name descname"><span class="pre">get_species_seen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.get_species_seen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.get_species_seen" title="Permalink to this definition"></a></dt>
+<dd><p>Write a species list of species seen (after wrangling).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of taxa that have processed into output files</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.open_writer">
 <span class="sig-name descname"><span class="pre">open_writer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/data_preparation/occurrence_splitter.html#OccurrenceSplitter.open_writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.data_preparation.occurrence_splitter.OccurrenceSplitter.open_writer" title="Permalink to this definition"></a></dt>
 <dd><p>Open an occurrence writer for the provided key.</p>
@@ -190,6 +202,12 @@ with consistent options</p></li>
 <li><p><strong>reader</strong> (<a class="reference internal" href="../../point/index.html#lmpy.point.PointCsvReader" title="lmpy.point.PointCsvReader"><em>PointCsvReader</em></a><em> or </em><a class="reference internal" href="../../point/index.html#lmpy.point.PointDwcaReader" title="lmpy.point.PointDwcaReader"><em>PointDwcaReader</em></a>) – An occurrence reader instance.</p></li>
 <li><p><strong>wranglers</strong> (<em>list</em>) – A list of occurrence data wranglers.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Output report from data splitting.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>

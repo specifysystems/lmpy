@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.data_wrangling.common.accepted_name_wrangler &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -78,12 +79,12 @@
   <h1>Source code for lmpy.data_wrangling.common.accepted_name_wrangler</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module containing a data wrangler base class for resolving taxon names.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="k">import</span> <span class="n">DEBUG</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">DEBUG</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">urllib</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.base</span> <span class="k">import</span> <span class="n">_DataWrangler</span>
+<span class="kn">from</span> <span class="nn">lmpy.data_wrangling.base</span> <span class="kn">import</span> <span class="n">_DataWrangler</span>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -97,13 +98,13 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        namestr: An accepted canonical name for the GBIF acceptedUsageKey.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name_str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sciname</span> <span class="o">=</span> <span class="n">canonical</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">wait_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;acceptedUsageKey&#39;</span> <span class="ow">in</span> <span class="n">match_response</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">taxon_key</span> <span class="o">=</span> <span class="n">match_response</span><span class="p">[</span><span class="s1">&#39;acceptedUsageKey&#39;</span><span class="p">]</span>
         <span class="c1"># Get name</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;http://api.gbif.org/v1/species/</span><span class="si">{taxon_key}</span><span class="s1">&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;http://api.gbif.org/v1/species/</span><span class="si">{</span><span class="n">taxon_key</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
@@ -113,9 +114,10 @@
             <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;taxonomicStatus&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span>
                 <span class="n">response</span><span class="p">[</span><span class="s1">&#39;taxonomicStatus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;accepted&#39;</span><span class="p">):</span>
-            <span class="n">name_str</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;canonicalName&#39;</span><span class="p">]</span>
+            <span class="n">sciname</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;scientificName&#39;</span><span class="p">]</span>
+            <span class="n">canonical</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;canonicalName&#39;</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="n">name_str</span></div>
+    <span class="k">return</span> <span class="n">sciname</span><span class="p">,</span> <span class="n">canonical</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
@@ -140,18 +142,27 @@
             <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sleep and try again...&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sleep and try again...&quot;</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
         <span class="n">resolved_names</span><span class="p">[</span><span class="n">name_str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="s1">&#39;status&#39;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;accepted&#39;</span><span class="p">:</span>
-                <span class="n">resolved_names</span><span class="p">[</span><span class="n">name_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;canonicalName&#39;</span><span class="p">]</span>
+                <span class="n">canonical1</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;canonicalName&#39;</span><span class="p">]</span>
+                <span class="n">resolved_names</span><span class="p">[</span><span class="n">name_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">canonical1</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name_str</span><span class="si">}</span><span class="s2"> resolved to accepted name &quot;</span> <span class="o">+</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;scientificName&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> with canonical </span><span class="si">{</span><span class="n">canonical1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="c1"># TODO: Discuss: query returned usageKey of synonym for accepted taxa</span>
             <span class="k">elif</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;synonym&#39;</span><span class="p">:</span>
-                <span class="n">canonical</span> <span class="o">=</span> <span class="n">_resolve_gbif_synonym_match</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">wait_time</span><span class="o">=</span><span class="n">wait_time</span><span class="p">)</span>
-                <span class="n">resolved_names</span><span class="p">[</span><span class="n">name_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">canonical</span>
+                <span class="n">sciname2</span><span class="p">,</span> <span class="n">canonical2</span> <span class="o">=</span> <span class="n">_resolve_gbif_synonym_match</span><span class="p">(</span>
+                    <span class="n">response</span><span class="p">,</span> <span class="n">wait_time</span><span class="o">=</span><span class="n">wait_time</span><span class="p">)</span>
+                <span class="n">resolved_names</span><span class="p">[</span><span class="n">name_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">canonical2</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name_str</span><span class="si">}</span><span class="s2"> resolved to synonym &quot;</span> <span class="o">+</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;scientificName&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> which resolved to accepted &quot;</span> <span class="o">+</span>
+                    <span class="sa">f</span><span class="s2">&quot;name </span><span class="si">{</span><span class="n">sciname2</span><span class="si">}</span><span class="s2"> with canonical </span><span class="si">{</span><span class="n">canonical2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">wait_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span>
@@ -163,7 +174,7 @@
 <div class="viewcode-block" id="_AcceptedNameWrangler"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler">[docs]</a><span class="k">class</span> <span class="nc">_AcceptedNameWrangler</span><span class="p">(</span><span class="n">_DataWrangler</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for accepted taxon name wranglers.&quot;&quot;&quot;</span>
     <span class="c1"># .......................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">name_resolver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -194,7 +205,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># .......................</span>
-<div class="viewcode-block" id="_AcceptedNameWrangler.__del__"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__">[docs]</a>    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="_AcceptedNameWrangler.__del__"><a class="viewcode-back" href="../../../../autoapi/lmpy/data_wrangling/common/accepted_name_wrangler/index.html#lmpy.data_wrangling.common.accepted_name_wrangler._AcceptedNameWrangler.__del__">[docs]</a>    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Destructor method, sync map to disk if needed.</span>
 
 <span class="sd">        Raises:</span>
@@ -209,7 +220,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">write_map_to_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_name_map_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_map_format</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Failed to write names map on destruction: </span><span class="si">{err}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed to write names map on destruction: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span>
                     <span class="s1">&#39;If this happened due to a crash, &#39;</span>
                     <span class="s1">&#39;the &quot;open&quot; builtin may have already been removed.&#39;</span>
@@ -258,25 +269,26 @@
         <span class="n">unmatched_names</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="c1"># Use previously resolved name if present</span>
                 <span class="n">resolved_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Action on first instance of unmatched name</span>
+                <span class="c1"># Save all unmatched names</span>
                 <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unmatched_names</span><span class="p">:</span>
                     <span class="n">unmatched_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
                     <span class="n">resolved_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="c1"># If we have a name resolver and names to resolve, do it</span>
+        <span class="c1"># If we have a name resolver and unmatched names, resolve them</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">unmatched_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">new_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_resolver</span><span class="p">(</span><span class="n">unmatched_names</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">uname</span> <span class="ow">in</span> <span class="n">unmatched_names</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">uname</span> <span class="o">==</span> <span class="n">new_names</span><span class="p">[</span><span class="n">uname</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-                        <span class="n">f</span><span class="s2">&quot;Resolution identical: </span><span class="si">{uname}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">&quot;Resolution identical: </span><span class="si">{</span><span class="n">uname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                         <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-                        <span class="n">f</span><span class="s2">&quot;Resolved </span><span class="si">{uname}</span><span class="s2"> to </span><span class="si">{new_names[uname]}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">&quot;Resolved </span><span class="si">{</span><span class="n">uname</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">new_names</span><span class="p">[</span><span class="n">uname</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                         <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
             <span class="c1"># Update name map and return dictionary</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
@@ -312,7 +324,7 @@
                     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
                         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">,</span> <span class="n">out_json</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-                        <span class="n">f</span><span class="s1">&#39;Wrote {len(self.name_map)} names to </span><span class="si">{filename}</span><span class="s1"> as JSON&#39;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s1">&#39;Wrote </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">)</span><span class="si">}</span><span class="s1"> names to </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1"> as JSON&#39;</span><span class="p">,</span>
                         <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                     <span class="k">raise</span>
@@ -323,9 +335,9 @@
                     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_csv</span><span class="p">:</span>
                         <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Name,Accepted</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">in_name</span><span class="p">,</span> <span class="n">out_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                            <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{in_name}</span><span class="s1">,</span><span class="si">{out_name}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="n">out_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">in_name</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">out_name</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-                        <span class="n">f</span><span class="s1">&#39;Wrote {len(self.name_map)} names to </span><span class="si">{filename}</span><span class="s1"> as CSV&#39;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s1">&#39;Wrote </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">)</span><span class="si">}</span><span class="s1"> names to </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1"> as CSV&#39;</span><span class="p">,</span>
                         <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                     <span class="k">raise</span>

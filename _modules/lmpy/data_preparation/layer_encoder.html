@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>lmpy.data_preparation.layer_encoder &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -91,13 +92,13 @@
 <span class="sd">    Data array is oriented at top left (min x, max y)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">shuffle</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">shuffle</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">ogr</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">ogr</span>
 
-<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="k">import</span> <span class="n">Matrix</span>
-<span class="kn">from</span> <span class="nn">lmpy.spatial.geojsonify</span> <span class="k">import</span> <span class="n">geojsonify_matrix_with_shapefile</span>
+<span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span> <span class="nn">lmpy.spatial.geojsonify</span> <span class="kn">import</span> <span class="n">geojsonify_matrix_with_shapefile</span>
 
 
 <span class="c1"># Suppress numpy warnings</span>
@@ -293,7 +294,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># ...............................</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor for the layer encoder.</span>
 
 <span class="sd">        Args:</span>
@@ -305,6 +306,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_filename</span> <span class="o">=</span> <span class="n">grid_filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_read_grid</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;grid_filename&quot;</span><span class="p">:</span> <span class="n">grid_filename</span><span class="p">,</span>
+            <span class="s2">&quot;layers&quot;</span><span class="p">:</span> <span class="p">{}</span>
+        <span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -701,13 +706,23 @@
 <span class="sd">            list of str: A list of column headers for the newly encoded columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{column_name}</span><span class="s2"> with min_coverage = </span><span class="si">{min_coverage}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> with min_coverage = </span><span class="si">{</span><span class="n">min_coverage</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">][</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">layer_filename</span><span class="p">,</span>
+            <span class="s2">&quot;encode_method&quot;</span><span class="p">:</span> <span class="s2">&quot;biogeographic_hypothesis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;min_coverage&quot;</span><span class="p">:</span> <span class="n">min_coverage</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">attribute_field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">][</span><span class="n">column_name</span><span class="p">][</span><span class="s2">&quot;attribute_field&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attribute_field</span>
+
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">distinct_attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span>
             <span class="n">layer_filename</span><span class="p">,</span>
             <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
             <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span>
-            <span class="n">nodata</span><span class="o">=</span><span class="n">nodata</span>
+            <span class="n">nodata</span><span class="o">=</span><span class="n">nodata</span><span class="p">,</span>
+            <span class="n">attribute_field</span><span class="o">=</span><span class="n">attribute_field</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">distinct_attributes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="c1"># Set the attributes to be opposite sides of same hypothesis</span>
@@ -730,7 +745,7 @@
         <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">bbox</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">nodata</span><span class="o">=</span><span class="n">DEFAULT_NODATA</span><span class="p">,</span>
-        <span class="n">attribute_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">attribute_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Encodes a distribution layer into a presence absence column.</span>
 
@@ -747,16 +762,27 @@
 <span class="sd">                for the data grid.</span>
 <span class="sd">            nodata: If the layer is a vector, optionally use this as the data</span>
 <span class="sd">                grid nodata value.</span>
-<span class="sd">            attribute_name: If the layer is a vector, use this field to</span>
+<span class="sd">            attribute_field: If the layer is a vector, use this field to</span>
 <span class="sd">                determine presence.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{column_name}</span><span class="s2"> with min_coverage=</span><span class="si">{min_presence}</span><span class="s2">, &quot;</span> <span class="o">+</span>
-            <span class="n">f</span><span class="s2">&quot;max_coverage=</span><span class="si">{max_presence}</span><span class="s2">, min_coverage=</span><span class="si">{min_coverage}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> with min_coverage=</span><span class="si">{</span><span class="n">min_presence</span><span class="si">}</span><span class="s2">, &quot;</span> <span class="o">+</span>
+            <span class="sa">f</span><span class="s2">&quot;max_coverage=</span><span class="si">{</span><span class="n">max_presence</span><span class="si">}</span><span class="s2">, min_coverage=</span><span class="si">{</span><span class="n">min_coverage</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">][</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">layer_filename</span><span class="p">,</span>
+            <span class="s2">&quot;encode_method&quot;</span><span class="p">:</span> <span class="s2">&quot;presence_absence&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;min_presence&quot;</span><span class="p">:</span> <span class="n">min_presence</span><span class="p">,</span>
+            <span class="s2">&quot;max_presence&quot;</span><span class="p">:</span> <span class="n">max_presence</span><span class="p">,</span>
+            <span class="s2">&quot;min_coverage&quot;</span><span class="p">:</span> <span class="n">min_coverage</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">attribute_field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">][</span><span class="n">column_name</span><span class="p">][</span><span class="s2">&quot;attribute_field&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attribute_field</span>
+
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span><span class="n">layer_filename</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
                                                   <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="n">nodata</span><span class="p">)</span>
         <span class="n">encode_func</span> <span class="o">=</span> <span class="n">_get_presence_absence_method</span><span class="p">(</span>
@@ -772,7 +798,7 @@
         <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">bbox</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">nodata</span><span class="o">=</span><span class="n">DEFAULT_NODATA</span><span class="p">,</span>
-        <span class="n">attribute_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">attribute_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Encodes a layer based on the mean value for each data window.</span>
 
@@ -785,15 +811,21 @@
 <span class="sd">                for the data grid.</span>
 <span class="sd">            nodata: If the layer is a vector, optionally use this as the data</span>
 <span class="sd">                grid nodata value.</span>
-<span class="sd">            attribute_name: If the layer is a vector, use this field to</span>
+<span class="sd">            attribute_field: If the layer is a vector, use this field to</span>
 <span class="sd">                determine value.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{column_name}</span><span class="s2"> with mean value&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> with mean value&quot;</span><span class="p">,</span>
             <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">][</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">layer_filename</span><span class="p">,</span>
+            <span class="s2">&quot;encode_method&quot;</span><span class="p">:</span> <span class="s2">&quot;mean_value&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">attribute_field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">][</span><span class="n">column_name</span><span class="p">][</span><span class="s2">&quot;attribute_field&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attribute_field</span>
         <span class="c1"># print((layer_filename, nodata, bbox, resolution, attribute_name))</span>
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span>
             <span class="n">layer_filename</span><span class="p">,</span>
@@ -813,7 +845,7 @@
         <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">bbox</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">nodata</span><span class="o">=</span><span class="n">DEFAULT_NODATA</span><span class="p">,</span>
-        <span class="n">attribute_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">attribute_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Encodes a layer based on the largest class in each data window.</span>
 
@@ -828,15 +860,23 @@
 <span class="sd">                for the data grid.</span>
 <span class="sd">            nodata: If the layer is a vector, optionally use this as the data</span>
 <span class="sd">                grid nodata value.</span>
-<span class="sd">            attribute_name: If the layer is a vector, use this field to</span>
+<span class="sd">            attribute_field: If the layer is a vector, use this field to</span>
 <span class="sd">                determine the largest class.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list of str: A list of column headers for the newly encoded columns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{column_name}</span><span class="s2"> with largest class&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Encode layer to </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> with largest class&quot;</span><span class="p">,</span>
             <span class="n">refname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">][</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">layer_filename</span><span class="p">,</span>
+            <span class="s2">&quot;encode_method&quot;</span><span class="p">:</span> <span class="s2">&quot;largest_class&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;min_coverage&quot;</span><span class="p">:</span> <span class="n">min_coverage</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">attribute_field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">][</span><span class="n">column_name</span><span class="p">][</span><span class="s2">&quot;attribute_field&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attribute_field</span>
+
         <span class="n">window_func</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_layer</span><span class="p">(</span>
             <span class="n">layer_filename</span><span class="p">,</span>
             <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
@@ -854,6 +894,15 @@
 <span class="sd">            Matrix: The encoded matrix as a Matrix object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoded_matrix</span></div>
+
+    <span class="c1"># ...............................</span>
+<div class="viewcode-block" id="LayerEncoder.get_report"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.get_report">[docs]</a>    <span class="k">def</span> <span class="nf">get_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the encoded matrix.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matrix: The encoded matrix as a Matrix object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report</span></div>
 
     <span class="c1"># ...............................</span>
 <div class="viewcode-block" id="LayerEncoder.get_geojson"><a class="viewcode-back" href="../../../autoapi/lmpy/data_preparation/layer_encoder/index.html#lmpy.data_preparation.layer_encoder.LayerEncoder.get_geojson">[docs]</a>    <span class="k">def</span> <span class="nf">get_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

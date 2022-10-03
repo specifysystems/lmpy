@@ -36,5 +36,7 @@ Functions
    Command-line interface for splitting occurrence datasets.
 
    :raises Exception: on failure to load wranglers
+   :raises OSError: on failure to write to report filename
+   :raises IOError: on failure to write to report filename
 
 

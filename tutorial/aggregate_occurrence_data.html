@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aggregating Occurrence Data &mdash; Specify lmpy 3.1.21+78.g23659bf3 documentation</title>
+  <title>Aggregating Occurrence Data &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -19,6 +19,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -106,21 +107,21 @@ any provider-specific actions, like filtering points flagged by the provider as
 invalid, and then convert the data into a common format.</p>
 <p>Example wrangler configuration</p>
 <blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;name_resolver&quot;</span><span class="p">:</span> <span class="s2">&quot;gbif&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;out_map_filename&quot;</span><span class="p">:</span> <span class="s2">&quot;name_map.json&quot;</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;taxonname&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;decimallongitude&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;decimallatitude&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;name_resolver&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gbif&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;out_map_filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name_map.json&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;taxonname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;species_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;decimallongitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;decimallatitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -137,42 +138,42 @@ documentation.</p>
 has flagged as having spatial or taxonomic issues, add a field indicating that the
 record comes from GBIF, and then convert to a common format.</p>
 <blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;name_map&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name_map.json&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeFilterWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;issue&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;filter_func&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;for-each&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="nt">&quot;condition&quot;</span><span class="p">:</span> <span class="s2">&quot;not-in&quot;</span><span class="p">,</span>
-                <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="s2">&quot;TAXON_MATCH_FUZZY&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;TAXON_MATCH_HIGHERRANK&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;TAXON_MATCH_NONE&quot;</span>
-                <span class="p">]</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;constant&quot;</span><span class="p">:</span> <span class="s2">&quot;gbif&quot;</span>
-        <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;species_name&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;name_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;species_name_map.json&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AttributeFilterWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;issue&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;filter_func&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;for-each&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;not-in&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;values&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;TAXON_MATCH_FUZZY&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;TAXON_MATCH_HIGHERRANK&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;TAXON_MATCH_NONE&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data_source&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;constant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gbif&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;species_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;species_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;data_source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data_source&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -183,49 +184,49 @@ record comes from GBIF, and then convert to a common format.</p>
 iDigBio has flagged as having spatial or taxonomic issues, add a field indicating that
 the record comes from iDigBio, and then convert to a common format.</p>
 <blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;name_map&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name_map.json&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeFilterWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;flags&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;filter_func&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;for-each&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="nt">&quot;condition&quot;</span><span class="p">:</span> <span class="s2">&quot;not-in&quot;</span><span class="p">,</span>
-                <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="s2">&quot;geopoint_datum_missing&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;geopoint_bounds&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;geopoint_datum_error&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;geopoint_similar_coord&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;rev_geocode_mismatch&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;rev_geocode_failure&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;geopoint_0_coord&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;taxon_match_failed&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;dwc_kingdom_suspect&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;dwc_taxonrank_invalid&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;dwc_taxonrank_removed&quot;</span>                    <span class="p">]</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;constant&quot;</span><span class="p">:</span> <span class="s2">&quot;idigbio&quot;</span>
-        <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;species_name&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;name_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;species_name_map.json&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AttributeFilterWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;flags&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;filter_func&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;for-each&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;not-in&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;values&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;geopoint_datum_missing&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;geopoint_bounds&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;geopoint_datum_error&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;geopoint_similar_coord&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;rev_geocode_mismatch&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;rev_geocode_failure&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;geopoint_0_coord&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;taxon_match_failed&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;dwc_kingdom_suspect&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;dwc_taxonrank_invalid&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;dwc_taxonrank_removed&quot;</span><span class="w">                    </span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data_source&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;constant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;idigbio&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;species_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;species_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;data_source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data_source&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -235,28 +236,28 @@ the record comes from iDigBio, and then convert to a common format.</p>
 <p>The wrangling steps for ALA data will be to resolve taxon names, add a field indicating
 that the record comes from ALA, and then convert to a common format.</p>
 <blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;name_map&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name_map.json&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;constant&quot;</span><span class="p">:</span> <span class="s2">&quot;idigbio&quot;</span>
-        <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;species_name&quot;</span><span class="p">:</span> <span class="s2">&quot;species_name&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;data_source&quot;</span><span class="p">:</span> <span class="s2">&quot;data_source&quot;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AcceptedNameOccurrenceWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;name_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;species_name_map.json&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AttributeModifierWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data_source&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_func&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;constant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;idigbio&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wrangler_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CommonFormatWrangler&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;attribute_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;species_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;species_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;data_source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data_source&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
 </pre></div>
 </div>
 </div></blockquote>
