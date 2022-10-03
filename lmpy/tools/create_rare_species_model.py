@@ -7,7 +7,7 @@ import numpy as np
 from osgeo import gdal, gdalconst, ogr, osr
 
 from lmpy.log import Logger
-from lmpy.point import PointCsvReader
+from lmpy.point import PointCsvReader, Point
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
@@ -38,7 +38,6 @@ def create_rare_species_model(
         burn_value (int): The burn value to use for model presence.
         logger (logging.Logger): A default logger to use when wrangling.
     """
-    ref = "create_rare_species_model"
     # Get the desired output raster format, either provided or determine
     raster_format = get_raster_format(raster_format, model_raster_filename)
 
@@ -55,7 +54,8 @@ def create_rare_species_model(
     num_rows, num_cols = ecoregion_data.shape
     if logger:
         logger.log(
-            f"Created ecoregions array from file {ecoregions_filename}.", refname=ref)
+            f"Created ecoregions array from file {ecoregions_filename}.",
+            refname=logger.name)
 
     # Get convex hull array
     val_set = set()
@@ -69,13 +69,15 @@ def create_rare_species_model(
         # Add to value set
         col = int((pt[0] - min_x) / cell_size)
         row = int((max_y - pt[1]) / cell_size)
-        val_set.add(ecoregion_data[row, col])
+        # Stay within the bounds of ecoregion_data
+        if col < num_cols and row < num_rows:
+            val_set.add(ecoregion_data[row, col])
     # Convex hull
     convex_hull_raw = geom_collection.ConvexHull()
 
     if logger:
         logger.log(
-            f"Created convex hull from {len(points)} points.", refname=ref)
+            f"Created convex hull from {len(points)} points.", refname=logger.name)
 
     convex_hull_data = get_convex_hull_array(
         convex_hull_raw, num_cols, num_rows, cell_size, min_x, max_y, epsg, burn_value
@@ -89,7 +91,7 @@ def create_rare_species_model(
                 model_data[i, j] = burn_value
     if logger:
         logger.log(
-            f"Created model_data from file {ecoregions_filename}.", refname=ref)
+            f"Created model_data from file {ecoregions_filename}.", refname=logger.name)
 
     # Write model
     if raster_format == ASC_FORMAT:
@@ -108,7 +110,7 @@ def create_rare_species_model(
         )
     if logger:
         logger.log(
-            f"Wrote model to {model_raster_filename}.", refname=ref)
+            f"Wrote model to {model_raster_filename}.", refname=logger.name)
 
 
 # .....................................................................................
@@ -344,7 +346,7 @@ def build_parser():
         '--species_column',
         '-sp',
         type=str,
-        default='species_name',
+        default=Point.SPECIES_ATTRIBUTE,
         help='CSV column for species or group name.',
     )
     parser.add_argument(

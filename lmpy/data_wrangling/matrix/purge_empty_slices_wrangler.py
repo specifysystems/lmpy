@@ -16,6 +16,7 @@ class PurgeEmptySlicesWrangler(_MatrixDataWrangler):
     def __init__(
         self,
         purge_axes=None,
+        # species_axis=None,
         **params
     ):
         """Constructor for PurgeEmptySlicesWrangler class.
@@ -29,6 +30,8 @@ class PurgeEmptySlicesWrangler(_MatrixDataWrangler):
         if isinstance(purge_axes, int):
             purge_axes = [purge_axes]
         self.purge_axes = purge_axes
+        # # Used only for reporting purposes when wrangling a PAM
+        # self.species_axis = species_axis
         self.report['changes'] = {}
 
     # .......................
@@ -47,6 +50,7 @@ class PurgeEmptySlicesWrangler(_MatrixDataWrangler):
                 sum_axes = list(range(matrix.ndim))
                 sum_axes.remove(axis)
                 axis_slice = np.where(matrix.sum(axis=tuple(sum_axes)) != 0)[0]
+                # TODO: Report which columns in a species axis were removed
 
                 if str(axis) not in self.report['changes'].keys():
                     self.report['changes'][str(axis)] = {'purged': 0}

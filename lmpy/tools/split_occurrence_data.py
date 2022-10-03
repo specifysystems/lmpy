@@ -11,7 +11,7 @@ from lmpy.data_preparation.occurrence_splitter import (
 )
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.log import Logger
-from lmpy.point import PointCsvReader, PointDwcaReader
+from lmpy.point import Point, PointCsvReader, PointDwcaReader
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
@@ -150,6 +150,8 @@ def cli():
 
     Raises:
         Exception: on failure to load wranglers
+        OSError: on failure to write to report filename
+        IOError: on failure to write to report filename
     """
     parser = build_parser()
     args = _process_arguments(parser, 'config_file')
@@ -168,7 +170,7 @@ def cli():
 
     # Default key field is 'species_name'
     if args.key_field is None:
-        args.key_field = ['species_name']
+        args.key_field = [Point.SPECIES_ATTRIBUTE]
 
     # Establish functions for getting writer key and filename
     writer_key_func = get_writer_key_from_fields_func(*tuple(args.key_field))
@@ -181,6 +183,8 @@ def cli():
 
     # Wrangler Factory
     wrangler_factory = WranglerFactory(logger=logger)
+
+    full_report = {}
 
     # Initialize processor
     with OccurrenceSplitter(
@@ -199,9 +203,11 @@ def cli():
                         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
                 except Exception:
                     raise
-                occurrence_processor.process_reader(reader, wranglers)
+                curr_report = occurrence_processor.process_reader(reader, wranglers)
+                full_report[dwca_fn] = curr_report
+
+        # For each csv file
         if args.csv:
-            # For each csv file
             for csv_fn, wranglers_fn, sp_key, x_key, y_key in args.csv:
                 reader = PointCsvReader(csv_fn, sp_key, x_key, y_key)
                 with open(wranglers_fn, mode='rt') as in_json:
@@ -209,9 +215,25 @@ def cli():
                         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
                     except Exception:
                         raise
-                    occurrence_processor.process_reader(reader, wranglers)
+                    curr_report = occurrence_processor.process_reader(reader, wranglers)
+                    full_report[csv_fn] = curr_report
+
         if args.species_list_filename:
             occurrence_processor.write_species_list(args.species_list_filename)
+
+        # If the output report was requested, write it
+        if args.report_filename:
+            # Add final species list to report
+            species_seen = occurrence_processor.get_species_seen()
+            full_report['species_count'] = len(species_seen)
+            full_report['species_list'] = species_seen
+            try:
+                with open(args.report_filename, mode='wt') as out_file:
+                    json.dump(full_report, out_file, indent=4)
+            except OSError:
+                raise
+            except IOError:
+                raise
 
 
 # .....................................................................................

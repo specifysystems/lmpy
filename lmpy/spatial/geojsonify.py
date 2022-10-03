@@ -62,13 +62,15 @@ def _get_geojson_geometry_func(resolution=None):
 
 
 # .....................................................................................
-def geojsonify_matrix(matrix, resolution=None, omit_values=None):
+def geojsonify_matrix(matrix, resolution=None, omit_values=None, logger=None):
     """Creates GeoJSON for a matrix and matching shapefile.
 
     Args:
         matrix (Matrix): A (spatial) matrix to create GeoJSON for.
         resolution (Numeric): The size of the grid cells in decimal degrees
         omit_values (list): Omit properties when their value is in this list.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
 
     Returns:
         dict: A GeoJSON compatible dictionary.
@@ -99,13 +101,16 @@ def geojsonify_matrix(matrix, resolution=None, omit_values=None):
 
 
 # .....................................................................................
-def geojsonify_matrix_with_shapefile(matrix, grid_filename, omit_values=None):
+def geojsonify_matrix_with_shapefile(
+        matrix, grid_filename, omit_values=None, logger=None):
     """Creates GeoJSON for a matrix and matching shapefile.
 
     Args:
-        matrix (Matrix): A (spatial) matrix to create GeoJSON for.
+        matrix (Matrix): A 2 dimensional (spatial) matrix to create GeoJSON for.
         grid_filename (str): A file path to a shapefile matching the matrix.
         omit_values (list): Omit properties when their value is in this list.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
 
     Returns:
         dict: A GeoJSON compatible dictionary.
@@ -113,6 +118,7 @@ def geojsonify_matrix_with_shapefile(matrix, grid_filename, omit_values=None):
     Raises:
         FileNotFoundError: on missing grid_filename.
     """
+    site_axis = 0
     omit_values = _process_omit_values(omit_values, matrix.dtype.type)
     ret = {'type': 'FeatureCollection'}
     features = []
@@ -125,17 +131,38 @@ def geojsonify_matrix_with_shapefile(matrix, grid_filename, omit_values=None):
         raise FileNotFoundError(f"Grid shapefile {grid_filename} does not exist.")
     grid_dataset = ogr.Open(grid_filename)
     grid_layer = grid_dataset.GetLayer()
+    # Find the feature values to match grid sites with matrix sites
+    # TODO: get dynamically?
+    id_fld = "siteid"
+
+    # Find the feature ids in matrix
+    headers = matrix.get_headers(axis=site_axis)
+    sites_in_matrix = []
+    for _, site in enumerate(headers):
+        sites_in_matrix.append(site)
+    fids_in_matrix = [fid for fid, x, y in sites_in_matrix]
 
     i = 0
     feat = grid_layer.GetNextFeature()
     while feat is not None:
-        ft_json = json.loads(feat.ExportToJson())
-        ft_json['properties'] = {
-            k: matrix[i, j].item() for j, k in column_enum
-            if matrix[i, j].item() not in omit_values
-        }
-        if len(ft_json['properties'].keys()) > 0:
-            features.append(ft_json)
+        # Make sure this grid site is in the matrix
+        site_id = feat.GetField(id_fld)
+        if site_id not in fids_in_matrix:
+            try:
+                logger.log(
+                    f"fid {site_id} missing, last site {sites_in_matrix[site_id-1]}",
+                    refname="geojsonify_matrix_with_shapefile")
+            except IndexError:
+                pass
+            break
+        else:
+            ft_json = json.loads(feat.ExportToJson())
+            ft_json['properties'] = {
+                k: matrix[i, j].item() for j, k in column_enum
+                if matrix[i, j].item() not in omit_values
+            }
+            if len(ft_json['properties'].keys()) > 0:
+                features.append(ft_json)
         i += 1
         feat = grid_layer.GetNextFeature()
 

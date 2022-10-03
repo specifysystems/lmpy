@@ -5,7 +5,7 @@ import os.path
 
 from lmpy.data_wrangling.factory import WranglerFactory
 from lmpy.log import Logger
-from lmpy.point import PointCsvReader, PointCsvWriter
+from lmpy.point import Point, PointCsvReader, PointCsvWriter
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
@@ -29,7 +29,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
     Returns:
         dict: Output report from data wrangling.
     """
-    ref = "clean_data"
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     report = {
         'input_records': 0,
         'output_records': 0,
@@ -38,6 +38,7 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
     # Open reader
     reader.open()
     writer = None
+    # "points" is a set of consecutive points with the same species_key value
     for points in reader:
         report['input_records'] += len(points)
         for wrangler in wranglers:
@@ -46,7 +47,8 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
             if points:
                 points = wrangler.wrangle_points(points)
                 logger.log(
-                    f"{wrangler_name} processed file {reader.filename}", refname=ref)
+                    f"{wrangler_name} wrangled {len(points)} from {reader.filename}",
+                    refname=script_name)
 
         # If any points are left, write them
         if points:
@@ -58,7 +60,8 @@ def clean_data(reader, writer_filename, wranglers, write_fields=None, logger=Non
                 writer.open()
             writer.write_points(points)
             logger.log(
-                f"Wrote {len(points)} points to {writer.filename}.", refname=ref)
+                f"Wrote {len(points)} points to {writer.filename}.",
+                refname=script_name)
     # Close reader and writer
     reader.close()
     if writer:
@@ -82,7 +85,7 @@ def build_parser():
         '-sp',
         '--species_key',
         type=str,
-        default='species_name',
+        default=Point.SPECIES_ATTRIBUTE,
         help='The CSV column header for species name.',
     )
     parser.add_argument(
@@ -98,6 +101,12 @@ def build_parser():
         type=str,
         default='y',
         help='The CSV column header for the Y (latitude) field.',
+    )
+    parser.add_argument(
+        '--geopoint',
+        type=str,
+        help='The CSV column header for the GeoPoint (containing longitude and '
+             'latitude) field.'
     )
     parser.add_argument(
         '-r',
@@ -173,10 +182,11 @@ def cli():
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
 
     # Get reader
+    # The reader iterator returns a set of consecutive points with the same species_key
     reader = PointCsvReader(
-        args.reader_filename, args.species_key, args.x_key, args.y_key
+        args.reader_filename, args.species_key, args.x_key, args.y_key,
+        geopoint=args.geopoint
     )
-
     # Clean data
     report = clean_data(reader, args.writer_filename, wranglers, logger=logger)
 

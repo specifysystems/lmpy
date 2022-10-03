@@ -19,7 +19,7 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
         self,
         name_map=None,
         name_resolver=None,
-        taxon_axis=1,
+        species_axis=1,
         purge_failures=True,
         out_map_filename=None,
         map_write_interval=100,
@@ -32,7 +32,7 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
             name_map (dict): A map of original name to accepted name.
             name_resolver (str or Method): If provided, use this method for getting new
                 accepted names.  If set to 'gbif', use GBIF name resolution.
-            taxon_axis (int): The axis with taxon headers.
+            species_axis (int): The axis with taxon headers.
             purge_failures (bool): Should failures be purged from the matrix.
             out_map_filename (str): A file location to write the updated name map.
             map_write_interval (int): Update the name map output file after each set of
@@ -52,7 +52,7 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
             out_map_format=out_map_format,
         )
 
-        self.taxon_axis = taxon_axis
+        self.species_axis = species_axis
         self.purge_failures = purge_failures
 
     # .......................
@@ -66,7 +66,7 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
             Matrix: The matrix with accepted taxon names.
         """
         failures = []
-        headers = matrix.get_headers(axis=self.taxon_axis)
+        headers = matrix.get_headers(axis=self.species_axis)
         for i, hdr in enumerate(headers):
             acc_name = self.resolve_names([hdr])[hdr]
             if acc_name is None:
@@ -75,12 +75,12 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
                     f"Failed to resolve matrix column {hdr}.",
                     refname=self.__class__.__name__)
             elif hdr != acc_name:
-                matrix.headers[str(self.taxon_axis)][i] = acc_name
+                matrix.headers[str(self.species_axis)][i] = acc_name
                 self.logger.log(
                     f"Updated matrix column {hdr} to {acc_name}.",
                     refname=self.__class__.__name__)
                 # report
-                self._report_slice(self.taxon_axis, i, modified=True)
+                self._report_slice(self.species_axis, i, modified=True)
 
         # Set defaults for purged and modified
         purged = False
@@ -88,20 +88,20 @@ class AcceptedNameMatrixWrangler(_MatrixDataWrangler, _AcceptedNameWrangler):
 
         # Should we purge?
         if self.purge_failures:
-            new_headers = matrix.get_headers(str(self.taxon_axis))
-            matrix = np.delete(matrix, failures, axis=self.taxon_axis)
+            new_headers = matrix.get_headers(str(self.species_axis))
+            matrix = np.delete(matrix, failures, axis=self.species_axis)
             self.logger.log(
                 f"Purged {len(failures)} from matrix.", refname=self.__class__.__name__)
             # Go through failures and pop each, reverse list to start at biggest to
             #     maintain indices
             for i in sorted(failures, reverse=True):
                 new_headers.pop(i)
-            matrix.set_headers(str(self.taxon_axis), new_headers)
+            matrix.set_headers(str(self.species_axis), new_headers)
             # Change purged and modified since we are removing items
             purged = True
             modified = False
 
         for i in failures:
-            self._report_slice(self.taxon_axis, i, modified=modified, purged=purged)
+            self._report_slice(self.species_axis, i, modified=modified, purged=purged)
 
         return matrix

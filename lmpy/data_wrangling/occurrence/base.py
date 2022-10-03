@@ -110,7 +110,7 @@ class _OccurrenceDataWrangler(_DataWrangler):
                 wrangled_points.append(pt)
         self.logger.log(
             f"Return {len(wrangled_points)} of {len(points)} points, " +
-            f"{self.modified} modified", refname=self.__class__.__name__,
+            f"total of {self.modified} modified", refname=self.__class__.__name__,
             log_level=DEBUG)
         return wrangled_points
 

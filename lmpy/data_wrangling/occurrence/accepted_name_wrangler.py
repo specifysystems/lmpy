@@ -1,11 +1,10 @@
 """Module containing occurrence data wranglers for modifying point data."""
 from logging import INFO
 
+from lmpy.point import Point
 from lmpy.data_wrangling.occurrence.base import _OccurrenceDataWrangler
 from lmpy.data_wrangling.common.accepted_name_wrangler import (
-    _AcceptedNameWrangler,
-    resolve_names_gbif,
-)
+    _AcceptedNameWrangler, resolve_names_gbif)
 
 
 # .....................................................................................
@@ -84,16 +83,21 @@ class AcceptedNameOccurrenceWrangler(_OccurrenceDataWrangler, _AcceptedNameWrang
         is_modified = False
         acc_name = self.resolve_names([point.species_name])[point.species_name]
 
-        # If we should keep original, add a new attribute
+        # If we should keep original value, store in the provided new
+        # fieldname (store_original_attribute)
         if self.store_original_attribute is not None:
             point.set_attribute(self.store_original_attribute, point.species_name)
             is_modified = True
 
         if point.species_name != acc_name:
-            self.logger.log(
-                f"{point.species_name} updated to accepted name {acc_name}.",
-                refname=self.__class__.__name__, log_level=INFO)
+            old_name = point.species_name
             point.species_name = acc_name
+            point.set_attribute(Point.SPECIES_ATTRIBUTE, acc_name)
+            # TODO: Do we change original attribute??
+            # point.set_attribute(point.species_field, acc_name)
+            self.logger.log(
+                f"{old_name} updated to accepted name {acc_name}.",
+                refname=self.__class__.__name__, log_level=INFO)
             is_modified = True
 
         return point, is_modified

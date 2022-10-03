@@ -1,6 +1,8 @@
 """Tests for the bounding_box_wrangler module."""
 from lmpy.data_wrangling.occurrence.bounding_box_wrangler import BoundingBoxFilter
 
+from lmpy.point import Point
+
 from tests.data_simulator import (
     generate_points,
     get_random_choice_func,
@@ -15,10 +17,12 @@ def test_everything_inside():
     points = generate_points(
         1000,
         SimulatedField(
-            'species_name', '', get_random_choice_func(['Species A']), 'str'
+            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(['Species A']), 'str'
         ),
-        SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
-        SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
+        SimulatedField(
+            Point.X_ATTRIBUTE, '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
+        SimulatedField(
+            Point.Y_ATTRIBUTE, '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
         []
     )
     # Wrangle points
@@ -40,10 +44,12 @@ def test_everything_outside():
     points = generate_points(
         1000,
         SimulatedField(
-            'species_name', '', get_random_choice_func(['Species A']), 'str'
+            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(['Species A']), 'str'
         ),
-        SimulatedField('x', '', get_random_float_func(-180.0, 0.0, 2, 6), 'float'),
-        SimulatedField('y', '', get_random_float_func(-90.0, 0.0, 2, 6), 'float'),
+        SimulatedField(
+            Point.X_ATTRIBUTE, '', get_random_float_func(-180.0, 0.0, 2, 6), 'float'),
+        SimulatedField(
+            Point.Y_ATTRIBUTE, '', get_random_float_func(-90.0, 0.0, 2, 6), 'float'),
         []
     )
     # Wrangle points
@@ -66,10 +72,12 @@ def test_in_and_out():
     points = generate_points(
         1000,
         SimulatedField(
-            'species_name', '', get_random_choice_func(['Species A']), 'str'
+            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(['Species A']), 'str'
         ),
-        SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
-        SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
+        SimulatedField(
+            Point.X_ATTRIBUTE, '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
+        SimulatedField(
+            Point.Y_ATTRIBUTE, '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
         []
     )
     # Wrangle points

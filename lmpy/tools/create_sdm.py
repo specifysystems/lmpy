@@ -4,6 +4,7 @@ import json
 import os
 
 from lmpy.log import Logger
+from lmpy.point import Point
 from lmpy.sdm.maxent import DEFAULT_MAXENT_OPTIONS
 from lmpy.sdm.model import create_sdm
 from lmpy.tools._config_parser import _process_arguments, test_files
@@ -66,19 +67,19 @@ def build_parser():
     parser.add_argument(
         "--species_key",
         type=str,
-        default="species_name",
+        default=Point.SPECIES_ATTRIBUTE,
         help="Header of CSV column containing species information."
     )
     parser.add_argument(
         "--x_key",
         type=str,
-        default="x",
+        default=Point.X_ATTRIBUTE,
         help="Header of CSV column containing X value for record."
     )
     parser.add_argument(
         "--y_key",
         type=str,
-        default="y",
+        default=Point.Y_ATTRIBUTE,
         help="Header of CSV column containing Y value for record."
     )
     parser.add_argument(
@@ -139,7 +140,6 @@ def test_inputs(args):
 # .....................................................................................
 def cli():
     """Provide a command-line interface for SDM modeling."""
-    ref = "create_sdm"
     parser = build_parser()
     try:
         args = _process_arguments(parser, "config_file")
@@ -167,8 +167,8 @@ def cli():
         log_console=args.log_console
     )
     logger.log(
-        f"Create SDMs for {len(point_files)} species occurrence CSVs",
-        refname=ref)
+        f"\n\n***Create SDMs for {len(point_files)} species occurrence CSVs",
+        refname=script_name)
 
     maxent_params = DEFAULT_MAXENT_OPTIONS
     if args.maxent_params is not None:
@@ -179,11 +179,13 @@ def cli():
     ct = len(point_files)
     for point_filename in point_files:
         i += 1
+        # species_name contains spaces
         species_name = os.path.splitext(os.path.basename(point_filename))[0]
+        # work_dir contains underscores
         work_dir = os.path.join(args.out_dir, species_name.replace(" ", "_"))
         logger.log(
             f"\n*** Starting SDM for {species_name}, file {i} of {ct}",
-            refname=ref)
+            refname=script_name)
         report = create_sdm(
             args.min_points,
             point_filename,
@@ -199,14 +201,14 @@ def cli():
             logger=logger
         )
         logger.log(
-            f"*** Completed SDM computation for {species_name}",
-            refname=ref)
+            f"\n*** Completed SDM computation for {species_name}\n",
+            refname=script_name)
         full_report[point_filename] = report
 
     # Conditionally write report file
     if args.report_filename is not None:
         with open(args.report_filename, mode="wt") as out_json:
-            json.dump(full_report, out_json)
+            json.dump(full_report, out_json, indent=4)
 
 
 # .....................................................................................

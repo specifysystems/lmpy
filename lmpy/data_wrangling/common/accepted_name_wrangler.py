@@ -19,7 +19,7 @@ def _resolve_gbif_synonym_match(match_response, wait_time=1):
     Returns:
         namestr: An accepted canonical name for the GBIF acceptedUsageKey.
     """
-    name_str = None
+    sciname = canonical = None
     if wait_time is not None:
         time.sleep(wait_time)
     if 'acceptedUsageKey' in match_response.keys():
@@ -35,9 +35,10 @@ def _resolve_gbif_synonym_match(match_response, wait_time=1):
             response = requests.get(url).json()
         if ('taxonomicStatus' in response.keys() and
                 response['taxonomicStatus'].lower() == 'accepted'):
-            name_str = response['canonicalName']
+            sciname = response['scientificName']
+            canonical = response['canonicalName']
 
-    return name_str
+    return sciname, canonical
 
 
 # .....................................................................................
@@ -62,18 +63,27 @@ def resolve_names_gbif(names, wait_time=1):
             response = requests.get(url).json()
         except Exception as err:
             print(err)
-            print('Sleep and try again...')
+            print("Sleep and try again...")
             time.sleep(60)
             response = requests.get(url).json()
 
         resolved_names[name_str] = None
         if 'status' in response.keys():
             if response['status'].lower() == 'accepted':
-                resolved_names[name_str] = response['canonicalName']
+                canonical1 = response['canonicalName']
+                resolved_names[name_str] = canonical1
+                print(
+                    f"{name_str} resolved to accepted name " +
+                    f"{response['scientificName']} with canonical {canonical1}")
             # TODO: Discuss: query returned usageKey of synonym for accepted taxa
             elif response['status'].lower() == 'synonym':
-                canonical = _resolve_gbif_synonym_match(response, wait_time=wait_time)
-                resolved_names[name_str] = canonical
+                sciname2, canonical2 = _resolve_gbif_synonym_match(
+                    response, wait_time=wait_time)
+                resolved_names[name_str] = canonical2
+                print(
+                    f"{name_str} resolved to synonym " +
+                    f"{response['scientificName']} which resolved to accepted " +
+                    f"name {sciname2} with canonical {canonical2}")
 
         if wait_time is not None:
             time.sleep(wait_time)
@@ -180,15 +190,16 @@ class _AcceptedNameWrangler(_DataWrangler):
         unmatched_names = []
         for name in names:
             if name in self.name_map.keys():
+                # Use previously resolved name if present
                 resolved_names[name] = self.name_map[name]
 
             else:
-                # Action on first instance of unmatched name
+                # Save all unmatched names
                 if name not in unmatched_names:
                     unmatched_names.append(name)
                     resolved_names[name] = None
 
-        # If we have a name resolver and names to resolve, do it
+        # If we have a name resolver and unmatched names, resolve them
         if self._name_resolver is not None and len(unmatched_names) > 0:
             new_names = self._name_resolver(unmatched_names)
             for uname in unmatched_names:

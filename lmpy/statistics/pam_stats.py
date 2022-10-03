@@ -1,6 +1,7 @@
 """Module containing base PAM statistic functionality."""
 import numpy as np
 from lmpy import Matrix
+from logging import DEBUG
 
 
 # .............................................................................
@@ -527,6 +528,7 @@ class PamStats:
             tree_matrix=None,
             node_heights_matrix=None,
             tip_lengths_matrix=None,
+            logger=None
     ):
         """Constructor for PAM stats computations.
 
@@ -536,12 +538,16 @@ class PamStats:
             tree_matrix (Matrix): A matrix of tip / node presence absence values.
             node_heights_matrix (Matrix): A matrix of node height values.
             tip_lengths_matrix (Matrix): A matrix of tip length values.
+            logger (lmpy.log.Logger): An optional local logger to use for logging output
+                with consistent options
         """
         self.pam = pam
         self.tree = tree
         self.tree_matrix = tree_matrix
         self.node_heights_matrix = node_heights_matrix
         self.tip_lengths_matrix = tip_lengths_matrix
+        self.logger = logger
+        self._report = {}
 
     # ...........................
     def calculate_covariance_statistics(self):
@@ -550,6 +556,10 @@ class PamStats:
         Returns:
             list of tuple: A list of metric name, value tuples for covariance stats.
         """
+        cov_stats_names = [name for name, _ in self.covariance_stats]
+        self.logger.log(
+            f"Calculate {cov_stats_names} covariance stats for PAM",
+            refname=self.__class__.__name__)
         return [(name, func(self.pam)) for name, func in self.covariance_stats]
 
     # ...........................
@@ -559,10 +569,15 @@ class PamStats:
         Returns:
             list of tuple: A list of metric name, value tuples for diversity metrics.
         """
-        print([func(self.pam) for _, func in self.diversity_stats])
+        diversity_stat_names = [name for name, _ in self.diversity_stats]
+        diversity_stat_vals = [func(self.pam) for _, func in self.diversity_stats]
+        self.logger.log(
+            f"Calculate {diversity_stat_names} diversity stats for PAM " +
+            f"resulting in {str(diversity_stat_vals)}",
+            refname=self.__class__.__name__)
         diversity_matrix = Matrix(
             np.array([func(self.pam) for _, func in self.diversity_stats]),
-            headers={'0': ['value'], '1': [name for name, _ in self.diversity_stats]},
+            headers={'0': ['value'], '1': diversity_stat_names},
         )
         return diversity_matrix
 
@@ -574,20 +589,25 @@ class PamStats:
             Matrix: A matrix of site-based statistics for the selected metrics.
         """
         # Matrix based
-        print('Start')
+        site_stat_names = [name for name, _ in self.site_matrix_stats]
+        self.logger.log(
+            f"Calculate {site_stat_names} site stats for PAM",
+            refname=self.__class__.__name__)
         site_stats_matrix = Matrix(
             np.zeros((self.pam.shape[0], len(self.site_matrix_stats))),
             headers={
                 '0': self.pam.get_row_headers(),
-                '1': [name for name, _ in self.site_matrix_stats],
+                '1': [site_stat_names],
             },
         )
-        print('Site matrix stats')
+        self.logger.log(
+            "Start site stats", refname=self.__class__.__name__, log_level=DEBUG)
         for i in range(len(self.site_matrix_stats)):
             site_stats_matrix[:, i] = self.site_matrix_stats[i][1](self.pam)
 
         if self.tree is not None:
-            print('Tree stuff')
+            self.logger.log(
+                "Tree stuff", refname=self.__class__.__name__, log_level=DEBUG)
             squid_annotations = self.tree.get_annotations('squid')
             squid_dict = {squid: label for label, squid in squid_annotations}
             ordered_labels = []
@@ -617,9 +637,11 @@ class PamStats:
             )
 
             # PAM / Tree stats
-            print('Get distance matrix')
+            self.logger.log(
+                "Get distance matrix", refname=self.__class__.__name__, log_level=DEBUG)
             phylo_dist_mtx = self.tree.get_distance_matrix()
-            print('PAM dist mtx stats')
+            self.logger.log(
+                "PAM dist mtx stats", refname=self.__class__.__name__, log_level=DEBUG)
             site_pam_tree_matrix = None
             if self.site_pam_dist_mtx_stats:
                 site_pam_tree_matrix = Matrix(
@@ -635,7 +657,8 @@ class PamStats:
                     },
                 )
 
-            print('Site by site')
+            self.logger.log(
+                "Site by site", refname=self.__class__.__name__, log_level=DEBUG)
             # Loop through PAM
             for site_idx, site_row in enumerate(self.pam):
                 # Get present species
@@ -669,9 +692,10 @@ class PamStats:
                             func(site_tree) for _, func in self.site_tree_stats
                         ]
                 except Exception as err:  # pragma: no cover
-                    print(err)
-                    print(present_labels)
-                    print('Site index: {}'.format(site_idx))
+                    self.logger.log(err, refname=self.__class__.__name__)
+                    self.logger.log(present_labels, refname=self.__class__.__name__)
+                    self.logger.log(
+                        f"Site index: {site_idx}", refname=self.__class__.__name__)
 
             all_stat_matrices = []
             if site_stats_matrix is not None:
@@ -693,12 +717,16 @@ class PamStats:
         Returns:
             Matrix: A matrix of species-based statistics for the selected metrics.
         """
+        species_stats_names = [name for name, _ in self.species_matrix_stats]
+        self.logger.log(
+            f"Calculate {species_stats_names} species stats for PAM",
+            refname=self.__class__.__name__)
         # Matrix based
         species_stats_matrix = Matrix(
             np.zeros((self.pam.shape[1], len(self.species_matrix_stats))),
             headers={
                 '0': self.pam.get_column_headers(),
-                '1': [name for name, _ in self.species_matrix_stats],
+                '1': species_stats_names,
             },
         )
         for i in range(len(self.species_matrix_stats)):

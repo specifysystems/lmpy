@@ -47,10 +47,12 @@ DELIMITED_TERMS = [
 ]
 DELIMITED_BY_ATT = 'delimitedBy'
 
-
 # .....................................................................................
 class Point:
     """Class representing an occurrence data point."""
+    SPECIES_ATTRIBUTE = "species_name"
+    X_ATTRIBUTE = "x"
+    Y_ATTRIBUTE = "y"
 
     # .......................
     def __init__(self, species_name, x, y, attributes=None):
@@ -71,9 +73,9 @@ class Point:
         else:
             self.attributes = attributes
         # Set attributes for species name, x, and y
-        self.attributes['species_name'] = self.species_name
-        self.attributes['x'] = self.x
-        self.attributes['y'] = self.y
+        self.attributes[Point.SPECIES_ATTRIBUTE] = self.species_name
+        self.attributes[Point.X_ATTRIBUTE] = self.x
+        self.attributes[Point.Y_ATTRIBUTE] = self.y
 
     # .......................
     @classmethod
@@ -187,7 +189,7 @@ class PointCsvReader:
         x_field,
         y_field,
         geopoint=None,
-        group_field='species_name',
+        group_field=Point.SPECIES_ATTRIBUTE,
         encoding='utf8',
     ):
         """Constructor for a Point CSV retriever.

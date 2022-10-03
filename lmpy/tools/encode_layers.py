@@ -1,5 +1,7 @@
 """Script to encode layers into a Matrix."""
 import argparse
+import glob
+import json
 import os
 
 from lmpy.data_preparation.layer_encoder import LayerEncoder
@@ -20,6 +22,24 @@ def build_parser():
     """
     parser = argparse.ArgumentParser(prog='encode_layers', description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
+    parser.add_argument(
+        "--log_filename",
+        "-l",
+        type=str,
+        help="A file location to write logging data."
+    )
+    parser.add_argument(
+        "--log_console",
+        action="store_true",
+        default=False,
+        help="If provided, write log to console."
+    )
+    parser.add_argument(
+        "-r",
+        "--report_filename",
+        type=str,
+        help="File location to write the wrangler report."
+    )
     parser.add_argument(
         '--encode_method',
         '-m',
@@ -59,7 +79,6 @@ def build_parser():
     # Layers to encode
     parser.add_argument(
         '--layer',
-        '-l',
         nargs='*',
         action='append',
         help='File location of layer [ LABEL [ ATTRIBUTE FIELD ]].',
@@ -105,14 +124,41 @@ def test_inputs(args):
 
 
 # .....................................................................................
+def _get_default_label(lyr_filename):
+    # Default matrix column label:
+    #   1) the first line of a file in the same directory and with the same basename
+    #      as lyr_filename and a ".label" extension, OR
+    #   2) basename of the layer file
+    label_pattern = os.path.join(os.path.dirname(lyr_filename), "*.label")
+    label_files = glob.glob(label_pattern)
+    try:
+        label_file = label_files[0]
+    except IndexError:
+        label = os.path.splitext(os.path.basename(lyr_filename))[0]
+    else:
+        f = open(label_file, 'r')
+        tmp = f.readline()
+        f.close()
+        label = tmp.strip()
+        if not label:
+            label = os.path.splitext(os.path.basename(lyr_filename))[0]
+
+    return label
+
+
+# .....................................................................................
 def cli():
     """Command line interface for layer encoding.
 
     Raises:
         ValueError: Raised if an unknown encoding method is provided or too many layer
             arguments.
+
+    Raises:
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
     """
-    ref = "encode_layers"
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
     parser = build_parser()
 
     args = _process_arguments(parser, config_arg='config_file')
@@ -123,21 +169,23 @@ def cli():
 
     layers = {}
     if args.layer_file_pattern is not None:
-        import glob
         lyrfiles = glob.glob(os.path.join(args.layer_file_pattern))
         for fn in lyrfiles:
+            lyr_label = _get_default_label(fn)
             layers[fn] = {
                 'attribute': None,
-                'label': os.path.splitext(os.path.basename(fn))[0]}
+                'label': lyr_label}
 
     if args.layer is not None:
         for layer_args in args.layer:
             lyr_fn = layer_args[0]
+            lyr_label = _get_default_label(lyr_fn)
             layers[lyr_fn] = {
                 'attribute': None,
-                'label': os.path.splitext(os.path.basename(lyr_fn))[0]}
+                'label': lyr_label}
             if len(layer_args) > 1:
-                # First optional arg is label
+                # First optional arg is label,
+                # overrides default from layer or label filename
                 layers[lyr_fn]['label'] = layer_args[1]
                 if len(layer_args) > 2:
                     # Second optional arg is attribute
@@ -151,17 +199,19 @@ def cli():
     )
     logger.log(
         f"Encode {len(layers)} layers for matrix {args.out_matrix_filename}",
-        refname=ref)
+        refname=script_name)
 
     encoder = LayerEncoder(args.grid_filename, logger=logger)
 
     logger.log(
         f"Start encoding {len(layers)} layers to matrix {args.out_matrix_filename} " +
-        f"with {args.encode_method}", refname=ref)
+        f"with {args.encode_method}", refname=script_name)
     for lyr_fn, lyr_args in layers.items():
         if args.encode_method == 'biogeo':
             encoder.encode_biogeographic_hypothesis(
-                lyr_fn, lyr_args['label'], args.min_coverage,
+                lyr_fn,
+                lyr_args['label'],
+                args.min_coverage,
                 attribute_field=lyr_args['attribute'],
             )
         elif args.encode_method == 'presence_absence':
@@ -171,26 +221,41 @@ def cli():
                 args.min_presence,
                 args.max_presence,
                 args.min_coverage,
-                attribute_name=lyr_args['attribute'],
+                attribute_field=lyr_args['attribute'],
             )
         elif args.encode_method == 'largest_class':
             encoder.encode_largest_class(
                 lyr_fn,
                 lyr_args['label'],
                 args.min_coverage,
-                attribute_name=lyr_args['attribute'],
+                attribute_field=lyr_args['attribute'],
             )
         elif args.encode_method == 'mean_value':
             encoder.encode_mean_value(
-                lyr_fn, lyr_args['label'], attribute_name=lyr_args['attribute']
+                lyr_fn,
+                lyr_args['label'],
+                attribute_field=lyr_args['attribute']
             )
         else:
             raise ValueError('Unknown encoding method: {}'.format(args.encode_method))
-        logger.log(f"Completed encode {lyr_fn}", refname=ref)
+        logger.log(
+            f"Completed encode of {lyr_args['label']}", refname=script_name)
 
     enc_mtx = encoder.get_encoded_matrix()
     enc_mtx.write(args.out_matrix_filename)
-    logger.log(f"***Completed matrix {args.out_matrix_filename}", refname=ref)
+    logger.log(f"***Completed matrix {args.out_matrix_filename}", refname=script_name)
+
+    # If the output report was requested, write it
+    if args.report_filename:
+        report = encoder.get_report()
+        report["out_matrix_filename"] = args.out_matrix_filename
+        try:
+            with open(args.report_filename, mode='wt') as out_file:
+                json.dump(report, out_file, indent=4)
+        except OSError:
+            raise
+        except IOError:
+            raise
 
 
 # .....................................................................................

@@ -163,6 +163,9 @@ class OccurrenceSplitter:
         Args:
             reader (PointCsvReader or PointDwcaReader): An occurrence reader instance.
             wranglers (list): A list of occurrence data wranglers.
+
+        Returns:
+            dict: Output report from data splitting.
         """
         reader.open()
         try:
@@ -170,7 +173,14 @@ class OccurrenceSplitter:
         except AttributeError:
             in_filename = reader.archive_filename
 
+        report = {
+            'input_records': 0,
+            'output_records': 0,
+            'wranglers': []
+        }
+
         for points in reader:
+            report['input_records'] += len(points)
             for wrangler in wranglers:
                 if points:
                     in_count = len(points)
@@ -180,12 +190,16 @@ class OccurrenceSplitter:
                         + f"from {in_filename} resulting in {len(points)} points",
                         refname=self.__class__.__name__, log_level=INFO)
             if points:
+                report['output_records'] += len(points)
                 self.logger.log(
                     f"Found {len(points)} {points[0].species_name} points from " +
                     f"{in_filename} to write.", refname=self.__class__.__name__,
                     log_level=INFO)
                 self.write_points(points)
         reader.close()
+        if wranglers:
+            report['wranglers'] = [wrangler.get_report() for wrangler in wranglers]
+        return report
 
     # .......................
     def write_points(self, points):
@@ -217,6 +231,15 @@ class OccurrenceSplitter:
         with open(species_list_filename, mode='wt') as species_out:
             for sp in list(self.seen_taxa):
                 species_out.write(f'{sp}\n')
+
+    # .......................
+    def get_species_seen(self):
+        """Write a species list of species seen (after wrangling).
+
+        Returns:
+            list of taxa that have processed into output files
+        """
+        return list(self.seen_taxa)
 
 
 # .....................................................................................

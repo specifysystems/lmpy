@@ -1,5 +1,6 @@
 """Tool for building grid shapefiles."""
 import argparse
+import json
 import os
 import sqlite3
 
@@ -22,6 +23,24 @@ def build_parser():
     """
     parser = argparse.ArgumentParser(prog='build_grid', description=DESCRIPTION)
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
+    parser.add_argument(
+        "--log_filename",
+        "-l",
+        type=str,
+        help="A file location to write logging data."
+    )
+    parser.add_argument(
+        "--log_console",
+        action="store_true",
+        default=False,
+        help="If provided, write log to console."
+    )
+    parser.add_argument(
+        "-r",
+        "--report_filename",
+        type=str,
+        help="File location to write the wrangler report."
+    )
     parser.add_argument(
         'grid_filename',
         type=str,
@@ -83,7 +102,12 @@ def test_inputs(args):
 
 # .....................................................................................
 def cli():
-    """Command-line interface to build grid."""
+    """Command-line interface to build grid.
+
+    Raises:
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
+    """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
 
@@ -100,7 +124,7 @@ def cli():
     )
 
     cell_sides = 4  # Add this to parameters if we enable hexagons again
-    build_grid(
+    report = build_grid(
         args.grid_filename,
         args.min_x,
         args.min_y,
@@ -111,6 +135,16 @@ def cli():
         cell_sides,
         logger=logger
     )
+
+    # If the output report was requested, write it
+    if args.report_filename:
+        try:
+            with open(args.report_filename, mode='wt') as out_file:
+                json.dump(report, out_file, indent=4)
+        except OSError:
+            raise
+        except IOError:
+            raise
 
 
 # .....................................................................................

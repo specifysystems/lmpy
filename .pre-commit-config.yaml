@@ -58,8 +58,8 @@ repos:
     rev: v1.1.13
     hooks:
     -   id: forbid-tabs
--   repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.31.1
-    hooks:
-    - id: markdownlint
-      args: [--config=.github/linters/.markdownlint]
+#-   repo: https://github.com/igorshubovych/markdownlint-cli
+#    rev: v0.31.1
+#    hooks:
+#    - id: markdownlint
+#      args: [--config=.github/linters/.markdownlint]
