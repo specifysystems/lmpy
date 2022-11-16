@@ -87,7 +87,8 @@ def build_parser():
         type=str,
         default=[],
         nargs="+",
-        help="One or more CSV files containing occurrences in species, x, y format.",
+        help="One or more CSV files containing occurrence records with species, " +
+             "x, and y fields.",
     )
     parser.add_argument(
         "--points_dir",
