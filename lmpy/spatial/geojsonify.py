@@ -142,28 +142,25 @@ def geojsonify_matrix_with_shapefile(
         sites_in_matrix.append(site)
     fids_in_matrix = [fid for fid, x, y in sites_in_matrix]
 
-    i = 0
+    row = 0
     feat = grid_layer.GetNextFeature()
     while feat is not None:
         # Make sure this grid site is in the matrix
         site_id = feat.GetField(id_fld)
-        if site_id not in fids_in_matrix:
-            try:
-                logger.log(
-                    f"fid {site_id} missing, last site {sites_in_matrix[site_id-1]}",
-                    refname="geojsonify_matrix_with_shapefile")
-            except IndexError:
-                pass
-            break
-        else:
-            ft_json = json.loads(feat.ExportToJson())
-            ft_json['properties'] = {
-                k: matrix[i, j].item() for j, k in column_enum
-                if matrix[i, j].item() not in omit_values
-            }
+        ft_json = json.loads(feat.ExportToJson())
+        ft_json['properties'] = {}
+        if site_id in fids_in_matrix:
+            # ft_json = json.loads(feat.ExportToJson())
+            for tx_idx, tx_name in column_enum:
+                if matrix[row, tx_idx].item() not in omit_values:
+                    ft_json['properties'][tx_name] = matrix[row, tx_idx].item()
+            # ft_json['properties'] = {
+            #     k: matrix[i, j].item() for j, k in column_enum
+            #     if matrix[i, j].item() not in omit_values
+            # }
             if len(ft_json['properties'].keys()) > 0:
                 features.append(ft_json)
-        i += 1
+        row += 1
         feat = grid_layer.GetNextFeature()
 
     ret['features'] = features
