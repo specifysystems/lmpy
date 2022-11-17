@@ -137,10 +137,9 @@ def geojsonify_matrix_with_shapefile(
 
     # Find the feature ids in matrix
     headers = matrix.get_headers(axis=site_axis)
-    sites_in_matrix = []
-    for _, site in enumerate(headers):
-        sites_in_matrix.append(site)
-    fids_in_matrix = [fid for fid, x, y in sites_in_matrix]
+    fids_in_matrix = []
+    for mtx_row, (mtx_fid, _, _) in enumerate(headers):
+        fids_in_matrix.append(mtx_fid)
 
     row = 0
     feat = grid_layer.GetNextFeature()
