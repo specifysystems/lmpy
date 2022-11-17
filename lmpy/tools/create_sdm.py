@@ -140,7 +140,12 @@ def test_inputs(args):
 
 # .....................................................................................
 def cli():
-    """Provide a command-line interface for SDM modeling."""
+    """Provide a command-line interface for SDM modeling.
+
+    Raises:
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
+    """
     parser = build_parser()
     try:
         args = _process_arguments(parser, "config_file")
@@ -208,8 +213,15 @@ def cli():
 
     # Conditionally write report file
     if args.report_filename is not None:
-        with open(args.report_filename, mode="wt") as out_json:
-            json.dump(full_report, out_json, indent=4)
+        try:
+            with open(args.report_filename, mode="wt") as out_json:
+                json.dump(full_report, out_json, indent=4)
+        except OSError:
+            raise
+        except IOError:
+            raise
+        logger.log(
+            f"Wrote report file to {args.report_filename}", refname=script_name)
 
 
 # .....................................................................................

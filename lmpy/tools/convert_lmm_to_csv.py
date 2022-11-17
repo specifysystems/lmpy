@@ -91,7 +91,7 @@ def cli():
         IOError: on failure to write to report_filename.
     """
     parser = build_parser()
-    args = _process_arguments(parser)
+    args = _process_arguments(parser, config_arg='config_file')
     errs = test_inputs(args)
     if errs:
         print("Errors, exiting program")
@@ -110,13 +110,13 @@ def cli():
     row_count = len(mtx.get_row_headers())
     logger.log(
         f"Loaded matrix {args.in_lmm_filename} with {row_count} sites/rows " +
-        f"and {col_count} taxa/columns",
-        refname=os.path.splitext(os.path.basename(__file__))[0])
+        f"and {col_count} taxa/columns", refname=script_name)
 
     convert_lmm_to_csv(mtx, args.out_csv_filename)
 
     logger.log(
-        f"Wrote matrix {args.in_lmm_filename} to CSV file {args.out_csv_filename}")
+        f"Wrote matrix {args.in_lmm_filename} to CSV file {args.out_csv_filename}",
+        refname=script_name)
 
     # If the output report was requested, write it
     if args.report_filename:
@@ -133,7 +133,8 @@ def cli():
             raise
         except IOError:
             raise
-        logger.log(f"Wrote report file to {args.report_filename}")
+        logger.log(
+            f"Wrote report file to {args.report_filename}", refname=script_name)
 
 
 # .....................................................................................

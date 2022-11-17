@@ -239,7 +239,8 @@ def cli():
         else:
             raise ValueError('Unknown encoding method: {}'.format(args.encode_method))
         logger.log(
-            f"Completed encode of {lyr_args['label']}", refname=script_name)
+            f"Encoded {lyr_fn} with label {lyr_args['label']} using " +
+            f"{args.encode_method} method", refname=script_name)
 
     enc_mtx = encoder.get_encoded_matrix()
     enc_mtx.write(args.out_matrix_filename)
@@ -256,6 +257,8 @@ def cli():
             raise
         except IOError:
             raise
+        logger.log(
+            f"Wrote report file to {args.report_filename}", refname=script_name)
 
 
 # .....................................................................................
