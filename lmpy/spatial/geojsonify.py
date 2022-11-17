@@ -82,6 +82,8 @@ def geojsonify_matrix(
         OSError: on failure to write to geojson_filename.
         IOError: on failure to write to geojson_filename.
     """
+    refname = "geojsonify_matrix"
+
     omit_values = _process_omit_values(omit_values, matrix.dtype.type)
     matrix_geojson = {'type': 'FeatureCollection'}
     features = []
@@ -90,12 +92,12 @@ def geojsonify_matrix(
 
     row_headers = matrix.get_row_headers()
     column_headers = matrix.get_column_headers()
-    logger.log(
-        f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
-        refname="geojsonify_matrix")
-    if omit_values:
+    if logger is not None:
         logger.log(
-            f"Omit values {omit_values} from geojson.", refname="geojsonify_matrix")
+            f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
+            refname=refname)
+    if omit_values and logger is not None:
+        logger.log(f"Omit values {omit_values} from geojson.", refname=refname)
 
     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
 
@@ -110,8 +112,8 @@ def geojsonify_matrix(
             features.append(ft_json)
 
     matrix_geojson['features'] = features
-    logger.log(
-        f"Added {len(features)} sites to geojson.", refname="geojsonify_matrix")
+    if logger is not None:
+        logger.log(f"Added {len(features)} sites to geojson.", refname=refname)
     try:
         with open(geojson_filename, mode='wt') as out_json:
             json.dump(matrix_geojson, out_json)
@@ -119,8 +121,8 @@ def geojsonify_matrix(
         raise
     except IOError:
         raise
-    logger.log(
-        f"Wrote geojson to {geojson_filename}.", refname="geojsonify_matrix")
+    if logger is not None:
+        logger.log(f"Wrote geojson to {geojson_filename}.", refname=refname)
 
     report = {
         "matrix_species_count": len(column_headers),
@@ -157,6 +159,8 @@ def geojsonify_matrix_with_shapefile(
         OSError: on failure to write to geojson_filename.
         IOError: on failure to write to geojson_filename.
     """
+    refname = "geojsonify_matrix_with_shapefile"
+
     site_axis = 0
     omit_values = _process_omit_values(omit_values, matrix.dtype.type)
     matrix_geojson = {'type': 'FeatureCollection'}
@@ -164,12 +168,13 @@ def geojsonify_matrix_with_shapefile(
 
     column_headers = matrix.get_column_headers()
     row_headers = matrix.get_headers(axis=site_axis)
-    logger.log(
-        f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
-        refname="geojsonify_matrix_with_shapefile")
-    if omit_values:
+    if logger is not None:
         logger.log(
-            f"Omit values {omit_values} from geojson.", refname="geojsonify_matrix")
+            f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
+            refname=refname)
+    if omit_values and logger is not None:
+        logger.log(
+            f"Omit values {omit_values} from geojson.", refname=refname)
 
     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
 
@@ -177,9 +182,9 @@ def geojsonify_matrix_with_shapefile(
         raise FileNotFoundError(f"Grid shapefile {grid_filename} does not exist.")
     grid_dataset = ogr.Open(grid_filename)
     grid_layer = grid_dataset.GetLayer()
-    logger.log(
-        f"Found {grid_layer.GetFeatureCount()} sites in grid.",
-        refname="geojsonify_matrix_with_shapefile")
+    if logger is not None:
+        logger.log(
+            f"Found {grid_layer.GetFeatureCount()} sites in grid.", refname=refname)
     # Find the feature values to match grid sites with matrix sites
     # TODO: get dynamically?
     id_fld = "siteid"
@@ -212,9 +217,10 @@ def geojsonify_matrix_with_shapefile(
         feat = grid_layer.GetNextFeature()
 
     matrix_geojson['features'] = features
-    logger.log(
-        f"Added {len(features)} sites to geojson.",
-        refname="geojsonify_matrix_with_shapefile")
+    if logger is not None:
+        logger.log(
+            f"Added {len(features)} sites to geojson.", refname=refname)
+    # Explicitly delete OGR objects
     grid_dataset = grid_layer = None
     try:
         with open(geojson_filename, mode='wt') as out_json:
@@ -223,9 +229,9 @@ def geojsonify_matrix_with_shapefile(
         raise
     except IOError:
         raise
-    logger.log(
-        f"Wrote geojson to {geojson_filename}.",
-        refname="geojsonify_matrix_with_shapefile")
+    if logger is not None:
+        logger.log(
+            f"Wrote geojson to {geojson_filename}.", refname=refname)
 
     report = {
         "grid_filename": grid_filename,
