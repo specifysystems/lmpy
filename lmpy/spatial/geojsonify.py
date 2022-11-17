@@ -103,7 +103,7 @@ def geojsonify_matrix(matrix, resolution=None, omit_values=None, logger=None):
 # .....................................................................................
 def geojsonify_matrix_with_shapefile(
         matrix, grid_filename, omit_values=None, logger=None):
-    """Creates GeoJSON for a matrix and matching shapefile.
+    """Creates GeoJSON for a matrix, compressed or original, and matching shapefile.
 
     Args:
         matrix (Matrix): A 2 dimensional (spatial) matrix to create GeoJSON for.
@@ -135,31 +135,31 @@ def geojsonify_matrix_with_shapefile(
     # TODO: get dynamically?
     id_fld = "siteid"
 
-    # Find the feature ids in matrix
+    # Find row index for feature ids of grid cells in possibly compressed matrix
     headers = matrix.get_headers(axis=site_axis)
-    fids_in_matrix = []
+    fids_in_matrix = {}
     for mtx_row, (mtx_fid, _, _) in enumerate(headers):
-        fids_in_matrix.append(mtx_fid)
+        fids_in_matrix[mtx_fid] = mtx_row
 
-    row = 0
     feat = grid_layer.GetNextFeature()
     while feat is not None:
         # Make sure this grid site is in the matrix
         site_id = feat.GetField(id_fld)
-        ft_json = json.loads(feat.ExportToJson())
-        ft_json['properties'] = {}
-        if site_id in fids_in_matrix:
-            # ft_json = json.loads(feat.ExportToJson())
+        # ft_json = json.loads(feat.ExportToJson())
+        # ft_json['properties'] = {}
+        if site_id in fids_in_matrix.keys():
+            mtx_row = fids_in_matrix[site_id]
+            ft_json = json.loads(feat.ExportToJson())
+            ft_json['properties'] = {"site_id": site_id}
             for tx_idx, tx_name in column_enum:
-                if matrix[row, tx_idx].item() not in omit_values:
-                    ft_json['properties'][tx_name] = matrix[row, tx_idx].item()
+                if matrix[mtx_row, tx_idx].item() not in omit_values:
+                    ft_json['properties'][tx_name] = matrix[mtx_row, tx_idx].item()
             # ft_json['properties'] = {
             #     k: matrix[i, j].item() for j, k in column_enum
             #     if matrix[i, j].item() not in omit_values
             # }
             if len(ft_json['properties'].keys()) > 0:
                 features.append(ft_json)
-        row += 1
         feat = grid_layer.GetNextFeature()
 
     ret['features'] = features
