@@ -63,11 +63,12 @@ def _get_geojson_geometry_func(resolution=None):
 
 # .....................................................................................
 def geojsonify_matrix(matrix, resolution=None, omit_values=None, logger=None):
-    """Creates GeoJSON for a matrix and matching shapefile.
+    """Creates GeoJSON of points or polygons for a matrix.
 
     Args:
         matrix (Matrix): A (spatial) matrix to create GeoJSON for.
-        resolution (Numeric): The size of the grid cells in decimal degrees
+        resolution (Numeric): The size of the grid cells in decimal degrees.  If None,
+            the output will be points instead of grid cells.
         omit_values (list): Omit properties when their value is in this list.
         logger (lmpy.log.Logger): An optional local logger to use for logging output
             with consistent options
@@ -150,7 +151,8 @@ def geojsonify_matrix_with_shapefile(
         if site_id in fids_in_matrix.keys():
             mtx_row = fids_in_matrix[site_id]
             ft_json = json.loads(feat.ExportToJson())
-            ft_json['properties'] = {"site_id": site_id}
+            ft_json["id"] = site_id
+            ft_json["properties"] = {}
             for tx_idx, tx_name in column_enum:
                 if matrix[mtx_row, tx_idx].item() not in omit_values:
                     ft_json['properties'][tx_name] = matrix[mtx_row, tx_idx].item()
