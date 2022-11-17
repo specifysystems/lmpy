@@ -1,6 +1,9 @@
 """Convert a lmpy Matrix to a (.csv) file."""
 import argparse
+import json
+import os
 
+from lmpy.log import Logger
 from lmpy.matrix import Matrix
 from lmpy.tools._config_parser import _process_arguments, test_files
 
@@ -36,9 +39,25 @@ def build_parser():
     Returns:
         argparse.ArgumentParser: An argument parser for the tool's parameters.
     """
-    parser = argparse.ArgumentParser(
-        prog='convert_lmm_to_csv',
-        description=DESCRIPTION,
+    parser = argparse.ArgumentParser(prog='convert_lmm_to_csv', description=DESCRIPTION)
+    parser.add_argument('--config_file', type=str, help='Path to configuration file.')
+    parser.add_argument(
+        "--log_filename",
+        "-l",
+        type=str,
+        help="A file location to write logging data."
+    )
+    parser.add_argument(
+        "--log_console",
+        action="store_true",
+        default=False,
+        help="If provided, write log to console."
+    )
+    parser.add_argument(
+        "-r",
+        "--report_filename",
+        type=str,
+        help="File location to write the wrangler report."
     )
     parser.add_argument(
         'in_lmm_filename', type=str, help='Lmpy LMM filename to convert to CSV.'
@@ -65,15 +84,56 @@ def test_inputs(args):
 
 # .....................................................................................
 def cli():
-    """Provide a command-line tool for converting lmms to csvs."""
+    """Provide a command-line tool for converting lmms to csvs.
+
+    Raises:
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
+    """
     parser = build_parser()
     args = _process_arguments(parser)
     errs = test_inputs(args)
     if errs:
         print("Errors, exiting program")
         exit('\n'.join(errs))
+
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
+    logger = Logger(
+        script_name,
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
+
     mtx = Matrix.load(args.in_lmm_filename)
+
+    col_count = len(mtx.get_column_headers())
+    row_count = len(mtx.get_row_headers())
+    logger.log(
+        f"Loaded matrix {args.in_lmm_filename} with {row_count} sites/rows " +
+        f"and {col_count} taxa/columns",
+        refname=os.path.splitext(os.path.basename(__file__))[0])
+
     convert_lmm_to_csv(mtx, args.out_csv_filename)
+
+    logger.log(
+        f"Wrote matrix {args.in_lmm_filename} to CSV file {args.out_csv_filename}")
+
+    # If the output report was requested, write it
+    if args.report_filename:
+        report = {
+            "in_matrix_filename": args.in_lmm_filename,
+            "out_csv_filename": args.out_csv_filename,
+            "rows": row_count,
+            "columns": col_count
+        }
+        try:
+            with open(args.report_filename, mode='wt') as out_file:
+                json.dump(report, out_file, indent=4)
+        except OSError:
+            raise
+        except IOError:
+            raise
+        logger.log(f"Wrote report file to {args.report_filename}")
 
 
 # .....................................................................................
