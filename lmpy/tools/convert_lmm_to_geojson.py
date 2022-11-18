@@ -141,6 +141,9 @@ def cli():
             raise
         except IOError:
             raise
+        except Exception as err:
+            print(err)
+            raise
         logger.log(
             f"Wrote report file to {args.report_filename}",
             refname=os.path.splitext(os.path.basename(__file__))[0])

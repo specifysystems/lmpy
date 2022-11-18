@@ -134,7 +134,8 @@ def geojsonify_matrix(
         report["feature_type"] = "polygon"
         report["grid_resolution"] = resolution
     if omit_values:
-        report["ignored_values"] = omit_values
+        ovals = [str(x) for x in omit_values]
+        report["ignored_values"] = ovals
     return report
 
 
@@ -242,7 +243,8 @@ def geojsonify_matrix_with_shapefile(
         "feature_type": "polygon",
     }
     if omit_values:
-        report["ignored_values"] = omit_values
+        ovals = [str(x) for x in omit_values]
+        report["ignored_values"] = ovals
     return report
 
 

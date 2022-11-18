@@ -148,23 +148,30 @@ class Matrix(np.ndarray):
         i = 0
         for line in flo:
             items = line.strip().split(',')
-            # If header row, add to header rows for processing
+            # If header row (identifying the columns), add to header rows for processing
             if i < num_header_rows:
                 # Add the headers to header lines for processing
                 header_lines.append(items[num_header_cols:])
+            # For each row of values
             else:
-                if num_header_cols == 1:
-                    row_headers.append(items[0].strip())
-                elif num_header_cols > 1:
+                # First save values that are header columns (identifying the row)
+                if num_header_cols > 0:
                     row_headers.append([q.strip() for q in items[:num_header_cols]])
-                data.append([dtype(x) for x in items[num_header_cols:]])
-
+                # Next convert string data values in the row to numbers
+                # (without header columns/row identifiers)
+                data_row = [float(x) for x in items[num_header_cols:]]
+                # Finally, add to the data, as float or int
+                if dtype == float:
+                    data.append(data_row)
+                else:
+                    data.append([dtype(x) for x in data_row])
             i += 1
 
         # Process header columns from header rows
-        if num_header_rows == 1:
-            col_headers = [q.strip() for q in header_lines[0]]
-        elif num_header_rows > 1:
+        # if num_header_rows == 1:
+        #     col_headers = [q.strip() for q in header_lines[0]]
+        # elif num_header_rows > 1:
+        if num_header_rows > 0:
             for j in range(len(header_lines[0])):
                 hdr = []
                 for hdr_idx in range(num_header_rows):
