@@ -1,6 +1,7 @@
 """Convert a lmpy Matrix to a GeoJSON (.geojson) file."""
 import argparse
 import json
+from logging import WARN
 import os
 
 from lmpy.log import Logger
@@ -118,6 +119,9 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
+    logger.log(
+        f"Beware: {script_name} has not been fully tested", refname=script_name,
+        log_level=WARN)
 
     mtx = Matrix.load(args.in_lmm_filename)
     if args.shapefile_filename is not None:
