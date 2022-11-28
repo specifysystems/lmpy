@@ -61,13 +61,13 @@ def build_parser():
         "--log_console",
         action="store_true",
         default=False,
-        help="If provided, write log to console."
+        help="If provided, write logging statements to console."
     )
     parser.add_argument(
         "-r",
         "--report_filename",
         type=str,
-        help="File location to write the wrangler report."
+        help="File location to write the summary report."
     )
     parser.add_argument(
         "--randomization_method",

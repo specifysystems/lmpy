@@ -124,6 +124,7 @@ def cli():
         log_level=WARN)
 
     mtx = Matrix.load(args.in_lmm_filename)
+    # col_headers = mtx.get_column_headers()
     if args.shapefile_filename is not None:
         report = geojsonify_matrix_with_shapefile(
             mtx, args.shapefile_filename, args.out_geojson_filename,
