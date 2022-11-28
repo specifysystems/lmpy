@@ -24,6 +24,24 @@ def build_parser():
     #     file instead of the command line
     parser.add_argument('--config_file', type=str, help='Path to configuration file.')
     parser.add_argument(
+        "--log_filename",
+        "-l",
+        type=str,
+        help="A file location to write logging data."
+    )
+    parser.add_argument(
+        "--log_console",
+        action="store_true",
+        default=False,
+        help="If provided, write logging statements to the console."
+    )
+    parser.add_argument(
+        "-r",
+        "--report_filename",
+        type=str,
+        help="File location to write the summary report."
+    )
+    parser.add_argument(
         '-b',
         '--base_layer',
         type=str,
