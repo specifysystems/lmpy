@@ -1,7 +1,6 @@
 """Module containing base PAM statistic functionality."""
 import numpy as np
 from lmpy import Matrix
-from logging import DEBUG
 
 
 # .............................................................................
@@ -557,7 +556,7 @@ class PamStats:
             list of tuple: A list of metric name, value tuples for covariance stats.
         """
         cov_stats_names = [name for name, _ in self.covariance_stats]
-        self.logger.log(
+        self._log(
             f"Calculate {cov_stats_names} covariance stats for PAM",
             refname=self.__class__.__name__)
         return [(name, func(self.pam)) for name, func in self.covariance_stats]
@@ -571,7 +570,7 @@ class PamStats:
         """
         diversity_stat_names = [name for name, _ in self.diversity_stats]
         diversity_stat_vals = [func(self.pam) for _, func in self.diversity_stats]
-        self.logger.log(
+        self._log(
             f"Calculate {diversity_stat_names} diversity stats for PAM " +
             f"resulting in {str(diversity_stat_vals)}",
             refname=self.__class__.__name__)
@@ -590,24 +589,24 @@ class PamStats:
         """
         # Matrix based
         site_stat_names = [name for name, _ in self.site_matrix_stats]
-        self.logger.log(
+        self._log(
             f"Calculate {site_stat_names} site stats for PAM",
             refname=self.__class__.__name__)
         site_stats_matrix = Matrix(
             np.zeros((self.pam.shape[0], len(self.site_matrix_stats))),
             headers={
                 '0': self.pam.get_row_headers(),
-                '1': [site_stat_names],
+                '1': site_stat_names,
             },
         )
-        self.logger.log(
-            "Start site stats", refname=self.__class__.__name__, log_level=DEBUG)
+        self._log(
+            "Start site stats", refname=self.__class__.__name__)
         for i in range(len(self.site_matrix_stats)):
             site_stats_matrix[:, i] = self.site_matrix_stats[i][1](self.pam)
 
         if self.tree is not None:
-            self.logger.log(
-                "Tree stuff", refname=self.__class__.__name__, log_level=DEBUG)
+            self._log(
+                "Tree stuff", refname=self.__class__.__name__)
             squid_annotations = self.tree.get_annotations('squid')
             squid_dict = {squid: label for label, squid in squid_annotations}
             ordered_labels = []
@@ -637,11 +636,11 @@ class PamStats:
             )
 
             # PAM / Tree stats
-            self.logger.log(
-                "Get distance matrix", refname=self.__class__.__name__, log_level=DEBUG)
+            self._log(
+                "Get distance matrix", refname=self.__class__.__name__)
             phylo_dist_mtx = self.tree.get_distance_matrix()
-            self.logger.log(
-                "PAM dist mtx stats", refname=self.__class__.__name__, log_level=DEBUG)
+            self._log(
+                "PAM dist mtx stats", refname=self.__class__.__name__)
             site_pam_tree_matrix = None
             if self.site_pam_dist_mtx_stats:
                 site_pam_tree_matrix = Matrix(
@@ -657,8 +656,8 @@ class PamStats:
                     },
                 )
 
-            self.logger.log(
-                "Site by site", refname=self.__class__.__name__, log_level=DEBUG)
+            self._log(
+                "Site by site", refname=self.__class__.__name__)
             # Loop through PAM
             for site_idx, site_row in enumerate(self.pam):
                 # Get present species
@@ -692,9 +691,9 @@ class PamStats:
                             func(site_tree) for _, func in self.site_tree_stats
                         ]
                 except Exception as err:  # pragma: no cover
-                    self.logger.log(err, refname=self.__class__.__name__)
-                    self.logger.log(present_labels, refname=self.__class__.__name__)
-                    self.logger.log(
+                    self._log(err, refname=self.__class__.__name__)
+                    self._log(present_labels, refname=self.__class__.__name__)
+                    self._log(
                         f"Site index: {site_idx}", refname=self.__class__.__name__)
 
             all_stat_matrices = []
@@ -718,7 +717,7 @@ class PamStats:
             Matrix: A matrix of species-based statistics for the selected metrics.
         """
         species_stats_names = [name for name, _ in self.species_matrix_stats]
-        self.logger.log(
+        self._log(
             f"Calculate {species_stats_names} species stats for PAM",
             refname=self.__class__.__name__)
         # Matrix based
@@ -761,6 +760,11 @@ class PamStats:
             self.species_matrix_stats.append((name, metric_function))
         else:
             raise TypeError('Unknown metric type: {}, {}'.format(name, metric_function))
+
+    # ...........................
+    def _log(self, msg, refname=None):
+        if self.logger is not None:
+            self.logger.log(msg, refname=refname)
 
 
 # .............................................................................

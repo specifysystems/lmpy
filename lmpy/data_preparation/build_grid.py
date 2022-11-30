@@ -184,10 +184,11 @@ def build_grid(
             'Cannot generate grid cells with {} sides'.format(cell_sides)
         )
 
-    logger.log(
-        f"Build {grid_file_name} in EPSG:{epsg_code} with {cell_sides}-sided cells " +
-        f"of {cell_size} size and x-extent {min_x} to {max_x}, " +
-        f"y-extent {min_y} to {max_y}.", refname=script_name)
+    if logger is not None:
+        logger.log(
+            f"Build {grid_file_name} in EPSG:{epsg_code} with  " +
+            f"{cell_sides}-sided cells of {cell_size} size and x-extent {min_x} " +
+            f"to {max_x}, y-extent {min_y} to {max_y}.", refname=script_name)
 
     shape_id = 0
     for cell_wkt in wkt_generator:
@@ -205,7 +206,9 @@ def build_grid(
         feat.Destroy()
     data_set.Destroy()
     report["size"] = shape_id
-    logger.log(f"Wrote {grid_file_name} with {shape_id} sites.", refname=script_name)
+    if logger is not None:
+        logger.log(
+            f"Wrote {grid_file_name} with {shape_id} sites.", refname=script_name)
     return report
 
 

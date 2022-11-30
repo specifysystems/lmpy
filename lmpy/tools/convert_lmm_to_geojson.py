@@ -1,6 +1,7 @@
 """Convert a lmpy Matrix to a GeoJSON (.geojson) file."""
 import argparse
 import json
+from logging import WARN
 import os
 
 from lmpy.log import Logger
@@ -102,8 +103,8 @@ def cli():
     """Provide a command-line tool for converting LMM to GeoJSON.
 
     Raises:
-        OSError: on failure to write to out_geojson_filename.
-        IOError: on failure to write to out_geojson_filename.
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
     """
     parser = build_parser()
     args = _process_arguments(parser, config_arg='config_file')
@@ -118,23 +119,39 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
+    logger.log(
+        f"Beware: {script_name} has not been fully tested", refname=script_name,
+        log_level=WARN)
 
     mtx = Matrix.load(args.in_lmm_filename)
+    # col_headers = mtx.get_column_headers()
     if args.shapefile_filename is not None:
-        matrix_geojson = geojsonify_matrix_with_shapefile(
-            mtx, args.shapefile_filename, omit_values=args.omit_value, logger=logger
+        report = geojsonify_matrix_with_shapefile(
+            mtx, args.shapefile_filename, args.out_geojson_filename,
+            omit_values=args.omit_value, logger=logger
         )
     else:
-        matrix_geojson = geojsonify_matrix(
-            mtx, resolution=args.resolution, omit_values=args.omit_value, logger=logger
+        report = geojsonify_matrix(
+            mtx, args.out_geojson_filename, resolution=args.resolution,
+            omit_values=args.omit_value, logger=logger
         )
-    try:
-        with open(args.out_geojson_filename, mode='wt') as out_json:
-            json.dump(matrix_geojson, out_json)
-    except OSError:
-        raise
-    except IOError:
-        raise
+    report["matrix_filename"] = args.in_lmm_filename
+
+    # If the output report was requested, write it
+    if args.report_filename:
+        try:
+            with open(args.report_filename, mode='wt') as out_file:
+                json.dump(report, out_file, indent=4)
+        except OSError:
+            raise
+        except IOError:
+            raise
+        except Exception as err:
+            print(err)
+            raise
+        logger.log(
+            f"Wrote report file to {args.report_filename}",
+            refname=os.path.splitext(os.path.basename(__file__))[0])
 
 
 # .....................................................................................
