@@ -596,7 +596,7 @@ class PamStats:
             np.zeros((self.pam.shape[0], len(self.site_matrix_stats))),
             headers={
                 '0': self.pam.get_row_headers(),
-                '1': [site_stat_names],
+                '1': site_stat_names,
             },
         )
         self._log(
@@ -764,7 +764,7 @@ class PamStats:
     # ...........................
     def _log(self, msg, refname=None):
         if self.logger is not None:
-            self._log(msg, refname=refname)
+            self.logger.log(msg, refname=refname)
 
 
 # .............................................................................
