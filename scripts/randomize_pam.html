@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>randomize_pam - CLI interface &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
+  <title>randomize_pam - CLI interface &mdash; Specify lmpy 3.1.21+121.g6633e9d4 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -94,9 +94,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="tools.html">Tools</a> &raquo;</li>
-      <li>randomize_pam - CLI interface</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="tools.html">Tools</a></li>
+      <li class="breadcrumb-item active">randomize_pam - CLI interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/scripts/randomize_pam.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -109,15 +109,18 @@
   <section id="randomize_pam---CLI-interface">
 <h1>randomize_pam - CLI interface<a class="headerlink" href="#randomize_pam---CLI-interface" title="Permalink to this heading"></a></h1>
 <p>Randomize a binary presence-absence matrix (PAM) while maintaining marginal totals.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">randomize_pam</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span>
-              <span class="n">input_pam_filename</span> <span class="n">output_pam_filename</span> <span class="p">[</span><span class="n">output_pam_filename</span> <span class="o">...</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">randomize_pam</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">log_filename</span> <span class="n">LOG_FILENAME</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">log_console</span><span class="p">]</span>
+              <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">REPORT_FILENAME</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">randomization_method</span> <span class="p">{</span><span class="n">grady</span><span class="p">}]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">output_pam_count</span> <span class="n">OUTPUT_PAM_COUNT</span><span class="p">]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">output_pam_basefilename</span> <span class="n">OUTPUT_PAM_BASEFILENAME</span> <span class="p">[</span><span class="n">OUTPUT_PAM_BASEFILENAME</span> <span class="o">...</span><span class="p">]]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">output_pam_filename</span> <span class="n">OUTPUT_PAM_FILENAME</span> <span class="p">[</span><span class="n">OUTPUT_PAM_FILENAME</span> <span class="o">...</span><span class="p">]]</span>
+              <span class="n">input_pam_filename</span>
 </pre></div>
 </div>
 <section id="randomize_pam-positional-arguments">
 <h2>randomize_pam positional arguments<a class="headerlink" href="#randomize_pam-positional-arguments" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p id="randomize_pam-input_pam_filename"><a class="reference internal" href="#randomize_pam-input_pam_filename" title="randomize_pam input_pam_filename"><strong><code class="docutils literal notranslate"><span class="pre">input_pam_filename</span></code></strong></a> - The file location of the PAM to randomize. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p id="randomize_pam-output_pam_filename"><a class="reference internal" href="#randomize_pam-output_pam_filename" title="randomize_pam output_pam_filename"><strong><code class="docutils literal notranslate"><span class="pre">output_pam_filename</span></code></strong></a> - The file location to write the randomized PAM. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
 <section id="randomize_pam-optional-arguments">
@@ -125,6 +128,13 @@
 <ul class="simple">
 <li><p id="randomize_pam--h"><span id="randomize_pam---help"></span><a class="reference internal" href="#randomize_pam--h" title="randomize_pam -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#randomize_pam---help" title="randomize_pam --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
 <li><p id="randomize_pam---config_file"><a class="reference internal" href="#randomize_pam---config_file" title="randomize_pam --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="randomize_pam---log_filename"><span id="randomize_pam--l"></span><a class="reference internal" href="#randomize_pam---log_filename" title="randomize_pam --log_filename"><strong><code class="docutils literal notranslate"><span class="pre">--log_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LOG_FILENAME</span></code>, <a class="reference internal" href="#randomize_pam--l" title="randomize_pam -l"><strong><code class="docutils literal notranslate"><span class="pre">-l</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LOG_FILENAME</span></code> - A file location to write logging data. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="randomize_pam---log_console"><a class="reference internal" href="#randomize_pam---log_console" title="randomize_pam --log_console"><strong><code class="docutils literal notranslate"><span class="pre">--log_console</span></code></strong></a> - If provided, write logging statements to console.</p></li>
+<li><p id="randomize_pam--r"><span id="randomize_pam---report_filename"></span><a class="reference internal" href="#randomize_pam--r" title="randomize_pam -r"><strong><code class="docutils literal notranslate"><span class="pre">-r</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code>, <a class="reference internal" href="#randomize_pam---report_filename" title="randomize_pam --report_filename"><strong><code class="docutils literal notranslate"><span class="pre">--report_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code> - File location to write the summary report. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="randomize_pam---randomization_method"><span id="randomize_pam--m"></span><a class="reference internal" href="#randomize_pam---randomization_method" title="randomize_pam --randomization_method"><strong><code class="docutils literal notranslate"><span class="pre">--randomization_method</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">RANDOMIZATION_METHOD</span></code>, <a class="reference internal" href="#randomize_pam--m" title="randomize_pam -m"><strong><code class="docutils literal notranslate"><span class="pre">-m</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">RANDOMIZATION_METHOD</span></code> - The method to use to randomize the matrix. (default: <code class="docutils literal notranslate"><span class="pre">grady</span></code>)</p></li>
+<li><p id="randomize_pam---output_pam_count"><a class="reference internal" href="#randomize_pam---output_pam_count" title="randomize_pam --output_pam_count"><strong><code class="docutils literal notranslate"><span class="pre">--output_pam_count</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">OUTPUT_PAM_COUNT</span></code> - Number of randomized PAMs to create. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="randomize_pam---output_pam_basefilename"><a class="reference internal" href="#randomize_pam---output_pam_basefilename" title="randomize_pam --output_pam_basefilename"><strong><code class="docutils literal notranslate"><span class="pre">--output_pam_basefilename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">OUTPUT_PAM_BASEFILENAME</span></code> - The path and base filename (without extension) for randomized PAMs. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="randomize_pam---output_pam_filename"><a class="reference internal" href="#randomize_pam---output_pam_filename" title="randomize_pam --output_pam_filename"><strong><code class="docutils literal notranslate"><span class="pre">--output_pam_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">OUTPUT_PAM_FILENAME</span></code> - The file location to write the randomized PAM(s). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
 </section>

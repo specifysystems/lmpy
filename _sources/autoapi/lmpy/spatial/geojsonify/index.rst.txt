@@ -23,13 +23,16 @@ Functions
 
 
 
-.. py:function:: geojsonify_matrix(matrix, resolution=None, omit_values=None, logger=None)
+.. py:function:: geojsonify_matrix(matrix, geojson_filename, resolution=None, omit_values=None, logger=None)
 
-   Creates GeoJSON for a matrix and matching shapefile.
+   Creates GeoJSON of points or polygons for a compressed or uncompressed matrix.
 
    :param matrix: A (spatial) matrix to create GeoJSON for.
    :type matrix: Matrix
-   :param resolution: The size of the grid cells in decimal degrees
+   :param geojson_filename: Output filename for geojson.
+   :type geojson_filename: str
+   :param resolution: The size of the grid cells in decimal degrees.  If None,
+                      the output will be points instead of grid cells.
    :type resolution: Numeric
    :param omit_values: Omit properties when their value is in this list.
    :type omit_values: list
@@ -37,18 +40,23 @@ Functions
                   with consistent options
    :type logger: lmpy.log.Logger
 
-   :returns: A GeoJSON compatible dictionary.
+   :returns: A report summarizing the process.
    :rtype: dict
 
+   :raises OSError: on failure to write to geojson_filename.
+   :raises IOError: on failure to write to geojson_filename.
 
-.. py:function:: geojsonify_matrix_with_shapefile(matrix, grid_filename, omit_values=None, logger=None)
 
-   Creates GeoJSON for a matrix and matching shapefile.
+.. py:function:: geojsonify_matrix_with_shapefile(matrix, grid_filename, geojson_filename, omit_values=None, logger=None)
+
+   Creates GeoJSON for a matrix, compressed or original, and matching shapefile.
 
    :param matrix: A 2 dimensional (spatial) matrix to create GeoJSON for.
    :type matrix: Matrix
    :param grid_filename: A file path to a shapefile matching the matrix.
    :type grid_filename: str
+   :param geojson_filename: Output filename for geojson.
+   :type geojson_filename: str
    :param omit_values: Omit properties when their value is in this list.
    :type omit_values: list
    :param logger: An optional local logger to use for logging output
@@ -59,5 +67,7 @@ Functions
    :rtype: dict
 
    :raises FileNotFoundError: on missing grid_filename.
+   :raises OSError: on failure to write to geojson_filename.
+   :raises IOError: on failure to write to geojson_filename.
 
 

@@ -28,7 +28,7 @@ Functions
 
    Build an argparse.ArgumentParser object for the tool.
 
-   :returns: An argument parser for the tool's parameters.
+   :returns: An argument parser for the tool"s parameters.
    :rtype: argparse.ArgumentParser
 
 
@@ -36,15 +36,31 @@ Functions
 
    Function providing a command line interface to the tool.
 
+   :raises Exception: on failure to provide output_pam_filename or output_pam_filepattern
+   :raises Exception: on failure to provide output_pam_count if output_pam_filepattern
+       is specified.
+   :raises OSError: on failure to write to report_filename.
+   :raises IOError: on failure to write to report_filename.
 
-.. py:function:: randomize_pam(in_pam)
+   .. rubric:: Notes
+
+   TODO: enable Gotelli swap and trial swap methods
+
+
+.. py:function:: randomize_pam(in_pam, method='grady', logger=None)
 
    Randomize a PAM.
 
    :param in_pam: The input PAM to be randomized.
    :type in_pam: Matrix
+   :param method: the algorithm for randomizing the PAM
+   :type method: str
+   :param logger: logger for printing to file and console
+   :type logger: lmpy.log.Logger
 
    :returns: A randomized PAM that maintains marginal totals.
    :rtype: Matrix
+
+   :raises Exception: on method other than `grady`
 
 

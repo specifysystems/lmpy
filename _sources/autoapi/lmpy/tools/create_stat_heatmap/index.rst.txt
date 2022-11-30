@@ -27,12 +27,14 @@ Functions
 
    Build an argparse.ArgumentParser object for the tool.
 
-   :returns: An argument parser for the tool's parameters.
+   :returns: An argument parser for the tool"s parameters.
    :rtype: argparse.ArgumentParser
 
 
 .. py:function:: cli()
 
-   Provide a command-line tool for creating a point heatmap.
+   Provide a command-line tool for creating a site-statistic heatmap.
+
+   :raises Exception: on statistic not present in matrix column headers.
 
 

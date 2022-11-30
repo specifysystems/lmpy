@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.spatial.geojsonify &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
+  <title>lmpy.spatial.geojsonify &mdash; Specify lmpy 3.1.21+121.g6633e9d4 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -66,8 +66,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.spatial.geojsonify</span></code></li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.spatial.geojsonify</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../../_sources/autoapi/lmpy/spatial/geojsonify/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -90,46 +90,55 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.spatial.geojsonify.geojsonify_matrix" title="lmpy.spatial.geojsonify.geojsonify_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geojsonify_matrix</span></code></a>(matrix[, resolution, omit_values, ...])</p></td>
-<td><p>Creates GeoJSON for a matrix and matching shapefile.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lmpy.spatial.geojsonify.geojsonify_matrix" title="lmpy.spatial.geojsonify.geojsonify_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geojsonify_matrix</span></code></a>(matrix, geojson_filename[, ...])</p></td>
+<td><p>Creates GeoJSON of points or polygons for a compressed or uncompressed matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile" title="lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geojsonify_matrix_with_shapefile</span></code></a>(matrix, grid_filename)</p></td>
-<td><p>Creates GeoJSON for a matrix and matching shapefile.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile" title="lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geojsonify_matrix_with_shapefile</span></code></a>(matrix, ...[, ...])</p></td>
+<td><p>Creates GeoJSON for a matrix, compressed or original, and matching shapefile.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.spatial.geojsonify.geojsonify_matrix">
-<span class="sig-prename descclassname"><span class="pre">lmpy.spatial.geojsonify.</span></span><span class="sig-name descname"><span class="pre">geojsonify_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/spatial/geojsonify.html#geojsonify_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.spatial.geojsonify.geojsonify_matrix" title="Permalink to this definition"></a></dt>
-<dd><p>Creates GeoJSON for a matrix and matching shapefile.</p>
+<span class="sig-prename descclassname"><span class="pre">lmpy.spatial.geojsonify.</span></span><span class="sig-name descname"><span class="pre">geojsonify_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geojson_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/spatial/geojsonify.html#geojsonify_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.spatial.geojsonify.geojsonify_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Creates GeoJSON of points or polygons for a compressed or uncompressed matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>matrix</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A (spatial) matrix to create GeoJSON for.</p></li>
-<li><p><strong>resolution</strong> (<em>Numeric</em>) – The size of the grid cells in decimal degrees</p></li>
+<li><p><strong>geojson_filename</strong> (<em>str</em>) – Output filename for geojson.</p></li>
+<li><p><strong>resolution</strong> (<em>Numeric</em>) – The size of the grid cells in decimal degrees.  If None,
+the output will be points instead of grid cells.</p></li>
 <li><p><strong>omit_values</strong> (<em>list</em>) – Omit properties when their value is in this list.</p></li>
 <li><p><strong>logger</strong> (<a class="reference internal" href="../../log/index.html#lmpy.log.Logger" title="lmpy.log.Logger"><em>lmpy.log.Logger</em></a>) – An optional local logger to use for logging output
 with consistent options</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A GeoJSON compatible dictionary.</p>
+<dd class="field-even"><p>A report summarizing the process.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>OSError</strong> – on failure to write to geojson_filename.</p></li>
+<li><p><strong>IOError</strong> – on failure to write to geojson_filename.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile">
-<span class="sig-prename descclassname"><span class="pre">lmpy.spatial.geojsonify.</span></span><span class="sig-name descname"><span class="pre">geojsonify_matrix_with_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/spatial/geojsonify.html#geojsonify_matrix_with_shapefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile" title="Permalink to this definition"></a></dt>
-<dd><p>Creates GeoJSON for a matrix and matching shapefile.</p>
+<span class="sig-prename descclassname"><span class="pre">lmpy.spatial.geojsonify.</span></span><span class="sig-name descname"><span class="pre">geojsonify_matrix_with_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geojson_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/spatial/geojsonify.html#geojsonify_matrix_with_shapefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile" title="Permalink to this definition"></a></dt>
+<dd><p>Creates GeoJSON for a matrix, compressed or original, and matching shapefile.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>matrix</strong> (<a class="reference internal" href="../../matrix/index.html#lmpy.matrix.Matrix" title="lmpy.matrix.Matrix"><em>Matrix</em></a>) – A 2 dimensional (spatial) matrix to create GeoJSON for.</p></li>
 <li><p><strong>grid_filename</strong> (<em>str</em>) – A file path to a shapefile matching the matrix.</p></li>
+<li><p><strong>geojson_filename</strong> (<em>str</em>) – Output filename for geojson.</p></li>
 <li><p><strong>omit_values</strong> (<em>list</em>) – Omit properties when their value is in this list.</p></li>
 <li><p><strong>logger</strong> (<a class="reference internal" href="../../log/index.html#lmpy.log.Logger" title="lmpy.log.Logger"><em>lmpy.log.Logger</em></a>) – An optional local logger to use for logging output
 with consistent options</p></li>
@@ -142,7 +151,11 @@ with consistent options</p></li>
 <dd class="field-odd"><p>dict</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – on missing grid_filename.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – on missing grid_filename.</p></li>
+<li><p><strong>OSError</strong> – on failure to write to geojson_filename.</p></li>
+<li><p><strong>IOError</strong> – on failure to write to geojson_filename.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

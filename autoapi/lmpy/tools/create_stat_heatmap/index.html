@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.create_stat_heatmap &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
+  <title>lmpy.tools.create_stat_heatmap &mdash; Specify lmpy 3.1.21+121.g6633e9d4 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
@@ -66,8 +66,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.create_stat_heatmap</span></code></li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lmpy.tools.create_stat_heatmap</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../../_sources/autoapi/lmpy/tools/create_stat_heatmap/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -94,7 +94,7 @@
 <td><p>Build an argparse.ArgumentParser object for the tool.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lmpy.tools.create_stat_heatmap.cli" title="lmpy.tools.create_stat_heatmap.cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cli</span></code></a>()</p></td>
-<td><p>Provide a command-line tool for creating a point heatmap.</p></td>
+<td><p>Provide a command-line tool for creating a site-statistic heatmap.</p></td>
 </tr>
 </tbody>
 </table>
@@ -104,7 +104,7 @@
 <dd><p>Build an argparse.ArgumentParser object for the tool.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>An argument parser for the tool’s parameters.</p>
+<dd class="field-odd"><p>An argument parser for the tool”s parameters.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>argparse.ArgumentParser</p>
@@ -115,7 +115,12 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="lmpy.tools.create_stat_heatmap.cli">
 <span class="sig-prename descclassname"><span class="pre">lmpy.tools.create_stat_heatmap.</span></span><span class="sig-name descname"><span class="pre">cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/lmpy/tools/create_stat_heatmap.html#cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lmpy.tools.create_stat_heatmap.cli" title="Permalink to this definition"></a></dt>
-<dd><p>Provide a command-line tool for creating a point heatmap.</p>
+<dd><p>Provide a command-line tool for creating a site-statistic heatmap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – on statistic not present in matrix column headers.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

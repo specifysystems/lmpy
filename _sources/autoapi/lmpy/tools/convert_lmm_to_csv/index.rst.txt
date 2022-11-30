@@ -36,6 +36,9 @@ Functions
 
    Provide a command-line tool for converting lmms to csvs.
 
+   :raises OSError: on failure to write to report_filename.
+   :raises IOError: on failure to write to report_filename.
+
 
 .. py:function:: convert_lmm_to_csv(mtx, csv_filename)
 

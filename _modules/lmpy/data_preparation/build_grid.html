@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
+  <title>lmpy.data_preparation.build_grid &mdash; Specify lmpy 3.1.21+121.g6633e9d4 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -65,9 +65,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>lmpy.data_preparation.build_grid</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lmpy.data_preparation.build_grid</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -263,10 +263,11 @@
             <span class="s1">&#39;Cannot generate grid cells with </span><span class="si">{}</span><span class="s1"> sides&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cell_sides</span><span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Build </span><span class="si">{</span><span class="n">grid_file_name</span><span class="si">}</span><span class="s2"> in EPSG:</span><span class="si">{</span><span class="n">epsg_code</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">cell_sides</span><span class="si">}</span><span class="s2">-sided cells &quot;</span> <span class="o">+</span>
-        <span class="sa">f</span><span class="s2">&quot;of </span><span class="si">{</span><span class="n">cell_size</span><span class="si">}</span><span class="s2"> size and x-extent </span><span class="si">{</span><span class="n">min_x</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">max_x</span><span class="si">}</span><span class="s2">, &quot;</span> <span class="o">+</span>
-        <span class="sa">f</span><span class="s2">&quot;y-extent </span><span class="si">{</span><span class="n">min_y</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">max_y</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Build </span><span class="si">{</span><span class="n">grid_file_name</span><span class="si">}</span><span class="s2"> in EPSG:</span><span class="si">{</span><span class="n">epsg_code</span><span class="si">}</span><span class="s2"> with  &quot;</span> <span class="o">+</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cell_sides</span><span class="si">}</span><span class="s2">-sided cells of </span><span class="si">{</span><span class="n">cell_size</span><span class="si">}</span><span class="s2"> size and x-extent </span><span class="si">{</span><span class="n">min_x</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span>
+            <span class="sa">f</span><span class="s2">&quot;to </span><span class="si">{</span><span class="n">max_x</span><span class="si">}</span><span class="s2">, y-extent </span><span class="si">{</span><span class="n">min_y</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">max_y</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
 
     <span class="n">shape_id</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">cell_wkt</span> <span class="ow">in</span> <span class="n">wkt_generator</span><span class="p">:</span>
@@ -284,7 +285,9 @@
         <span class="n">feat</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
     <span class="n">data_set</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
     <span class="n">report</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">shape_id</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrote </span><span class="si">{</span><span class="n">grid_file_name</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">shape_id</span><span class="si">}</span><span class="s2"> sites.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Wrote </span><span class="si">{</span><span class="n">grid_file_name</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">shape_id</span><span class="si">}</span><span class="s2"> sites.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">report</span></div>
 
 

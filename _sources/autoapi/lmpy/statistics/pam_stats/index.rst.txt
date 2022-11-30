@@ -140,6 +140,9 @@ Functions
 
       
 
+   .. py:method:: _log(msg, refname=None)
+
+
    .. py:method:: calculate_covariance_statistics()
 
       Calculate covariance statistics matrices.

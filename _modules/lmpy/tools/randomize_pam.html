@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.randomize_pam &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
+  <title>lmpy.tools.randomize_pam &mdash; Specify lmpy 3.1.21+121.g6633e9d4 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -65,9 +65,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>lmpy.tools.randomize_pam</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lmpy.tools.randomize_pam</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -80,28 +80,44 @@
 <span></span><span class="sd">&quot;&quot;&quot;This script will randomize a PAM while maintaining marginal totals.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
+<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="kn">import</span> <span class="n">Logger</span>
 <span class="kn">from</span> <span class="nn">lmpy</span> <span class="kn">import</span> <span class="n">Matrix</span>
 <span class="kn">from</span> <span class="nn">lmpy.randomize.grady</span> <span class="kn">import</span> <span class="n">grady_randomize</span>
+<span class="c1"># from lmpy.randomize.swap import swap_randomize, trial_swap</span>
 <span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="kn">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
 
 
-<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
-<span class="s1">Randomize a binary presence-absence matrix (PAM) while maintaining marginal totals.</span><span class="se">\</span>
-<span class="s1">&#39;&#39;&#39;</span>
+<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">Randomize a binary presence-absence matrix (PAM) while maintaining marginal totals.</span><span class="se">\</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="randomize_pam"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/randomize_pam/index.html#lmpy.tools.randomize_pam.randomize_pam">[docs]</a><span class="k">def</span> <span class="nf">randomize_pam</span><span class="p">(</span><span class="n">in_pam</span><span class="p">):</span>
+<div class="viewcode-block" id="randomize_pam"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/randomize_pam/index.html#lmpy.tools.randomize_pam.randomize_pam">[docs]</a><span class="k">def</span> <span class="nf">randomize_pam</span><span class="p">(</span><span class="n">in_pam</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;grady&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Randomize a PAM.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        in_pam (Matrix): The input PAM to be randomized.</span>
+<span class="sd">        method (str): the algorithm for randomizing the PAM</span>
+<span class="sd">        logger (lmpy.log.Logger): logger for printing to file and console</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: A randomized PAM that maintains marginal totals.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: on method other than `grady`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">random_pam</span> <span class="o">=</span> <span class="n">grady_randomize</span><span class="p">(</span><span class="n">in_pam</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;grady&quot;</span><span class="p">:</span>
+        <span class="n">random_pam</span> <span class="o">=</span> <span class="n">grady_randomize</span><span class="p">(</span><span class="n">in_pam</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Randomization method </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> is not yet enabled&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Randomized PAM using </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">random_pam</span></div>
 
 
@@ -110,20 +126,57 @@
     <span class="sd">&quot;&quot;&quot;Build an argparse.ArgumentParser object for the tool.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        argparse.ArgumentParser: An argument parser for the tool&#39;s parameters.</span>
+<span class="sd">        argparse.ArgumentParser: An argument parser for the tool&quot;s parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;randomize_pam&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--config_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to configuration file.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&quot;randomize_pam&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--config_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to configuration file.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;input_pam_filename&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;--log_filename&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-l&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location of the PAM to randomize.&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A file location to write logging data.&quot;</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;output_pam_filename&#39;</span><span class="p">,</span>
-        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;--log_console&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If provided, write logging statements to console.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--report_filename&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The file location to write the randomized PAM.&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;File location to write the summary report.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--randomization_method&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-m&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;grady&quot;</span><span class="p">],</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;grady&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The method to use to randomize the matrix.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--output_pam_count&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Number of randomized PAMs to create.&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--output_pam_basefilename&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The path and base filename (without extension) for randomized PAMs.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--output_pam_filename&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The file location to write the randomized PAM(s).&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;input_pam_filename&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The file location of the PAM to randomize.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span></div>
 
@@ -144,28 +197,88 @@
 
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/randomize_pam/index.html#lmpy.tools.randomize_pam.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Function providing a command line interface to the tool.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Function providing a command line interface to the tool.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: on failure to provide output_pam_filename or output_pam_filepattern</span>
+<span class="sd">        Exception: on failure to provide output_pam_count if output_pam_filepattern</span>
+<span class="sd">            is specified.</span>
+<span class="sd">        OSError: on failure to write to report_filename.</span>
+<span class="sd">        IOError: on failure to write to report_filename.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        TODO: enable Gotelli swap and trial swap methods</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s2">&quot;config_file&quot;</span><span class="p">)</span>
     <span class="n">errs</span> <span class="o">=</span> <span class="n">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">errs</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
-        <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
+        <span class="n">exit</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
+
+    <span class="n">script_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span>
+        <span class="n">script_name</span><span class="p">,</span>
+        <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
+        <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">output_pam_filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">output_pam_basefilename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output_pam_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outbase</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_basefilename</span><span class="p">)</span>
+            <span class="n">output_pam_filenames</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">outbase</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">.lmm&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_count</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">script_name</span><span class="si">}</span><span class="s2"> requires output_pam_count if specifying an &quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;output_pam_filepattern&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">script_name</span><span class="si">}</span><span class="s2"> requires either output_pam_filepattern or at least one &quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;output_pam_filename&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">***Randomize </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">input_pam_filename</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">output_pam_filenames</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span>
+        <span class="sa">f</span><span class="s2">&quot;times using method </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">randomization_method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
 
     <span class="n">in_pam</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_pam_filename</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">out_fn</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">output_pam_filename</span><span class="p">:</span>
-        <span class="n">rand_pam</span> <span class="o">=</span> <span class="n">randomize_pam</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">in_pam</span><span class="p">))</span>
-        <span class="n">rand_pam</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">out_fn</span><span class="p">)</span></div>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Loaded </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">input_pam_filename</span><span class="si">}</span><span class="s2"> for randomization&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">out_fn</span> <span class="ow">in</span> <span class="n">output_pam_filenames</span><span class="p">:</span>
+        <span class="c1"># Create output directory first</span>
+        <span class="n">work_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_fn</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">work_dir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">work_dir</span><span class="p">)</span>
+        <span class="c1"># Randomize using &quot;grady&quot; algorithm</span>
+        <span class="n">rand_pam</span> <span class="o">=</span> <span class="n">randomize_pam</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">in_pam</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">randomization_method</span><span class="p">)</span>
+        <span class="n">rand_pam</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">out_fn</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrote randomized PAM to </span><span class="si">{</span><span class="n">out_fn</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+
+    <span class="c1"># If the output report was requested, write it</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">:</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;input_pam_filename&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">input_pam_filename</span><span class="p">,</span>
+            <span class="s2">&quot;output_pam_filenames&quot;</span><span class="p">:</span> <span class="n">output_pam_filenames</span>
+        <span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Wrote report file to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;build_parser&#39;</span><span class="p">,</span> <span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="s1">&#39;randomize_pam&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;build_parser&quot;</span><span class="p">,</span> <span class="s2">&quot;cli&quot;</span><span class="p">,</span> <span class="s2">&quot;randomize_pam&quot;</span><span class="p">]</span>
 
 
 <span class="c1"># .....................................................................................</span>
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">cli</span><span class="p">()</span>
 </pre></div>
 

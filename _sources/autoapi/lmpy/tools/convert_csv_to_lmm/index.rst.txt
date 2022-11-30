@@ -28,7 +28,7 @@ Functions
 
    Build an argparse.ArgumentParser object for the tool.
 
-   :returns: An argument parser for the tool's parameters.
+   :returns: An argument parser for the tool"s parameters.
    :rtype: argparse.ArgumentParser
 
 
@@ -36,17 +36,26 @@ Functions
 
    Provide a command-line tool for converting csvs to lmms.
 
+   :raises OSError: on failure to write to report_filename.
+   :raises IOError: on failure to write to report_filename.
 
-.. py:function:: convert_csv_to_lmm(csv_filename, num_header_rows, num_header_cols)
+
+.. py:function:: convert_csv_to_lmm(csv_filename, header_rows, header_cols, data_type_str, logger)
 
    Convert a CSV file to a lmpy lmm Matrix.
 
    :param csv_filename: The file location of the csv to convert.
    :type csv_filename: str
-   :param num_header_rows: The number of header rows in the csv.
-   :type num_header_rows: int
-   :param num_header_cols: The number of header columns in the csv.
-   :type num_header_cols: int
+   :param header_rows: The number of header rows in the csv.
+   :type header_rows: int
+   :param header_cols: The number of header columns in the csv.
+   :type header_cols: int
+   :param data_type_str: The type of data in the matrix, float or int.
+   :type data_type_str: str
+   :param logger: object for writing log statements.
+   :type logger: lmpy.log.Logger
+
+   :raises Exception: on data_type other than 'float' or 'int'.
 
    :returns: A matrix from the converted csv file.
    :rtype: Matrix

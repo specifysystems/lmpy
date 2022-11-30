@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>convert_lmm_to_csv - CLI interface &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
+  <title>convert_lmm_to_csv - CLI interface &mdash; Specify lmpy 3.1.21+121.g6633e9d4 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -94,9 +94,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="tools.html">Tools</a> &raquo;</li>
-      <li>convert_lmm_to_csv - CLI interface</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="tools.html">Tools</a></li>
+      <li class="breadcrumb-item active">convert_lmm_to_csv - CLI interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/scripts/convert_lmm_to_csv.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -109,7 +109,9 @@
   <section id="convert_lmm_to_csv---CLI-interface">
 <h1>convert_lmm_to_csv - CLI interface<a class="headerlink" href="#convert_lmm_to_csv---CLI-interface" title="Permalink to this heading"></a></h1>
 <p>Convert a lmpy Matrix to a CSV file with numerical values.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">convert_lmm_to_csv</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">in_lmm_filename</span> <span class="n">out_csv_filename</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">convert_lmm_to_csv</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config_file</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">log_filename</span> <span class="n">LOG_FILENAME</span><span class="p">]</span>
+                   <span class="p">[</span><span class="o">--</span><span class="n">log_console</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">REPORT_FILENAME</span><span class="p">]</span>
+                   <span class="n">in_lmm_filename</span> <span class="n">out_csv_filename</span>
 </pre></div>
 </div>
 <section id="convert_lmm_to_csv-positional-arguments">
@@ -123,6 +125,10 @@
 <h2>convert_lmm_to_csv optional arguments<a class="headerlink" href="#convert_lmm_to_csv-optional-arguments" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p id="convert_lmm_to_csv--h"><span id="convert_lmm_to_csv---help"></span><a class="reference internal" href="#convert_lmm_to_csv--h" title="convert_lmm_to_csv -h"><strong><code class="docutils literal notranslate"><span class="pre">-h</span></code></strong></a>, <a class="reference internal" href="#convert_lmm_to_csv---help" title="convert_lmm_to_csv --help"><strong><code class="docutils literal notranslate"><span class="pre">--help</span></code></strong></a> - show this help message and exit</p></li>
+<li><p id="convert_lmm_to_csv---config_file"><a class="reference internal" href="#convert_lmm_to_csv---config_file" title="convert_lmm_to_csv --config_file"><strong><code class="docutils literal notranslate"><span class="pre">--config_file</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE</span></code> - Path to configuration file. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="convert_lmm_to_csv---log_filename"><span id="convert_lmm_to_csv--l"></span><a class="reference internal" href="#convert_lmm_to_csv---log_filename" title="convert_lmm_to_csv --log_filename"><strong><code class="docutils literal notranslate"><span class="pre">--log_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LOG_FILENAME</span></code>, <a class="reference internal" href="#convert_lmm_to_csv--l" title="convert_lmm_to_csv -l"><strong><code class="docutils literal notranslate"><span class="pre">-l</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">LOG_FILENAME</span></code> - A file location to write logging data. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p id="convert_lmm_to_csv---log_console"><a class="reference internal" href="#convert_lmm_to_csv---log_console" title="convert_lmm_to_csv --log_console"><strong><code class="docutils literal notranslate"><span class="pre">--log_console</span></code></strong></a> - If provided, write log to console.</p></li>
+<li><p id="convert_lmm_to_csv--r"><span id="convert_lmm_to_csv---report_filename"></span><a class="reference internal" href="#convert_lmm_to_csv--r" title="convert_lmm_to_csv -r"><strong><code class="docutils literal notranslate"><span class="pre">-r</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code>, <a class="reference internal" href="#convert_lmm_to_csv---report_filename" title="convert_lmm_to_csv --report_filename"><strong><code class="docutils literal notranslate"><span class="pre">--report_filename</span></code></strong></a> <code class="docutils literal notranslate"><span class="pre">REPORT_FILENAME</span></code> - File location to write the wrangler report. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
 </ul>
 </section>
 </section>

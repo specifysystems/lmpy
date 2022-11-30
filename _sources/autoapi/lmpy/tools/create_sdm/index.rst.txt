@@ -66,6 +66,9 @@ Attributes
 
    Provide a command-line interface for SDM modeling.
 
+   :raises OSError: on failure to write to report_filename.
+   :raises IOError: on failure to write to report_filename.
+
 
 .. py:function:: test_inputs(args)
 

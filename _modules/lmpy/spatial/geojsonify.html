@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.spatial.geojsonify &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
+  <title>lmpy.spatial.geojsonify &mdash; Specify lmpy 3.1.21+121.g6633e9d4 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -65,9 +65,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>lmpy.spatial.geojsonify</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lmpy.spatial.geojsonify</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -141,52 +141,92 @@
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="geojsonify_matrix"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/geojsonify/index.html#lmpy.spatial.geojsonify.geojsonify_matrix">[docs]</a><span class="k">def</span> <span class="nf">geojsonify_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates GeoJSON for a matrix and matching shapefile.</span>
+<div class="viewcode-block" id="geojsonify_matrix"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/geojsonify/index.html#lmpy.spatial.geojsonify.geojsonify_matrix">[docs]</a><span class="k">def</span> <span class="nf">geojsonify_matrix</span><span class="p">(</span>
+        <span class="n">matrix</span><span class="p">,</span> <span class="n">geojson_filename</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates GeoJSON of points or polygons for a compressed or uncompressed matrix.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        matrix (Matrix): A (spatial) matrix to create GeoJSON for.</span>
-<span class="sd">        resolution (Numeric): The size of the grid cells in decimal degrees</span>
+<span class="sd">        geojson_filename (str): Output filename for geojson.</span>
+<span class="sd">        resolution (Numeric): The size of the grid cells in decimal degrees.  If None,</span>
+<span class="sd">            the output will be points instead of grid cells.</span>
 <span class="sd">        omit_values (list): Omit properties when their value is in this list.</span>
 <span class="sd">        logger (lmpy.log.Logger): An optional local logger to use for logging output</span>
 <span class="sd">            with consistent options</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        dict: A GeoJSON compatible dictionary.</span>
+<span class="sd">        dict: A report summarizing the process.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        OSError: on failure to write to geojson_filename.</span>
+<span class="sd">        IOError: on failure to write to geojson_filename.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">refname</span> <span class="o">=</span> <span class="s2">&quot;geojsonify_matrix&quot;</span>
+
     <span class="n">omit_values</span> <span class="o">=</span> <span class="n">_process_omit_values</span><span class="p">(</span><span class="n">omit_values</span><span class="p">,</span> <span class="n">matrix</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;FeatureCollection&#39;</span><span class="p">}</span>
+    <span class="n">matrix_geojson</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;FeatureCollection&#39;</span><span class="p">}</span>
     <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">make_geometry_func</span> <span class="o">=</span> <span class="n">_get_geojson_geometry_func</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">)</span>
 
     <span class="n">row_headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_row_headers</span><span class="p">()</span>
     <span class="n">column_headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">row_headers</span><span class="p">)</span><span class="si">}</span><span class="s2"> sites and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">column_headers</span><span class="p">)</span><span class="si">}</span><span class="s2"> taxa in matrix.&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">omit_values</span> <span class="ow">and</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Omit values </span><span class="si">{</span><span class="n">omit_values</span><span class="si">}</span><span class="s2"> from geojson.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
 
     <span class="n">column_enum</span> <span class="o">=</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">column_headers</span><span class="p">)]</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">site_id</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row_headers</span><span class="p">):</span>
         <span class="n">ft_json</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Feature&#39;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">make_geometry_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-        <span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">site_id</span>
-        <span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">ft_json</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">site_id</span>
+        <span class="n">ft_json</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">k</span><span class="p">:</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">column_enum</span>
             <span class="k">if</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">omit_values</span>
         <span class="p">}</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ft_json</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ft_json</span><span class="p">)</span>
 
-    <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span>
-    <span class="k">return</span> <span class="n">ret</span></div>
+    <span class="n">matrix_geojson</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="si">}</span><span class="s2"> sites to geojson.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">geojson_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">matrix_geojson</span><span class="p">,</span> <span class="n">out_json</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrote geojson to </span><span class="si">{</span><span class="n">geojson_filename</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
+
+    <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;matrix_species_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">column_headers</span><span class="p">),</span>
+        <span class="s2">&quot;matrix_site_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_headers</span><span class="p">),</span>
+        <span class="s2">&quot;json_site_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">),</span>
+        <span class="s2">&quot;feature_type&quot;</span><span class="p">:</span> <span class="s2">&quot;point&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">resolution</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;feature_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;polygon&quot;</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;grid_resolution&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolution</span>
+    <span class="k">if</span> <span class="n">omit_values</span><span class="p">:</span>
+        <span class="n">ovals</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">omit_values</span><span class="p">]</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;ignored_values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ovals</span>
+    <span class="k">return</span> <span class="n">report</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="geojsonify_matrix_with_shapefile"><a class="viewcode-back" href="../../../autoapi/lmpy/spatial/geojsonify/index.html#lmpy.spatial.geojsonify.geojsonify_matrix_with_shapefile">[docs]</a><span class="k">def</span> <span class="nf">geojsonify_matrix_with_shapefile</span><span class="p">(</span>
-        <span class="n">matrix</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates GeoJSON for a matrix and matching shapefile.</span>
+        <span class="n">matrix</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="n">geojson_filename</span><span class="p">,</span> <span class="n">omit_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates GeoJSON for a matrix, compressed or original, and matching shapefile.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        matrix (Matrix): A 2 dimensional (spatial) matrix to create GeoJSON for.</span>
 <span class="sd">        grid_filename (str): A file path to a shapefile matching the matrix.</span>
+<span class="sd">        geojson_filename (str): Output filename for geojson.</span>
 <span class="sd">        omit_values (list): Omit properties when their value is in this list.</span>
 <span class="sd">        logger (lmpy.log.Logger): An optional local logger to use for logging output</span>
 <span class="sd">            with consistent options</span>
@@ -196,13 +236,25 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        FileNotFoundError: on missing grid_filename.</span>
+<span class="sd">        OSError: on failure to write to geojson_filename.</span>
+<span class="sd">        IOError: on failure to write to geojson_filename.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">refname</span> <span class="o">=</span> <span class="s2">&quot;geojsonify_matrix_with_shapefile&quot;</span>
+
     <span class="n">site_axis</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">omit_values</span> <span class="o">=</span> <span class="n">_process_omit_values</span><span class="p">(</span><span class="n">omit_values</span><span class="p">,</span> <span class="n">matrix</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;FeatureCollection&#39;</span><span class="p">}</span>
+    <span class="n">matrix_geojson</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;FeatureCollection&#39;</span><span class="p">}</span>
     <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">column_headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_column_headers</span><span class="p">()</span>
+    <span class="n">row_headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">site_axis</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">row_headers</span><span class="p">)</span><span class="si">}</span><span class="s2"> sites and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">column_headers</span><span class="p">)</span><span class="si">}</span><span class="s2"> taxa in matrix.&quot;</span><span class="p">,</span>
+            <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">omit_values</span> <span class="ow">and</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Omit values </span><span class="si">{</span><span class="n">omit_values</span><span class="si">}</span><span class="s2"> from geojson.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
 
     <span class="n">column_enum</span> <span class="o">=</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">column_headers</span><span class="p">)]</span>
 
@@ -210,44 +262,69 @@
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Grid shapefile </span><span class="si">{</span><span class="n">grid_filename</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
     <span class="n">grid_dataset</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">grid_filename</span><span class="p">)</span>
     <span class="n">grid_layer</span> <span class="o">=</span> <span class="n">grid_dataset</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">grid_layer</span><span class="o">.</span><span class="n">GetFeatureCount</span><span class="p">()</span><span class="si">}</span><span class="s2"> sites in grid.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
     <span class="c1"># Find the feature values to match grid sites with matrix sites</span>
     <span class="c1"># TODO: get dynamically?</span>
     <span class="n">id_fld</span> <span class="o">=</span> <span class="s2">&quot;siteid&quot;</span>
 
-    <span class="c1"># Find the feature ids in matrix</span>
-    <span class="n">headers</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">get_headers</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">site_axis</span><span class="p">)</span>
-    <span class="n">sites_in_matrix</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">site</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">headers</span><span class="p">):</span>
-        <span class="n">sites_in_matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
-    <span class="n">fids_in_matrix</span> <span class="o">=</span> <span class="p">[</span><span class="n">fid</span> <span class="k">for</span> <span class="n">fid</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">sites_in_matrix</span><span class="p">]</span>
+    <span class="c1"># Find row index for feature ids of grid cells in possibly compressed matrix</span>
+    <span class="n">fids_in_matrix</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">mtx_row</span><span class="p">,</span> <span class="p">(</span><span class="n">mtx_fid</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row_headers</span><span class="p">):</span>
+        <span class="n">fids_in_matrix</span><span class="p">[</span><span class="n">mtx_fid</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtx_row</span>
 
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">feat</span> <span class="o">=</span> <span class="n">grid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
     <span class="k">while</span> <span class="n">feat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Make sure this grid site is in the matrix</span>
         <span class="n">site_id</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="n">id_fld</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">site_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fids_in_matrix</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;fid </span><span class="si">{</span><span class="n">site_id</span><span class="si">}</span><span class="s2"> missing, last site </span><span class="si">{</span><span class="n">sites_in_matrix</span><span class="p">[</span><span class="n">site_id</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="n">refname</span><span class="o">=</span><span class="s2">&quot;geojsonify_matrix_with_shapefile&quot;</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                <span class="k">pass</span>
-            <span class="k">break</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># ft_json = json.loads(feat.ExportToJson())</span>
+        <span class="c1"># ft_json[&#39;properties&#39;] = {}</span>
+        <span class="k">if</span> <span class="n">site_id</span> <span class="ow">in</span> <span class="n">fids_in_matrix</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">mtx_row</span> <span class="o">=</span> <span class="n">fids_in_matrix</span><span class="p">[</span><span class="n">site_id</span><span class="p">]</span>
             <span class="n">ft_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">ExportToJson</span><span class="p">())</span>
-            <span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">k</span><span class="p">:</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">column_enum</span>
-                <span class="k">if</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">omit_values</span>
-            <span class="p">}</span>
+            <span class="n">ft_json</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">site_id</span>
+            <span class="n">ft_json</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">tx_idx</span><span class="p">,</span> <span class="n">tx_name</span> <span class="ow">in</span> <span class="n">column_enum</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">matrix</span><span class="p">[</span><span class="n">mtx_row</span><span class="p">,</span> <span class="n">tx_idx</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">omit_values</span><span class="p">:</span>
+                    <span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="n">tx_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">mtx_row</span><span class="p">,</span> <span class="n">tx_idx</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="c1"># ft_json[&#39;properties&#39;] = {</span>
+            <span class="c1">#     k: matrix[i, j].item() for j, k in column_enum</span>
+            <span class="c1">#     if matrix[i, j].item() not in omit_values</span>
+            <span class="c1"># }</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ft_json</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ft_json</span><span class="p">)</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">feat</span> <span class="o">=</span> <span class="n">grid_layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
 
-    <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span>
+    <span class="n">matrix_geojson</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Added </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="si">}</span><span class="s2"> sites to geojson.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
+    <span class="c1"># Explicitly delete OGR objects</span>
     <span class="n">grid_dataset</span> <span class="o">=</span> <span class="n">grid_layer</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">ret</span></div>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">geojson_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_json</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">matrix_geojson</span><span class="p">,</span> <span class="n">out_json</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Wrote geojson to </span><span class="si">{</span><span class="n">geojson_filename</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">refname</span><span class="p">)</span>
+
+    <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;grid_filename&quot;</span><span class="p">:</span> <span class="n">grid_filename</span><span class="p">,</span>
+        <span class="s2">&quot;geojson_filename&quot;</span><span class="p">:</span> <span class="n">geojson_filename</span><span class="p">,</span>
+        <span class="s2">&quot;matrix_species_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">column_headers</span><span class="p">),</span>
+        <span class="s2">&quot;matrix_site_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_headers</span><span class="p">),</span>
+        <span class="s2">&quot;json_site_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">),</span>
+        <span class="s2">&quot;feature_type&quot;</span><span class="p">:</span> <span class="s2">&quot;polygon&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">omit_values</span><span class="p">:</span>
+        <span class="n">ovals</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">omit_values</span><span class="p">]</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;ignored_values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ovals</span>
+    <span class="k">return</span> <span class="n">report</span></div>
 
 
 <span class="c1"># .....................................................................................</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lmpy.tools.convert_csv_to_lmm &mdash; Specify lmpy 3.1.21+103.g9bc0636c documentation</title>
+  <title>lmpy.tools.convert_csv_to_lmm &mdash; Specify lmpy 3.1.21+121.g6633e9d4 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -65,9 +65,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>lmpy.tools.convert_csv_to_lmm</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lmpy.tools.convert_csv_to_lmm</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,30 +79,53 @@
   <h1>Source code for lmpy.tools.convert_csv_to_lmm</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Convert a numeric (.csv) file to a lmpy Matrix (.lmm) file.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">WARN</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
+<span class="kn">from</span> <span class="nn">lmpy.log</span> <span class="kn">import</span> <span class="n">Logger</span>
 <span class="kn">from</span> <span class="nn">lmpy.matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
 <span class="kn">from</span> <span class="nn">lmpy.tools._config_parser</span> <span class="kn">import</span> <span class="n">_process_arguments</span><span class="p">,</span> <span class="n">test_files</span>
 
-
-<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;Convert a CSV file of numerical values into a lmpy Matrix.&#39;</span>
+<span class="n">script_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;Convert a CSV file of numerical values into a lmpy Matrix.&quot;</span>
 
 
 <span class="c1"># .....................................................................................</span>
-<div class="viewcode-block" id="convert_csv_to_lmm"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/convert_csv_to_lmm/index.html#lmpy.tools.convert_csv_to_lmm.convert_csv_to_lmm">[docs]</a><span class="k">def</span> <span class="nf">convert_csv_to_lmm</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="p">,</span> <span class="n">num_header_cols</span><span class="p">):</span>
+<div class="viewcode-block" id="convert_csv_to_lmm"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/convert_csv_to_lmm/index.html#lmpy.tools.convert_csv_to_lmm.convert_csv_to_lmm">[docs]</a><span class="k">def</span> <span class="nf">convert_csv_to_lmm</span><span class="p">(</span>
+        <span class="n">csv_filename</span><span class="p">,</span> <span class="n">header_rows</span><span class="p">,</span> <span class="n">header_cols</span><span class="p">,</span> <span class="n">data_type_str</span><span class="p">,</span> <span class="n">logger</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a CSV file to a lmpy lmm Matrix.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        csv_filename (str): The file location of the csv to convert.</span>
-<span class="sd">        num_header_rows (int): The number of header rows in the csv.</span>
-<span class="sd">        num_header_cols (int): The number of header columns in the csv.</span>
+<span class="sd">        header_rows (int): The number of header rows in the csv.</span>
+<span class="sd">        header_cols (int): The number of header columns in the csv.</span>
+<span class="sd">        data_type_str (str): The type of data in the matrix, float or int.</span>
+<span class="sd">        logger (lmpy.log.Logger): object for writing log statements.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: on data_type other than &#39;float&#39; or &#39;int&#39;.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Matrix: A matrix from the converted csv file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_in</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">data_type_str</span> <span class="o">==</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="nb">float</span>
+    <span class="k">elif</span> <span class="n">data_type_str</span> <span class="o">==</span> <span class="s2">&quot;int&quot;</span><span class="p">:</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="nb">int</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported data_type </span><span class="si">{</span><span class="n">data_type_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_in</span><span class="p">:</span>
         <span class="n">mtx</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">load_csv</span><span class="p">(</span>
-            <span class="n">csv_in</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="n">num_header_rows</span><span class="p">,</span> <span class="n">num_header_cols</span><span class="o">=</span><span class="n">num_header_cols</span>
+            <span class="n">csv_in</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">num_header_rows</span><span class="o">=</span><span class="n">header_rows</span><span class="p">,</span>
+            <span class="n">num_header_cols</span><span class="o">=</span><span class="n">header_cols</span>
         <span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Read CSV file </span><span class="si">{</span><span class="n">csv_filename</span><span class="si">}</span><span class="s2"> of data type `</span><span class="si">{</span><span class="n">data_type_str</span><span class="si">}</span><span class="s2">`, &quot;</span> <span class="o">+</span>
+        <span class="sa">f</span><span class="s2">&quot;with </span><span class="si">{</span><span class="n">header_rows</span><span class="si">}</span><span class="s2"> header rows indicating column metadata &quot;</span> <span class="o">+</span>
+        <span class="sa">f</span><span class="s2">&quot;and </span><span class="si">{</span><span class="n">header_cols</span><span class="si">}</span><span class="s2"> header columns indicating row metadata &quot;</span><span class="p">,</span>
+        <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mtx</span></div>
 
 
@@ -111,30 +134,54 @@
     <span class="sd">&quot;&quot;&quot;Build an argparse.ArgumentParser object for the tool.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        argparse.ArgumentParser: An argument parser for the tool&#39;s parameters.</span>
+<span class="sd">        argparse.ArgumentParser: An argument parser for the tool&quot;s parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-        <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;convert_csv_to_lmm&#39;</span><span class="p">,</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;convert_csv_to_lmm&quot;</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span>
     <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--config_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to configuration file.&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--header_rows&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;-r&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;--log_filename&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-l&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A file location to write logging data.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--log_console&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If provided, write log to console.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--report_filename&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;File location to write the wrangler report.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--data_type&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;int&quot;</span><span class="p">],</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The data type of the values in the CSV, options are `float` or `int`.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--header_rows&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of header rows in the CSV.&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of header rows in the CSV.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--header_cols&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;-c&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;--header_cols&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of header columns in the CSV.&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of header columns in the CSV.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;in_csv_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CSV filename to convert to lmm Matrix.&#39;</span>
+        <span class="s2">&quot;in_csv_filename&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;CSV filename to convert to lmm Matrix.&quot;</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;out_lmm_filename&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Filename for .lmm Matrix.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;out_lmm_filename&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Filename for .lmm Matrix.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span></div>
 
 
@@ -154,24 +201,65 @@
 
 <span class="c1"># .....................................................................................</span>
 <div class="viewcode-block" id="cli"><a class="viewcode-back" href="../../../autoapi/lmpy/tools/convert_csv_to_lmm/index.html#lmpy.tools.convert_csv_to_lmm.cli">[docs]</a><span class="k">def</span> <span class="nf">cli</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Provide a command-line tool for converting csvs to lmms.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Provide a command-line tool for converting csvs to lmms.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        OSError: on failure to write to report_filename.</span>
+<span class="sd">        IOError: on failure to write to report_filename.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">build_parser</span><span class="p">()</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_process_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_arg</span><span class="o">=</span><span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
     <span class="n">errs</span> <span class="o">=</span> <span class="n">test_inputs</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">errs</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errors, exiting program&quot;</span><span class="p">)</span>
-        <span class="n">exit</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
+        <span class="n">exit</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
 
-    <span class="n">mtx</span> <span class="o">=</span> <span class="n">convert_csv_to_lmm</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">in_csv_filename</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">header_rows</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">header_cols</span><span class="p">)</span>
-    <span class="n">mtx</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_lmm_filename</span><span class="p">)</span></div>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span>
+        <span class="n">script_name</span><span class="p">,</span>
+        <span class="n">log_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_filename</span><span class="p">,</span>
+        <span class="n">log_console</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_console</span>
+    <span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Beware: </span><span class="si">{</span><span class="n">script_name</span><span class="si">}</span><span class="s2"> has not been fully tested&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">,</span>
+        <span class="n">log_level</span><span class="o">=</span><span class="n">WARN</span><span class="p">)</span>
+
+    <span class="n">mtx</span> <span class="o">=</span> <span class="n">convert_csv_to_lmm</span><span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">in_csv_filename</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">header_rows</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">header_cols</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="n">row_count</span><span class="p">,</span> <span class="n">col_count</span><span class="p">)</span> <span class="o">=</span> <span class="n">mtx</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">mtx</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_lmm_filename</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Wrote into matrix </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">out_lmm_filename</span><span class="si">}</span><span class="s2"> containing &quot;</span> <span class="o">+</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row_count</span><span class="si">}</span><span class="s2"> rows and </span><span class="si">{</span><span class="n">col_count</span><span class="si">}</span><span class="s2"> columns&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span>
+
+    <span class="c1"># If the output report was requested, write it</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">:</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;in_csv_filename&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">in_csv_filename</span><span class="p">,</span>
+            <span class="s2">&quot;header_rows&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">header_rows</span><span class="p">,</span>
+            <span class="s2">&quot;header_cols&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">header_cols</span><span class="p">,</span>
+            <span class="s2">&quot;out_lmm_filename&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">out_lmm_filename</span><span class="p">,</span>
+            <span class="s2">&quot;rows&quot;</span><span class="p">:</span> <span class="n">row_count</span><span class="p">,</span>
+            <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">col_count</span>
+        <span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Wrote report file to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">report_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refname</span><span class="o">=</span><span class="n">script_name</span><span class="p">)</span></div>
 
 
 <span class="c1"># .....................................................................................</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;build_parser&#39;</span><span class="p">,</span> <span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_csv_to_lmm&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;build_parser&quot;</span><span class="p">,</span> <span class="s2">&quot;cli&quot;</span><span class="p">,</span> <span class="s2">&quot;convert_csv_to_lmm&quot;</span><span class="p">]</span>
 
 
 <span class="c1"># .....................................................................................</span>
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">cli</span><span class="p">()</span>
 </pre></div>
 
