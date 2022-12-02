@@ -1,8 +1,15 @@
-"""Create a stat heatmap image."""
+"""Create a stat heatmap image.
+
+This tool takes a column of a statistic matrix, representing sites for one
+statistic, and puts them back into a 2-d matrix representing the sites as
+a map, with values for the statistic in each cell.
+"""
 import argparse
+import json
+import numpy
+import os
 
-import numpy as np
-
+from lmpy.log import Logger
 from lmpy.matrix import Matrix
 from lmpy.plots.map import create_stat_heatmap_matrix, plot_matrix
 from lmpy.statistics.pam_stats import PamStats
@@ -103,7 +110,8 @@ def build_parser():
     parser.add_argument(
         "plot_filename",
         type=str,
-        help="A file path to write the generated plot image.",
+        help="A file path to write the generated plot image.  Available formats are: " +
+        "eps, pdf, pgf, png, ps, raw, rgba, svg, svgz",
     )
     parser.add_argument(
         "matrix_filename",
@@ -168,10 +176,16 @@ def cli():
     """Provide a command-line tool for creating a site-statistic heatmap.
 
     Raises:
-        Exception: on statistic not present in matrix column headers.
+        OSError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.
     """
     parser = build_parser()
-    args = _process_arguments(parser, config_arg="config_file")
+    try:
+        args = _process_arguments(parser, config_arg="config_file")
+    except FileNotFoundError as e:
+        print("Missing file, exiting program")
+        exit(f"{str(e)}")
+
     errs = test_inputs(args)
     if errs:
         print("Errors, exiting program")
@@ -180,17 +194,29 @@ def cli():
     matrix = Matrix.load(args.matrix_filename)
     stat_names = matrix.get_column_headers()
     if args.statistic not in stat_names:
-        raise Exception(
+        print("Errors, exiting program")
+        exit(
             f"Matrix {args.matrix_filename} does not contain column {args.statistic} " +
             f"available columns are {stat_names}"
         )
+
+    script_name = os.path.splitext(os.path.basename(__file__))[0]
+    logger = Logger(
+        script_name,
+        log_filename=args.log_filename,
+        log_console=args.log_console
+    )
+    logger.log(
+        f"\n\n***Create heatmap for {args.statistic} in matrix {args.matrix_filename}",
+        refname=script_name)
+
     if args.mask_matrix is not None:
         mask_matrix = Matrix.load(args.mask_matrix)
         matrix = Matrix(
-            np.ma.masked_where(mask_matrix == 0, matrix),
+            numpy.ma.masked_where(mask_matrix == 0, matrix),
             headers=matrix.get_headers()
         )
-    matrix_heatmap = create_stat_heatmap_matrix(
+    matrix_heatmap, report = create_stat_heatmap_matrix(
         matrix,
         args.statistic,
         args.min_x,
@@ -210,6 +236,21 @@ def cli():
         vmin=args.vmin,
         vmax=args.vmax,
     )
+
+    # If the output report was requested, write it
+    if args.report_filename:
+        try:
+            with open(args.report_filename, mode="wt") as out_file:
+                json.dump(report, out_file, indent=4)
+        except OSError:
+            raise
+        except IOError:
+            raise
+        except Exception as err:
+            print(err)
+            raise
+        logger.log(
+            f"Wrote report file to {args.report_filename}", refname=script_name)
 
 
 # .....................................................................................

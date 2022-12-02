@@ -10,7 +10,7 @@ from lmpy.matrix import Matrix
 
 # .....................................................................................
 def create_map_matrix(min_x, min_y, max_x, max_y, resolution):
-    """Creates an empty matrix to use for mapping.
+    """Creates an empty 2-d matrix to use for mapping.
 
     Args:
         min_x (numeric): The minimum x value of the heatmap range.
@@ -21,6 +21,10 @@ def create_map_matrix(min_x, min_y, max_x, max_y, resolution):
 
     Returns:
         Matrix: A Matrix of zeros for the spatial extent.
+
+    Note:
+        axis 0 represents the rows/y coordinate/latitude
+        axis 1 represents the columns/x coordinate/longitude
     """
     num_rows = math.ceil((max_y - min_y) / resolution)
     num_cols = math.ceil((max_x - min_x) / resolution)
@@ -47,9 +51,16 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
 
     Returns:
         Method: A method to generate row and column indices for an x, y.
+
+    Note:
+        Parallels the construction of shapegrid in lmpy.data_preparation.build_grid
     """
-    num_rows = (max_y - min_y) // resolution
-    num_cols = (max_x - min_x) // resolution
+    # Return evenly spaced values within min and max values for UL coordinates
+    y_upper_coords = np.arange(max_y, min_y, -resolution)
+    x_left_coords = np.arange(min_x, max_x, resolution)
+    # Find the center point for UL coordinate of cell of resolution size
+    y_center_coords = list(y_upper_coords - (resolution / 2))
+    x_center_coords = list(x_left_coords + (resolution / 2))
 
     # .......................
     def get_row_col_func(x, y):
@@ -62,8 +73,11 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
         Returns:
             int, int: The row and column where the point is located.
         """
-        r = int(min(num_rows - 1, max(0, int((max_y - y) // resolution))))
-        c = int(min(num_cols - 1, max(0, int((x - min_x) // resolution))))
+        # r = int(min(num_rows - 1, max(0, int((max_y - y) // resolution))))
+        # c = int(min(num_cols - 1, max(0, int((x - min_x) // resolution))))
+        # find index of center coordinates for x and y
+        r = y_center_coords.index(y)
+        c = x_center_coords.index(x)
         return r, c
 
     return get_row_col_func
@@ -85,6 +99,7 @@ def create_point_heatmap_matrix(readers, min_x, min_y, max_x, max_y, resolution)
     Returns:
         Matrix: A matrix of point density.
     """
+    # Create empty 2-dimensional matrix for the sites as a map
     heatmap = create_map_matrix(min_x, min_y, max_x, max_y, resolution)
     get_row_col_func = get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution)
 
@@ -115,21 +130,37 @@ def create_stat_heatmap_matrix(matrix, stat, min_x, min_y, max_x, max_y, resolut
 
     Returns:
         Matrix: A matrix of point density.
+
+    Note:
+        This method takes a column of a statistic matrix, representing sites for one
+        statistic, and puts them back into a 2-d matrix representing the sites as
+        a map, with values for the statistic in each cell.
     """
+    report = {
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+        "resolution": resolution
+    }
+    # Create empty 2-dimensional matrix, with x/0 = longitude and y/1 = latitude
     heatmap = create_map_matrix(min_x, min_y, max_x, max_y, resolution)
     num_hits = Matrix(np.zeros(heatmap.shape))
     get_row_col_func = get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution)
 
-    matrix_column = matrix.get_column_headers().index(stat)
+    # Get column index of statistic of interest
+    stat_column = matrix.get_column_headers().index(stat)
     site_headers = matrix.get_row_headers()
+    # Get value for each site in the statistic column
     for matrix_row in range(matrix.shape[0]):
         _, x, y = site_headers[matrix_row]
         row, col = get_row_col_func(x, y)
-        heatmap[row, col] += matrix[matrix_row, matrix_column]
+        heatmap[row, col] += matrix[matrix_row, stat_column]
         num_hits[row, col] += 1
 
     # Get the mean value by dividing by the number of hits
-    return np.divide(heatmap, num_hits, where=num_hits > 0)
+    heatmap_matrix = np.divide(heatmap, num_hits, where=num_hits > 0)
+    return heatmap_matrix, report
 
 
 # .....................................................................................
