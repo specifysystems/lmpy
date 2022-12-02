@@ -81,8 +81,11 @@ def square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
     Yields:
         str: Well-known text polygons for the cells.
     """
-    for y_coord in np.arange(max_y, min_y, -y_res):
-        for x_coord in np.arange(min_x, max_x, x_res):
+    y_upper_coords = np.arange(max_y, min_y, -y_res)
+    x_left_coords = np.arange(min_x, max_x, x_res)
+    for y_coord in y_upper_coords:
+        for x_coord in x_left_coords:
+            # Coordinates are corners: UL, UR, LR, LL
             yield make_polygon_wkt_from_points(
                 [
                     (x_coord, y_coord),
