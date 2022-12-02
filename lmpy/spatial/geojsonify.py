@@ -67,7 +67,8 @@ def geojsonify_matrix(
     """Creates GeoJSON of points or polygons for a compressed or uncompressed matrix.
 
     Args:
-        matrix (Matrix): A (spatial) matrix to create GeoJSON for.
+        matrix (Matrix): A (spatial) matrix to create GeoJSON for, with sites
+            represented as rows, along the y/0 axis.
         geojson_filename (str): Output filename for geojson.
         resolution (Numeric): The size of the grid cells in decimal degrees.  If None,
             the output will be points instead of grid cells.
@@ -116,7 +117,7 @@ def geojsonify_matrix(
         logger.log(f"Added {len(features)} sites to geojson.", refname=refname)
     try:
         with open(geojson_filename, mode='wt') as out_json:
-            json.dump(matrix_geojson, out_json)
+            json.dump(matrix_geojson, out_json, indent=4)
     except OSError:
         raise
     except IOError:
@@ -145,7 +146,8 @@ def geojsonify_matrix_with_shapefile(
     """Creates GeoJSON for a matrix, compressed or original, and matching shapefile.
 
     Args:
-        matrix (Matrix): A 2 dimensional (spatial) matrix to create GeoJSON for.
+        matrix (Matrix): A 2 dimensional (spatial) matrix to create GeoJSON for, with
+            sites represented as rows, along the y/0 axis..
         grid_filename (str): A file path to a shapefile matching the matrix.
         geojson_filename (str): Output filename for geojson.
         omit_values (list): Omit properties when their value is in this list.
@@ -225,7 +227,7 @@ def geojsonify_matrix_with_shapefile(
     grid_dataset = grid_layer = None
     try:
         with open(geojson_filename, mode='wt') as out_json:
-            json.dump(matrix_geojson, out_json)
+            json.dump(matrix_geojson, out_json, indent=4)
     except OSError:
         raise
     except IOError:
