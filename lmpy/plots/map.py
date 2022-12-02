@@ -55,12 +55,12 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
     Note:
         Parallels the construction of shapegrid in lmpy.data_preparation.build_grid
     """
-    # Return evenly spaced values within min and max values for UL coordinates
-    y_upper_coords = np.arange(max_y, min_y, -resolution)
-    x_left_coords = np.arange(min_x, max_x, resolution)
-    # Find the center point for UL coordinate of cell of resolution size
-    y_center_coords = list(y_upper_coords - (resolution / 2))
-    x_center_coords = list(x_left_coords + (resolution / 2))
+    # Get evenly spaced values within min and max values for UL coordinates
+    _y_upper_coords = np.arange(max_y, min_y, -resolution)
+    _x_left_coords = np.arange(min_x, max_x, resolution)
+
+    num_rows = len(_y_upper_coords)
+    num_cols = len(_x_left_coords)
 
     # .......................
     def get_row_col_func(x, y):
@@ -73,11 +73,8 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
         Returns:
             int, int: The row and column where the point is located.
         """
-        # r = int(min(num_rows - 1, max(0, int((max_y - y) // resolution))))
-        # c = int(min(num_cols - 1, max(0, int((x - min_x) // resolution))))
-        # find index of center coordinates for x and y
-        r = y_center_coords.index(y)
-        c = x_center_coords.index(x)
+        r = int(min(num_rows - 1, max(0, int((max_y - y) // resolution))))
+        c = int(min(num_cols - 1, max(0, int((x - min_x) // resolution))))
         return r, c
 
     return get_row_col_func
@@ -159,6 +156,7 @@ def create_stat_heatmap_matrix(matrix, stat, min_x, min_y, max_x, max_y, resolut
         num_hits[row, col] += 1
 
     # Get the mean value by dividing by the number of hits
+    # TODO: how is num_hits anything other than a matrix of ones???
     heatmap_matrix = np.divide(heatmap, num_hits, where=num_hits > 0)
     return heatmap_matrix, report
 
