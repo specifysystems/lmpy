@@ -21,13 +21,8 @@ def _create_empty_map_matrix_from_matrix(matrix):
         axis 0 represents the rows/y coordinate/latitude
         axis 1 represents the columns/x coordinate/longitude
     """
-    row_headers = matrix.get_row_headers()
-    if len(row_headers[0]) == 3:
-        x_headers, y_headers = _get_map_matrix_headers_from_sites(row_headers)
-    else:
-        x_headers = matrix.get_column_headers()
-        y_headers = matrix.get_row_headers()
-
+    # Headers are coordinate centroids
+    x_headers, y_headers = _get_coordinate_headers(matrix)
     map_matrix = Matrix(
         np.zeros((len(y_headers), len(x_headers)), dtype=int),
         headers={
@@ -69,6 +64,32 @@ def _create_empty_map_matrix(min_x, min_y, max_x, max_y, resolution):
 
 
 # .....................................................................................
+def _get_coordinate_headers(matrix):
+    """Get coordinate headers from a matrix with coordinates along one or two axes.
+
+    Args:
+        matrix (lmpy.matrix.Matrix object): an input 2d geospatial matrix with
+            y centroids in row headers, x centroids in column headers
+            OR
+            a flattened geospatial matrix with site centroids in row headers.
+
+    Returns:
+        x_headers (list): list of x coordinates, centroid of each cell in column
+        y_headers (list): list of y coordinates, centroid of each cell in row
+    """
+    row_headers = matrix.get_row_headers()
+    # row/site headers in flattened geospatial matrix are tuples of
+    # (siteid, x_coord, y_coord)
+    if type(row_headers[0]) is list and len(row_headers[0]) == 3:
+        x_headers, y_headers = _get_map_matrix_headers_from_sites(row_headers)
+    else:
+        x_headers = matrix.get_column_headers()
+        y_headers = row_headers
+
+    return x_headers, y_headers
+
+
+# .....................................................................................
 def get_extent_resolution_from_matrix(matrix):
     """Gets x and y extents and resolution of a geospatial matrix.
 
@@ -89,19 +110,15 @@ def get_extent_resolution_from_matrix(matrix):
         Exception: on matrix of less than 2 columns or rows.
     """
     x_res = y_res = None
-    row_headers = matrix.get_row_headers()
-    # row/site headers are tuples of (siteid, x_coord, y_coord)
-    if type(row_headers[0]) is list and len(row_headers[0]) == 3:
-        x_centers, y_centers = _get_map_matrix_headers_from_sites(row_headers)
-    else:
-        y_centers = matrix.get_row_headers()
-        x_centers = matrix.get_column_headers()
+    # Headers are coordinate centroids
+    y_centers, x_centers = _get_coordinate_headers(matrix)
+    # Identify the distance between centroids for resolution
     if len(x_centers) > 1:
-        x_res = x_centers[1] = x_centers[0]
+        x_res = x_centers[1] - x_centers[0]
     else:
         print("X axis has only one column")
     if len(y_centers) > 1:
-        y_res = y_centers[1] = y_centers[0]
+        y_res = y_centers[1] - y_centers[0]
     else:
         print("Y axis has only one row")
     if x_res is None and y_res is None:
@@ -112,10 +129,11 @@ def get_extent_resolution_from_matrix(matrix):
         x_res = y_res
     elif y_res is None:
         y_res = x_res
-    min_x = x_centers[0] - x_res
-    min_y = y_centers[-1] - y_res
-    max_x = x_centers[-1] + x_res
-    max_y = y_centers[0] + y_res
+    # Extend to edges by 1/2 resolution
+    min_x = x_centers[0] - x_res/2.0
+    min_y = y_centers[-1] - y_res/2.0
+    max_x = x_centers[-1] + x_res/2.0
+    max_y = y_centers[0] + y_res/2.0
 
     return min_x, min_y, max_x, max_y, x_res, y_res
 
@@ -229,19 +247,43 @@ def create_point_heatmap_matrix(readers, min_x, min_y, max_x, max_y, resolution)
         Matrix: A matrix of point density.
     """
     # Create empty 2-dimensional matrix for the sites as a map
+    report = {
+        "input_data": []
+    }
     heatmap = _create_empty_map_matrix(min_x, min_y, max_x, max_y, resolution)
     get_row_col_func = get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution)
 
     if not isinstance(readers, list):
         readers = [readers]
     for reader in readers:
+        try:
+            rdr_rpt = {
+                "type": "DWCA",
+                "file": reader.archive_filename,
+                "x_field": reader.x_term,
+                "y_field": reader.y_term,
+                "count": 0}
+            if reader.geopoint_term is not None:
+                rdr_rpt["geopoint_field"] = reader.geopoint_term
+        except AttributeError:
+            rdr_rpt = {
+                "type": "CSV",
+                "file": reader.filename,
+                "x_field": reader.x_field,
+                "y_field": reader.y_field,
+                "count": 0}
+            if reader.geopoint is not None:
+                rdr_rpt["geopoint_field"] = reader.geopoint
+
         reader.open()
         for points in reader:
             for point in points:
                 row, col = get_row_col_func(point.x, point.y)
                 heatmap[row, col] += 1
+                rdr_rpt["count"] += 1
         reader.close()
-    return heatmap
+        report["input_data"].append(rdr_rpt)
+    return heatmap, report
 
 
 # .....................................................................................
@@ -342,6 +384,64 @@ def rasterize_matrix(matrix, out_raster_filename, column=None, logger=None):
             out_band.ComputeStatistics(False)
             band_idx += 1
             report[f"band {band_idx}"] = col
+    return report
+
+
+# ...................................................................................
+def rasterize_map_matrix(map_matrix, out_raster_filename, logger=None):
+    """Create a geotiff raster file from one or all columns in a 2d geospatial matrix.
+
+    Args:
+        map_matrix (lmpy.matrix.Matrix object): an input geospatial matrix with
+            x coordinates in column headers and y coordinates in row headers.
+        out_raster_filename: output filename.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
+
+    Returns:
+        report (dict): summary dictionary of inputs and outputs.
+
+    Raises:
+        Exception: on GDAL raster dataset creation
+    """
+    refname = "rasterize_map_matrix"
+
+    map_mtx = _create_empty_map_matrix_from_matrix(map_matrix)
+    min_x, min_y, max_x, max_y, x_res, y_res = get_extent_resolution_from_matrix(
+        map_matrix)
+    geotransform = _get_geotransform(min_x, min_y, max_x, max_y, x_res)
+
+    height, width = map_mtx.shape
+    if map_matrix.dtype == np.float32:
+        arr_type = gdal.GDT_Float32
+    else:
+        arr_type = gdal.GDT_Int32
+    report = {
+        "height": height,
+        "width": width,
+        "matrix_type": str(map_matrix.dtype)
+    }
+
+    driver = gdal.GetDriverByName("GTiff")
+    try:
+        out_ds = driver.Create(
+            out_raster_filename, width, height, 1, arr_type)
+        # TODO: handle differing x and y resolutions
+        # Use only x-resolution for now
+        out_ds.SetGeoTransform(geotransform)
+    except Exception as e:
+        logger.log(
+            f"Exception in GDAL function {e}", refname=refname,
+            log_level=logging.ERROR)
+        raise
+    else:
+        # band indexes start at 1
+        band_idx = 1
+        out_band = out_ds.GetRasterBand(band_idx)
+        out_band.WriteArray(map_matrix, 0, 0)
+        out_band.FlushCache()
+        out_band.ComputeStatistics(False)
+        band_idx += 1
     return report
 
 
