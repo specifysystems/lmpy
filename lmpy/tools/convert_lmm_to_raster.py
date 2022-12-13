@@ -1,21 +1,20 @@
 """Convert a lmpy Matrix to a GeoJSON (.geojson) file."""
 import argparse
 import json
+import logging
 from logging import WARN
 import os
 
 from lmpy.log import Logger
 from lmpy.matrix import Matrix
-from lmpy.spatial.geojsonify import (
-    geojsonify_matrix, geojsonify_matrix_with_shapefile,
-)
+from lmpy.spatial.map import (rasterize_matrix)
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
-DESCRIPTION = "Convert a lmpy Matrix to a GeoJSON file."
+DESCRIPTION = "Convert a lmpy Matrix to a raster geotiff file."
 
 
-# .....................................................................................
+# ...................................................................................
 def build_parser():
     """Build an argparse.ArgumentParser object for the tool.
 
@@ -23,7 +22,7 @@ def build_parser():
         argparse.ArgumentParser: An argument parser for the tool"s parameters.
     """
     parser = argparse.ArgumentParser(
-        prog="convert_lmm_to_geojson",
+        prog="convert_lmm_to_raster",
         description=DESCRIPTION,
     )
     parser.add_argument("--config_file", type=str, help="Path to configuration file.")
@@ -46,29 +45,9 @@ def build_parser():
         help="If provided, write log to console."
     )
     parser.add_argument(
-        "--shapefile_filename",
-        "-s",
+        "--column",
         type=str,
-        help=(
-            "Path to a shapefile that can be used to generate polygons matching "
-            "matrix sites."
-        ),
-    )
-    parser.add_argument(
-        "--resolution",
-        type=float,
-        help=(
-            "Resolution of the polygons in the GeoJSON if a shapefile was not provided."
-            "Otherwise, use points."
-        ),
-    )
-    parser.add_argument(
-        "--omit_value",
-        "-o",
-        action="append",
-        nargs="*",
-        type=float,
-        help="Properties should be omitted if they have this value for a site."
+        help=("Header of column to map."),
     )
     parser.add_argument(
         "in_lmm_filename", type=str,
@@ -76,14 +55,14 @@ def build_parser():
              "to convert to GeoJSON."
     )
     parser.add_argument(
-        "out_geojson_filename",
+        "out_geotiff_filename",
         type=str,
-        help="Location to write the converted matrix GeoJSON.",
+        help="Location to write the converted matrix into multi-band raster.",
     )
     return parser
 
 
-# .....................................................................................
+# ...................................................................................
 def test_inputs(args):
     """Test input data and configuration files for existence.
 
@@ -100,7 +79,7 @@ def test_inputs(args):
     return all_missing_inputs
 
 
-# .....................................................................................
+# ...................................................................................
 def cli():
     """Provide a command-line tool for converting LMM to GeoJSON.
 
@@ -126,21 +105,22 @@ def cli():
         log_level=WARN)
 
     mtx = Matrix.load(args.in_lmm_filename)
-    # col_headers = mtx.get_column_headers()
-    if args.shapefile_filename is not None:
-        report = geojsonify_matrix_with_shapefile(
-            mtx, args.shapefile_filename, args.out_geojson_filename,
-            omit_values=args.omit_value, logger=logger
-        )
-    else:
-        report = geojsonify_matrix(
-            mtx, args.out_geojson_filename, resolution=args.resolution,
-            omit_values=args.omit_value, logger=logger
-        )
-    report["matrix_filename"] = args.in_lmm_filename
+    col_headers = mtx.get_column_headers()
+    if args.column is not None:
+        if args.column in col_headers:
+            report = rasterize_matrix(
+                mtx, args.out_geotiff_filename, column=args.column, logger=logger)
+
+        else:
+            logger.log(
+                f"Column name {args.column} is not present in matrix " +
+                f"{args.in_lmm_filename} columns {col_headers}", refname=script_name,
+                log_level=logging.ERROR)
+            print("Errors, exiting program")
 
     # If the output report was requested, write it
     if args.report_filename:
+        report["matrix_filename"] = args.in_lmm_filename
         try:
             with open(args.report_filename, mode="wt") as out_file:
                 json.dump(report, out_file, indent=4)
@@ -152,8 +132,7 @@ def cli():
             print(err)
             raise
         logger.log(
-            f"Wrote report file to {args.report_filename}",
-            refname=os.path.splitext(os.path.basename(__file__))[0])
+            f"Wrote report file to {args.report_filename}", refname=script_name)
 
 
 # .....................................................................................

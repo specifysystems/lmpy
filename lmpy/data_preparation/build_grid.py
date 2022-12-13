@@ -80,6 +80,10 @@ def square_wkt_generator(min_x, min_y, max_x, max_y, x_res, y_res):
 
     Yields:
         str: Well-known text polygons for the cells.
+
+    Note:
+        The function holds UL coordinates (min_x and max_y) static, but LR coordinates
+         (max_x, min_y) may change to accommodate the resolution requested.
     """
     y_upper_coords = np.arange(max_y, min_y, -y_res)
     x_left_coords = np.arange(min_x, max_x, x_res)

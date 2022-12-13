@@ -1,7 +1,8 @@
 """Create a point heatmap image."""
 import argparse
 
-from lmpy.plots.map import create_point_heatmap_matrix, plot_matrix
+from lmpy.spatial.map import create_point_heatmap_matrix
+from lmpy.plots.plot import plot_matrix
 from lmpy.point import PointCsvReader, PointDwcaReader
 from lmpy.tools._config_parser import _process_arguments, test_files
 
@@ -171,10 +172,9 @@ def cli():
         args.resolution
     )
     plot_matrix(
-        args.plot_filename,
         point_heatmap,
+        args.plot_filename,
         base_layer=args.base_layer,
-        extent=(args.min_x, args.max_x, args.min_y, args.max_y),
         mask_val=0,
         title=args.title,
         cmap=args.cmap,

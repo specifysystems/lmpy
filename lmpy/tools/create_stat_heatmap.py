@@ -6,12 +6,12 @@ a map, with values for the statistic in each cell.
 """
 import argparse
 import json
-import numpy
 import os
 
 from lmpy.log import Logger
 from lmpy.matrix import Matrix
-from lmpy.plots.map import create_stat_heatmap_matrix, plot_matrix
+from lmpy.plots.plot import plot_matrix
+from lmpy.spatial.map import create_map_matrix_for_column
 from lmpy.statistics.pam_stats import PamStats
 from lmpy.tools._config_parser import _process_arguments, test_files
 
@@ -89,30 +89,33 @@ def build_parser():
         "--cmap",
         type=str,
         default="Reds",
-        help="A color map to use for the image."
+        help="A matplotlib colormap to use for the image.  Colormaps are identified "
+             "by name.  Pre-defined colormaps are displayed at "
+             "https://matplotlib.org/stable/tutorials/colors/colormaps.html#"
+    )
+    parser.add_argument(
+        "--ignore_val",
+        type=float,
+        default=0,
+        help="A value to ignore when plotting."
     )
     parser.add_argument(
         "--vmin",
         type=float,
-        help="The minimum value for color scaling."
+        default=-9999,
+        help="The minimum value for color scaling (default use minimum from data)."
     )
     parser.add_argument(
         "--vmax",
         type=float,
-        help="The maximum value for color scaling (use -1 to use maximum from data)."
+        default=-1,
+        help="The maximum value for color scaling (default use maximum from data)."
     )
-    parser.add_argument(
-        "--mask_matrix",
-        type=str,
-        help="File path to a binary matrix to use as a mask."
-    )
-
-    parser.add_argument(
-        "plot_filename",
-        type=str,
-        help="A file path to write the generated plot image.  Available formats are: " +
-        "eps, pdf, pgf, png, ps, raw, rgba, svg, svgz",
-    )
+    # parser.add_argument(
+    #     "--mask_matrix",
+    #     type=str,
+    #     help="File path to a binary matrix to use as a mask."
+    # )
     parser.add_argument(
         "matrix_filename",
         type=str,
@@ -127,29 +130,10 @@ def build_parser():
         help=stat_help
     )
     parser.add_argument(
-        "min_x",
-        type=float,
-        help="The minimum x value of the plot map range."
-    )
-    parser.add_argument(
-        "min_y",
-        type=float,
-        help="The minimum y value of the plot map range."
-    )
-    parser.add_argument(
-        "max_x",
-        type=float,
-        help="The maximum x value of the plot map range."
-    )
-    parser.add_argument(
-        "max_y",
-        type=float,
-        help="The maximum y value of the plot map range."
-    )
-    parser.add_argument(
-        "resolution",
-        type=float,
-        help="The resolution of each cell of the plot map."
+        "plot_filename",
+        type=str,
+        help="A file path to write the generated plot image.  Available formats are: " +
+        "eps, pdf, pgf, png, ps, raw, rgba, svg, svgz",
     )
 
     return parser
@@ -166,8 +150,8 @@ def test_inputs(args):
         all_missing_inputs: Error messages for display on exit.
     """
     all_missing_inputs = test_files((args.matrix_filename, "Matrix input"))
-    if args.mask_matrix is not None:
-        all_missing_inputs.extend(test_files((args.mask_matrix, "Mask Matrix")))
+    if args.base_layer is not None:
+        all_missing_inputs.extend(test_files((args.base_layer, "Base layer")))
     return all_missing_inputs
 
 
@@ -209,28 +193,22 @@ def cli():
     logger.log(
         f"\n\n***Create heatmap for {args.statistic} in matrix {args.matrix_filename}",
         refname=script_name)
+    # TODO: enable mask?
+    # if args.mask_matrix is not None:
+    #     mask_matrix = Matrix.load(args.mask_matrix)
+    #     matrix = Matrix(
+    #         numpy.ma.masked_where(mask_matrix == 0, matrix),
+    #         headers=matrix.get_headers()
+    #     )
+    map_matrix, report = create_map_matrix_for_column(matrix, args.statistic)
+    report["input_matrix"] = args.matrix_filename
+    report["statistic"] = args.statistic
 
-    if args.mask_matrix is not None:
-        mask_matrix = Matrix.load(args.mask_matrix)
-        matrix = Matrix(
-            numpy.ma.masked_where(mask_matrix == 0, matrix),
-            headers=matrix.get_headers()
-        )
-    matrix_heatmap, report = create_stat_heatmap_matrix(
-        matrix,
-        args.statistic,
-        args.min_x,
-        args.min_y,
-        args.max_x,
-        args.max_y,
-        args.resolution
-    )
     plot_matrix(
+        map_matrix,
         args.plot_filename,
-        matrix_heatmap,
         base_layer=args.base_layer,
-        extent=(args.min_x, args.max_x, args.min_y, args.max_y),
-        mask_val=0,
+        mask_val=args.ignore_val,
         title=args.title,
         cmap=args.cmap,
         vmin=args.vmin,

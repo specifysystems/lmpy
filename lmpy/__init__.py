@@ -8,6 +8,8 @@ from .tree import *
 from .point import Point
 from . import data_preparation
 from . import data_wrangling
+from . import plots
+from . import sdm
 from . import spatial
 from . import statistics
 from . import tools
@@ -15,7 +17,9 @@ from . import tools
 __all__ = [
     'data_preparation',
     'data_wrangling',
+    'plots',
     'randomize',
+    'sdm',
     'spatial',
     'statistics',
     'tools',

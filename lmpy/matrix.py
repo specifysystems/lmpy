@@ -9,6 +9,7 @@ Todo:
         (PAM x, y, site ids).
     * Load should handle compressed and not compressed.
     * Watch NEP-0018 for Numpy function overrides (ex. concatenate)
+    * Standardize SRS definition for geospatial matrices
 """
 from collections.abc import KeysView
 from copy import deepcopy
@@ -49,7 +50,7 @@ class Matrix(np.ndarray):
                         '1' : ['Column 1', 'Column 2'],
                         '0' : ['Row 1', 'Row 2', 'Row 3']
                     }
-            metadata (:obj:`dict`): Optional metadata about his matrix.
+            metadata (:obj:`dict`): Optional metadata about this matrix.
 
         Note:
             * Triggers a call to Matrix.__array_finalize__.
