@@ -166,7 +166,7 @@ def _create_map_matrix_headers_from_extent(min_x, min_y, max_x, max_y, resolutio
     # X left coordinates
     num_cols = len(np.arange(min_x, max_x, resolution))
     # Center coordinates
-    y_headers = [max_y - (j + .5) * resolution for j in range(num_rows)],
+    y_headers = [max_y - (j + .5) * resolution for j in range(num_rows)]
     x_headers = [min_x + (i + .5) * resolution for i in range(num_cols)]
     return x_headers, y_headers
 
