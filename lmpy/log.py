@@ -59,3 +59,37 @@ class Logger:
         """
         if self.logger is not None:
             self.logger.log(log_level, refname + ': ' + msg)
+
+
+# .....................................................................................
+def _log_level_str(log_level):
+    if log_level == logging.INFO:
+        level = 'INFO'
+    elif log_level == logging.DEBUG:
+        level = 'DEBUG'
+    elif log_level in (logging.WARN, logging.WARNING):
+        level = 'WARN'
+    elif log_level == logging.ERROR:
+        level = 'ERROR'
+    elif log_level == logging.CRITICAL:
+        level = 'CRITICAL'
+    elif log_level == logging.FATAL:
+        level = 'FATAL'
+    return level
+
+
+# .....................................................................................
+def logit(logger, msg, refname="", log_level=logging.INFO):
+    """Log or print a message.
+
+    Args:
+        logger (lmpy.log.Logger): A logger to use for logging output
+        msg (str): A message to write to the logger.
+        refname (str): Class or function name to use in logging message.
+        log_level (int): A level to use when logging the message.
+    """
+    if logger is not None:
+        logger.log(msg, refname=refname, log_level=log_level)
+    else:
+        level = _log_level_str(log_level)
+        print(f"{refname} {level}: {msg}")

@@ -3,6 +3,7 @@ import logging
 import numpy as np
 from osgeo import gdal
 
+from lmpy.log import logit
 from lmpy.matrix import Matrix
 
 
@@ -231,7 +232,8 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
 
 
 # .....................................................................................
-def create_point_heatmap_matrix(readers, min_x, min_y, max_x, max_y, resolution):
+def create_point_heatmap_matrix(
+        readers, min_x, min_y, max_x, max_y, resolution, logger=None):
     """Create a point heatmap matrix.
 
     Args:
@@ -242,16 +244,28 @@ def create_point_heatmap_matrix(readers, min_x, min_y, max_x, max_y, resolution)
         max_x (numeric): The maximum x value of the heatmap range.
         max_y (numeric): The maximum y value of the heatmap range.
         resolution (numeric): The size of each matrix cell.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
 
     Returns:
         Matrix: A matrix of point density.
     """
+    refname = "create_point_heatmap_matrix"
     # Create empty 2-dimensional matrix for the sites as a map
     report = {
-        "input_data": []
+        "input_data": [],
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+        "resolution": resolution
     }
     heatmap = _create_empty_map_matrix(min_x, min_y, max_x, max_y, resolution)
     get_row_col_func = get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution)
+    logit(
+        logger, "Created map matrix with min_x, min_y, max_x, max_y, resolution " +
+        f"values min_x {min_x}, min_y {min_y}, max_x {max_x}, max_y {max_y}, " +
+        f"resolution {resolution}", refname=refname)
 
     if not isinstance(readers, list):
         readers = [readers]
@@ -282,7 +296,17 @@ def create_point_heatmap_matrix(readers, min_x, min_y, max_x, max_y, resolution)
                 heatmap[row, col] += 1
                 rdr_rpt["count"] += 1
         reader.close()
+        logit(
+            logger, f"Read {rdr_rpt['count']} points from {rdr_rpt['type']} file " +
+            f"{rdr_rpt['file']}.", refname=refname)
+
         report["input_data"].append(rdr_rpt)
+    report["min_cell_point_count"] = int(heatmap.min())
+    report["max_cell_point_count"] = int(heatmap.max())
+    logit(
+        logger, "Populated map matrix with point counts for each cell ranging from " +
+        f"{report['min_cell_point_count']} to {report['max_cell_point_count']}",
+        refname=refname)
     return heatmap, report
 
 
@@ -369,9 +393,10 @@ def rasterize_matrix(matrix, out_raster_filename, column=None, logger=None):
         # Use only x-resolution for now
         out_ds.SetGeoTransform(geotransform)
     except Exception as e:
-        logger.log(
-            f"Exception in GDAL function {e}", refname=refname,
-            log_level=logging.ERROR)
+        if logger:
+            logit(
+                logger, f"Exception in GDAL function {e}", refname=refname,
+                log_level=logging.ERROR)
         raise
     else:
         # band indexes start at 1
@@ -388,12 +413,13 @@ def rasterize_matrix(matrix, out_raster_filename, column=None, logger=None):
 
 
 # ...................................................................................
-def rasterize_map_matrix(map_matrix, out_raster_filename, logger=None):
-    """Create a geotiff raster file from one or all columns in a 2d geospatial matrix.
+def rasterize_map_matrices(map_matrix_dict, out_raster_filename, logger=None):
+    """Create a geotiff raster file from a 2-d longitude/latitude geospatial matrix.
 
     Args:
-        map_matrix (lmpy.matrix.Matrix object): an input geospatial matrix with
-            x coordinates in column headers and y coordinates in row headers.
+        map_matrix_dict (list of lmpy.matrix.Matrix): a list of input geospatial
+            matrices with x coordinates in column headers and y coordinates in
+            row headers.  All matrices must be of the same shape, extent, and data type.
         out_raster_filename: output filename.
         logger (lmpy.log.Logger): An optional local logger to use for logging output
             with consistent options
@@ -406,20 +432,21 @@ def rasterize_map_matrix(map_matrix, out_raster_filename, logger=None):
     """
     refname = "rasterize_map_matrix"
 
-    map_mtx = _create_empty_map_matrix_from_matrix(map_matrix)
+    # Use the first matrix for the shape, datatype
+    stat_names = list(map_matrix_dict.keys())
+    mmtx = map_matrix_dict[stat_names[0]]
     min_x, min_y, max_x, max_y, x_res, y_res = get_extent_resolution_from_matrix(
-        map_matrix)
+        mmtx)
     geotransform = _get_geotransform(min_x, min_y, max_x, max_y, x_res)
-
-    height, width = map_mtx.shape
-    if map_matrix.dtype == np.float32:
+    height, width = mmtx.shape
+    if mmtx.dtype == np.float32:
         arr_type = gdal.GDT_Float32
     else:
         arr_type = gdal.GDT_Int32
     report = {
         "height": height,
         "width": width,
-        "matrix_type": str(map_matrix.dtype)
+        "matrix_type": str(mmtx.dtype)
     }
 
     driver = gdal.GetDriverByName("GTiff")
@@ -430,18 +457,20 @@ def rasterize_map_matrix(map_matrix, out_raster_filename, logger=None):
         # Use only x-resolution for now
         out_ds.SetGeoTransform(geotransform)
     except Exception as e:
-        logger.log(
-            f"Exception in GDAL function {e}", refname=refname,
+        logit(
+            logger, f"Exception in GDAL function {e}", refname=refname,
             log_level=logging.ERROR)
         raise
     else:
-        # band indexes start at 1
         band_idx = 1
-        out_band = out_ds.GetRasterBand(band_idx)
-        out_band.WriteArray(map_matrix, 0, 0)
-        out_band.FlushCache()
-        out_band.ComputeStatistics(False)
-        band_idx += 1
+        for stat, mtx in map_matrix_dict.items():
+            # band indexes start at 1
+            out_band = out_ds.GetRasterBand(band_idx)
+            out_band.WriteArray(mtx, 0, 0)
+            out_band.FlushCache()
+            out_band.ComputeStatistics(False)
+            report[f"band{band_idx}"] = stat
+            band_idx += 1
     return report
 
 
@@ -501,7 +530,7 @@ def create_map_matrix_for_column(matrix, col_header):
 #     column_headers = matrix.get_column_headers()
 #     row_headers = matrix.get_headers(axis=site_axis)
 #     if logger is not None:
-#         logger.log(
+#         logit(logger,
 #             f"Found {len(row_headers)} sites and {len(column_headers)} taxa.",
 #             refname=refname)
 #
@@ -515,7 +544,7 @@ def create_map_matrix_for_column(matrix, col_header):
 #     grid_layer = grid_dataset.GetLayer()
 #     (min_x, max_x, min_y, max_y) = grid_layer.GetExtent()
 #     if logger is not None:
-#         logger.log(
+#         logit(logger,
 #             f"Found {grid_layer.GetFeatureCount()} sites in grid, with extent " +
 #             f"(min_x, max_x, min_y, max_y) = ({min_x}, {max_x}, {min_y}, {max_y}).",
 #             refname=refname)
@@ -586,5 +615,6 @@ __all__ = [
     "create_point_heatmap_matrix",
     "get_extent_resolution_from_matrix",
     "get_row_col_for_x_y_func",
+    "rasterize_map_matrices",
     "rasterize_matrix"
 ]

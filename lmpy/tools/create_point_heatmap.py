@@ -4,7 +4,7 @@ import json
 import os
 
 from lmpy.log import Logger
-from lmpy.spatial.map import create_point_heatmap_matrix, rasterize_map_matrix
+from lmpy.spatial.map import create_point_heatmap_matrix, rasterize_map_matrices
 from lmpy.point import PointCsvReader, PointDwcaReader
 from lmpy.tools._config_parser import _process_arguments, test_files
 
@@ -45,12 +45,6 @@ def build_parser():
         help="File location to write the summary report."
     )
     parser.add_argument(
-        "-b",
-        "--base_layer",
-        type=str,
-        help="An optional base layer image for the plot.  Must have same extent.",
-    )
-    parser.add_argument(
         "--dwca",
         action="append",
         help="A Darwin-Core Archive filename to process.",
@@ -64,29 +58,6 @@ def build_parser():
             "and a y header key."
         ),
     )
-    parser.add_argument(
-        "-t",
-        "--title",
-        type=str,
-        help="A title to add to the plot image."
-    )
-    parser.add_argument(
-        "--cmap",
-        type=str,
-        default="Reds",
-        help="A color map to use for the image."
-    )
-    parser.add_argument(
-        "--vmin",
-        type=float,
-        help="The minimum value for color scaling."
-    )
-    parser.add_argument(
-        "--vmax",
-        type=float,
-        help="The maximum value for color scaling (use -1 to use maximum from data)."
-    )
-
     parser.add_argument(
         "raster_filename",
         type=str,
@@ -164,7 +135,7 @@ def cli():
         log_console=args.log_console
     )
     logger.log(
-        f"\n\n***Create heatmap for points in raster {args.raster_filename}",
+        f"\n\n ***Create heatmap for points in raster {args.raster_filename}",
         refname=script_name)
 
     readers = []
@@ -178,25 +149,11 @@ def cli():
         raise ValueError("Must provide at least one CSV and / or DWCA.")
 
     point_heatmap, report = create_point_heatmap_matrix(
-        readers,
-        args.min_x,
-        args.min_y,
-        args.max_x,
-        args.max_y,
-        args.resolution
-    )
-    report2 = rasterize_map_matrix(point_heatmap, args.raster_filename, logger=logger)
+        readers, args.min_x, args.min_y, args.max_x, args.max_y, args.resolution,
+        logger=logger)
+    matrices = {"points": point_heatmap}
+    report2 = rasterize_map_matrices(matrices, args.raster_filename, logger=logger)
     report.update(report2)
-    # plot_matrix(
-    #     point_heatmap,
-    #     args.plot_filename,
-    #     base_layer=args.base_layer,
-    #     mask_val=0,
-    #     title=args.title,
-    #     cmap=args.cmap,
-    #     vmin=args.vmin,
-    #     vmax=args.vmax,
-    # )
     # If the output report was requested, write it
     if args.report_filename:
         try:

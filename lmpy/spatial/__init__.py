@@ -9,4 +9,5 @@ from .spatial_index import *
 
 __all__ = []
 __all__.extend(geojsonify.__all__)
+__all__.extend(map.__all__)
 __all__.extend(spatial_index.__all__)
