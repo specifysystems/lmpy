@@ -112,7 +112,7 @@ def get_extent_resolution_from_matrix(matrix):
     """
     x_res = y_res = None
     # Headers are coordinate centroids
-    y_centers, x_centers = _get_coordinate_headers(matrix)
+    x_centers, y_centers = _get_coordinate_headers(matrix)
     # Identify the distance between centroids for resolution
     if len(x_centers) > 1:
         x_res = x_centers[1] - x_centers[0]
@@ -224,8 +224,8 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
         Returns:
             int, int: The row and column where the point is located.
         """
-        r = int(min(num_rows - 1, max(0, int((max_y - y) // resolution))))
-        c = int(min(num_cols - 1, max(0, int((x - min_x) // resolution))))
+        r = int(min(num_rows - 1, int((max_y - y) // resolution)))
+        c = int(min(num_cols - 1, int((x - min_x) // resolution)))
         return r, c
 
     return get_row_col_func
@@ -341,7 +341,8 @@ def _get_geotransform(min_x, min_y, max_x, max_y, resolution):
 
 
 # ...................................................................................
-def rasterize_matrix(matrix, out_raster_filename, column=None, logger=None):
+def rasterize_matrix(
+        matrix, out_raster_filename, column=None, nodata=-9999, logger=None):
     """Create a geotiff raster file from one or all columns in a 2d geospatial matrix.
 
     Args:
@@ -350,6 +351,7 @@ def rasterize_matrix(matrix, out_raster_filename, column=None, logger=None):
         out_raster_filename: output filename.
         column (str): header of the column of interest.  If None, all columns will
             be included as bands in a multi-band raster.
+        nodata (numeric): value for cells with no data in them
         logger (lmpy.log.Logger): An optional local logger to use for logging output
             with consistent options
 
@@ -387,7 +389,8 @@ def rasterize_matrix(matrix, out_raster_filename, column=None, logger=None):
     driver = gdal.GetDriverByName("GTiff")
     try:
         out_ds = driver.Create(
-            out_raster_filename, width, height, 1, arr_type)
+            out_raster_filename, width, height, 1, arr_type,
+            options=[f"TIFFTAG_GDAL_NODATA ASCII={nodata}"])
         # out_ds.SetProjection(in_ds.GetProjection())
         # TODO: handle differing x and y resolutions
         # Use only x-resolution for now
@@ -452,36 +455,38 @@ def rasterize_map_matrices(map_matrix_dict, out_raster_filename, logger=None):
     driver = gdal.GetDriverByName("GTiff")
     try:
         out_ds = driver.Create(
-            out_raster_filename, width, height, 1, arr_type)
+            out_raster_filename, width, height, len(stat_names), arr_type)
         # TODO: handle differing x and y resolutions
         # Use only x-resolution for now
         out_ds.SetGeoTransform(geotransform)
     except Exception as e:
         logit(
             logger, f"Exception in GDAL function {e}", refname=refname,
-            log_level=logging.ERROR)
+            log_level=logging.FATAL)
         raise
     else:
+        # band indexes start at 1
         band_idx = 1
         for stat, mtx in map_matrix_dict.items():
-            # band indexes start at 1
             out_band = out_ds.GetRasterBand(band_idx)
             out_band.WriteArray(mtx, 0, 0)
             out_band.FlushCache()
             out_band.ComputeStatistics(False)
             report[f"band{band_idx}"] = stat
             band_idx += 1
+
     return report
 
 
 # .....................................................................................
-def create_map_matrix_for_column(matrix, col_header):
+def create_map_matrix_for_column(matrix, col_header, nodata=-9999):
     """Create a map matrix from one column in a 2d matrix.
 
     Args:
         matrix (lmpy.matrix.Matrix object): an input 2d geospatial matrix with
             x,y centroids in row headers, other data attributes in column headers.
         col_header (str): column header for data to map
+        nodata (numeric): value for cells with no data in them
 
     Returns:
         map_mtx (lmpy.matrix.Matrix): a 2d geospatial matrix with y centroids in row
@@ -489,6 +494,7 @@ def create_map_matrix_for_column(matrix, col_header):
     """
     # Create empty 2-dimensional matrix, with x/0 = longitude and y/1 = latitude
     map_mtx = _create_empty_map_matrix_from_matrix(matrix)
+    num_cols = map_mtx.shape[1]
     min_x, min_y, max_x, max_y, x_res, y_res = get_extent_resolution_from_matrix(
         matrix)
     report = {
@@ -498,16 +504,20 @@ def create_map_matrix_for_column(matrix, col_header):
         "max_y": max_y,
         "matrix_type": str(matrix.dtype)
     }
-    get_row_col_func = get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, x_res)
 
     # Get index of column of interest
     col_idx = matrix.get_column_headers().index(col_header)
-    site_headers = matrix.get_row_headers()
     # Fill matrix with value for each site in the column
     for matrix_row in range(matrix.shape[0]):
-        _, x, y = site_headers[matrix_row]
-        row, col = get_row_col_func(x, y)
-        map_mtx[row, col] += matrix[matrix_row, col_idx]
+        # Convert geospatial 1d matrix index to 2d indices
+        row, col = divmod(matrix_row, num_cols)
+        site_val = matrix[matrix_row, col_idx]
+        # Some stats contain NaN for a cell, change to nodata value
+        try:
+            val = int(site_val)
+        except Exception:
+            val = nodata
+        map_mtx[row, col] = val
 
     return map_mtx, report
 

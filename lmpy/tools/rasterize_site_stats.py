@@ -6,6 +6,7 @@ a map, with values for the statistic in each cell.
 """
 import argparse
 import json
+import logging
 import os
 
 from lmpy.log import Logger
@@ -142,24 +143,42 @@ def cli():
     matrix = Matrix.load(args.matrix_filename)
     stat_names = matrix.get_column_headers()
     if args.statistic is not None:
-        if args.statistic not in stat_names:
+        if args.statistic in stat_names:
+            stat_names = [args.statistic]
+        else:
             msg = (f"Matrix {args.matrix_filename} does not contain  " +
                    f"column {args.statistic}available columns are {stat_names}")
-            logger.log(msg, refname=script_name)
+            logger.log(msg, refname=script_name, log_level=logging.FATAL)
             print("Errors, exiting program")
             exit(msg)
-    else:
-        stat_names = [args.statistic]
+    report = {
+        "input_matrix": args.matrix_filename,
+        "statistics": stat_names
+    }
 
-    report = {"input_matrix": args.matrix_filename}
-
-    logger.log(f"  and statistic(s) {stat_names}", refname=script_name)
-    report["statistics"] = stat_names
+    # Create map matrix for every statistic
     stat_matrices = {}
+    # Make sure all matrices are the same dimensions
+    first_shp = None
     for stat in stat_names:
-        map_matrix, report = create_map_matrix_for_column(matrix, args.statistic)
-        stat_matrices[stat] = map_matrix
+        map_mtx, mtx_rpt = create_map_matrix_for_column(matrix, stat)
+        logger.log(f"Create matrix for {stat}", refname=script_name)
+        stat_matrices[stat] = map_mtx
+        if first_shp is None:
+            first_shp = map_mtx.shape
+            first_stat = stat
+            # all matrix reports should be the same
+            report.update(mtx_rpt)
+        else:
+            # Make sure all matrices are the same dimensions
+            if map_mtx.shape != first_shp:
+                msg = (f"***Shape for {stat} {map_mtx.shape} != shape for matrix " +
+                       f"{first_stat}, {first_shp}")
+                logger.log(msg, refname=script_name, log_level=logging.FATAL)
+                print("Errors, exiting program")
+                exit(msg)
 
+    # Rasterize each matrix as a separate band in a single file
     curr_rpt = rasterize_map_matrices(
         stat_matrices, args.raster_filename, logger=logger)
     report.update(curr_rpt)

@@ -19,6 +19,7 @@ def _process_arguments(parser, config_arg=None):
 
     Raises:
         FileNotFoundError: on non-existent config_file.
+        json.decoder.JSONDecodeError: on badly constructed JSON file
     """
     # If positional arguments are not specified, we need to create dummy values so
     #     argparse doesn't fail.  To do that, we need to find where they should start
@@ -92,6 +93,8 @@ def _process_arguments(parser, config_arg=None):
                         # Always replace existing values
                         setattr(args, k, config[k])
             except FileNotFoundError:
+                raise
+            except json.decoder.JSONDecodeError:
                 raise
     return args
 
