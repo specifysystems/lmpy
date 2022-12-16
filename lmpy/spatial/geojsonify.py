@@ -63,13 +63,13 @@ def _get_geojson_geometry_func(resolution=None):
 
 # .....................................................................................
 def geojsonify_matrix(
-        matrix, geojson_filename, resolution=None, omit_values=None, logger=None):
+        # matrix, geojson_filename, resolution=None, omit_values=None, logger=None):
+        matrix, resolution = None, omit_values = None, logger = None):
     """Creates GeoJSON of points or polygons for a compressed or uncompressed matrix.
 
     Args:
         matrix (Matrix): A (spatial) matrix to create GeoJSON for, with sites
             represented as rows, along the y/0 axis.
-        geojson_filename (str): Output filename for geojson.
         resolution (Numeric): The size of the grid cells in decimal degrees.  If None,
             the output will be points instead of grid cells.
         omit_values (list): Omit properties when their value is in this list.
@@ -77,7 +77,8 @@ def geojsonify_matrix(
             with consistent options
 
     Returns:
-        dict: A report summarizing the process.
+        report: A JSON compatible dictionary with report.
+        matrix_geojson: A GeoJSON compatible dictionary of features.
 
     Raises:
         OSError: on failure to write to geojson_filename.
@@ -115,15 +116,16 @@ def geojsonify_matrix(
     matrix_geojson['features'] = features
     if logger is not None:
         logger.log(f"Added {len(features)} sites to geojson.", refname=refname)
-    try:
-        with open(geojson_filename, mode='wt') as out_json:
-            json.dump(matrix_geojson, out_json, indent=4)
-    except OSError:
-        raise
-    except IOError:
-        raise
-    if logger is not None:
-        logger.log(f"Wrote geojson to {geojson_filename}.", refname=refname)
+
+    # try:
+    #     with open(geojson_filename, mode='wt') as out_json:
+    #         json.dump(matrix_geojson, out_json, indent=4)
+    # except OSError:
+    #     raise
+    # except IOError:
+    #     raise
+    # if logger is not None:
+    #     logger.log(f"Wrote geojson to {geojson_filename}.", refname=refname)
 
     report = {
         "matrix_species_count": len(column_headers),
@@ -137,25 +139,26 @@ def geojsonify_matrix(
     if omit_values:
         ovals = [str(x) for x in omit_values]
         report["ignored_values"] = ovals
-    return report
+    return report, matrix_geojson
 
 
 # .....................................................................................
 def geojsonify_matrix_with_shapefile(
-        matrix, grid_filename, geojson_filename, omit_values=None, logger=None):
+        # matrix, grid_filename, geojson_filename, omit_values=None, logger=None):
+        matrix, grid_filename, omit_values=None, logger=None):
     """Creates GeoJSON for a matrix, compressed or original, and matching shapefile.
 
     Args:
         matrix (Matrix): A 2 dimensional (spatial) matrix to create GeoJSON for, with
             sites represented as rows, along the y/0 axis..
         grid_filename (str): A file path to a shapefile matching the matrix.
-        geojson_filename (str): Output filename for geojson.
         omit_values (list): Omit properties when their value is in this list.
         logger (lmpy.log.Logger): An optional local logger to use for logging output
             with consistent options
 
     Returns:
-        dict: A GeoJSON compatible dictionary.
+        report: A JSON compatible dictionary with report.
+        matrix_geojson: A GeoJSON compatible dictionary of features.
 
     Raises:
         FileNotFoundError: on missing grid_filename.
@@ -223,22 +226,23 @@ def geojsonify_matrix_with_shapefile(
     if logger is not None:
         logger.log(
             f"Added {len(features)} sites to geojson.", refname=refname)
+
     # Explicitly delete OGR objects
     grid_dataset = grid_layer = None
-    try:
-        with open(geojson_filename, mode='wt') as out_json:
-            json.dump(matrix_geojson, out_json, indent=4)
-    except OSError:
-        raise
-    except IOError:
-        raise
-    if logger is not None:
-        logger.log(
-            f"Wrote geojson to {geojson_filename}.", refname=refname)
+
+    # try:
+    #     with open(geojson_filename, mode='wt') as out_json:
+    #         json.dump(matrix_geojson, out_json, indent=4)
+    # except OSError:
+    #     raise
+    # except IOError:
+    #     raise
+    # if logger is not None:
+    #     logger.log(
+    #         f"Wrote geojson to {geojson_filename}.", refname=refname)
 
     report = {
         "grid_filename": grid_filename,
-        "geojson_filename": geojson_filename,
         "matrix_species_count": len(column_headers),
         "matrix_site_count": len(row_headers),
         "json_site_count": len(features),
@@ -247,7 +251,7 @@ def geojsonify_matrix_with_shapefile(
     if omit_values:
         ovals = [str(x) for x in omit_values]
         report["ignored_values"] = ovals
-    return report
+    return report, matrix_geojson
 
 
 # .....................................................................................

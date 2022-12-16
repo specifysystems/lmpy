@@ -62,7 +62,8 @@ def test_make_geojson_from_matrix(generate_temp_filename):
     )
     # Check with point geojson
     assert _validate_geojson(
-        geojsonify_matrix(matrix, omit_values=[0]), generate_temp_filename
+        geojsonify_matrix(matrix, omit_values=[0]),
+        generate_temp_filename
     )
 
     # Check with polygon geojson
@@ -93,7 +94,7 @@ def test_make_geojson_from_matrix_and_shapefile(
         encoder.encode_presence_absence(filename, 'Raster {}'.format(i), 1, 99, 25)
     for i, filename in enumerate(vector_pa_filenames):
         encoder.encode_presence_absence(
-            filename, 'Vector {}'.format(i), 1, 99, 25, attribute_name='value'
+            filename, 'Vector {}'.format(i), 1, 99, 25, attribute_field='value'
         )
     enc_mtx = encoder.get_encoded_matrix()
     # Validate GeoJSON

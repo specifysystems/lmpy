@@ -52,7 +52,8 @@ def build_parser():
     parser.add_argument(
         "in_lmm_filename", type=str,
         help="Filename of lmpy matrix (.lmm) containing a y/0 axis of sites, " +
-             "to convert to GeoJSON."
+             "to convert to raster in geotiff format.  Note that the maximumn number" +
+             "of layers is 256"
     )
     parser.add_argument(
         "out_geotiff_filename",
@@ -85,7 +86,9 @@ def cli():
 
     Raises:
         OSError: on failure to write to report_filename.
-        IOError: on failure to write to report_filename.
+        IOError: on failure to write to report_filename.'
+
+    Todo: Test this fully
     """
     parser = build_parser()
     args = _process_arguments(parser, config_arg="config_file")

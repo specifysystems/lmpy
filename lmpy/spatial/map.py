@@ -119,7 +119,7 @@ def get_extent_resolution_from_matrix(matrix):
     else:
         print("X axis has only one column")
     if len(y_centers) > 1:
-        y_res = y_centers[1] - y_centers[0]
+        y_res = y_centers[0] - y_centers[1]
     else:
         print("Y axis has only one row")
     if x_res is None and y_res is None:

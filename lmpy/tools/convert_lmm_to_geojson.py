@@ -128,7 +128,7 @@ def cli():
     mtx = Matrix.load(args.in_lmm_filename)
     # col_headers = mtx.get_column_headers()
     if args.shapefile_filename is not None:
-        report = geojsonify_matrix_with_shapefile(
+        report, matrix_geojson = geojsonify_matrix_with_shapefile(
             mtx, args.shapefile_filename, args.out_geojson_filename,
             omit_values=args.omit_value, logger=logger
         )
@@ -138,6 +138,18 @@ def cli():
             omit_values=args.omit_value, logger=logger
         )
     report["matrix_filename"] = args.in_lmm_filename
+
+    try:
+        with open(args.out_geojson_filename, mode='wt') as out_json:
+            json.dump(matrix_geojson, out_json, indent=4)
+    except OSError:
+        raise
+    except IOError:
+        raise
+    if logger is not None:
+        logger.log(
+            f"Wrote geojson to {args.out_geojson_filename}.", refname=script_name)
+
 
     # If the output report was requested, write it
     if args.report_filename:
