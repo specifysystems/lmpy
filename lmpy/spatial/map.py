@@ -224,8 +224,13 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
         Returns:
             int, int: The row and column where the point is located.
         """
-        r = int(min(num_rows - 1, int((max_y - y) // resolution)))
-        c = int(min(num_cols - 1, int((x - min_x) // resolution)))
+        last_row = num_rows - 1
+        last_col = num_cols - 1
+        row_calc = int((max_y - y) // resolution)
+        col_calc = int((x - min_x) // resolution)
+
+        r = int(min(last_row, row_calc))
+        c = int(min(last_col, col_calc))
         return r, c
 
     return get_row_col_func
@@ -289,16 +294,27 @@ def create_point_heatmap_matrix(
             if reader.geopoint is not None:
                 rdr_rpt["geopoint_field"] = reader.geopoint
 
+        minx = miny = maxx = maxy = minr = minc = maxr = maxc = 0
         reader.open()
         for points in reader:
             for point in points:
                 row, col = get_row_col_func(point.x, point.y)
+                if point.x < minx: minx = point.x
+                if point.x > maxx: maxx = point.x
+                if point.y < miny: miny = point.y
+                if point.y > maxy: maxy = point.y
+                if row < minr: minr = row
+                if row > maxr: maxr = row
+                if col < minc: minc = col
+                if col > maxc: maxc = col
                 heatmap[row, col] += 1
                 rdr_rpt["count"] += 1
         reader.close()
         logit(
             logger, f"Read {rdr_rpt['count']} points from {rdr_rpt['type']} file " +
             f"{rdr_rpt['file']}.", refname=refname)
+        logit(logger, f"UL x/y point {minx}/{maxy} col/row {minc}/{minr}", refname=refname)
+        logit(logger, f"LR x/y point {maxx}/{miny} col/row {maxc}/{maxr}", refname=refname)
 
         report["input_data"].append(rdr_rpt)
     report["min_cell_point_count"] = int(heatmap.min())

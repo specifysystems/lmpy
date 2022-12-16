@@ -2,7 +2,7 @@
 import numpy as np
 
 from lmpy.point import Point, PointCsvWriter
-from lmpy.tools.create_point_heatmap import cli
+from lmpy.tools.rasterize_point_heatmap import cli
 
 
 # .....................................................................................
@@ -45,7 +45,7 @@ def test_create_point_heatmap(monkeypatch, generate_temp_filename):
             )
 
     params = [
-        'create_point_heatmap.py',
+        'rasterize_point_heatmap.py',
         '--csv',
         points_filename,
         'species_name',

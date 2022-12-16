@@ -3,7 +3,7 @@ from . import build_grid
 from . import calculate_pam_stats
 from . import convert_csv_to_lmm
 from . import convert_lmm_to_csv
-from . import create_point_heatmap
+from . import rasterize_point_heatmap
 from . import create_rare_species_model
 from . import create_scatter_plot
 from . import rasterize_site_stats
@@ -22,9 +22,9 @@ __all__.extend(build_grid.__all__)
 __all__.extend(calculate_pam_stats.__all__)
 __all__.extend(convert_csv_to_lmm.__all__)
 __all__.extend(convert_lmm_to_csv.__all__)
-__all__.extend(create_point_heatmap.__all__)
 __all__.extend(create_rare_species_model.__all__)
 __all__.extend(create_scatter_plot.__all__)
+__all__.extend(rasterize_point_heatmap.__all__)
 __all__.extend(rasterize_site_stats.__all__)
 __all__.extend(create_tree_matrix.__all__)
 __all__.extend(encode_layers.__all__)
