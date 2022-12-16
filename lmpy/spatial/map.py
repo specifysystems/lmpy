@@ -228,11 +228,7 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
         col_calc = int((x - min_x) // resolution)
 
         out_of_range = False
-        if row_calc not in range(0, num_rows):
-            print(f"Row calculation {row_calc} not between 0 and {num_rows - 1}")
-            out_of_range = True
-        if col_calc not in range(0, num_cols):
-            print(f"Column calculation {col_calc} not between 0 and {num_cols - 1}")
+        if row_calc not in range(0, num_rows) or col_calc not in range(0, num_cols):
             out_of_range = True
 
         if out_of_range:
