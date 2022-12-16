@@ -224,13 +224,23 @@ def get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
         Returns:
             int, int: The row and column where the point is located.
         """
-        last_row = num_rows - 1
-        last_col = num_cols - 1
         row_calc = int((max_y - y) // resolution)
         col_calc = int((x - min_x) // resolution)
 
-        r = int(min(last_row, row_calc))
-        c = int(min(last_col, col_calc))
+        out_of_range = False
+        if row_calc not in range(0, num_rows):
+            print(f"Row calculation {row_calc} not between 0 and {num_rows - 1}")
+            out_of_range = True
+        if col_calc not in range(0, num_cols):
+            print(f"Column calculation {col_calc} not between 0 and {num_cols - 1}")
+            out_of_range = True
+
+        if out_of_range:
+            r = c = -1
+        else:
+            r = row_calc
+            c = col_calc
+
         return r, c
 
     return get_row_col_func
@@ -281,6 +291,7 @@ def create_point_heatmap_matrix(
                 "file": reader.archive_filename,
                 "x_field": reader.x_term,
                 "y_field": reader.y_term,
+                "out_of_range": 0,
                 "count": 0}
             if reader.geopoint_term is not None:
                 rdr_rpt["geopoint_field"] = reader.geopoint_term
@@ -290,31 +301,25 @@ def create_point_heatmap_matrix(
                 "file": reader.filename,
                 "x_field": reader.x_field,
                 "y_field": reader.y_field,
+                "out_of_range": 0,
                 "count": 0}
             if reader.geopoint is not None:
                 rdr_rpt["geopoint_field"] = reader.geopoint
 
-        minx = miny = maxx = maxy = minr = minc = maxr = maxc = 0
         reader.open()
         for points in reader:
             for point in points:
                 row, col = get_row_col_func(point.x, point.y)
-                if point.x < minx: minx = point.x
-                if point.x > maxx: maxx = point.x
-                if point.y < miny: miny = point.y
-                if point.y > maxy: maxy = point.y
-                if row < minr: minr = row
-                if row > maxr: maxr = row
-                if col < minc: minc = col
-                if col > maxc: maxc = col
-                heatmap[row, col] += 1
-                rdr_rpt["count"] += 1
+                if -1 in (row, col):
+                    rdr_rpt["out_of_range"] += 1
+                else:
+                    heatmap[row, col] += 1
+                    rdr_rpt["count"] += 1
         reader.close()
         logit(
-            logger, f"Read {rdr_rpt['count']} points from {rdr_rpt['type']} file " +
-            f"{rdr_rpt['file']}.", refname=refname)
-        logit(logger, f"UL x/y point {minx}/{maxy} col/row {minc}/{minr}", refname=refname)
-        logit(logger, f"LR x/y point {maxx}/{miny} col/row {maxc}/{maxr}", refname=refname)
+            logger, f"Read {rdr_rpt['count']} points within extent, and " +
+            f"{rdr_rpt['out_of_range']} out of range, from {rdr_rpt['type']} " +
+            f"file {rdr_rpt['file']}.", refname=refname)
 
         report["input_data"].append(rdr_rpt)
     report["min_cell_point_count"] = int(heatmap.min())
