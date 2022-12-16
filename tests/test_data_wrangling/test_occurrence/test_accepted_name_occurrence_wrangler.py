@@ -46,8 +46,8 @@ def test_accepted_name_wrangler():
     points = generate_points(
         100,
         SimulatedField(
-            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(list(name_map.keys())), 'str'
-        ),
+            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(list(name_map.keys())),
+            'str'),
         SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
         SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
         []
@@ -225,7 +225,8 @@ def test_accepted_name_wrangler_from_config(generate_temp_filename):
     # Generate points
     points = generate_points(
         100,
-        SimulatedField(Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(raw_names), 'str'),
+        SimulatedField(
+            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(raw_names), 'str'),
         SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
         SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
         []
@@ -263,7 +264,8 @@ def test_accepted_name_wrangler_write_to_file_json(generate_temp_filename):
     name_pool = [name_func() for _ in range(np.random.randint(5, 20))]
     points = generate_points(
         100,
-        SimulatedField(Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(name_pool), 'str'),
+        SimulatedField(
+            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(name_pool), 'str'),
         SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
         SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
         []
@@ -297,7 +299,8 @@ def test_accepted_name_wrangler_write_to_file_csv(generate_temp_filename):
     name_pool = [name_func() for _ in range(np.random.randint(5, 20))]
     points = generate_points(
         100,
-        SimulatedField(Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(name_pool), 'str'),
+        SimulatedField(
+            Point.SPECIES_ATTRIBUTE, '', get_random_choice_func(name_pool), 'str'),
         SimulatedField('x', '', get_random_float_func(-180.0, 180.0, 2, 6), 'float'),
         SimulatedField('y', '', get_random_float_func(-90.0, 90.0, 2, 6), 'float'),
         []

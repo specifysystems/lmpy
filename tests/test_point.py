@@ -240,19 +240,21 @@ class Test_PointCsvWriter:
         # Write some points
         with PointCsvWriter(
                 filename, [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
-                Point.Y_ATTRIBUTE]) as writer:
+                           Point.Y_ATTRIBUTE]
+        ) as writer:
             writer.write_points(test_points[:15])
 
         # Reopen
         with PointCsvWriter(
-            filename, [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
-            Point.Y_ATTRIBUTE], mode='at', write_headers=False
+            filename, [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE, Point.Y_ATTRIBUTE],
+            mode='at', write_headers=False
         ) as writer:
             writer.write_points(test_points[15:])
 
         # Check that there are the correct number of points read
-        with PointCsvReader(filename, Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
-                Point.Y_ATTRIBUTE) as reader:
+        with PointCsvReader(
+                filename, Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE, Point.Y_ATTRIBUTE
+        ) as reader:
             points = []
             for read_points in reader:
                 points.extend(read_points)
