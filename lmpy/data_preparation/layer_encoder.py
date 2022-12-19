@@ -832,9 +832,10 @@ class LayerEncoder:
         Returns:
             dict: A JSON dictionary for the encoded matrix.
         """
-        return geojsonify_matrix_with_shapefile(
+        _, geojson = geojsonify_matrix_with_shapefile(
             self.encoded_matrix, self.grid_filename
         )
+        return geojson
 
 
 # .............................................................................
