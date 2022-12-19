@@ -105,7 +105,7 @@ def cli():
     """Provide a command-line tool for converting LMM to GeoJSON.
 
     Raises:
-        OSError: on failure to write to report_filename.
+        OSError: on failure to write to report_filename or geojson filename.
         IOError: on failure to write to report_filename.
     """
     parser = build_parser()
@@ -126,18 +126,16 @@ def cli():
         log_level=WARN)
 
     mtx = Matrix.load(args.in_lmm_filename)
-    # col_headers = mtx.get_column_headers()
     if args.shapefile_filename is not None:
         report, matrix_geojson = geojsonify_matrix_with_shapefile(
-            mtx, args.shapefile_filename, args.out_geojson_filename,
-            omit_values=args.omit_value, logger=logger
+            mtx, args.shapefile_filename, omit_values=args.omit_value, logger=logger
         )
     else:
         report = geojsonify_matrix(
-            mtx, args.out_geojson_filename, resolution=args.resolution,
-            omit_values=args.omit_value, logger=logger
+            mtx,  resolution=args.resolution, omit_values=args.omit_value, logger=logger
         )
     report["matrix_filename"] = args.in_lmm_filename
+    report["out_geojson_filename"] = args.out_geojson_filename
 
     try:
         with open(args.out_geojson_filename, mode='wt') as out_json:
@@ -149,7 +147,6 @@ def cli():
     if logger is not None:
         logger.log(
             f"Wrote geojson to {args.out_geojson_filename}.", refname=script_name)
-
 
     # If the output report was requested, write it
     if args.report_filename:

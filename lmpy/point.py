@@ -47,6 +47,7 @@ DELIMITED_TERMS = [
 ]
 DELIMITED_BY_ATT = 'delimitedBy'
 
+
 # .....................................................................................
 class Point:
     """Class representing an occurrence data point."""

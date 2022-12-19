@@ -4,6 +4,8 @@ import os.path
 
 from osgeo import ogr
 
+from lmpy.log import logit
+
 
 # .....................................................................................
 def _process_omit_values(omit_values, matrix_dtype):
@@ -37,15 +39,15 @@ def _get_geojson_geometry_func(resolution=None):
     # .......................
     def _make_point_geojson_geometry(x, y):
         return {
-            'type': 'Point',
-            'coordinates': [x, y]
+            "type": "Point",
+            "coordinates": [x, y]
         }
 
     # .......................
     def _make_polygon_geojson_geometry(x, y):
         return {
-            'type': 'Polygon',
-            'coordinates': [
+            "type": "Polygon",
+            "coordinates": [
                 [
                     [x - half_res, y - half_res],
                     [x + half_res, y - half_res],
@@ -64,7 +66,7 @@ def _get_geojson_geometry_func(resolution=None):
 # .....................................................................................
 def geojsonify_matrix(
         # matrix, geojson_filename, resolution=None, omit_values=None, logger=None):
-        matrix, resolution = None, omit_values = None, logger = None):
+        matrix, resolution=None, omit_values=None, logger=None):
     """Creates GeoJSON of points or polygons for a compressed or uncompressed matrix.
 
     Args:
@@ -79,32 +81,28 @@ def geojsonify_matrix(
     Returns:
         report: A JSON compatible dictionary with report.
         matrix_geojson: A GeoJSON compatible dictionary of features.
-
-    Raises:
-        OSError: on failure to write to geojson_filename.
-        IOError: on failure to write to geojson_filename.
     """
     refname = "geojsonify_matrix"
 
     omit_values = _process_omit_values(omit_values, matrix.dtype.type)
-    matrix_geojson = {'type': 'FeatureCollection'}
+    matrix_geojson = {"type": "FeatureCollection"}
     features = []
 
     make_geometry_func = _get_geojson_geometry_func(resolution=resolution)
 
     row_headers = matrix.get_row_headers()
     column_headers = matrix.get_column_headers()
-    if logger is not None:
-        logger.log(
-            f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
-            refname=refname)
-    if omit_values and logger is not None:
-        logger.log(f"Omit values {omit_values} from geojson.", refname=refname)
+    logit(
+        logger,
+        f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
+        refname=refname)
+    if omit_values:
+        logit(logger, f"Omit values {omit_values} from geojson.", refname=refname)
 
     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
 
     for i, (site_id, x, y) in enumerate(row_headers):
-        ft_json = dict(type='Feature', geometry=make_geometry_func(x, y))
+        ft_json = dict(type="Feature", geometry=make_geometry_func(x, y))
         ft_json["id"] = site_id
         ft_json["properties"] = {
             k: matrix[i, j].item() for j, k in column_enum
@@ -113,19 +111,8 @@ def geojsonify_matrix(
         if len(ft_json["properties"].keys()) > 0:
             features.append(ft_json)
 
-    matrix_geojson['features'] = features
-    if logger is not None:
-        logger.log(f"Added {len(features)} sites to geojson.", refname=refname)
-
-    # try:
-    #     with open(geojson_filename, mode='wt') as out_json:
-    #         json.dump(matrix_geojson, out_json, indent=4)
-    # except OSError:
-    #     raise
-    # except IOError:
-    #     raise
-    # if logger is not None:
-    #     logger.log(f"Wrote geojson to {geojson_filename}.", refname=refname)
+    matrix_geojson["features"] = features
+    logit(logger, f"Added {len(features)} sites to geojson.", refname=refname)
 
     report = {
         "matrix_species_count": len(column_headers),
@@ -144,7 +131,6 @@ def geojsonify_matrix(
 
 # .....................................................................................
 def geojsonify_matrix_with_shapefile(
-        # matrix, grid_filename, geojson_filename, omit_values=None, logger=None):
         matrix, grid_filename, omit_values=None, logger=None):
     """Creates GeoJSON for a matrix, compressed or original, and matching shapefile.
 
@@ -161,26 +147,23 @@ def geojsonify_matrix_with_shapefile(
         matrix_geojson: A GeoJSON compatible dictionary of features.
 
     Raises:
-        FileNotFoundError: on missing grid_filename.
-        OSError: on failure to write to geojson_filename.
-        IOError: on failure to write to geojson_filename.
+        FileNotFoundError: on missing input shapefile
     """
     refname = "geojsonify_matrix_with_shapefile"
 
     site_axis = 0
     omit_values = _process_omit_values(omit_values, matrix.dtype.type)
-    matrix_geojson = {'type': 'FeatureCollection'}
+    matrix_geojson = {"type": "FeatureCollection"}
     features = []
 
     column_headers = matrix.get_column_headers()
     row_headers = matrix.get_headers(axis=site_axis)
-    if logger is not None:
-        logger.log(
-            f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
-            refname=refname)
-    if omit_values and logger is not None:
-        logger.log(
-            f"Omit values {omit_values} from geojson.", refname=refname)
+    logit(
+        logger,
+        f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
+        refname=refname)
+    if omit_values:
+        logit(logger, f"Omit values {omit_values} from geojson.", refname=refname)
 
     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
 
@@ -188,9 +171,8 @@ def geojsonify_matrix_with_shapefile(
         raise FileNotFoundError(f"Grid shapefile {grid_filename} does not exist.")
     grid_dataset = ogr.Open(grid_filename)
     grid_layer = grid_dataset.GetLayer()
-    if logger is not None:
-        logger.log(
-            f"Found {grid_layer.GetFeatureCount()} sites in grid.", refname=refname)
+    logit(
+        logger, f"Found {grid_layer.GetFeatureCount()} sites in grid.", refname=refname)
     # Find the feature values to match grid sites with matrix sites
     # TODO: get dynamically?
     id_fld = "siteid"
@@ -204,8 +186,6 @@ def geojsonify_matrix_with_shapefile(
     while feat is not None:
         # Make sure this grid site is in the matrix
         site_id = feat.GetField(id_fld)
-        # ft_json = json.loads(feat.ExportToJson())
-        # ft_json['properties'] = {}
         if site_id in fids_in_matrix.keys():
             mtx_row = fids_in_matrix[site_id]
             ft_json = json.loads(feat.ExportToJson())
@@ -213,33 +193,16 @@ def geojsonify_matrix_with_shapefile(
             ft_json["properties"] = {}
             for tx_idx, tx_name in column_enum:
                 if matrix[mtx_row, tx_idx].item() not in omit_values:
-                    ft_json['properties'][tx_name] = matrix[mtx_row, tx_idx].item()
-            # ft_json['properties'] = {
-            #     k: matrix[i, j].item() for j, k in column_enum
-            #     if matrix[i, j].item() not in omit_values
-            # }
-            if len(ft_json['properties'].keys()) > 0:
+                    ft_json["properties"][tx_name] = matrix[mtx_row, tx_idx].item()
+            if len(ft_json["properties"].keys()) > 0:
                 features.append(ft_json)
         feat = grid_layer.GetNextFeature()
 
-    matrix_geojson['features'] = features
-    if logger is not None:
-        logger.log(
-            f"Added {len(features)} sites to geojson.", refname=refname)
+    matrix_geojson["features"] = features
+    logit(logger, f"Added {len(features)} sites to geojson.", refname=refname)
 
     # Explicitly delete OGR objects
     grid_dataset = grid_layer = None
-
-    # try:
-    #     with open(geojson_filename, mode='wt') as out_json:
-    #         json.dump(matrix_geojson, out_json, indent=4)
-    # except OSError:
-    #     raise
-    # except IOError:
-    #     raise
-    # if logger is not None:
-    #     logger.log(
-    #         f"Wrote geojson to {geojson_filename}.", refname=refname)
 
     report = {
         "grid_filename": grid_filename,
@@ -255,4 +218,4 @@ def geojsonify_matrix_with_shapefile(
 
 
 # .....................................................................................
-__all__ = ['geojsonify_matrix', 'geojsonify_matrix_with_shapefile']
+__all__ = ["geojsonify_matrix", "geojsonify_matrix_with_shapefile"]
