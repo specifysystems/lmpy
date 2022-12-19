@@ -352,7 +352,7 @@ def _get_geotransform(min_x, min_y, max_x, max_y, resolution):
     x_headers, y_headers = _create_map_matrix_headers_from_extent(
         min_x, min_y, max_x, max_y, resolution)
     ul_x = x_headers[0] - (resolution * .5)
-    ul_y = y_headers[-1] + (resolution * .5)
+    ul_y = y_headers[0] + (resolution * .5)
     geotransform = (ul_x, resolution, 0, ul_y, 0, -resolution)
     return geotransform
 
