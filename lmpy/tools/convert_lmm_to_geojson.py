@@ -128,12 +128,11 @@ def cli():
     mtx = Matrix.load(args.in_lmm_filename)
     if args.shapefile_filename is not None:
         report, matrix_geojson = geojsonify_matrix_with_shapefile(
-            mtx, args.shapefile_filename, omit_values=args.omit_value, logger=logger
-        )
+            mtx, args.shapefile_filename, omit_values=args.omit_value, logger=logger)
     else:
-        report = geojsonify_matrix(
-            mtx,  resolution=args.resolution, omit_values=args.omit_value, logger=logger
-        )
+        report, matrix_geojson = geojsonify_matrix(
+            mtx,  omit_values=args.omit_value, logger=logger)
+
     report["matrix_filename"] = args.in_lmm_filename
     report["out_geojson_filename"] = args.out_geojson_filename
 

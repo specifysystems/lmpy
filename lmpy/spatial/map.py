@@ -23,7 +23,7 @@ def _create_empty_map_matrix_from_matrix(matrix):
         axis 1 represents the columns/x coordinate/longitude
     """
     # Headers are coordinate centroids
-    x_headers, y_headers = _get_coordinate_headers(matrix)
+    x_headers, y_headers, resolution = get_coordinate_headers_resolution(matrix)
     map_matrix = Matrix(
         np.zeros((len(y_headers), len(x_headers)), dtype=int),
         headers={
@@ -65,7 +65,38 @@ def _create_empty_map_matrix(min_x, min_y, max_x, max_y, resolution):
 
 
 # .....................................................................................
-def _get_coordinate_headers(matrix):
+def _find_resolution(x_headers, y_headers):
+    if len(x_headers) <= 1:
+        raise Exception(
+            f"Matrix contains only {len(x_headers)} columns on the x-axis ")
+    else:
+        resolution = None
+        head = 0
+        while head < len(x_headers) - 1:
+            head += 1
+            tail = head - 1
+            # Distance between adjacent rows will be resolution
+            distance = x_headers[head] - x_headers[tail]
+            # Smallest distance will be adjacent
+            if resolution is None or distance < resolution:
+                resolution = distance
+        if len(y_headers) <= 1:
+            raise Exception(
+                f"Matrix contains only {len(y_headers)} rows on the y-axis")
+        else:
+            head = 0
+            # Look for smaller distance between rows
+            while head < len(y_headers):
+                head += 1
+                tail = head - 1
+                distance = x_headers[head] - x_headers[tail]
+                if distance < resolution:
+                    resolution = distance
+    return resolution
+
+
+# .....................................................................................
+def get_coordinate_headers_resolution(matrix):
     """Get coordinate headers from a matrix with coordinates along one or two axes.
 
     Args:
@@ -77,6 +108,15 @@ def _get_coordinate_headers(matrix):
     Returns:
         x_headers (list): list of x coordinates, centroid of each cell in column
         y_headers (list): list of y coordinates, centroid of each cell in row
+
+    Raises:
+        Exception: on matrix contains < 2 columns
+        Exception: on matrix contains < 2 rows
+
+    Notes:
+        Assume that if the matrix is compressed, there are at least one pair of
+            neighboring rows or columns.
+        Assumes x and y resolution are equal
     """
     row_headers = matrix.get_row_headers()
     # row/site headers in flattened geospatial matrix are tuples of
@@ -87,12 +127,20 @@ def _get_coordinate_headers(matrix):
         x_headers = matrix.get_column_headers()
         y_headers = row_headers
 
-    return x_headers, y_headers
+    if len(x_headers) <= 1:
+        raise Exception(
+            f"Matrix contains only {len(x_headers)} columns on the x-axis ")
+    if len(y_headers) <= 1:
+        raise Exception(
+            f"Matrix contains only {len(y_headers)} rows on the y-axis")
+    resolution = _find_resolution(x_headers, y_headers)
+
+    return x_headers, y_headers, resolution
 
 
 # .....................................................................................
 def get_extent_resolution_from_matrix(matrix):
-    """Gets x and y extents and resolution of a geospatial matrix.
+    """Gets x and y extents and resolution of an uncompressed geospatial matrix.
 
     Args:
         matrix (lmpy.matrix.Matrix object): an input 2d geospatial matrix with
@@ -110,9 +158,9 @@ def get_extent_resolution_from_matrix(matrix):
     Raises:
         Exception: on matrix of less than 2 columns or rows.
     """
-    x_res = y_res = None
+    resolution = None
     # Headers are coordinate centroids
-    x_centers, y_centers = _get_coordinate_headers(matrix)
+    x_centers, y_centers, resolution = get_coordinate_headers_resolution(matrix)
     # Identify the distance between centroids for resolution
     if len(x_centers) > 1:
         x_res = x_centers[1] - x_centers[0]
@@ -640,6 +688,7 @@ def create_map_matrix_for_column(matrix, col_header, nodata=-9999):
 __all__ = [
     "create_map_matrix_for_column",
     "create_point_heatmap_matrix",
+    "get_coordinate_headers_resolution",
     "get_extent_resolution_from_matrix",
     "get_row_col_for_x_y_func",
     "rasterize_map_matrices",

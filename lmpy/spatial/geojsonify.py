@@ -5,6 +5,7 @@ import os.path
 from osgeo import ogr
 
 from lmpy.log import logit
+from lmpy.spatial.map import get_coordinate_headers_resolution
 
 
 # .....................................................................................
@@ -64,16 +65,16 @@ def _get_geojson_geometry_func(resolution=None):
 
 
 # .....................................................................................
-def geojsonify_matrix(
-        # matrix, geojson_filename, resolution=None, omit_values=None, logger=None):
-        matrix, resolution=None, omit_values=None, logger=None):
+def geojsonify_matrix(matrix, resolution=None, omit_values=None, logger=None):
     """Creates GeoJSON of points or polygons for a compressed or uncompressed matrix.
 
     Args:
         matrix (Matrix): A (spatial) matrix to create GeoJSON for, with sites
             represented as rows, along the y/0 axis.
         resolution (Numeric): The size of the grid cells in decimal degrees.  If None,
-            the output will be points instead of grid cells.
+            identify the resolution from the input matrix.  This assumes that for
+            compressed matrices, there are at least one adjacent pair of rows or
+            columns present in the matrix.
         omit_values (list): Omit properties when their value is in this list.
         logger (lmpy.log.Logger): An optional local logger to use for logging output
             with consistent options
@@ -83,24 +84,25 @@ def geojsonify_matrix(
         matrix_geojson: A GeoJSON compatible dictionary of features.
     """
     refname = "geojsonify_matrix"
-
-    omit_values = _process_omit_values(omit_values, matrix.dtype.type)
     matrix_geojson = {"type": "FeatureCollection"}
-    features = []
-
-    make_geometry_func = _get_geojson_geometry_func(resolution=resolution)
-
     row_headers = matrix.get_row_headers()
     column_headers = matrix.get_column_headers()
     logit(
         logger,
         f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
         refname=refname)
+
+    _, _, res = get_coordinate_headers_resolution(matrix)
+    if resolution is None:
+        resolution = res
+
+    omit_values = _process_omit_values(omit_values, matrix.dtype.type)
     if omit_values:
         logit(logger, f"Omit values {omit_values} from geojson.", refname=refname)
+    make_geometry_func = _get_geojson_geometry_func(resolution=resolution)
 
+    features = []
     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
-
     for i, (site_id, x, y) in enumerate(row_headers):
         ft_json = dict(type="Feature", geometry=make_geometry_func(x, y))
         ft_json["id"] = site_id
