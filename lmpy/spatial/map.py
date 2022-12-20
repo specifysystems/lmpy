@@ -96,6 +96,28 @@ def _find_resolution(x_headers, y_headers):
 
 
 # .....................................................................................
+def is_flattened_geospatial_matrix(matrix):
+    """Identifies whether matrix has x and y coordinates along 1 and 0 axes.
+
+    Args:
+        matrix (lmpy.matrix.Matrix object): an input 2d geospatial matrix with
+            y centroids in row headers, x centroids in column headers  OR
+            flattened geospatial matrix with site centroids in row headers.
+
+    Returns:
+        True if flattened geospatial matrix,
+        False if x coordinates in columns, y coordinates in rows
+    """
+    row_headers = matrix.get_row_headers()
+    # row/site headers in flattened geospatial matrix are tuples of
+    # (siteid, x_coord, y_coord)
+    if type(row_headers[0]) is list and len(row_headers[0]) == 3:
+        return True
+    else:
+        return False
+
+
+# .....................................................................................
 def get_coordinate_headers_resolution(matrix):
     """Get coordinate headers from a matrix with coordinates along one or two axes.
 
@@ -119,9 +141,7 @@ def get_coordinate_headers_resolution(matrix):
         Assumes x and y resolution are equal
     """
     row_headers = matrix.get_row_headers()
-    # row/site headers in flattened geospatial matrix are tuples of
-    # (siteid, x_coord, y_coord)
-    if type(row_headers[0]) is list and len(row_headers[0]) == 3:
+    if is_flattened_geospatial_matrix(matrix):
         x_headers, y_headers = _get_map_matrix_headers_from_sites(row_headers)
     else:
         x_headers = matrix.get_column_headers()
@@ -406,16 +426,19 @@ def _get_geotransform(min_x, min_y, max_x, max_y, resolution):
 
 
 # ...................................................................................
-def rasterize_matrix(
-        matrix, out_raster_filename, column=None, nodata=-9999, logger=None):
+def rasterize_flattened_matrix(
+        matrix, out_raster_filename, columns=None, is_pam=False, nodata=-9999,
+        logger=None):
     """Create a geotiff raster file from one or all columns in a 2d geospatial matrix.
 
     Args:
         matrix (lmpy.matrix.Matrix object): an input flattened geospatial matrix with
             site centroids in row headers.
         out_raster_filename: output filename.
-        column (str): header of the column of interest.  If None, all columns will
-            be included as bands in a multi-band raster.
+        columns (list of str): headers of the columns to be included as bands.  If None,
+            all columns will be included as bands.
+        is_pam (bool): If true, input matrix is binary, and output raster will be
+            written with values stored as bytes
         nodata (numeric): value for cells with no data in them
         logger (lmpy.log.Logger): An optional local logger to use for logging output
             with consistent options
@@ -426,57 +449,79 @@ def rasterize_matrix(
     Raises:
         Exception: on GDAL raster dataset creation
     """
-    refname = "rasterize_matrix"
-    columns = matrix.get_column_headers()
-    if column:
-        if column not in columns:
-            raise Exception(
-               f"Column {column} is not present in matrix columns {columns}")
-        else:
-            columns = [column]
+    refname = "rasterize_flattened_matrix"
+    column_headers = matrix.get_column_headers()
+    if columns is not None:
+        for col in columns:
+            if col not in column_headers:
+                raise Exception(
+                   f"Column {col} is not present in matrix columns")
+    else:
+        columns = column_headers
 
-    map_mtx = _create_empty_map_matrix_from_matrix(matrix)
+    # Get geotransform elements and datatype from input matrix
     min_x, min_y, max_x, max_y, x_res, y_res = get_extent_resolution_from_matrix(
         matrix)
+    # TODO: handle differing x and y resolutions
     geotransform = _get_geotransform(min_x, min_y, max_x, max_y, x_res)
-
-    height, width = map_mtx.shape
-    if matrix.dtype == np.float32:
+    if is_pam is True:
+        arr_type = gdal.GDT_Byte
+        rst_type_str = "gdal.GDT_Byte"
+        # modify the nodata value to fit within a byte
+        nodata = 255
+    elif matrix.dtype == np.float32:
         arr_type = gdal.GDT_Float32
+        rst_type_str = "gdal.GDT_Float32"
     else:
         arr_type = gdal.GDT_Int32
-    report = {
-        "height": height,
-        "width": width,
-        "matrix_type": matrix.dtype.__name__
-    }
+        rst_type_str = "gdal.GDT_Int32"
 
+    # Get raster dataset parameters from map matrix of first column
+    map_mtx, report = create_map_matrix_for_column(
+        matrix, columns[0], is_pam=is_pam, nodata=nodata)
+    height, width = map_mtx.shape
+
+    # Add to summary report
+    report["height"] = height
+    report["width"] = width
+    report["raster_data_type"] = rst_type_str
+    report["resolution"] = x_res
+    report["nodata"] = nodata
+
+    # Create raster dataset
     driver = gdal.GetDriverByName("GTiff")
     try:
         out_ds = driver.Create(
-            out_raster_filename, width, height, 1, arr_type,
-            options=[f"TIFFTAG_GDAL_NODATA ASCII={nodata}"])
+            out_raster_filename, width, height, len(columns), arr_type)
+        # Add nodata to metadata
+        # out_ds.SetMetadata({"TIFFTAG_GDAL_NODATA": f"{nodata}"})
         # out_ds.SetProjection(in_ds.GetProjection())
-        # TODO: handle differing x and y resolutions
-        # Use only x-resolution for now
         out_ds.SetGeoTransform(geotransform)
     except Exception as e:
-        if logger:
-            logit(
-                logger, f"Exception in GDAL function {e}", refname=refname,
-                log_level=logging.ERROR)
+        logit(
+            logger, f"Exception in GDAL function {e}", refname=refname,
+            log_level=logging.ERROR)
         raise
     else:
         # band indexes start at 1
         band_idx = 1
+        # Create band for each column
         for col in columns:
-            col_map_mtx = create_map_matrix_for_column(matrix, column)
+            col_map_mtx, _ = create_map_matrix_for_column(matrix, col)
             out_band = out_ds.GetRasterBand(band_idx)
             out_band.WriteArray(col_map_mtx, 0, 0)
             out_band.FlushCache()
             out_band.ComputeStatistics(False)
-            band_idx += 1
+            # Add band/column to metadata and report
+            out_band.SetMetadata({f"band {band_idx}": f"{col}"})
             report[f"band {band_idx}"] = col
+            logit(
+                logger, f"Added {col} as band {band_idx}", refname=refname,
+                log_level=logging.INFO)
+            band_idx += 1
+        logit(
+            logger, f"Wrote raster with {len(columns)} bands to {out_raster_filename}",
+            refname=refname, log_level=logging.INFO)
     return report
 
 
@@ -538,19 +583,27 @@ def rasterize_map_matrices(map_matrix_dict, out_raster_filename, logger=None):
             out_band.FlushCache()
             out_band.ComputeStatistics(False)
             report[f"band{band_idx}"] = stat
+            logit(
+                logger, f"Added {stat} as band {band_idx}", refname=refname,
+                log_level=logging.INFO)
             band_idx += 1
+        logit(
+            logger, f"Wrote raster with {len(stat_names)} bands to " +
+            f"{out_raster_filename}", refname=refname, log_level=logging.INFO)
 
     return report
 
 
 # .....................................................................................
-def create_map_matrix_for_column(matrix, col_header, nodata=-9999):
+def create_map_matrix_for_column(matrix, col_header, is_pam=False, nodata=-9999):
     """Create a map matrix from one column in a 2d matrix.
 
     Args:
         matrix (lmpy.matrix.Matrix object): an input 2d geospatial matrix with
             x,y centroids in row headers, other data attributes in column headers.
         col_header (str): column header for data to map
+        is_pam (bool): If true, input matrix is binary, will be written as byte data,
+            and nodata value is 255
         nodata (numeric): value for cells with no data in them
 
     Returns:
@@ -558,6 +611,8 @@ def create_map_matrix_for_column(matrix, col_header, nodata=-9999):
             headers, x centroids in column headers.
     """
     # Create empty 2-dimensional matrix, with x/0 = longitude and y/1 = latitude
+    if is_pam:
+        nodata = 255
     map_mtx = _create_empty_map_matrix_from_matrix(matrix)
     num_cols = map_mtx.shape[1]
     min_x, min_y, max_x, max_y, x_res, y_res = get_extent_resolution_from_matrix(
@@ -604,10 +659,9 @@ def create_map_matrix_for_column(matrix, col_header, nodata=-9999):
 #     # Create empty 2-dimensional matrix, with x/0 = longitude and y/1 = latitude
 #     column_headers = matrix.get_column_headers()
 #     row_headers = matrix.get_headers(axis=site_axis)
-#     if logger is not None:
-#         logit(logger,
-#             f"Found {len(row_headers)} sites and {len(column_headers)} taxa.",
-#             refname=refname)
+#     logit(logger,
+#         f"Found {len(row_headers)} sites and {len(column_headers)} taxa.",
+#         refname=refname)
 #
 #     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
 #
@@ -618,11 +672,10 @@ def create_map_matrix_for_column(matrix, col_header, nodata=-9999):
 #     grid_dataset = driver.Open(grid_filename, 0)
 #     grid_layer = grid_dataset.GetLayer()
 #     (min_x, max_x, min_y, max_y) = grid_layer.GetExtent()
-#     if logger is not None:
-#         logit(logger,
-#             f"Found {grid_layer.GetFeatureCount()} sites in grid, with extent " +
-#             f"(min_x, max_x, min_y, max_y) = ({min_x}, {max_x}, {min_y}, {max_y}).",
-#             refname=refname)
+#     logit(logger,
+#         f"Found {grid_layer.GetFeatureCount()} sites in grid, with extent " +
+#         f"(min_x, max_x, min_y, max_y) = ({min_x}, {max_x}, {min_y}, {max_y}).",
+#         refname=refname)
 #
 #     map_mtx = create_empty_map_matrix(min_x, min_y, max_x, max_y, resolution)
 #     height, width = map_mtx.shape
@@ -691,6 +744,7 @@ __all__ = [
     "get_coordinate_headers_resolution",
     "get_extent_resolution_from_matrix",
     "get_row_col_for_x_y_func",
+    "is_flattened_geospatial_matrix",
     "rasterize_map_matrices",
-    "rasterize_matrix"
+    "rasterize_flattened_matrix"
 ]

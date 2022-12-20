@@ -2,12 +2,12 @@
 import argparse
 import json
 import logging
-from logging import WARN
 import os
 
 from lmpy.log import Logger
 from lmpy.matrix import Matrix
-from lmpy.spatial.map import (rasterize_matrix)
+from lmpy.spatial.map import (
+    is_flattened_geospatial_matrix, rasterize_flattened_matrix)
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
@@ -45,7 +45,15 @@ def build_parser():
         help="If provided, write log to console."
     )
     parser.add_argument(
+        "--is_pam",
+        action="store_true",
+        default=False,
+        help="If provided, input matrix is binary, and output raster will be written " +
+             "with values stored as bytes."
+    )
+    parser.add_argument(
         "--column",
+        action="append",
         type=str,
         help=("Header of column to map."),
     )
@@ -74,19 +82,25 @@ def test_inputs(args):
         all_missing_inputs: Error messages for display on exit.
     """
     all_missing_inputs = test_files((args.in_lmm_filename, "Matrix input"))
-    if args.shapefile_filename is not None:
-        errs = test_files((args.shapefile_filename, "Input shapefile"))
-        all_missing_inputs.extend(errs)
     return all_missing_inputs
 
 
 # ...................................................................................
 def cli():
-    """Provide a command-line tool for converting LMM to GeoJSON.
+    """Provide a command-line tool for converting one or all columns in LMM to Raster.
 
     Raises:
         OSError: on failure to write to report_filename.
         IOError: on failure to write to report_filename.'
+
+    Note:
+        * Assumes the input is a matrix with sites as rows, identified by row_headers
+    site_id, x_coordinate, y_coordinate.  Columns may be any site properties, such
+    as species data, statistics, or other.
+        * The number of output bands for a raster may be limited to 256, because
+    the "bandnum" argument in
+    https://trac.osgeo.org/postgis/browser/trunk/raster/rt_core/librtcore.h
+    is defined as uint8 (0-255).  Yes, this is postgis, no I'm not certain.
 
     Todo: Test this fully
     """
@@ -104,22 +118,40 @@ def cli():
         log_console=args.log_console
     )
     logger.log(
-        f"Beware: {script_name} has not been fully tested", refname=script_name,
-        log_level=WARN)
+        f"***Create raster image for matrix {args.in_lmm_filename}",
+        refname=script_name)
 
     mtx = Matrix.load(args.in_lmm_filename)
-    col_headers = mtx.get_column_headers()
-    if args.column is not None:
-        if args.column in col_headers:
-            report = rasterize_matrix(
-                mtx, args.out_geotiff_filename, column=args.column, logger=logger)
-
+    if is_flattened_geospatial_matrix(mtx):
+        column_headers = mtx.get_column_headers()
+        if args.column is None:
+            columns = column_headers
         else:
+            columns = []
+            for col in args.column:
+                if col in column_headers:
+                    columns.append(col)
+                else:
+                    logger.log(
+                        f"Error: column {col} is not present in matrix " +
+                        f"{args.in_lmm_filename}, ignoring",
+                        refname=script_name, log_level=logging.WARN)
+            if len(columns) == 0:
+                logger.log(
+                    f"No valid columns in {args.column} present in matrix " +
+                    f"{args.in_lmm_filename}", refname=script_name,
+                    log_level=logging.ERROR)
+                print("Errors, exiting program")
+
+        if len(columns) > 256:
             logger.log(
-                f"Column name {args.column} is not present in matrix " +
-                f"{args.in_lmm_filename} columns {col_headers}", refname=script_name,
-                log_level=logging.ERROR)
-            print("Errors, exiting program")
+                f"Beware: creating a raster image for {len(columns)} bands, " +
+                "over the assumed limit of 256. ",
+                refname=script_name, log_level=logging.WARN)
+
+        report = rasterize_flattened_matrix(
+            mtx, args.out_geotiff_filename, columns=columns, is_pam=args.is_pam,
+            logger=logger)
 
     # If the output report was requested, write it
     if args.report_filename:
