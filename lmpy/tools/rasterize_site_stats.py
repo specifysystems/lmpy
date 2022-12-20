@@ -112,7 +112,7 @@ def test_inputs(args):
 
 # .....................................................................................
 def cli():
-    """Provide a command-line tool for creating a site-statistic heatmap.
+    """Provide a command-line tool for creating a site-statistic multi-band raster.
 
     Raises:
         OSError: on failure to write to report_filename.
@@ -147,7 +147,7 @@ def cli():
             stat_names = [args.statistic]
         else:
             msg = (f"Matrix {args.matrix_filename} does not contain  " +
-                   f"column {args.statistic}available columns are {stat_names}")
+                   f"column {args.statistic}; available columns are {stat_names}")
             logger.log(msg, refname=script_name, log_level=logging.FATAL)
             print("Errors, exiting program")
             exit(msg)
