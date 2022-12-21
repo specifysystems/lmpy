@@ -2,12 +2,8 @@
 import numpy as np
 
 from lmpy.matrix import Matrix
-from lmpy.plots.map import (
-    create_point_heatmap_matrix,
-    create_stat_heatmap_matrix,
-    plot_matrix,
-)
 from lmpy.point import Point, PointCsvReader, PointCsvWriter
+from lmpy.spatial.map import create_point_heatmap_matrix, create_map_matrix_for_column
 
 
 # .....................................................................................
@@ -87,7 +83,7 @@ def test_create_point_heatmap_matrix_random_data(generate_temp_filename):
     reader.open()
 
     # Create heat map
-    heatmap = create_point_heatmap_matrix(reader, 0, 0, 100, 100, 2)
+    heatmap, _ = create_point_heatmap_matrix(reader, 0, 0, 100, 100, 2)
     reader.close()
 
     assert heatmap.sum() == num_points
@@ -120,7 +116,7 @@ def test_create_stat_heatmap_matrix():
             '1': ['stat_1', 'stat_2', 'stat_3']
         }
     )
-    stat_heatmap = create_stat_heatmap_matrix(stat_matrix, 'stat_2', 0, 0, 2, 2, 1)
+    stat_heatmap, _ = create_map_matrix_for_column(stat_matrix, 'stat_2')
     test_heatmap_matrix = Matrix(
         np.array(
             [
@@ -135,37 +131,3 @@ def test_create_stat_heatmap_matrix():
     )
 
     assert np.all(stat_heatmap == test_heatmap_matrix)
-
-
-# .....................................................................................
-def test_plot_matrix_points(generate_temp_filename):
-    """Test the plot_matrix function with points.
-
-    Args:
-        generate_temp_filename (pytest.Fixture): A fixture to generate filenames.
-    """
-    # Generate and write points
-    point_filename = generate_temp_filename(suffix='.csv')
-    num_points = np.random.randint(20, 1000)
-    with PointCsvWriter(point_filename, ['species_name', 'x', 'y']) as writer:
-        for _ in range(num_points):
-            writer.write_points(
-                [
-                    Point(
-                        'Species A',
-                        np.random.randint(1, 99),
-                        np.random.randint(1, 99)
-                    )
-                ]
-            )
-
-    # Open point reader
-    reader = PointCsvReader(point_filename, 'species_name', 'x', 'y')
-    reader.open()
-
-    # Create heat map
-    heatmap = create_point_heatmap_matrix(reader, 0, 0, 100, 100, 2)
-    reader.close()
-
-    plot_filename = generate_temp_filename(suffix='.png')
-    plot_matrix(plot_filename, heatmap)
