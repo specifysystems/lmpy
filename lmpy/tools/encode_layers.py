@@ -125,23 +125,40 @@ def test_inputs(args):
 
 # .....................................................................................
 def _get_default_label(lyr_filename):
-    # Default matrix column label:
-    #   1) the first line of a file in the same directory and with the same basename
-    #      as lyr_filename and a ".label" extension, OR
-    #   2) basename of the layer file
-    label_pattern = os.path.join(os.path.dirname(lyr_filename), "*.label")
-    label_files = glob.glob(label_pattern)
+    """Get a label for the layer filename to be encoded.
+
+    Args:
+        lyr_filename (str): path to file to be encoded
+
+    Returns:
+        a matrix label for the layer.
+
+    Notes:
+        A mechanism to provide a label (other than the file basename) for a layer.
+        Create a file with the same basename and a "label" extension in the same
+            directory as the layer file. The first line of the file must contain the
+            new label.
+        Open Tree of Life trees are returned with '_' replacing ' ' in species names.
+        Most occurrence records contain spaces in species names.
+        Why ???
+
+        Default matrix column label:
+          1) the first line of a file in the same directory and with the same basename
+             as lyr_filename and a ".label" extension, OR
+          2) basename of the layer file
+
+    Todo:
+        Find where in lmpy tree labels are getting changed!
+    """
+    basename, ext = os.path.splitext(lyr_filename)
+    label_filename = f"{basename}.label"
     try:
-        label_file = label_files[0]
-    except IndexError:
-        label = os.path.splitext(os.path.basename(lyr_filename))[0]
-    else:
-        f = open(label_file, 'r')
+        f = open(label_filename, 'r')
         tmp = f.readline()
         f.close()
         label = tmp.strip()
-        if not label:
-            label = os.path.splitext(os.path.basename(lyr_filename))[0]
+    except FileNotFoundError:
+        label = os.path.splitext(os.path.basename(lyr_filename))[0]
 
     return label
 

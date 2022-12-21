@@ -187,17 +187,15 @@ class _AcceptedNameWrangler(_DataWrangler):
         if isinstance(names, str):
             names = [names]
         resolved_names = {}
-        unmatched_names = []
+        unmatched_names = set()
         for name in names:
             if name in self.name_map.keys():
                 # Use previously resolved name if present
                 resolved_names[name] = self.name_map[name]
-
             else:
                 # Save all unmatched names
-                if name not in unmatched_names:
-                    unmatched_names.append(name)
-                    resolved_names[name] = None
+                unmatched_names.add(name)
+                resolved_names[name] = None
 
         # If we have a name resolver and unmatched names, resolve them
         if self._name_resolver is not None and len(unmatched_names) > 0:

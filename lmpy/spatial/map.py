@@ -745,6 +745,6 @@ __all__ = [
     "get_extent_resolution_from_matrix",
     "get_row_col_for_x_y_func",
     "is_flattened_geospatial_matrix",
-    "rasterize_map_matrices",
-    "rasterize_flattened_matrix"
+    "rasterize_flattened_matrix",
+    "rasterize_map_matrices"
 ]

@@ -22,16 +22,22 @@ def match_headers(mask_filename, tmp_mask_filename, template_layer_filename):
         mask_filename: Input filename to update with headers
         tmp_mask_filename: Raster filename fromm which to copy the values above the 6th
         template_layer_filename: Layer filename from which to copy the first 6 values
+
+    Note:
+        Rewrite the mask with headers from an environmental layer so the geographic
+        extent is EXACTLY the same (no rounding).  Only write the first 5 lines
+        (ncols, nrows, xllcorner, yllcorner, cellsize) from environmental layer,
+        take the 6th from the tmp_mask_filename to retain the NODATA_value.
     """
     with open(mask_filename, mode='wt') as mask_out:
         with open(template_layer_filename, mode='rt') as template_in:
-            for _ in range(6):
+            for _ in range(5):
                 mask_out.write(next(template_in))
         with open(tmp_mask_filename, mode='rt') as tmp_mask_in:
             i = 0
             for line in tmp_mask_in:
                 i += 1
-                if i > 6:
+                if i > 5:
                     mask_out.write(line)
 
 
@@ -43,14 +49,17 @@ def _create_mask(
 
     # Identify one environment layer (not a mask or temp mask) to copy headers from
     files = glob.glob(os.path.join(env_dir, '*.asc'))
-    env_lyr_filename = files[0]
+    for fn in files:
+        if not os.path.basename(fn).endswith("mask.asc"):
+            env_lyr_filename = fn
+            break
 
     create_rare_species_model(
         point_tuples,
         ecoregions_filename,
         tmp_mask_filename
     )
-    # Copy headers
+    # Copy headers from an environmental layer, rounding makes them not match
     match_headers(
         mask_filename,
         tmp_mask_filename,
@@ -60,7 +69,7 @@ def _create_mask(
         logger.log(
             f"Created mask {mask_filename} for current SDM",
             refname=script_name, log_level=INFO)
-    # Remove tmp_mask after mask is created and matched
+    # # Remove tmp_mask after mask is created and matched
     if os.path.exists(tmp_mask_filename):
         os.remove(tmp_mask_filename)
     maxent_arguments += ' togglelayertype=mask'
@@ -69,23 +78,28 @@ def _create_mask(
 
 
 # .....................................................................................
-def create_maxent_layer_label(sdm_dir, label_name, touch_file=True):
+def create_maxent_layer_label(layer_filename, label_name, touch_file=True):
     """Return a filename to indicate a layer label for an SDM raster in the directory.
 
     Args:
-        sdm_dir (str): Path for output file, same as the dir for associated matrix input
+        layer_filename (str): Full path to the layer filename
         label_name (str): Name to use in matrix headers
         touch_file (bool): True to create the file
 
     Returns:
-        label_filename (str): File signaling the
-
-    Note:
-        This function assumes that only one SDM to be encoded will be in the same
-            directory.
+        label_filename (str): File with basename identical to the layer filename,
+            containing a string indicating the preferred label for that layer.
     """
-    label_filename = os.path.join(sdm_dir, f'{label_name}.label')
+    basename, _ = os.path.splitext(layer_filename)
+    label_filename = f'{basename}.label'
     if touch_file is True:
+        try:
+            f = open(label_filename, "w")
+            f.write(label_name)
+        except Exception as err:
+            print(err)
+        finally:
+            f.close()
         Path(label_filename).touch(exist_ok=True)
     return label_filename
 
@@ -131,8 +145,8 @@ def create_sdm(
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
+    proj_distribution_filename = os.path.join(work_dir, f'{std_species_name}.asc')
     if len(point_tuples) < min_points:
-        proj_distribution_filename = os.path.join(work_dir, f'{std_species_name}.asc')
         if logger:
             logger.log(
                 "Create rare species model and map", refname=script_name,
@@ -147,7 +161,8 @@ def create_sdm(
         # with underscores.  To keep track of the correct label, create an empty file
         # in the same directory with the original name.  This can inform the label used
         # on a species column when encoding a layer for a PAM.
-        _ = create_maxent_layer_label(work_dir, std_species_name, touch_file=True)
+        _ = create_maxent_layer_label(
+            proj_distribution_filename, std_species_name, touch_file=True)
 
         if create_mask:
             maxent_arguments, mask_filename = _create_mask(
