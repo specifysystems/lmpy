@@ -152,7 +152,7 @@ def build_grid(
         "min_y_coordinate": min_y,
         "max_y_coordinate": max_y,
         "cell_sides": cell_sides,
-        "size": None
+        "size": cell_size
     }
     script_name = os.path.splitext(os.path.basename(__file__))[0]
     if min_x >= max_x or min_y >= max_y:
