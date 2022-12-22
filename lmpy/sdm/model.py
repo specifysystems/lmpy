@@ -108,7 +108,8 @@ def create_maxent_layer_label(layer_filename, label_name, touch_file=True):
 def create_sdm(
     min_points, csv_filename, env_dir, ecoregions_filename, work_dir, species_name,
     maxent_arguments=DEFAULT_MAXENT_OPTIONS, sp_key=Point.SPECIES_ATTRIBUTE,
-    x_key=Point.X_ATTRIBUTE, y_key=Point.Y_ATTRIBUTE, create_mask=True, logger=None
+    x_key=Point.X_ATTRIBUTE, y_key=Point.Y_ATTRIBUTE, create_mask=True,
+    create_labels_wo_underscores=True, logger=None
 ):
     """Create an SDM, Maxent model if there are enough points, `rare species` if not.
 
@@ -161,8 +162,11 @@ def create_sdm(
         # with underscores.  To keep track of the correct label, create an empty file
         # in the same directory with the original name.  This can inform the label used
         # on a species column when encoding a layer for a PAM.
-        _ = create_maxent_layer_label(
-            proj_distribution_filename, std_species_name, touch_file=True)
+        label_name = std_species_name
+        if create_labels_wo_underscores is True:
+            label_name = std_species_name.replace("_", " ")
+        create_maxent_layer_label(
+            proj_distribution_filename, label_name, touch_file=True)
 
         if create_mask:
             maxent_arguments, mask_filename = _create_mask(
