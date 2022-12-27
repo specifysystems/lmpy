@@ -4,6 +4,7 @@ from logging import INFO
 import os
 from pathlib import Path
 
+from lmpy.log import logit
 from lmpy.point import Point, PointCsvWriter
 from lmpy.sdm.maxent import (
     create_maxent_model, DEFAULT_MAXENT_OPTIONS, project_maxent_model)
@@ -42,17 +43,41 @@ def match_headers(mask_filename, tmp_mask_filename, template_layer_filename):
 
 
 # .....................................................................................
-def _create_mask(
-        point_tuples, ecoregions_filename, env_dir, maxent_arguments, logger):
-    mask_filename = os.path.join(env_dir, 'mask.asc')
-    tmp_mask_filename = os.path.join(env_dir, 'tmp_mask.asc')
-
+def _get_header_template(env_dir, logger):
     # Identify one environment layer (not a mask or temp mask) to copy headers from
     files = glob.glob(os.path.join(env_dir, '*.asc'))
+    env_lyr_filename = None
     for fn in files:
         if not os.path.basename(fn).endswith("mask.asc"):
             env_lyr_filename = fn
             break
+    if env_lyr_filename is None:
+        files = glob.glob(os.path.join(env_dir, '*.tif'))
+        for fn in files:
+            in_filename = fn
+            break
+        # Set file vars
+        basename, _ = os.path.splitext(in_filename)
+        out_filename = f"{basename}.asc"
+
+        # Create ascii file from geotiff
+        from osgeo import gdal
+        ds = gdal.Open(in_filename)
+        gdal.Translate(out_filename, ds, format="AAIGrid")
+        ds = None
+        logit(
+            logger, f"Created header template file {out_filename}",
+            refname="_get_header_template")
+
+    return env_lyr_filename
+
+
+# .....................................................................................
+def _create_mask(
+        point_tuples, ecoregions_filename, env_dir, maxent_arguments, logger):
+    mask_filename = os.path.join(env_dir, 'mask.asc')
+    tmp_mask_filename = os.path.join(env_dir, 'tmp_mask.asc')
+    header_template_filename = _get_header_template(env_dir, logger)
 
     create_rare_species_model(
         point_tuples,
@@ -63,12 +88,10 @@ def _create_mask(
     match_headers(
         mask_filename,
         tmp_mask_filename,
-        env_lyr_filename
+        header_template_filename
     )
-    if logger:
-        logger.log(
-            f"Created mask {mask_filename} for current SDM",
-            refname=script_name, log_level=INFO)
+    logit(
+        logger, f"Created mask {mask_filename} for current SDM", refname="_create_mask")
     # # Remove tmp_mask after mask is created and matched
     if os.path.exists(tmp_mask_filename):
         os.remove(tmp_mask_filename)
@@ -128,6 +151,8 @@ def create_sdm(
         x_key (str): fieldname of the column containing the longitude coordinate
         y_key (str): fieldname of the column containing the latitude coordinate
         create_mask (bool): flag indicating whether to create a mask for Maxent
+        create_labels_wo_underscores (bool): flag indicating whether to create a file
+            containing labels to be used for this layer in a matrix.
         logger (logging.logger): Logger for writing messages to console and/or file.
 
     Returns:
@@ -181,43 +206,38 @@ def create_sdm(
         ) as writer:
             writer.write_points(
                 [Point(std_species_name, x, y) for x, y in point_tuples])
-        if logger:
-            logger.log("Create Maxent model", refname=script_name, log_level=INFO)
+        logit(logger, "Create Maxent model", refname=script_name, log_level=INFO)
         create_maxent_model(me_csv_filename, env_dir, work_dir, maxent_arguments)
 
         try:
             model_filename = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
         except IndexError:
-            if logger:
-                logger.log(
-                    f"Failed to produce Maxent model for {csv_filename}",
-                    refname=script_name, log_level=INFO)
+            logit(
+                logger, f"Failed to produce Maxent model for {csv_filename}",
+                refname=script_name, log_level=INFO)
         else:
-            if logger:
-                logger.log(
-                    f"Completed Maxent model with file {model_filename}",
-                    refname=script_name, log_level=INFO)
+            logit(
+                logger, f"Completed Maxent model with file {model_filename}",
+                refname=script_name, log_level=INFO)
             report["model_file"] = model_filename
 
         try:
             proj_distribution_filename = glob.glob(os.path.join(work_dir, "*.asc"))[0]
         except IndexError:
-            if logger:
-                logger.log(
-                    f"Failed to produce Maxent model for {csv_filename}",
-                    refname=script_name, log_level=INFO)
+            logit(
+                logger, f"Failed to produce Maxent model for {csv_filename}",
+                refname=script_name, log_level=INFO)
         else:
-            if logger:
-                logger.log(
-                    f"Completed Maxent map with file {proj_distribution_filename}",
-                    refname=script_name, log_level=INFO)
+            logit(
+                logger, f"Completed Maxent map with file {proj_distribution_filename}",
+                refname=script_name, log_level=INFO)
             report["projected_distribution_file"] = proj_distribution_filename
 
         # If used a mask, move it from common env dir to work_dir
         if os.path.exists(mask_filename):
-            if logger:
-                logger.log(
-                    f"Delete mask {mask_filename}", refname=script_name, log_level=INFO)
+            logit(
+                logger, f"Delete mask {mask_filename}", refname=script_name,
+                log_level=INFO)
             os.remove(mask_filename)
 
     return report
@@ -250,15 +270,15 @@ def project_sdm(maxent_lambdas_file, env_dir, species_name, work_dir, logger=Non
     work_env_dir = os.path.join(work_dir, "proj_layers")
     os.symlink(env_dir, work_env_dir)
 
-    if logger:
-        logger.log(
-            f"Projecting Maxent model {maxent_lambdas_file} onto map",
-            refname=script_name, log_level=INFO)
+    logit(
+        logger,
+        f"Projecting Maxent model {maxent_lambdas_file} onto map",
+        refname=script_name, log_level=INFO)
     project_maxent_model(maxent_lambdas_file, env_dir, maxent_raster_filename)
-    if logger:
-        logger.log(
-            f"Completed projecting Maxent model onto map {maxent_raster_filename}",
-            refname=script_name, log_level=INFO)
+    logit(
+        logger,
+        f"Completed projecting Maxent model onto map {maxent_raster_filename}",
+        refname=script_name, log_level=INFO)
 
     os.unlink(work_env_dir)
     return maxent_raster_filename, report
