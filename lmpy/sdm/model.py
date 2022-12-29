@@ -161,77 +161,77 @@ def create_sdm(
         report (dict): dictionary containing relevant metadata about the model
     """
     std_species_name = Point.standardize_species_name(species_name)
-    # std_file_basename = f"{std_species_name.replace(' ', '_')}"
+    base_filename = std_species_name.replace(" ", "_")
     point_tuples = read_points(csv_filename, sp_key, x_key, y_key)
-    report = {
-        "species": std_species_name,
-        "num_points": len(point_tuples)
-    }
-
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
-    proj_distribution_filename = os.path.join(work_dir, f'{std_species_name}.asc')
+    # Write trimmed CSV to work directory
+    out_csv_filename = os.path.join(work_dir, f"{base_filename}.csv")
+    with PointCsvWriter(
+            out_csv_filename,
+            [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE, Point.Y_ATTRIBUTE]
+    ) as writer:
+        writer.write_points(
+            [Point(std_species_name, x, y) for x, y in point_tuples])
+
+    report = {
+        "species": std_species_name,
+        "num_points": len(point_tuples),
+        "csv_filename": out_csv_filename
+    }
+
+    proj_distribution_filename = os.path.join(work_dir, f"{base_filename}.asc")
     if len(point_tuples) < min_points:
-        if logger:
-            logger.log(
-                "Create rare species model and map", refname=script_name,
-                log_level=INFO)
+        report["method"] = "rare_species_model"
+        logit(
+            logger, "Create rare species model and map", refname=script_name,
+            log_level=INFO)
         create_rare_species_model(
             point_tuples, ecoregions_filename, proj_distribution_filename)
-        report["method"] = "rare_species_model"
-        report["projected_distribution_file"] = proj_distribution_filename
     else:
         report["method"] = "maxent"
-        # Maxent creates SDM filenames from occurrence filenames replacing spaces
-        # with underscores.  To keep track of the correct label, create an empty file
-        # in the same directory with the original name.  This can inform the label used
-        # on a species column when encoding a layer for a PAM.
-        label_name = std_species_name
-        if create_labels_wo_underscores is True:
-            label_name = std_species_name.replace("_", " ")
-        create_maxent_layer_label(
-            proj_distribution_filename, label_name, touch_file=True)
-
         if create_mask:
             maxent_arguments, mask_filename = _create_mask(
                 point_tuples, ecoregions_filename, env_dir, maxent_arguments,
                 logger=logger)
+        report["maxent_arguments"] = maxent_arguments
 
-        me_csv_filename = os.path.join(
-            work_dir, f"{std_species_name}.csv")
-        with PointCsvWriter(
-                me_csv_filename, [Point.SPECIES_ATTRIBUTE, Point.X_ATTRIBUTE,
-                                  Point.Y_ATTRIBUTE]
-        ) as writer:
-            writer.write_points(
-                [Point(std_species_name, x, y) for x, y in point_tuples])
         logit(logger, "Create Maxent model", refname=script_name, log_level=INFO)
-        create_maxent_model(me_csv_filename, env_dir, work_dir, maxent_arguments)
+        create_maxent_model(out_csv_filename, env_dir, work_dir, maxent_arguments)
 
-        try:
-            model_filename = glob.glob(os.path.join(work_dir, "*.lambdas"))[0]
-        except IndexError:
-            logit(
-                logger, f"Failed to produce Maxent model for {csv_filename}",
-                refname=script_name, log_level=INFO)
-        else:
+        # Successful Maxent model
+        model_filename = os.path.join(work_dir, f"{base_filename}.lambdas")
+        if os.path.exists(model_filename):
             logit(
                 logger, f"Completed Maxent model with file {model_filename}",
                 refname=script_name, log_level=INFO)
             report["model_file"] = model_filename
-
-        try:
-            proj_distribution_filename = glob.glob(os.path.join(work_dir, "*.asc"))[0]
-        except IndexError:
-            logit(
-                logger, f"Failed to produce Maxent model for {csv_filename}",
-                refname=script_name, log_level=INFO)
         else:
             logit(
-                logger, f"Completed Maxent map with file {proj_distribution_filename}",
+                logger, f"Failed to produce Maxent model for {out_csv_filename}",
                 refname=script_name, log_level=INFO)
-            report["projected_distribution_file"] = proj_distribution_filename
+
+    # Successful projected species distribution, either algorithm
+    if os.path.exists(proj_distribution_filename):
+        logit(
+            logger,
+            f"Completed {report['method']} projection to {proj_distribution_filename}",
+            refname=script_name, log_level=INFO)
+        report["projected_distribution_file"] = proj_distribution_filename
+        # To specify a different layer label (in a matrix), create a file with the same
+        # basename and ".label" extension, containing the desired labelname.
+        # in the same directory with the original name.  This can inform the label used
+        # on a species column when encoding a layer for a PAM.
+        label_name = std_species_name
+        if create_labels_wo_underscores is True:
+            label_name = base_filename.replace("_", " ")
+        create_maxent_layer_label(
+            proj_distribution_filename, label_name, touch_file=True)
+    else:
+        logit(
+            logger, f"Failed to produce Maxent model for {out_csv_filename}",
+            refname=script_name, log_level=INFO)
 
         # If used a mask, move it from common env dir to work_dir
         if os.path.exists(mask_filename):
