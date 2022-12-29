@@ -45,10 +45,12 @@ class MatchTreeMatrixWrangler(_MatrixDataWrangler):
             Matrix: The matrix subset to tree tip names.
         """
         slices = []
+        # Axis 0 (y) should always be sites, Axis 1 should always be species
         for axis in range(matrix.ndim):
             if axis == self.species_axis:
                 self.report["changes"][str(axis)] = {}
-                axis_slice = []
+                # Include only columns with matching taxa
+                column_indices = []
                 axis_headers = matrix.get_headers(axis=str(axis))
 
                 unmatched_tree_taxa = set()
@@ -56,34 +58,26 @@ class MatchTreeMatrixWrangler(_MatrixDataWrangler):
                 for taxon in self.tree.taxon_namespace:
                     all_tree_taxa.append(taxon.label)
                     if taxon.label in axis_headers:
-                        # Subset matrix to include only taxa in tree
-                        axis_slice.append(axis_headers.index(taxon.label))
+                        # Save index of column from matrix for this taxon
+                        taxa_col_idx = axis_headers.index(taxon.label)
+                        column_indices.append(taxa_col_idx)
+                        # axis_slice.append(axis_headers.index(taxon.label))
                         self.logger.log(
-                            f"Tree taxon {taxon.label} added to wrangled matrix",
+                            f"Tree taxon {taxon.label} from column {taxa_col_idx} " +
+                            "added to slices for wrangled matrix",
                             refname=self.__class__.__name__)
                     else:
                         # Report tree taxa not in matrix
                         unmatched_tree_taxa.add(taxon.label)
-                self.logger.log(
-                    f"{len(unmatched_tree_taxa)} Tree taxa not found in matrix: " +
-                    "{unmatched_tree_taxa}",
-                    refname=self.__class__.__name__)
+                        self.logger.log(
+                            f"Tree taxon {taxon.label} NOT present in matrix",
+                            refname=self.__class__.__name__)
 
                 # Report matrix taxa not present in tree
                 unmatched_matrix_taxa = []
                 for name in axis_headers:
                     if name not in all_tree_taxa:
                         unmatched_matrix_taxa.append(name)
-                self.logger.log(
-                    f"{len(unmatched_matrix_taxa)} Matrix taxon NOT present in tree" +
-                    f" (and purged from matrix): {unmatched_matrix_taxa}",
-                    refname=self.__class__.__name__)
-                # unmatched_matrix_taxa = set(axis_headers).difference(
-                #     set(self.tree.taxon_namespace))
-                # for mtaxa in unmatched_matrix_taxa:
-                #     self.logger.log(
-                #         f"Matrix taxon {mtaxa} not present in tree (but not purged)",
-                #         refname=self.__class__.__name__)
                 self.report["changes"][str(axis)]["purged"] = {
                     'count': (len(unmatched_matrix_taxa)),
                     'species': list(unmatched_matrix_taxa)
@@ -91,19 +85,21 @@ class MatchTreeMatrixWrangler(_MatrixDataWrangler):
 
                 # Logging
                 self.logger.log(
-                    f"From matrix with {len(axis_headers)} species, purged " +
-                    f"{len(unmatched_matrix_taxa)} species: {unmatched_matrix_taxa}.",
+                    f"{len(unmatched_matrix_taxa)} species purged from matrix with " +
+                    f"{len(axis_headers)} original species, {unmatched_matrix_taxa}.",
                     refname=self.__class__.__name__, log_level=DEBUG)
                 self.logger.log(
-                    f"Tree contains {len(self.tree.taxon_namespace)} tips, " +
-                    f"{len(unmatched_tree_taxa)} are not in matrix: " +
+                    f"{len(unmatched_tree_taxa)} Tree taxa of " +
+                    f"{len(self.tree.taxon_namespace)} not found in matrix: " +
                     f"{unmatched_tree_taxa}",
-                    refname=self.__class__.__name__,
-                    log_level=DEBUG)
+                    refname=self.__class__.__name__, log_level=DEBUG)
 
             else:
-                axis_slice = list(range(matrix.shape[axis]))
+                # Include all rows
+                column_indices = list(range(matrix.shape[axis]))
 
-            slices.append(axis_slice)
+            slices.append(column_indices)
 
-        return matrix.slice(*slices)
+        wrangled_matrix = matrix.slice(*slices)
+
+        return wrangled_matrix
