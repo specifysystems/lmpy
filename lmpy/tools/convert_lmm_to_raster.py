@@ -137,11 +137,11 @@ def cli():
                         f"{args.in_lmm_filename}, ignoring",
                         refname=script_name, log_level=logging.WARN)
             if len(columns) == 0:
-                logger.log(
+                msg = (
                     f"No valid columns in {args.column} present in matrix " +
-                    f"{args.in_lmm_filename}", refname=script_name,
-                    log_level=logging.ERROR)
-                print("Errors, exiting program")
+                    f"{args.in_lmm_filename}")
+                logger.log(msg, refname=script_name, log_level=logging.ERROR)
+                exit(msg)
 
         if len(columns) > 256:
             logger.log(

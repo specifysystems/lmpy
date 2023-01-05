@@ -65,37 +65,6 @@ def _create_empty_map_matrix(min_x, min_y, max_x, max_y, resolution):
 
 
 # .....................................................................................
-def _find_resolution(x_headers, y_headers):
-    if len(x_headers) <= 1:
-        raise Exception(
-            f"Matrix contains only {len(x_headers)} columns on the x-axis ")
-    else:
-        resolution = None
-        head = 0
-        while head < len(x_headers) - 1:
-            head += 1
-            tail = head - 1
-            # Distance between adjacent rows will be resolution
-            distance = x_headers[head] - x_headers[tail]
-            # Smallest distance will be adjacent
-            if resolution is None or distance < resolution:
-                resolution = distance
-        if len(y_headers) <= 1:
-            raise Exception(
-                f"Matrix contains only {len(y_headers)} rows on the y-axis")
-        else:
-            head = 0
-            # Look for smaller distance between rows
-            while head < len(y_headers):
-                head += 1
-                tail = head - 1
-                distance = x_headers[head] - x_headers[tail]
-                if distance < resolution:
-                    resolution = distance
-    return resolution
-
-
-# .....................................................................................
 def is_flattened_geospatial_matrix(matrix):
     """Identifies whether matrix has x and y coordinates along 1 and 0 axes.
 
@@ -142,10 +111,13 @@ def get_coordinate_headers_resolution(matrix):
     """
     row_headers = matrix.get_row_headers()
     if is_flattened_geospatial_matrix(matrix):
-        x_headers, y_headers = _get_map_matrix_headers_from_sites(row_headers)
+        x_resolution, x_headers, y_headers = _get_map_resolution_headers_from_sites(
+            row_headers)
     else:
+        # If getting from a map matrix, sites should not be compressed
         x_headers = matrix.get_column_headers()
         y_headers = row_headers
+        x_resolution = x_headers[1] - x_headers[0]
 
     if len(x_headers) <= 1:
         raise Exception(
@@ -153,13 +125,12 @@ def get_coordinate_headers_resolution(matrix):
     if len(y_headers) <= 1:
         raise Exception(
             f"Matrix contains only {len(y_headers)} rows on the y-axis")
-    resolution = _find_resolution(x_headers, y_headers)
 
-    return x_headers, y_headers, resolution
+    return x_headers, y_headers, x_resolution
 
 
 # .....................................................................................
-def get_extent_resolution_from_matrix(matrix):
+def get_extent_resolution_shape_from_matrix(matrix):
     """Gets x and y extents and resolution of an uncompressed geospatial matrix.
 
     Args:
@@ -174,6 +145,8 @@ def get_extent_resolution_from_matrix(matrix):
         max_y (numeric): The maximum y value of the map extent.
         x_res (numeric): The width of each matrix cell.
         y_res (numeric): The height of each matrix cell.
+        height (numeric): the number of rows, axis 0, of the matrix
+        width (numeric): the number of columns, axis 1, of the matrix
 
     Raises:
         Exception: on matrix of less than 2 columns or rows.
@@ -181,6 +154,8 @@ def get_extent_resolution_from_matrix(matrix):
     resolution = None
     # Headers are coordinate centroids
     x_centers, y_centers, resolution = get_coordinate_headers_resolution(matrix)
+    width = len(x_centers)
+    height = len(y_centers)
     # Identify the distance between centroids for resolution
     if len(x_centers) > 1:
         x_res = x_centers[1] - x_centers[0]
@@ -204,11 +179,11 @@ def get_extent_resolution_from_matrix(matrix):
     max_x = x_centers[-1] + x_res/2.0
     max_y = y_centers[0] + y_res/2.0
 
-    return min_x, min_y, max_x, max_y, x_res, y_res
+    return min_x, min_y, max_x, max_y, x_res, y_res, height, width
 
 
 # .....................................................................................
-def _get_map_matrix_headers_from_sites(site_headers):
+def _get_map_resolution_headers_from_sites(site_headers):
     """Creates an empty 2-d matrix to use for mapping.
 
     Args:
@@ -218,15 +193,28 @@ def _get_map_matrix_headers_from_sites(site_headers):
     Returns:
         x_headers: list of x center coordinates for column headers
         y_headers: list of y center coordinates for row headers
+
+    Notes:
+        If the matrix is compressed, with empty rows (sites) and columns removed, the
+        missing site coordinates will be filled in to the map matrix headers
+        so the map will represent the geospatial region without holes.  If all sites
+        are missing from an edge (upper, lower, right, left boundary) of the area
+        of interest, those will not be retained, the extent of the map will be smaller.
     """
-    x_centers = []
-    y_centers = []
-    for _, x, y in site_headers:
-        if x not in x_centers:
-            x_centers.append(x)
-        if y not in y_centers:
-            y_centers.append(y)
-    return x_centers, y_centers
+    # Second and third sites along the upper boundary - first siteid could be 0
+    site_b, x_2, y_2 = site_headers[1]
+    site_c, x_3, y_3 = site_headers[2]
+    # Find resolution in a regular or compressed matrix by dividing
+    # map distance by number of cells between sites
+    x_resolution = (x_3 - x_2)/(site_c - site_b)
+
+    # Upper left and Lower right of matrix
+    site_a, x_ul, y_ul = site_headers[0]
+    site_z, x_lr, y_lr = site_headers[-1]
+    # Fill in any x or y centroids missing from the input site_headers/matrix
+    x_centers = list(np.arange(x_ul, (x_lr + x_resolution), x_resolution))
+    y_centers = list(np.arange(y_ul, (y_lr - x_resolution), (x_resolution * -1)))
+    return x_resolution, x_centers, y_centers
 
 
 # .....................................................................................
@@ -248,7 +236,7 @@ def _create_map_matrix_headers_from_extent(min_x, min_y, max_x, max_y, resolutio
         The function holds UL coordinates (min_x and max_y) static, but LR coordinates
         (max_x, min_y) may change to accommodate the resolution requested.
     """
-    # Y upper coordinates
+    # Y upper coordinates, goes from North to south
     num_rows = len(np.arange(max_y, min_y, -resolution))
     # X left coordinates
     num_cols = len(np.arange(min_x, max_x, resolution))
@@ -460,8 +448,11 @@ def rasterize_flattened_matrix(
         columns = column_headers
 
     # Get geotransform elements and datatype from input matrix
-    min_x, min_y, max_x, max_y, x_res, y_res = get_extent_resolution_from_matrix(
-        matrix)
+    (min_x, min_y, max_x, max_y, x_res, y_res, height,
+     width) = get_extent_resolution_shape_from_matrix(matrix)
+    logit(
+        logger, f"Found bounding box {min_x}, {min_y}, {max_x}, {max_y} for matrix",
+        refname=refname, log_level=logging.DEBUG)
     # TODO: handle differing x and y resolutions
     geotransform = _get_geotransform(min_x, min_y, max_x, max_y, x_res)
     if is_pam is True:
@@ -476,17 +467,18 @@ def rasterize_flattened_matrix(
         arr_type = gdal.GDT_Int32
         rst_type_str = "gdal.GDT_Int32"
 
-    # Get raster dataset parameters from map matrix of first column
-    map_mtx, report = create_map_matrix_for_column(
-        matrix, columns[0], is_pam=is_pam, nodata=nodata)
-    height, width = map_mtx.shape
-
-    # Add to summary report
-    report["height"] = height
-    report["width"] = width
-    report["raster_data_type"] = rst_type_str
-    report["resolution"] = x_res
-    report["nodata"] = nodata
+    report = {
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+        "resolution": x_res,
+        "height": height,
+        "width": width,
+        "nodata": nodata,
+        "raster_data_type": rst_type_str,
+        "matrix_type": str(matrix.dtype)
+    }
 
     # Create raster dataset
     driver = gdal.GetDriverByName("GTiff")
@@ -507,7 +499,8 @@ def rasterize_flattened_matrix(
         band_idx = 1
         # Create band for each column
         for col in columns:
-            col_map_mtx, _ = create_map_matrix_for_column(matrix, col)
+            col_map_mtx, _ = create_map_matrix_for_column(
+                matrix, col, is_pam=is_pam, nodata=nodata)
             out_band = out_ds.GetRasterBand(band_idx)
             out_band.WriteArray(col_map_mtx, 0, 0)
             out_band.FlushCache()
@@ -548,10 +541,9 @@ def rasterize_map_matrices(map_matrix_dict, out_raster_filename, logger=None):
     # Use the first matrix for the shape, datatype
     stat_names = list(map_matrix_dict.keys())
     mmtx = map_matrix_dict[stat_names[0]]
-    min_x, min_y, max_x, max_y, x_res, y_res = get_extent_resolution_from_matrix(
-        mmtx)
+    (min_x, min_y, max_x, max_y, x_res, y_res, height,
+     width) = get_extent_resolution_shape_from_matrix(mmtx)
     geotransform = _get_geotransform(min_x, min_y, max_x, max_y, x_res)
-    height, width = mmtx.shape
     if mmtx.dtype == np.float32:
         arr_type = gdal.GDT_Float32
     else:
@@ -615,8 +607,8 @@ def create_map_matrix_for_column(matrix, col_header, is_pam=False, nodata=-9999)
         nodata = 255
     map_mtx = _create_empty_map_matrix_from_matrix(matrix)
     num_cols = map_mtx.shape[1]
-    min_x, min_y, max_x, max_y, x_res, y_res = get_extent_resolution_from_matrix(
-        matrix)
+    (min_x, min_y, max_x, max_y, x_res, y_res, _height,
+     _width) = get_extent_resolution_shape_from_matrix(matrix)
     report = {
         "min_x": min_x,
         "min_y": min_y,
@@ -742,7 +734,7 @@ __all__ = [
     "create_map_matrix_for_column",
     "create_point_heatmap_matrix",
     "get_coordinate_headers_resolution",
-    "get_extent_resolution_from_matrix",
+    "get_extent_resolution_shape_from_matrix",
     "get_row_col_for_x_y_func",
     "is_flattened_geospatial_matrix",
     "rasterize_flattened_matrix",
