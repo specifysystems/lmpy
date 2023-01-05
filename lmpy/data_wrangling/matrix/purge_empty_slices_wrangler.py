@@ -67,7 +67,6 @@ class PurgeEmptySlicesWrangler(_MatrixDataWrangler):
 
         return matrix.slice(*slices)
 
-
     # .......................
     def wrangle_matrix(self, matrix):
         """Wrangle a matrix.
