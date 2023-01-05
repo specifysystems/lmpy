@@ -458,15 +458,15 @@ class Matrix(np.ndarray):
         new_data = np.copy(self)
         new_headers = deepcopy(self.headers)
         # For each arg in the list
-        for i in range(len(args)):
+        for axis in range(len(args)):
             # Subset the data matrix
-            new_data = new_data.take(args[i], axis=i)
+            new_data = new_data.take(args[axis], axis=axis)
             # Subset the headers
             tmp = []
-            if str(i) in new_headers.keys():
-                for j in args[i]:
-                    tmp.append(new_headers[str(i)][j])
-            new_headers[str(i)] = tmp
+            if str(axis) in new_headers.keys():
+                for idx in args[axis]:
+                    tmp.append(new_headers[str(axis)][idx])
+            new_headers[str(axis)] = tmp
         return Matrix(new_data, headers=new_headers)
 
     # ...........................
