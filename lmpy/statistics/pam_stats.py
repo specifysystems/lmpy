@@ -1,4 +1,5 @@
 """Module containing base PAM statistic functionality."""
+from copy import deepcopy
 import numpy as np
 from lmpy import Matrix
 
@@ -349,7 +350,10 @@ def sigma_sites(pam):
     """
     site_by_site = pam.dot(pam.T).astype(float)
     alpha_prop = alpha_proportional(pam)
-    return (site_by_site / num_species(pam)) - np.outer(alpha_prop, alpha_prop)
+    mtx = (site_by_site / num_species(pam)) - np.outer(alpha_prop, alpha_prop)
+    site_headers = deepcopy(pam.get_row_headers())
+    mtx.set_column_headers(site_headers)
+    return mtx
 
 
 # .............................................................................
@@ -365,7 +369,10 @@ def sigma_species(pam):
     """
     species_by_site = pam.T.dot(pam).astype(float)
     omega_prop = omega_proportional(pam)
-    return (species_by_site / num_sites(pam)) - np.outer(omega_prop, omega_prop)
+    mtx = (species_by_site / num_sites(pam)) - np.outer(omega_prop, omega_prop)
+    species_headers = deepcopy(pam.get_column_headers())
+    mtx.set_row_headers(species_headers)
+    return mtx
 
 
 # .............................................................................
@@ -384,7 +391,8 @@ def mean_nearest_taxon_distance(phylo_dist_mtx):
     """
     try:
         nearest_total = np.sum([np.min(row[row > 0.0]) for row in phylo_dist_mtx])
-        return float(nearest_total / phylo_dist_mtx.shape[0])
+        val = float(nearest_total / phylo_dist_mtx.shape[0])
+        return val
     except Exception:  # pragma: no cover
         return 0.0
 
@@ -402,9 +410,10 @@ def mean_pairwise_distance(phylo_dist_mtx):
         float: The average distance from each taxa all of the other co-located taxa.
     """
     num_sp = phylo_dist_mtx.shape[0]
-    return float(
+    val = float(
         (phylo_dist_mtx.sum() - phylo_dist_mtx.trace()) / (num_sp * (num_sp - 1))
     )
+    return val
 
 
 # .............................................................................
@@ -419,7 +428,8 @@ def sum_pairwise_distance(phylo_dist_mtx):
     Returns:
         float: The total distance from each taxa all of the other co-located taxa.
     """
-    return float((phylo_dist_mtx.sum() - phylo_dist_mtx.trace()) / 2.0)
+    val = float((phylo_dist_mtx.sum() - phylo_dist_mtx.trace()) / 2.0)
+    return val
 
 
 # .............................................................................
@@ -481,7 +491,8 @@ def phylogenetic_diversity(tree):
         float: The sum of the edge lengths of the nodes of the provided tree.
     """
     try:
-        return np.sum([node.edge_length for node in tree.nodes()])
+        val = np.sum([node.edge_length for node in tree.nodes()])
+        return val
     except Exception:  # pragma: no cover
         return 0.0
 
@@ -559,7 +570,13 @@ class PamStats:
         self._log(
             f"Calculate {cov_stats_names} covariance stats for PAM",
             refname=self.__class__.__name__)
-        return [(name, func(self.pam)) for name, func in self.covariance_stats]
+        stats_matrices = []
+        for name, func in self.covariance_stats:
+            mtx = func(self.pam)
+            stats_matrices.append((name, mtx))
+        # stats_matrices = [
+        #       (name, func(self.pam)) for name, func in self.covariance_stats]
+        return stats_matrices
 
     # ...........................
     def calculate_diversity_statistics(self):
