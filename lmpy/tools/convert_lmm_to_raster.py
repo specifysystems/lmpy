@@ -55,7 +55,8 @@ def build_parser():
         "--column",
         action="append",
         type=str,
-        help=("Header of column to map."),
+        help=("Header of one or more columns to map into a multi-band Geotiff file. "
+              "If not provided, the first 256 columns will be added."),
     )
     parser.add_argument(
         "in_lmm_filename", type=str,
@@ -142,12 +143,12 @@ def cli():
                     f"{args.in_lmm_filename}")
                 logger.log(msg, refname=script_name, log_level=logging.ERROR)
                 exit(msg)
-
-        if len(columns) > 256:
-            logger.log(
-                f"Beware: creating a raster image for {len(columns)} bands, " +
-                "over the assumed limit of 256. ",
-                refname=script_name, log_level=logging.WARN)
+            elif len(columns) > 256:
+                columns = columns[:256]
+                logger.log(
+                    "Beware: creating a raster image only for the first 256 of "
+                    f"{len(columns)} bands.", refname=script_name,
+                    log_level=logging.WARN)
 
         report = rasterize_flattened_matrix(
             mtx, args.out_geotiff_filename, columns=columns, is_pam=args.is_pam,
