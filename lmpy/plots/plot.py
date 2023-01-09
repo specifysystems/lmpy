@@ -3,7 +3,7 @@ import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 
-from lmpy.spatial.map import get_extent_resolution_shape_from_matrix
+from lmpy.spatial.map import get_extent_resolution_coords_from_matrix
 
 
 # .....................................................................................
@@ -34,7 +34,7 @@ def plot_matrix(
         vmax = matrix.max()
     if vmin == -9999:
         vmin = matrix.min()
-    min_x, min_y, max_x, max_y, _, _, _, _ = get_extent_resolution_shape_from_matrix(
+    min_x, min_y, max_x, max_y, _, _, _, _ = get_extent_resolution_coords_from_matrix(
         matrix)
     extent = (min_x, max_x, min_y, max_y)
 
