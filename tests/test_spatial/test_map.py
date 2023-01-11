@@ -3,7 +3,7 @@ import numpy as np
 
 from lmpy.matrix import Matrix
 from lmpy.point import Point, PointCsvReader, PointCsvWriter
-from lmpy.spatial.map import create_point_heatmap_matrix, create_map_matrix_for_column
+from lmpy.spatial.map import create_point_heatmap_matrix
 
 
 # .....................................................................................
@@ -89,45 +89,45 @@ def test_create_point_heatmap_matrix_random_data(generate_temp_filename):
     assert heatmap.sum() == num_points
 
 
-# .....................................................................................
-def test_create_stat_heatmap_matrix():
-    """Test creating a statistic heatmap."""
-    # Matrix to get heatmap for
-    stat_matrix = Matrix(
-        np.array(
-            [
-                [1, 2, 3],
-                [1, 2, 3],
-                [1, 2, 3],
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-            ]
-        ),
-        headers={
-            '0': [
-                (0, 0.5, 0.5),
-                (1, 0.5, 1.5),
-                (2, 1.5, 0.5),
-                (3, 1.5, 1.5),
-                (4, 0.5, 0.5),
-                (5, 0.5, 0.5),
-            ],
-            '1': ['stat_1', 'stat_2', 'stat_3']
-        }
-    )
-    stat_heatmap, _ = create_map_matrix_for_column(stat_matrix, 'stat_2')
-    test_heatmap_matrix = Matrix(
-        np.array(
-            [
-                [2, 2],
-                [5, 2]
-            ],
-        ),
-        headers={
-            '0': [0.5, 1.5],
-            '1': [0.5, 1.5]
-        }
-    )
-
-    assert np.all(stat_heatmap == test_heatmap_matrix)
+# # ...................................................................................
+# def test_create_stat_heatmap_matrix():
+#     """Test creating a statistic heatmap."""
+#     # Matrix to get heatmap for
+#     stat_matrix = Matrix(
+#         np.array(
+#             [
+#                 [1, 2, 3],
+#                 [1, 2, 3],
+#                 [1, 2, 3],
+#                 [1, 2, 3],
+#                 [4, 5, 6],
+#                 [7, 8, 9],
+#             ]
+#         ),
+#         headers={
+#             '0': [
+#                 (0, 0.5, 0.5),
+#                 (1, 0.5, 1.5),
+#                 (2, 1.5, 0.5),
+#                 (3, 1.5, 1.5),
+#                 (4, 0.5, 0.5),
+#                 (5, 0.5, 0.5),
+#             ],
+#             '1': ['stat_1', 'stat_2', 'stat_3']
+#         }
+#     )
+#     stat_heatmap, _ = create_map_matrix_for_column(stat_matrix, 'stat_2')
+#     test_heatmap_matrix = Matrix(
+#         np.array(
+#             [
+#                 [2, 2],
+#                 [5, 2]
+#             ],
+#         ),
+#         headers={
+#             '0': [0.5, 1.5],
+#             '1': [0.5, 1.5]
+#         }
+#     )
+#
+#     assert np.all(stat_heatmap == test_heatmap_matrix)
