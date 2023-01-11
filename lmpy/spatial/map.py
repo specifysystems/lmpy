@@ -1,5 +1,7 @@
 """Module containing tools for creating maps."""
 import logging
+import math
+
 import numpy as np
 from osgeo import gdal
 
@@ -476,6 +478,9 @@ def rasterize_flattened_matrix(
     elif matrix.dtype == np.float32:
         arr_type = gdal.GDT_Float32
         rst_type_str = "gdal.GDT_Float32"
+    elif matrix.dtype == np.float64:
+        arr_type = gdal.GDT_Float64
+        rst_type_str = "gdal.GDT_Float64"
     else:
         arr_type = gdal.GDT_Int32
         rst_type_str = "gdal.GDT_Int32"
@@ -640,17 +645,19 @@ def _fill_map_matrix_with_column(
         col = x_centers.index(x)
         row = y_centers.index(y)
         # Some stats contain NaN for a cell, change to nodata value
-        try:
-            val = int(site_val)
-        except Exception:
+        if math.isnan(site_val):
             val = nodata
+        elif matrix.dtype in (np.float32, np.float64):
+            val = float(site_val)
+        else:
+            val = int(site_val)
         map_matrix[row, col] = val
 
     return map_matrix
 
 
 # .....................................................................................
-def create_map_matrix_for_column(matrix, col_header, is_pam=False, nodata=-9999):
+def _create_map_matrix_for_column(matrix, col_header, is_pam=False, nodata=-9999):
     """Create a map matrix from one column in a 2d matrix.
 
     Args:
@@ -783,7 +790,7 @@ def create_map_matrix_for_column(matrix, col_header, is_pam=False, nodata=-9999)
 #         # band indexes start at 1
 #         band_num += 1
 #         # create 2d geospatial matrix from column
-#         map_mtx = create_map_matrix_for_column(
+#         map_mtx = _create_map_matrix_for_column(
 #             matrix, ch, min_x, min_y, max_x, max_y, resolution)
 #         # write each column into a separate band
 #         out_band = out_ds.GetRasterBand(band_num)
@@ -797,7 +804,6 @@ def create_map_matrix_for_column(matrix, col_header, is_pam=False, nodata=-9999)
 
 # .....................................................................................
 __all__ = [
-    "create_map_matrix_for_column",
     "create_point_heatmap_matrix",
     "get_coordinate_headers_resolution",
     "get_extent_resolution_coords_from_matrix",
