@@ -115,6 +115,32 @@ def is_flattened_geospatial_matrix(matrix):
 
 
 # .....................................................................................
+def is_geospatial_matrix(matrix):
+    """Identifies whether matrix has x and y coordinates along 1 and 0 axes.
+
+    Args:
+        matrix (lmpy.matrix.Matrix object): an input 2d geospatial matrix with
+            y centroids in row headers, x centroids in column headers  OR
+            flattened geospatial matrix with site centroids in row headers.
+
+    Returns:
+        True if flattened geospatial matrix,
+        False if x coordinates in columns, y coordinates in rows
+    """
+    row_headers = matrix.get_row_headers()
+    # row/site headers in flattened geospatial matrix are tuples of
+    # (siteid, x_coord, y_coord)
+    if type(row_headers[0]) is list and len(row_headers[0]) == 3:
+        return True
+    elif type(row_headers) is list and len(row_headers) > 0:
+        try:
+            float(row_headers[0])
+        except ValueError:
+            return False
+    return True
+
+
+# .....................................................................................
 def get_coordinate_headers_resolution(matrix):
     """Get coordinate headers from a matrix with coordinates along one or two axes.
 
@@ -430,7 +456,7 @@ def _get_geotransform(min_x, min_y, max_x, max_y, resolution):
 
 
 # ...................................................................................
-def rasterize_flattened_matrix(
+def rasterize_geospatial_matrix(
         matrix, out_raster_filename, columns=None, is_pam=False, nodata=-9999,
         logger=None):
     """Create a geotiff raster file from one or all columns in a 2d geospatial matrix.
@@ -453,17 +479,27 @@ def rasterize_flattened_matrix(
     Raises:
         Exception: on GDAL raster dataset creation
     """
-    refname = "rasterize_flattened_matrix"
-    column_headers = matrix.get_column_headers()
-    if columns is not None:
-        for col in columns:
-            if col not in column_headers:
-                raise Exception(
-                   f"Column {col} is not present in matrix columns")
+    refname = "rasterize_geospatial_matrix"
+    if not is_geospatial_matrix(matrix):
+        raise Exception("Matrix is not geospatial; cannot be converted to a raster")
+    # 0 axis represents x,y cell centroids, 1 axis represents a species or statistic
+    elif is_flattened_geospatial_matrix(matrix):
+        is_flattened = True
+        column_headers = matrix.get_column_headers()
+        if columns is not None:
+            for col in columns:
+                if col not in column_headers:
+                    raise Exception(
+                       f"Column {col} is not present in matrix columns")
+        else:
+            columns = column_headers
+        band_count = len(columns)
     else:
-        columns = column_headers
+        # 0 axis represents y coordinates, 1 axis represents x coordinates
+        is_flattened = False
+        band_count = 1
 
-    # Get geotransform elements and datatype from input matrix
+    # Get geotransform elements and datatype from input matrix, flattened or not
     (min_x, min_y, max_x, max_y, resolution, x_centers,
      y_centers) = get_extent_resolution_coords_from_matrix(matrix)
     logit(
@@ -471,21 +507,10 @@ def rasterize_flattened_matrix(
         refname=refname, log_level=logging.DEBUG)
     # TODO: handle differing x and y resolutions
     geotransform = _get_geotransform(min_x, min_y, max_x, max_y, resolution)
-    if is_pam is True:
-        arr_type = gdal.GDT_Byte
-        rst_type_str = "gdal.GDT_Byte"
-        # modify the nodata value to fit within a byte
+    rst_type, rst_type_str = _get_gdal_type(matrix, is_pam)
+    # Modify the nodata value to fit within a byte
+    if rst_type == gdal.GDT_Byte:
         nodata = 255
-    elif matrix.dtype == np.float32:
-        arr_type = gdal.GDT_Float32
-        rst_type_str = "gdal.GDT_Float32"
-    elif matrix.dtype == np.float64:
-        arr_type = gdal.GDT_Float64
-        rst_type_str = "gdal.GDT_Float64"
-    else:
-        arr_type = gdal.GDT_Int32
-        rst_type_str = "gdal.GDT_Int32"
-
     report = {
         "min_x": min_x,
         "min_y": min_y,
@@ -503,10 +528,7 @@ def rasterize_flattened_matrix(
     driver = gdal.GetDriverByName("GTiff")
     try:
         out_ds = driver.Create(
-            out_raster_filename, len(x_centers), len(y_centers), len(columns), arr_type)
-        # Add nodata to metadata
-        # out_ds.SetMetadata({"TIFFTAG_GDAL_NODATA": f"{nodata}"})
-        # out_ds.SetProjection(in_ds.GetProjection())
+            out_raster_filename, len(x_centers), len(y_centers), band_count, rst_type)
         out_ds.SetGeoTransform(geotransform)
     except Exception as e:
         logit(
@@ -516,27 +538,54 @@ def rasterize_flattened_matrix(
     else:
         # band indexes start at 1
         band_idx = 1
-        # Create band for each column
-        for col in columns:
-            empty_map_mtx = _create_empty_map_matrix_from_centroids(
-                x_centers, y_centers, matrix.dtype)
-            col_map_mtx = _fill_map_matrix_with_column(
-                matrix, col, empty_map_mtx, is_pam=is_pam, nodata=nodata)
+        # Create band for entire matrix
+        if not is_flattened:
             out_band = out_ds.GetRasterBand(band_idx)
-            out_band.WriteArray(col_map_mtx, 0, 0)
+            out_band.WriteArray(matrix, 0, 0)
             out_band.FlushCache()
             out_band.ComputeStatistics(False)
-            # Add band/column to metadata and report
-            out_band.SetMetadata({f"band {band_idx}": f"{col}"})
-            report[f"band {band_idx}"] = col
             logit(
-                logger, f"Added {col} as band {band_idx}", refname=refname,
+                logger, f"Added band {band_idx}", refname=refname,
                 log_level=logging.INFO)
-            band_idx += 1
+        else:
+            # Create band for each column
+            for col in columns:
+                empty_map_mtx = _create_empty_map_matrix_from_centroids(
+                    x_centers, y_centers, matrix.dtype)
+                col_map_mtx = _fill_map_matrix_with_column(
+                    matrix, col, empty_map_mtx, is_pam=is_pam, nodata=nodata)
+                out_band = out_ds.GetRasterBand(band_idx)
+                out_band.WriteArray(col_map_mtx, 0, 0)
+                out_band.FlushCache()
+                out_band.ComputeStatistics(False)
+                # Add band/column to metadata and report
+                out_band.SetMetadata({f"band {band_idx}": f"{col}"})
+                logit(
+                    logger, f"Added band {band_idx} ({col})", refname=refname,
+                    log_level=logging.INFO)
+                report[f"band {band_idx}"] = col
+                band_idx += 1
         logit(
             logger, f"Wrote raster with {len(columns)} bands to {out_raster_filename}",
             refname=refname, log_level=logging.INFO)
     return report
+
+
+# ...................................................................................
+def _get_gdal_type(matrix, is_pam):
+    if is_pam is True:
+        rst_type = gdal.GDT_Byte
+        rst_type_str = "gdal.GDT_Byte"
+    elif matrix.dtype == np.float32:
+        rst_type = gdal.GDT_Float32
+        rst_type_str = "gdal.GDT_Float32"
+    elif matrix.dtype == np.float64:
+        rst_type = gdal.GDT_Float64
+        rst_type_str = "gdal.GDT_Float64"
+    else:
+        rst_type = gdal.GDT_Int32
+        rst_type_str = "gdal.GDT_Int32"
+    return rst_type, rst_type_str
 
 
 # ...................................................................................
@@ -809,6 +858,5 @@ __all__ = [
     "get_coordinate_headers_resolution",
     "get_extent_resolution_coords_from_matrix",
     "is_flattened_geospatial_matrix",
-    "rasterize_flattened_matrix",
     "rasterize_map_matrices"
 ]

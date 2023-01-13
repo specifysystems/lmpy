@@ -7,7 +7,7 @@ import os
 from lmpy.log import Logger
 from lmpy.matrix import Matrix
 from lmpy.spatial.map import (
-    is_flattened_geospatial_matrix, rasterize_flattened_matrix)
+    is_flattened_geospatial_matrix, rasterize_geospatial_matrix)
 from lmpy.statistics.pam_stats import PamStats
 from lmpy.tools._config_parser import _process_arguments, test_files
 
@@ -20,8 +20,10 @@ DESCRIPTION = "Convert a lmpy geospatial Matrix to a raster geotiff file. Biotap
 # .....................................................................................
 def get_geo_matrix_info():
     geo_matrix_types = [
-        "covariance_stats", "site_matrix_stats", "site_tree_stats",
-        "site_tree_distance_matrix_stats", "site_pam_dist_mtx_stats"]
+        "site_matrix_stats",
+        "site_tree_stats",
+        "site_tree_distance_matrix_stats",
+        "site_pam_dist_mtx_stats"]
     available_stats = {}
     for mt in geo_matrix_types:
         if mt == "covariance_stats":
@@ -155,6 +157,7 @@ def cli():
         refname=script_name)
 
     mtx = Matrix.load(args.in_lmm_filename)
+    columns = args.column
     if is_flattened_geospatial_matrix(mtx):
         column_headers = mtx.get_column_headers()
         if args.column is None:
@@ -169,22 +172,22 @@ def cli():
                         f"Error: column {col} is not present in matrix " +
                         f"{args.in_lmm_filename}, ignoring",
                         refname=script_name, log_level=logging.WARN)
-            if len(columns) == 0:
-                msg = (
-                    f"No valid columns in {args.column} present in matrix " +
-                    f"{args.in_lmm_filename}")
-                logger.log(msg, refname=script_name, log_level=logging.ERROR)
-                exit(msg)
-            elif len(columns) > 256:
-                columns = columns[:256]
-                logger.log(
-                    "Beware: creating a raster image only for the first 256 of "
-                    f"{len(columns)} bands.", refname=script_name,
-                    log_level=logging.WARN)
+        if len(columns) == 0:
+            msg = (
+                f"No valid columns in {args.column} present in matrix " +
+                f"{args.in_lmm_filename}")
+            logger.log(msg, refname=script_name, log_level=logging.ERROR)
+            exit(msg)
+        elif len(columns) > 256:
+            columns = columns[:256]
+            logger.log(
+                "Beware: creating a raster image only for the first 256 of "
+                f"{len(columns)} bands.", refname=script_name,
+                log_level=logging.WARN)
 
-        report = rasterize_flattened_matrix(
-            mtx, args.out_raster_filename, columns=columns,
-            is_pam=(args.matrix_type == "pam"), logger=logger)
+    report = rasterize_geospatial_matrix(
+        mtx, args.out_raster_filename, columns=columns,
+        is_pam=(args.matrix_type == "pam"), logger=logger)
 
     # If the output report was requested, write it
     if args.report_filename:
