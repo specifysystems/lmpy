@@ -183,8 +183,8 @@ def cli():
                     log_level=logging.WARN)
 
         report = rasterize_flattened_matrix(
-            mtx, args.out_raster_filename, columns=columns, is_pam=args.is_pam,
-            logger=logger)
+            mtx, args.out_raster_filename, columns=columns,
+            is_pam=(args.matrix_type == "pam"), logger=logger)
 
     # If the output report was requested, write it
     if args.report_filename:

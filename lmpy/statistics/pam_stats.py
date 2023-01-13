@@ -352,6 +352,7 @@ def sigma_sites(pam):
     alpha_prop = alpha_proportional(pam)
     mtx = (site_by_site / num_species(pam)) - np.outer(alpha_prop, alpha_prop)
     site_headers = deepcopy(pam.get_row_headers())
+    # Output is sites x sites, so use site headers for column headers too
     mtx.set_column_headers(site_headers)
     return mtx
 
@@ -371,6 +372,7 @@ def sigma_species(pam):
     omega_prop = omega_proportional(pam)
     mtx = (species_by_site / num_sites(pam)) - np.outer(omega_prop, omega_prop)
     species_headers = deepcopy(pam.get_column_headers())
+    # Output is species x species, so use species headers for row headers too
     mtx.set_row_headers(species_headers)
     return mtx
 
@@ -618,6 +620,7 @@ class PamStats:
         )
         self._log(
             "Start site stats", refname=self.__class__.__name__)
+        # For each stat, fill output matrix column
         for i in range(len(self.site_matrix_stats)):
             site_stats_matrix[:, i] = self.site_matrix_stats[i][1](self.pam)
 

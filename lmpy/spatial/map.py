@@ -67,12 +67,13 @@ def _create_empty_map_matrix_from_extent(min_x, min_y, max_x, max_y, resolution)
 
 
 # .....................................................................................
-def _create_empty_map_matrix_from_centroids(x_centers, y_centers):
+def _create_empty_map_matrix_from_centroids(x_centers, y_centers, dtype):
     """Creates an empty 2-d matrix to use for mapping.
 
     Args:
         x_centers (list of numeric): Center coordinate x values.
         y_centers (list of numeric): Center coordinate y values.
+        dtype (numpy.ndarray.dtype): Data type for new matrix
 
     Returns:
         Matrix: A Matrix of zeros for the coordinate centers.
@@ -82,7 +83,7 @@ def _create_empty_map_matrix_from_centroids(x_centers, y_centers):
         axis 1 represents the columns/x coordinate/longitude
     """
     map_matrix = Matrix(
-        np.zeros((len(y_centers), len(x_centers)), dtype=int),
+        np.zeros((len(y_centers), len(x_centers)), dtype=dtype),
         headers={
             "0": y_centers,
             "1": x_centers
@@ -518,7 +519,7 @@ def rasterize_flattened_matrix(
         # Create band for each column
         for col in columns:
             empty_map_mtx = _create_empty_map_matrix_from_centroids(
-                x_centers, y_centers)
+                x_centers, y_centers, matrix.dtype)
             col_map_mtx = _fill_map_matrix_with_column(
                 matrix, col, empty_map_mtx, is_pam=is_pam, nodata=nodata)
             out_band = out_ds.GetRasterBand(band_idx)
