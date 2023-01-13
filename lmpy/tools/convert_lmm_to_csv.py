@@ -60,7 +60,7 @@ def build_parser():
         help="File location to write the wrangler report."
     )
     parser.add_argument(
-        'in_lmm_filename', type=str, help='Lmpy LMM filename to convert to CSV.'
+        'in_lmm_filename', type=str, help='Lmpy LMM filename to be converted to CSV.'
     )
     parser.add_argument(
         'out_csv_filename', type=str, help='Location to write the converted matrix CSV.'
@@ -109,8 +109,8 @@ def cli():
     col_count = len(mtx.get_column_headers())
     row_count = len(mtx.get_row_headers())
     logger.log(
-        f"Loaded matrix {args.in_lmm_filename} with {row_count} sites/rows " +
-        f"and {col_count} taxa/columns", refname=script_name)
+        f"Loaded matrix {args.in_lmm_filename} with {row_count} rows " +
+        f"and {col_count} columns", refname=script_name)
 
     convert_lmm_to_csv(mtx, args.out_csv_filename)
 

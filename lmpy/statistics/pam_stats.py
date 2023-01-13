@@ -219,7 +219,7 @@ def schluter_species_variance_ratio(pam):
     Returns:
         float: The Schluter species variance ratio for the PAM.
     """
-    sigma_species_ = sigma_species(pam)
+    sigma_species_, _hdrs = sigma_species(pam)
     return float(sigma_species_.sum() / sigma_species_.trace())
 
 
@@ -234,7 +234,7 @@ def schluter_site_variance_ratio(pam):
     Returns:
         float: The Schluter site variance ratio for the PAM.
     """
-    sigma_sites_ = sigma_sites(pam)
+    sigma_sites_, _hdrs = sigma_sites(pam)
     return float(sigma_sites_.sum() / sigma_sites_.trace())
 
 
@@ -351,10 +351,12 @@ def sigma_sites(pam):
     site_by_site = pam.dot(pam.T).astype(float)
     alpha_prop = alpha_proportional(pam)
     mtx = (site_by_site / num_species(pam)) - np.outer(alpha_prop, alpha_prop)
-    site_headers = deepcopy(pam.get_row_headers())
     # Output is sites x sites, so use site headers for column headers too
-    mtx.set_column_headers(site_headers)
-    return mtx
+    headers = {
+        "0": deepcopy(pam.get_row_headers()),
+        "1": deepcopy(pam.get_row_headers())
+    }
+    return mtx, headers
 
 
 # .............................................................................
@@ -371,10 +373,12 @@ def sigma_species(pam):
     species_by_site = pam.T.dot(pam).astype(float)
     omega_prop = omega_proportional(pam)
     mtx = (species_by_site / num_sites(pam)) - np.outer(omega_prop, omega_prop)
-    species_headers = deepcopy(pam.get_column_headers())
     # Output is species x species, so use species headers for row headers too
-    mtx.set_row_headers(species_headers)
-    return mtx
+    headers = {
+        "0": deepcopy(pam.get_column_headers()),
+        "1": deepcopy(pam.get_column_headers())
+    }
+    return mtx, headers
 
 
 # .............................................................................
@@ -574,7 +578,8 @@ class PamStats:
             refname=self.__class__.__name__)
         stats_matrices = []
         for name, func in self.covariance_stats:
-            mtx = func(self.pam)
+            mtx, headers = func(self.pam)
+            mtx.set_headers(headers)
             stats_matrices.append((name, mtx))
         # stats_matrices = [
         #       (name, func(self.pam)) for name, func in self.covariance_stats]
