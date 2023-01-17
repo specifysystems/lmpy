@@ -632,6 +632,10 @@ class Matrix(np.ndarray):
             else:
                 listify = make_lists
 
+            # # Start with the header row, if we have one
+            # if '1' in mtx.headers and mtx.headers['1']:
+            #     header_row = [''] * len(
+            #         stringify(row_headers[0]) if row_headers else "")
             # Start with the header row, if we have one
             if '1' in mtx.headers and mtx.headers['1']:
                 # Make column headers lists of lists
@@ -666,6 +670,71 @@ class Matrix(np.ndarray):
         # Main write_csv function
         for row in csv_generator():
             flo.write(u"{}\n".format(','.join([str(v) for v in row])))
+
+    # .....................
+    def _get_header_value(self, x):
+        """Use this function for processing non-list headers.
+
+        Args:
+            x (:obj:`object`): A non-list value to modify.
+
+        Returns:
+            list: A list of data.
+        """
+        if isinstance(x, list):
+            tmp = [str(elt) for elt in x]
+            return " ".join(tmp)
+        else:
+            return str(x)
+
+    # ...........................
+    def write_delimited_text(self, flo, *slice_args):
+        """Writes the Matrix object to a CSV file-like object.
+
+        Args:
+            flo (file-like): The file-like object to write to.
+            *slice_args: A variable length argument list of iterables to use
+                for a slice operation prior to generating CSV content.
+
+        Todo:
+            Handle header overlap (where the header for one axis is for another
+                axis header.
+
+        Note:
+            Currently only works for 2-D tables.
+        """
+        if list(slice_args):
+            mtx = self.slice(*slice_args)
+        else:
+            mtx = self
+
+        if mtx.ndim > 2:
+            mtx = mtx.flatten_2d()
+
+        try:
+            row_headers = mtx.headers['0']
+        except (KeyError, TypeError):
+            # No row headers
+            row_headers = [[] for _ in range(mtx.shape[0])]
+
+        try:
+            col_headers = mtx.headers['1']
+        except (KeyError, TypeError):
+            # No row headers
+            col_headers = [[] for _ in range(mtx.shape[1])]
+
+        # Write column headers as first line
+        flo.write(
+            u"{}\n".format(' '.join([
+                self._get_header_value(chdr) for chdr in col_headers])))
+
+        # Write each line
+        for r in range(mtx.shape[0]):
+            # Start with row header
+            line = [self._get_header_value(row_headers[r])]
+            # Extend with data
+            line.extend(str(v) for v in mtx[r])
+            flo.write(u"{}\n".format(','.join(line)))
 
 
 # .............................................................................
