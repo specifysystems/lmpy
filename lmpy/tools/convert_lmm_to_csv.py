@@ -1,6 +1,7 @@
 """Convert a lmpy Matrix to a (.csv) file."""
 import argparse
 import json
+import logging
 import os
 
 from lmpy.log import Logger
@@ -25,7 +26,7 @@ def convert_lmm_to_csv(mtx, csv_filename):
     """
     try:
         with open(csv_filename, mode='wt') as csv_out:
-            mtx.write_csv(csv_out)
+            mtx.write_delimited_text(csv_out)
     except OSError:
         raise
     except IOError:
@@ -111,6 +112,12 @@ def cli():
     logger.log(
         f"Loaded matrix {args.in_lmm_filename} with {row_count} rows " +
         f"and {col_count} columns", refname=script_name)
+    if col_count > 1024 or row_count > 1048576:
+        logger.log(
+            "NOTE: columns or rows exceed maximum allowed in some common spreadsheet"
+            "applications such as Excel (1,048,576 rows and 16,384 columns)"
+            "and LibreOffice Calc (1,048,576 rows and 1024 columns)",
+            log_level=logging.WARNING, refname=script_name)
 
     convert_lmm_to_csv(mtx, args.out_csv_filename)
 

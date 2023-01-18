@@ -688,13 +688,14 @@ class Matrix(np.ndarray):
             return str(x)
 
     # ...........................
-    def write_delimited_text(self, flo, *slice_args):
+    def write_delimited_text(self, flo, *slice_args, delimiter=","):
         """Writes the Matrix object to a CSV file-like object.
 
         Args:
             flo (file-like): The file-like object to write to.
             *slice_args: A variable length argument list of iterables to use
                 for a slice operation prior to generating CSV content.
+            delimiter (str): 1-character delimiter to separate columns
 
         Todo:
             Handle header overlap (where the header for one axis is for another
@@ -723,10 +724,16 @@ class Matrix(np.ndarray):
             # No row headers
             col_headers = [[] for _ in range(mtx.shape[1])]
 
+        # Assemble column headers
+        # Add empty values at the front for each row header in the matrix
+        # Note: we are currently concatenating multi-value headers, so there will
+        #   be just 1 for row, 1 for column
+        header_row = ['']
+        # Extend for all column headers
+        header_row.extend([self._get_header_value(chdr) for chdr in col_headers])
+
         # Write column headers as first line
-        flo.write(
-            u"{}\n".format(' '.join([
-                self._get_header_value(chdr) for chdr in col_headers])))
+        flo.write(u"{}\n".format(delimiter.join(header_row)))
 
         # Write each line
         for r in range(mtx.shape[0]):
@@ -734,7 +741,7 @@ class Matrix(np.ndarray):
             line = [self._get_header_value(row_headers[r])]
             # Extend with data
             line.extend(str(v) for v in mtx[r])
-            flo.write(u"{}\n".format(','.join(line)))
+            flo.write(u"{}\n".format(delimiter.join(line)))
 
 
 # .............................................................................
