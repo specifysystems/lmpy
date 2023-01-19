@@ -573,6 +573,7 @@ class PamStats:
             list of tuple: A list of metric name, value tuples for covariance stats.
         """
         cov_stats_names = [name for name, _ in self.covariance_stats]
+        self._report["Covariance"] = {}
         self._log(
             f"Calculate {cov_stats_names} covariance stats for PAM",
             refname=self.__class__.__name__)
@@ -581,6 +582,7 @@ class PamStats:
             mtx, headers = func(self.pam)
             mtx.set_headers(headers)
             stats_matrices.append((name, mtx))
+            self._report["Covariance"][name] = {}
         # stats_matrices = [
         #       (name, func(self.pam)) for name, func in self.covariance_stats]
         return stats_matrices

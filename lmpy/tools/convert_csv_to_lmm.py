@@ -147,23 +147,19 @@ def cli():
     mtx = convert_csv_to_lmm(
         args.in_csv_filename, args.header_rows, args.header_cols, args.data_type,
         logger)
+    report = mtx.get_report()
 
-    (row_count, col_count) = mtx.shape
     mtx.write(args.out_lmm_filename)
     logger.log(
         f"Wrote into matrix {args.out_lmm_filename} containing " +
-        f"{row_count} rows and {col_count} columns", refname=script_name)
+        f"{report['rows']} rows and {report['columns']} columns", refname=script_name)
 
     # If the output report was requested, write it
     if args.report_filename:
-        report = {
-            "in_csv_filename": args.in_csv_filename,
-            "header_rows": args.header_rows,
-            "header_cols": args.header_cols,
-            "out_lmm_filename": args.out_lmm_filename,
-            "rows": row_count,
-            "columns": col_count
-        }
+        report["in_csv_filename"] = args.in_csv_filename
+        report["header_rows"] = args.header_rows
+        report["header_cols"] = args.header_cols
+        report["out_lmm_filename"] = args.out_lmm_filename
         try:
             with open(args.report_filename, mode='wt') as out_file:
                 json.dump(report, out_file, indent=4)

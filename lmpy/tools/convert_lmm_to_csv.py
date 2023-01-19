@@ -26,7 +26,7 @@ def convert_lmm_to_csv(mtx, csv_filename):
     """
     try:
         with open(csv_filename, mode='wt') as csv_out:
-            mtx.write_delimited_text(csv_out)
+            mtx.write_csv(csv_out)
     except OSError:
         raise
     except IOError:
@@ -112,11 +112,17 @@ def cli():
     logger.log(
         f"Loaded matrix {args.in_lmm_filename} with {row_count} rows " +
         f"and {col_count} columns", refname=script_name)
-    if col_count > 1024 or row_count > 1048576:
+    if col_count > 1024:
         logger.log(
-            "NOTE: columns or rows exceed maximum allowed in some common spreadsheet"
-            "applications such as Excel (1,048,576 rows and 16,384 columns)"
-            "and LibreOffice Calc (1,048,576 rows and 1024 columns)",
+            "NOTE: number of columns exceeds maximum allowed in some common "
+            "spreadsheet applications, such as Excel (16,384 columns) "
+            "or LibreOffice Calc (1024 columns) or Apple Numbers (1000 columns)",
+            log_level=logging.WARNING, refname=script_name)
+    if row_count > 1048576:
+        logger.log(
+            "NOTE: number of rows exceeds maximum allowed in some common spreadsheet "
+            "applications, such as Excel and LibreOffice Calc (1,048,576 rows) or "
+            "Apple Numbers (1,000,000 rows)",
             log_level=logging.WARNING, refname=script_name)
 
     convert_lmm_to_csv(mtx, args.out_csv_filename)
@@ -127,12 +133,9 @@ def cli():
 
     # If the output report was requested, write it
     if args.report_filename:
-        report = {
-            "in_matrix_filename": args.in_lmm_filename,
-            "out_csv_filename": args.out_csv_filename,
-            "rows": row_count,
-            "columns": col_count
-        }
+        report = mtx.get_report()
+        report["in_matrix_filename"] = args.in_lmm_filename
+        report["out_csv_filename"] = args.out_csv_filename
         try:
             with open(args.report_filename, mode='wt') as out_file:
                 json.dump(report, out_file, indent=4)
