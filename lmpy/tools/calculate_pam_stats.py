@@ -193,6 +193,9 @@ def cli():
             refname=script_name)
         report["output species_stats_matrix"] = args.species_stats_matrix
 
+    mtx_rpt = stats.get_report()
+    report.update(mtx_rpt)
+
     # If the output report was requested, write it
     if args.report_filename:
         try:

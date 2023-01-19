@@ -1,7 +1,6 @@
 """Convert a numeric (.csv) file to a lmpy Matrix (.lmm) file."""
 import argparse
 import json
-from logging import WARN
 import os
 
 from lmpy.log import Logger
@@ -140,9 +139,6 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
-    logger.log(
-        f"Beware: {script_name} has not been fully tested", refname=script_name,
-        log_level=WARN)
 
     mtx = convert_csv_to_lmm(
         args.in_csv_filename, args.header_rows, args.header_cols, args.data_type,

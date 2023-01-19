@@ -570,16 +570,25 @@ class Matrix(np.ndarray):
 
         Returns:
             dict: Dictionary of size/shape of the matrix and the range of values.
+
+        Raises:
+            Exception: on matrix dimensions 0 or > 2.
         """
-        col_count, row_count = self.shape
-        col_headers = self.get_column_headers()
-        row_headers = self.get_row_headers()
-        self._report["columns"] = col_count
-        self._report["column_headers"] = len(col_headers)
-        self._report["column_header_elts"] = len(col_headers[0]) if col_headers else 0
-        self._report["rows"] = row_count
-        self._report["row_headers"] = len(row_headers)
-        self._report["row_header_elts"] = len(row_headers[0]) if row_headers else 0
+        if self.ndim < 1 or self.ndim > 2:
+            raise Exception(f"Unprepared to handle matrix with {self.ndim} dimensions")
+        if self.ndim >= 1:
+            col_headers = self.get_column_headers()
+            col_hdr_elts = len(col_headers[0]) if col_headers else 0
+            self._report["columns"] = self.shape[0]
+            self._report["column_headers"] = len(col_headers)
+            self._report["column_header_elts"] = col_hdr_elts
+
+            if self.ndim == 2:
+                row_headers = self.get_row_headers()
+                row_hdr_elts = len(row_headers[0]) if row_headers else 0
+                self._report["rows"] = self.shape[1]
+                self._report["row_headers"] = len(row_headers)
+                self._report["row_header_elts"] = row_hdr_elts
         self._report["max"] = self.max().item()
         self._report["min"] = self.min().item()
         return self._report

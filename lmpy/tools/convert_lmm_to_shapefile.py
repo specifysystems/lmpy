@@ -1,6 +1,7 @@
 """Convert a lmpy Matrix to a GeoJSON (.geojson) file."""
 import argparse
 import json
+from logging import WARN
 import os
 
 from lmpy.log import Logger
@@ -22,7 +23,7 @@ def build_parser():
         argparse.ArgumentParser: An argument parser for the tool"s parameters.
     """
     parser = argparse.ArgumentParser(
-        prog="convert_lmm_to_geojson",
+        prog="convert_lmm_to_shapefile",
         description=DESCRIPTION,
     )
     parser.add_argument("--config_file", type=str, help="Path to configuration file.")
@@ -30,7 +31,7 @@ def build_parser():
         "-r",
         "--report_filename",
         type=str,
-        help="File location to write the wrangler report."
+        help="File location to write the report."
     )
     parser.add_argument(
         "--log_filename",
@@ -45,39 +46,14 @@ def build_parser():
         help="If provided, write log to console."
     )
     parser.add_argument(
-        "--shapefile_filename",
-        "-s",
-        type=str,
-        help=(
-            "Path to a shapefile that can be used to generate polygons matching "
-            "matrix sites."
-        ),
-    )
-    parser.add_argument(
-        "--resolution",
-        type=float,
-        help=(
-            "Resolution of the polygons in the GeoJSON if a shapefile was not provided."
-            "Otherwise, use points."
-        ),
-    )
-    parser.add_argument(
-        "--omit_value",
-        "-o",
-        action="append",
-        nargs="*",
-        type=float,
-        help="Properties should be omitted if they have this value for a site."
-    )
-    parser.add_argument(
         "in_lmm_filename", type=str,
         help="Filename of lmpy matrix (.lmm) containing a y/0 axis of sites, " +
-             "to convert to GeoJSON."
+             "to convert to polygons in a shapefile."
     )
     parser.add_argument(
-        "out_geojson_filename",
+        "out_shapefile_filename",
         type=str,
-        help="Location to write the converted matrix GeoJSON.",
+        help="Location to write the converted matrix as a shapefile.",
     )
     return parser
 
@@ -93,9 +69,9 @@ def test_inputs(args):
         all_missing_inputs: Error messages for display on exit.
     """
     all_missing_inputs = test_files((args.in_lmm_filename, "Matrix input"))
-    if args.shapefile_filename is not None:
-        errs = test_files((args.shapefile_filename, "Input shapefile"))
-        all_missing_inputs.extend(errs)
+    # if args.shapefile_filename is not None:
+    #     errs = test_files((args.shapefile_filename, "Input shapefile"))
+    #     all_missing_inputs.extend(errs)
     return all_missing_inputs
 
 
@@ -120,6 +96,9 @@ def cli():
         log_filename=args.log_filename,
         log_console=args.log_console
     )
+    logger.log(
+        f"Beware: {script_name} has not been fully tested", refname=script_name,
+        log_level=WARN)
 
     mtx = Matrix.load(args.in_lmm_filename)
     if args.shapefile_filename is not None:
@@ -130,10 +109,10 @@ def cli():
             mtx,  omit_values=args.omit_value, logger=logger)
 
     report["matrix_filename"] = args.in_lmm_filename
-    report["out_geojson_filename"] = args.out_geojson_filename
+    report["out_shapefile"] = args.out_shapefile
 
     try:
-        with open(args.out_geojson_filename, mode='wt') as out_json:
+        with open(args.out_shapefile, mode='wt') as out_json:
             json.dump(matrix_geojson, out_json, indent=4)
     except OSError:
         raise
@@ -141,7 +120,7 @@ def cli():
         raise
     if logger is not None:
         logger.log(
-            f"Wrote geojson to {args.out_geojson_filename}.", refname=script_name)
+            f"Wrote shapefile to {args.out_shapefile}.", refname=script_name)
 
     # If the output report was requested, write it
     if args.report_filename:

@@ -58,7 +58,7 @@ def build_parser():
         "-r",
         "--report_filename",
         type=str,
-        help="File location to write the wrangler report."
+        help="File location to write the report."
     )
     parser.add_argument(
         'in_lmm_filename', type=str, help='Lmpy LMM filename to be converted to CSV.'

@@ -582,7 +582,7 @@ class PamStats:
             mtx, headers = func(self.pam)
             mtx.set_headers(headers)
             stats_matrices.append((name, mtx))
-            self._report["Covariance"][name] = {}
+            self._report["Covariance"][name] = mtx.get_report()
         # stats_matrices = [
         #       (name, func(self.pam)) for name, func in self.covariance_stats]
         return stats_matrices
@@ -604,7 +604,94 @@ class PamStats:
             np.array([func(self.pam) for _, func in self.diversity_stats]),
             headers={'0': ['value'], '1': diversity_stat_names},
         )
+        self._report["Diversity"] = diversity_matrix.get_report()
+        self._report["Diversity"]["statistics"] = diversity_stat_names
         return diversity_matrix
+
+    # ...........................
+    def _get_tree_site_stats(self):
+        if self.tree is None:
+            return
+        self._log(
+            "Tree stuff", refname=self.__class__.__name__)
+
+        # Assemble squid lookup
+        squid_annotations = self.tree.get_annotations('squid')
+        squid_dict = {squid: label for label, squid in squid_annotations}
+        ordered_labels = []
+        for squid in self.pam.get_column_headers():
+            if squid in squid_dict.keys():
+                v = squid_dict[squid]
+            else:  # pragma: no cover
+                v = ''
+            ordered_labels.append(v)
+
+        # Create empty site/tree matrix
+        site_tree_stats_matrix = Matrix(
+            np.zeros((self.pam.shape[0], len(self.site_tree_stats))),
+            headers={
+                '0': self.pam.get_row_headers(),
+                '1': [name for name, _ in self.site_tree_stats]})
+
+        # Create empty site/tree-distance matrix
+        site_tree_dist_mtx_matrix = Matrix(
+            np.zeros(
+                (self.pam.shape[0], len(self.site_tree_distance_matrix_stats))),
+            headers={
+                '0': self.pam.get_row_headers(),
+                '1': [name for name, _ in self.site_tree_distance_matrix_stats]})
+
+        # PAM / Tree stats
+        self._log("Get distance matrix", refname=self.__class__.__name__)
+        phylo_dist_mtx = self.tree.get_distance_matrix()
+        self._log("PAM dist mtx stats", refname=self.__class__.__name__)
+        site_pam_tree_matrix = None
+        if self.site_pam_dist_mtx_stats:
+            site_pam_tree_matrix = Matrix(
+                Matrix.concatenate(
+                    [
+                        func(self.pam, phylo_dist_mtx)
+                        for _, func in self.site_pam_dist_mtx_stats
+                    ]),
+                headers={
+                    '0': self.pam.get_row_headers(),
+                    '1': [name for name, _ in self.site_pam_dist_mtx_stats]})
+
+        self._log("Site by site", refname=self.__class__.__name__)
+        # Loop through PAM
+        for site_idx, site_row in enumerate(self.pam):
+            # Get present species
+            present_species = np.where(site_row == 1)[0]
+
+            # Get sub tree
+            present_labels = list(
+                filter(
+                    lambda x: bool(x), [ordered_labels[i] for i in present_species]
+                ))
+            present_dist_mtx_idxs = []
+            for idx, label in enumerate(phylo_dist_mtx.get_column_headers()):
+                if label in present_labels:
+                    present_dist_mtx_idxs.append(idx)
+            try:
+                if present_labels:
+                    site_tree = self.tree.extract_tree_with_taxa_labels(
+                        present_labels)
+                    # Get distance matrix
+                    site_dist_mtx = phylo_dist_mtx.slice(
+                        present_dist_mtx_idxs, present_dist_mtx_idxs)
+                    # site_dist_mtx = site_tree.get_distance_matrix()
+                    site_tree_dist_mtx_matrix[site_idx] = [
+                        func(site_dist_mtx)
+                        for (_, func) in self.site_tree_distance_matrix_stats
+                    ]
+                    site_tree_stats_matrix[site_idx] = [
+                        func(site_tree) for _, func in self.site_tree_stats
+                    ]
+            except Exception as err:  # pragma: no cover
+                self._log(err, refname=self.__class__.__name__)
+                self._log(present_labels, refname=self.__class__.__name__)
+                self._log(f"Site index: {site_idx}", refname=self.__class__.__name__)
+        return site_tree_stats_matrix, site_tree_dist_mtx_matrix, site_pam_tree_matrix
 
     # ...........................
     def calculate_site_statistics(self):
@@ -632,96 +719,9 @@ class PamStats:
             site_stats_matrix[:, i] = self.site_matrix_stats[i][1](self.pam)
 
         if self.tree is not None:
-            self._log(
-                "Tree stuff", refname=self.__class__.__name__)
-            squid_annotations = self.tree.get_annotations('squid')
-            squid_dict = {squid: label for label, squid in squid_annotations}
-            ordered_labels = []
-            for squid in self.pam.get_column_headers():
-                if squid in squid_dict.keys():
-                    v = squid_dict[squid]
-                else:  # pragma: no cover
-                    v = ''
-                ordered_labels.append(v)
-
-            site_tree_stats_matrix = Matrix(
-                np.zeros((self.pam.shape[0], len(self.site_tree_stats))),
-                headers={
-                    '0': self.pam.get_row_headers(),
-                    '1': [name for name, _ in self.site_tree_stats],
-                },
-            )
-
-            site_tree_dist_mtx_matrix = Matrix(
-                np.zeros(
-                    (self.pam.shape[0], len(self.site_tree_distance_matrix_stats))
-                ),
-                headers={
-                    '0': self.pam.get_row_headers(),
-                    '1': [name for name, _ in self.site_tree_distance_matrix_stats],
-                },
-            )
-
-            # PAM / Tree stats
-            self._log(
-                "Get distance matrix", refname=self.__class__.__name__)
-            phylo_dist_mtx = self.tree.get_distance_matrix()
-            self._log(
-                "PAM dist mtx stats", refname=self.__class__.__name__)
-            site_pam_tree_matrix = None
-            if self.site_pam_dist_mtx_stats:
-                site_pam_tree_matrix = Matrix(
-                    Matrix.concatenate(
-                        [
-                            func(self.pam, phylo_dist_mtx)
-                            for _, func in self.site_pam_dist_mtx_stats
-                        ]
-                    ),
-                    headers={
-                        '0': self.pam.get_row_headers(),
-                        '1': [name for name, _ in self.site_pam_dist_mtx_stats],
-                    },
-                )
-
-            self._log(
-                "Site by site", refname=self.__class__.__name__)
-            # Loop through PAM
-            for site_idx, site_row in enumerate(self.pam):
-                # Get present species
-                present_species = np.where(site_row == 1)[0]
-
-                # Get sub tree
-                present_labels = list(
-                    filter(
-                        lambda x: bool(x), [ordered_labels[i] for i in present_species]
-                    )
-                )
-                present_dist_mtx_idxs = []
-                for idx, label in enumerate(phylo_dist_mtx.get_column_headers()):
-                    if label in present_labels:
-                        present_dist_mtx_idxs.append(idx)
-                try:
-                    if present_labels:
-                        site_tree = self.tree.extract_tree_with_taxa_labels(
-                            present_labels
-                        )
-                        # Get distance matrix
-                        site_dist_mtx = phylo_dist_mtx.slice(
-                            present_dist_mtx_idxs, present_dist_mtx_idxs
-                        )
-                        # site_dist_mtx = site_tree.get_distance_matrix()
-                        site_tree_dist_mtx_matrix[site_idx] = [
-                            func(site_dist_mtx)
-                            for (_, func) in self.site_tree_distance_matrix_stats
-                        ]
-                        site_tree_stats_matrix[site_idx] = [
-                            func(site_tree) for _, func in self.site_tree_stats
-                        ]
-                except Exception as err:  # pragma: no cover
-                    self._log(err, refname=self.__class__.__name__)
-                    self._log(present_labels, refname=self.__class__.__name__)
-                    self._log(
-                        f"Site index: {site_idx}", refname=self.__class__.__name__)
+            (site_tree_stats_matrix,
+             site_tree_dist_mtx_matrix,
+             site_pam_tree_matrix) = self._get_tree_site_stats()
 
             all_stat_matrices = []
             if site_stats_matrix is not None:
@@ -734,6 +734,7 @@ class PamStats:
                 all_stat_matrices.append(site_pam_tree_matrix)
 
             site_stats_matrix = Matrix.concatenate(all_stat_matrices, axis=1)
+        self._report["Site Statistics"] = site_stats_matrix.get_report()
         return site_stats_matrix
 
     # ...........................
@@ -757,6 +758,7 @@ class PamStats:
         )
         for i in range(len(self.species_matrix_stats)):
             species_stats_matrix[:, i] = self.species_matrix_stats[i][1](self.pam)
+        self._report["Species Statistics"] = species_stats_matrix.get_report()
 
         return species_stats_matrix
 
@@ -792,6 +794,15 @@ class PamStats:
     def _log(self, msg, refname=None):
         if self.logger is not None:
             self.logger.log(msg, refname=refname)
+
+    # ...........................
+    def get_report(self):
+        """Return basic stats on the outputs computed from the PAM.
+
+        Returns:
+            dict: Dictionary containing metadata about statistics outputs.
+        """
+        return self._report
 
 
 # .............................................................................
