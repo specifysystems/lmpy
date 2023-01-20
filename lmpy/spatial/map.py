@@ -1,9 +1,10 @@
 """Module containing tools for creating maps."""
+from ast import literal_eval
 import logging
 import math
 
 import numpy as np
-from osgeo import gdal
+from osgeo import gdal, ogr, osr
 
 from lmpy.log import logit
 from lmpy.matrix import Matrix
@@ -507,7 +508,7 @@ def rasterize_geospatial_matrix(
         refname=refname, log_level=logging.DEBUG)
     # TODO: handle differing x and y resolutions
     geotransform = _get_geotransform(min_x, min_y, max_x, max_y, resolution)
-    rst_type, rst_type_str = _get_gdal_type(matrix, is_pam)
+    rst_type, rst_type_str = _get_osgeo_type(matrix, is_pam, is_raster=True)
     # Modify the nodata value to fit within a byte
     if rst_type == gdal.GDT_Byte:
         nodata = 255
@@ -572,20 +573,22 @@ def rasterize_geospatial_matrix(
 
 
 # ...................................................................................
-def _get_gdal_type(matrix, is_pam):
-    if is_pam is True:
-        rst_type = gdal.GDT_Byte
-        rst_type_str = "gdal.GDT_Byte"
-    elif matrix.dtype == np.float32:
-        rst_type = gdal.GDT_Float32
-        rst_type_str = "gdal.GDT_Float32"
-    elif matrix.dtype == np.float64:
-        rst_type = gdal.GDT_Float64
-        rst_type_str = "gdal.GDT_Float64"
-    else:
-        rst_type = gdal.GDT_Int32
-        rst_type_str = "gdal.GDT_Int32"
-    return rst_type, rst_type_str
+def _get_osgeo_type(matrix, is_pam, is_raster=True):
+    if is_pam is True or matrix.dtype in (np.byte, np.intc, np.uintc, np.int_, np.uint):
+        data_type_str = "ogr.OFTInteger"
+        if is_raster:
+            if matrix.dtype == np.byte:
+                data_type_str = "gdal.GDT_Byte"
+            else:
+                data_type_str = "gdal.GDT_Int32"
+    elif matrix.dtype in (np.float32, np.float64):
+        data_type_str = "ogr.OFTReal"
+        if is_raster:
+            if matrix.dtype == np.float32:
+                data_type_str = "gdal.GDT_Float32"
+            else:
+                data_type_str = "gdal.GDT_Float64"
+    return literal_eval(data_type_str), data_type_str
 
 
 # ...................................................................................
@@ -756,100 +759,136 @@ def _create_map_matrix_for_column(matrix, col_header, is_pam=False, nodata=-9999
 
     return map_mtx, report
 
-# # ...................................................................................
-# def vectorize_matrix_with_shapefile(
-#         matrix, grid_filename, out_shapefilename, resolution, logger=None):
-#     """Create a geotiff raster file of 1+ bands from a 2d geospatial matrix.
-#
-#     Args:
-#         matrix (lmpy.matrix.Matrix object): an input flattened geospatial matrix with
-#             site centroids in row headers.
-#         grid_filename (str): A file path to a shapefile matching the matrix.
-#         out_shapefilename: output filename.
-#         logger (lmpy.log.Logger): An optional local logger to use for logging output
-#             with consistent options
-#     """
-#     refname = "vectorize_matrix_with_shapefile"
-#     site_axis = 0
-#     # Create empty 2-dimensional matrix, with x/0 = longitude and y/1 = latitude
-#     column_headers = matrix.get_column_headers()
-#     row_headers = matrix.get_headers(axis=site_axis)
-#     logit(logger,
-#         f"Found {len(row_headers)} sites and {len(column_headers)} taxa.",
-#         refname=refname)
-#
-#     column_enum = [(j, str(k)) for j, k in enumerate(column_headers)]
-#
-#     if not os.path.exists(grid_filename):
-#         raise FileNotFoundError(f"Grid shapefile {grid_filename} does not exist.")
-#     driver = ogr.GetDriverByName("ESRI Shapefile")
-#     # 0 means read-only. 1 means writeable.
-#     grid_dataset = driver.Open(grid_filename, 0)
-#     grid_layer = grid_dataset.GetLayer()
-#     (min_x, max_x, min_y, max_y) = grid_layer.GetExtent()
-#     logit(logger,
-#         f"Found {grid_layer.GetFeatureCount()} sites in grid, with extent " +
-#         f"(min_x, max_x, min_y, max_y) = ({min_x}, {max_x}, {min_y}, {max_y}).",
-#         refname=refname)
-#
-#     map_mtx = create_empty_map_matrix(min_x, min_y, max_x, max_y, resolution)
-#     height, width = map_mtx.shape
-#     xy_to_rc = _get_row_col_for_x_y_func(
-#          min_x, min_y, max_x, max_y, resolution)
-#
-#     if matrix.dtype == np.float32:
-#         arr_type = gdal.GDT_Float32
-#     else:
-#         arr_type = gdal.GDT_Int32
-#
-#     out_ds = driver.Create(out_shapefilename, 1)
-#     id_fld = "siteid"
-#
-#     # Find row index for feature ids of grid cells in possibly compressed matrix
-#     fids_in_matrix = {}
-#     for mtx_row, (mtx_fid, _, _) in enumerate(row_headers):
-#         fids_in_matrix[mtx_fid] = mtx_row
-#
-#     feat = grid_layer.GetNextFeature()
-#     while feat is not None:
-#         # Make sure this grid site is in the matrix
-#         site_id = feat.GetField(id_fld)
-#         # ft_json = json.loads(feat.ExportToJson())
-#         # ft_json["properties"] = {}
-#         if site_id in fids_in_matrix.keys():
-#             mtx_row = fids_in_matrix[site_id]
-#             ft_json = json.loads(feat.ExportToJson())
-#             ft_json["id"] = site_id
-#             ft_json["properties"] = {}
-#             for tx_idx, tx_name in column_enum:
-#                 if matrix[mtx_row, tx_idx].item() not in omit_values:
-#                     ft_json["properties"][tx_name] = matrix[mtx_row, tx_idx].item()
-#             # ft_json["properties"] = {
-#             #     k: matrix[i, j].item() for j, k in column_enum
-#             #     if matrix[i, j].item() not in omit_values
-#             # }
-#             if len(ft_json["properties"].keys()) > 0:
-#                 features.append(ft_json)
-#         feat = grid_layer.GetNextFeature()
-#     # out_ds.SetProjection(in_ds.GetProjection())
-#     geotransform = get_geotransform(min_x, min_y, max_x, max_y, resolution)
-#     out_ds.SetGeoTransform(geotransform)
-#
-#     band_num = 0
-#     for ch in col_headers:
-#         # band indexes start at 1
-#         band_num += 1
-#         # create 2d geospatial matrix from column
-#         map_mtx = _create_map_matrix_for_column(
-#             matrix, ch, min_x, min_y, max_x, max_y, resolution)
-#         # write each column into a separate band
-#         out_band = out_ds.GetRasterBand(band_num)
-#         out_band.WriteArray(map_mtx, 0, 0)
-#         out_band.FlushCache()
-#         out_band.ComputeStatistics(False)
-#         map_mtx = None
-#     # Once we"re done, close properly the dataset
-#     out_ds = None
+
+# .....................................................................................
+def _make_geometry(x, y, resolution=None):
+    """Get a function that will generate GeoJSON geometry sections for an x, y pair.
+
+    Args:
+        x (float): x coordinate for geometry
+        y (float): y coordinate for geometry
+        resolution (Numeric or None): If None, use point geometries, else polygons.
+
+    Returns:
+        Method: An OGR point or polygon
+    """
+    if resolution is not None:
+        half_res = resolution / 2.0
+        ul = [x - half_res, y + half_res]
+        ur = [x + half_res, y + half_res]
+        ll = [x + half_res, y - half_res]
+        lr = [x - half_res, y - half_res]
+        point_strings = ['{} {}'.format(x, y) for x, y in (ul, ur, ll, lr, ul)]
+        wkt = "POLYGON(({}))".format(','.join(point_strings))
+    else:
+        wkt = f"POINT({x}  {y})"
+    geom = ogr.CreateGeometryFromWkt(wkt)
+
+    return geom
+
+
+# ...................................................................................
+def vectorize_geospatial_matrix(
+        matrix, out_shapefilename, create_polygon=False, is_pam=False, logger=None):
+    """Create a vector shapefile from a 2d geospatial matrix.
+
+    Args:
+        matrix (lmpy.matrix.Matrix object): an input flattened geospatial matrix with
+            site centroids in row headers.
+        out_shapefilename: output filename.
+        create_polygon (bool): True to create a polygon dataset, False to create point
+        is_pam (bool): True if the matrix is a binary PAM
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
+
+    Returns:
+        report (dict): Dictionary of metadata about operation.
+
+    Raises:
+        Exception: on non-geospatial matrix input
+        Exception: on non-flattened geospatial matrix
+    """
+    refname = "vectorize_map_matrix"
+    if not is_geospatial_matrix(matrix):
+        raise Exception("Matrix is not geospatial; cannot be converted to a shapefile")
+    if not is_flattened_geospatial_matrix(matrix):
+        raise Exception("Conversion to shapefile of map matrix is unsupported")
+
+    ogr_type, ogr_type_str = _get_osgeo_type(matrix, is_pam, is_raster=False)
+
+    (min_x, min_y, max_x, max_y, resolution, x_centers,
+     y_centers) = get_extent_resolution_coords_from_matrix(matrix)
+    logit(
+        logger, f"Found bounding box {min_x}, {min_y}, {max_x}, {max_y} for matrix",
+        refname=refname, log_level=logging.DEBUG)
+    report = {
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+        "resolution": resolution,
+        "height": len(y_centers),
+        "width": len(x_centers),
+        # "nodata": nodata,
+        "vector_data_type": ogr_type_str,
+        "matrix_type": str(matrix.dtype)
+    }
+
+    fields = [("site_id", ogr.OFTInteger), ("x", ogr.OFTReal), ("y", ogr.OFTReal)]
+    # 0 axis represents x,y cell centroids, 1 axis represents a species or statistic
+    for attr in matrix.get_column_headers():
+        fields.append((attr, ogr_type))
+    # Find column indices for each attribute/column of data
+    idx_attrs = [
+        (col_idx, attr) for col_idx, attr in enumerate(matrix.get_row_headers())]
+
+    driver = ogr.GetDriverByName("ESRI Shapefile")
+    try:
+        ds = driver.CreateDataSource(out_shapefilename)
+    except Exception as e:
+        logit(
+            logger, f"Exception in OGR function {e}", refname=refname,
+            log_level=logging.ERROR)
+        raise
+    else:
+        # create the spatial reference system, WGS84
+        srs = osr.SpatialReference()
+        srs.ImportFromEPSG(4326)
+
+    # Create layer
+    if create_polygon is True:
+        layer = ds.CreateLayer("cells", srs, ogr.wkbPolygon)
+    else:
+        layer = ds.CreateLayer("points", srs, ogr.wkbPoint)
+        resolution = None
+
+    # Create attributes
+    for (name, dtype) in fields:
+        fld = ogr.FieldDefn(name, dtype)
+        layer.CreateField(fld)
+
+    # Create features and fill attributes
+    feature_defn = layer.GetLayerDefn()
+    # site_id is also the row index
+    for row_idx, (site_id, x, y) in matrix.get_row_headers():
+        feature = ogr.Feature(feature_defn)
+        geom = _make_geometry(x, y, resolution=resolution)
+        feature.SetGeometry(geom)
+        # Create the feature and set common values
+        feature.SetField("site_id", site_id)
+        feature.SetField("x", x)
+        feature.SetField("y", y)
+        for col_idx, fld in idx_attrs:
+            feature.SetField(fld, matrix[row_idx, col_idx])
+        layer.CreateFeature(feature)
+        # Close feature to save
+        feature = None
+
+    # Close DataSource to save
+    ds = None
+    logit(
+        logger, f"Wrote shapefile to {out_shapefilename}.", refname=refname)
+    return report
 
 
 # .....................................................................................

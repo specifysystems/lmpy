@@ -6,13 +6,11 @@ import os
 
 from lmpy.log import Logger
 from lmpy.matrix import Matrix
-from lmpy.spatial.geojsonify import (
-    geojsonify_matrix, geojsonify_matrix_with_shapefile,
-)
+from lmpy.spatial.map import vectorize_geospatial_matrix
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
-DESCRIPTION = "Convert a lmpy Matrix to a GeoJSON file."
+DESCRIPTION = "Convert a lmpy Matrix to a shapefile."
 
 
 # .....................................................................................
@@ -46,12 +44,26 @@ def build_parser():
         help="If provided, write log to console."
     )
     parser.add_argument(
+        "--is_pam",
+        action="store_true",
+        default=False,
+        help="If provided, input matrix is a binary PAM."
+    )
+    parser.add_argument(
+        "--geometry_type",
+        "-g",
+        type=str,
+        choices=["point", "polygon"],
+        default="polygon",
+        help="The type of geometry to create in the shapefile.",
+    )
+    parser.add_argument(
         "in_lmm_filename", type=str,
         help="Filename of lmpy matrix (.lmm) containing a y/0 axis of sites, " +
              "to convert to polygons in a shapefile."
     )
     parser.add_argument(
-        "out_shapefile_filename",
+        "out_shapefile",
         type=str,
         help="Location to write the converted matrix as a shapefile.",
     )
@@ -101,26 +113,12 @@ def cli():
         log_level=WARN)
 
     mtx = Matrix.load(args.in_lmm_filename)
-    if args.shapefile_filename is not None:
-        report, matrix_geojson = geojsonify_matrix_with_shapefile(
-            mtx, args.shapefile_filename, omit_values=args.omit_value, logger=logger)
-    else:
-        report, matrix_geojson = geojsonify_matrix(
-            mtx,  omit_values=args.omit_value, logger=logger)
+    report = vectorize_geospatial_matrix(
+        mtx, args.out_shapefile, create_polygon=(args.geometry_type == "polygon"),
+        is_pam=args.is_pam, logger=logger)
 
     report["matrix_filename"] = args.in_lmm_filename
     report["out_shapefile"] = args.out_shapefile
-
-    try:
-        with open(args.out_shapefile, mode='wt') as out_json:
-            json.dump(matrix_geojson, out_json, indent=4)
-    except OSError:
-        raise
-    except IOError:
-        raise
-    if logger is not None:
-        logger.log(
-            f"Wrote shapefile to {args.out_shapefile}.", refname=script_name)
 
     # If the output report was requested, write it
     if args.report_filename:
