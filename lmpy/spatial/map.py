@@ -1,5 +1,4 @@
 """Module containing tools for creating maps."""
-from ast import literal_eval
 import logging
 import math
 
@@ -588,7 +587,8 @@ def _get_osgeo_type(matrix, is_pam, is_raster=True):
                 data_type_str = "gdal.GDT_Float32"
             else:
                 data_type_str = "gdal.GDT_Float64"
-    return literal_eval(data_type_str), data_type_str
+    data_type = eval(data_type_str)
+    return data_type, data_type_str
 
 
 # ...................................................................................
@@ -788,6 +788,26 @@ def _make_geometry(x, y, resolution=None):
 
 
 # ...................................................................................
+def _format_shapefile_fieldname(orig_fldname, fldname_dict):
+    tmp = orig_fldname.replace(" ", "_")
+    if len(tmp) > 10:
+        # Truncate to limit of 10 chars
+        tmp = tmp[:10]
+    fldnames = fldname_dict.keys()
+    prefix = f"{tmp[:-2]}_"
+    # First check for original or modified version of name
+    if tmp in fldnames:
+        # If tmp exists, truncate further and append number
+        for i in range(len(fldnames)):
+            name = f"{prefix}{i}"
+            if name not in fldnames:
+                break
+    else:
+        name = tmp
+    return name
+
+
+# ...................................................................................
 def vectorize_geospatial_matrix(
         matrix, out_shapefilename, create_polygon=False, is_pam=False, logger=None):
     """Create a vector shapefile from a 2d geospatial matrix.
@@ -818,9 +838,14 @@ def vectorize_geospatial_matrix(
 
     (min_x, min_y, max_x, max_y, resolution, x_centers,
      y_centers) = get_extent_resolution_coords_from_matrix(matrix)
+
+    # Standard fields
+    fields = [("site_id", ogr.OFTInteger), ("x", ogr.OFTReal), ("y", ogr.OFTReal)]
+
     logit(
         logger, f"Found bounding box {min_x}, {min_y}, {max_x}, {max_y} for matrix",
         refname=refname, log_level=logging.DEBUG)
+
     report = {
         "min_x": min_x,
         "min_y": min_y,
@@ -831,16 +856,22 @@ def vectorize_geospatial_matrix(
         "width": len(x_centers),
         # "nodata": nodata,
         "vector_data_type": ogr_type_str,
-        "matrix_type": str(matrix.dtype)
+        "matrix_type": str(matrix.dtype),
+        "matrix_fields": {"site_id": "site_id", "x": "x", "y": "y"}
     }
 
-    fields = [("site_id", ogr.OFTInteger), ("x", ogr.OFTReal), ("y", ogr.OFTReal)]
+    # Find column indices for each attribute/column of data, modify shapefile fieldnames
+    col_headers = matrix.get_column_headers()
+    name_idx_fldname = {}
+    for col_idx, col_hdr in enumerate(col_headers):
+        new_fldname = _format_shapefile_fieldname(col_hdr, name_idx_fldname)
+        name_idx_fldname[col_hdr] = (col_idx, new_fldname)
+        report["matrix_fields"][col_hdr] = new_fldname
+
     # 0 axis represents x,y cell centroids, 1 axis represents a species or statistic
-    for attr in matrix.get_column_headers():
-        fields.append((attr, ogr_type))
-    # Find column indices for each attribute/column of data
-    idx_attrs = [
-        (col_idx, attr) for col_idx, attr in enumerate(matrix.get_row_headers())]
+    for col_hdr in col_headers:
+        # Create fields with modified names
+        fields.append((name_idx_fldname[col_hdr][1], ogr_type))
 
     driver = ogr.GetDriverByName("ESRI Shapefile")
     try:
@@ -870,7 +901,8 @@ def vectorize_geospatial_matrix(
     # Create features and fill attributes
     feature_defn = layer.GetLayerDefn()
     # site_id is also the row index
-    for row_idx, (site_id, x, y) in matrix.get_row_headers():
+    site_headers = matrix.get_row_headers()
+    for row_idx, (site_id, x, y) in enumerate(site_headers):
         feature = ogr.Feature(feature_defn)
         geom = _make_geometry(x, y, resolution=resolution)
         feature.SetGeometry(geom)
@@ -878,8 +910,9 @@ def vectorize_geospatial_matrix(
         feature.SetField("site_id", site_id)
         feature.SetField("x", x)
         feature.SetField("y", y)
-        for col_idx, fld in idx_attrs:
-            feature.SetField(fld, matrix[row_idx, col_idx])
+        for (col_idx, new_fldname) in name_idx_fldname.values():
+            val = matrix[row_idx, col_idx]
+            feature.SetField(new_fldname, val)
         layer.CreateFeature(feature)
         # Close feature to save
         feature = None

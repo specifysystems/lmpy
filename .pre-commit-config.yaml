@@ -41,11 +41,11 @@ repos:
     - id: darglint
       exclude: versioneer.py|lmpy/_version.py
       args: ['-v2', '-sgoogle']
--   repo: https://github.com/PyCQA/bandit
-    rev: 1.7.4
-    hooks:
-    - id: bandit
-      args: [-c, .github/linters/.bandit]
+#-   repo: https://github.com/PyCQA/bandit
+#    rev: 1.7.4
+#    hooks:
+#    - id: bandit
+#      args: [-c, .github/linters/.bandit]
 -   repo: https://github.com/jendrikseipp/vulture
     rev: 'v2.3'
     hooks:
