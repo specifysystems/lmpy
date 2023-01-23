@@ -107,6 +107,7 @@ def cli():
     )
 
     in_mtx = Matrix.load(args.in_matrix_filename)
+
     wrangler_factory = WranglerFactory(logger=logger)
     with open(args.wrangler_configuration_file, mode='rt') as in_json:
         wranglers = wrangler_factory.get_wranglers(json.load(in_json))
@@ -115,6 +116,16 @@ def cli():
     wrangled_mtx.write(args.out_matrix_filename)
 
     if args.report_filename is not None:
+        report.extend([
+            {"input_matrix": {
+             "file": args.in_matrix_filename,
+             "height": in_mtx.shape[0],
+             "width": in_mtx.shape[1]}},
+            {"output_matrix": {
+             "file": args.out_matrix_filename,
+             "height": wrangled_mtx.shape[0],
+             "width": wrangled_mtx.shape[1]}}
+        ])
         with open(args.report_filename, mode='wt') as report_out:
             json.dump(report, report_out, indent=4)
 

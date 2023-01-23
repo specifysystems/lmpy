@@ -1,6 +1,7 @@
 """Convert a lmpy Matrix to a (.csv) file."""
 import argparse
 import json
+import logging
 import os
 
 from lmpy.log import Logger
@@ -57,10 +58,10 @@ def build_parser():
         "-r",
         "--report_filename",
         type=str,
-        help="File location to write the wrangler report."
+        help="File location to write the report."
     )
     parser.add_argument(
-        'in_lmm_filename', type=str, help='Lmpy LMM filename to convert to CSV.'
+        'in_lmm_filename', type=str, help='Lmpy LMM filename to be converted to CSV.'
     )
     parser.add_argument(
         'out_csv_filename', type=str, help='Location to write the converted matrix CSV.'
@@ -109,8 +110,20 @@ def cli():
     col_count = len(mtx.get_column_headers())
     row_count = len(mtx.get_row_headers())
     logger.log(
-        f"Loaded matrix {args.in_lmm_filename} with {row_count} sites/rows " +
-        f"and {col_count} taxa/columns", refname=script_name)
+        f"Loaded matrix {args.in_lmm_filename} with {row_count} rows " +
+        f"and {col_count} columns", refname=script_name)
+    if col_count > 1024:
+        logger.log(
+            "NOTE: number of columns exceeds maximum allowed in some common "
+            "spreadsheet applications, such as Excel (16,384 columns) "
+            "or LibreOffice Calc (1024 columns) or Apple Numbers (1000 columns)",
+            log_level=logging.WARNING, refname=script_name)
+    if row_count > 1048576:
+        logger.log(
+            "NOTE: number of rows exceeds maximum allowed in some common spreadsheet "
+            "applications, such as Excel and LibreOffice Calc (1,048,576 rows) or "
+            "Apple Numbers (1,000,000 rows)",
+            log_level=logging.WARNING, refname=script_name)
 
     convert_lmm_to_csv(mtx, args.out_csv_filename)
 
@@ -120,12 +133,9 @@ def cli():
 
     # If the output report was requested, write it
     if args.report_filename:
-        report = {
-            "in_matrix_filename": args.in_lmm_filename,
-            "out_csv_filename": args.out_csv_filename,
-            "rows": row_count,
-            "columns": col_count
-        }
+        report = mtx.get_report()
+        report["in_matrix_filename"] = args.in_lmm_filename
+        report["out_csv_filename"] = args.out_csv_filename
         try:
             with open(args.report_filename, mode='wt') as out_file:
                 json.dump(report, out_file, indent=4)

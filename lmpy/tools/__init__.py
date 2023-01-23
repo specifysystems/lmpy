@@ -6,7 +6,6 @@ from . import convert_lmm_to_csv
 from . import rasterize_point_heatmap
 from . import create_rare_species_model
 from . import create_scatter_plot
-from . import rasterize_site_stats
 from . import create_tree_matrix
 from . import encode_layers
 from . import mcpa_run
@@ -25,7 +24,6 @@ __all__.extend(convert_lmm_to_csv.__all__)
 __all__.extend(create_rare_species_model.__all__)
 __all__.extend(create_scatter_plot.__all__)
 __all__.extend(rasterize_point_heatmap.__all__)
-__all__.extend(rasterize_site_stats.__all__)
 __all__.extend(create_tree_matrix.__all__)
 __all__.extend(encode_layers.__all__)
 __all__.extend(mcpa_run.__all__)

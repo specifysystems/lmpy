@@ -100,7 +100,6 @@ class PurgeEmptySlicesWrangler(_MatrixDataWrangler):
                 # Sum of row or column <> 0
                 condition = (matrix.sum(axis=tuple(sum_axes)) != 0)
                 # Get the indices of the dimension where the condition is met
-                # axis_slice = np.where(condition)[0]
                 axis_slice = np.asarray(condition).nonzero()[0]
                 # TODO: Report which columns in a species axis were removed
                 if str(axis) not in self.report['changes'].keys():

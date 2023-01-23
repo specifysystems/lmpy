@@ -7,11 +7,42 @@ import os
 from lmpy.log import Logger
 from lmpy.matrix import Matrix
 from lmpy.spatial.map import (
-    is_flattened_geospatial_matrix, rasterize_flattened_matrix)
+    is_flattened_geospatial_matrix, rasterize_geospatial_matrix)
+from lmpy.statistics.pam_stats import PamStats
 from lmpy.tools._config_parser import _process_arguments, test_files
 
 
-DESCRIPTION = "Convert a lmpy Matrix to a raster geotiff file."
+DESCRIPTION = "Convert a lmpy geospatial Matrix to a raster geotiff file. Biotaphy " \
+              "geospatial matrices of type Presence-Absence Matrix (PAM) or site " \
+              "statistics matrix."
+
+
+# .....................................................................................
+def get_geo_matrix_info():
+    geo_matrix_types = [
+        "site_matrix_stats",
+        "site_tree_stats",
+        "site_tree_distance_matrix_stats",
+        "site_pam_dist_mtx_stats"]
+    available_stats = {}
+    for mt in geo_matrix_types:
+        if mt == "covariance_stats":
+            available_stats[mt] = ["sigma sites"]
+        elif mt == "pam":
+            available_stats[mt] = None
+        else:
+            available_stats[mt] = [name for name, _ in getattr(PamStats, mt)]
+    stat_names = []
+    help_lines = [
+        "Header of one or more columns to map into a multi-band Geotiff file. "
+        "If not provided, all columns (up to the 256 band limit) will be added."
+        "PAM options are one or more species labels from the PAM.",
+        "Site-statistic matrix columns are:"]
+    for mt, stat_names in available_stats.items():
+        if mt != "pam":
+            help_lines.append(f"   {mt}: {stat_names}")
+        stat_names.extend(stat_names)
+    return "\n".join(help_lines), available_stats
 
 
 # ...................................................................................
@@ -44,29 +75,33 @@ def build_parser():
         default=False,
         help="If provided, write log to console."
     )
-    parser.add_argument(
-        "--is_pam",
-        action="store_true",
-        default=False,
-        help="If provided, input matrix is binary, and output raster will be written " +
-             "with values stored as bytes."
-    )
+    stat_help, available_stats = get_geo_matrix_info()
+    geo_matrices = list(available_stats.keys())
     parser.add_argument(
         "--column",
         action="append",
         type=str,
-        help=("Header of column to map."),
+        help=stat_help,
+    )
+    parser.add_argument(
+        "matrix_type",
+        type=str,
+        choices=geo_matrices,
+        help=f"Geospatial matrix types include {', '.join(available_stats.keys())}. A "
+             "PAM input matrix is binary, and output raster will be written "
+             "with values stored as bytes.  All other geospatial matrices contain "
+             "site statistics, and values will be written as float or integer."
     )
     parser.add_argument(
         "in_lmm_filename", type=str,
         help="Filename of lmpy matrix (.lmm) containing a y/0 axis of sites, " +
-             "to convert to raster in geotiff format.  Note that the maximumn number" +
+             "to convert to raster in geotiff format.  Note that the maximum number" +
              "of layers is 256"
     )
     parser.add_argument(
-        "out_geotiff_filename",
+        "out_raster_filename",
         type=str,
-        help="Location to write the converted matrix into multi-band raster.",
+        help="A file path to write the generated geotiff image.",
     )
     return parser
 
@@ -122,6 +157,7 @@ def cli():
         refname=script_name)
 
     mtx = Matrix.load(args.in_lmm_filename)
+    columns = args.column
     if is_flattened_geospatial_matrix(mtx):
         column_headers = mtx.get_column_headers()
         if args.column is None:
@@ -136,22 +172,22 @@ def cli():
                         f"Error: column {col} is not present in matrix " +
                         f"{args.in_lmm_filename}, ignoring",
                         refname=script_name, log_level=logging.WARN)
-            if len(columns) == 0:
-                msg = (
-                    f"No valid columns in {args.column} present in matrix " +
-                    f"{args.in_lmm_filename}")
-                logger.log(msg, refname=script_name, log_level=logging.ERROR)
-                exit(msg)
-
-        if len(columns) > 256:
+        if len(columns) == 0:
+            msg = (
+                f"No valid columns in {args.column} present in matrix " +
+                f"{args.in_lmm_filename}")
+            logger.log(msg, refname=script_name, log_level=logging.ERROR)
+            exit(msg)
+        elif len(columns) > 256:
+            columns = columns[:256]
             logger.log(
-                f"Beware: creating a raster image for {len(columns)} bands, " +
-                "over the assumed limit of 256. ",
-                refname=script_name, log_level=logging.WARN)
+                "Beware: creating a raster image only for the first 256 of "
+                f"{len(columns)} bands.", refname=script_name,
+                log_level=logging.WARN)
 
-        report = rasterize_flattened_matrix(
-            mtx, args.out_geotiff_filename, columns=columns, is_pam=args.is_pam,
-            logger=logger)
+    report = rasterize_geospatial_matrix(
+        mtx, args.out_raster_filename, columns=columns,
+        is_pam=(args.matrix_type == "pam"), logger=logger)
 
     # If the output report was requested, write it
     if args.report_filename:

@@ -101,6 +101,7 @@ class Matrix(np.ndarray):
         #    of default objects
         self.headers = getattr(obj, 'headers', {})
         self.metadata = getattr(obj, 'metadata', {})
+        self._report = {}
 
     # ...........................
     @classmethod
@@ -564,17 +565,183 @@ class Matrix(np.ndarray):
             raise IOError(f"Unable to write to {filename}: {e.strerror}.")
 
     # ...........................
-    def write_csv(self, flo, *slice_args):
+    def get_report(self):
+        """Return basic stats on the contents of the matrix.
+
+        Returns:
+            dict: Dictionary of size/shape of the matrix and the range of values.
+
+        Raises:
+            Exception: on matrix dimensions 0 or > 2.
+        """
+        if self.ndim < 1 or self.ndim > 2:
+            raise Exception(f"Unprepared to handle matrix with {self.ndim} dimensions")
+        if self.ndim >= 1:
+            col_headers = self.get_column_headers()
+            col_hdr_elts = len(col_headers[0]) if col_headers else 0
+            self._report["columns"] = self.shape[0]
+            self._report["column_headers"] = len(col_headers)
+            self._report["column_header_elts"] = col_hdr_elts
+
+            if self.ndim == 2:
+                row_headers = self.get_row_headers()
+                row_hdr_elts = len(row_headers[0]) if row_headers else 0
+                self._report["rows"] = self.shape[1]
+                self._report["row_headers"] = len(row_headers)
+                self._report["row_header_elts"] = row_hdr_elts
+        self._report["max"] = self.max().item()
+        self._report["min"] = self.min().item()
+        return self._report
+
+        # # ...........................
+    # def write_csv(self, flo, *slice_args):
+    #     """Writes the Matrix object to a CSV file-like object.
+    #
+    #     Args:
+    #         flo (file-like): The file-like object to write to.
+    #         *slice_args: A variable length argument list of iterables to use
+    #             for a slice operation prior to generating CSV content.
+    #
+    #     Todo:
+    #         Handle header overlap (where the header for one axis is for another
+    #             axis header.
+    #
+    #     Note:
+    #         Currently only works for 2-D tables.
+    #     """
+    #     if list(slice_args):
+    #         mtx = self.slice(*slice_args)
+    #     else:
+    #         mtx = self
+    #
+    #     if mtx.ndim > 2:
+    #         mtx = mtx.flatten_2d()
+    #
+    #     # .....................
+    #     # Inner functions
+    #
+    #     # .....................
+    #     def already_lists(x):
+    #         """Use this function for processing headers when they are lists.
+    #
+    #         Args:
+    #             x (:obj:`list`): A list value to return.
+    #
+    #         Returns:
+    #             list: A list of data.
+    #         """
+    #         return x
+    #
+    #     # .....................
+    #     def make_lists(x):
+    #         """Use this function for processing non-list headers.
+    #
+    #         Args:
+    #             x (:obj:`object`): A non-list value to modify.
+    #
+    #         Returns:
+    #             list: A list of data.
+    #         """
+    #         return [x]
+    #
+    #     # .....................
+    #     def csv_generator():
+    #         """Generator that yields rows of values to be output as CSV.
+    #
+    #         Yields:
+    #             list: A list of data for a row.
+    #         """
+    #         try:
+    #             row_headers = mtx.headers['0']
+    #         except (KeyError, TypeError):
+    #             # No row headers
+    #             row_headers = [[] for _ in range(mtx.shape[0])]
+    #
+    #         if isinstance(row_headers[0], list):
+    #             listify = already_lists
+    #         else:
+    #             listify = make_lists
+    #
+    #         # # Start with the header row, if we have one
+    #         # if '1' in mtx.headers and mtx.headers['1']:
+    #         #     header_row = [''] * len(
+    #         #         stringify(row_headers[0]) if row_headers else "")
+    #         # Start with the header row, if we have one
+    #         if '1' in mtx.headers and mtx.headers['1']:
+    #             # Make column headers lists of lists
+    #             if not isinstance(mtx.headers['1'][0], (tuple, list)):
+    #                 header_row = [''] * len(
+    #                     listify(row_headers[0]) if row_headers else []
+    #                 )
+    #                 header_row.extend(mtx.headers['1'])
+    #                 yield header_row
+    #             else:
+    #                 for i in range(len(mtx.headers['1'][0])):
+    #                     header_row = [''] * len(
+    #                         listify(row_headers[0]) if row_headers else []
+    #                     )
+    #                     header_row.extend(
+    #                         [
+    #                             mtx.headers['1'][j][i]
+    #                             for j in range(len(mtx.headers['1']))
+    #                         ]
+    #                     )
+    #                     yield header_row
+    #         # For each row in the data set
+    #         for i in range(mtx.shape[0]):
+    #             # Add the row headers if exists
+    #             row = []
+    #             row.extend(listify(row_headers[i]))
+    #             # Get the data from the data array
+    #             row.extend(mtx[i].tolist())
+    #             yield row
+    #
+    #     # .....................
+    #     # Main write_csv function
+    #     for row in csv_generator():
+    #         flo.write(u"{}\n".format(','.join([str(v) for v in row])))
+
+    # .....................
+    def _get_header_value_combined(self, x):
+        """Use this function for processing list headers into a single string.
+
+        Args:
+            x (:obj:`object`): A list or non-list value to modify.
+
+        Returns:
+            str: A string.
+        """
+        if isinstance(x, list):
+            tmp = [str(elt) for elt in x]
+            return " ".join(tmp)
+        else:
+            return str(x)
+
+    # .....................
+    def _get_header_as_list_of_string(self, x):
+        """Use this function for formatting header elements that are a list or an atom.
+
+        Args:
+            x (:obj:`object`): A header value to as a list.
+
+        Returns:
+            list: A list of data.
+        """
+        if isinstance(x, list):
+            return [str(elt) for elt in x]
+        else:
+            return [str(x)]
+
+    # ...........................
+    def write_csv(
+            self, flo, *slice_args, delimiter=","):
         """Writes the Matrix object to a CSV file-like object.
 
         Args:
             flo (file-like): The file-like object to write to.
             *slice_args: A variable length argument list of iterables to use
                 for a slice operation prior to generating CSV content.
-
-        Todo:
-            Handle header overlap (where the header for one axis is for another
-                axis header.
+            delimiter (str): 1-character delimiter to separate columns
 
         Note:
             Currently only works for 2-D tables.
@@ -587,85 +754,44 @@ class Matrix(np.ndarray):
         if mtx.ndim > 2:
             mtx = mtx.flatten_2d()
 
-        # .....................
-        # Inner functions
+        try:
+            row_headers = mtx.headers['0']
+        except (KeyError, TypeError):
+            # No row headers
+            row_headers = [[] for _ in range(mtx.shape[0])]
 
-        # .....................
-        def already_lists(x):
-            """Use this function for processing headers when they are lists.
+        try:
+            col_headers = mtx.headers['1']
+        except (KeyError, TypeError):
+            # No row headers
+            col_headers = [[] for _ in range(mtx.shape[1])]
 
-            Args:
-                x (:obj:`list`): A list value to return.
+        # How many elements are in row headers - put each element in a separate column
+        row_header_elt_count = len(
+            self._get_header_as_list_of_string(row_headers[0]) if row_headers else [])
 
-            Returns:
-                list: A list of data.
-            """
-            return x
+        # How many elements are in column headers - put each element in a separate row
+        col_header_elt_count = len(
+            self._get_header_as_list_of_string(col_headers[0]) if col_headers else [])
 
-        # .....................
-        def make_lists(x):
-            """Use this function for processing non-list headers.
+        # Assemble column headers, each element will be a row
+        col_headers_listed = [
+            self._get_header_as_list_of_string(chdr) for chdr in col_headers]
+        for i in range(col_header_elt_count):
+            # Start with one empty column for each element in individual row header
+            # so that column headers correctly head data (not row headers)
+            header_row = [""] * row_header_elt_count
+            header_row.extend(elt[i] for elt in col_headers_listed)
+            # Write column headers as first line
+            flo.write(u"{}\n".format(delimiter.join(header_row)))
 
-            Args:
-                x (:obj:`object`): A non-list value to modify.
-
-            Returns:
-                list: A list of data.
-            """
-            return [x]
-
-        # .....................
-        def csv_generator():
-            """Generator that yields rows of values to be output as CSV.
-
-            Yields:
-                list: A list of data for a row.
-            """
-            try:
-                row_headers = mtx.headers['0']
-            except (KeyError, TypeError):
-                # No row headers
-                row_headers = [[] for _ in range(mtx.shape[0])]
-
-            if isinstance(row_headers[0], list):
-                listify = already_lists
-            else:
-                listify = make_lists
-
-            # Start with the header row, if we have one
-            if '1' in mtx.headers and mtx.headers['1']:
-                # Make column headers lists of lists
-                if not isinstance(mtx.headers['1'][0], (tuple, list)):
-                    header_row = [''] * len(
-                        listify(row_headers[0]) if row_headers else []
-                    )
-                    header_row.extend(mtx.headers['1'])
-                    yield header_row
-                else:
-                    for i in range(len(mtx.headers['1'][0])):
-                        header_row = [''] * len(
-                            listify(row_headers[0]) if row_headers else []
-                        )
-                        header_row.extend(
-                            [
-                                mtx.headers['1'][j][i]
-                                for j in range(len(mtx.headers['1']))
-                            ]
-                        )
-                        yield header_row
-            # For each row in the data set
-            for i in range(mtx.shape[0]):
-                # Add the row headers if exists
-                row = []
-                row.extend(listify(row_headers[i]))
-                # Get the data from the data array
-                row.extend(mtx[i].tolist())
-                yield row
-
-        # .....................
-        # Main write_csv function
-        for row in csv_generator():
-            flo.write(u"{}\n".format(','.join([str(v) for v in row])))
+        # Write each line of data, preceded by its header
+        for r in range(mtx.shape[0]):
+            # Start with each element in row header
+            line = self._get_header_as_list_of_string(row_headers[r])
+            # Extend with data
+            line.extend(str(v) for v in mtx[r])
+            flo.write(u"{}\n".format(delimiter.join(line)))
 
 
 # .............................................................................
