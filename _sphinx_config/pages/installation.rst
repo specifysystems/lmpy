@@ -59,12 +59,6 @@ Install latest release
 
   pip install specify-lmpy
 
-====================================================
-Alternative: Install and run with a Docker Container
-====================================================
-
-You can avoid installing locally and just run `lmpy` using a Docker container.  We distribute containers through DockerHub as well as the GitHub Container Registry.
-
 ------------------
 Get from DockerHub
 ------------------
