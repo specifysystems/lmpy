@@ -93,6 +93,38 @@ def _create_empty_map_matrix_from_centroids(x_centers, y_centers, dtype):
 
 
 # .....................................................................................
+def _create_empty_map_1d_matrix_from_centroids(
+        x_centers, y_centers, dtype, data_label=""):
+    """Creates an empty geospatial vector with x,y coordinates on the y axis.
+
+    Args:
+        x_centers (list of numeric): Center coordinate x values.
+        y_centers (list of numeric): Center coordinate y values.
+        dtype (numpy.ndarray.dtype): Data type for new matrix
+        data_label (str): header for the new vector.
+
+    Returns:
+        Matrix: A Matrix of zeros for the coordinate centers.
+
+    Note:
+        axis 0 represents the rows/sites with headers = (site_id,x,y)
+        axis 1 represents the columns/species with headers = data_label
+    """
+    site_headers = _create_site_headers_from_centroids(x_centers, y_centers)
+    tmp = len(x_centers) * len(y_centers)
+    site_count = len(site_headers)
+    print(f"site_count {site_count} ?=? x * y {tmp}")
+    map_1d_matrix = Matrix(
+        np.zeros((site_count, 1), dtype=dtype),
+        headers={
+            "0": site_headers,
+            "1": [data_label]
+        }
+    )
+    return map_1d_matrix
+
+
+# .....................................................................................
 def is_flattened_geospatial_matrix(matrix):
     """Identifies whether matrix has x and y coordinates along 1 and 0 axes.
 
@@ -288,6 +320,71 @@ def _create_map_matrix_headers_from_extent(min_x, min_y, max_x, max_y, resolutio
 
 
 # .....................................................................................
+def _create_site_headers_from_extent(min_x, min_y, max_x, max_y, resolution):
+    """Gets header values for the y/0/site axis of a flattened geospatial matrix.
+
+    Args:
+        min_x (numeric): The minimum x value of the map extent.
+        min_y (numeric): The minimum y value of the map extent.
+        max_x (numeric): The maximum x value of the map extent.
+        max_y (numeric): The maximum y value of the map extent.
+        resolution (numeric): The size of each matrix cell.
+
+    Returns:
+        site_headers: list of x and y center coordinates for row headers in a flattened
+            geospatial matrix
+    """
+    x_headers, y_headers = _create_map_matrix_headers_from_extent(
+        min_x, min_y, max_x, max_y, resolution)
+
+    site_headers = []
+    fid = 1
+    for y in y_headers:
+        for x in x_headers:
+            site_headers.append((fid, x, y))
+            fid += 1
+    return site_headers
+
+
+# .....................................................................................
+def _create_site_headers_from_centroids(x_centers, y_centers):
+    site_headers = []
+    fid = 1
+    for y in y_centers:
+        for x in x_centers:
+            site_headers.append((fid, x, y))
+            fid += 1
+    return site_headers
+
+
+# .....................................................................................
+def _create_site_headers_from_shapegrid(min_x, min_y, max_x, max_y, resolution):
+    """Gets header values for the y/0/site axis of a flattened geospatial matrix.
+
+    Args:
+        min_x (numeric): The minimum x value of the map extent.
+        min_y (numeric): The minimum y value of the map extent.
+        max_x (numeric): The maximum x value of the map extent.
+        max_y (numeric): The maximum y value of the map extent.
+        resolution (numeric): The size of each matrix cell.
+
+    Returns:
+        site_headers: list of x and y center coordinates for row headers in a flattened
+            geospatial matrix
+    """
+    x_headers, y_headers = _create_map_matrix_headers_from_extent(
+        min_x, min_y, max_x, max_y, resolution)
+
+    site_headers = _create_site_headers_from_centroids(x_headers, y_headers)
+    fid = 1
+    for y in y_headers:
+        for x in x_headers:
+            site_headers.append((fid, x, y))
+            fid += 1
+    return site_headers
+
+
+# .....................................................................................
 def _get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
     """Get a function to return a row and column for an x, y.
 
@@ -340,6 +437,81 @@ def _get_row_col_for_x_y_func(min_x, min_y, max_x, max_y, resolution):
 
 
 # .....................................................................................
+def _get_site_for_x_y_func(resolution, x_centers, y_centers):
+    """Get a function to return a site/row index for an x, y.
+
+    Args:
+        resolution (float): cell size for geospatial grid/matrix.
+        x_centers (list of float): x centroid coordinates geospatial grid/matrix.
+        y_centers (list of float): y centroid coordinates for a geospatial grid/matrix.
+
+    Returns:
+        Method: A method to generate column/site index for an x, y.
+
+    Note:
+        Parallels the construction of shapegrid in lmpy.data_preparation.build_grid
+    """
+    num_rows = len(y_centers)
+    num_cols = len(x_centers)
+    # Upper left coordinate
+    max_y = y_centers[0] + (resolution / 2.0)
+    min_x = x_centers[0] - (resolution / 2.0)
+
+    # .......................
+    def xy_to_site_func(x, y):
+        """Get the row and column where the point is located.
+
+        Args:
+            x (numeric): The x value to convert.
+            y (numeric): The y value to convert.
+
+        Returns:
+            int: The row where the point is located.
+        """
+        row_calc = int((max_y - y) // resolution)
+        col_calc = int((x - min_x) // resolution)
+
+        out_of_range = False
+        if row_calc not in range(0, num_rows) or col_calc not in range(0, num_cols):
+            out_of_range = True
+
+        if out_of_range:
+            site = -1
+        else:
+            site = (col_calc * num_rows) + row_calc
+
+        return site
+
+    return xy_to_site_func
+
+
+# .....................................................................................
+def _get_reader_report(reader):
+    try:
+        rdr_rpt = {
+            "type": "DWCA",
+            "file": reader.archive_filename,
+            "x_field": reader.x_term,
+            "y_field": reader.y_term,
+            "out_of_range": 0,
+            "count": 0}
+        if reader.geopoint_term is not None:
+            rdr_rpt["geopoint_field"] = reader.geopoint_term
+    except AttributeError:
+        rdr_rpt = {
+            "type": "CSV",
+            "file": reader.filename,
+            "x_field": reader.x_field,
+            "y_field": reader.y_field,
+            "out_of_range": 0,
+            "count": 0}
+        if reader.geopoint is not None:
+            rdr_rpt["geopoint_field"] = reader.geopoint
+
+    return rdr_rpt
+
+
+# .....................................................................................
 def create_point_heatmap_matrix(
         readers, min_x, min_y, max_x, max_y, resolution, logger=None):
     """Create a point heatmap matrix.
@@ -379,27 +551,7 @@ def create_point_heatmap_matrix(
     if not isinstance(readers, list):
         readers = [readers]
     for reader in readers:
-        try:
-            rdr_rpt = {
-                "type": "DWCA",
-                "file": reader.archive_filename,
-                "x_field": reader.x_term,
-                "y_field": reader.y_term,
-                "out_of_range": 0,
-                "count": 0}
-            if reader.geopoint_term is not None:
-                rdr_rpt["geopoint_field"] = reader.geopoint_term
-        except AttributeError:
-            rdr_rpt = {
-                "type": "CSV",
-                "file": reader.filename,
-                "x_field": reader.x_field,
-                "y_field": reader.y_field,
-                "out_of_range": 0,
-                "count": 0}
-            if reader.geopoint is not None:
-                rdr_rpt["geopoint_field"] = reader.geopoint
-
+        rdr_rpt = _get_reader_report(reader)
         reader.open()
         for points in reader:
             for point in points:
@@ -420,6 +572,71 @@ def create_point_heatmap_matrix(
     report["max_cell_point_count"] = int(heatmap.max())
     logit(
         logger, "Populated map matrix with point counts for each cell ranging from " +
+        f"{report['min_cell_point_count']} to {report['max_cell_point_count']}",
+        refname=refname)
+    return heatmap, report
+
+
+# .....................................................................................
+def create_point_heatmap_vector(readers, site_headers, data_label, logger=None):
+    """Create a point heatmap matrix.
+
+    Args:
+        readers (PointReader or list of PointReader): A source of point data for
+            creating the heatmap.
+        site_headers (list of tuples): site headers for a flattened geospatial matrix.
+        data_label (str): species header for this data.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
+
+    Returns:
+        Matrix: A matrix of point density.
+    """
+    refname = "create_point_heatmap_vector"
+    resolution, x_centers, y_centers = _get_map_resolution_headers_from_sites(
+        site_headers)
+    report = {
+        data_label: {
+            "input_data": [],
+            "x_size": len(x_centers),
+            "y_size": len(y_centers),
+            "resolution": resolution
+        }
+    }
+    heatmap = _create_empty_map_1d_matrix_from_centroids(
+        x_centers, y_centers, int, data_label=data_label)
+
+    xy_2_site = _get_site_for_x_y_func(resolution, x_centers, y_centers)
+    logit(
+        logger, "Created flattened geospatial matrix, with 2d resolution " +
+        f"{resolution}, width {len(x_centers)}, height {len(y_centers)}",
+        refname=refname)
+
+    if not isinstance(readers, list):
+        readers = [readers]
+    for reader in readers:
+        rdr_rpt = _get_reader_report(reader)
+
+        reader.open()
+        for points in reader:
+            for point in points:
+                site_idx = xy_2_site(point.x, point.y)
+                if site_idx == -1:
+                    rdr_rpt["out_of_range"] += 1
+                else:
+                    heatmap[site_idx] += 1
+                    rdr_rpt["count"] += 1
+        reader.close()
+        logit(
+            logger, f"Read {rdr_rpt['count']} points within extent, and " +
+            f"{rdr_rpt['out_of_range']} out of range, from {rdr_rpt['type']} " +
+            f"file {rdr_rpt['file']}.", refname=refname)
+
+        report["input_data"].append(rdr_rpt)
+    report["min_cell_point_count"] = int(heatmap.min())
+    report["max_cell_point_count"] = int(heatmap.max())
+    logit(
+        logger, "Populated map vector with point counts for each cell ranging from " +
         f"{report['min_cell_point_count']} to {report['max_cell_point_count']}",
         refname=refname)
     return heatmap, report

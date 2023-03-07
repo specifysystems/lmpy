@@ -197,6 +197,8 @@ def build_grid(
             f"{cell_sides}-sided cells of {cell_size} size and x-extent {min_x} " +
             f"to {max_x}, y-extent {min_y} to {max_y}.", refname=script_name)
 
+    # Note that site_id is 0-based
+    site_headers = []
     shape_id = 0
     for cell_wkt in wkt_generator:
         geom = ogr.CreateGeometryFromWkt(cell_wkt)
@@ -208,11 +210,13 @@ def build_grid(
             feat.SetField(site_x, centroid.GetX())
             feat.SetField(site_y, centroid.GetY())
             feat.SetField(site_id, shape_id)
+            site_headers.append((shape_id, centroid.GetX(), centroid.GetY()))
             layer.CreateFeature(feat)
             shape_id += 1
         feat.Destroy()
     data_set.Destroy()
     report["size"] = shape_id
+    report["site_headers"] = site_headers
     if logger is not None:
         logger.log(
             f"Wrote {grid_file_name} with {shape_id} sites.", refname=script_name)
