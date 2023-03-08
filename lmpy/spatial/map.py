@@ -113,7 +113,6 @@ def _create_empty_map_1d_matrix_from_centroids(
     site_headers = _create_site_headers_from_centroids(x_centers, y_centers)
     tmp = len(x_centers) * len(y_centers)
     site_count = len(site_headers)
-    print(f"site_count {site_count} ?=? x * y {tmp}")
     map_1d_matrix = Matrix(
         np.zeros((site_count, 1), dtype=dtype),
         headers={
@@ -140,7 +139,7 @@ def is_flattened_geospatial_matrix(matrix):
     row_headers = matrix.get_row_headers()
     # row/site headers in flattened geospatial matrix are tuples of
     # (siteid, x_coord, y_coord)
-    if type(row_headers[0]) is list and len(row_headers[0]) == 3:
+    if type(row_headers[0]) in (list, tuple) and len(row_headers[0]) == 3:
         return True
     else:
         return False
@@ -162,7 +161,7 @@ def is_geospatial_matrix(matrix):
     row_headers = matrix.get_row_headers()
     # row/site headers in flattened geospatial matrix are tuples of
     # (siteid, x_coord, y_coord)
-    if type(row_headers[0]) is list and len(row_headers[0]) == 3:
+    if type(row_headers[0]) in (list, tuple) and len(row_headers[0]) == 3:
         return True
     elif type(row_headers) is list and len(row_headers) > 0:
         try:
@@ -265,16 +264,16 @@ def _get_map_resolution_headers_from_sites(site_headers):
         are missing from an edge (upper, lower, right, left boundary) of the area
         of interest, those will not be retained, the extent of the map will be smaller.
     """
-    # Second and third sites along the upper boundary - first siteid could be 0
+    # First and second sites along the upper boundary
+    site_1, x_1, y_1 = site_headers[0]
     site_2, x_2, y_2 = site_headers[1]
-    site_3, x_3, y_3 = site_headers[2]
     # Find resolution in a regular or compressed matrix by dividing
     # map distance by number of cells between sites
-    x_resolution = (x_3 - x_2)/(site_3 - site_2)
+    x_resolution = (x_2 - x_1)/(site_2 - site_1)
 
     # Extent of matrix, using centroid coordinate values (not cell edges)
-    minx = maxx = x_2
-    miny = maxy = y_2
+    minx = maxx = x_1
+    miny = maxy = y_1
     for _, x, y in site_headers:
         if x < minx:
             minx = x
@@ -590,7 +589,9 @@ def create_point_heatmap_vector(readers, site_headers, data_label, logger=None):
             with consistent options
 
     Returns:
-        Matrix: A matrix of point density.
+        Matrix: A 2-d integer matrix of rows/sites and one column of point density for
+            the data.
+        report: report of metadata about the process, inputs, outputs
     """
     refname = "create_point_heatmap_vector"
     resolution, x_centers, y_centers = _get_map_resolution_headers_from_sites(
@@ -632,7 +633,7 @@ def create_point_heatmap_vector(readers, site_headers, data_label, logger=None):
             f"{rdr_rpt['out_of_range']} out of range, from {rdr_rpt['type']} " +
             f"file {rdr_rpt['file']}.", refname=refname)
 
-        report["input_data"].append(rdr_rpt)
+        report[data_label]["input_data"].append(rdr_rpt)
     report["min_cell_point_count"] = int(heatmap.min())
     report["max_cell_point_count"] = int(heatmap.max())
     logit(
@@ -640,6 +641,33 @@ def create_point_heatmap_vector(readers, site_headers, data_label, logger=None):
         f"{report['min_cell_point_count']} to {report['max_cell_point_count']}",
         refname=refname)
     return heatmap, report
+
+
+# .....................................................................................
+def create_point_pa_vector(
+        readers, site_headers, data_label, min_points=1, logger=None):
+    """Create a point heatmap matrix.
+
+    Args:
+        readers (PointReader or list of PointReader): A source of point data for
+            creating the heatmap.
+        site_headers (list of tuples): site headers for a flattened geospatial matrix.
+        data_label (str): species header for this data.
+        min_points (int): minimum number of points to be considered present.
+        logger (lmpy.log.Logger): An optional local logger to use for logging output
+            with consistent options
+
+    Returns:
+        Matrix: A 2-d boolean matrix of multiple rows/sites and one column of
+            presence/absence for the data.
+        report: report of metadata about the process, inputs, outputs
+    """
+    heatmap, report = create_point_heatmap_vector(
+        readers, site_headers, data_label, logger=logger)
+    pam = Matrix(
+        np.where(heatmap >= min_points, True, False), headers=heatmap.get_headers())
+    report["minimum_point_count"] = min_points
+    return pam, report
 
 
 # .....................................................................................
@@ -738,7 +766,9 @@ def rasterize_geospatial_matrix(
         "width": len(x_centers),
         "nodata": nodata,
         "raster_data_type": rst_type_str,
-        "matrix_type": str(matrix.dtype)
+        "matrix_type": str(matrix.dtype),
+        "band_count": band_count,
+        "out_raster_filename": out_raster_filename
     }
 
     # Create raster dataset
@@ -790,10 +820,11 @@ def rasterize_geospatial_matrix(
 
 # ...................................................................................
 def _get_osgeo_type(matrix, is_pam, is_raster=True):
-    if is_pam is True or matrix.dtype in (np.byte, np.intc, np.uintc, np.int_, np.uint):
+    if (is_pam is True or
+            matrix.dtype in (np.byte, np.bool, np.intc, np.uintc, np.int_, np.uint)):
         data_type_str = "ogr.OFTInteger"
         if is_raster:
-            if matrix.dtype == np.byte:
+            if matrix.dtype in (np.byte, np.bool):
                 data_type_str = "gdal.GDT_Byte"
             else:
                 data_type_str = "gdal.GDT_Int32"

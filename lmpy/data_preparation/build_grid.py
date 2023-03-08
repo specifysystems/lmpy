@@ -216,7 +216,7 @@ def build_grid(
         feat.Destroy()
     data_set.Destroy()
     report["size"] = shape_id
-    report["site_headers"] = site_headers
+    # report["site_headers"] = site_headers
     if logger is not None:
         logger.log(
             f"Wrote {grid_file_name} with {shape_id} sites.", refname=script_name)
