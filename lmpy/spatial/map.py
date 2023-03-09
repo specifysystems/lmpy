@@ -111,7 +111,6 @@ def _create_empty_map_1d_matrix_from_centroids(
         axis 1 represents the columns/species with headers = data_label
     """
     site_headers = _create_site_headers_from_centroids(x_centers, y_centers)
-    tmp = len(x_centers) * len(y_centers)
     site_count = len(site_headers)
     map_1d_matrix = Matrix(
         np.zeros((site_count, 1), dtype=dtype),
@@ -319,7 +318,7 @@ def _create_map_matrix_headers_from_extent(min_x, min_y, max_x, max_y, resolutio
 
 
 # .....................................................................................
-def _create_site_headers_from_extent(min_x, min_y, max_x, max_y, resolution):
+def create_site_headers_from_extent(min_x, min_y, max_x, max_y, resolution):
     """Gets header values for the y/0/site axis of a flattened geospatial matrix.
 
     Args:
@@ -1175,6 +1174,7 @@ def vectorize_geospatial_matrix(
 # .....................................................................................
 __all__ = [
     "create_point_heatmap_matrix",
+    "create_site_headers_from_extent",
     "get_coordinate_headers_resolution",
     "get_extent_resolution_coords_from_matrix",
     "is_flattened_geospatial_matrix",

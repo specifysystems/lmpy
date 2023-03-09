@@ -152,7 +152,7 @@ def build_grid(
         "min_y_coordinate": min_y,
         "max_y_coordinate": max_y,
         "cell_sides": cell_sides,
-        "size": cell_size
+        "cell_size": cell_size
     }
     script_name = os.path.splitext(os.path.basename(__file__))[0]
     if min_x >= max_x or min_y >= max_y:
@@ -215,7 +215,7 @@ def build_grid(
             shape_id += 1
         feat.Destroy()
     data_set.Destroy()
-    report["size"] = shape_id
+    report["grid_size"] = shape_id
     # report["site_headers"] = site_headers
     if logger is not None:
         logger.log(
