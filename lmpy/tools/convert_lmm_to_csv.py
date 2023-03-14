@@ -125,7 +125,8 @@ def cli():
             "Apple Numbers (1,000,000 rows)",
             log_level=logging.WARNING, refname=script_name)
 
-    convert_lmm_to_csv(mtx, args.out_csv_filename)
+    # convert_lmm_to_csv(mtx, args.out_csv_filename)
+    mtx.write_csv(args.out_csv_filename)
 
     logger.log(
         f"Wrote matrix {args.in_lmm_filename} to CSV file {args.out_csv_filename}",

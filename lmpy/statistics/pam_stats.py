@@ -601,7 +601,7 @@ class PamStats:
             f"resulting in {str(diversity_stat_vals)}",
             refname=self.__class__.__name__)
         diversity_matrix = Matrix(
-            np.array([func(self.pam) for _, func in self.diversity_stats]),
+            np.array(diversity_stat_vals),
             headers={'0': ['value'], '1': diversity_stat_names},
         )
         self._report["Diversity"] = diversity_matrix.get_report()

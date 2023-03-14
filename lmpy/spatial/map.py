@@ -1178,5 +1178,6 @@ __all__ = [
     "get_coordinate_headers_resolution",
     "get_extent_resolution_coords_from_matrix",
     "is_flattened_geospatial_matrix",
+    "is_geospatial_matrix",
     "rasterize_map_matrices"
 ]
