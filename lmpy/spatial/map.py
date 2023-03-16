@@ -670,28 +670,20 @@ def create_point_pa_vector(
 
 
 # .....................................................................................
-def create_point_pa_vector_from_vector(
-        heatmap, report, min_points=1, logger=None):
+def create_point_pa_vector_from_vector(heatmap, min_points=1):
     """Create a point heatmap matrix.
 
     Args:
-        readers (PointReader or list of PointReader): A source of point data for
-            creating the heatmap.
-        site_headers (list of tuples): site headers for a flattened geospatial matrix.
-        data_label (str): species header for this data.
+        heatmap (list of tuples): site headers for a flattened geospatial matrix.
         min_points (int): minimum number of points to be considered present.
-        logger (lmpy.log.Logger): An optional local logger to use for logging output
-            with consistent options
 
     Returns:
         Matrix: A 2-d boolean matrix of multiple rows/sites and one column of
             presence/absence for the data.
-        report: report of metadata about the process, inputs, outputs
     """
     pav = Matrix(
         np.where(heatmap >= min_points, True, False), headers=heatmap.get_headers())
-    report["minimum_point_count"] = min_points
-    return pav, report
+    return pav
 
 
 # .....................................................................................
@@ -732,7 +724,6 @@ def _get_xy_info_from_geo_matrix(
         raise Exception("Matrix is not geospatial; cannot be converted to a raster")
     # 0 axis represents x,y cell centroids, 1 axis represents a species or statistic
     elif is_flattened_geospatial_matrix(matrix):
-        is_flattened = True
         column_headers = matrix.get_column_headers()
         if columns is not None:
             for col in columns:
@@ -741,10 +732,6 @@ def _get_xy_info_from_geo_matrix(
                         f"Column {col} is not present in matrix columns")
         else:
             columns = column_headers
-    else:
-        # 0 axis represents y coordinates, 1 axis represents x coordinates
-        is_flattened = False
-        band_count = 1
 
     # Get geotransform elements and datatype from input matrix, flattened or not
     (min_x, min_y, max_x, max_y, resolution, x_centers,
@@ -753,7 +740,6 @@ def _get_xy_info_from_geo_matrix(
         logger, f"Found bounding box {min_x}, {min_y}, {max_x}, {max_y} for matrix",
         refname=refname, log_level=logging.DEBUG)
     # TODO: handle differing x and y resolutions
-    geotransform = _get_geotransform(min_x, min_y, max_x, max_y, resolution)
     rst_type, _ = _get_osgeo_type(matrix, is_pam, is_raster=True)
     # Modify the nodata value to fit within a byte
     if rst_type == gdal.GDT_Byte:
@@ -773,8 +759,8 @@ def _get_xy_info_from_geo_matrix(
 
 
 # ...................................................................................
-def create_2d_geospatial_matrix_from_sites_vector(matrix, column=None, is_pam=False,
-        nodata=-9999, logger=None):
+def create_2d_geospatial_matrix_from_sites_vector(
+        matrix, column=None, is_pam=False, nodata=-9999, logger=None):
     """Create a 2d geospatial matrix from one column in a 2d geospatial matrix.
 
     Args:
@@ -784,24 +770,20 @@ def create_2d_geospatial_matrix_from_sites_vector(matrix, column=None, is_pam=Fa
             the first column will be used.
         is_pam (bool): If true, input matrix is binary, and output raster will be
             written with values stored as bytes
+        nodata (numeric): value for nodata in the input matrix and output vector
         logger (lmpy.log.Logger): An optional local logger to use for logging output
             with consistent options
 
     Returns:
         report (dict): summary dictionary of inputs and outputs.
-
-    Raises:
-        Exception: on GDAL raster dataset creation
     """
-    refname = "create_2d_geospatial_matrix_from_sites_vector"
     x_centers, y_centers, columns, report = _get_xy_info_from_geo_matrix(
         matrix, columns=None, is_pam=False, nodata=-9999, logger=None)
     report["height"] = len(y_centers)
-        "height": len(y_centers),
-        "width": len(x_centers),
-        "nodata": nodata,
-        "matrix_type": str(matrix.dtype),
-    }
+    report["width"] = len(x_centers)
+    report["nodata"] = nodata
+    report["matrix_type"] = str(matrix.dtype)
+    report["column"] = column
 
     empty_map_mtx = _create_empty_map_matrix_from_centroids(
         x_centers, y_centers, matrix.dtype)
@@ -809,6 +791,7 @@ def create_2d_geospatial_matrix_from_sites_vector(matrix, column=None, is_pam=Fa
         matrix, column, empty_map_mtx, is_pam=is_pam, nodata=nodata)
 
     return col_map_mtx, report
+
 
 # ...................................................................................
 def rasterize_geospatial_matrix(
@@ -927,6 +910,7 @@ def rasterize_geospatial_matrix(
             logger, f"Wrote raster with {len(columns)} bands to {out_raster_filename}",
             refname=refname, log_level=logging.INFO)
     return report
+
 
 # ...................................................................................
 def rasterize_geospatial_matrix_old(
