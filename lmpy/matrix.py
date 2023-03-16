@@ -235,7 +235,7 @@ class Matrix(np.ndarray):
                 mtx.set_headers([''], axis=str(axis))
             # Cast mtx to Matrix in case it is not
             mtx = mtx.view(Matrix)
-            h = mtx.get_headers(axis=str(axis))
+            h = deepcopy(mtx.get_headers(axis=str(axis)))
             if h is None:
                 h = ['']
             axis_headers.extend(h)
@@ -246,8 +246,8 @@ class Matrix(np.ndarray):
         #    metadata
         new_mtx = cls(
             np.concatenate(mtx_objs, axis=axis),
-            headers=first_mtx.get_headers(),
-            metadata=first_mtx.get_metadata(),
+            headers=deepcopy(first_mtx.get_headers()),
+            metadata=deepcopy(first_mtx.get_metadata()),
         )
         # Set the headers for the new axis
         new_mtx.set_headers(axis_headers, axis=str(axis))
@@ -743,6 +743,10 @@ class Matrix(np.ndarray):
                 for a slice operation prior to generating CSV content.
             delimiter (str): 1-character delimiter to separate columns
 
+        Raises:
+            OSError: on open or write error
+            IOError: on open or write error
+
         Note:
             Currently only works for 2-D tables.
         """
@@ -781,8 +785,8 @@ class Matrix(np.ndarray):
         try:
             with open(filename, mode='wt') as csv_out:
                 for i in range(col_header_elt_count):
-                    # Start with one empty column for each element in individual row header
-                    # so that column headers correctly head data (not row headers)
+                    # Start with one empty column for each element in individual row
+                    # header so that column headers are aligned over data columns
                     header_row = [""] * row_header_elt_count
                     header_row.extend(elt[i] for elt in col_headers_listed)
                     # Write column headers as first line
@@ -801,66 +805,66 @@ class Matrix(np.ndarray):
             raise
 
 
-# ...........................
-def write_csv_old(
-        self, flo, *slice_args, delimiter=","):
-    """Writes the Matrix object to a CSV file-like object.
-
-    Args:
-        flo (file-like): The file-like object to write to.
-        *slice_args: A variable length argument list of iterables to use
-            for a slice operation prior to generating CSV content.
-        delimiter (str): 1-character delimiter to separate columns
-
-    Note:
-        Currently only works for 2-D tables.
-    """
-    if list(slice_args):
-        mtx = self.slice(*slice_args)
-    else:
-        mtx = self
-
-    if mtx.ndim > 2:
-        mtx = mtx.flatten_2d()
-
-    try:
-        row_headers = mtx.headers['0']
-    except (KeyError, TypeError):
-        # No row headers
-        row_headers = [[] for _ in range(mtx.shape[0])]
-
-    try:
-        col_headers = mtx.headers['1']
-    except (KeyError, TypeError):
-        # No row headers
-        col_headers = [[] for _ in range(mtx.shape[1])]
-
-    # How many elements are in row headers - put each element in a separate column
-    row_header_elt_count = len(
-        self._get_header_as_list_of_string(row_headers[0]) if row_headers else [])
-
-    # How many elements are in column headers - put each element in a separate row
-    col_header_elt_count = len(
-        self._get_header_as_list_of_string(col_headers[0]) if col_headers else [])
-
-    # Assemble column headers, each element will be a row
-    col_headers_listed = [
-        self._get_header_as_list_of_string(chdr) for chdr in col_headers]
-    for i in range(col_header_elt_count):
-        # Start with one empty column for each element in individual row header
-        # so that column headers correctly head data (not row headers)
-        header_row = [""] * row_header_elt_count
-        header_row.extend(elt[i] for elt in col_headers_listed)
-        # Write column headers as first line
-        flo.write(u"{}\n".format(delimiter.join(header_row)))
-
-    # Write each line of data, preceded by its header
-    for r in range(mtx.shape[0]):
-        # Start with each element in row header
-        line = self._get_header_as_list_of_string(row_headers[r])
-        # Extend with data
-        line.extend(str(v) for v in mtx[r])
-        flo.write(u"{}\n".format(delimiter.join(line)))
+# # ...........................
+# def write_csv_old(
+#         self, flo, *slice_args, delimiter=","):
+#     """Writes the Matrix object to a CSV file-like object.
+#
+#     Args:
+#         flo (file-like): The file-like object to write to.
+#         *slice_args: A variable length argument list of iterables to use
+#             for a slice operation prior to generating CSV content.
+#         delimiter (str): 1-character delimiter to separate columns
+#
+#     Note:
+#         Currently only works for 2-D tables.
+#     """
+#     if list(slice_args):
+#         mtx = self.slice(*slice_args)
+#     else:
+#         mtx = self
+#
+#     if mtx.ndim > 2:
+#         mtx = mtx.flatten_2d()
+#
+#     try:
+#         row_headers = mtx.headers['0']
+#     except (KeyError, TypeError):
+#         # No row headers
+#         row_headers = [[] for _ in range(mtx.shape[0])]
+#
+#     try:
+#         col_headers = mtx.headers['1']
+#     except (KeyError, TypeError):
+#         # No row headers
+#         col_headers = [[] for _ in range(mtx.shape[1])]
+#
+#     # How many elements are in row headers - put each element in a separate column
+#     row_header_elt_count = len(
+#         self._get_header_as_list_of_string(row_headers[0]) if row_headers else [])
+#
+#     # How many elements are in column headers - put each element in a separate row
+#     col_header_elt_count = len(
+#         self._get_header_as_list_of_string(col_headers[0]) if col_headers else [])
+#
+#     # Assemble column headers, each element will be a row
+#     col_headers_listed = [
+#         self._get_header_as_list_of_string(chdr) for chdr in col_headers]
+#     for i in range(col_header_elt_count):
+#         # Start with one empty column for each element in individual row header
+#         # so that column headers correctly head data (not row headers)
+#         header_row = [""] * row_header_elt_count
+#         header_row.extend(elt[i] for elt in col_headers_listed)
+#         # Write column headers as first line
+#         flo.write(u"{}\n".format(delimiter.join(header_row)))
+#
+#     # Write each line of data, preceded by its header
+#     for r in range(mtx.shape[0]):
+#         # Start with each element in row header
+#         line = self._get_header_as_list_of_string(row_headers[r])
+#         # Extend with data
+#         line.extend(str(v) for v in mtx[r])
+#         flo.write(u"{}\n".format(delimiter.join(line)))
 
 
 # .............................................................................
