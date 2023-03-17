@@ -711,7 +711,7 @@ class Matrix(np.ndarray):
         Returns:
             str: A string.
         """
-        if isinstance(x, list):
+        if isinstance(x, list) or isinstance(x, tuple):
             tmp = [str(elt) for elt in x]
             return " ".join(tmp)
         else:
@@ -727,7 +727,7 @@ class Matrix(np.ndarray):
         Returns:
             list: A list of data.
         """
-        if isinstance(x, list):
+        if isinstance(x, list) or isinstance(x, tuple):
             return [str(elt) for elt in x]
         else:
             return [str(x)]
@@ -784,12 +784,14 @@ class Matrix(np.ndarray):
 
         try:
             with open(filename, mode='wt') as csv_out:
+                # Write each line of column headers, one per element
                 for i in range(col_header_elt_count):
                     # Start with one empty column for each element in individual row
                     # header so that column headers are aligned over data columns
                     header_row = [""] * row_header_elt_count
+                    # Then a row for the ith column header element
                     header_row.extend(elt[i] for elt in col_headers_listed)
-                    # Write column headers as first line
+                    # Write column header line
                     csv_out.write(u"{}\n".format(delimiter.join(header_row)))
 
                 # Write each line of data, preceded by its header
@@ -797,6 +799,7 @@ class Matrix(np.ndarray):
                     # Start with each element in row header
                     line = self._get_header_as_list_of_string(row_headers[r])
                     # Extend with data
+                    # TODO: not working for 1d matrix, treat as a vector
                     line.extend(str(v) for v in mtx[r])
                     csv_out.write(u"{}\n".format(delimiter.join(line)))
         except OSError:
