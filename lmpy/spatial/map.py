@@ -1148,13 +1148,20 @@ def _fill_map_matrix_with_column(
     y_centers = map_matrix.get_row_headers()
     x_centers = map_matrix.get_column_headers()
 
-    # Get index of column of interest
-    orig_col_idx = matrix.get_column_headers().index(col_header)
     site_headers = matrix.get_row_headers()
-    # Fill matrix with value for each site in the column
-    for orig_row_idx, (_, x, y) in enumerate(site_headers):
+    orig_width = len(matrix.get_column_headers())
+
+    # Get column of interest
+    if orig_width == 1:
+        column = matrix
+    else:
+        orig_col_idx = matrix.get_column_headers().index(col_header)
+        column = matrix[:, orig_col_idx]
+
+    # Fill new matrix with value for each site in the column
+    for orig_row_idx, (_siteid, x, y) in enumerate(site_headers):
         # Find the site column value in the original matrix
-        site_val = matrix[orig_row_idx, orig_col_idx]
+        site_val = column[orig_row_idx]
         # Find the x and y coordinates in the map_matrix
         col = x_centers.index(x)
         row = y_centers.index(y)
