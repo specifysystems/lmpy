@@ -3,8 +3,6 @@ import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 
-from lmpy.spatial.map import get_extent_resolution_coords_from_matrix
-
 
 # .....................................................................................
 def plot_matrix(
@@ -34,8 +32,7 @@ def plot_matrix(
         vmax = matrix.max()
     if vmin == -9999:
         vmin = matrix.min()
-    min_x, min_y, max_x, max_y, _, _, _, _ = get_extent_resolution_coords_from_matrix(
-        matrix)
+    min_x, min_y, max_x, max_y, _, _, _, _ = matrix.get_extent_resolution_coords()
     extent = (min_x, max_x, min_y, max_y)
 
     base_layer_params = {k: v for k, v in dict(extent=extent).items() if v is not None}

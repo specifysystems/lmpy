@@ -593,114 +593,6 @@ class Matrix(np.ndarray):
         self._report["min"] = self.min().item()
         return self._report
 
-        # # ...........................
-    # def write_csv(self, flo, *slice_args):
-    #     """Writes the Matrix object to a CSV file-like object.
-    #
-    #     Args:
-    #         flo (file-like): The file-like object to write to.
-    #         *slice_args: A variable length argument list of iterables to use
-    #             for a slice operation prior to generating CSV content.
-    #
-    #     Todo:
-    #         Handle header overlap (where the header for one axis is for another
-    #             axis header.
-    #
-    #     Note:
-    #         Currently only works for 2-D tables.
-    #     """
-    #     if list(slice_args):
-    #         mtx = self.slice(*slice_args)
-    #     else:
-    #         mtx = self
-    #
-    #     if mtx.ndim > 2:
-    #         mtx = mtx.flatten_2d()
-    #
-    #     # .....................
-    #     # Inner functions
-    #
-    #     # .....................
-    #     def already_lists(x):
-    #         """Use this function for processing headers when they are lists.
-    #
-    #         Args:
-    #             x (:obj:`list`): A list value to return.
-    #
-    #         Returns:
-    #             list: A list of data.
-    #         """
-    #         return x
-    #
-    #     # .....................
-    #     def make_lists(x):
-    #         """Use this function for processing non-list headers.
-    #
-    #         Args:
-    #             x (:obj:`object`): A non-list value to modify.
-    #
-    #         Returns:
-    #             list: A list of data.
-    #         """
-    #         return [x]
-    #
-    #     # .....................
-    #     def csv_generator():
-    #         """Generator that yields rows of values to be output as CSV.
-    #
-    #         Yields:
-    #             list: A list of data for a row.
-    #         """
-    #         try:
-    #             row_headers = mtx.headers['0']
-    #         except (KeyError, TypeError):
-    #             # No row headers
-    #             row_headers = [[] for _ in range(mtx.shape[0])]
-    #
-    #         if isinstance(row_headers[0], list):
-    #             listify = already_lists
-    #         else:
-    #             listify = make_lists
-    #
-    #         # # Start with the header row, if we have one
-    #         # if '1' in mtx.headers and mtx.headers['1']:
-    #         #     header_row = [''] * len(
-    #         #         stringify(row_headers[0]) if row_headers else "")
-    #         # Start with the header row, if we have one
-    #         if '1' in mtx.headers and mtx.headers['1']:
-    #             # Make column headers lists of lists
-    #             if not isinstance(mtx.headers['1'][0], (tuple, list)):
-    #                 header_row = [''] * len(
-    #                     listify(row_headers[0]) if row_headers else []
-    #                 )
-    #                 header_row.extend(mtx.headers['1'])
-    #                 yield header_row
-    #             else:
-    #                 for i in range(len(mtx.headers['1'][0])):
-    #                     header_row = [''] * len(
-    #                         listify(row_headers[0]) if row_headers else []
-    #                     )
-    #                     header_row.extend(
-    #                         [
-    #                             mtx.headers['1'][j][i]
-    #                             for j in range(len(mtx.headers['1']))
-    #                         ]
-    #                     )
-    #                     yield header_row
-    #         # For each row in the data set
-    #         for i in range(mtx.shape[0]):
-    #             # Add the row headers if exists
-    #             row = []
-    #             row.extend(listify(row_headers[i]))
-    #             # Get the data from the data array
-    #             row.extend(mtx[i].tolist())
-    #             yield row
-    #
-    #     # .....................
-    #     # Main write_csv function
-    #     for row in csv_generator():
-    #         flo.write(u"{}\n".format(','.join([str(v) for v in row])))
-
     # .....................
     def _get_header_value_combined(self, x):
         """Use this function for processing list headers into a single string.
@@ -732,9 +624,55 @@ class Matrix(np.ndarray):
         else:
             return [str(x)]
 
+    # .....................................................................................
+    @classmethod
+    def get_map_resolution_headers_from_sites(cls, site_headers):
+        """Creates an empty 2-d matrix to use for mapping.
+
+        Args:
+            site_headers (list of tuples): A list containing the site headers
+                (siteid, x, y) for a flattened geospatial matrix containing sites along
+                the y/0 axis
+
+        Returns:
+            x_headers: list of x center coordinates for column headers
+            y_headers: list of y center coordinates for row headers
+
+        Notes:
+            If the matrix is compressed, with empty rows (sites) and columns removed,
+            the missing site coordinates will be filled in to the map matrix headers
+            so the map will represent the geospatial region without holes.  If all sites
+            are missing from an edge (upper, lower, right, left boundary) of the area
+            of interest, those will not be retained, the extent of the map will be
+            smaller.
+        """
+        # First and second sites along the upper boundary
+        site_1, x_1, y_1 = site_headers[0]
+        site_2, x_2, y_2 = site_headers[1]
+        # Find resolution in a regular or compressed matrix by dividing
+        # map distance by number of cells between sites
+        x_resolution = (x_2 - x_1) / (site_2 - site_1)
+
+        # Extent of matrix, using centroid coordinate values (not cell edges)
+        minx = maxx = x_1
+        miny = maxy = y_1
+        for _, x, y in site_headers:
+            if x < minx:
+                minx = x
+            if x > maxx:
+                maxx = x
+            if y < miny:
+                miny = y
+            if y > maxy:
+                maxy = y
+        # Fill in any x or y centroids missing from the input site_headers/matrix
+        x_centers = list(np.arange(minx, (maxx + x_resolution), x_resolution))
+        y_centers = list(np.arange(maxy, (miny - x_resolution), (x_resolution * -1)))
+        return x_resolution, x_centers, y_centers
+
     # ...........................
     def write_csv(
-            self, filename, *slice_args, delimiter=","):
+            self, filename, *slice_args, delimiter=",", is_pam=False):
         """Writes the Matrix object to a CSV file.
 
         Args:
@@ -742,6 +680,8 @@ class Matrix(np.ndarray):
             *slice_args: A variable length argument list of iterables to use
                 for a slice operation prior to generating CSV content.
             delimiter (str): 1-character delimiter to separate columns
+            is_pam (bool): If true, input matrix is boolean, and output will be
+                written as 0/1
 
         Raises:
             OSError: on open or write error
@@ -796,78 +736,132 @@ class Matrix(np.ndarray):
 
                 # Write each line of data, preceded by its header
                 for r in range(mtx.shape[0]):
+                    # Address the column differently if 1-D
+                    if mtx.ndim == 1:
+                        column = mtx
+                    else:
+                        column = mtx[r]
                     # Start with each element in row header
                     line = self._get_header_as_list_of_string(row_headers[r])
                     # Extend with data
                     # TODO: not working for 1d matrix, treat as a vector
-                    line.extend(str(v) for v in mtx[r])
+                    if is_pam is True:
+                        for v in column:
+                            line.append("1" if v is True else "0")
+                    else:
+                        line.extend(str(v) for v in column)
                     csv_out.write(u"{}\n".format(delimiter.join(line)))
         except OSError:
             raise
         except IOError:
             raise
 
+    # .....................................................................................
+    def is_flattened_geospatial(self):
+        """Identifies whether matrix has x and y coordinates along 1 and 0 axes.
 
-# # ...........................
-# def write_csv_old(
-#         self, flo, *slice_args, delimiter=","):
-#     """Writes the Matrix object to a CSV file-like object.
-#
-#     Args:
-#         flo (file-like): The file-like object to write to.
-#         *slice_args: A variable length argument list of iterables to use
-#             for a slice operation prior to generating CSV content.
-#         delimiter (str): 1-character delimiter to separate columns
-#
-#     Note:
-#         Currently only works for 2-D tables.
-#     """
-#     if list(slice_args):
-#         mtx = self.slice(*slice_args)
-#     else:
-#         mtx = self
-#
-#     if mtx.ndim > 2:
-#         mtx = mtx.flatten_2d()
-#
-#     try:
-#         row_headers = mtx.headers['0']
-#     except (KeyError, TypeError):
-#         # No row headers
-#         row_headers = [[] for _ in range(mtx.shape[0])]
-#
-#     try:
-#         col_headers = mtx.headers['1']
-#     except (KeyError, TypeError):
-#         # No row headers
-#         col_headers = [[] for _ in range(mtx.shape[1])]
-#
-#     # How many elements are in row headers - put each element in a separate column
-#     row_header_elt_count = len(
-#         self._get_header_as_list_of_string(row_headers[0]) if row_headers else [])
-#
-#     # How many elements are in column headers - put each element in a separate row
-#     col_header_elt_count = len(
-#         self._get_header_as_list_of_string(col_headers[0]) if col_headers else [])
-#
-#     # Assemble column headers, each element will be a row
-#     col_headers_listed = [
-#         self._get_header_as_list_of_string(chdr) for chdr in col_headers]
-#     for i in range(col_header_elt_count):
-#         # Start with one empty column for each element in individual row header
-#         # so that column headers correctly head data (not row headers)
-#         header_row = [""] * row_header_elt_count
-#         header_row.extend(elt[i] for elt in col_headers_listed)
-#         # Write column headers as first line
-#         flo.write(u"{}\n".format(delimiter.join(header_row)))
-#
-#     # Write each line of data, preceded by its header
-#     for r in range(mtx.shape[0]):
-#         # Start with each element in row header
-#         line = self._get_header_as_list_of_string(row_headers[r])
-#         # Extend with data
-#         line.extend(str(v) for v in mtx[r])
-#         flo.write(u"{}\n".format(delimiter.join(line)))
+        Returns:
+            True if flattened geospatial matrix,
+            False if x coordinates in columns, y coordinates in rows
+        """
+        row_headers = self.get_row_headers()
+        # row/site headers in flattened geospatial matrix are tuples of
+        # (siteid, x_coord, y_coord)
+        if type(row_headers[0]) in (list, tuple) and len(row_headers[0]) == 3:
+            return True
+        else:
+            return False
+
+    # .....................................................................................
+    def is_geospatial(self):
+        """Identifies whether matrix has x and y coordinates along 1 and 0 axes.
+
+        Returns:
+            True if flattened geospatial matrix,
+            False if x coordinates in columns, y coordinates in rows
+
+        Note:
+            This checks only that headers can be converted to floats, not whether the
+            values are reasonable geospatial coordinates.
+        """
+        row_headers = self.get_row_headers()
+        # row/site headers in flattened geospatial matrix are tuples of
+        # (siteid, x_coord, y_coord)
+        if type(row_headers[0]) in (list, tuple) and len(row_headers[0]) == 3:
+            return True
+        elif type(row_headers) is list and len(row_headers) > 0:
+            try:
+                float(row_headers[0])
+            except ValueError:
+                return False
+            col_headers = self.get_column_headers()
+            try:
+                float(col_headers[0])
+            except ValueError:
+                return False
+        return True
+
+    # .....................................................................................
+    def get_coordinate_headers_resolution(self):
+        """Get coordinate headers from a matrix with coordinates along one or two axes.
+
+        Returns:
+            x_headers (list): list of x coordinates, centroid of each cell in column
+            y_headers (list): list of y coordinates, centroid of each cell in row
+
+        Raises:
+            Exception: on matrix contains < 2 columns
+            Exception: on matrix contains < 2 rows
+
+        Notes:
+            Assume that if the matrix is compressed, there are at least one pair of
+                neighboring rows or columns.
+            Assumes x and y resolution are equal
+        """
+        row_headers = self.get_row_headers()
+        if self.is_flattened_geospatial():
+            (x_resolution,
+             x_centers, y_centers) = self.get_map_resolution_headers_from_sites(
+                row_headers)
+        else:
+            # If getting from a map matrix, sites should not be compressed
+            x_centers = self.get_column_headers()
+            y_centers = row_headers
+            x_resolution = x_centers[1] - x_centers[0]
+
+        if len(x_centers) <= 1:
+            raise Exception(
+                f"Matrix contains only {len(x_centers)} columns on the x-axis ")
+        if len(y_centers) <= 1:
+            raise Exception(
+                f"Matrix contains only {len(y_centers)} rows on the y-axis")
+
+        return x_centers, y_centers, x_resolution
+
+    # .....................................................................................
+    def get_extent_resolution_coords(self):
+        """Gets x and y extents and resolution of an uncompressed geospatial matrix.
+
+        Returns:
+            min_x (numeric): The minimum x value of the map extent.
+            min_y (numeric): The minimum y value of the map extent.
+            max_x (numeric): The maximum x value of the map extent.
+            max_y (numeric): The maximum y value of the map extent.
+            x_res (numeric): The width of each matrix cell.
+            y_res (numeric): The height of each matrix cell.
+            height (numeric): the number of rows, axis 0, of the matrix
+            width (numeric): the number of columns, axis 1, of the matrix
+        """
+        # Headers are coordinate centroids
+        x_centers, y_centers, resolution = self.get_coordinate_headers_resolution()
+
+        # Extend to edges by 1/2 resolution
+        min_x = x_centers[0] - resolution/2.0
+        min_y = y_centers[-1] - resolution/2.0
+        max_x = x_centers[-1] + resolution/2.0
+        max_y = y_centers[0] + resolution/2.0
+
+        return min_x, min_y, max_x, max_y, resolution, x_centers, y_centers
 
 
 # .............................................................................

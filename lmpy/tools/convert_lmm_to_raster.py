@@ -6,8 +6,7 @@ import os
 
 from lmpy.log import Logger
 from lmpy.matrix import Matrix
-from lmpy.spatial.map import (
-    is_flattened_geospatial_matrix, rasterize_geospatial_matrix)
+from lmpy.spatial.map import (rasterize_geospatial_matrix)
 from lmpy.statistics.pam_stats import PamStats
 from lmpy.tools._config_parser import _process_arguments, test_files
 
@@ -158,7 +157,7 @@ def cli():
 
     mtx = Matrix.load(args.in_lmm_filename)
     columns = args.column
-    if is_flattened_geospatial_matrix(mtx):
+    if mtx.is_flattened_geospatial():
         column_headers = mtx.get_column_headers()
         if args.column is None:
             columns = column_headers
