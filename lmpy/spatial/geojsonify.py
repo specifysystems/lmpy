@@ -5,7 +5,6 @@ import os.path
 from osgeo import ogr
 
 from lmpy.log import logit
-from lmpy.spatial.map import get_coordinate_headers_resolution
 
 
 # .....................................................................................
@@ -92,7 +91,7 @@ def geojsonify_matrix(matrix, resolution=None, omit_values=None, logger=None):
         f"Found {len(row_headers)} sites and {len(column_headers)} taxa in matrix.",
         refname=refname)
 
-    _, _, res = get_coordinate_headers_resolution(matrix)
+    _, _, res = matrix.get_coordinate_headers_resolution()
     if resolution is None:
         resolution = res
 

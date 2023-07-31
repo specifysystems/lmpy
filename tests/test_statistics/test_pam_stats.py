@@ -107,10 +107,10 @@ class Test_Metrics:
     def test_covariance_metrics(self):
         """Test the covariance metrics."""
         pam, _ = get_random_pam_and_tree(10, 20, 0.3, 1.0)
-        sigma_sites = stats.sigma_sites(pam)
+        sigma_sites, _ = stats.sigma_sites(pam)
         assert sigma_sites.shape == (20, 20)
 
-        sigma_species = stats.sigma_species(pam)
+        sigma_species, _ = stats.sigma_species(pam)
         assert sigma_species.shape == (10, 10)
 
     # ............................
